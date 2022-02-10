@@ -1,0 +1,4741 @@
+<root>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="aboutService" />
+										<entry key="Action" value="getAboutInfo" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="getAccountAffiliation" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="getAccountByPurchaserID" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="saveAccountAffiliation" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="saveAccountRelation" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="pushAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="removeAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="pushAccountAffiliation" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="deleteAccountAffiliation" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="accountService" />
+										<entry key="Action" value="getOrCreateAccountForPurchaser" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getStudentAcademicActivity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getStudentEnrollmentActivity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getOrderActivity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getCreditMemoActivity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getPaymentActivity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ActivityService" />
+										<entry key="Action" value="getSystemSchedules" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="AnonymizationRequestService" />
+										<entry key="Action" value="createAnonymizationRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="AnonymizationRequestService" />
+										<entry key="Action" value="cancelAnonymizeRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="AnonymizationRequestService" />
+										<entry key="Action" value="getAnonymizeRequests" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchImportService" />
+										<entry key="Action" value="getBatchTypes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchImportService" />
+										<entry key="Action" value="getStateTypes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchImportService" />
+										<entry key="Action" value="createBatchImport" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchService" />
+										<entry key="Action" value="findBatches" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchService" />
+										<entry key="Action" value="findBatchDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchService" />
+										<entry key="Action" value="findBatchLines" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchService" />
+										<entry key="Action" value="getOriginalFile" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="BatchService" />
+										<entry key="Action" value="getProcessedFile" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="budgetAnalysisService" />
+										<entry key="Action" value="analyzeSections" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="validateRegistrationRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="launchRegistrationRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createRegistrationRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createOptionalItemRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="applyPromoCodes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createProgramApplicationRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="validateProgramRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createProgramEnrollmentRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createProductRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="validateProductRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="createMembershipRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="validateMembershipRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="getCheckoutInfo" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="getMarketingCodeConfig" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="CartService" />
+										<entry key="Action" value="getMarketingCodes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="searchCatalogs" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="getCatalogContent" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="addSectionToCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="addOfferingToCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="addProgramToCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="removeSectionFromCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="removeOfferingFromCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="removeProgramFromCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="swapOfferingsInCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="swapSectionsInCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="swapProgramsInCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="saveCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="catalogService" />
+										<entry key="Action" value="deleteCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="certificateService" />
+										<entry key="Action" value="createOrUpdateCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="certificateService" />
+										<entry key="Action" value="getStaticParams" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="certificateService" />
+										<entry key="Action" value="previewCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="addStudentComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="addFacultyComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="addEnrollmentComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="addSectionComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="addSectionFacultyComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="findStudentComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="findFacultyComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="findEnrollmentComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="findSectionComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="findSectionFacultyComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="deleteStudentComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="deleteFacultyComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="deleteEnrollmentComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="deleteSectionComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="commentService" />
+										<entry key="Action" value="deleteSectionFacultyComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="EntityService" />
+										<entry key="Action" value="saveEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="EntityService" />
+										<entry key="Action" value="updateEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="EntityService" />
+										<entry key="Action" value="getEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="EntityService" />
+										<entry key="Action" value="removeEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="EntityService" />
+										<entry key="Action" value="findEntitySchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="createFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="updateFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="deleteFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="searchFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="searchResourceItem" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="searchMarketingProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="FinancialService" />
+										<entry key="Action" value="searchDiscountProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="gradingService" />
+										<entry key="Action" value="saveCreditType" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="gradingService" />
+										<entry key="Action" value="findAvailableCreditType" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="HRUserService" />
+										<entry key="Action" value="getAllUsers" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="HRUserService" />
+										<entry key="Action" value="getUserByUserLogin" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="HRUserService" />
+										<entry key="Action" value="getUsersByRole" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="HRUserService" />
+										<entry key="Action" value="getLoggedInUser" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="HRUserService" />
+										<entry key="Action" value="getUserByUserID" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="pushInstructor" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="removeInstructor" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="pushInstructorSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="addInstructorToOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="removeInstructorFromOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="searchSectionInstructor" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="searchInstructorOfferings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="instructorService" />
+										<entry key="Action" value="removeInstructorSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="JobScheduleService" />
+										<entry key="Action" value="runService" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="addOrUpdateRoomSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="addOrUpdateSite" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="removeSite" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="addOrUpdateBuilding" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="removeBuilding" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="addOrUpdateRoom" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="locationService" />
+										<entry key="Action" value="removeRoom" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="mailService" />
+										<entry key="Action" value="sendEmail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="mailService" />
+										<entry key="Action" value="sendRegistrationConfirmationEmail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="marketingService" />
+										<entry key="Action" value="searchMarketingCodes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="marketingService" />
+										<entry key="Action" value="searchMarketingCodeResponses" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="marketingService" />
+										<entry key="Action" value="getMarketingCategory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="getCollection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="findTaggedSections" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="get" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="post" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="put" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipAdjustmentPolicyService" />
+										<entry key="Action" value="delete" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="getCollection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="findTaggedSections" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="post" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="put" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="get" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipDefinitionService" />
+										<entry key="Action" value="delete" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="getMembershipCollection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="getCollection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="findMembershipBenefits" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="findMebershipTerms" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="findContacts" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="createMembershipBeneficiary" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="deleteMembershipBeneficiary" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MembershipService" />
+										<entry key="Action" value="updateMembershipStatus" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MergeService" />
+										<entry key="Action" value="analyze" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MergeService" />
+										<entry key="Action" value="analyzeAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MergeService" />
+										<entry key="Action" value="merge" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="MergeService" />
+										<entry key="Action" value="mergeAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="notificationService" />
+										<entry key="Action" value="sendEmail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="createOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="updateOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="searchOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="removeOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="addOrRemoveOfferingToCatalog" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="createOfferingFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="updateOfferingFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="searchOfferingFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getOfferingApprovalHist" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="setApprovalStatus" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getOfferingApprovalStateList" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getOfferingApprovalSendToList" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getRequisiteOfferingGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getGroupOfferings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="createRequisiteOfferingGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="updateRequisiteOfferingGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="getQualifiedInstructors" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="updateInstructors" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="OfferingService" />
+										<entry key="Action" value="createSection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="offeringTypesService" />
+										<entry key="Action" value="removeSectionTypesFromOfferingType" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="offeringTypesService" />
+										<entry key="Action" value="handleSelectDefaultSectionType" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="searchOrders" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getOrderItems" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getOrderDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getOrderLines" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getOrderItemsLit" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getPayments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getCredits" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getReturnItems" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getPurchaseOrder" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getCreditMemoDataByOrderItemID" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="applyReturnItem" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="applyIssueCredit" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getAvailableDiscountByOrderItemID" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="grantDiscountProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="getPurchaseOrders" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="saveOrderPaymentDueDate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="orderService" />
+										<entry key="Action" value="applyMembershipReturnItem" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="organizationService" />
+										<entry key="Action" value="createOrUpdateOrganization" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="organizationService" />
+										<entry key="Action" value="createUpdateOrganizationSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="organizationService" />
+										<entry key="Action" value="removeOrganizationSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="organizationService" />
+										<entry key="Action" value="removeOrganization" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="purchaseOrderService" />
+										<entry key="Action" value="createOrUpdatePurchaseOrder" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="purchaseOrderService" />
+										<entry key="Action" value="receivePurchaseOrder" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="purchaseOrderService" />
+										<entry key="Action" value="removePurchaseOrder" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="purchaseOrderService" />
+										<entry key="Action" value="findPurchaseOrders" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="findPackages" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="savePackage" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="addPackageFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="removePackageFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="submitBulkOrder" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="addSection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="updateSection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="removeSection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="packageService" />
+										<entry key="Action" value="getPackageReport" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="PaymentGatewayService" />
+										<entry key="Action" value="getPaymentGatewayAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="PaymentGatewayService" />
+										<entry key="Action" value="findPaymentGatewayActivities" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="savePaymentDueDatePolicy" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="getPaymentDueDatePolicy" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="addOrderItemsToPay" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="setCustomPaymentAmount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="isPaymentReversible" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="paymentService" />
+										<entry key="Action" value="reversePayment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personAddressService" />
+										<entry key="Action" value="pushPersonAddress" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personAddressService" />
+										<entry key="Action" value="deletePersonAddress" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personAddressService" />
+										<entry key="Action" value="findAddresses" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personAddressService" />
+										<entry key="Action" value="findCountry" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personEmailService" />
+										<entry key="Action" value="pushPersonEmail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personEmailService" />
+										<entry key="Action" value="deletePersonEmail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personPhoneService" />
+										<entry key="Action" value="pushPersonPhone" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personPhoneService" />
+										<entry key="Action" value="findPreferredTelephone" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personPhoneService" />
+										<entry key="Action" value="deletePersonPhone" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="createPersonRecordInRoles" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getPersonDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="setupWebLogin" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getPersonLogin" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getRegions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="pushPerson" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="canPushPerson" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="removePerson" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getDegreeProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="removePersonEducationHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="updatePersonEducationHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="createPersonEducationHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="findPersonEducationHist" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getPersonDisabilities" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="savePersonDisabilities" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="getFacultySchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="personService" />
+										<entry key="Action" value="findPersonsByAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="preferenceService" />
+										<entry key="Action" value="./apps/admin/src" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="preferenceService" />
+										<entry key="Action" value="deletePreferences" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="preferenceService" />
+										<entry key="Action" value="saveOrUpdatePreferences" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="searchProducts" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="deleteProduct" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="getProductFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="createOrUpdateProduct" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="getProductUnitPrice" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="productService" />
+										<entry key="Action" value="addOrUpdateProductFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programApplicationService" />
+										<entry key="Action" value="attachDocument" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programApplicationService" />
+										<entry key="Action" value="changeApplicationStatusWithEvent" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="createOrUpdateProgramOffering" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="saveOrUpdateEmailNotification" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="addOrUpdateAdmissionRequirement" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="saveOrUpdateAdmissionRequirementGroups" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="addOrUpdateOfferingRequirement" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="saveOrUpdateProgramFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="getProgramDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="getProgramOfferingDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="getProgramEmailNoticeDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="createOrUpdateDiscountProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="deleteDiscountProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="getDiscountMarketingProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="addMarketingProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="programService" />
+										<entry key="Action" value="removeMarketingProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="getTagQuestions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="searchQuestions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="createQuestion" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="addTagQuestions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="UpdateTagQuestions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="removeTagQuestions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="searchQuestionResponse" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="saveTagAnswer" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="saveTagAnswers" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="QuestionService" />
+										<entry key="Action" value="updateTagQuestion" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="RefLookupService" />
+										<entry key="Action" value="getList" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="RefLookupService" />
+										<entry key="Action" value="createRefRecord" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="RefLookupService" />
+										<entry key="Action" value="getRefRecord" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="RefLookupService" />
+										<entry key="Action" value="removeRefRecord" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="RefLookupService" />
+										<entry key="Action" value="updateRefRecord" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="findRegistrations" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="findRegistrationsWebAdmin" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="findRegistrationDetail" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="getCreditMemoData" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="findGradeScoreDefinition" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="dropWithdrawRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="dropOrWithdrawRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="deleteRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="editRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="getGradeDefinitionDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="saveFinalGrade" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="searchNoShowProcessings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="bulkDropRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="bulkDeleteRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="validateRegistration" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="checkCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="issueCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="searchCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="registrationService" />
+										<entry key="Action" value="previewCertificate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ReportService" />
+										<entry key="Action" value="getReportList" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="ReportService" />
+										<entry key="Action" value="getReportByReportName" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestActivityService" />
+										<entry key="Action" value="bulkUpdate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestActivityService" />
+										<entry key="Action" value="extendExpirationDate" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestActivityService" />
+										<entry key="Action" value="makeExternalPayment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestActivityService" />
+										<entry key="Action" value="findPublishedAndActiveQuestionsWithOptions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="retry" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="cancel" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="getLiteRequests" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="readRequestForStaff" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="getEnumValues" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="launchRequestWithExternalPayment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="requestService" />
+										<entry key="Action" value="launchRequest" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="addAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="removeAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="addFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="removeFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="attachProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="detachProgram" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="findSeatGroups" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="getSeatGroupDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="getSeatGroups" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="createSeatGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="updateSeatGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="removeSeatGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="saveAffiliatedOrg" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="findAffiliatedOrgsForSeatGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SeatGroupService" />
+										<entry key="Action" value="findAvailableAffiliatedOrgs" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="addOfferingFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="addInstructorFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="addMarketingProgramFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="addResourceFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="addSectionDiscount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSectionDetails" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSectionStatistics" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findAffiliatedOrgsForSeatGroup" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getPaymentGatewayAccount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSeatGroupsBySection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getCoordinator" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="updateSection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveAffiliatedOrg" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="updateSectionNotification" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="SectionNoticeID" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findSectionNoticeRecipients" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="updateSectionFinancialMaps" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="copySection" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getMeetings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="createMeetings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveMeetings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveFinancial" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSectionFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveSectionNotification" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSectionNotifications" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveSectionDiscount" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeSectionDiscounts" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getSectionDiscounts" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getAvailableDiscountPrograms" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getAvailableOfferingFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getAvailableFacultyWithFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getAvailableResourcesWithFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="getAvailableMarketingProgramsWithFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeFinancials" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeMeetings" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeLocations" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeInstructors" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="removeMeetingInformations" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findRoom" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveLocations" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveGeneralComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveFacultyComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveEnrollmentComment" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findGeneralCommentHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findFacultyComments" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findEnrollmentCommentHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findFaculty" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="findEnrollmentStudentHistory" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="scheduleInstructor" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="SectionService" />
+										<entry key="Action" value="saveMeetingInformations" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="sectionTypesService" />
+										<entry key="Action" value="getSectionTypeNotifications" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="sectionTypesService" />
+										<entry key="Action" value="findSectionTypeNotice" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="sectionTypesService" />
+										<entry key="Action" value="saveSectionTypeNotification" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="sectionTypesService" />
+										<entry key="Action" value="removeSectionType" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="pushStudent" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="removeStudent" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="createUpdateStudentHold" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="releaseStudentHold" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="searchStudentSchedule" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="studentService" />
+										<entry key="Action" value="searchOnlineClasses" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="TagService" />
+										<entry key="Action" value="getTags" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="TagService" />
+										<entry key="Action" value="getParentTags" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="TagService" />
+										<entry key="Action" value="addTagIntoEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="TagService" />
+										<entry key="Action" value="removeTagFromEntity" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="TagService" />
+										<entry key="Action" value="findTagContent" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="getBaseTransactionTypes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="getTransactionTypes" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="searchTransactions" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="credit" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="debit" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="transactionService" />
+										<entry key="Action" value="transfer" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="findAllUsers" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="findUser" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="saveUser" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="findAllUserRoles" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="changePassword" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="userService" />
+										<entry key="Action" value="removeUser" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="waitListEntry" />
+										<entry key="Action" value="saveWaitListEntry" />
+								</map>
+						</constructor>
+				</object>
+			</method>
+			<method name="add">
+				<object
+						class="java.util.HashMap"
+						interface="java.lang.Object" >
+						<constructor>
+								<map>
+										<entry key="Service" value="waitListEntry" />
+										<entry key="Action" value="deleteWaitListEntry" />
+								</map>
+						</constructor>
+				</object>
+			</method></root>

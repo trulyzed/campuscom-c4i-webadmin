@@ -1,0 +1,35 @@
+{
+	"private": true,
+	"workspaces": [
+		"packages/utilities",
+		"packages/api",
+		"packages/components",
+		"apps/*"
+	],
+	"devDependencies": {
+		"rimraf": "^3.0.2",
+		"husky": "^7.0.0"
+	},
+	"scripts": {
+		"i": "yarn install --pure-lockfile",
+		"clean": "yarn workspace run clean",
+		"clean:node_modules": "yarn workspace run clean:node_modules",
+		"build": "yarn workspaces run build",
+		"build:utils": "yarn workspace @packages/utilities run build",
+		"build:api": "yarn workspace @packages/api run build",
+		"build:components": "yarn workspace @packages/components run build",
+		"build:webadmin": "yarn workspace webadmin run build",
+		"build:instructor": "yarn workspace instructor run build",
+		"build:student": "yarn workspace student run build",
+		"build:lib": "yarn build:utils && yarn build:api && yarn build:components",
+		"build:apps": "yarn build:webadmin && yarn build:instructor && yarn build:student",
+		"snap:webadmin": "yarn build:lib && yarn build:webadmin && cd script/webadmin && sh snap.sh",
+		"snap:instructor": "cd script/instructor && sh snap.sh",
+		"snap:student": "cd script/student && sh snap.sh",
+		"snap": "yarn build && yarn snap:webadmin && yarn snap:instructor && yarn snap:student",
+		"lint": "yarn workspaces run lint",
+		"prepare": "husky install"
+	},
+	"name": "hir-web-admin",
+	"dependencies": {}
+}

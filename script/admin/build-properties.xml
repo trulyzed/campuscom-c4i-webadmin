@@ -1,0 +1,15 @@
+<project name="properties">
+
+  <!--Local Nexus Repository for releasing artifacts-->
+  <property name="read-repo-url" value="http://repo.campusops.net:8081/nexus/content/groups/Release/" />
+  <property name="repo-id" value="local-repo" />
+  <property name="release-repo-url" value="http://repo.campusops.net:8081/nexus/content/repositories/jxntm-releases" />
+  <property name="snapshot-repo-url" value="http://repo.campusops.net:8081/nexus/content/repositories/jxntm-snapshots" />
+
+  <property name="build.version"               value="1.0.a2"/>
+
+  <property name="src.dir"                     value="${basedir}/apps/instructor/build"/>
+
+  <property name="build.dir"                  value="${basedir}/instructor"/>
+  <property name="build.lib.dir"              value="${build.dir}/lib"/>
+</project>

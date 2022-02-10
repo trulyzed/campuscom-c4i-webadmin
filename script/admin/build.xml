@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jxntm-release" default="jar" basedir="./../.." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+  <import file="build-properties.xml"/>
+
+  <target name="set.release.target">
+    <property name="target-repo-url" value="${release-repo-url}"/>
+    <property name="pom.build.version" value="${build.version}"/>
+  </target>
+
+  <target name="set.snapshot.target">
+    <property name="target-repo-url" value="${snapshot-repo-url}" />
+    <property name="pom.build.version" value="${build.version}-SNAPSHOT"/>
+  </target>
+
+  <target name="release" depends="set.release.target, release.artifact"/>
+  <target name="snapshot" depends="set.snapshot.target, release.artifact"/>
+
+  <target name="release.artifact" depends="jar">
+    <artifact:deploy file="${build.lib.dir}/instructor.war">
+      <remoteRepository id="${repo-id}" url="${target-repo-url}" />
+      <pom file="script/instructor/pom.xml"/>
+    </artifact:deploy>
+  </target>
+
+  <target name="prepare">
+    <mkdir dir="${build.lib.dir}"/>
+  </target>
+  <target name="jar" depends="prepare">
+    <zip destfile="${build.lib.dir}/instructor.war">
+      <fileset dir="${src.dir}">
+        <include name="**/**" />
+      </fileset>
+
+    </zip>
+  </target>
+
+  <target name="install.modules">
+    <artifact:pom id="module.pom"  file="${basedir}/script/instructor/pom.xml"/>
+    <artifact:dependencies pomRefId="module.pom" scopes="provided, compile" filesetId="module.pom.files"/>
+    <unjar dest="${basedir}">
+      <fileset refid="module.pom.files"/>
+    </unjar>
+  </target>
+</project>
