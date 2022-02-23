@@ -1,19 +1,17 @@
-import { login as loginService } from "@packages/api/lib/Login"
-import { cleanStorage, getUsername, setAboutInfo } from "@packages/api/lib/utils/TokenStore"
+// import { login as loginService } from "@packages/api/lib/Login"
+import { cleanStorage, setLoginInfo } from "@packages/api/lib/utils/TokenStore"
 import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
-import { getAboutInfo } from "~/ApiServices/Service/AboutService"
+// import { getAboutInfo } from "~/ApiServices/Service/AboutService"
+import { Apis } from "./Apis"
+import { endpoints } from "./Endpoints"
 
-export async function login(UserName: string, UserPassword: string): Promise<IApiResponse> {
-  const lastUserName = getUsername()
-  const response = await loginService(UserName, UserPassword)
-  if (response && response.success) {
-    const aboutInfo = await getAboutInfo({})
-    if (aboutInfo && aboutInfo.success) {
-      setAboutInfo({ schoolName: aboutInfo.data.SchoolCode.name, version: aboutInfo.data.BuildVersion })
-    }
-
+export async function login(username: string, password: string): Promise<IApiResponse> {
+  // const lastUserName ()
+  const response = await Apis[endpoints.LOGIN]({ username, password })
+  if (response) {
+    setLoginInfo({ token: response.access, userName: "" })
     setTimeout(() => {
       eventBus.publishSimilarEvents(/REFRESH.*/i)
       eventBus.publish(SHOW_LOGIN_MODAL, false)

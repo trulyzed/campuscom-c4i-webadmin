@@ -15,7 +15,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/recharts": "^1.8.16",
     "antd": "^4.5.1",
-    "axios": "^0.24.0",
+    "axios": "^0.25.0",
     "file-saver": "^2.0.5",
     "focus-trap-react": "^8.8.2",
     "moment": "^2.27.0",

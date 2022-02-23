@@ -5,9 +5,4 @@ export interface ISidebarMenu {
   submenu: ISidebarMenu[]
 }
 
-export const getSidebarMenus = (): ISidebarMenu[] => [
-  { title: "View Schedule", url: "/view-schedule", submenu: [] },
-  { title: "Current Sections", url: "/current-sections", submenu: [] },
-  { title: "Completed Sections", url: "/completed-sections", submenu: [] },
-  { title: "Change Password", url: "", submenu: [] }
-]
+export const getSidebarMenus = (): ISidebarMenu[] => [{ title: "Courses", url: "/course/list", submenu: [] }]

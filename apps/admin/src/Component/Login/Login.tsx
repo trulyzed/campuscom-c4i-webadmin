@@ -20,7 +20,12 @@ enum EnumLoading {
   INPROGRESS
 }
 
-export function Login(props: { globalErrorMessage?: null | string; modal?: boolean; page?: boolean; redirect?: (url: string) => void }) {
+export function Login(props: {
+  globalErrorMessage?: null | string
+  modal?: boolean
+  page?: boolean
+  redirect?: (url: string) => void
+}) {
   const [loading, setloading] = useState(EnumLoading.PENDING)
   const [redirect, setRedirect] = useState<string>()
   const [error, setError] = useState<string>()
@@ -61,7 +66,14 @@ export function Login(props: { globalErrorMessage?: null | string; modal?: boole
       )}
       {Boolean(globalErrorMessage) && <Error>{globalErrorMessage}</Error>}
       {redirect && <Redirect to={redirect} />}
-      <Form layout="vertical" name="basic" hideRequiredMark className="login-form" initialValues={INITIAL_FORM_VALUES} onFinish={onFinish}>
+      <Form
+        layout="vertical"
+        name="basic"
+        hideRequiredMark
+        className="login-form"
+        initialValues={INITIAL_FORM_VALUES}
+        onFinish={onFinish}
+      >
         <Form.Item
           {...{
             label: "Username",
