@@ -5,7 +5,7 @@ import React, { CSSProperties, useState } from "react"
 import { IField } from "~/Form/common"
 import { MetaDrivenFormModal } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { IconButton, iconType } from "~/Form/Buttons/IconButton"
-import { checkInstructorApiPermission } from "@packages/api/lib/Permission/InstructorApiPermission"
+import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
   iconType?: iconType
@@ -25,13 +25,19 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
   const [showModal, setShowModal] = useState(false)
   return (
     <>
-      {checkInstructorApiPermission(props.formSubmitApi) && (
+      {checkAdminApiPermission(props.formSubmitApi) && (
         <>
           {" "}
           {props.iconType ? (
             <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} />
           ) : (
-            <Button type="primary" {...props.buttonProps} style={props.style} onClick={() => setShowModal(true)} children={props.buttonLabel} />
+            <Button
+              type="primary"
+              {...props.buttonProps}
+              style={props.style}
+              onClick={() => setShowModal(true)}
+              children={props.buttonLabel}
+            />
           )}
         </>
       )}

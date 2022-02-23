@@ -20,7 +20,7 @@ export function LoginPage() {
   return (
     <Layout style={{ height: "100vh" }}>
       <Layout.Content style={ContentStyle}>
-        <h1 style={{ fontSize: "52px", color: "white" }}>Higher Reach Instructor</h1>
+        <h1 style={{ fontSize: "52px", color: "white" }}>Campus Admin</h1>
         <Login page={true} />
         <p style={Footer_note}>{`2011-${new Date().getFullYear()} Jenzabar, Inc.`}</p>
       </Layout.Content>

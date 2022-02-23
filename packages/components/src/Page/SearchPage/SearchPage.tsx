@@ -4,7 +4,7 @@ import { IField } from "~/Form/common"
 import { ResponsiveTable, IDataTableProps } from "~/ResponsiveTable"
 import { Button, Col, Result, Row } from "antd"
 import { HelpButton } from "~/Help/HelpButton"
-import { checkInstructorApiPermission } from "@packages/api/lib/Permission/InstructorApiPermission"
+import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 
 export interface ISearchListWithVisibleSearchFormProp {
@@ -31,7 +31,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
   }, [props.initSearchAtMount])
   return (
     <div className="site-layout-content">
-      {props.tableProps.searchFunc && checkInstructorApiPermission(props.tableProps.searchFunc) && (
+      {props.tableProps.searchFunc && checkAdminApiPermission(props.tableProps.searchFunc) && (
         <>
           {!props.meta && (
             <Row
@@ -94,7 +94,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
           />
         </>
       )}
-      {props.tableProps.searchFunc && !checkInstructorApiPermission(props.tableProps.searchFunc) && (
+      {props.tableProps.searchFunc && !checkAdminApiPermission(props.tableProps.searchFunc) && (
         <Result
           status="403"
           title="403"

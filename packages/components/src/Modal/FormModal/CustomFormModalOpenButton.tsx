@@ -4,7 +4,7 @@ import { BaseButtonProps } from "antd/lib/button/button"
 import { CustomFormModal, ICustomFormModal } from "~/Modal/FormModal/CustomFormModal"
 import { IconButton, iconType } from "~/Form/Buttons/IconButton"
 import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
-import { checkInstructorApiPermission } from "@packages/api/lib/Permission/InstructorApiPermission"
+import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
 
 export interface ICustomFormModalOpenButton extends Omit<ICustomFormModal, "closeModal"> {
   style?: CSSProperties
@@ -23,7 +23,14 @@ export const CustomFormModalOpenButton = (props: ICustomFormModalOpenButton) => 
   let ButtonType: JSX.Element
 
   if (props.iconType) {
-    ButtonType = <IconButton toolTip={props.buttonLabel} iconType={props.iconType} disabled={props.disabled} onClick={() => setShowModal(true)} />
+    ButtonType = (
+      <IconButton
+        toolTip={props.buttonLabel}
+        iconType={props.iconType}
+        disabled={props.disabled}
+        onClick={() => setShowModal(true)}
+      />
+    )
   } else {
     ButtonType = (
       <Button style={props.style} disabled={props.disabled} {...props.buttonProps} onClick={() => setShowModal(true)}>
@@ -44,7 +51,7 @@ export const CustomFormModalOpenButton = (props: ICustomFormModalOpenButton) => 
 
   return (
     <>
-      <>{checkInstructorApiPermission(props.submitFunction) && ButtonType}</>
+      <>{checkAdminApiPermission(props.submitFunction) && ButtonType}</>
       {showModal && (
         <CustomFormModal
           zIndex={props.zIndex}

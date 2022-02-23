@@ -11,7 +11,7 @@ import { querystringToObject } from "@packages/utilities/lib/QueryStringToObject
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { DetailsSummary } from "~/Page/DetailsPage/DetailsSummaryTab"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
-import { checkInstructorApiPermission } from "@packages/api/lib/Permission/InstructorApiPermission"
+import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
 import { GoToSearchResultPageButton } from "~/Page/DetailsPage/GoToSearchResultPageButton"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
@@ -91,7 +91,7 @@ export function DetailsPage(props: IDetailsPage) {
   const loadDetails = () => {
     if (process.env.NODE_ENV === "development" && props.getDetailsPageContent.name === "getDetailsPageContent")
       throw new Error(`Details Page does not have a valid getDetailsPageContent function, check console for details`)
-    if (!checkInstructorApiPermission(props.getDetailsPageContent)) return
+    if (!checkAdminApiPermission(props.getDetailsPageContent)) return
     setLoading(true)
     setError(undefined)
     props
@@ -120,8 +120,15 @@ export function DetailsPage(props: IDetailsPage) {
     // eslint-disable-next-line
   }, [props.entityID])
 
-  if (!checkInstructorApiPermission(props.getDetailsPageContent)) {
-    return <Result status="403" title="403" subTitle="Sorry, you are not authorized to access this page." extra={<Button type="primary">Back Home</Button>} />
+  if (!checkAdminApiPermission(props.getDetailsPageContent)) {
+    return (
+      <Result
+        status="403"
+        title="403"
+        subTitle="Sorry, you are not authorized to access this page."
+        extra={<Button type="primary">Back Home</Button>}
+      />
+    )
   }
   return (
     <>
@@ -142,7 +149,10 @@ export function DetailsPage(props: IDetailsPage) {
           status="warning"
           title="There are some problems while loading this page."
           extra={
-            <Button type="primary" onClick={() => (window.location.href = window.location.origin + window.location.pathname)}>
+            <Button
+              type="primary"
+              onClick={() => (window.location.href = window.location.origin + window.location.pathname)}
+            >
               Reload
             </Button>
           }
@@ -173,8 +183,12 @@ export function DetailsPage(props: IDetailsPage) {
           <Tabs activeKey={activeTabKey} onChange={changeActiveTabkey} type="card" size="large">
             {meta
               .filter((x) => {
-                if (x.tabMeta && (x.tabType === "table" || x.tabType === "searchtable") && !!(x?.tabMeta as any)?.tableProps?.searchFunc) {
-                  return checkInstructorApiPermission((x?.tabMeta as any)?.tableProps?.searchFunc)
+                if (
+                  x.tabMeta &&
+                  (x.tabType === "table" || x.tabType === "searchtable") &&
+                  !!(x?.tabMeta as any)?.tableProps?.searchFunc
+                ) {
+                  return checkAdminApiPermission((x?.tabMeta as any)?.tableProps?.searchFunc)
                 }
                 return true
               })

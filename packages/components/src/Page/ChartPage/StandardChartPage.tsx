@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Col, Row } from "antd"
 import { FilterOutlined } from "@ant-design/icons"
 import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
@@ -48,7 +48,9 @@ export function StandardChartPage(props: IStandardReportPage) {
         )}
       </Row>
 
-      {props.config.chartType === "simplebarchart" && <SimpleBarChart searchParams={searchParams} searchFunc={props.searchFunc} config={props.config} />}
+      {props.config.chartType === "simplebarchart" && (
+        <SimpleBarChart searchParams={searchParams} searchFunc={props.searchFunc} config={props.config} />
+      )}
     </div>
   )
 }
