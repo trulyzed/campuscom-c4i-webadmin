@@ -6,5 +6,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.jenkins
+      args:
+        - REACT_APP_API_ROOT=https://api.admin.dev.campus.com/
+        - REACT_APP_CDN_URL=https://static.dev.campus.com/
+        - REACT_APP_TINY_MCE_API_KEY=#####
+        - REACT_APP_STOREFRONT_URL=https://store.dev.campus.com
     ports:
-      - '1337:80'
+      - 1337:80

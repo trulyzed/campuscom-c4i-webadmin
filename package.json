@@ -15,7 +15,7 @@
     "start:admin": "yarn workspace admin start",
     "clean": "yarn workspace run clean",
     "clean:node_modules": "yarn workspace run clean:node_modules",
-    "build": "yarn workspaces build",
+    "build": "yarn workspaces run build",
     "build:packages": "yarn build:utils && yarn build:api && yarn build:components",
     "build:utils": "yarn workspace @packages/utilities build",
     "build:api": "yarn workspace @packages/api build",

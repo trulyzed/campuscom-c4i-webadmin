@@ -4,13 +4,14 @@ FROM node:16.14.0-alpine
 # set working directory
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
-COPY package.json ./
+# copy files
 COPY ./apps/ ./apps/
 COPY ./packages/ ./packages/
+COPY package.json ./
+COPY ./apps/admin/package.json ./apps/admin/
+COPY ./packages/utilities/package.json ./packages/utilities/
+COPY ./packages/api/package.json ./packages/api/
+COPY ./packages/components/package.json ./packages/components/
 
 RUN yarn i
 RUN yarn build:packages
