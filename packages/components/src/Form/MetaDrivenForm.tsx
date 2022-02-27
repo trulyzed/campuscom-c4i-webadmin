@@ -133,7 +133,7 @@ export function MetaDrivenForm({
           ...props.defaultFormValue
         }
         for (const key in mergedParams) {
-          if (key === "" || mergedParams[key] === undefined || mergedParams[key] === null || key.includes("__"))
+          if (key === "" || mergedParams[key] === undefined || mergedParams[key] === null)
             delete mergedParams[key]
         }
         if (props.currentPagination) mergedParams["pagination"] = props.currentPagination
@@ -253,42 +253,42 @@ export function MetaDrivenForm({
         </Row>
       }
       loading={props.loading}
-      // actions={[
-      //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
-      //     {!props.showFullForm && !props.closeModal && meta.length > 4 && (
-      //       <Col>
-      //         <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
-      //       </Col>
-      //     )}
-      //     {props.closeModal && (
-      //       <Col>
-      //         <Button
-      //           type="ghost"
-      //           aria-label="Cancel"
-      //           danger
-      //           onClick={() => {
-      //             formInstance.resetFields()
-      //             props.closeModal && props.closeModal()
-      //           }}
-      //         >
-      //           Cancel
-      //         </Button>
-      //       </Col>
-      //     )}
-      //     {showClearbutton && (
-      //       <Col>
-      //         <Button danger type="primary" onClick={clearParams}>
-      //           {clearButtonLabel}
-      //         </Button>
-      //       </Col>
-      //     )}
-      //     <Col>
-      //       <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
-      //         {applyButtonLabel}
-      //       </Button>
-      //     </Col>
-      //   </Row>
-      // ]}
+    // actions={[
+    //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
+    //     {!props.showFullForm && !props.closeModal && meta.length > 4 && (
+    //       <Col>
+    //         <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
+    //       </Col>
+    //     )}
+    //     {props.closeModal && (
+    //       <Col>
+    //         <Button
+    //           type="ghost"
+    //           aria-label="Cancel"
+    //           danger
+    //           onClick={() => {
+    //             formInstance.resetFields()
+    //             props.closeModal && props.closeModal()
+    //           }}
+    //         >
+    //           Cancel
+    //         </Button>
+    //       </Col>
+    //     )}
+    //     {showClearbutton && (
+    //       <Col>
+    //         <Button danger type="primary" onClick={clearParams}>
+    //           {clearButtonLabel}
+    //         </Button>
+    //       </Col>
+    //     )}
+    //     <Col>
+    //       <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
+    //         {applyButtonLabel}
+    //       </Button>
+    //     </Col>
+    //   </Row>
+    // ]}
     >
       <Col
         className={`gutter-row`}

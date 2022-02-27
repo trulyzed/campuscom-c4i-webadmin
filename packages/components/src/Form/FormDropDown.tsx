@@ -53,9 +53,8 @@ export function FormDropDown(
 
   useEffect(() => {
     loadOptions()
-    const eventName = `REFRESH_SEARCH_DROPDOWN_${
-      (refLookupService || new Date().getTime())?.toString() + displayKey + valueKey + props.fieldName
-    }`
+    const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey + props.fieldName
+      }`
     eventBus.subscribe(eventName, loadOptions)
     return () => {
       eventBus.unsubscribe(eventName)
@@ -99,7 +98,7 @@ export function FormDropDown(
           return !!(
             options &&
             typeof options.children === "string" &&
-            options.children.toLowerCase().includes(inputValue.toLowerCase())
+            (options.children as string).toLowerCase().includes(inputValue.toLowerCase())
           )
         }}
         disabled={props.disabled}

@@ -16,11 +16,6 @@ function _ObjectToQueryString(value: any, parameterPath = ""): string {
     return parameterPath + "=" + encodeURIComponent(value.toString())
   }
 
-  //If the value is an empty object, return just the parameter path followed by an = symbol
-  if (Object.keys(value).length === 0 && value.constructor === Object) {
-    return parameterPath + "="
-  }
-
   //If the value is an array, loop through all its values
   if (Array.isArray(value)) {
     const parameterList: string[] = []
