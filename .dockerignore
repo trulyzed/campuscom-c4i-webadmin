@@ -1,0 +1,12 @@
+node_modules
+build
+.husky
+.vscode
+.gitignore
+.dockerignore
+.eslintrc.json
+.eslintrc.js
+Dockerfile
+Dockerfile.jenkins
+yarn.lock
+lib

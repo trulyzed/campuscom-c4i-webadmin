@@ -1,0 +1,43 @@
+{
+  "name": "@packages/api",
+  "version": "1.0.0",
+  "main": "lib",
+  "license": "MIT",
+  "scripts": {
+    "build": "yarn clean && tsc",
+    "clean": "rimraf lib",
+    "clean:node_modules": "rimraf node_modules",
+    "lint:ts": "eslint --fix --max-warnings 0 './src/**/*.{ts,tsx}'",
+    "lint": "yarn lint-staged --verbose"
+  },
+  "prettier": {
+    "printWidth": 120,
+    "singleQuote": false,
+    "useTabs": false,
+    "tabWidth": 2,
+    "trailingComma": "none",
+    "semi": false
+  },
+  "lint-staged": {
+    "src/**/*.ts": [
+      "yarn lint:ts"
+    ]
+  },
+  "dependencies": {
+    "@packages/utilities": "1.0.0",
+    "@types/file-saver": "^2.0.4",
+    "axios": "^0.24.0",
+    "file-saver": "^2.0.2"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.4.0",
+    "@typescript-eslint/parser": "^5.4.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "lint-staged": "^12.0.2",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.4.4"
+  }
+}
