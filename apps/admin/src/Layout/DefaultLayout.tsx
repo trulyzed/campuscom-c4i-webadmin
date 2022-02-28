@@ -8,8 +8,8 @@ import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { getAboutInfoFromStorage } from "@packages/api/lib/utils/TokenStore"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
-import { logout } from "~/ApiServices/Login"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { logout } from "~/ApiServices/AuthService"
 
 const { Header, Content, Footer } = Layout
 

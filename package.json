@@ -25,5 +25,6 @@
     "prepare": "husky install"
   },
   "name": "hir-web-admin",
+  "version": "0.0.1",
   "dependencies": {}
 }

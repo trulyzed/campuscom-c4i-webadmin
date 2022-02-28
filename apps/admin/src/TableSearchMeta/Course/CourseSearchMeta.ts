@@ -1,6 +1,5 @@
 import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
-import { Apis } from "~/ApiServices/Apis"
-import { endpoints } from "~/ApiServices/Endpoints"
+import { CourseProviderQueries } from "~/ApiServices/Queries/CourseProviders"
 
 export const CourseSearchMeta: IField[] = [
   {
@@ -12,14 +11,8 @@ export const CourseSearchMeta: IField[] = [
     label: "Course Provider",
     inputType: DROPDOWN,
     refLookupService: () =>
-      Apis[endpoints.COURSE_PROVIDER]({ limit: 1000 }).then((response) => {
-        response = {
-          data: response.data,
-          success: true,
-          error: false,
-          code: 200
-        }
-        return response
+      CourseProviderQueries.getList!().then(data => {
+        return data
       }),
     fieldName: "course_provider",
     displayKey: "name",

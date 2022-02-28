@@ -1,9 +1,12 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import { Form, Button, Card, Typography, Input } from "antd"
 import { Error } from "~/Component/Error"
 import { Store } from "antd/lib/form/interface"
-import { login } from "~/ApiServices/Login"
+import { AuthQueries } from "~/ApiServices/Queries/Auth"
 import { Redirect } from "react-router"
+import { setLoginInfo } from "@packages/api/lib/utils/TokenStore"
+import { eventBus } from "@packages/utilities/lib/EventBus"
+import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 
 interface IFormState {
   username: string
@@ -33,7 +36,14 @@ export function Login(props: {
     const { username, password } = values as IFormState
     setloading(EnumLoading.INPROGRESS)
     setError(undefined)
-    const response = await login(username, password)
+    const response = await AuthQueries.login!({ data: { username, password } })
+    setLoginInfo({ token: response.data.access, userName: "" })
+    setTimeout(() => {
+      eventBus.publishSimilarEvents(/REFRESH.*/i)
+      eventBus.publish(SHOW_LOGIN_MODAL, false)
+      eventBus.publish(REDIRECT_TO_LOGIN, false)
+    }, 0)
+
     setloading(EnumLoading.PENDING)
     if (props.page) {
       if (response && response.success && props.redirect) {
