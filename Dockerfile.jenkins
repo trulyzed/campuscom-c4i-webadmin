@@ -20,12 +20,6 @@ ARG REACT_APP_TINY_MCE_API_KEY
 
 RUN yarn build
 
-# # production environment
-# FROM nginx:stable-alpine
-# COPY --from=0 /app/apps/admin/build /usr/share/nginx/html
-# EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
-
 # Stage 1, ship built files (/app/apps/admin/build) to bucket
 FROM python:2.7
 RUN pip install awscli --upgrade --user
