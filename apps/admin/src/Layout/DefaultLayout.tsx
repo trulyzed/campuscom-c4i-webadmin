@@ -9,7 +9,7 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { getAboutInfoFromStorage } from "@packages/api/lib/utils/TokenStore"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
-import { logout } from "~/ApiServices/AuthService"
+import { logout } from "~/Services/AuthService"
 
 const { Header, Content, Footer } = Layout
 

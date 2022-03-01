@@ -11,10 +11,16 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Offerings",
+        title: "Courses",
+        submenu: [],
+        url: "/courses/list",
+        permission: true
+      },
+      {
+        title: "Financials",
         url: "",
         submenu: [
-          { title: "Courses ", url: "/offerings/courses/list", submenu: [], permission: true },
+          { title: "Orders ", url: "/financials/orders/list", submenu: [], permission: true },
         ],
         permission: true
       },

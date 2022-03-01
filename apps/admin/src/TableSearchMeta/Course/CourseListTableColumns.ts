@@ -1,20 +1,20 @@
 import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
 import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
-import { CourseQueries } from "~/ApiServices/Queries/Courses"
+import { CourseQueries } from "~/Services/Queries/Courses"
 
 export const getCourseListTableColumns = (isModal = false, CourseID?: number): ITableMeta => {
   const columns: TableColumnType = [
     {
       title: "Title",
       dataIndex: "title",
-      render: (text: any, record: any) => renderLink(`/offerings/courses/${record.id}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/courses/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.title - b.title
     },
     {
       title: "Course Provider",
       render: (text: any, record: any) =>
-        renderLink(`/offering/${record.provider.name}`, record.provider.name, isModal),
+        renderLink(`/${record.provider.name}`, record.provider.name, isModal),
       sorter: (a: any, b: any) => {
         if (a.provider.name - b.provider.name) {
           return a.provider.name.length - b.provider.name.length
@@ -25,7 +25,7 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
     {
       title: "Slug",
       dataIndex: "slug",
-      render: (text: any, record: any) => renderLink(`/offering/${record.slug}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/${record.slug}`, text, isModal),
       sorter: (a: any, b: any) => a.slug.length - b.slug.length
     },
     {

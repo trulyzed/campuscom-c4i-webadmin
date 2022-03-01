@@ -1,6 +1,6 @@
-import { endpoints } from "~/ApiServices/Endpoints"
-import { CallApi } from "~/ApiServices/Api"
-import { IQuery } from "~/ApiServices/Queries/types";
+import { endpoints } from "~/Services/Endpoints"
+import { CallApi } from "~/Services/Api"
+import { IQuery } from "~/Services/Queries/types";
 
 export const CourseProviderQueries:IQuery = {
   getSingle: async (data) => {

@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react"
 import * as serviceWorker from "~/serviceWorker"
 import { render } from "react-dom"
 import { App } from "~/App"
-import { RegisteGlobalhttpErrorHandlerr } from "~/ApiServices/RegisteGlobalhttpErrorHandlerr"
+import { RegisteGlobalhttpErrorHandlerr } from "~/Services/RegisteGlobalhttpErrorHandlerr"
 // import "antd/dist/antd.css"
 // import 'antd/dist/antd.dark.css';
 // import "antd/dist/antd.compact.css"
