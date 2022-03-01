@@ -37,25 +37,20 @@ export function Login(props: {
     setloading(EnumLoading.INPROGRESS)
     setError(undefined)
     const response = await AuthQueries.login!({ data: { username, password } })
-    setLoginInfo({ token: response.data.access, userName: "" })
-    setTimeout(() => {
-      eventBus.publishSimilarEvents(/REFRESH.*/i)
-      eventBus.publish(SHOW_LOGIN_MODAL, false)
-      eventBus.publish(REDIRECT_TO_LOGIN, false)
-    }, 0)
 
     setloading(EnumLoading.PENDING)
     if (props.page) {
-      if (response && response.success && props.redirect) {
-        setRedirect("/")
+      if (response && response.success) {
+        eventBus.publishSimilarEvents(/REFRESH.*/i)
+        eventBus.publish(SHOW_LOGIN_MODAL, false)
+        eventBus.publish(REDIRECT_TO_LOGIN, false)
+
+        if (props.redirect) setRedirect("/")
       }
     }
-    if (Array.isArray(response.error) && response.error.length > 0) {
-      switch (response.error[0].message) {
-        case "INCORRECT_USERNAME_PASSWORD":
-          setError("Incorrect Username or Password")
-          break
-      }
+    if (response.success) setLoginInfo({ token: response.data.access, userName: "" })
+    else if (Array.isArray(response.error) && response.error.length > 0) {
+      setError(response.error[0].message)
     }
   }
 

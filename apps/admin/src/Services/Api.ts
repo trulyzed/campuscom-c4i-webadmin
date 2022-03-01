@@ -39,7 +39,7 @@ export const CallApi = async (requestConfig: IRequestConfig): Promise<IApiRespon
         code: error.response.status,
         success: false,
         data: null,
-        error: error.response.statusText,
+        error: error.response.data?.errors || error.response.statusText,
       }
     } else {
       throw error;

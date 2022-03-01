@@ -1,4 +1,3 @@
-import React from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getOrderDetailsMeta } from "~/TableSearchMeta/Order/OrderDetailsMeta"
