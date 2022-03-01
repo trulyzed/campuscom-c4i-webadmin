@@ -16,10 +16,10 @@ export interface IDetailsTabMeta {
 	tabType: TabType;
 	tabTitle: string;
 	tabMeta?:
-		| IDetailsTableTabProp
-		| IDetailsSummary
-		| IDetailsSearchTabProp
-		| IDetailsCustomTabProp; // | any
+	| IDetailsTableTabProp
+	| IDetailsSummary
+	| IDetailsSearchTabProp
+	| IDetailsCustomTabProp; // | any
 	multipleTabMetas?: IDetailsTabMeta[];
 	actions?: JSX.Element[];
 	helpKey?: string;
@@ -34,11 +34,11 @@ export interface IDetailsPage {
 	getMeta: (
 		Params: any,
 		entityType?: string,
-		entityID?: number
+		entityID?: number | string
 	) => IDetailsMeta;
 	getDetailsPageContent: () => Promise<IApiResponse>;
 	entityType?: string;
-	entityID?: number;
+	entityID?: number | string;
 	titleKey?: string;
 	actions?: JSX.Element[];
 	refreshEventName?: string;

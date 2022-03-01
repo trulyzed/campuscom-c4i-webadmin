@@ -1,21 +1,20 @@
 import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
 import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
-import { Apis } from "~/ApiServices/Apis"
-import { endpoints } from "~/ApiServices/Endpoints"
+import { CourseQueries } from "~/Services/Queries/Courses"
 
-export const getCourseListTableColumns = (isModal = false, OfferingID?: number): ITableMeta => {
+export const getCourseListTableColumns = (isModal = false, CourseID?: number): ITableMeta => {
   const columns: TableColumnType = [
     {
       title: "Title",
       dataIndex: "title",
-      render: (text: any, record: any) => renderLink(`/section/${record.SectionID}`, text, isModal),
-      sorter: (a: any, b: any) => a.SectionNumber.length - b.SectionNumber.length
+      render: (text: any, record: any) => renderLink(`/courses/${record.id}`, text, isModal),
+      sorter: (a: any, b: any) => a.title - b.title
     },
     {
       title: "Course Provider",
       render: (text: any, record: any) =>
-        renderLink(`/offering/${record.provider.name}`, record.provider.name, isModal),
+        renderLink(`/${record.provider.name}`, record.provider.name, isModal),
       sorter: (a: any, b: any) => {
         if (a.provider.name - b.provider.name) {
           return a.provider.name.length - b.provider.name.length
@@ -26,7 +25,7 @@ export const getCourseListTableColumns = (isModal = false, OfferingID?: number):
     {
       title: "Slug",
       dataIndex: "slug",
-      render: (text: any, record: any) => renderLink(`/offering/${record.slug}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/${record.slug}`, text, isModal),
       sorter: (a: any, b: any) => a.slug.length - b.slug.length
     },
     {
@@ -43,15 +42,9 @@ export const getCourseListTableColumns = (isModal = false, OfferingID?: number):
 
   return {
     columns,
-    searchFunc: function searchSection(Params: { [key: string]: any }): Promise<IApiResponse> {
-      return Apis[endpoints.COURSE]({ ...Params }).then((response) => {
-        response = {
-          data: response.data,
-          success: true,
-          error: false,
-          code: 200
-        }
-        return response
+    searchFunc: async (Params: { [key: string]: any }): Promise<IApiResponse> => {
+      return CourseQueries.getPaginatedList!({params: {...Params}}).then(data => {
+        return data
       })
     },
     tableName: "SectionTableColumns"

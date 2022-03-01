@@ -2,8 +2,8 @@ import { HANDLE_GLOBAL_API_ERROR } from "@packages/api/lib/utils/HandleResponse"
 import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
 import { NEW_BUILD_AVAILABL } from "@packages/api/lib/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { logout } from "~/ApiServices/Login"
 import { SHOW_LOGIN_MODAL } from "~/Constants"
+import { logout } from "~/Services/AuthService"
 
 export function RegisteGlobalhttpErrorHandlerr() {
   eventBus.subscribe(HANDLE_GLOBAL_API_ERROR, (errors: Array<ISimplifiedApiErrorMessage> | undefined) => {
