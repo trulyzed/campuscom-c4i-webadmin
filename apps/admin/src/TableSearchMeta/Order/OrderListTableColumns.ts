@@ -44,6 +44,5 @@ export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITa
         return data
       })
     },
-    tableName: "SectionTableColumns"
   }
 }

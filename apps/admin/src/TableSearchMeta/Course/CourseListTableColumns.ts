@@ -47,6 +47,5 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
         return data
       })
     },
-    tableName: "SectionTableColumns"
   }
 }
