@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router"
-import { IconButton } from "@packages/components/lib/Form/Buttons/IconButton"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const GoToUserProfileButton = () => {
   const [redirectTo, setRedirectTo] = useState<string | undefined>()

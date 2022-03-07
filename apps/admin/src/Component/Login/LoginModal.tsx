@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Login } from "~/Component/Login/Login"
-import { Modal } from "@packages/components/lib/Modal/Modal"
-import { zIndexLevel } from "@packages/components/lib/zIndexLevel"
+import { Modal } from "~/packages/components/Modal/Modal"
+import { zIndexLevel } from "~/packages/components/zIndexLevel"
 
 interface ILoginModalProps {
   removeGLobalApiError?: () => void

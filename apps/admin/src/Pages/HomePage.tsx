@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react"
 import { eventBus, REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { IFaculty } from "@packages/api/lib/utils/Interfaces"
-import { getUser } from "@packages/api/lib/utils/TokenStore"
+import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { Intro } from "~/Component/Feature/Intro"
+import { IUser } from "~/packages/services/Api/utils/Interfaces"
 
 export function HomePage() {
-  const [userInfo, setUserInfo] = useState<IFaculty>()
+  const [userInfo, setUserInfo] = useState<IUser>()
   const loadUserInfo = () => {
     const _user = getUser()
-    if (_user) setUserInfo(_user as IFaculty)
+    if (_user) setUserInfo(_user as IUser)
   }
   useEffect(() => {
     eventBus.subscribe(REFRESH_PAGE, loadUserInfo)

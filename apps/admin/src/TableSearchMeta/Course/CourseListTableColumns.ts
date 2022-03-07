@@ -1,7 +1,7 @@
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
-import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
-import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
-import { CourseQueries } from "~/Services/Queries/Courses"
+import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
+import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
+import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 
 export const getCourseListTableColumns = (isModal = false, CourseID?: number): ITableMeta => {
   const columns: TableColumnType = [

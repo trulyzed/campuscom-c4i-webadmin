@@ -2,11 +2,12 @@ import { useState } from "react"
 import { Form, Button, Card, Typography, Input } from "antd"
 import { Error } from "~/Component/Error"
 import { Store } from "antd/lib/form/interface"
-import { AuthQueries } from "~/Services/Queries/Auth"
+import { AuthQueries } from "~/packages/services/Api/Queries/AdminQueries/Auth"
 import { Redirect } from "react-router"
-import { setLoginInfo } from "@packages/api/lib/utils/TokenStore"
+import { setLoginInfo } from "~/packages/services/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
+import { IUser } from "~/packages/services/Api/utils/Interfaces"
 
 interface IFormState {
   username: string
@@ -48,7 +49,7 @@ export function Login(props: {
         if (props.redirect) setRedirect("/")
       }
     }
-    if (response.success) setLoginInfo({ token: response.data.access, userName: "" })
+    if (response.success) setLoginInfo({ token: response.data.access, user: response.data as IUser })
     else if (Array.isArray(response.error) && response.error.length > 0) {
       setError(response.error[0].message)
     }

@@ -1,7 +1,7 @@
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
-import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
-import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
-import { OrderQueries } from "~/Services/Queries/Orders"
+import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
+import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
+import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
 
 export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITableMeta => {
   const columns: TableColumnType = [

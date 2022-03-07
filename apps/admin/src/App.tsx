@@ -6,7 +6,7 @@ import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "~/routes"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LoginModal } from "~/Component/Login/LoginModal"
-import { checkNewBuild, getToken } from "@packages/api/lib/utils/TokenStore"
+import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 
 export function App(): JSX.Element {
@@ -29,10 +29,6 @@ export function App(): JSX.Element {
       eventBus.unsubscribe(SHOW_LOGIN_MODAL)
       eventBus.unsubscribe(REDIRECT_TO_LOGIN)
     }
-  }, [])
-
-  useEffect(() => {
-    if (process.env.NODE_ENV === "production") checkNewBuild()
   }, [])
 
   return (
