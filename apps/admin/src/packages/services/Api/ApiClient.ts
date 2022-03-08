@@ -1,7 +1,8 @@
-import axios, { AxiosRequestConfig } from "axios"
+import axios, { AxiosError, AxiosRequestConfig } from "axios"
 import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { handleTrailingSlashAppend } from "~/packages/services/Api/utils/TrailingSlash"
+import { handleError } from "~/packages/services/Api/utils/HandleResponse"
 
 //type ResponseType = "list" | "retrieve" | "create" | "update" | "delete" | "other"
 
@@ -34,15 +35,6 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
       error: response.statusText,
     }
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      return {
-        code: error.response.status,
-        success: false,
-        data: null,
-        error: error.response.data?.errors || error.response.statusText,
-      }
-    } else {
-      throw error;
-    }
+    return handleError(error as AxiosError);
   }
 }

@@ -8,10 +8,12 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LoginModal } from "~/Component/Login/LoginModal"
 import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
+import { useGlobalErrorHandler } from "~/packages/services/Api/Hooks/useGlobalErrorHandler"
 
 export function App(): JSX.Element {
   const [redirectToLogin, setRedirectToLogin] = useState(false)
   const [showLoginModal, setShowLoginModal] = useState<boolean>(false)
+  useGlobalErrorHandler()
 
   useEffect(() => {
     const tokenNotExist = !getToken()

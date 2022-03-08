@@ -124,9 +124,7 @@ export function MetaDrivenForm({
     formInstance
       .validateFields()
       .then((validatedValues) => {
-        // console.log("validatedValues ", validatedValues)
         if (!isCustomFormFieldValuesValid) return
-        // console.log(validatedValues)
         const params: { [key: string]: any } = queryParams || validatedValues
         const mergedParams: { [key: string]: any } = {
           ...params,
@@ -140,10 +138,7 @@ export function MetaDrivenForm({
         props.onApplyChanges(mergedParams)
 
         if (!props.stopProducingQueryParams) {
-          // console.log("props.stopProducingQueryParams ", props.stopProducingQueryParams)
-          console.log("_mergedParams ", mergedParams)
           const _queryString = objectToQueryString(Object.keys(mergedParams).length > 0 ? mergedParams : null)
-          // console.log("_queryString ", _queryString, mergedParams)
           window.history && window.history.pushState({}, "", _queryString)
         }
       })
@@ -391,7 +386,6 @@ const SearchFormFields = (props: {
         })
         .map((field, i) => {
           let formField: any
-          console.log(field.label)
           switch (field.inputType) {
             case TEXT:
               formField = (
