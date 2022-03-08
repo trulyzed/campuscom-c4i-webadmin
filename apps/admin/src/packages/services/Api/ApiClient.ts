@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios"
 import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
-import { handleTrailingSlashAppend } from "~/packages/services/Api/utils/Api"
+import { handleTrailingSlashAppend } from "~/packages/services/Api/utils/TrailingSlash"
 
 //type ResponseType = "list" | "retrieve" | "create" | "update" | "delete" | "other"
 
