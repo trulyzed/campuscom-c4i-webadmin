@@ -2,12 +2,12 @@ import { useState } from "react"
 import { Form, Button, Card, Typography, Input } from "antd"
 import { Error } from "~/Component/Error"
 import { Store } from "antd/lib/form/interface"
-import { AuthQueries } from "~/packages/services/Api/Queries/AdminQueries/Auth"
 import { Redirect } from "react-router"
 import { setLoginInfo } from "~/packages/services/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { IUser } from "~/packages/services/Api/utils/Interfaces"
+import { login } from "~/packages/services/AuthService"
 
 interface IFormState {
   username: string
@@ -37,7 +37,7 @@ export function Login(props: {
     const { username, password } = values as IFormState
     setloading(EnumLoading.INPROGRESS)
     setError(undefined)
-    const response = await AuthQueries.login!({ data: { username, password } })
+    const response = await login({ username, password })
 
     setloading(EnumLoading.PENDING)
     if (props.page) {
