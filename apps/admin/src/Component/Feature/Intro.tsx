@@ -1,21 +1,18 @@
-import React from "react"
 import { Avatar, Card } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
-import { IFaculty } from "@packages/api/lib/utils/Interfaces"
+import { IUser } from "~/packages/services/Api/utils/Interfaces"
 
-export const Intro = (props: { userInfo: IFaculty }) => {
-  console.log("UserINfo:", props.userInfo)
-
+export const Intro = (props: { userInfo: IUser }) => {
   return (
     <Card title="Logged in as">
       <Card.Meta
         avatar={<Avatar icon={<UserOutlined />} />}
-        title={props.userInfo.SortName}
+        title={props.userInfo.username}
         description={
-          props.userInfo.Email ? (
+          props.userInfo.email ? (
             <>
               <MailOutlined />
-              <span style={{ marginLeft: "10px" }}>{props.userInfo.Email}</span>
+              <span style={{ marginLeft: "10px" }}>{props.userInfo.email}</span>
             </>
           ) : (
             ""

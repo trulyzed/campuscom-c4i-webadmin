@@ -1,5 +1,4 @@
-import React from "react"
-import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
 import { Button } from "antd"
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns"
 import { OrderSearchMeta } from "~/TableSearchMeta/Order/OrderSearchMeta"

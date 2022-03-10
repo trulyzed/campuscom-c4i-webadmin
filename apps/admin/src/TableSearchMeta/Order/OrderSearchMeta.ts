@@ -1,5 +1,5 @@
-import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
-import { StoreQueries } from "~/Services/Queries/Stores"
+import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
 export const OrderSearchMeta: IField[] = [
   {

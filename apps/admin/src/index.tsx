@@ -3,7 +3,6 @@ import * as Sentry from "@sentry/react"
 import * as serviceWorker from "~/serviceWorker"
 import { render } from "react-dom"
 import { App } from "~/App"
-import { RegisteGlobalhttpErrorHandlerr } from "~/Services/RegisteGlobalhttpErrorHandlerr"
 // import "antd/dist/antd.css"
 // import 'antd/dist/antd.dark.css';
 // import "antd/dist/antd.compact.css"
@@ -18,8 +17,6 @@ if (process.env.REACT_APP_SENTRY_RELEASE && process.env.REACT_APP_SENTRY_DSN) {
     dsn: process.env.REACT_APP_SENTRY_DSN
   })
 }
-
-RegisteGlobalhttpErrorHandlerr()
 
 const root = document.getElementById("root")
 render(<App />, root)

@@ -22,6 +22,7 @@
     "build:components": "yarn workspace @packages/components build",
     "build:admin": "yarn workspace admin build",
     "lint": "yarn workspaces run lint",
+    "lint:ts": "yarn workspaces run lint:ts",
     "prepare": "husky install"
   },
   "name": "hir-web-admin",

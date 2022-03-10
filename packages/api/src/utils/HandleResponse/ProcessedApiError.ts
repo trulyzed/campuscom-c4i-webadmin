@@ -19,7 +19,7 @@ interface IApiError {
 
 export interface ISimplifiedApiErrorMessage {
   code?: number
-  isGloabal?: boolean
+  isGlobal?: boolean
   propertyName?: string
   message: string
 }
@@ -109,23 +109,23 @@ export default class ProcessedApiError implements IProcessedApiError {
       case 200:
         return {
           message: this.retireveErrorText(error, "Something went wrong, please report the issue to Application Maintainer!"),
-          isGloabal: true,
+          isGlobal: true,
           code: 200
         }
       case 401:
-        return { message: this.retireveErrorText(error, "UnAuthorized"), isGloabal: true, code: 401 }
+        return { message: this.retireveErrorText(error, "UnAuthorized"), isGlobal: true, code: 401 }
       case 403:
-        return { message: this.retireveErrorText(error, "Forbidden"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Forbidden"), isGlobal: true }
       case 404:
-        return { message: this.retireveErrorText(error, "Resource not found"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Resource not found"), isGlobal: true }
       case 500:
-        return { message: this.retireveErrorText(error, "Internal Server Error"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Internal Server Error"), isGlobal: true }
       case 502:
-        return { message: this.retireveErrorText(error, "Bad Gateway"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Bad Gateway"), isGlobal: true }
       case 503:
-        return { message: this.retireveErrorText(error, "Service Unavailable"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Service Unavailable"), isGlobal: true }
       case 504:
-        return { message: this.retireveErrorText(error, "Gateway Timeout"), isGloabal: true }
+        return { message: this.retireveErrorText(error, "Gateway Timeout"), isGlobal: true }
       default:
         return undefined
     }
@@ -156,11 +156,11 @@ export default class ProcessedApiError implements IProcessedApiError {
   }
   _processSystem(error: IApiError): ISimplifiedApiErrorMessage | undefined {
     if (error.Context && Array.isArray(error.Context.MessageKeys)) {
-      return { message: error.Context.MessageKeys.map((x) => `- ${x} \n`).toString(), isGloabal: true }
+      return { message: error.Context.MessageKeys.map((x) => `- ${x} \n`).toString(), isGlobal: true }
     } else if (error.Description.includes("Duplicate entry")) {
-      return { message: errorMessageList.DUPLICATE_ENTRY, isGloabal: true }
+      return { message: errorMessageList.DUPLICATE_ENTRY, isGlobal: true }
     } else if (error.Description) {
-      return { message: errorMessageList[error.Description] || error.Description, isGloabal: true }
+      return { message: errorMessageList[error.Description] || error.Description, isGlobal: true }
     }
     return undefined
   }
