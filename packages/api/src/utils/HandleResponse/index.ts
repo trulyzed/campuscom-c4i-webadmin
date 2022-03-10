@@ -32,10 +32,10 @@ const handleError = (error: AxiosError): IApiResponse => {
 
   console.log("err ", response.error)
   response.error.forEach((err: ISimplifiedApiErrorMessage) => {
-    if (err.isGloabal) {
+    if (err.isGlobal) {
       eventBus.publish(HANDLE_GLOBAL_API_ERROR, [err])
     }
-    console.log("err.isGloabal ", err)
+    console.log("err.isGlobal ", err)
   })
   return response
 }

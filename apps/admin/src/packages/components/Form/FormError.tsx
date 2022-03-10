@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { Typography } from "antd"
 import { red } from "@ant-design/colors"
-import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 
 interface IFormError {
   errorMessages?: Array<ISimplifiedApiErrorMessage>

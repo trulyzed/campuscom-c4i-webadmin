@@ -25,7 +25,7 @@ import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryString
 import { FormInstance } from "antd/lib/form"
 import { FormMultipleCheckbox } from "~/packages/components/Form/FormMultipleCheckbox"
 import { FormMultipleRadio } from "~/packages/components/Form/FormMultipleRadio"
-import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { FormError } from "~/packages/components/Form/FormError"
 import { FormTextArea } from "~/packages/components/Form/FormTextArea"
 import { FormInputNumber } from "~/packages/components/Form/FormInputNumber"

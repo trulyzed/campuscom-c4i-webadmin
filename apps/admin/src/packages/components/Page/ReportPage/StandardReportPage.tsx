@@ -3,7 +3,7 @@ import { Row } from "antd"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
 import { IField } from "~/packages/components/Form/common"
 import { getToken } from "~/packages/services/Api/utils/TokenStore"
-import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 
 export interface IStandardReportPage {

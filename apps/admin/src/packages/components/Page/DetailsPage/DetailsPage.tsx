@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { IProcessedApiError } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { IApiErrorProcessor } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/packages/components/Page/DetailsPage/DetailsSearchTab"
 import { DetailsTableTab, IDetailsTableTabProp } from "~/packages/components/Page/DetailsPage/DetailsTableTab"
@@ -19,7 +19,7 @@ import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigatio
 export function DetailsPage(props: IDetailsPage) {
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
-  const [error, setError] = useState<IProcessedApiError>()
+  const [error, setError] = useState<IApiErrorProcessor>()
   const [meta, setMeta] = useState<IDetailsTabMeta[]>([])
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()

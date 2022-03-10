@@ -5,7 +5,7 @@ import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { IField } from "~/packages/components/Form/common"
 import { Form } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
 
 export const MetaDrivenFormModal = (props: {

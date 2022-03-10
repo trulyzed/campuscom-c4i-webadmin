@@ -1,6 +1,6 @@
 import React from "react"
 import { Modal } from "~/packages/components/Modal/Modal"
-import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { FormInstance } from "antd/lib/form"
 import { CustomFormStructure } from "~/packages/components/Form/CustomFormStructure"
 
