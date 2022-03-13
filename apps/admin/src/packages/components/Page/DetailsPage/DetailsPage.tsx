@@ -95,7 +95,7 @@ export function DetailsPage(props: IDetailsPage) {
     setLoading(true)
     setError(undefined)
     props
-      .getDetailsPageContent()
+      .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
         if (x.success && x.data) {
           const { tabs, pageTitle } = props.getMeta(x.data, props.entityType, props.entityID)

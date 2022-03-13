@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import { Modal } from "~/packages/components/Modal/Modal"
 import { zIndexLevel } from "~/packages/components/zIndexLevel"
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { IField } from "~/packages/components/Form/common"
 import { Form } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export const MetaDrivenFormModal = (props: {
   title: React.ReactNode
@@ -16,7 +16,7 @@ export const MetaDrivenFormModal = (props: {
   isHorizontal?: boolean
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
-  formSubmitApi: (Params: any) => Promise<IApiResponse>
+  formSubmitApi: IQuery
   closeModal: () => void
   refreshEventAfterFormSubmission?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }) => {
@@ -33,7 +33,7 @@ export const MetaDrivenFormModal = (props: {
   const submit = (newValues: { [key: string]: any }) => {
     setError([])
     setLoading(true)
-    props.formSubmitApi(newValues).then((x) => {
+    props.formSubmitApi({ params: newValues }).then((x) => {
       if (x.success) {
         if (props.refreshEventAfterFormSubmission && typeof props.refreshEventAfterFormSubmission === "string")
           eventBus.publish(props.refreshEventAfterFormSubmission)

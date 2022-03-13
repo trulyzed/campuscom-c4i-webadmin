@@ -1,10 +1,11 @@
 import React from "react"
 import { Button, Dropdown, Menu } from "antd"
-import { IApiResponse, RESPONSE_TYPE } from "~/packages/services/Api/utils/Interfaces"
+import { RESPONSE_TYPE } from "~/packages/services/Api/utils/Interfaces"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export const DownloadButton = (props: {
-  searchFunc: (Params: any, Header: any) => Promise<IApiResponse>
+  searchFunc: IQuery
   searchParams: { [key: string]: any }
   setDownloading: (flag: boolean) => void
   downloading: boolean
@@ -21,7 +22,7 @@ export const DownloadButton = (props: {
     }
 
     props.setDownloading(true)
-    props.searchFunc(props.searchParams, header).finally(() => props.setDownloading(false))
+    props.searchFunc({ params: props.searchParams, headers: header }).finally(() => props.setDownloading(false))
   }
   return (
     <Dropdown

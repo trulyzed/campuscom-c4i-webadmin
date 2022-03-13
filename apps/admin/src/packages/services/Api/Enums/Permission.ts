@@ -76,6 +76,7 @@ export enum ApiPermissionClass {
   PaymentLog = 'PaymentLogViewSet',
   Permission = 'PermissionViewSet',
   Persona = 'PersonaView',
+  Preference = 'PreferenceViewSet',
   Product = 'ProductViewSet',
   Profile = 'ProfileViewSet',
   ProfileActivity = 'GetUserActivities',

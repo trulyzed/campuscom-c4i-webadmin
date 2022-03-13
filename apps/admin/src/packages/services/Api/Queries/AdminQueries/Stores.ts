@@ -1,13 +1,15 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/types";
+import { ConstructQuery } from "./Proxy"
+import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
+import { IStoreQueries } from "./Proxy/Stores"
 
-export const StoreQueries:Partial<IQuery> = {
-  getList: async (data) => {
+export const StoreQueries:IStoreQueries = {
+  getList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.ALL_STORE,
       ...data,
       method: "GET"
     })
-  },
+  }, {operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}),
 }

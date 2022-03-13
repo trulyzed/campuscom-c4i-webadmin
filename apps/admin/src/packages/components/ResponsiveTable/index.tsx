@@ -1,6 +1,6 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { TableProps, ColumnType } from "antd/lib/table"
 import { Breakpoint } from "antd/lib/_util/responsiveObserve"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export { ResponsiveTable } from "~/packages/components/ResponsiveTable/Responsive"
 export {
@@ -31,7 +31,7 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   columns: TableColumnType
   tableName?: string
   searchParams?: any
-  searchFunc?: (Params: any, headers?: { [key: string]: any }) => Promise<IApiResponse>
+  searchFunc?: IQuery
   dataLoaded?: (Params: any) => void
   breakpoints?: Breakpoint[]
   isModal?: boolean

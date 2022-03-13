@@ -5,8 +5,6 @@ import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Order
 
 export function OrderDetailsPage(props: RouteComponentProps<{ orderID?: string }>) {
   const OrderID = props?.match?.params?.orderID
-  const Param: { [key: string]: any } = { id: OrderID }
-  const queryFunc = () => OrderQueries.getSingle!({ params: Param })
 
-  return <DetailsPage getMeta={getOrderDetailsMeta} getDetailsPageContent={queryFunc} entityType="order" entityID={OrderID} titleKey="order_ref" />
+  return <DetailsPage getMeta={getOrderDetailsMeta} getDetailsPageContent={OrderQueries.getSingle} entityType="order" entityID={OrderID} titleKey="order_ref" />
 }

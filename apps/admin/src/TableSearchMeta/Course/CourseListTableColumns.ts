@@ -1,4 +1,3 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
@@ -42,10 +41,6 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
 
   return {
     columns,
-    searchFunc: async (Params: { [key: string]: any }): Promise<IApiResponse> => {
-      return CourseQueries.getPaginatedList!({params: {...Params}}).then(data => {
-        return data
-      })
-    },
+    searchFunc: CourseQueries.getPaginatedList,
   }
 }

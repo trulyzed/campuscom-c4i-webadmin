@@ -2,16 +2,16 @@ import React, { useEffect, useState } from "react"
 import { Select, Spin } from "antd"
 import { IField, IGeneratedField, SearchFieldWrapper } from "~/packages/components/Form/common"
 import { LookupModal } from "~/packages/components/Modal/LookupModal/LookupModal"
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { TableColumnType } from "~/packages/components/ResponsiveTable"
 import { SearchOutlined } from "@ant-design/icons"
 import { debounce } from "@packages/utilities/lib/debounce"
 import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export interface ILookupOpenButton extends IGeneratedField {
   displayKey: string
   valueKey: string
-  searchFunc: (Params: { [key: string]: any }) => Promise<IApiResponse>
+  searchFunc: IQuery
   searchFieldName?: string
   lookupModalTitle: string
   disabled?: boolean
@@ -41,7 +41,7 @@ export function LookupOpenButton(props: ILookupOpenButton) {
         defaultValue === "null"
       )
     ) {
-      props.searchFunc({ [props.valueKey]: defaultValue }).then((response) => {
+      props.searchFunc({ params: { [props.valueKey]: defaultValue } }).then((response) => {
         if (response.success) {
           closeModal(response.data)
         }
@@ -93,7 +93,7 @@ export function LookupOpenButton(props: ILookupOpenButton) {
   const handleSearch = debounce((searchInput: any): void => {
     if (!searchInput || searchInput === "") return
     setLoading(true)
-    props.searchFunc({ [props.searchFieldName || props.displayKey]: searchInput }).then((x) => {
+    props.searchFunc({ params: { [props.searchFieldName || props.displayKey]: searchInput } }).then((x) => {
       if (x.success) {
         setOptions(x.data)
       }

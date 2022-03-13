@@ -1,27 +1,29 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/types";
+import { ConstructQuery } from "./Proxy"
+import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
+import { ICourseProviderQueries } from "./Proxy/CourseProviders"
 
-export const CourseProviderQueries:IQuery = {
-  getSingle: async (data) => {
+export const CourseProviderQueries:ICourseProviderQueries = {
+  getSingle: ConstructQuery(data => {
     return adminApi({
       endpoint: `${endpoints.COURSE_PROVIDER}/${data!.params!.id}`,
       ...data,
       method: "GET"
     })
-  },
-  getPaginatedList: async (data) => {
+  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  getPaginatedList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
-  },
-  getList: async (data) => {
+  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  getList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
-  },
+  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
 }
