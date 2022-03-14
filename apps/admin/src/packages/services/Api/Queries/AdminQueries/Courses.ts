@@ -3,6 +3,7 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { ConstructQuery } from "./Proxy"
 import { ICourseQueries } from "./Proxy/Courses"
+import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const CourseQueries:ICourseQueries = {
   getSingle: ConstructQuery(data => {
@@ -22,4 +23,13 @@ export const CourseQueries:ICourseQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
+  create: ConstructQuery(data => {
+    const payload = convertToFormData(data?.data || {})
+    return adminApi({
+      endpoint: endpoints.COURSE,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}),
 }

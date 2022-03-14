@@ -12,6 +12,7 @@ interface IRequestConfig {
   method?: AxiosRequestConfig['method']
   params?: AxiosRequestConfig['params']
   data?: AxiosRequestConfig['data']
+  headers?: AxiosRequestConfig['headers']
   //responseType: ResponseType
 }
 

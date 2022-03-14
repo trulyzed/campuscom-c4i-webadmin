@@ -33,7 +33,7 @@ export const MetaDrivenFormModal = (props: {
   const submit = (newValues: { [key: string]: any }) => {
     setError([])
     setLoading(true)
-    props.formSubmitApi({ params: newValues }).then((x) => {
+    props.formSubmitApi({ data: newValues }).then((x) => {
       if (x.success) {
         if (props.refreshEventAfterFormSubmission && typeof props.refreshEventAfterFormSubmission === "string")
           eventBus.publish(props.refreshEventAfterFormSubmission)

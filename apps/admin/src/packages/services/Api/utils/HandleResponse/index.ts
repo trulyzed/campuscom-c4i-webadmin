@@ -11,8 +11,8 @@ export const handleError = (error: AxiosError): IApiResponse => {
     success: false
   }
   if (error.isAxiosError && error?.response) {
-    response.error = error.response.data;
     if (typeof error.response.data !== "string") {
+      response.error = error.response.data;
       response.code = error.response.data["status_code"];
     } else {
       response.code = error.response.status;
