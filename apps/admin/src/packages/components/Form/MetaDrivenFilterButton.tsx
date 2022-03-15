@@ -1,7 +1,7 @@
 import React from "react";
 import { IField } from "~/packages/components/Form/common";
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces";
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton";
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types";
 
 export const MetaDrivenFilterButton = (props: {
 	searchTitle?: string;
@@ -9,7 +9,7 @@ export const MetaDrivenFilterButton = (props: {
 	searchMetaName: string;
 	defaultFormValue?: { [key: string]: any };
 	initialFormValue?: { [key: string]: any };
-	formSubmitApi: (param: { [key: string]: any }) => Promise<IApiResponse>;
+	formSubmitApi: IQuery;
 }) => {
 	return (
 		<>

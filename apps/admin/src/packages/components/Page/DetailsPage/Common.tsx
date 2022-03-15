@@ -1,8 +1,8 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces";
 import { IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces";
 import { IDetailsCustomTabProp } from "~/packages/components/Page/DetailsPage/DetailsCustomTab";
 import { IDetailsSearchTabProp } from "~/packages/components/Page/DetailsPage/DetailsSearchTab";
 import { IDetailsTableTabProp } from "~/packages/components/Page/DetailsPage/DetailsTableTab";
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types";
 
 export const tabTypes = {
 	summary: "summary",
@@ -36,7 +36,7 @@ export interface IDetailsPage {
 		entityType?: string,
 		entityID?: number | string
 	) => IDetailsMeta;
-	getDetailsPageContent: () => Promise<IApiResponse>;
+	getDetailsPageContent: IQuery;
 	entityType?: string;
 	entityID?: number | string;
 	titleKey?: string;

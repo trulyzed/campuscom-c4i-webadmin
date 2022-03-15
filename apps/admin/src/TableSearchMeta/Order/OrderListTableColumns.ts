@@ -1,4 +1,3 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
@@ -39,10 +38,6 @@ export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITa
 
   return {
     columns,
-    searchFunc: async (Params: { [key: string]: any }): Promise<IApiResponse> => {
-      return OrderQueries.getPaginatedList!({params: {...Params}}).then(data => {
-        return data
-      })
-    },
+    searchFunc: OrderQueries.getPaginatedList
   }
 }

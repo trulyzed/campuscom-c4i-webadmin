@@ -36,7 +36,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
           Object.keys(props.searchParams).forEach((key) => {
             if (props.searchParams[key] === "") delete props.searchParams[key]
           })
-        props.searchFunc(props.searchParams || refreshParams).then((x) => {
+        props.searchFunc({ params: props.searchParams || refreshParams }).then((x) => {
           if (x.success) {
             let tableData: Array<any> = []
             if (Array.isArray(x.data)) {

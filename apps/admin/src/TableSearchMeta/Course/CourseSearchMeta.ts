@@ -10,10 +10,7 @@ export const CourseSearchMeta: IField[] = [
   {
     label: "Course Provider",
     inputType: DROPDOWN,
-    refLookupService: () =>
-      CourseProviderQueries.getList!().then(data => {
-        return data
-      }),
+    refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id"

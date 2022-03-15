@@ -4,15 +4,15 @@ import { FilterOutlined } from "@ant-design/icons"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
 import { IField } from "~/packages/components/Form/common"
 import { SimpleBarChart } from "~/packages/components/Charts/SimpleBarChart"
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { IChartConfig } from "~/packages/components/Charts/IChartConfig"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export interface IStandardReportPage {
   config: IChartConfig
   meta?: IField[]
   metaName?: string
-  searchFunc: (Params: { [key: string]: any }, from?: number, to?: number) => Promise<IApiResponse>
+  searchFunc: IQuery
   initialFormValue: { [key: string]: string }
 }
 

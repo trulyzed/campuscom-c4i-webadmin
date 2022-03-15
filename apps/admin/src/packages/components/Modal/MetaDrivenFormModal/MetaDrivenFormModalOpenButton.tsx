@@ -1,4 +1,3 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { Button } from "antd"
 import { BaseButtonProps } from "antd/lib/button/button"
 import React, { CSSProperties, useState } from "react"
@@ -6,6 +5,7 @@ import { IField } from "~/packages/components/Form/common"
 import { MetaDrivenFormModal } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { IconButton, iconType } from "~/packages/components/Form/Buttons/IconButton"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
   iconType?: iconType
@@ -15,7 +15,7 @@ interface IMetaDrivenFormModalOpenButton {
   formMeta: IField[]
   formMetaName?: string
   isHorizontal?: boolean
-  formSubmitApi: (Params: { [key: string]: any }) => Promise<IApiResponse>
+  formSubmitApi: IQuery
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>

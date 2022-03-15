@@ -5,6 +5,7 @@ import { ResponsiveTable, IDataTableProps } from "~/packages/components/Responsi
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { MetaDrivenFilterButton } from "~/packages/components/Form/MetaDrivenFilterButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export interface IBlockComponentProp {
   component: React.FunctionComponent<any>
@@ -31,15 +32,15 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
 
   const funcName = props.tableProps.searchFunc ? props.tableProps.searchFunc?.name : "generic"
   const func = {
-    [funcName]: function (Params: { [key: string]: any }) {
-      setSearchParams(Params)
+    [funcName]: function (params) {
+      setSearchParams(params?.params)
       return Promise.resolve({
         code: 200,
         success: true,
         error: false,
         data: undefined
       })
-    }
+    } as IQuery
   }
 
   const searchFilterButton: React.ReactNode = (

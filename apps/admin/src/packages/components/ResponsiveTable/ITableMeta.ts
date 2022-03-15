@@ -1,5 +1,5 @@
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { TableColumnType } from "~/packages/components/ResponsiveTable"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export interface ITableMeta {
   columns: TableColumnType
@@ -8,7 +8,7 @@ export interface ITableMeta {
   hidePagination?: boolean
   hideSettings?: boolean
   hideDownload?: boolean
-  searchFunc: (Params: { [key: string]: any }) => Promise<IApiResponse>
+  searchFunc: IQuery
 }
 
 export interface ITableMetaWithDataSource {

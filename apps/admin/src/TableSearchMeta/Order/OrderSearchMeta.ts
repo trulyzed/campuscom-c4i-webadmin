@@ -5,10 +5,7 @@ export const OrderSearchMeta: IField[] = [
   {
     label: "Store",
     inputType: DROPDOWN,
-    refLookupService: () =>
-    StoreQueries.getList!().then(data => {
-      return data
-    }),
+    refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
     valueKey: "id"
