@@ -1,3 +1,4 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
@@ -7,15 +8,23 @@ import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormM
 import { ConstructQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = ConstructQuery(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })) as IQuery, CourseQueries.update.__permission)
+
   const summary: CardContainer = {
     title: course.title,
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Course`}
         formMeta={CourseFormMeta}
-        formSubmitApi={ConstructQuery(((data) => CourseQueries.update({ ...data, params: { id: course.id } })) as IQuery, CourseQueries.update.__permission)}
+        formSubmitApi={updateEntity}
         initialFormValue={{ ...course, provider: course.provider.id }}
         defaultFormValue={{ courseId: course.id }}
         buttonLabel={`Update Course`}
