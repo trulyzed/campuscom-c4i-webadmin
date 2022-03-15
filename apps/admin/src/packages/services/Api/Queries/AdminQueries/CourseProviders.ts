@@ -34,9 +34,9 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
-    }).then(resp => ({
+    }).then(resp => resp.success ? ({
       ...resp,
       data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
-    }))
+    }) : resp)
   }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
 }

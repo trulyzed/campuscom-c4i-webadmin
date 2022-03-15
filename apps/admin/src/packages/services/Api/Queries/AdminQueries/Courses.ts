@@ -17,9 +17,11 @@ export const CourseQueries:ICourseQueries = {
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
 
   getPaginatedList: ConstructQuery(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
-      endpoint: endpoints.COURSE,
+      endpoint: endpoints.ALL_COURSE,
       ...data,
+      params: {...nonPaginationParams},
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),

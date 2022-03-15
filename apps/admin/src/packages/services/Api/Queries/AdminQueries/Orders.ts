@@ -7,7 +7,6 @@ import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api
 export const OrderQueries:IOrderQueries = {
   getSingle: ConstructQuery(data => {
     const {id, ...params} = data?.params;
-
     return adminApi({
       endpoint: `${endpoints.CART}/${data!.params!.id}`,
       ...data,
@@ -15,10 +14,13 @@ export const OrderQueries:IOrderQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}),
+
   getPaginatedList: ConstructQuery(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
-      endpoint: endpoints.CART,
+      endpoint: endpoints.ALL_CART,
       ...data,
+      params: {...nonPaginationParams},
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}),
