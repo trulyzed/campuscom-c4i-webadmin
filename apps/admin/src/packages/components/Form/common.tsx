@@ -1,8 +1,8 @@
 import React from "react"
 import { Form } from "antd"
-import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -51,7 +51,7 @@ export interface IField {
   valueKey2?: string
   extraProps?: { [key: string]: any }
   options?: any[]
-  refLookupService?: () => Promise<IApiResponse>
+  refLookupService?: IQuery
   customFilterComponent?: React.FunctionComponent<any>
   rules?: Rule[]
   required?: boolean

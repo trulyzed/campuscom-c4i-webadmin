@@ -8,7 +8,6 @@ import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormDa
 export const CourseQueries:ICourseQueries = {
   getSingle: ConstructQuery(data => {
     const {id, ...params} = data?.params;
-
     return adminApi({
       endpoint: `${endpoints.COURSE}/${data!.params!.id}`,
       ...data,
@@ -16,6 +15,7 @@ export const CourseQueries:ICourseQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
+
   getPaginatedList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.COURSE,
@@ -23,6 +23,7 @@ export const CourseQueries:ICourseQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
+
   create: ConstructQuery(data => {
     const payload = convertToFormData(data?.data || {})
     return adminApi({
@@ -30,6 +31,18 @@ export const CourseQueries:ICourseQueries = {
       method: "POST",
       ...data,
       data: payload,
+    })
+  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}),
+
+  update: ConstructQuery(data => {
+    const payload = convertToFormData(data?.data || {})
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.COURSE}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
     })
   }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}),
 }

@@ -12,6 +12,7 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+
   getPaginatedList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.COURSE_PROVIDER,
@@ -19,11 +20,23 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+
   getList: ConstructQuery(data => {
     return adminApi({
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
+  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+
+  getLookupData: ConstructQuery(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_COURSE_PROVIDER,
+      ...data,
+      method: "GET"
+    }).then(resp => ({
+      ...resp,
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+    }))
   }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
 }

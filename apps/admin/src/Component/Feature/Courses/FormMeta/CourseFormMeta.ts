@@ -7,7 +7,7 @@ export const CourseFormMeta: IField[] = [
     label: "Course Provider",
     inputType: DROPDOWN,
     fieldName: "provider",
-    refLookupService: CourseProviderQueries.getList,
+    refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }]

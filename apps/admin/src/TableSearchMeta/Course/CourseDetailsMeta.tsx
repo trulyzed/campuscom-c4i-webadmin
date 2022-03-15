@@ -1,14 +1,34 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
+import { ConstructQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { renderBoolean } from "~/packages/components/ResponsiveTable"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
-  const basicInfo: CardContainer = {
-    title: "Basic Info",
+  const summary: CardContainer = {
+    title: course.title,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Course`}
+        formMeta={CourseFormMeta}
+        formSubmitApi={ConstructQuery(((data) => CourseQueries.update({ ...data, params: { id: course.id } })) as IQuery, CourseQueries.update.__permission)}
+        initialFormValue={{ ...course, provider: course.provider.id }}
+        defaultFormValue={{ courseId: course.id }}
+        buttonLabel={`Update Course`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
+    ],
     contents: [
       { label: "Title", value: course.title, render: undefined },
       { label: "Code", value: course.code, render: undefined },
       { label: 'Inquiry URL', value: course.inquiry_url },
-      //{ label: 'Course Provider', value: course.provider },
+      { label: 'Course Provider', value: course.provider.name },
       { label: 'External ID', value: course.external_id },
       { label: 'External URL', value: course.external_url },
       { label: 'Slug', value: course.slug },
@@ -18,12 +38,12 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       { label: 'Learning Outcome', value: course.learning_outcome },
       { label: 'Image', value: course.course_image_uri },
       { label: 'Syllabus URL', value: course.syllabus_url },
-      { label: 'Content Ready', value: course.content_ready },
+      { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
     ]
   }
 
   const summaryMeta: IDetailsSummary = {
-    summary: [basicInfo]
+    summary: [summary]
   }
 
   const tabMetas: IDetailsTabMeta[] = [

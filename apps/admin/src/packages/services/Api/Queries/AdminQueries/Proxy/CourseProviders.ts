@@ -4,4 +4,5 @@ export interface ICourseProviderQueries {
   getSingle: IQuery
   getPaginatedList: IQuery
   getList: IQuery
+  getLookupData: IQuery
 }

@@ -12,4 +12,15 @@ export const StoreQueries:IStoreQueries = {
       method: "GET"
     })
   }, {operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}),
+
+  getLookupData: ConstructQuery(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_STORE,
+      ...data,
+      method: "GET"
+    }).then(resp => ({
+      ...resp,
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+    }))
+  }, {operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}),
 }
