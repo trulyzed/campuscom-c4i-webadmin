@@ -17,14 +17,14 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
       {
         title: "Courses",
         submenu: [],
-        url: "/courses/list",
+        url: "/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
       {
         title: "Financials",
         url: "",
         submenu: [
-          { title: "Orders ", url: "/financials/orders/list", submenu: [], permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) },
+          { title: "Orders ", url: "/financials/order", submenu: [], permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) },
         ],
         permission: true
       },

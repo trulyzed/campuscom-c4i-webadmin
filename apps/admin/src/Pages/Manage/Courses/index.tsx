@@ -17,7 +17,7 @@ export const List = () => {
   const createEntity = ConstructQuery(((data) => CourseQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/courses/${resp.data.id}`)
+      setRedirectAfterCreate(`/course/${resp.data.id}`)
     }
     return resp
   })) as IQuery, CourseQueries.create.__permission)
@@ -36,9 +36,6 @@ export const List = () => {
               formTitle={`Add Course`}
               formMeta={CourseFormMeta}
               formSubmitApi={createEntity}
-              initialFormValue={{
-                IsActive: true
-              }}
               buttonLabel={`Add Course`}
               iconType="create"
             />

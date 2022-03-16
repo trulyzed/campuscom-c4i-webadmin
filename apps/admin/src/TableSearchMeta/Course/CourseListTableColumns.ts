@@ -7,7 +7,7 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
     {
       title: "Title",
       dataIndex: "title",
-      render: (text: any, record: any) => renderLink(`/courses/${record.id}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/course/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.title - b.title
     },
     {

@@ -3,7 +3,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
-    title: "Basic Info",
+    title: order.order_ref,
     contents: [
       { label: 'Store', value: order.store, render: (text: any) => text.name },
       { label: 'Student', value: order.profile, render: (text: any) => `${text.first_name} ${text.last_name}` },
@@ -29,7 +29,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
   ]
 
   return {
-    pageTitle: `Order Title - ${order.title}`,
+    pageTitle: `Order Title - ${order.order_ref}`,
     tabs: tabMetas
   }
 }
