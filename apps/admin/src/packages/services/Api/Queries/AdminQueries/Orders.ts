@@ -12,6 +12,15 @@ export const OrderQueries:IOrderQueries = {
       ...data,
       params,
       method: "GET"
+    }).then(resp => {
+      if (!resp.success) return resp
+      const adjustedData = resp.data
+
+      console.log(adjustedData)
+      return {
+        ...resp,
+        data: adjustedData
+      }
     })
   }, {operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}),
 
