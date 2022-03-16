@@ -7,7 +7,7 @@ export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITa
     {
       title: "Order Ref",
       dataIndex: "ref_id",
-      render: (text: any, record: any) => renderLink(`/financials/order/${record.id}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/storefront-data/order/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.title - b.title
     },
     {

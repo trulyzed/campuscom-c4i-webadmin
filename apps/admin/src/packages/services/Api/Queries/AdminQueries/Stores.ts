@@ -18,9 +18,9 @@ export const StoreQueries:IStoreQueries = {
       endpoint: endpoints.ALL_STORE,
       ...data,
       method: "GET"
-    }).then(resp => ({
+    }).then(resp => resp.success ? ({
       ...resp,
       data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
-    }))
+    }) : resp)
   }, {operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}),
 }

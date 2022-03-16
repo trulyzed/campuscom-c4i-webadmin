@@ -17,7 +17,7 @@ export const List = () => {
   const createEntity = ConstructQuery(((data) => CourseQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/course/${resp.data.id}`)
+      setRedirectAfterCreate(`/institute/course/${resp.data.id}`)
     }
     return resp
   })) as IQuery, CourseQueries.create.__permission)

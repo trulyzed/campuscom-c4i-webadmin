@@ -11,22 +11,26 @@ export interface ISidebarMenu {
 
 export const getSidebarMenus = (): ISidebarMenu[] => [
   {
-    title: "Manage",
+    title: "Institute",
     url: "",
     submenu: [
       {
         title: "Courses",
         submenu: [],
-        url: "/course",
+        url: "/institute/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
+    ]
+  },
+  {
+    title: "Storefront Data",
+    url: "",
+    submenu: [
       {
-        title: "Financials",
-        url: "",
-        submenu: [
-          { title: "Orders ", url: "/financials/order", submenu: [], permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) },
-        ],
-        permission: true
+        title: "Orders ",
+        url: "/storefront-data/order",
+        submenu: [],
+        permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
     ]
   }
