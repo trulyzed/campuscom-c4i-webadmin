@@ -1,5 +1,6 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
+import { getCartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -34,6 +35,19 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "orderSummaryTab"
+    },
+    {
+      tabTitle: "Invoice",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getCartItemListTableColumns(order.id),
+          searchParams: { id: order.id },
+          refreshEventName: "REFRESH_DISABILITES_TAB",
+        }
+      },
+      helpKey: "invoiceTab"
     },
   ]
 

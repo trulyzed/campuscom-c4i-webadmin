@@ -15,8 +15,6 @@ export const OrderQueries:IOrderQueries = {
     }).then(resp => {
       if (!resp.success) return resp
       const adjustedData = resp.data
-
-      console.log(adjustedData)
       return {
         ...resp,
         data: adjustedData
