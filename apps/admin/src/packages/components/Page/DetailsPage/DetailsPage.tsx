@@ -101,7 +101,6 @@ export function DetailsPage(props: IDetailsPage) {
       .then((x) => {
         if (x.success && x.data) {
           const { tabs, pageTitle } = props.getMeta(x.data, props.entityType, props.entityID)
-          console.log(pageTitle)
           lastVisitedProcessor.updateName(pageTitle)
 
           setMeta(tabs)

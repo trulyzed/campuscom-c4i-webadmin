@@ -86,7 +86,7 @@ class HistoryProcessor {
 			url,
 			name,
 			pageName:
-				pageName.length > 1
+				pageName.length > 1 && pageName[1]
 					? removeSpaceBetweenCapitalLetters(pageName[1])
 					: undefined,
 		});

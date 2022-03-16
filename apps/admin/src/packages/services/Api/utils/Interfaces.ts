@@ -1,19 +1,25 @@
 import { ApiPermissionAction, ApiPermissionClass, PermissionContext } from "~/packages/services/Api/Enums/Permission"
 
-export interface IApiPermission {
+export type IApiPermission = {
   action: `${ApiPermissionAction}`;
   operation: `${ApiPermissionClass}`;
+  is_public?: false;
+} | {
+  is_public: true
 }
+
 export interface IPermissionContext { type: `${PermissionContext}`, values: string[] }
 
 export interface IUser {
-  username: string;
-  email: string;
-  is_superuser: boolean;
-  mfa_enabled: boolean;
-  permissions: IApiPermission[];
-  context: IPermissionContext;
-  menu_permissions: string[];
+  fullname: string
+  first_name: string
+  last_name: string
+  email: string
+  is_superuser: boolean
+  mfa_enabled: boolean
+  permissions: IApiPermission[]
+  context: IPermissionContext
+  menu_permissions: string[]
 }
 
 export interface ApiConfig {

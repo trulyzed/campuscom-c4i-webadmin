@@ -8,5 +8,6 @@ export const checkAdminApiPermission = (QueryFunc: IQuery): boolean => {
   if (!user) return false
   if (user.is_superuser) return true
   else if (!QueryFunc.__permission) return false
+  else if (QueryFunc.__permission.is_public) return true
   return checkApiPermission(QueryFunc.__permission, user.permissions)
 }

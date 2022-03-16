@@ -1,7 +1,9 @@
-import { IApiPermission } from "~/packages/services/Api/utils/Interfaces"
-import { IQuery, IPublicQuery } from "./types"
+import { IApiPermission, IApiResponse } from "~/packages/services/Api/utils/Interfaces"
+import { IQuery, IQueryParams } from "./types"
 
-export const ConstructQuery = (query: IPublicQuery, permission: IApiPermission): IQuery => {
+interface IQueryWoPermission {(data?: IQueryParams) : Promise<IApiResponse>}
+
+export const ConstructQuery = (query: IQueryWoPermission, permission: IApiPermission): IQuery => {
   const func: IQuery = query as unknown as IQuery
   func.__permission = permission
   return func
