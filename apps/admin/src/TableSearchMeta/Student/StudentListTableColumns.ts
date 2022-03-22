@@ -7,7 +7,7 @@ export const studentListTableColumns: TableColumnType = [
   {
     title: "First Name",
     dataIndex: "first_name",
-    render: (text: any, record: any) => renderLink(`/storefront-data/student/${record.id}`, text),
+    render: (text: any, record: any) => record.id ? renderLink(`/storefront-data/student/${record.id}`, text) : text,
     sorter: (a: any, b: any) => a.first_name - b.first_name
   },
   {

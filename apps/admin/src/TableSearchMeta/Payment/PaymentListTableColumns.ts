@@ -19,7 +19,7 @@ export const getPaymentListTableColumns = (isModal = false, OrderID?: number): I
     {
       title: 'Order Ref',
       dataIndex: 'cart',
-      render: (text: any, record: any) => text.order_ref,
+      render: (text: any, record: any) => renderLink(`/storefront-data/order/${text.id}`, text.order_ref, isModal),
     },
     {
       title: 'Store Payment Gateway',
