@@ -13,6 +13,7 @@ import { DetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsSu
 import { IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
 import { GoToSearchResultPageButton } from "~/packages/components/Page/DetailsPage/GoToSearchResultPageButton"
+import { lastVisitedProcessor, UPDATE_HISTORY } from "~/packages/components/HistoryProcessor"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 
@@ -94,11 +95,13 @@ export function DetailsPage(props: IDetailsPage) {
     if (!checkAdminApiPermission(props.getDetailsPageContent)) return
     setLoading(true)
     setError(undefined)
+    eventBus.publish(UPDATE_HISTORY)
     props
       .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
         if (x.success && x.data) {
           const { tabs, pageTitle } = props.getMeta(x.data, props.entityType, props.entityID)
+          lastVisitedProcessor.updateName(pageTitle)
 
           setMeta(tabs)
           setTitle(pageTitle)

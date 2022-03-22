@@ -49,7 +49,7 @@ export function Login(props: {
         if (props.redirect) setRedirect("/")
       }
     }
-    if (response.success) setLoginInfo({ token: response.data.access, user: response.data as IUser })
+    if (response.success) setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
     else if (Array.isArray(response.error) && response.error.length > 0) {
       setError(response.error[0].message)
     }

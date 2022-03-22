@@ -7,7 +7,7 @@ export const Intro = (props: { userInfo: IUser }) => {
     <Card title="Logged in as">
       <Card.Meta
         avatar={<Avatar icon={<UserOutlined />} />}
-        title={props.userInfo.username}
+        title={props.userInfo.fullname}
         description={
           props.userInfo.email ? (
             <>

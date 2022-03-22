@@ -1,5 +1,5 @@
-import { IPublicQuery } from "./types"
+import { IQuery } from "./types"
 
 export interface IAuthQueries {
-  login: IPublicQuery
+  login: IQuery
 }

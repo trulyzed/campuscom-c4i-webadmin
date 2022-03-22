@@ -1,5 +1,6 @@
 import React, { Suspense } from "react"
 import { Col, Layout, Row, Spin } from "antd"
+import { Link } from "react-router-dom"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
@@ -25,6 +26,23 @@ export function DefaultLayout(props: ILayoutProps) {
           <Row>
             <Col flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
+            </Col>
+            <Col flex="auto" role="navigation" aria-label="Go to home page">
+              <h2 aria-label="School Name" style={{ marginTop: "-7px" }}>
+                <Link
+                  id="main-title"
+                  style={{
+                    color: "white",
+                    fontSize: "25px",
+                    marginTop: "-7px",
+                    textAlign: "start",
+                    marginLeft: "20px"
+                  }}
+                  to="/"
+                >
+                  C4I Webadmin
+                </Link>
+              </h2>
             </Col>
             <HeaderFunctionalities />
           </Row>

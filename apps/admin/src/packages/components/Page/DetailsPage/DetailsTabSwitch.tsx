@@ -81,7 +81,7 @@ export function DetailsPageSubTabSwitch(props: {
                 (x.tabType === "table" || x.tabType === "searchtable") &&
                 !!(x?.tabMeta as any)?.tableProps?.searchFunc
               ) {
-                console.log((x?.tabMeta as any)?.tableProps?.tableName)
+                //console.log((x?.tabMeta as any)?.tableProps?.tableName)
                 return checkAdminApiPermission((x?.tabMeta as any)?.tableProps?.searchFunc)
               }
               return true

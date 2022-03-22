@@ -1,6 +1,8 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
+import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 
 export interface ISidebarMenu {
   title: string
@@ -11,23 +13,43 @@ export interface ISidebarMenu {
 
 export const getSidebarMenus = (): ISidebarMenu[] => [
   {
-    title: "Manage",
+    title: "Institute",
     url: "",
     submenu: [
       {
         title: "Courses",
         submenu: [],
-        url: "/courses/list",
+        url: "/institute/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
+    ],
+    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
+  },
+  {
+    title: "Storefront Data",
+    url: "",
+    submenu: [
       {
-        title: "Financials",
-        url: "",
-        submenu: [
-          { title: "Orders ", url: "/financials/orders/list", submenu: [], permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) },
-        ],
-        permission: true
+        title: "Orders ",
+        url: "/storefront-data/order",
+        submenu: [],
+        permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
-    ]
+      {
+        title: "Payments ",
+        url: "/storefront-data/payment",
+        submenu: [],
+        permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
+      },
+      {
+        title: "Students ",
+        url: "/storefront-data/student",
+        submenu: [],
+        permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+      },
+    ],
+    permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getStudentListTableColumns().searchFunc)
   }
 ]

@@ -8,19 +8,18 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
-import { ConstructQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
 
-  const createEntity = ConstructQuery(((data) => CourseQueries.create({ ...data }).then(resp => {
+  const createEntity = QueryConstructor(((data) => CourseQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/courses/${resp.data.id}`)
+      setRedirectAfterCreate(`/institute/course/${resp.data.id}`)
     }
     return resp
-  })) as IQuery, CourseQueries.create.__permission)
+  })), [CourseQueries.create])
 
   return (
     <>
@@ -36,9 +35,6 @@ export const List = () => {
               formTitle={`Add Course`}
               formMeta={CourseFormMeta}
               formSubmitApi={createEntity}
-              initialFormValue={{
-                IsActive: true
-              }}
               buttonLabel={`Add Course`}
               iconType="create"
             />
