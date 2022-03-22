@@ -8,13 +8,13 @@ export const questionListTableColumns: TableColumnType = [
     title: "Question",
     dataIndex: "question",
     //render: (text: any, record: any) => renderLink(`/institute/course/${record.id}`, text, isModal),
-    sorter: (a: any, b: any) => a.product_name - b.product_name
+    sorter: (a: any, b: any) => a.question - b.question
   },
   {
     title: "Answer",
     dataIndex: 'answer',
     render: (text: any, record: any) => typeof text === 'boolean' ? renderBoolean(text) : text,
-    sorter: (a: any, b: any) => a.quantity - b.quantity
+    sorter: (a: any, b: any) => a.answer - b.answer
   },
 ]
 

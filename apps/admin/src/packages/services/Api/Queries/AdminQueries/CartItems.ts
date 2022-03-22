@@ -1,6 +1,6 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { ICartItemQueries } from "./Proxy/CartItem"
+import { ICartItemQueries } from "./Proxy/CartItems"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 

@@ -1,9 +1,12 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { getCartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
+import { cartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
 import { renderDate, renderDateTime } from "~/packages/components/ResponsiveTable"
 import { questionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/Proxy/Questions"
+import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
+import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -55,7 +58,6 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       ]
     }))
   }
-  console.log(processQuestions(order.agreement_details))
 
   const tabMetas: IDetailsTabMeta[] = [
     {
@@ -70,8 +72,8 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getCartItemListTableColumns(order.id),
-          searchParams: { id: order.id },
+          columns: cartItemListTableColumns,
+          dataSource: order.cart_details,
           refreshEventName: "REFRESH_INVOICE_TAB",
         }
       },
@@ -100,6 +102,33 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         },
       ],
       helpKey: "paymentTab",
+    },
+    {
+      tabTitle: "Students",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: studentListTableColumns,
+          dataSource: order.student_details,
+          refreshEventName: "REFRESH_STUDENT_TAB",
+        }
+      },
+      helpKey: "studentTab"
+    },
+    {
+      tabTitle: "Enrollments",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: enrollmentListTableColumns,
+          searchFunc: EnrollmentQueries.getCourseEnrollmentList,
+          searchParams: { cart_item__cart: order.id },
+          refreshEventName: "REFRESH_STUDENT_TAB",
+        }
+      },
+      helpKey: "studentTab"
     },
   ]
 
