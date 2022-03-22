@@ -1,35 +1,35 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { ConstructQuery } from "./Proxy"
+import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { ICourseProviderQueries } from "./Proxy/CourseProviders"
 
 export const CourseProviderQueries:ICourseProviderQueries = {
-  getSingle: ConstructQuery(data => {
+  getSingle: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.COURSE_PROVIDER}/${data!.params!.id}`,
       ...data,
       method: "GET"
     })
-  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
-  getPaginatedList: ConstructQuery(data => {
+  getPaginatedList: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
-  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
-  getList: ConstructQuery(data => {
+  getList: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
-  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
-  getLookupData: ConstructQuery(data => {
+  getLookupData: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
@@ -38,5 +38,5 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       ...resp,
       data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
     }) : resp)
-  }, {operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 }

@@ -20,7 +20,8 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/institute/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
-    ]
+    ],
+    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
@@ -32,6 +33,7 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
-    ]
+    ],
+    permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
   }
 ]

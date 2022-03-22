@@ -1,11 +1,11 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
 import { ICartItemQueries } from "./Proxy/CartItem"
-import { ConstructQuery } from "./Proxy"
+import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 
 export const CartItemQueries:ICartItemQueries = {
-  getList: ConstructQuery(data => {
+  getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
       endpoint: `${endpoints.CART}/${data?.params.id}`,
@@ -20,5 +20,5 @@ export const CartItemQueries:ICartItemQueries = {
         data: cartItemData
       }
     })
-  }, {operation: ApiPermissionClass.CartItem, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.CartItem, action: ApiPermissionAction.Read}]),
 }

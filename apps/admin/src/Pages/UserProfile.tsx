@@ -4,7 +4,7 @@ import { IUser } from "~/packages/services/Api/utils/Interfaces"
 import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
 import { getProfileMeta } from "~/TableSearchMeta/Profile/ProfileDetailsMeta"
-import { ConstructQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { PermissionWrapper } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 
 export function UserProfile() {
   const [userInfo, setUserInfo] = useState<IUser>()
@@ -20,12 +20,12 @@ export function UserProfile() {
     <div className="site-layout-content">
       {userInfo && (
         <DetailsPage
-          getDetailsPageContent={ConstructQuery(() => Promise.resolve({
+          getDetailsPageContent={PermissionWrapper(() => Promise.resolve({
             code: 200,
             data: userInfo,
             error: false,
             success: true
-          }), { is_public: true })}
+          }), [{ is_public: true }])}
           getMeta={() => getProfileMeta(userInfo)}
         />
       )}

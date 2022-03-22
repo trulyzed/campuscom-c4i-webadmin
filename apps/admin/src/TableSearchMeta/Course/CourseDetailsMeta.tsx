@@ -5,18 +5,17 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
-import { ConstructQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = ConstructQuery(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
+  const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
     if (resp.success) {
       message.success(UPDATE_SUCCESSFULLY)
     }
     return resp
-  })) as IQuery, CourseQueries.update.__permission)
+  })), [CourseQueries.update])
 
   const summary: CardContainer = {
     title: course.title,

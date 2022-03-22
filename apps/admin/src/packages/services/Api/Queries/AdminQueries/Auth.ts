@@ -2,10 +2,10 @@ import jwt_decode from "jwt-decode"
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
 import { IAuthQueries } from "./Proxy/Auth"
-import { ConstructQuery } from "./Proxy"
+import { PermissionWrapper } from "./Proxy"
 
 export const AuthQueries:IAuthQueries = {
-  login: ConstructQuery(async data => {
+  login: PermissionWrapper(async data => {
     const resp = await adminApi({
       endpoint: endpoints.LOGIN,
       ...data,
@@ -32,5 +32,5 @@ export const AuthQueries:IAuthQueries = {
         access: accessToken
       }
     }
-  }, {is_public: true}),
+  }, [{is_public: true}]),
 }

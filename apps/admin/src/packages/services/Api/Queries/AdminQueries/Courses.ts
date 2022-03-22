@@ -1,12 +1,12 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
-import { ConstructQuery } from "./Proxy"
+import { PermissionWrapper } from "./Proxy"
 import { ICourseQueries } from "./Proxy/Courses"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const CourseQueries:ICourseQueries = {
-  getSingle: ConstructQuery(data => {
+  getSingle: PermissionWrapper(data => {
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.COURSE}/${data!.params!.id}`,
@@ -14,9 +14,9 @@ export const CourseQueries:ICourseQueries = {
       params,
       method: "GET"
     })
-  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}]),
 
-  getPaginatedList: ConstructQuery(data => {
+  getPaginatedList: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
       endpoint: endpoints.ALL_COURSE,
@@ -24,9 +24,9 @@ export const CourseQueries:ICourseQueries = {
       params: {...nonPaginationParams},
       method: "GET"
     })
-  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}),
+  }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}]),
 
-  create: ConstructQuery(data => {
+  create: PermissionWrapper(data => {
     const payload = convertToFormData(data?.data || {})
     return adminApi({
       endpoint: endpoints.COURSE,
@@ -34,9 +34,9 @@ export const CourseQueries:ICourseQueries = {
       ...data,
       data: payload,
     })
-  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}),
+  }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}]),
 
-  update: ConstructQuery(data => {
+  update: PermissionWrapper(data => {
     const payload = convertToFormData(data?.data || {})
     const {id, ...params} = data?.params;
     return adminApi({
@@ -46,5 +46,5 @@ export const CourseQueries:ICourseQueries = {
       data: payload,
       params
     })
-  }, {operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}),
+  }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}]),
 }

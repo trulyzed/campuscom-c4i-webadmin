@@ -1,31 +1,14 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { IOrderQueries } from "./Proxy/Orders"
+import { IQuestionQueries } from "./Proxy/Questions"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 
-export const OrderQueries:IOrderQueries = {
-  getSingle: PermissionWrapper(data => {
-    const {id, ...params} = data?.params;
-    return adminApi({
-      endpoint: `${endpoints.CART}/${data!.params!.id}`,
-      ...data,
-      params,
-      method: "GET"
-    }).then(resp => {
-      if (!resp.success) return resp
-      const adjustedData = resp.data
-      return {
-        ...resp,
-        data: adjustedData
-      }
-    })
-  }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}]),
-
+export const QuestionQueries:IQuestionQueries = {
   getPaginatedList: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
-      endpoint: endpoints.ALL_CART,
+      endpoint: endpoints.ALL_QUESTION,
       ...data,
       params: {...nonPaginationParams},
       method: "GET"
