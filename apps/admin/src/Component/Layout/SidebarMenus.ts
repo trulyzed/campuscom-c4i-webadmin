@@ -2,6 +2,7 @@ import { checkAdminApiPermission } from "~/packages/services/Api/Permission/Admi
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 
 export interface ISidebarMenu {
   title: string
@@ -40,8 +41,15 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
       },
+      {
+        title: "Students ",
+        url: "/storefront-data/student",
+        submenu: [],
+        permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+      },
     ],
     permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
+      checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getStudentListTableColumns().searchFunc)
   }
 ]

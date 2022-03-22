@@ -41,9 +41,9 @@ export const enrollmentListTableColumns: TableColumnType = [
   },
 ]
 
-export const getStudentListTableColumns = (isModal = false): ITableMeta => {
+export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: enrollmentListTableColumns,
-    searchFunc: QueryConstructor((params) => EnrollmentQueries.getList(params), [EnrollmentQueries.getList]),
+    searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params), [EnrollmentQueries.getList]),
   }
 }

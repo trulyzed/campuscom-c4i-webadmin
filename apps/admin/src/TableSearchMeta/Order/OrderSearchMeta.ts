@@ -10,6 +10,16 @@ export const OrderSearchMeta: IField[] = [
     displayKey: "name",
     valueKey: "id"
   },
+  // {
+  //   label: 'From Date',
+  //   fieldName: 'created_at__gte',
+  //   inputType: DATE_PICKER,
+  // },
+  // {
+  //   label: 'To Date',
+  //   fieldName: 'created_at__lte',
+  //   inputType: DATE_PICKER,
+  // },
   {
     label: "Order Tracking ID",
     inputType: TEXT,

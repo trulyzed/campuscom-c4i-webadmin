@@ -6,7 +6,7 @@ export const PaymentSearchMeta: IField[] = [
     label: "Store",
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
-    fieldName: "store",
+    fieldName: "store_payment_gateway__store",
     displayKey: "name",
     valueKey: "id"
   },
