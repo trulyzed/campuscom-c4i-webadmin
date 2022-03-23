@@ -8,7 +8,17 @@ export const PublishingQueries:IPublishingQueries = {
   getSingle: PermissionWrapper(data => {
     const {id, ...params} = data?.params;
     return adminApi({
-      endpoint: `${endpoints.STORE_COURSE}/${data!.params!.id}`,
+      endpoint: `${endpoints.STORE_COURSE_RETRIEVE}/${data!.params!.id}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
+
+  getReadyType: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.STORE_COURSE_READY_RETRIEVE}/${data!.params!.id}`,
       ...data,
       params,
       method: "GET"

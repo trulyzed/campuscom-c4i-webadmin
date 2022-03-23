@@ -15,6 +15,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/store/subject/:subjectID", component: React.lazy(() => import("~/Pages/Store/Subjects/SubjectDetailsPage").then((x) => ({ default: x.SubjectDetailsPage }))) },
   { path: "/store/publishing", component: React.lazy(() => import("~/Pages/Store/Publishings").then((x) => ({ default: x.List }))) },
   { path: "/store/publishing/:publishingID", component: React.lazy(() => import("~/Pages/Store/Publishings/PublishingDetailsPage").then((x) => ({ default: x.PublishingDetailsPage }))) },
+  { path: "/store/ready-publishing/:publishingID", component: React.lazy(() => import("~/Pages/Store/Publishings/ReadyPublishingDetailsPage").then((x) => ({ default: x.ReadyPublishingDetailsPage }))) },
   { path: "/store/product", component: React.lazy(() => import("~/Pages/Store/Products").then((x) => ({ default: x.List }))) },
   { path: "/store/product/:productID", component: React.lazy(() => import("~/Pages/Store/Products/ProductDetailsPage").then((x) => ({ default: x.ProductDetailsPage }))) },
 

@@ -150,7 +150,7 @@ export const endpoints = {
   ALL_SECTION_SCHEDULE: 'schedules?limit=1000',
   ALL_STORE: 'stores?limit=1000',
   ALL_STORE_CERTIFICATE: 'store-certificates',
-  ALL_STORE_COURSE: 'store-courses',
+  ALL_STORE_COURSE: 'store-courses?limit=1000',
   ALL_SUBJECT: 'catalogs?limit=1000',
   ALL_USER: 'users?limit=1000',
 }

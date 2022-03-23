@@ -7,7 +7,7 @@ export const publishingListTableColumns: TableColumnType = [
   {
     title: 'Course Title',
     dataIndex: 'title',
-    render: (text: any, record: any) => record.id ? renderLink(`/store/publishing/${record.id}`, text) : text,
+    render: (text: any, record: any) => renderLink(record.store ? `/store/publishing/${record.id}` : `/store/ready-publishing/${record.course_id}`, text),
     sorter: (a: any, b: any) => a.title - b.title
   },
   {
