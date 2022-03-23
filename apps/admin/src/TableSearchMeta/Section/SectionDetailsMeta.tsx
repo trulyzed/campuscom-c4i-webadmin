@@ -3,6 +3,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
 import { getScheduleListTableColumns } from "~/TableSearchMeta/Schedule/ScheduleListTableColumns"
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
+import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -63,6 +64,19 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
         }
       },
       helpKey: "instructorsTab"
+    },
+    {
+      tabTitle: "Enrollments",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getEnrollmentListTableColumns(),
+          searchParams: { section__id: section.id },
+          refreshEventName: "REFRESH_ENROLLMENT_TAB",
+        }
+      },
+      helpKey: "enrollmentsTab"
     },
   ]
 
