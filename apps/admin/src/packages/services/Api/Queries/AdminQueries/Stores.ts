@@ -5,6 +5,16 @@ import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api
 import { IStoreQueries } from "./Proxy/Stores"
 
 export const StoreQueries:IStoreQueries = {
+  getSingle: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.STORE}/${data!.params!.id}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}]),
+
   getList: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.ALL_STORE,
