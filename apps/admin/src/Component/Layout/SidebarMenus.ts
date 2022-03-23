@@ -5,6 +5,7 @@ import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/Inst
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
+import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
 
 export interface ISidebarMenu {
   title: string
@@ -40,6 +41,19 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc) ||
       checkAdminApiPermission(getInstructorListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCampusListTableColumns().searchFunc)
+  },
+  {
+    title: "Store",
+    url: "",
+    submenu: [
+      {
+        title: "Subjects",
+        url: "/store/subject",
+        submenu: [],
+        permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc)
+      },
+    ],
+    permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
