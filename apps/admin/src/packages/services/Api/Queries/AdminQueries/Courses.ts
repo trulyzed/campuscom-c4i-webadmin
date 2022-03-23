@@ -23,8 +23,24 @@ export const CourseQueries:ICourseQueries = {
       ...data,
       params: {...nonPaginationParams},
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: resp.data.map((i: any) => ({
+        ...i,
+        course_provider: i.provider,
+      }))
+    }) : resp)
   }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read}]),
+
+  getListBySubject: PermissionWrapper(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
+    return adminApi({
+      endpoint: endpoints.ALL_COURSE_BY_SUBJECT,
+      ...data,
+      params: {...nonPaginationParams},
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CourseBySubject, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
     const payload = convertToFormData(data?.data || {})

@@ -8,6 +8,8 @@ import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormM
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
+import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -60,6 +62,32 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "courseSummaryTab"
+    },
+    {
+      tabTitle: "Sections",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getSectionListTableColumns(),
+          searchParams: { course__id: course.id },
+          refreshEventName: "REFRESH_SECTION_TAB",
+        }
+      },
+      helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Enrollments",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getEnrollmentListTableColumns(),
+          searchParams: { course__id: course.id },
+          refreshEventName: "REFRESH_ENROLLMENT_TAB",
+        }
+      },
+      helpKey: "enrollmentsTab"
     },
   ]
 

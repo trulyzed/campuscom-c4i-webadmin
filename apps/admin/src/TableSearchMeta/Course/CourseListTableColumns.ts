@@ -12,11 +12,12 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
     },
     {
       title: "Course Provider",
+      dataIndex: "course_provider",
       render: (text: any, record: any) =>
-        renderLink(`/${record.provider.name}`, record.provider.name, isModal),
+        renderLink(`/administration/course-provider/${text.id}`, text.name, isModal),
       sorter: (a: any, b: any) => {
-        if (a.provider.name - b.provider.name) {
-          return a.provider.name.length - b.provider.name.length
+        if (a.course_provider.name - b.course_provider.name) {
+          return a.course_provider.name.length - b.course_provider.name.length
         }
         return 0
       }

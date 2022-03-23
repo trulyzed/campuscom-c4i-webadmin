@@ -15,15 +15,17 @@ const renderDetailsLink = (url: string): JSX.Element => {
     </Link>
   )
 }
-const renderLink = (url: string, text: string, isModal?: boolean) =>
+const renderLink = (url: string, text: string, isModal?: boolean, isExternal?: boolean) =>
   text ? (
-    !isModal ? (
-      <Link id={url} onClick={() => setScrollPosition(url)} to={url}>
-        {text}
-      </Link>
-    ) : (
-      <span>{`${text}`}</span>
-    )
+    isExternal ?
+      <a href={url} target={"_blank"} rel={"noreferrer noopener"}>{text}</a>
+      : !isModal ? (
+        <Link id={url} onClick={() => setScrollPosition(url)} to={url}>
+          {text}
+        </Link>
+      ) : (
+        <span>{`${text}`}</span>
+      )
   ) : null
 const renderDecimal = (text: any) => (typeof text === "number" && !isNaN(Number(text)) ? Number(text).toFixed(2) : text)
 const renderEmail = (text: any) => (!!text ? <a href={`mailto:${text}`}>{text}</a> : "")

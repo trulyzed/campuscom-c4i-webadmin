@@ -1,8 +1,13 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
+import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
+import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
+import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
+import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
 
 export interface ISidebarMenu {
   title: string
@@ -22,8 +27,49 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/institute/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
+      {
+        title: "Instructors",
+        submenu: [],
+        url: "/institute/instructor",
+        permission: checkAdminApiPermission(getInstructorListTableColumns().searchFunc)
+      },
+      {
+        title: "Campuses",
+        submenu: [],
+        url: "/institute/campus",
+        permission: checkAdminApiPermission(getCampusListTableColumns().searchFunc)
+      },
     ],
-    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getInstructorListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getCampusListTableColumns().searchFunc)
+  },
+  {
+    title: "Store",
+    url: "",
+    submenu: [
+      {
+        title: "Subjects",
+        url: "/store/subject",
+        submenu: [],
+        permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc)
+      },
+      {
+        title: "Publishing",
+        url: "/store/publishing",
+        submenu: [],
+        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+      },
+      {
+        title: "Products",
+        url: "/store/product",
+        submenu: [],
+        permission: checkAdminApiPermission(getProductListTableColumns().searchFunc)
+      },
+    ],
+    permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getProductListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
