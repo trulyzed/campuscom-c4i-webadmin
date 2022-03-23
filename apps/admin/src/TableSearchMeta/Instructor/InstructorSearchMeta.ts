@@ -1,23 +1,18 @@
 import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 
 export const InstructorSearchMeta: IField[] = [
   {
-    label: "Store",
+    label: "Course Provider",
     inputType: DROPDOWN,
-    refLookupService: StoreQueries.getLookupData,
-    fieldName: "store",
+    refLookupService: CourseProviderQueries.getLookupData,
+    fieldName: "provider__id",
     displayKey: "name",
     valueKey: "id"
   },
   {
-    label: "First Name",
+    label: "Name",
     inputType: TEXT,
-    fieldName: "first_name__icontains",
+    fieldName: "name__icontains",
   },
-  {
-    label: "Last Name",
-    inputType: TEXT,
-    fieldName: "last_name__icontains",
-  }
 ]

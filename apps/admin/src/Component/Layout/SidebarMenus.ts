@@ -1,5 +1,6 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
+import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
@@ -22,8 +23,15 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/institute/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
+      {
+        title: "Instructor",
+        submenu: [],
+        url: "/institute/instructor",
+        permission: checkAdminApiPermission(getInstructorListTableColumns().searchFunc)
+      },
     ],
-    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getInstructorListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
