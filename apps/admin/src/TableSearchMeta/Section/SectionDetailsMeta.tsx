@@ -2,6 +2,7 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
 import { getScheduleListTableColumns } from "~/TableSearchMeta/Schedule/ScheduleListTableColumns"
+import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -49,6 +50,19 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
         }
       },
       helpKey: "schedulesTab"
+    },
+    {
+      tabTitle: "Instructors",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getInstructorListTableColumns(),
+          searchParams: { section__id: section.id },
+          refreshEventName: "REFRESH_INSTRUCTOR_TAB",
+        }
+      },
+      helpKey: "instructorsTab"
     },
   ]
 
