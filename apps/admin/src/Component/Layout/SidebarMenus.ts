@@ -4,6 +4,8 @@ import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTa
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
+import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
 
@@ -52,8 +54,22 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc)
       },
+      {
+        title: "Publishing",
+        url: "/store/publishing",
+        submenu: [],
+        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+      },
+      {
+        title: "Products",
+        url: "/store/product",
+        submenu: [],
+        permission: checkAdminApiPermission(getProductListTableColumns().searchFunc)
+      },
     ],
-    permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getProductListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
