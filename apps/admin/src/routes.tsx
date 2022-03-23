@@ -6,8 +6,10 @@ export const AppRoutes: RouteProps[] = [
   { path: "/institute/course", component: React.lazy(() => import("~/Pages/Institute/Courses").then((x) => ({ default: x.List }))) },
   { path: "/institute/course/:courseID", component: React.lazy(() => import("~/Pages/Institute/Courses/CourseDetailsPage").then((x) => ({ default: x.CourseDetailsPage }))) },
   { path: "/institute/section/:sectionID", component: React.lazy(() => import("~/Pages/Institute/Sections/SectionDetailsPage").then((x) => ({ default: x.SectionDetailsPage }))) },
-  { path: "/institute/instructor", component: React.lazy(() => import("~/Pages/Institute/Instructor").then((x) => ({ default: x.List }))) },
-  { path: "/institute/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructor/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
+  { path: "/institute/instructor", component: React.lazy(() => import("~/Pages/Institute/Instructors").then((x) => ({ default: x.List }))) },
+  { path: "/institute/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
+  { path: "/institute/campus", component: React.lazy(() => import("~/Pages/Institute/Campuses").then((x) => ({ default: x.List }))) },
+  { path: "/institute/campus/:campusID", component: React.lazy(() => import("~/Pages/Institute/Campuses/CampusDetailsPage").then((x) => ({ default: x.CampusDetailsPage }))) },
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },
