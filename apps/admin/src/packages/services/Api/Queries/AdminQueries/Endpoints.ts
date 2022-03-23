@@ -147,6 +147,7 @@ export const endpoints = {
   ALL_REFUND: 'refunds?limit=1000',
   ALL_ROLE: 'roles?limit=1000',
   ALL_SECTION: 'sections?limit=1000',
+  ALL_SECTION_SCHEDULE: 'schedules?limit=1000',
   ALL_STORE: 'stores?limit=1000',
   ALL_STORE_CERTIFICATE: 'store-certificates',
   ALL_STORE_COURSE: 'store-courses',
