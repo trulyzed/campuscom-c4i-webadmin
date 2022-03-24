@@ -6,6 +6,7 @@ import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTable
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
+import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
 
@@ -97,5 +98,18 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+  },
+  {
+    title: "Administration",
+    url: "",
+    submenu: [
+      {
+        title: "Stores ",
+        url: "/administration/store",
+        submenu: [],
+        permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
+      },
+    ],
+    permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
   }
 ]

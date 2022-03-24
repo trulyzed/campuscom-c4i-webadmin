@@ -23,6 +23,16 @@ export const StoreQueries:IStoreQueries = {
     })
   }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}]),
 
+  getPaginatedList: PermissionWrapper(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
+    return adminApi({
+      endpoint: endpoints.ALL_STORE,
+      ...data,
+      params: {...nonPaginationParams},
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}]),
+
   getLookupData: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.ALL_STORE,

@@ -1,7 +1,6 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
-import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -26,19 +25,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeSummaryTab"
-    },
-    {
-      tabTitle: "Course Enrollments",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          ...getEnrollmentListTableColumns(),
-          searchParams: { profile__id: store.id },
-          refreshEventName: "REFRESH_COURSE_ENROLLMENT_TAB",
-        }
-      },
-      helpKey: "courseEnrollmentTab"
     },
   ]
 
