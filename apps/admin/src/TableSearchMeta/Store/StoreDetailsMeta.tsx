@@ -1,6 +1,8 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
+import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
+import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -25,6 +27,20 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeSummaryTab"
+    },
+    {
+      tabTitle: "Identity Providers",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getIdentityProviderListTableColumns(),
+          searchFunc: IdentityProviderQueries.getListByStore,
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_IDENTITY_PROVIDER_TAB",
+        }
+      },
+      helpKey: "identityProviderTab"
     },
   ]
 
