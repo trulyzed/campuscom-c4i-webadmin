@@ -4,6 +4,8 @@ import { renderLink } from "~/packages/components/ResponsiveTable"
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
 import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
 import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
+import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
+import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -55,6 +57,20 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "courseSharingContractTab"
+    },
+    {
+      tabTitle: "Store Users",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getUserListTableColumns(),
+          searchParams: { store_id: store.id },
+          searchFunc: UserQueries.getListByStore,
+          refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
+        }
+      },
+      helpKey: "storeUserTab"
     },
   ]
 
