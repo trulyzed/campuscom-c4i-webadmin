@@ -1,31 +1,25 @@
-import { renderDate, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 
-export const studentListTableColumns: TableColumnType = [
+export const storeListTableColumns: TableColumnType = [
   {
-    title: "First Name",
-    dataIndex: "first_name",
-    render: (text: any, record: any) => record.id ? renderLink(`/storefront-data/student/${record.id}`, text) : text,
-    sorter: (a: any, b: any) => a.first_name - b.first_name
+    title: "Name",
+    dataIndex: "name",
+    render: (text: any, record: any) => record.id ? renderLink(`/administration/store/${record.id}`, text) : text,
+    sorter: (a: any, b: any) => a.name - b.name
   },
   {
-    title: "Last Name",
-    dataIndex: 'last_name',
-    sorter: (a: any, b: any) => a.last_name - b.last_name
-  },
-  {
-    title: "Date of Birth",
-    dataIndex: 'date_of_birth',
-    sorter: (a: any, b: any) => a.date_of_birth - b.date_of_birth,
-    render: (text: any, record: any) => renderDate(text)
+    title: "Slug",
+    dataIndex: 'url_slug',
+    sorter: (a: any, b: any) => a.url_slug - b.url_slug
   },
 ]
 
-export const getStudentListTableColumns = (isModal = false): ITableMeta => {
+export const getStoreListTableColumns = (isModal = false): ITableMeta => {
   return {
-    columns: studentListTableColumns,
-    searchFunc: QueryConstructor((params) => StudentQueries.getPaginatedList(params), [StudentQueries.getList]),
+    columns: storeListTableColumns,
+    searchFunc: QueryConstructor((params) => StoreQueries.getPaginatedList(params), [StoreQueries.getList]),
   }
 }

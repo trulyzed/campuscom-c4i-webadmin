@@ -1,6 +1,6 @@
 import { IField, TEXT } from "~/packages/components/Form/common"
 
-export const StoreSearchMeta: IField[] = [
+export const IdentityProviderSearchMeta: IField[] = [
   {
     label: "Name",
     inputType: TEXT,
@@ -9,6 +9,6 @@ export const StoreSearchMeta: IField[] = [
   {
     label: "Slug",
     inputType: TEXT,
-    fieldName: "url_slug__icontains",
+    fieldName: "slug",
   }
 ]

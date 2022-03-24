@@ -130,6 +130,23 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       },
       helpKey: "studentTab"
     },
+    {
+      tabTitle: "Log",
+      tabType: "summary",
+      tabMeta: {
+        summary: [
+          {
+            contents: [
+              { label: 'Enrollment Request (Campus -> ERP)', value: JSON.stringify(order.enrollment_request) },
+              { label: 'Enrollment Request Response from ERP (ERP -> Campus)', value: JSON.stringify(order.enrollment_response) },
+              { label: 'Enrollment Notification (ERP -> Campus)', value: JSON.stringify(order.enrollment_notification) },
+              { label: 'Enrollment Notification Response from Campus (Campus -> ERP)', value: JSON.stringify(order.enrollment_notification_response) },
+            ]
+          }
+        ]
+      },
+      helpKey: "logTab"
+    },
   ]
 
   return {

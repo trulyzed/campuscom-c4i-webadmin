@@ -1,7 +1,11 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
-import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
+import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
+import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
+import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
+import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -28,17 +32,45 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       helpKey: "storeSummaryTab"
     },
     {
-      tabTitle: "Course Enrollments",
+      tabTitle: "Identity Providers",
       tabType: "table",
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getEnrollmentListTableColumns(),
-          searchParams: { profile__id: store.id },
-          refreshEventName: "REFRESH_COURSE_ENROLLMENT_TAB",
+          ...getIdentityProviderListTableColumns(),
+          searchFunc: IdentityProviderQueries.getListByStore,
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_IDENTITY_PROVIDER_TAB",
         }
       },
-      helpKey: "courseEnrollmentTab"
+      helpKey: "identityProviderTab"
+    },
+    {
+      tabTitle: "Course Sharing Contracts",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getCourseSharingContractListTableColumns(),
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_COURSE_SHARING_CONTRACT_TAB",
+        }
+      },
+      helpKey: "courseSharingContractTab"
+    },
+    {
+      tabTitle: "Store Users",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getUserListTableColumns(),
+          searchParams: { store_id: store.id },
+          searchFunc: UserQueries.getListByStore,
+          refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
+        }
+      },
+      helpKey: "storeUserTab"
     },
   ]
 

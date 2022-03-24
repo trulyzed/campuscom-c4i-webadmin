@@ -1,8 +1,7 @@
 import { IQuery } from "./types"
 
-export interface IStoreQueries {
+export interface ICourseSharingContractQueries {
   getSingle: IQuery
-  getList: IQuery
   getPaginatedList: IQuery
-  getLookupData: IQuery
+  getList: IQuery
 }
