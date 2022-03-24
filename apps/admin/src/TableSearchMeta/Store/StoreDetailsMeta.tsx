@@ -3,6 +3,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { renderLink } from "~/packages/components/ResponsiveTable"
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
 import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
+import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -41,6 +42,19 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "identityProviderTab"
+    },
+    {
+      tabTitle: "Course Sharing Contracts",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getCourseSharingContractListTableColumns(),
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_COURSE_SHARING_CONTRACT_TAB",
+        }
+      },
+      helpKey: "courseSharingContractTab"
     },
   ]
 

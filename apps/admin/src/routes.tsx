@@ -31,6 +31,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/course-provider/:courseProviderID", component: React.lazy(() => import("~/Pages/Administration/CourseProviders/CourseProviderDetailsPage").then((x) => ({ default: x.CourseProviderDetailsPage }))) },
   { path: "/administration/store", component: React.lazy(() => import("~/Pages/Administration/Stores").then((x) => ({ default: x.List }))) },
   { path: "/administration/store/:storeID", component: React.lazy(() => import("~/Pages/Administration/Stores/StoreDetailsPage").then((x) => ({ default: x.StoreDetailsPage }))) },
+  { path: "/administration/course-sharing-contract/:courseSharingContractID", component: React.lazy(() => import("~/Pages/Administration/CourseSharingContracts/CourseSharingContractDetailsPage").then((x) => ({ default: x.CourseSharingContractDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]
