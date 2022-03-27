@@ -1,0 +1,1 @@
+export const APPEND_TRAILING_SLASH_IN_ENDPOINT = true
