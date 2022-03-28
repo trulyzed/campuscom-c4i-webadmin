@@ -36,6 +36,17 @@ export const InstructorQueries:IInstructorQueries = {
     })
   }, [{operation: ApiPermissionClass.Instructor, action: ApiPermissionAction.Read}]),
 
+  getLookupData: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_INSTRUCTOR,
+      ...data,
+      method: "GET"
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+    }) : resp)
+  }, [{operation: ApiPermissionClass.Instructor, action: ApiPermissionAction.Read}]),
+
   create: PermissionWrapper(data => {
     const payload = convertToFormData(data?.data || {})
     return adminApi({

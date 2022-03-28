@@ -18,8 +18,6 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
         [props.fieldName]: t1.format(dateFormat)
       })
       props.formInstance.setFieldsValue({ [`__${props.fieldName}`]: t1 })
-      console.log(t1)
-      console.log(t1.format(dateFormat))
     }
     // eslint-disable-next-line
   }, [props.defaultValue])

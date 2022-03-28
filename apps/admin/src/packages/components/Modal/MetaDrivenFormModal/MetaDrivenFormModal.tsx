@@ -72,7 +72,7 @@ export const MetaDrivenFormModal = (props: {
         stopProducingQueryParams={true}
         errorMessages={error}
         onApplyChanges={(newValues: { [key: string]: any }) => {
-          if (stopFirstOnApplyChanges) {
+          if (props.initialFormValue && stopFirstOnApplyChanges) {
             setStopFirstOnApplyChanges(false)
           } else {
             console.log("submitting form ", newValues)
