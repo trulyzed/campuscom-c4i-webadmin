@@ -34,7 +34,6 @@ export const SectionFormMeta: IField[] = [
     refLookupService: InstructorQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Execution Mode',
