@@ -1,13 +1,40 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
 import { getScheduleListTableColumns } from "~/TableSearchMeta/Schedule/ScheduleListTableColumns"
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => SectionQueries.update({ ...data, params: { id: section.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [SectionQueries.update])
+
   const summaryInfo: CardContainer = {
     title: `Section: ${section.name}`,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Section`}
+        formMeta={SectionFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...section, course: section.course.id, course_fee: section.amount, instructors: section.instructors.map((i: any) => i.id), }}
+        defaultFormValue={{ sectionId: section.id }}
+        buttonLabel={`Update Section`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
+    ],
     contents: [
       { label: 'Course', value: renderLink(`/institute/course/${section.course.id}`, section.course.title), },
       { label: 'Section Name', value: section.name, },

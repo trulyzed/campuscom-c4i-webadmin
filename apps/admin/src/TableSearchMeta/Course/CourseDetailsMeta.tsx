@@ -7,9 +7,11 @@ import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Cour
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
+import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -18,6 +20,13 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
     }
     return resp
   })), [CourseQueries.update])
+
+  const createSection = QueryConstructor(((data) => SectionQueries.create({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseQueries.create])
 
   const summary: CardContainer = {
     title: course.title,
@@ -71,7 +80,17 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           pagination: false,
           ...getSectionListTableColumns(),
           searchParams: { course__id: course.id },
-          refreshEventName: "REFRESH_SECTION_TAB",
+          refreshEventName: "REFRESH_COURSE_LIST",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Section`}
+              formMeta={SectionFormMeta}
+              formSubmitApi={createSection}
+              buttonLabel={`Add Section`}
+              iconType="create"
+              refreshEventName={'REFRESH_COURSE_LIST'}
+            />
+          ]
         }
       },
       helpKey: "sectionsTab"

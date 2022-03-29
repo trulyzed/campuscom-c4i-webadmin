@@ -4,6 +4,16 @@ import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api
 import { PermissionWrapper } from "./Proxy"
 import { IPublishingQueries } from "./Proxy/Publishings"
 
+const processSections = (data: Record<string, string | number | any[]>): Record<string, string | number | any[]> => {
+  const newData = {
+    ...data,
+  }
+  for (const section of data.sections as any[]) {
+    newData[`section__${section.id}`] = section.fee
+  }
+  return newData
+}
+
 export const PublishingQueries:IPublishingQueries = {
   getSingle: PermissionWrapper(data => {
     const {id, ...params} = data?.params;
@@ -12,7 +22,10 @@ export const PublishingQueries:IPublishingQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? {
+      ...resp,
+      data: processSections(resp.data)
+    } : resp)
   }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
 
   getReadyType: PermissionWrapper(data => {
@@ -22,7 +35,10 @@ export const PublishingQueries:IPublishingQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? {
+      ...resp,
+      data: processSections(resp.data)
+    } : resp)
   }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
 
   getPaginatedList: PermissionWrapper(data => {
@@ -34,4 +50,27 @@ export const PublishingQueries:IPublishingQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
+
+  update: PermissionWrapper(data => {
+    const sections = Object.keys(data?.data).reduce((a, c) => {
+      const [, sectionId] = c.split('__')
+      if (sectionId) a.push({
+        id: sectionId,
+        fee: data?.data[c],
+      })
+      return a
+    }, [] as any[])
+
+    const payload = {
+      ...data?.data,
+      sections
+    }
+
+    return adminApi({
+      endpoint: `${endpoints.STORE_COURSE}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Write}]),
 }

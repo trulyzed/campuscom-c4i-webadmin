@@ -4,4 +4,5 @@ export interface IStudentQueries {
   getSingle: IQuery
   getPaginatedList: IQuery
   getList: IQuery
+  update: IQuery
 }
