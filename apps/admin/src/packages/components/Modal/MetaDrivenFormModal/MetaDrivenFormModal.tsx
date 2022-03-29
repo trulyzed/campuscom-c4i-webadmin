@@ -1,8 +1,10 @@
 import React, { useState } from "react"
+import { useHistory } from "react-router-dom"
+import { Form } from "antd"
+import { History } from "history"
 import { Modal } from "~/packages/components/Modal/Modal"
 import { zIndexLevel } from "~/packages/components/zIndexLevel"
 import { IField } from "~/packages/components/Form/common"
-import { Form } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
@@ -17,9 +19,11 @@ export const MetaDrivenFormModal = (props: {
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   formSubmitApi: IQuery
+  onFormSubmit?: (data?: any, navigator?: History['push']) => void
   closeModal: () => void
   refreshEventAfterFormSubmission?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }) => {
+  const history = useHistory();
   const [formInstance] = Form.useForm()
   const [clearTrigger, setClearTrigger] = useState(false)
   const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
@@ -43,6 +47,7 @@ export const MetaDrivenFormModal = (props: {
           }
         setLoading(false)
         closeModal()
+        props.onFormSubmit?.(x.data, history.push)
       } else {
         setError(x.error)
         setLoading(false)

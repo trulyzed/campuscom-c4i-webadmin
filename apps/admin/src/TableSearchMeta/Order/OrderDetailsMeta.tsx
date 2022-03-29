@@ -74,6 +74,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           pagination: false,
           columns: cartItemListTableColumns,
           dataSource: order.cart_details,
+          rowKey: 'id',
           refreshEventName: "REFRESH_INVOICE_TAB",
         }
       },
@@ -96,6 +97,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               pagination: false,
               columns: questionListTableColumns,
               dataSource: processQuestions(order.agreement_details),
+              rowKey: 'id',
               refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",
             }
           }
@@ -111,6 +113,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           pagination: false,
           columns: studentListTableColumns,
           dataSource: order.student_details,
+          rowKey: 'product_id',
           refreshEventName: "REFRESH_STUDENT_TAB",
         }
       },
@@ -125,6 +128,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           columns: enrollmentListTableColumns,
           searchFunc: EnrollmentQueries.getCourseEnrollmentList,
           searchParams: { cart_item__cart: order.id },
+          rowKey: 'id',
           refreshEventName: "REFRESH_STUDENT_TAB",
         }
       },

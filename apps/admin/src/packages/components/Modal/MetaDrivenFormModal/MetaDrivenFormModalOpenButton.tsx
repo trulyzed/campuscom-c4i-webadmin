@@ -1,6 +1,7 @@
-import { Button } from "antd"
-import { BaseButtonProps } from "antd/lib/button/button"
 import React, { CSSProperties, useState } from "react"
+import { Button } from "antd"
+import { History } from "history"
+import { BaseButtonProps } from "antd/lib/button/button"
 import { IField } from "~/packages/components/Form/common"
 import { MetaDrivenFormModal } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { IconButton, iconType } from "~/packages/components/Form/Buttons/IconButton"
@@ -16,6 +17,7 @@ interface IMetaDrivenFormModalOpenButton {
   formMetaName?: string
   isHorizontal?: boolean
   formSubmitApi: IQuery
+  onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
@@ -49,6 +51,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           meta={props.formMeta}
           metaName={props.formMetaName}
           formSubmitApi={props.formSubmitApi}
+          onFormSubmit={props.onFormSubmit}
           initialFormValue={props.initialFormValue}
           defaultFormValue={props.defaultFormValue}
           refreshEventAfterFormSubmission={props.refreshEventName}
