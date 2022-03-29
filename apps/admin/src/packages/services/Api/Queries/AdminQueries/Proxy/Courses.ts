@@ -6,4 +6,5 @@ export interface ICourseQueries {
   getListBySubject: IQuery
   create: IQuery
   update: IQuery
+  tagToSubjects: IQuery
 }
