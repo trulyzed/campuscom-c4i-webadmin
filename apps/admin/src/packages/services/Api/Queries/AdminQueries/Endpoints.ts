@@ -151,6 +151,7 @@ export const endpoints = {
   ALL_STORE: 'stores?limit=1000',
   ALL_STORE_CERTIFICATE: 'store-certificates',
   ALL_STORE_COURSE: 'store-courses?limit=1000',
+  ALL_STORE_COURSE_SUBJECT: 'course-catalogs?limit=1000',
   ALL_STORE_IDENTITY_PROVIDER: 'store-identity-providers?limit=1000',
   ALL_STUDENT: 'profiles?limit=1000',
   ALL_SUBJECT: 'catalogs?limit=1000',

@@ -8,6 +8,10 @@ import { message } from "antd"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
+import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
+import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
+import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
@@ -16,6 +20,13 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
     }
     return resp
   })), [PublishingQueries.update])
+
+  const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseQueries.create])
 
   const summaryInfo: CardContainer = {
     title: `Publishing: ${publishing.course.title}`,
@@ -87,6 +98,30 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
           dataSource: publishing.sections,
           refreshEventName: "REFRESH_INVOICE_TAB",
           rowKey: 'id'
+        }
+      },
+      helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Subjects",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getSubjectListTableColumns(),
+          searchFunc: SubjectQueries.getListByCourse,
+          searchParams: { store_course: publishing.id },
+          refreshEventName: "REFRESH_SUBJECT_LIST",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Tag Subjects`}
+              formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
+              formSubmitApi={tagSubjects}
+              buttonLabel={`Tag Subjects`}
+              iconType="create"
+              refreshEventName={'REFRESH_SUBJECT_LIST'}
+            />
+          ]
         }
       },
       helpKey: "sectionsTab"

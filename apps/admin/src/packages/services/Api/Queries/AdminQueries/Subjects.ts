@@ -62,4 +62,12 @@ export const SubjectQueries:ISubjectQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Subject, action: ApiPermissionAction.Write}]),
+
+  getListByCourse: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.STORE_COURSE_SUBJECT,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.StoreCourseSubject, action: ApiPermissionAction.Read}]),
 }

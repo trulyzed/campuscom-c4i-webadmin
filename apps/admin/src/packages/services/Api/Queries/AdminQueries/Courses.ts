@@ -63,4 +63,17 @@ export const CourseQueries:ICourseQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}]),
+
+  tagToSubjects: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      catalogs: data?.data.subjects
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_COURSE_SUBJECT_TAGGING}/${data?.data.publishingId}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StoreCourseSubject, action: ApiPermissionAction.Write}]),
 }

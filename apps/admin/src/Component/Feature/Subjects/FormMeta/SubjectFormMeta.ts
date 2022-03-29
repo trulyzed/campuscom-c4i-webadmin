@@ -23,7 +23,7 @@ export const SubjectFormMeta: IField[] = [
     label: 'Description',
     inputType: TEXTAREA,
     fieldName: "description",
-    maxLength: 50,
+    rules: [{ required: true, message: "This field is required!" }]
   },
   // {
   //   label: 'Image',
