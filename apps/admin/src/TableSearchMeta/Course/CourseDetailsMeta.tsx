@@ -6,13 +6,14 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -115,7 +116,21 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getEnrollmentListTableColumns(),
+          ...getStoreListTableColumns(),
+          columns: [
+            {
+              title: "Name",
+              dataIndex: "store",
+              render: (text: any, record: any) => record.id ? renderLink(`/administration/store/${record.id}`, text) : text,
+              sorter: (a: any, b: any) => a.store - b.store
+            },
+            {
+              title: "Url",
+              dataIndex: 'url',
+              render: (text: any) => renderLink(text, text, false, true),
+              sorter: (a: any, b: any) => a.url - b.url
+            },
+          ],
           searchFunc: StoreQueries.getListByCoursePublishing,
           searchParams: { course__id: course.id },
           refreshEventName: "REFRESH_PUBLISHING_STORE_TAB",
