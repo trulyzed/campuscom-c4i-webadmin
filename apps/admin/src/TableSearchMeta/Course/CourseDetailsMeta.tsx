@@ -12,6 +12,7 @@ import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionLis
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -107,6 +108,20 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "enrollmentsTab"
+    },
+    {
+      tabTitle: "Publishing Stores",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getEnrollmentListTableColumns(),
+          searchFunc: StoreQueries.getListByCoursePublishing,
+          searchParams: { course__id: course.id },
+          refreshEventName: "REFRESH_PUBLISHING_STORE_TAB",
+        }
+      },
+      helpKey: "publishingStoresTab"
     },
   ]
 

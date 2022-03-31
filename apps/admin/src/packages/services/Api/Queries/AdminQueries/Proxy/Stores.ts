@@ -5,4 +5,5 @@ export interface IStoreQueries {
   getList: IQuery
   getPaginatedList: IQuery
   getLookupData: IQuery
+  getListByCoursePublishing: IQuery
 }
