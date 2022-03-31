@@ -9,8 +9,10 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
+import { ScheduleFormMeta } from "~/Component/Feature/Schedule/FormMeta/ScheduleFormMeta"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SectionQueries.update({ ...data, params: { id: section.id } }).then(resp => {
@@ -19,6 +21,13 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
     }
     return resp
   })), [SectionQueries.update])
+
+  const createSchedule = QueryConstructor(((data) => ScheduleQueries.create({ ...data, data: { ...data?.data, section: section.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [ScheduleQueries.create])
 
   const summaryInfo: CardContainer = {
     title: `Section: ${section.name}`,
@@ -75,6 +84,16 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
           ...getScheduleListTableColumns(),
           searchParams: { section__id: section.id },
           refreshEventName: "REFRESH_SCHEDULE_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Schedule`}
+              formMeta={ScheduleFormMeta}
+              formSubmitApi={createSchedule}
+              buttonLabel={`Add Schedule`}
+              iconType="create"
+              refreshEventName={'REFRESH_SCHEDULE_TAB'}
+            />
+          ]
         }
       },
       helpKey: "schedulesTab"

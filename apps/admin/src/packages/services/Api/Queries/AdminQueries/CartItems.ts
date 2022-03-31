@@ -5,6 +5,16 @@ import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 
 export const CartItemQueries:ICartItemQueries = {
+  getSingle: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.CART_ITEM}/${data!.params!.id}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CartItem, action: ApiPermissionAction.Read}]),
+
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
@@ -20,5 +30,5 @@ export const CartItemQueries:ICartItemQueries = {
         data: cartItemData
       }
     })
-  }, [{operation: ApiPermissionClass.CartItem, action: ApiPermissionAction.Read}]),
+  }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}]),
 }
