@@ -1,4 +1,4 @@
-import { TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { CartItemQueries } from "~/packages/services/Api/Queries/AdminQueries/CartItems"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -39,6 +39,10 @@ export const cartItemListTableColumns: TableColumnType = [
     title: 'Total Amount',
     dataIndex: 'total_amount',
     sorter: (a: any, b: any) => a.total_amount - b.total_amount
+  },
+  {
+    title: 'Action',
+    render: (text, record) => renderLink(`/storefront-data/cart-item/${record.id}`, 'View More')
   },
 ]
 
