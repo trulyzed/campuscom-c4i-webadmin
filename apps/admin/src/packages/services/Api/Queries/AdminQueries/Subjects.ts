@@ -38,7 +38,10 @@ export const SubjectQueries:ISubjectQueries = {
   }, [{operation: ApiPermissionClass.Subject, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData(data?.data || {
+      start_date: mapDatetimeToPayload(data?.data?.start_date),
+      end_date: mapDatetimeToPayload(data?.data?.end_date),
+    })
     return adminApi({
       endpoint: endpoints.SUBJECT,
       method: "POST",
