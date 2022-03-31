@@ -1,12 +1,39 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [ProductQueries.update])
+
   const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/${product?.store?.url_slug}?product=${product?.id}&guest=true`
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Product`}
+        formMeta={ProductFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...product, store: product.store.id, content: JSON.stringify(product.content) }}
+        defaultFormValue={{ productId: product.id }}
+        buttonLabel={`Update Product`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
+    ],
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${product.store.id}`, product.store.name), },
       { label: 'Title', value: product.title },

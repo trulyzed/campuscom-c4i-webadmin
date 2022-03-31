@@ -12,7 +12,7 @@ import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sec
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
-import { ScheduleFormMeta } from "~/Component/Feature/Schedule/FormMeta/ScheduleFormMeta"
+import { ScheduleFormMeta } from "~/Component/Feature/Schedules/FormMeta/ScheduleFormMeta"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SectionQueries.update({ ...data, params: { id: section.id } }).then(resp => {
