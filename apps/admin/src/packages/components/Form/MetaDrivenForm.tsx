@@ -12,7 +12,8 @@ import {
   CUSTOM_FIELD,
   MULTI_SELECT_CHECKBOX,
   TEXTAREA,
-  MULTI_RADIO
+  MULTI_RADIO,
+  FILE
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -35,6 +36,7 @@ import { generateUUID } from "@packages/utilities/lib/UUID"
 import { FormSettings } from "~/packages/components/Form/FormSettings/FormSettings"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
+import { FormFileUpload } from "./FormFileUpload"
 
 export function MetaDrivenForm({
   showClearbutton = true,
@@ -490,6 +492,18 @@ const SearchFormFields = (props: {
             case DATE_PICKERS:
               formField = (
                 <FormDatePickers
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  clearTrigger={props.clearTrigger}
+                  labelColSpan={field.labelColSpan || 8}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case FILE:
+              formField = (
+                <FormFileUpload
                   {...field}
                   key={i}
                   formInstance={props.formInstance}

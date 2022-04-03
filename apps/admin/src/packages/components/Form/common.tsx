@@ -1,5 +1,5 @@
 import React from "react"
-import { Form } from "antd"
+import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
@@ -15,6 +15,7 @@ export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
+export const FILE = "FILE"
 
 export type IFieldType =
   | typeof TEXT
@@ -28,6 +29,7 @@ export type IFieldType =
   | typeof MULTI_SELECT_CHECKBOX
   | typeof CUSTOM_FIELD
   | typeof MULTI_RADIO
+  | typeof FILE
 
 export interface IField {
   label: React.ReactNode
@@ -43,6 +45,7 @@ export interface IField {
   displayKey?: string
   valueKey?: string
   ariaLabel?: string
+  previewKey?: string
 
   fieldName2?: string
   defaultValue2?: any
@@ -64,11 +67,15 @@ export interface IField {
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number
+
+  multiple?: boolean
+  accept?: UploadProps['accept']
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
+  getValueFromEvent?: (args?: any) => void
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {
@@ -92,6 +99,7 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       validateStatus={props.validateStatus}
       help={props.help}
       style={props.formItemStyle}
+      getValueFromEvent={props.getValueFromEvent}
     >
       {props.children}
     </Form.Item>
