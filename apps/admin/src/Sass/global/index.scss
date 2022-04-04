@@ -94,21 +94,21 @@
   text-align: left;
 }
 
+.dorakata-table .thumb {
+  width: 100%;
+  max-width: 200px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.dorakata-table .external-link:focus {
+  border: none !important;
+  box-shadow: none;
+}
+
 .ant-form-item-label {
   label {
     height: 40px !important;
     white-space: normal;
   }
-}
-
-.thumb {
-  width: auto;
-  height: 100px;
-  max-width: 200px;
-  object-fit: contain;
-}
-
-.link-pure:focus {
-  border: none !important;
-  box-shadow: none;
 }

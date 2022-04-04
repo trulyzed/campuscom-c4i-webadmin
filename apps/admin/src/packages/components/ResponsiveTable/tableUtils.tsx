@@ -46,7 +46,8 @@ const renderWeek = (text: any[]) => {
 }
 
 const renderThumb = (url: string, alt?: string) => {
-  return <a className="link-pure" target={"_blank"} rel={"noopener noreferrer"} href={url}><img className="thumb" src={url} alt={alt || url} /></a>
+  if (!url) return undefined
+  return <a className="external-link" target={"_blank"} rel={"noopener noreferrer"} href={url}><img className="thumb" src={url} alt={alt || url} /></a>
 }
 
 const sortByBoolean = (a: boolean, b: boolean) => (a === b ? 0 : a ? -1 : 1)

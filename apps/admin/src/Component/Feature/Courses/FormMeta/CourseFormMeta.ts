@@ -84,10 +84,9 @@ export const CourseFormMeta: IField[] = [
   {
     label: 'Image',
     inputType: FILE,
-    fieldName: "course_image",
+    fieldName: "image_file",
     previewKey: "course_image_uri",
     accept: IMAGE_INPUT_FORMAT,
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Syllabus URL',

@@ -43,7 +43,7 @@ export const CourseQueries:ICourseQueries = {
   }, [{operation: ApiPermissionClass.CourseBySubject, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData({...data?.data, course_image_uri: data?.data.course_image?.length ? data?.data.course_image : undefined})
+    const payload = convertToFormData({...data?.data, course_image_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
     return adminApi({
       endpoint: endpoints.COURSE,
       method: "POST",
@@ -53,7 +53,7 @@ export const CourseQueries:ICourseQueries = {
   }, [{operation: ApiPermissionClass.Course, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData({...data?.data, course_image_uri: data?.data.course_image?.length ? data?.data.course_image : undefined})
+    const payload = convertToFormData({...data?.data, course_image_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.COURSE}/${id}`,

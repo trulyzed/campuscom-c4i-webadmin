@@ -8,6 +8,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -41,7 +42,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Tax Code', value: product.tax_code },
       { label: 'Fee', value: product.fee },
       { label: 'Minimum Fee', value: product.minimum_fee },
-      { label: 'Image', value: product.image },
+      { label: 'Image', value: renderThumb(product.image, "Product's image") },
       { label: 'Content', value: JSON.stringify(product.content) },
       { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkout_url, checkout_url, false, true) : undefined },
     ]

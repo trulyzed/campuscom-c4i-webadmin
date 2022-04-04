@@ -6,6 +6,7 @@ import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQu
 import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -15,7 +16,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       { label: 'URL slug', value: store.url_slug },
       { label: 'Store URL', value: renderLink(`${process.env.REACT_APP_STOREFRONT_URL}/${store.url_slug}`, store.url_slug, false, true) },
       { label: 'GTM ID', value: store.gtm_id },
-      { label: 'Logo', value: store.store_logo_uri },
+      { label: 'Logo', value: renderThumb(store.store_logo_uri, "Store's logo") },
       { label: 'Template', value: renderLink(store.template, store.template, false, true) },
     ]
   }
