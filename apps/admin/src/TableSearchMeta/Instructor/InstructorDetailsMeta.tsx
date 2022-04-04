@@ -8,6 +8,7 @@ import { InstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/Ins
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getInstructorDetailsMeta = (instructor: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => InstructorQueries.update({ ...data, params: { id: instructor.id } }).then(resp => {
@@ -35,7 +36,7 @@ export const getInstructorDetailsMeta = (instructor: { [key: string]: any }): ID
     contents: [
       { label: 'Name', value: instructor.name, },
       { label: 'Provider', value: renderLink(`/administration/course-provider/${instructor.provider.id}`, instructor.provider.name) },
-      { label: 'Image', value: instructor.image },
+      { label: 'Image', value: renderThumb(instructor.image, "Instructor's photo") },
       { label: 'Short bio', value: instructor.short_bio, },
       { label: 'Detail bio', value: instructor.detail_bio, },
     ]

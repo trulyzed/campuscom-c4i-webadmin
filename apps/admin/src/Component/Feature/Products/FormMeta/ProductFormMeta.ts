@@ -1,4 +1,5 @@
-import { DROPDOWN, IField, NUMBER, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
+import { DROPDOWN, FILE, IField, NUMBER, TEXT, TEXTAREA } from "~/packages/components/Form/common"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -48,11 +49,13 @@ export const ProductFormMeta: IField[] = [
     inputType: NUMBER,
     rules: [{ required: true, message: "This field is required!" }]
   },
-  // {
-  //   label: 'Image',
-  //   fieldName: 'image',
-  //   inputType: IMAGE,
-  // },
+  {
+    label: 'Image',
+    inputType: FILE,
+    fieldName: "image_file",
+    previewKey: "image",
+    accept: IMAGE_INPUT_FORMAT,
+  },
   {
     label: 'Content',
     fieldName: 'content',

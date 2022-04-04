@@ -1,4 +1,5 @@
-import { DROPDOWN, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
+import { DROPDOWN, FILE, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -26,12 +27,13 @@ export const InstructorFormMeta: IField[] = [
     maxLength: 50,
     rules: [{ required: true, message: "This field is required!" }]
   },
-  // {
-  //   label: 'Image',
-  //   inputType: TEXT,
-  //   fieldName: "course_image_uri",
-  //   maxLength: 50,
-  // },
+  {
+    label: 'Image',
+    inputType: FILE,
+    fieldName: "image_file",
+    previewKey: "image",
+    accept: IMAGE_INPUT_FORMAT,
+  },
   {
     label: 'Short Bio',
     inputType: TEXTAREA,

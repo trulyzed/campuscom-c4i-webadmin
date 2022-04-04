@@ -37,7 +37,7 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     return adminApi({
       endpoint: endpoints.PRODUCT,
       method: "POST",
@@ -47,7 +47,7 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.PRODUCT}/${id}`,

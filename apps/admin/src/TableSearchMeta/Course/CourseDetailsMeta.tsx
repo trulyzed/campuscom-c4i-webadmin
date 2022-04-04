@@ -14,6 +14,7 @@ import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFo
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -49,7 +50,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       { label: "Title", value: course.title, render: undefined },
       { label: "Code", value: course.code, render: undefined },
       { label: 'Inquiry URL', value: course.inquiry_url },
-      { label: 'Course Provider', value: course.provider.name },
+      { label: 'Course Provider', value: renderLink(`/administration/course-provider/${course.provider.id}`, course.provider.name) },
       { label: 'External ID', value: course.external_id },
       { label: 'External URL', value: course.external_url },
       { label: 'Slug', value: course.slug },
@@ -57,7 +58,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       { label: 'Summary', value: course.summary },
       { label: 'Description', value: course.description },
       { label: 'Learning Outcome', value: course.learning_outcome },
-      { label: 'Image', value: course.course_image_uri },
+      { label: 'Image', value: renderThumb(course.course_image_uri, "Course's photo") },
       { label: 'Syllabus URL', value: course.syllabus_url },
       { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
     ]

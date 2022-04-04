@@ -45,6 +45,11 @@ const renderWeek = (text: any[]) => {
   return text && Array.isArray(text) && weeks.filter((x, i) => text.includes(i + 1))
 }
 
+const renderThumb = (url: string, alt?: string) => {
+  if (!url) return undefined
+  return <a className="external-link" target={"_blank"} rel={"noopener noreferrer"} href={url}><img className="thumb" src={url} alt={alt || url} /></a>
+}
+
 const sortByBoolean = (a: boolean, b: boolean) => (a === b ? 0 : a ? -1 : 1)
 const sortByString = (a: string, b: string) => a.localeCompare(b)
 const sortByTime = (a?: string, b?: string) => {
@@ -68,6 +73,7 @@ export {
   renderBoolean,
   renderAmount,
   renderWeek,
+  renderThumb,
   sortByBoolean,
   sortByString,
   sortByTime,

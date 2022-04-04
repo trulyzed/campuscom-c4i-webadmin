@@ -1,4 +1,5 @@
-import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
+import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA, FILE } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -80,12 +81,13 @@ export const CourseFormMeta: IField[] = [
     fieldName: "learning_outcome",
     maxLength: 50,
   },
-  // {
-  //   label: 'Image',
-  //   inputType: TEXT,
-  //   fieldName: "course_image_uri",
-  //   maxLength: 50,
-  // },
+  {
+    label: 'Image',
+    inputType: FILE,
+    fieldName: "image_file",
+    previewKey: "course_image_uri",
+    accept: IMAGE_INPUT_FORMAT,
+  },
   {
     label: 'Syllabus URL',
     inputType: TEXT,
