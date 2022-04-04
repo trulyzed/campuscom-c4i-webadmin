@@ -100,3 +100,15 @@
     white-space: normal;
   }
 }
+
+.thumb {
+  width: auto;
+  height: 100px;
+  max-width: 200px;
+  object-fit: contain;
+}
+
+.link-pure:focus {
+  border: none !important;
+  box-shadow: none;
+}

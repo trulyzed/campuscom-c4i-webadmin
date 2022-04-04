@@ -14,6 +14,7 @@ import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFo
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -57,7 +58,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       { label: 'Summary', value: course.summary },
       { label: 'Description', value: course.description },
       { label: 'Learning Outcome', value: course.learning_outcome },
-      { label: 'Image', value: course.course_image_uri },
+      { label: 'Image', value: renderThumb(course.course_image_uri) },
       { label: 'Syllabus URL', value: course.syllabus_url },
       { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
     ]
