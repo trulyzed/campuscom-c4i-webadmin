@@ -1,0 +1,1 @@
+export const IMAGE_INPUT_FORMAT = '.jpg, .jpeg, .png';

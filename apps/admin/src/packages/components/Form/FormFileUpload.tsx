@@ -28,7 +28,10 @@ export const FormFileUpload = (props: IFormFieldProps) => {
 
   useEffect(() => {
     props.formInstance.setFieldsValue({
-      [props.fieldName]: files?.map(i => i.originFileObj).filter(i => i)
+      [props.fieldName]: files?.reduce((a, c) => {
+        if (c.originFileObj) a.push(c.originFileObj)
+        return a
+      }, [] as UploadFile['originFileObj'][])
     })
   }, [files, props.fieldName, props.formInstance])
 
@@ -43,8 +46,8 @@ export const FormFileUpload = (props: IFormFieldProps) => {
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview && file.originFileObj) {
-      file.preview = await getBase64(file.originFileObj);
-    }
+      file.preview = await getBase64(file.originFileObj)
+    } else if (file.url) file.preview = file.url
 
     if (!file.preview) return
 
