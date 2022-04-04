@@ -4,6 +4,8 @@ import { Link } from "react-router-dom"
 import { ReadOutlined } from "@ant-design/icons"
 import { setScrollPosition } from "~/packages/components/ResponsiveTable//ManageScroll"
 import { convertAmountToCSV } from "@packages/utilities/lib/util"
+import ReactMarkdown from 'react-markdown'
+import rehypeRaw from 'rehype-raw'
 
 export const DATE_FORMAT = "MM/DD/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -33,6 +35,7 @@ const renderDate = (text: any) => (!!text ? moment(text).format(DATE_FORMAT) : "
 const renderDateTime = (text: any) => (!!text ? moment(text).format(DATE_TIME_FORMAT) : "")
 const renderTime = (text: any) => (!!text ? moment(text).format(TIME_FORMAT) : "")
 const renderAmount = (text: any) => (!!text ? <div style={{ textAlign: "right" }}>{convertAmountToCSV(text)}</div> : "")
+const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 
 const renderBoolean = (text: any) => {
   if (typeof text === "boolean") {
@@ -74,6 +77,7 @@ export {
   renderAmount,
   renderWeek,
   renderThumb,
+  renderHtml,
   sortByBoolean,
   sortByString,
   sortByTime,
