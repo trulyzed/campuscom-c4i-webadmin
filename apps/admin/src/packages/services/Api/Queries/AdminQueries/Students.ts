@@ -37,7 +37,7 @@ export const StudentQueries:IStudentQueries = {
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({...data?.data, profile_picture_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.STUDENT}/${id}`,

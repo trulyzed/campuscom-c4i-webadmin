@@ -125,6 +125,7 @@ export const endpoints = {
   ALL_COURSE: 'courses?limit=1000',
   ALL_COURSE_BY_SUBJECT: 'courses-by-catalog?limit=1000',
   ALL_COURSE_PROVIDER: 'course-providers?limit=1000',
+  ALL_COURSE_PUBLISHING_STORE: 'course-publishing-stores?limit=1000',
   ALL_COURSE_SHARING_CONTRACT: 'course-sharing-contracts?limit=1000',
   ALL_CUSTOM_ROLE: 'custom-roles?limit=1000',
   ALL_DISCOUNT_PROGRAM: 'discount-programs?limit=1000',

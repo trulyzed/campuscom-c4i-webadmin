@@ -1,57 +1,25 @@
-import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
-import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { renderLink } from "~/packages/components/ResponsiveTable"
 
-export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
-    if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
-    }
-    return resp
-  })), [CourseQueries.update])
-
-  const summary: CardContainer = {
-    title: course.title,
-    cardActions: [
-      <MetaDrivenFormModalOpenButton
-        formTitle={`Update Course`}
-        formMeta={CourseFormMeta}
-        formSubmitApi={updateEntity}
-        initialFormValue={{ ...course, provider: course.provider.id }}
-        defaultFormValue={{ courseId: course.id }}
-        buttonLabel={`Update Course`}
-        iconType="edit"
-        refreshEventName={REFRESH_PAGE}
-      />,
-      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ],
+export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetailsMeta => {
+  const summaryInfo: CardContainer = {
+    title: `CartItem: ${cartItem.product.title}`,
     contents: [
-      { label: "Title", value: course.title, render: undefined },
-      { label: "Code", value: course.code, render: undefined },
-      { label: 'Inquiry URL', value: course.inquiry_url },
-      { label: 'Course Provider', value: course.provider.name },
-      { label: 'External ID', value: course.external_id },
-      { label: 'External URL', value: course.external_url },
-      { label: 'Slug', value: course.slug },
-      { label: 'Level', value: course.level },
-      { label: 'Summary', value: course.summary },
-      { label: 'Description', value: course.description },
-      { label: 'Learning Outcome', value: course.learning_outcome },
-      { label: 'Image', value: course.course_image_uri },
-      { label: 'Syllabus URL', value: course.syllabus_url },
-      { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
+      { label: 'Order', value: renderLink(`/storefront-data/order/${cartItem.cart.id}`, cartItem.cart.order_ref) },
+      { label: 'Product', value: renderLink(`/store/product/${cartItem.product.id}`, cartItem.product.title) },
+      { label: 'Related To', value: cartItem.parent_product ? renderLink(`/store/product/${cartItem.parent_product.id}`, cartItem.parent_product.title) : undefined },
+      { label: 'Quantity', value: cartItem.quantity },
+      { label: 'Unit Price', value: cartItem.unit_price },
+      { label: 'Extended Amount', value: cartItem.extended_amount },
+      { label: 'Discount Amount', value: cartItem.discount_amount },
+      { label: 'Sales Tax', value: cartItem.sales_tax },
+      { label: 'Total Amount', value: cartItem.total_amount },
     ]
   }
 
   const summaryMeta: IDetailsSummary = {
-    summary: [summary]
+    summary: [summaryInfo]
   }
 
   const tabMetas: IDetailsTabMeta[] = [
@@ -59,12 +27,12 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       tabTitle: "Summary",
       tabType: "summary",
       tabMeta: summaryMeta,
-      helpKey: "courseSummaryTab"
+      helpKey: "cartItemSummaryTab"
     },
   ]
 
   return {
-    pageTitle: `Course Title - ${course.title}`,
+    pageTitle: `Cart Item Title - ${cartItem.product.title}`,
     tabs: tabMetas
   }
 }

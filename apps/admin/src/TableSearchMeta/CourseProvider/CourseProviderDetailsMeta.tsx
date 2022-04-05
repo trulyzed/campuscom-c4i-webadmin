@@ -1,5 +1,6 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
+import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -7,10 +8,10 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     contents: [
       { label: 'Name', value: courseProvider.name, },
       { label: 'Code', value: courseProvider.code, },
-      { label: 'Summary', value: courseProvider.summary, },
+      { label: 'Summary', value: renderHtml(courseProvider.summary), },
       { label: 'Website', value: courseProvider.website_url, },
-      { label: 'Description', value: courseProvider.description, },
-      { label: 'Logo', value: courseProvider.course_provider_logo_uri, },
+      { label: 'Description', value: renderHtml(courseProvider.description), },
+      { label: 'Logo', value: renderThumb(courseProvider.course_provider_logo_uri, "Course Provider's logo"), },
       { label: 'Refund Email', value: courseProvider.refund_email, },
     ]
   }

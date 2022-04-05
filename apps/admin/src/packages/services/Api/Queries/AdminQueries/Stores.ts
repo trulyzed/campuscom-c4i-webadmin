@@ -43,4 +43,12 @@ export const StoreQueries:IStoreQueries = {
       data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
     }) : resp)
   }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Read}]),
+
+  getListByCoursePublishing: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_COURSE_PUBLISHING_STORE,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CoursePublishingStore, action: ApiPermissionAction.Read}]),
 }
