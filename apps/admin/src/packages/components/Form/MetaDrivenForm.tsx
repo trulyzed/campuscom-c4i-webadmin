@@ -326,9 +326,6 @@ export function MetaDrivenForm({
             justify="end"
             gutter={[8, 8]}
             style={{
-              marginLeft: "-25px",
-              marginRight: "-25px",
-              rowGap: "0px",
               paddingTop: "10px",
               borderTop: "3px solid #f0f2f5",
               marginBottom: "-30px"
@@ -522,8 +519,8 @@ const SearchFormFields = (props: {
                   key={i}
                   formInstance={props.formInstance}
                   clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 24}
-                  wrapperColSpan={field.wrapperColSpan || 24}
+                  labelColSpan={field.labelColSpan || 4}
+                  wrapperColSpan={field.wrapperColSpan || 20}
                 />
               )
               break
