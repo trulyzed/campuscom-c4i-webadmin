@@ -156,16 +156,21 @@ export function MetaDrivenForm({
       const meta = props.meta.find((x) => x.fieldName === fieldName)
       return meta && !!meta.disabled
     }
+    const getDefaultValue = (key?: string, field?: IField) => {
+      const matchedField = field || props.meta.find((x) => x.fieldName === key)
+      return matchedField?.inputType === EDITOR ? "" : undefined
+    }
     Object.keys(formInstance.getFieldsValue()).forEach((key) => {
       if (dontReset(key)) return
-      formInstance.setFieldsValue({ [key]: undefined })
+      formInstance.setFieldsValue({ [key]: getDefaultValue(key) })
     })
     setClearTrigger(!clearTrigger)
 
     const _meta = props.meta.map((x) => {
+      const defaultValue = getDefaultValue(undefined, x)
       if (dontReset(x.fieldName)) return x
-      x.defaultValue = undefined
-      x.defaultValue2 = undefined
+      x.defaultValue = defaultValue
+      x.defaultValue2 = defaultValue
       return x
     })
     setMeta(_meta)
