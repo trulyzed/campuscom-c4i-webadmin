@@ -16,6 +16,7 @@ export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
 export const FILE = "FILE"
+export const EDITOR = "EDITOR"
 
 export type IFieldType =
   | typeof TEXT
@@ -30,6 +31,7 @@ export type IFieldType =
   | typeof CUSTOM_FIELD
   | typeof MULTI_RADIO
   | typeof FILE
+  | typeof EDITOR
 
 export interface IField {
   label: React.ReactNode
@@ -75,7 +77,8 @@ export interface IField {
 export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
-  getValueFromEvent?: (args?: any) => void
+  getValueFromEvent?: (...args: any) => void
+  initialValue?: any
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {
@@ -100,6 +103,7 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       help={props.help}
       style={props.formItemStyle}
       getValueFromEvent={props.getValueFromEvent}
+      initialValue={props.initialValue}
     >
       {props.children}
     </Form.Item>

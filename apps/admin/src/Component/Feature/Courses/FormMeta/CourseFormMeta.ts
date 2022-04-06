@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA, FILE } from "~/packages/components/Form/common"
+import { BOOLEAN, DROPDOWN, IField, TEXT, FILE, EDITOR } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -70,16 +70,14 @@ export const CourseFormMeta: IField[] = [
   },
   {
     label: 'Description',
-    inputType: TEXTAREA,
+    inputType: EDITOR,
     fieldName: "description",
-    maxLength: 50,
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Learning Outcome',
-    inputType: TEXTAREA,
+    inputType: EDITOR,
     fieldName: "learning_outcome",
-    maxLength: 50,
   },
   {
     label: 'Image',
