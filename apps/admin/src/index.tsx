@@ -7,6 +7,7 @@ import { App } from "~/App"
 // import 'antd/dist/antd.dark.css';
 // import "antd/dist/antd.compact.css"
 import "~/Sass/global/index.scss"
+import "~/Sass/quill/index.scss"
 // import "antd/lib/style/themes/default.less"
 // import "antd/dist/antd.less" // Import Ant Design styles by less entry
 import "~/Less/theme.less"
