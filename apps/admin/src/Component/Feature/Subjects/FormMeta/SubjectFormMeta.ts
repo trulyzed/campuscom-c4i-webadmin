@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { BOOLEAN, DATE_PICKER, DROPDOWN, FILE, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, FILE, IField, TEXT } from "~/packages/components/Form/common"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -22,7 +22,7 @@ export const SubjectFormMeta: IField[] = [
   },
   {
     label: 'Description',
-    inputType: TEXTAREA,
+    inputType: EDITOR,
     fieldName: "description",
     rules: [{ required: true, message: "This field is required!" }]
   },

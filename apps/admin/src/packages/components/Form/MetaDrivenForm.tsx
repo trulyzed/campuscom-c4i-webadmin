@@ -13,7 +13,8 @@ import {
   MULTI_SELECT_CHECKBOX,
   TEXTAREA,
   MULTI_RADIO,
-  FILE
+  FILE,
+  EDITOR
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -37,6 +38,7 @@ import { FormSettings } from "~/packages/components/Form/FormSettings/FormSettin
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { FormFileUpload } from "./FormFileUpload"
+import { FormEditorInput } from "./FormEditorInput"
 
 export function MetaDrivenForm({
   showClearbutton = true,
@@ -513,6 +515,18 @@ const SearchFormFields = (props: {
                 />
               )
               break
+            case EDITOR:
+              formField = (
+                <FormEditorInput
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  clearTrigger={props.clearTrigger}
+                  labelColSpan={field.labelColSpan || 24}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
             case CUSTOM_FIELD:
               if (field.customFilterComponent) {
                 formField = (
@@ -533,12 +547,10 @@ const SearchFormFields = (props: {
               break
           }
 
-          const lg = props.isHorizontal ? 24 : 12
-          const md = props.isHorizontal ? 24 : 12
-          const sm = props.isHorizontal ? 24 : 12
+          const lg = (props.isHorizontal || (field.inputType === EDITOR)) ? 24 : 12
           const xs = 24
           return (
-            <Col key={1000 + i} lg={lg} md={md} sm={sm} xs={xs}>
+            <Col key={1000 + i} lg={lg} xs={xs}>
               {formField}
             </Col>
           )

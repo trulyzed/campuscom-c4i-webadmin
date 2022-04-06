@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { DROPDOWN, FILE, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { DROPDOWN, EDITOR, FILE, IField, TEXT } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -36,14 +36,12 @@ export const InstructorFormMeta: IField[] = [
   },
   {
     label: 'Short Bio',
-    inputType: TEXTAREA,
+    inputType: EDITOR,
     fieldName: "short_bio",
-    maxLength: 50,
   },
   {
     label: 'Detail Bio',
-    inputType: TEXTAREA,
+    inputType: EDITOR,
     fieldName: "detail_bio",
-    maxLength: 50,
   },
 ]
