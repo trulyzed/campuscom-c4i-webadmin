@@ -62,7 +62,7 @@ export const InstructorQueries:IInstructorQueries = {
     const {id, ...params} = data?.params;
     console.log(data)
     return adminApi({
-      endpoint: `${endpoints.INSTRUCTOR}/${`id`}`,
+      endpoint: `${endpoints.INSTRUCTOR}/${id}`,
       method: "PATCH",
       ...data,
       data: payload,
