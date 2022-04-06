@@ -60,7 +60,6 @@ export const InstructorQueries:IInstructorQueries = {
   update: PermissionWrapper(data => {
     const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
-    console.log(data)
     return adminApi({
       endpoint: `${endpoints.INSTRUCTOR}/${id}`,
       method: "PATCH",
