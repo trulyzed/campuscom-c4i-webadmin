@@ -22,7 +22,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
-    cardActions: [
+    cardActions: product.product_type === 'miscellaneous' ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Product`}
         formMeta={ProductFormMeta}
@@ -34,7 +34,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
         refreshEventName={REFRESH_PAGE}
       />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ],
+    ] : undefined,
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${product.store.id}`, product.store.name), },
       { label: 'Title', value: product.title },
