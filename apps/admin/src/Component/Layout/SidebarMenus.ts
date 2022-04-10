@@ -1,11 +1,13 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
+import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
+import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
@@ -104,12 +106,24 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Stores ",
+        title: "Course Providers",
+        url: "/administration/course-provider",
+        submenu: [],
+        permission: checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc)
+      },
+      {
+        title: "Stores",
         url: "/administration/store",
         submenu: [],
         permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
       },
+      {
+        title: "Questions",
+        url: "/administration/question",
+        submenu: [],
+        permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+      },
     ],
-    permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
   }
 ]
