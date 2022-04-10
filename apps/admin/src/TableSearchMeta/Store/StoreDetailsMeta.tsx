@@ -1,3 +1,4 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
@@ -7,10 +8,35 @@ import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/Cour
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.update])
+
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Store`}
+        formMeta={StoreFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...store, }}
+        defaultFormValue={{ storeId: store.id }}
+        buttonLabel={`Update Store`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+    ],
     contents: [
       { label: 'Name', value: store.name, render: (text: any) => text },
       { label: 'URL slug', value: store.url_slug },

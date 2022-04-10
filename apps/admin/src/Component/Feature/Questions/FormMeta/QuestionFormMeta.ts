@@ -1,4 +1,4 @@
-import { FILE_INPUT_FORMAT, INPUT_OPTIONS } from "~/Configs/input"
+import { BATCH_FILE_INPUT_FORMAT, INPUT_OPTIONS } from "~/Configs/input"
 import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 import { GlobalConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/GlobalConfigurations"
@@ -73,7 +73,7 @@ export const QuestionFormMeta: IField[] = [
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
-    accept: FILE_INPUT_FORMAT
+    accept: BATCH_FILE_INPUT_FORMAT
   },
   {
     label: 'Is Multiple',
