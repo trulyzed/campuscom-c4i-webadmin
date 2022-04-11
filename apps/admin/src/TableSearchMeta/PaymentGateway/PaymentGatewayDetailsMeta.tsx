@@ -1,17 +1,17 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderDateTime } from "~/packages/components/ResponsiveTable"
 
 export const getPaymentGatewayDetailsMeta = (paymentGateway: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
-    title: `PaymentGateway: ${paymentGateway.name}`,
+    title: `Payment Gateway: ${paymentGateway.name}`,
     contents: [
-      { label: 'Provider Type', value: paymentGateway.provider_type, },
       { label: 'Name', value: paymentGateway.name, },
-      { label: 'Slug', value: paymentGateway.slug, },
-      { label: 'Is Sandboxed?', value: paymentGateway.is_sandboxed, render: renderBoolean },
-      { label: 'Is School Provider?', value: paymentGateway.is_school_provider, },
-      { label: 'Configuration', value: paymentGateway.configuration, render: (text: any) => JSON.stringify(text) },
+      { label: 'SDK Version', value: paymentGateway.sdk_version, },
+      { label: 'Last Update Date', value: paymentGateway.last_update_date, render: renderDateTime },
+      { label: 'Is Active', value: paymentGateway.is_active, render: renderBoolean },
+      { label: 'Source Library Path', value: paymentGateway.source_library_path, },
+      { label: 'Class Name', value: paymentGateway.class_name, },
     ]
   }
 
@@ -29,7 +29,7 @@ export const getPaymentGatewayDetailsMeta = (paymentGateway: { [key: string]: an
   ]
 
   return {
-    pageTitle: `PaymentGateway Title - ${paymentGateway.name}`,
+    pageTitle: `Payment Gateway Title - ${paymentGateway.name}`,
     tabs: tabMetas
   }
 }

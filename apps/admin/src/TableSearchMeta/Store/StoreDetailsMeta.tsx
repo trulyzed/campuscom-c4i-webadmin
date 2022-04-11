@@ -130,13 +130,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
             {
               title: "Payment Gateway",
               dataIndex: "payment_gateway",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${record.id}`, text.name) : text.name,
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${text.id}`, text.name) : text.name,
               sorter: (a: any, b: any) => a.payment_gateway.name - b.payment_gateway.name
             },
             {
               title: "Payment Gateway Config",
               dataIndex: "payment_gateway_config",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${record.id}`, text.name) : text.name,
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${text.id}`, text.name) : text.name,
               sorter: (a: any, b: any) => a.name - b.name
             },
             {

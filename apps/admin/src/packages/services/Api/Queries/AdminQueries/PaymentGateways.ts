@@ -55,4 +55,14 @@ export const PaymentGatewayQueries:IPaymentGatewayQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Read}]),
+
+  getSingleByStore: PermissionWrapper(data => {
+    const { id, ...params } = data?.params || {};
+    return adminApi({
+      endpoint: `${endpoints.STORE_PAYMENT_GATEWAY}/${id}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Read}]),
 }

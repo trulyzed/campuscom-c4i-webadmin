@@ -5,5 +5,6 @@ export interface IPaymentGatewayQueries {
   getPaginatedList: IQuery
   getList: IQuery
   getListByStore: IQuery
+  getSingleByStore: IQuery
   getLookupData: IQuery
 }
