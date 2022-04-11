@@ -101,4 +101,25 @@ export const StoreQueries:IStoreQueries = {
       ...data,
     })
   }, [{operation: ApiPermissionClass.DeleteStoreIdentityProvider, action: ApiPermissionAction.Write}]),
+
+  tagPaymentGateway: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      catalogs: data?.data.subjects
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_PAYMENT_GATEWAY}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Write}]),
+
+  untagPaymentGateway: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_STORE_PAYMENT_GATEWAY}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteStorePaymentGateway, action: ApiPermissionAction.Write}]),
 }

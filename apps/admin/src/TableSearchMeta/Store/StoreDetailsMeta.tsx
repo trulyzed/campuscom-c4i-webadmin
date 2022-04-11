@@ -16,6 +16,8 @@ import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
+import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -31,6 +33,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagIdentityProvider])
+
+  const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagPaymentGateway])
 
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
@@ -99,6 +108,61 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               buttonLabel={`Add Identity Provider`}
               iconType="create"
               refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
+            />
+          ]
+        }
+      },
+      helpKey: "identityProviderTab"
+    },
+    {
+      tabTitle: "Payment Gateways",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Name",
+              dataIndex: "name",
+              render: (text: any, record: any) => record.id ? renderLink(`/store/payment-gateway/${record.id}`, text) : text,
+              sorter: (a: any, b: any) => a.name - b.name
+            },
+            {
+              title: "Payment Gateway",
+              dataIndex: "payment_gateway",
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${record.id}`, text.name) : text.name,
+              sorter: (a: any, b: any) => a.payment_gateway.name - b.payment_gateway.name
+            },
+            {
+              title: "Payment Gateway Config",
+              dataIndex: "payment_gateway_config",
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${record.id}`, text.name) : text.name,
+              sorter: (a: any, b: any) => a.name - b.name
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_STORE_PAYMENT_GATEWAY_TAB"
+                  onClickRemove={() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: PaymentGatewayQueries.getListByStore,
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_STORE_PAYMENT_GATEWAY_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Payment Gateway`}
+              formMeta={PaymentGatewayTaggingFormMeta}
+              formSubmitApi={addPaymentGateway}
+              buttonLabel={`Add Payment Gateway`}
+              iconType="create"
+              refreshEventName={'REFRESH_STORE_PAYMENT_GATEWAY_TAB'}
             />
           ]
         }

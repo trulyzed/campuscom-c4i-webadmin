@@ -154,6 +154,7 @@ export const endpoints = {
   ALL_STORE_COURSE: 'store-courses?limit=1000',
   ALL_STORE_COURSE_SUBJECT: 'course-catalogs?limit=1000',
   ALL_STORE_IDENTITY_PROVIDER: 'store-identity-providers?limit=1000',
+  ALL_STORE_PAYMENT_GATEWAY: 'store-payment-gateways',
   ALL_STUDENT: 'profiles?limit=1000',
   ALL_SUBJECT: 'catalogs?limit=1000',
   ALL_USER: 'users?limit=1000',

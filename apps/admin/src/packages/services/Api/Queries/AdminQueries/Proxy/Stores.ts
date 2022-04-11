@@ -10,4 +10,6 @@ export interface IStoreQueries {
   update: IQuery
   tagIdentityProvider: IQuery
   untagIdentityProvider: IQuery
+  tagPaymentGateway: IQuery
+  untagPaymentGateway: IQuery
 }
