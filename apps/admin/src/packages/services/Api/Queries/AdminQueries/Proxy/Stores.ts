@@ -8,4 +8,5 @@ export interface IStoreQueries {
   getListByCoursePublishing: IQuery
   create: IQuery
   update: IQuery
+  tagIdentityProvider: IQuery
 }

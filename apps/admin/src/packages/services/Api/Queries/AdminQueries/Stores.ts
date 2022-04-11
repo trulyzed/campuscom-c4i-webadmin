@@ -80,4 +80,17 @@ export const StoreQueries:IStoreQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Write}]),
+
+  tagIdentityProvider: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      catalogs: data?.data.subjects
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_IDENTITY_PROVIDER}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Write}]),
 }

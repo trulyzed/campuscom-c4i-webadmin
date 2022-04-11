@@ -12,8 +12,9 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -22,6 +23,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.update])
+
+  const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagIdentityProvider])
 
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
@@ -68,6 +76,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchFunc: IdentityProviderQueries.getListByStore,
           searchParams: { store__id: store.id },
           refreshEventName: "REFRESH_IDENTITY_PROVIDER_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Identity Provider`}
+              formMeta={IdentityProviderTaggingFormMeta}
+              formSubmitApi={addIdentityProvider}
+              buttonLabel={`Add Identity Provider`}
+              iconType="create"
+              refreshEventName={'REFRESH_IDENTITY_PROVIDER_TAB'}
+            />
+          ]
         }
       },
       helpKey: "identityProviderTab"
