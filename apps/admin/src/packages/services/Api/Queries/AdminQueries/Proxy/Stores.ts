@@ -9,4 +9,5 @@ export interface IStoreQueries {
   create: IQuery
   update: IQuery
   tagIdentityProvider: IQuery
+  untagIdentityProvider: IQuery
 }

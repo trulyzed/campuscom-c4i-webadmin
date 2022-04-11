@@ -55,7 +55,7 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
       method: "GET"
     }).then(resp => resp.success ? ({
       ...resp,
-      data: resp.data.map((i: any) => ({...i.identity_provider}))
+      data: resp.data.map((i: any) => ({...i.identity_provider, store_identity_provider_id: i.id}))
     }) : resp)
   }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Read}]),
 }

@@ -93,4 +93,12 @@ export const StoreQueries:IStoreQueries = {
       data: payload,
     })
   }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Write}]),
+
+  untagIdentityProvider: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_STORE_IDENTITY_PROVIDER}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteStoreIdentityProvider, action: ApiPermissionAction.Write}]),
 }

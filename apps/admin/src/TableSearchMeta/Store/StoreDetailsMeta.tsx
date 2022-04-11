@@ -15,6 +15,7 @@ import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Store
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -72,10 +73,24 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getIdentityProviderListTableColumns(),
+          columns: [
+            ...getIdentityProviderListTableColumns().columns,
+            {
+              title: "Action",
+              dataIndex: "store_identity_provider_id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_STORE_IDENTITY_PROVIDER_TAB"
+                  onClickRemove={() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
           searchFunc: IdentityProviderQueries.getListByStore,
           searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_IDENTITY_PROVIDER_TAB",
+          refreshEventName: "REFRESH_STORE_IDENTITY_PROVIDER_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Identity Provider`}
@@ -83,7 +98,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               formSubmitApi={addIdentityProvider}
               buttonLabel={`Add Identity Provider`}
               iconType="create"
-              refreshEventName={'REFRESH_IDENTITY_PROVIDER_TAB'}
+              refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
             />
           ]
         }
