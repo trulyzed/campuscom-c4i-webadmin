@@ -18,6 +18,7 @@ import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/Form
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
 import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
+import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -195,6 +196,19 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "storeUserTab"
+    },
+    {
+      tabTitle: "Configurations",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getStoreConfigurationListTableColumns(),
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_CONFIGURATION_TAB",
+        }
+      },
+      helpKey: "configurationTab"
     },
   ]
 
