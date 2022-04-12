@@ -5,4 +5,5 @@ export interface IIdentityProviderQueries {
   getPaginatedList: IQuery
   getList: IQuery
   getListByStore: IQuery
+  getLookupData: IQuery
 }

@@ -35,6 +35,17 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
     })
   }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Read}]),
 
+  getLookupData: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_IDENTITY_PROVIDER,
+      ...data,
+      method: "GET"
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+    }) : resp)
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Read}]),
+
   getListByStore: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
@@ -44,7 +55,7 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
       method: "GET"
     }).then(resp => resp.success ? ({
       ...resp,
-      data: resp.data.map((i: any) => ({...i.identity_provider}))
+      data: resp.data.map((i: any) => ({...i.identity_provider, store_identity_provider_id: i.id}))
     }) : resp)
   }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Read}]),
 }

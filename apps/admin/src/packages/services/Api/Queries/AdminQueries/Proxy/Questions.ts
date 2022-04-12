@@ -1,13 +1,19 @@
-import { convertToString } from "~/packages/utils/string"
+import { convertToString } from "~/packages/utils/mapper"
 import { IQuery } from "./types"
 
 export interface IQuestionQueries {
-  getPaginatedList: IQuery
+  getSingle: IQuery
+  getList: IQuery
+  getListByCourseProvider: IQuery
+  create: IQuery
+  update: IQuery
+  delete: IQuery
 }
 
 export const processQuestions = (data:{title: string; answer: string; type: string}[]): {question: string; answer: string; type: string}[] => {
   return data.map(i => ({
     question: convertToString(i.title, true),
+    ...i,
     answer: i.answer,
     type: i.type,
   }))

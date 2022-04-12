@@ -98,7 +98,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               pagination: false,
               columns: questionListTableColumns,
               dataSource: processQuestions(order.agreement_details),
-              rowKey: 'id',
+              rowKey: 'question',
               refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",
             }
           }

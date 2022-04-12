@@ -3,6 +3,7 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { IStoreQueries } from "./Proxy/Stores"
+import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const StoreQueries:IStoreQueries = {
   getSingle: PermissionWrapper(data => {
@@ -51,4 +52,74 @@ export const StoreQueries:IStoreQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.CoursePublishingStore, action: ApiPermissionAction.Read}]),
+
+  create: PermissionWrapper(data => {
+    const payload = convertToFormData({
+      ...data?.data,
+      store_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined,
+    })
+    return adminApi({
+      endpoint: endpoints.STORE,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Write}]),
+
+  update: PermissionWrapper(data => {
+    const payload = convertToFormData({
+      ...data?.data,
+      store_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined,
+    })
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.STORE}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
+    })
+  }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Write}]),
+
+  tagIdentityProvider: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      catalogs: data?.data.subjects
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_IDENTITY_PROVIDER}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Write}]),
+
+  untagIdentityProvider: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_STORE_IDENTITY_PROVIDER}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteStoreIdentityProvider, action: ApiPermissionAction.Write}]),
+
+  tagPaymentGateway: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      catalogs: data?.data.subjects
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_PAYMENT_GATEWAY}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Write}]),
+
+  untagPaymentGateway: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_STORE_PAYMENT_GATEWAY}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteStorePaymentGateway, action: ApiPermissionAction.Write}]),
 }

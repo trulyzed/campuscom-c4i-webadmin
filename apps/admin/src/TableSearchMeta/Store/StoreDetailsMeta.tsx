@@ -1,3 +1,4 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
@@ -7,10 +8,54 @@ import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/Cour
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
+import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
+import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.update])
+
+  const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagIdentityProvider])
+
+  const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagPaymentGateway])
+
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Store`}
+        formMeta={StoreFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...store, }}
+        defaultFormValue={{ storeId: store.id }}
+        buttonLabel={`Update Store`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+    ],
     contents: [
       { label: 'Name', value: store.name, render: (text: any) => text },
       { label: 'URL slug', value: store.url_slug },
@@ -38,10 +83,89 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getIdentityProviderListTableColumns(),
+          columns: [
+            ...getIdentityProviderListTableColumns().columns,
+            {
+              title: "Action",
+              dataIndex: "store_identity_provider_id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_STORE_IDENTITY_PROVIDER_TAB"
+                  onClickRemove={() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
           searchFunc: IdentityProviderQueries.getListByStore,
           searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_IDENTITY_PROVIDER_TAB",
+          refreshEventName: "REFRESH_STORE_IDENTITY_PROVIDER_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Identity Provider`}
+              formMeta={IdentityProviderTaggingFormMeta}
+              formSubmitApi={addIdentityProvider}
+              buttonLabel={`Add Identity Provider`}
+              iconType="create"
+              refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
+            />
+          ]
+        }
+      },
+      helpKey: "identityProviderTab"
+    },
+    {
+      tabTitle: "Payment Gateways",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Name",
+              dataIndex: "name",
+              render: (text: any, record: any) => record.id ? renderLink(`/store/payment-gateway/${record.id}`, text) : text,
+              sorter: (a: any, b: any) => a.name - b.name
+            },
+            {
+              title: "Payment Gateway",
+              dataIndex: "payment_gateway",
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${text.id}`, text.name) : text.name,
+              sorter: (a: any, b: any) => a.payment_gateway.name - b.payment_gateway.name
+            },
+            {
+              title: "Payment Gateway Config",
+              dataIndex: "payment_gateway_config",
+              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${text.id}`, text.name) : text.name,
+              sorter: (a: any, b: any) => a.name - b.name
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_STORE_PAYMENT_GATEWAY_TAB"
+                  onClickRemove={() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: PaymentGatewayQueries.getListByStore,
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_STORE_PAYMENT_GATEWAY_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Payment Gateway`}
+              formMeta={PaymentGatewayTaggingFormMeta}
+              formSubmitApi={addPaymentGateway}
+              buttonLabel={`Add Payment Gateway`}
+              iconType="create"
+              refreshEventName={'REFRESH_STORE_PAYMENT_GATEWAY_TAB'}
+            />
+          ]
         }
       },
       helpKey: "identityProviderTab"
@@ -72,6 +196,19 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "storeUserTab"
+    },
+    {
+      tabTitle: "Configurations",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getStoreConfigurationListTableColumns(),
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_CONFIGURATION_TAB",
+        }
+      },
+      helpKey: "configurationTab"
     },
   ]
 
