@@ -10,7 +10,7 @@ import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFo
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
 import { ScheduleFormMeta } from "~/Component/Feature/Schedules/FormMeta/ScheduleFormMeta"
 

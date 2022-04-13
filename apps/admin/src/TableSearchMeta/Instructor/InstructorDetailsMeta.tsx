@@ -7,7 +7,7 @@ import { InstructorQueries } from "~/packages/services/Api/Queries/AdminQueries/
 import { InstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getInstructorDetailsMeta = (instructor: { [key: string]: any }): IDetailsMeta => {

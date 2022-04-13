@@ -8,7 +8,7 @@ import { StudentFormMeta } from "~/Component/Feature/Students/FormMeta/StudentFo
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetailsMeta => {

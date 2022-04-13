@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Layout } from "antd"
 import { Link } from "react-router-dom"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 import { UpOutlined, DownOutlined } from "@ant-design/icons"
 
 const ulStyle = { listStyle: "none", paddingLeft: "0px" }

@@ -13,7 +13,7 @@ import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"

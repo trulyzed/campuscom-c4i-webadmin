@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Select } from "antd"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 
 export function FormDropDown(
   props: IGeneratedField & {

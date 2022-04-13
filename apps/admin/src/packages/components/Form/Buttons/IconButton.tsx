@@ -36,7 +36,7 @@ import { showDeleteConfirm } from "~/packages/components/Modal/Confirmation"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { Redirect } from "react-router"
 import { ButtonType } from "antd/lib/button"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 import { ProfileIcon } from "~/packages/components/Svg/ProfileIcon"
 import { BulkOrderIcon } from "~/packages/components/Svg/BulkOrderIcon"
 
