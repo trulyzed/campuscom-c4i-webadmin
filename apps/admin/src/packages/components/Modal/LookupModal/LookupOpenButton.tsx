@@ -4,8 +4,8 @@ import { IField, IGeneratedField, SearchFieldWrapper } from "~/packages/componen
 import { LookupModal } from "~/packages/components/Modal/LookupModal/LookupModal"
 import { TableColumnType } from "~/packages/components/ResponsiveTable"
 import { SearchOutlined } from "@ant-design/icons"
-import { debounce } from "@packages/utilities/lib/debounce"
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { debounce } from "~/packages/utils/debounce"
+import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export interface ILookupOpenButton extends IGeneratedField {

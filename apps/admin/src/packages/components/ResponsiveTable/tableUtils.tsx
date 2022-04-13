@@ -3,7 +3,7 @@ import moment from "moment"
 import { Link } from "react-router-dom"
 import { ReadOutlined } from "@ant-design/icons"
 import { setScrollPosition } from "~/packages/components/ResponsiveTable//ManageScroll"
-import { convertAmountToCSV } from "@packages/utilities/lib/util"
+import { convertAmountToCSV } from "~/packages/utils/util"
 import ReactMarkdown from 'react-markdown'
 import rehypeRaw from 'rehype-raw'
 import ReactJsonView from 'react-json-view'

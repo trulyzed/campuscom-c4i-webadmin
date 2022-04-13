@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 import { HANDLE_GLOBAL_API_ERROR } from "~/packages/services/Api/utils/HandleResponse"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 import { SHOW_LOGIN_MODAL } from "~/Constants"
 
 

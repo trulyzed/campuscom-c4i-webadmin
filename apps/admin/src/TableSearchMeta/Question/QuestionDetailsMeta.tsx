@@ -3,7 +3,7 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderHtml, renderJson, renderLink, renderBoolean } from "~/packages/components/ResponsiveTable/tableUtils"
 // import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-// import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+// import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 // import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 // import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"

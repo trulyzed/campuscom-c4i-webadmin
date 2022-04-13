@@ -7,7 +7,7 @@ import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Pro
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderJson, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {

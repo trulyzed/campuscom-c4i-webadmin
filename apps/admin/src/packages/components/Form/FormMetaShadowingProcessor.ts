@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Rule } from "antd/lib/form";
 import { IField } from "~/packages/components/Form/common";
-import { eventBus } from "@packages/utilities/lib/EventBus";
+import { eventBus } from "~/packages/utils/EventBus";
 import { PreferenceQueries } from "~/packages/services/Api/Queries/AdminQueries/Preferences";
 
 export interface IUserFormMetaConfig {

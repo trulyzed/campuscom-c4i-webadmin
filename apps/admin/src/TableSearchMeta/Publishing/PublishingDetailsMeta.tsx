@@ -6,7 +6,7 @@ import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { message } from "antd"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"

@@ -4,7 +4,7 @@ import { Row, Col, Spin, Card } from "antd"
 import { zIndexLevel } from "~/packages/components/zIndexLevel"
 import FocusTrap from "focus-trap-react"
 import { Options as FocusTrapOptions } from "focus-trap"
-import { generateUUID } from "@packages/utilities/lib/UUID"
+import { generateUUID } from "~/packages/utils/UUID"
 
 const modalStyle: CSSProperties = {
   backgroundColor: "rgba(0, 0, 0, 0.4)",

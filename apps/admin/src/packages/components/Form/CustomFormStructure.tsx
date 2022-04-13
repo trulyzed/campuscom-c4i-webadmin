@@ -3,7 +3,7 @@ import { Button, Card, Col, Form, Row } from "antd"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { ICustomFormModal } from "~/packages/components/Modal/FormModal/CustomFormModal"
 import { FormError } from "~/packages/components/Form/FormError"
-import { generateUUID } from "@packages/utilities/lib/UUID"
+import { generateUUID } from "~/packages/utils/UUID"
 
 export const CustomFormStructure = ({ applyButtonLabel = "Submit", ...props }: ICustomFormModal) => {
   const formId = generateUUID(props.helpKey)
