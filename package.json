@@ -23,7 +23,8 @@
     "build:admin": "yarn workspace admin build",
     "lint": "yarn workspaces run lint",
     "lint:ts": "yarn workspaces run lint:ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "reset": "rimraf ./**/node_modules ./**/lib ./**/yarn.lock && yarn i && yarn build:packages"
   },
   "name": "hir-web-admin",
   "version": "0.0.1",
