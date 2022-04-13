@@ -8,5 +8,4 @@ build
 .eslintrc.js
 Dockerfile
 Dockerfile.jenkins
-yarn.lock
 lib
