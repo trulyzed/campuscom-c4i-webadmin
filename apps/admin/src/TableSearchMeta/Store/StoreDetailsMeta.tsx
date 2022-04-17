@@ -19,6 +19,8 @@ import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
 import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
+import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { convertToString } from "~/packages/utils/mapper"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -209,6 +211,87 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "configurationTab"
+    },
+    {
+      tabTitle: "Profile Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "title",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, convertToString(text, true)),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Respondent Type",
+              dataIndex: 'respondent_type',
+              sorter: (a: any, b: any) => a.respondent_type - b.respondent_type
+            },
+            {
+              title: "Action",
+              key: "action",
+              render: (record: any) => (
+                <IconButton
+                  toolTip="Delete Profile Question"
+                  iconType="remove"
+                  onClickRemove={() => QuestionQueries.untagProfileQuestion({ data: { ids: [record.id] } })}
+                  refreshEventName="REFRESH_PAGE"
+                />
+              )
+            }
+          ],
+          searchParams: { provider_ref: store.id, },
+          searchFunc: QuestionQueries.getProfileQuestionListByStore,
+          refreshEventName: "REFRESH_PROFILE_QUESTION_TAB",
+        }
+      },
+      helpKey: "profileQuestionTab"
+    },
+    {
+      tabTitle: "Payment Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "title",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, convertToString(text, true)),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Action",
+              key: "action",
+              render: (record: any) => (
+                <IconButton
+                  toolTip="Delete Payment Question"
+                  iconType="remove"
+                  onClickRemove={() => QuestionQueries.untagPaymentQuestion({ data: { ids: [record.id] } })}
+                  refreshEventName="REFRESH_PAGE"
+                />
+              )
+            }
+          ],
+          searchParams: { store: store.id, },
+          searchFunc: QuestionQueries.getPaymentQuestionListByStore,
+          refreshEventName: "REFRESH_PAYMENT_QUESTION_TAB",
+        }
+      },
+      helpKey: "paymentQuestionTab"
     },
   ]
 

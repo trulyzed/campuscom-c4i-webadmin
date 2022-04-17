@@ -38,6 +38,32 @@ export const QuestionQueries:IQuestionQueries = {
     } : resp)
   }, [{operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Read}]),
 
+  getProfileQuestionListByStore: PermissionWrapper(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
+    return adminApi({
+      endpoint: endpoints.ALL_PROFILE_QUESTION,
+      ...data,
+      params: {...nonPaginationParams, provider_type: 'store'},
+      method: "GET"
+    }).then(resp => resp.success ? {
+      ...resp,
+      data: processQuestions(resp.data),
+    } : resp)
+  }, [{operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Read}]),
+
+  getPaymentQuestionListByStore: PermissionWrapper(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
+    return adminApi({
+      endpoint: endpoints.ALL_PAYMENT_QUESTION,
+      ...data,
+      params: {...nonPaginationParams,},
+      method: "GET"
+    }).then(resp => resp.success ? {
+      ...resp,
+      data: processQuestions(resp.data),
+    } : resp)
+  }, [{operation: ApiPermissionClass.PaymentQuestion, action: ApiPermissionAction.Read}]),
+
   create: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.QUESTION,
@@ -63,4 +89,20 @@ export const QuestionQueries:IQuestionQueries = {
       ...data
     })
   }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Delete}]),
+
+  untagProfileQuestion: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_PROFILE_QUESTION}`,
+      method: "DELETE",
+      ...data
+    })
+  }, [{operation: ApiPermissionClass.DeleteProfileQuestion, action: ApiPermissionAction.Delete}]),
+
+  untagPaymentQuestion: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_PAYMENT_QUESTION}`,
+      method: "DELETE",
+      ...data
+    })
+  }, [{operation: ApiPermissionClass.DeletePaymentQuestion, action: ApiPermissionAction.Delete}]),
 }

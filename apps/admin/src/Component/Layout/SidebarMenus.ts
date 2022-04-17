@@ -8,6 +8,7 @@ import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentLis
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
+import { getRefundListTableColumns } from "~/TableSearchMeta/Refund/RefundListTableColumns";
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
@@ -122,6 +123,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/administration/question",
         submenu: [],
         permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+      },
+      {
+        title: "Refunds",
+        url: "/administration/refund",
+        submenu: [],
+        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)

@@ -3,6 +3,8 @@ import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { ValidateErrorEntity } from "rc-field-form/lib/interface"
+import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -131,4 +133,20 @@ export function SearchComponentWrapper(
       {props.children}
     </Form.Item>
   )
+}
+
+export interface IValidationError { }
+export const convertValidationErrorToErroMessage = (
+  validation: ValidateErrorEntity<{ [key: string]: any }>
+): ISimplifiedApiErrorMessage[] => {
+  const errorMessages: ISimplifiedApiErrorMessage[] = validation.errorFields.map((x) => {
+    return { message: x.errors[0], propertyName: x.name[0] as string }
+  })
+  if (errorMessages.length > 0 && errorMessages[0].propertyName) {
+    setTimeout(() => {
+      const errorMessages = document.getElementById("errorMessages")
+      if (errorMessages) errorMessages.focus()
+    }, 1 * 1000)
+  }
+  return errorMessages
 }
