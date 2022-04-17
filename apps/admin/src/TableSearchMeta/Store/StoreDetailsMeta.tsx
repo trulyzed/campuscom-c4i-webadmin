@@ -21,6 +21,8 @@ import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMe
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { convertToString } from "~/packages/utils/mapper"
+import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -43,6 +45,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagPaymentGateway])
+
+  const addCourseSharingContract = QueryConstructor(((data) => CourseSharingContractQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseSharingContractQueries.create])
 
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
@@ -181,6 +190,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           ...getCourseSharingContractListTableColumns(),
           searchParams: { store__id: store.id },
           refreshEventName: "REFRESH_COURSE_SHARING_CONTRACT_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Course Sharing Contract`}
+              formMeta={CourseSharingContractFormMeta}
+              formSubmitApi={addCourseSharingContract}
+              buttonLabel={`Add Course Sharing Contract`}
+              iconType="create"
+              refreshEventName={'REFRESH_COURSE_SHARING_CONTRACT_TAB'}
+            />
+          ],
         }
       },
       helpKey: "courseSharingContractTab"
