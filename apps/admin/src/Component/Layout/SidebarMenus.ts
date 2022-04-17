@@ -119,16 +119,22 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
       },
       {
-        title: "Questions",
-        url: "/administration/question",
+        title: "Users",
+        url: "/administration/user",
         submenu: [],
-        permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+        permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
       },
       {
         title: "Refunds",
         url: "/administration/refund",
         submenu: [],
         permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
+      },
+      {
+        title: "Questions",
+        url: "/administration/question",
+        submenu: [],
+        permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)

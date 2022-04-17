@@ -1,10 +1,10 @@
 import { IQuery } from "./types"
 
-export interface IUserQueries {
+export interface IRoleQueries {
   getSingle: IQuery
-  getPaginatedList: IQuery
   getList: IQuery
-  getListByStore: IQuery
+  getPaginatedList: IQuery
+  getLookupData: IQuery
   create: IQuery
   update: IQuery
 }
