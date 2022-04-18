@@ -3,6 +3,7 @@ import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTa
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
+import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
@@ -137,6 +138,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/administration/refund",
         submenu: [],
         permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
+      },
+      {
+        title: "Discount Programs",
+        url: "/administration/discount-program",
+        submenu: [],
+        permission: checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc)
       },
       {
         title: "Questions",

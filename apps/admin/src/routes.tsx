@@ -50,6 +50,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/configuration/payment-gateway-config/:paymentGatewayConfigID", component: React.lazy(() => import("~/Pages/Administration/PaymentGatewayConfigs/PaymentGatewayConfigDetailsPage").then((x) => ({ default: x.PaymentGatewayConfigDetailsPage }))) },
   { path: "/administration/refund", component: React.lazy(() => import("~/Pages/Administration/Refunds").then((x) => ({ default: x.List }))) },
   { path: "/administration/refund/:refundID", component: React.lazy(() => import("~/Pages/Administration/Refunds/RefundDetailsPage").then((x) => ({ default: x.RefundDetailsPage }))) },
+  { path: "/administration/discount-program", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms").then((x) => ({ default: x.List }))) },
+  { path: "/administration/discount-program/:discountProgramID", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms/DiscountProgramDetailsPage").then((x) => ({ default: x.DiscountProgramDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]
