@@ -1,5 +1,6 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
+import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
@@ -142,6 +143,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/administration/question",
         submenu: [],
         permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+      },
+      {
+        title: "Companies",
+        url: "/administration/company",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)

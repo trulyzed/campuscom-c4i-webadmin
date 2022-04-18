@@ -88,7 +88,7 @@ export const QuestionQueries:IQuestionQueries = {
       method: "DELETE",
       ...data
     })
-  }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Delete}]),
+  }, [{operation: ApiPermissionClass.DeleteQuestion, action: ApiPermissionAction.Delete}]),
 
   untagProfileQuestion: PermissionWrapper(data => {
     return adminApi({
