@@ -23,6 +23,7 @@ import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Qu
 import { convertToString } from "~/packages/utils/mapper"
 import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
+import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -52,6 +53,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [CourseSharingContractQueries.create])
+
+  const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [UserQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
@@ -210,7 +218,24 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getUserListTableColumns(),
+          columns: [
+            ...getUserListTableColumns().columns,
+            {
+              title: "Action",
+              render: (text, record) => (
+                <MetaDrivenFormModalOpenButton
+                  formTitle={`Update User`}
+                  formMeta={UserFormMeta}
+                  formSubmitApi={updateUser(record)}
+                  initialFormValue={{ ...record, custom_roles: record.custom_roles.map((i: any) => i.id || i), }}
+                  defaultFormValue={{ userId: record.id }}
+                  buttonLabel={`Update User`}
+                  iconType="edit"
+                  refreshEventName={REFRESH_PAGE}
+                />
+              )
+            },
+          ],
           searchParams: { store_id: store.id },
           searchFunc: UserQueries.getListByStore,
           refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
