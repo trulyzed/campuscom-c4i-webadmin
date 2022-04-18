@@ -36,6 +36,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/course-provider/:courseProviderID", component: React.lazy(() => import("~/Pages/Administration/CourseProviders/CourseProviderDetailsPage").then((x) => ({ default: x.CourseProviderDetailsPage }))) },
   { path: "/administration/store", component: React.lazy(() => import("~/Pages/Administration/Stores").then((x) => ({ default: x.List }))) },
   { path: "/administration/store/:storeID", component: React.lazy(() => import("~/Pages/Administration/Stores/StoreDetailsPage").then((x) => ({ default: x.StoreDetailsPage }))) },
+  { path: "/administration/role", component: React.lazy(() => import("~/Pages/Administration/Roles").then((x) => ({ default: x.List }))) },
+  { path: "/administration/role/:roleID", component: React.lazy(() => import("~/Pages/Administration/Roles/RoleDetailsPage").then((x) => ({ default: x.RoleDetailsPage }))) },
   { path: "/administration/user", component: React.lazy(() => import("~/Pages/Administration/Users").then((x) => ({ default: x.List }))) },
   { path: "/administration/user/:userID", component: React.lazy(() => import("~/Pages/Administration/Users/UserDetailsPage").then((x) => ({ default: x.UserDetailsPage }))) },
   { path: "/administration/course-sharing-contract/:courseSharingContractID", component: React.lazy(() => import("~/Pages/Administration/CourseSharingContracts/CourseSharingContractDetailsPage").then((x) => ({ default: x.CourseSharingContractDetailsPage }))) },

@@ -9,6 +9,7 @@ import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductLis
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
 import { getRefundListTableColumns } from "~/TableSearchMeta/Refund/RefundListTableColumns";
+import { getRoleListTableColumns } from "~/TableSearchMeta/Role/RoleListTableColumns";
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
@@ -117,6 +118,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/administration/store",
         submenu: [],
         permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
+      },
+      {
+        title: "Roles",
+        url: "/administration/role",
+        submenu: [],
+        permission: checkAdminApiPermission(getRoleListTableColumns().searchFunc)
       },
       {
         title: "Users",
