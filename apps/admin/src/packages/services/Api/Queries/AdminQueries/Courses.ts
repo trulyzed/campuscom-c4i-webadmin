@@ -54,7 +54,7 @@ export const CourseQueries:ICourseQueries = {
 
   update: PermissionWrapper(data => {
     const payload = convertToFormData({...data?.data, course_image_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
-    const {id, ...params} = data?.params;
+    const {id, ...params} = data?.params
     return adminApi({
       endpoint: `${endpoints.COURSE}/${id}`,
       method: "PATCH",

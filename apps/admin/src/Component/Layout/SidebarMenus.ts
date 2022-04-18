@@ -1,13 +1,17 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
+import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
+import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
+import { getRefundListTableColumns } from "~/TableSearchMeta/Refund/RefundListTableColumns";
+import { getRoleListTableColumns } from "~/TableSearchMeta/Role/RoleListTableColumns";
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
@@ -118,10 +122,40 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
       },
       {
+        title: "Roles",
+        url: "/administration/role",
+        submenu: [],
+        permission: checkAdminApiPermission(getRoleListTableColumns().searchFunc)
+      },
+      {
+        title: "Users",
+        url: "/administration/user",
+        submenu: [],
+        permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
+      },
+      {
+        title: "Refunds",
+        url: "/administration/refund",
+        submenu: [],
+        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
+      },
+      {
+        title: "Discount Programs",
+        url: "/administration/discount-program",
+        submenu: [],
+        permission: checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc)
+      },
+      {
         title: "Questions",
         url: "/administration/question",
         submenu: [],
         permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+      },
+      {
+        title: "Companies",
+        url: "/administration/company",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)

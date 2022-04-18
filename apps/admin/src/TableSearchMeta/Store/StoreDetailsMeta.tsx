@@ -19,6 +19,11 @@ import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
 import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
+import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { convertToString } from "~/packages/utils/mapper"
+import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
+import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -41,6 +46,20 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagPaymentGateway])
+
+  const addCourseSharingContract = QueryConstructor(((data) => CourseSharingContractQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseSharingContractQueries.create])
+
+  const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [UserQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `Store: ${store.name}`,
@@ -179,6 +198,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           ...getCourseSharingContractListTableColumns(),
           searchParams: { store__id: store.id },
           refreshEventName: "REFRESH_COURSE_SHARING_CONTRACT_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Course Sharing Contract`}
+              formMeta={CourseSharingContractFormMeta}
+              formSubmitApi={addCourseSharingContract}
+              buttonLabel={`Add Course Sharing Contract`}
+              iconType="create"
+              refreshEventName={'REFRESH_COURSE_SHARING_CONTRACT_TAB'}
+            />
+          ],
         }
       },
       helpKey: "courseSharingContractTab"
@@ -189,7 +218,24 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          ...getUserListTableColumns(),
+          columns: [
+            ...getUserListTableColumns().columns,
+            {
+              title: "Action",
+              render: (text, record) => (
+                <MetaDrivenFormModalOpenButton
+                  formTitle={`Update User`}
+                  formMeta={UserFormMeta}
+                  formSubmitApi={updateUser(record)}
+                  initialFormValue={{ ...record, custom_roles: record.custom_roles.map((i: any) => i.id || i), }}
+                  defaultFormValue={{ userId: record.id }}
+                  buttonLabel={`Update User`}
+                  iconType="edit"
+                  refreshEventName={REFRESH_PAGE}
+                />
+              )
+            },
+          ],
           searchParams: { store_id: store.id },
           searchFunc: UserQueries.getListByStore,
           refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
@@ -209,6 +255,87 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "configurationTab"
+    },
+    {
+      tabTitle: "Profile Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "title",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, convertToString(text, true)),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Respondent Type",
+              dataIndex: 'respondent_type',
+              sorter: (a: any, b: any) => a.respondent_type - b.respondent_type
+            },
+            {
+              title: "Action",
+              key: "action",
+              render: (record: any) => (
+                <IconButton
+                  toolTip="Delete Profile Question"
+                  iconType="remove"
+                  onClickRemove={() => QuestionQueries.untagProfileQuestion({ data: { ids: [record.id] } })}
+                  refreshEventName="REFRESH_PAGE"
+                />
+              )
+            }
+          ],
+          searchParams: { provider_ref: store.id, },
+          searchFunc: QuestionQueries.getProfileQuestionListByStore,
+          refreshEventName: "REFRESH_PROFILE_QUESTION_TAB",
+        }
+      },
+      helpKey: "profileQuestionTab"
+    },
+    {
+      tabTitle: "Payment Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "title",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, convertToString(text, true)),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Action",
+              key: "action",
+              render: (record: any) => (
+                <IconButton
+                  toolTip="Delete Payment Question"
+                  iconType="remove"
+                  onClickRemove={() => QuestionQueries.untagPaymentQuestion({ data: { ids: [record.id] } })}
+                  refreshEventName="REFRESH_PAGE"
+                />
+              )
+            }
+          ],
+          searchParams: { store: store.id, },
+          searchFunc: QuestionQueries.getPaymentQuestionListByStore,
+          refreshEventName: "REFRESH_PAYMENT_QUESTION_TAB",
+        }
+      },
+      helpKey: "paymentQuestionTab"
     },
   ]
 

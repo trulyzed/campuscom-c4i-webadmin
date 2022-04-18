@@ -1,10 +1,43 @@
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 
 export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseSharingContractQueries.update])
+
   const summaryInfo: CardContainer = {
     title: `Course Sharing Contract: ${courseSharingContract.course_provider.name} for (${courseSharingContract.store.name})`,
+    cardActions: [
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Course Sharing Contract`}
+        formMeta={[
+          {
+            ...CourseSharingContractFormMeta[0],
+            disabled: true
+          },
+          CourseSharingContractFormMeta[1],
+        ]}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
+        defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
+        buttonLabel={`Update Course Sharing Contract`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
+      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
+    ],
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${courseSharingContract.store.id}`, courseSharingContract.store.name), },
       { label: 'Course Provider', value: renderLink(`/administration/course-provider/${courseSharingContract.course_provider.id}`, courseSharingContract.course_provider.name), },

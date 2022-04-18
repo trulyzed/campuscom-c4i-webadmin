@@ -8,6 +8,10 @@ export interface IQuestionQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
+  getProfileQuestionListByStore: IQuery
+  getPaymentQuestionListByStore: IQuery
+  untagProfileQuestion: IQuery
+  untagPaymentQuestion: IQuery
 }
 
 export const processQuestions = (data:{title: string; answer: string; type: string}[]): {question: string; answer: string; type: string}[] => {

@@ -44,4 +44,22 @@ export const UserQueries:IUserQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.StoreUser, action: ApiPermissionAction.Read}]),
+
+  create: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.USER,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.CustomUser, action: ApiPermissionAction.Write}]),
+
+  update: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.USER}/${id}`,
+      method: "PATCH",
+      ...data,
+      params
+    })
+  }, [{operation: ApiPermissionClass.CustomUser, action: ApiPermissionAction.Write}]),
 }

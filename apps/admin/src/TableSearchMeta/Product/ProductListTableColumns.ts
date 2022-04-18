@@ -31,6 +31,6 @@ export const productListTableColumns: TableColumnType = [
 export const getProductListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: productListTableColumns,
-    searchFunc: QueryConstructor((params) => ProductQueries.getPaginatedList(params), [ProductQueries.getList]),
+    searchFunc: QueryConstructor((params) => ProductQueries.getList(params), [ProductQueries.getList]),
   }
 }

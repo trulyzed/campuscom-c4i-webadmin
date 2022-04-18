@@ -4,6 +4,7 @@ import { IStudentQueries } from "./Proxy/Students"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
+import { mapDatetimeToPayload } from "~/packages/utils/mapper"
 
 export const StudentQueries:IStudentQueries = {
   getSingle: PermissionWrapper(data => {
@@ -37,7 +38,7 @@ export const StudentQueries:IStudentQueries = {
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData({...data?.data, profile_picture_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
+    const payload = convertToFormData({...data?.data, profile_picture_uri: data?.data.image_file?.length ? data?.data.image_file : undefined, date_of_birth: mapDatetimeToPayload(data?.data.date_of_birth, true)})
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.STUDENT}/${id}`,

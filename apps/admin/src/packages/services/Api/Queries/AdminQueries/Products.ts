@@ -27,11 +27,9 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
 
   getList: PermissionWrapper(data => {
-    const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.PRODUCT}/${data?.params.id}`,
+      endpoint: `${endpoints.PRODUCT}`,
       ...data,
-      params,
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
