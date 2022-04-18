@@ -82,4 +82,20 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
       ...data
     })
   }, [{operation: ApiPermissionClass.DeleteDiscountProgram, action: ApiPermissionAction.Delete}]),
+
+  untagProduct: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      is_remove: true,
+      type: 'product',
+      operator: 'in',
+    };
+
+    return adminApi({
+      endpoint: `${endpoints.DISCOUNT_RULE}`,
+      method: "POST",
+      ...data,
+      data: payload
+    })
+  }, [{operation: ApiPermissionClass.DiscountRule, action: ApiPermissionAction.Write}]),
 }

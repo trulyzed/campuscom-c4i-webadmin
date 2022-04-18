@@ -8,4 +8,5 @@ export interface IDiscountProgramQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
+  untagProduct: IQuery
 }

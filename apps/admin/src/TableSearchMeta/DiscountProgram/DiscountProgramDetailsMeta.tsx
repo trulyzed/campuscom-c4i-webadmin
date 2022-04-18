@@ -9,6 +9,8 @@ import { DiscountProgramFormMeta } from "~/Component/Feature/DiscountPrograms/Fo
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
+import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 
 export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => DiscountProgramQueries.update({ ...data, params: { id: discountProgram.id } }).then(resp => {
@@ -65,6 +67,44 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "discountProgramSummaryTab"
+    },
+    {
+      tabTitle: "Products",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            ...getProductListTableColumns().columns,
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_PRODUCT_TAB"
+                  onClickRemove={() => DiscountProgramQueries.untagProduct({ data: { discount_program: discountProgram.id, products: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: ProductQueries.getList,
+          searchParams: { discount_program: discountProgram.id },
+          refreshEventName: "REFRESH_PRODUCT_TAB",
+          actions: [
+            // <MetaDrivenFormModalOpenButton
+            //   formTitle={`Add Identity Provider`}
+            //   formMeta={IdentityProviderTaggingFormMeta}
+            //   formSubmitApi={addIdentityProvider}
+            //   buttonLabel={`Add Identity Provider`}
+            //   iconType="create"
+            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
+            // />
+          ]
+        }
+      },
+      helpKey: "productTab"
     },
   ]
 
