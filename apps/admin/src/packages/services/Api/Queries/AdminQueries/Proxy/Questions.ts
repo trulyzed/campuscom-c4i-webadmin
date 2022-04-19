@@ -10,14 +10,15 @@ export interface IQuestionQueries {
   delete: IQuery
   getProfileQuestionListByStore: IQuery
   getPaymentQuestionListByStore: IQuery
+  getRegistrationQuestionListByCourse: IQuery
   untagProfileQuestion: IQuery
   untagPaymentQuestion: IQuery
 }
 
 export const processQuestions = (data:{title: string; answer: string; type: string}[]): {question: string; answer: string; type: string}[] => {
   return data.map(i => ({
-    question: convertToString(i.title, true),
     ...i,
+    question: convertToString(i.title, true),
     answer: i.answer,
     type: i.type,
   }))

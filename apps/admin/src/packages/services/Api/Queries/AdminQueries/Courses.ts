@@ -76,4 +76,12 @@ export const CourseQueries:ICourseQueries = {
       data: payload,
     })
   }, [{operation: ApiPermissionClass.StoreCourseSubject, action: ApiPermissionAction.Write}]),
+
+  untagRegistrationQuestion: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_REGISTRATION_QUESTION}`,
+      method: "DELETE",
+      ...data
+    })
+  }, [{operation: ApiPermissionClass.DeleteRegistrationQuestion, action: ApiPermissionAction.Delete}]),
 }
