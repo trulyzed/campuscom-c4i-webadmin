@@ -10,6 +10,8 @@ import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/Inst
 import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getPaymentGatewayListTableColumns } from "~/TableSearchMeta/PaymentGateway/PaymentGatewayListTableColumns";
+import { getPaymentGatewayConfigListTableColumns } from "~/TableSearchMeta/PaymentGatewayConfig/PaymentGatewayConfigListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
@@ -178,6 +180,18 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/configuration/identity-provider",
         submenu: [],
         permission: checkAdminApiPermission(getIdentityProviderListTableColumns().searchFunc)
+      },
+      {
+        title: "Payment Gateways",
+        url: "/configuration/payment-gateway",
+        submenu: [],
+        permission: checkAdminApiPermission(getPaymentGatewayListTableColumns().searchFunc)
+      },
+      {
+        title: "Payment Gateway Configs",
+        url: "/configuration/payment-gateway-config",
+        submenu: [],
+        permission: checkAdminApiPermission(getPaymentGatewayConfigListTableColumns().searchFunc)
       },
       {
         title: "Global Configurations",

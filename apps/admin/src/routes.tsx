@@ -57,6 +57,10 @@ export const AppRoutes: RouteProps[] = [
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
+  { path: "/configuration/payment-gateway", component: React.lazy(() => import("~/Pages/Configuration/PaymentGateways").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Configuration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },
+  { path: "/configuration/payment-gateway-config", component: React.lazy(() => import("~/Pages/Configuration/PaymentGatewayConfigs").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/payment-gateway-config/:paymentGatewayConfigID", component: React.lazy(() => import("~/Pages/Configuration/PaymentGatewayConfigs/PaymentGatewayConfigDetailsPage").then((x) => ({ default: x.PaymentGatewayConfigDetailsPage }))) },
   { path: "/configuration/global-configuration", component: React.lazy(() => import("~/Pages/Configuration/GlobalConfigurations").then((x) => ({ default: x.List }))) },
   { path: "/configuration/global-configuration/:globalConfigurationID", component: React.lazy(() => import("~/Pages/Configuration/GlobalConfigurations/GlobalConfigurationDetailsPage").then((x) => ({ default: x.GlobalConfigurationDetailsPage }))) },
 

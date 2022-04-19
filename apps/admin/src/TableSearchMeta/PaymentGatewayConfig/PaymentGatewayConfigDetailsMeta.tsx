@@ -3,13 +3,13 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
 
-export const getPaymentGatewayConfigDetailsMeta = (paymentGateway: { [key: string]: any }): IDetailsMeta => {
+export const getPaymentGatewayConfigDetailsMeta = (paymentGatewayConfig: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
-    title: `Payment Gateway Config: ${paymentGateway.name}`,
+    title: `Payment Gateway Config: ${paymentGatewayConfig.name}`,
     contents: [
-      { label: 'Name', value: paymentGateway.name, },
-      { label: 'Configuration', value: paymentGateway.configuration, render: renderJson },
-      { label: 'Is Sandbox', value: paymentGateway.is_sandbox, render: renderBoolean },
+      { label: 'Name', value: paymentGatewayConfig.name, },
+      { label: 'Configuration', value: paymentGatewayConfig.configuration, render: renderJson },
+      { label: 'Is Sandbox', value: paymentGatewayConfig.is_sandbox, render: renderBoolean },
     ]
   }
 
@@ -22,12 +22,12 @@ export const getPaymentGatewayConfigDetailsMeta = (paymentGateway: { [key: strin
       tabTitle: "Summary",
       tabType: "summary",
       tabMeta: summaryMeta,
-      helpKey: "paymentGatewaySummaryTab"
+      helpKey: "paymentGatewayConfigSummaryTab"
     },
   ]
 
   return {
-    pageTitle: `Payment Gateway Config Title - ${paymentGateway.name}`,
+    pageTitle: `Payment Gateway Config Title - ${paymentGatewayConfig.name}`,
     tabs: tabMetas
   }
 }
