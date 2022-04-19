@@ -1,6 +1,6 @@
 import { IQuery } from "./types"
 
-export interface IDiscountProgramQueries {
+export interface IMembershipProgramQueries {
   getSingle: IQuery
   getList: IQuery
   getPaginatedList: IQuery
@@ -8,6 +8,6 @@ export interface IDiscountProgramQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
-  untagProduct: IQuery
-  getListByMembershipProgram: IQuery
+  tagDiscountProgram: IQuery
+  untagDiscountProgram: IQuery
 }

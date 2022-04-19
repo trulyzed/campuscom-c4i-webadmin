@@ -52,6 +52,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/refund/:refundID", component: React.lazy(() => import("~/Pages/Administration/Refunds/RefundDetailsPage").then((x) => ({ default: x.RefundDetailsPage }))) },
   { path: "/administration/discount-program", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms").then((x) => ({ default: x.List }))) },
   { path: "/administration/discount-program/:discountProgramID", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms/DiscountProgramDetailsPage").then((x) => ({ default: x.DiscountProgramDetailsPage }))) },
+  { path: "/administration/membership-program", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms").then((x) => ({ default: x.List }))) },
+  { path: "/administration/membership-program/:membershipProgramID", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms/MembershipProgramDetailsPage").then((x) => ({ default: x.MembershipProgramDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]

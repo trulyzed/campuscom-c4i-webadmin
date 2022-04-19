@@ -5,6 +5,7 @@ import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTa
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
+import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
@@ -144,6 +145,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         url: "/administration/discount-program",
         submenu: [],
         permission: checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc)
+      },
+      {
+        title: "Membership Programs",
+        url: "/administration/membership-program",
+        submenu: [],
+        permission: checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc)
       },
       {
         title: "Questions",

@@ -48,4 +48,14 @@ export const StudentQueries:IStudentQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Write}]),
+
+  getListByMembershipProgram: PermissionWrapper(data => {
+    const { id, ...params } = data?.params || {};
+    return adminApi({
+      endpoint: `${endpoints.MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Read}]),
 }
