@@ -48,4 +48,30 @@ export const StudentQueries:IStudentQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Write}]),
+
+  getListByMembershipProgram: PermissionWrapper(data => {
+    const { id, ...params } = data?.params || {};
+    return adminApi({
+      endpoint: `${endpoints.MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Read}]),
+
+  tagMembersipProgram: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Write}]),
+
+  untagMembersipProgram: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteMembershipProgramParticipant, action: ApiPermissionAction.Delete}]),
 }

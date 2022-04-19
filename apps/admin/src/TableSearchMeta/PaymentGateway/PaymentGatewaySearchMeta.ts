@@ -1,4 +1,4 @@
-import { IField, TEXT } from "~/packages/components/Form/common"
+import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
 
 export const PaymentGatewaySearchMeta: IField[] = [
   {
@@ -7,8 +7,12 @@ export const PaymentGatewaySearchMeta: IField[] = [
     fieldName: "name__icontains",
   },
   {
-    label: "Slug",
-    inputType: TEXT,
-    fieldName: "slug",
+    label: "Active Status",
+    inputType: DROPDOWN,
+    fieldName: "is_active",
+    options:[
+      { value: 'True', label: 'Yes',},
+      { value: 'False', label: 'No',},
+    ]
   }
 ]

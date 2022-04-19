@@ -114,7 +114,6 @@ export const endpoints = {
   UPDATE_REGISTRATION_QUESTION: 'update-registration-questions',
 
 
-
   // for miscellaneous, non-paginated
   ALL_CAMPUS: 'course-provider-sites?limit=1000',
   ALL_CAREER: 'careers?limit=1000',
@@ -129,12 +128,15 @@ export const endpoints = {
   ALL_COURSE_SHARING_CONTRACT: 'course-sharing-contracts?limit=1000',
   ALL_CUSTOM_ROLE: 'custom-roles?limit=1000',
   ALL_DISCOUNT_PROGRAM: 'discount-programs?limit=1000',
+  ALL_DISCOUNT_PROGRAM_USAGE_HISTORY: 'discount-program-usage?limit=1000',
   ALL_DISCOUNT_RULE: 'discount-rules?limit=1000',
   ALL_EXTERNAL_ENTITY: 'external-entities?limit=1000',
+  ALL_GLOBAL_CONFIGURATION: 'global-configurations?limit=1000',
   ALL_IDENTITY_PROVIDER: 'identity-providers?limit=1000',
   ALL_INSTRUCTOR: 'instructors?limit=1000',
   ALL_MEMBERSHIP_PROGRAM: 'membership-programs?limit=1000',
   ALL_MEMBERSHIP_PROGRAM_DISCOUNT: 'membership-program-discounts?limit=1000',
+  ALL_MEMBERSHIP_PROGRAM_PARTICIPANT: 'membership-program-participants?limit=1000',
   ALL_PAYMENT: 'payments?limit=1000',
   ALL_PAYMENT_GATEWAY: 'payment-gateways?limit=1000',
   ALL_PAYMENT_GATEWAY_CONFIG: 'payment-gateway-configs?limit=1000',

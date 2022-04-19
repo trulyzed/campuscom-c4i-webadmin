@@ -30,7 +30,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/storefront-data/cart-item/:cartItemID", component: React.lazy(() => import("~/Pages/StorefrontData/CartItems/CartItemDetailsPage").then((x) => ({ default: x.CartItemDetailsPage }))) },
   { path: "/storefront-data/course-enrollment/:courseEnrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/CourseEnrollmentDetailsPage").then((x) => ({ default: x.CourseEnrollmentDetailsPage }))) },
 
-  { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProvider/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
+  { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
 
   { path: "/administration/course-provider", component: React.lazy(() => import("~/Pages/Administration/CourseProviders").then((x) => ({ default: x.List }))) },
   { path: "/administration/course-provider/:courseProviderID", component: React.lazy(() => import("~/Pages/Administration/CourseProviders/CourseProviderDetailsPage").then((x) => ({ default: x.CourseProviderDetailsPage }))) },
@@ -52,6 +52,17 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/refund/:refundID", component: React.lazy(() => import("~/Pages/Administration/Refunds/RefundDetailsPage").then((x) => ({ default: x.RefundDetailsPage }))) },
   { path: "/administration/discount-program", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms").then((x) => ({ default: x.List }))) },
   { path: "/administration/discount-program/:discountProgramID", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms/DiscountProgramDetailsPage").then((x) => ({ default: x.DiscountProgramDetailsPage }))) },
+  { path: "/administration/membership-program", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms").then((x) => ({ default: x.List }))) },
+  { path: "/administration/membership-program/:membershipProgramID", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms/MembershipProgramDetailsPage").then((x) => ({ default: x.MembershipProgramDetailsPage }))) },
+
+  { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
+  { path: "/configuration/payment-gateway", component: React.lazy(() => import("~/Pages/Configuration/PaymentGateways").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Configuration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },
+  { path: "/configuration/payment-gateway-config", component: React.lazy(() => import("~/Pages/Configuration/PaymentGatewayConfigs").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/payment-gateway-config/:paymentGatewayConfigID", component: React.lazy(() => import("~/Pages/Configuration/PaymentGatewayConfigs/PaymentGatewayConfigDetailsPage").then((x) => ({ default: x.PaymentGatewayConfigDetailsPage }))) },
+  { path: "/configuration/global-configuration", component: React.lazy(() => import("~/Pages/Configuration/GlobalConfigurations").then((x) => ({ default: x.List }))) },
+  { path: "/configuration/global-configuration/:globalConfigurationID", component: React.lazy(() => import("~/Pages/Configuration/GlobalConfigurations/GlobalConfigurationDetailsPage").then((x) => ({ default: x.GlobalConfigurationDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]

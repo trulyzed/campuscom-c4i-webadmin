@@ -98,4 +98,12 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
       data: payload
     })
   }, [{operation: ApiPermissionClass.DiscountRule, action: ApiPermissionAction.Write}]),
+
+  getListByMembershipProgram: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.MEMBERSHIP_PROGRAM_DISCOUNT,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Read}]),
 }

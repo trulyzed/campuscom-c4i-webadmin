@@ -15,6 +15,9 @@ import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sec
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
 import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
+import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -138,6 +141,45 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "publishingStoresTab"
+    },
+    {
+      tabTitle: "Registration Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getQuestionListTableColumns(),
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "question",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, text),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_REGISTRATION_QUESTION_TAB"
+                  onClickRemove={() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: QuestionQueries.getRegistrationQuestionListByCourse,
+          searchParams: { entity_id: course.id },
+          refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
+        }
+      },
+      helpKey: "registrationQuestionsTab"
     },
   ]
 

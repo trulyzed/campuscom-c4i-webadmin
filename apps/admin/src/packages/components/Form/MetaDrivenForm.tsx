@@ -59,6 +59,7 @@ export function MetaDrivenForm({
   currentPagination?: number
   showClearbutton?: boolean
   applyButtonLabel?: string
+  applyButtonAriaControl?: string
   clearButtonLabel?: string
   isHorizontal?: boolean
   showFullForm?: boolean
@@ -257,88 +258,20 @@ export function MetaDrivenForm({
         </Row>
       }
       loading={props.loading}
-    // actions={[
-    //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
-    //     {!props.showFullForm && !props.closeModal && meta.length > 4 && (
-    //       <Col>
-    //         <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
-    //       </Col>
-    //     )}
-    //     {props.closeModal && (
-    //       <Col>
-    //         <Button
-    //           type="ghost"
-    //           aria-label="Cancel"
-    //           danger
-    //           onClick={() => {
-    //             formInstance.resetFields()
-    //             props.closeModal && props.closeModal()
-    //           }}
-    //         >
-    //           Cancel
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     {showClearbutton && (
-    //       <Col>
-    //         <Button danger type="primary" onClick={clearParams}>
-    //           {clearButtonLabel}
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     <Col>
-    //       <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
-    //         {applyButtonLabel}
-    //       </Button>
-    //     </Col>
-    //   </Row>
-    // ]}
-    >
-      <Col
-        className={`gutter-row`}
-        style={{
-          background: "$white",
-          borderRadius: "4px",
-          marginBottom: "1rem",
-          padding: "1rem !important"
-        }}
-        xs={24}
-        sm={24}
-        md={24}
-      >
-        <Form
-          id={formId}
-          layout="horizontal"
-          initialValues={props.initialFormValue}
-          form={formInstance}
-          scrollToFirstError
-          {...(props.isModal && {
-            style: {
-              maxHeight: "66vh",
-              overflowY: "scroll"
-            }
-          })}
-        >
-          <FormError errorMessages={props.errorMessages} />
-          <SearchFormFields
-            meta={meta}
-            isHorizontal={props.isHorizontal}
-            formInstance={formInstance}
-            clearTrigger={clearTrigger}
-            showLess={showLess}
-          />
-          <Row
-            justify="end"
-            gutter={[8, 8]}
-            style={{
-              paddingTop: "10px",
-              borderTop: "3px solid #f0f2f5",
-              marginBottom: "-30px"
-            }}
-          >
+      bodyStyle={{ padding: "20px", paddingBottom: "0px" }}
+      {...((props.isModal || props.closeModal) && {
+        actions: [
+          <Row justify="end" gutter={[8, 8]} style={{
+            padding: "10px",
+          }}>
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
               <Col>
-                <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
               </Col>
             )}
             {props.closeModal && (
@@ -364,13 +297,97 @@ export function MetaDrivenForm({
               </Col>
             )}
             <Col>
-              <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
                 {applyButtonLabel}
               </Button>
             </Col>
           </Row>
-        </Form>
-      </Col>
+        ]
+      })}
+    >
+
+      <Form
+        id={formId}
+        layout="horizontal"
+        initialValues={props.initialFormValue}
+        form={formInstance}
+        scrollToFirstError
+        style={{
+          ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
+          background: "white",
+          borderRadius: "4px",
+          padding: "10px"
+        }}
+      >
+        <FormError errorMessages={props.errorMessages} />
+        <SearchFormFields
+          meta={meta}
+          isHorizontal={props.isHorizontal}
+          formInstance={formInstance}
+          clearTrigger={clearTrigger}
+          showLess={showLess}
+        />
+        {!(props.isModal || props.closeModal) && (
+          <Row
+            justify="end"
+            gutter={[8, 8]}
+            style={{
+              padding: "10px",
+              borderTop: "1px solid #f0f2f5"
+            }}
+          >
+            {!props.showFullForm && !props.closeModal && meta.length > 4 && (
+              <Col>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
+              </Col>
+            )}
+            {props.closeModal && (
+              <Col>
+                <Button
+                  type="ghost"
+                  aria-label="Cancel"
+                  danger
+                  onClick={() => {
+                    formInstance.resetFields()
+                    props.closeModal && props.closeModal()
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            )}
+            {showClearbutton && (
+              <Col>
+                <Button danger type="primary" onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
+              </Col>
+            )}
+            <Col>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
+                {applyButtonLabel}
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </Form>
     </Card>
   )
 }

@@ -35,6 +35,34 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
     })
   }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Read}]),
 
+  create: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: JSON.parse(data?.data.configuration || undefined)
+    }
+    return adminApi({
+      endpoint: endpoints.IDENTITY_PROVIDER,
+      method: "POST",
+      ...data,
+      data: payload
+    })
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
+
+  update: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: JSON.parse(data?.data.configuration || undefined)
+    }
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.IDENTITY_PROVIDER}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
+    })
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
+
   getLookupData: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.ALL_IDENTITY_PROVIDER,

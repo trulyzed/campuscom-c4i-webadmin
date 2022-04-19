@@ -11,6 +11,7 @@ import { renderBoolean, renderDateTime, renderLink } from "~/packages/components
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
+import { getDiscountProgramUsageHistoryListTableColumns } from "~/TableSearchMeta/DiscountProgramUsageHistory/DiscountProgramUsageHistoryListTableColumns"
 
 export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => DiscountProgramQueries.update({ ...data, params: { id: discountProgram.id } }).then(resp => {
@@ -105,6 +106,18 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
         }
       },
       helpKey: "productTab"
+    },
+    {
+      tabTitle: "Usage Histories",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getDiscountProgramUsageHistoryListTableColumns(),
+          searchParams: { discount_program: discountProgram.id },
+        }
+      },
+      helpKey: "discountProgramUsageHistoryTab"
     },
   ]
 

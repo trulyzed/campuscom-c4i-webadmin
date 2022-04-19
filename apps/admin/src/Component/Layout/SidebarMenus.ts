@@ -4,9 +4,14 @@ import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyLis
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns";
+import { getGlobalConfigurationListTableColumns } from "~/TableSearchMeta/GlobalConfiguration/GlobalConfigurationListTableColumns";
+import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
+import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
 import { getPaymentListTableColumns } from "~/TableSearchMeta/Payment/PaymentListTableColumns";
+import { getPaymentGatewayListTableColumns } from "~/TableSearchMeta/PaymentGateway/PaymentGatewayListTableColumns";
+import { getPaymentGatewayConfigListTableColumns } from "~/TableSearchMeta/PaymentGatewayConfig/PaymentGatewayConfigListTableColumns";
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns";
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns";
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns";
@@ -146,6 +151,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc)
       },
       {
+        title: "Membership Programs",
+        url: "/administration/membership-program",
+        submenu: [],
+        permission: checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc)
+      },
+      {
         title: "Questions",
         url: "/administration/question",
         submenu: [],
@@ -159,5 +170,35 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+  },
+  {
+    title: "Configuration",
+    url: "",
+    submenu: [
+      {
+        title: "Identity Providers",
+        url: "/configuration/identity-provider",
+        submenu: [],
+        permission: checkAdminApiPermission(getIdentityProviderListTableColumns().searchFunc)
+      },
+      {
+        title: "Payment Gateways",
+        url: "/configuration/payment-gateway",
+        submenu: [],
+        permission: checkAdminApiPermission(getPaymentGatewayListTableColumns().searchFunc)
+      },
+      {
+        title: "Payment Gateway Configs",
+        url: "/configuration/payment-gateway-config",
+        submenu: [],
+        permission: checkAdminApiPermission(getPaymentGatewayConfigListTableColumns().searchFunc)
+      },
+      {
+        title: "Global Configurations",
+        url: "/configuration/global-configuration",
+        submenu: [],
+        permission: checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
+      },
+    ]
   }
 ]

@@ -64,6 +64,19 @@ export const QuestionQueries:IQuestionQueries = {
     } : resp)
   }, [{operation: ApiPermissionClass.PaymentQuestion, action: ApiPermissionAction.Read}]),
 
+  getRegistrationQuestionListByCourse: PermissionWrapper(data => {
+    const { pagination, ...nonPaginationParams } = data?.params || {};
+    return adminApi({
+      endpoint: endpoints.ALL_REGISTRATION_QUESTION,
+      ...data,
+      params: {entity_type: 'course', ...nonPaginationParams,},
+      method: "GET"
+    }).then(resp => resp.success ? {
+      ...resp,
+      data: processQuestions(resp.data),
+    } : resp)
+  }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Read}]),
+
   create: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.QUESTION,

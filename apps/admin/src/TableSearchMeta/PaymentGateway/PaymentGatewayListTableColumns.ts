@@ -7,7 +7,7 @@ export const paymentGatewayListTableColumns: TableColumnType = [
   {
     title: "Name",
     dataIndex: "name",
-    render: (text: any, record: any) => record.id ? renderLink(`/configuration/identity-provider/${record.id}`, text) : text,
+    render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${record.id}`, text) : text,
     sorter: (a: any, b: any) => a.name - b.name
   },
   {
