@@ -4,6 +4,7 @@ import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyLis
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns";
+import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns";
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns";
 import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns";
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns";
@@ -166,5 +167,17 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
       },
     ],
     permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+  },
+  {
+    title: "Configuration",
+    url: "",
+    submenu: [
+      {
+        title: "Identity Providers",
+        url: "/configuration/identity-provider",
+        submenu: [],
+        permission: checkAdminApiPermission(getIdentityProviderListTableColumns().searchFunc)
+      },
+    ]
   }
 ]
