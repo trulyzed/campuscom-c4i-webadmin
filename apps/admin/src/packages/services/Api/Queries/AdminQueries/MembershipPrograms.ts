@@ -41,7 +41,7 @@ export const MembershipProgramQueries:IMembershipProgramQueries = {
       method: "GET"
     }).then(resp => resp.success ? ({
       ...resp,
-      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.title}))
     }) : resp)
   }, [{operation: ApiPermissionClass.MembershipProgram, action: ApiPermissionAction.Read}]),
 
@@ -82,6 +82,14 @@ export const MembershipProgramQueries:IMembershipProgramQueries = {
       ...data
     })
   }, [{operation: ApiPermissionClass.DeleteMembershipProgram, action: ApiPermissionAction.Delete}]),
+
+  getListByParticipant: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_MEMBERSHIP_PROGRAM_PARTICIPANT,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Read}]),
 
   tagDiscountProgram: PermissionWrapper(data => {
     const payload = {

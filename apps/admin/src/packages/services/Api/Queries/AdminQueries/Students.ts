@@ -58,4 +58,20 @@ export const StudentQueries:IStudentQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Read}]),
+
+  tagMembersipProgram: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Write}]),
+
+  untagMembersipProgram: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_MEMBERSHIP_PROGRAM_PARTICIPANT}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteMembershipProgramParticipant, action: ApiPermissionAction.Delete}]),
 }

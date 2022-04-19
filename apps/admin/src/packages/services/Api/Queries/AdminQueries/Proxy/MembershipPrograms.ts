@@ -8,6 +8,7 @@ export interface IMembershipProgramQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
+  getListByParticipant: IQuery
   tagDiscountProgram: IQuery
   untagDiscountProgram: IQuery
 }

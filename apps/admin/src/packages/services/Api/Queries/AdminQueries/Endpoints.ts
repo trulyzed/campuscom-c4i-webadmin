@@ -136,6 +136,7 @@ export const endpoints = {
   ALL_INSTRUCTOR: 'instructors?limit=1000',
   ALL_MEMBERSHIP_PROGRAM: 'membership-programs?limit=1000',
   ALL_MEMBERSHIP_PROGRAM_DISCOUNT: 'membership-program-discounts?limit=1000',
+  ALL_MEMBERSHIP_PROGRAM_PARTICIPANT: 'membership-program-participants?limit=1000',
   ALL_PAYMENT: 'payments?limit=1000',
   ALL_PAYMENT_GATEWAY: 'payment-gateways?limit=1000',
   ALL_PAYMENT_GATEWAY_CONFIG: 'payment-gateway-configs?limit=1000',
