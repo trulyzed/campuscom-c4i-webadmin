@@ -131,6 +131,7 @@ export const endpoints = {
   ALL_DISCOUNT_PROGRAM_USAGE_HISTORY: 'discount-program-usage?limit=1000',
   ALL_DISCOUNT_RULE: 'discount-rules?limit=1000',
   ALL_EXTERNAL_ENTITY: 'external-entities?limit=1000',
+  ALL_GLOBAL_CONFIGURATION: 'global-configurations?limit=1000',
   ALL_IDENTITY_PROVIDER: 'identity-providers?limit=1000',
   ALL_INSTRUCTOR: 'instructors?limit=1000',
   ALL_MEMBERSHIP_PROGRAM: 'membership-programs?limit=1000',

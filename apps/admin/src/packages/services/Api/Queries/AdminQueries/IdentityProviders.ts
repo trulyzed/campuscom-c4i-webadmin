@@ -49,11 +49,16 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
   }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: JSON.parse(data?.data.configuration || undefined)
+    }
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.IDENTITY_PROVIDER}/${id}`,
       method: "PATCH",
       ...data,
+      data: payload,
       params
     })
   }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
