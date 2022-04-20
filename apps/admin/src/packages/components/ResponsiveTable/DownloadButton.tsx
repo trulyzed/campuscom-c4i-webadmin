@@ -43,7 +43,9 @@ export const DownloadButton = (props: {
         </Menu>
       }
     >
-      <IconButton iconType="download" disabled={props.downloading} toolTip="Download Table Data" />
+      <div>
+        <IconButton iconType="download" disabled={props.downloading} toolTip="Download Table Data" />
+      </div>
     </Dropdown>
   )
 }
