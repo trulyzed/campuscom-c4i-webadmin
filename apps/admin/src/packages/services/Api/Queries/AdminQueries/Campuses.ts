@@ -34,4 +34,22 @@ export const CampusQueries:ICampusQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.Campus, action: ApiPermissionAction.Read}]),
+
+  create: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.CAMPUS,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.Campus, action: ApiPermissionAction.Write}]),
+
+  update: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.CAMPUS}/${id}`,
+      method: "PATCH",
+      ...data,
+      params
+    })
+  }, [{operation: ApiPermissionClass.Campus, action: ApiPermissionAction.Write}]),
 }
