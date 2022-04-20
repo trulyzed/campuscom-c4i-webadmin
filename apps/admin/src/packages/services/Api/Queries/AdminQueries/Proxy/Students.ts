@@ -6,6 +6,7 @@ export interface IStudentQueries {
   getList: IQuery
   update: IQuery
   getListByMembershipProgram: IQuery
+  getListByCartItem: IQuery
   tagMembersipProgram: IQuery
   untagMembersipProgram: IQuery
 }

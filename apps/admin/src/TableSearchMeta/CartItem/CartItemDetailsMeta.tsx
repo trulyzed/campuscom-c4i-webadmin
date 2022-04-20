@@ -1,6 +1,8 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
+import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
+import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
 
 export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -28,6 +30,62 @@ export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetai
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "cartItemSummaryTab"
+    },
+    {
+      tabTitle: "Discounts",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: 'Title',
+              dataIndex: 'discount_program',
+              render: (text: any) => renderLink(`/administration/discount-program/${text.id}`, text.title),
+              sorter: (a: any, b: any) => a.discount_program.title - b.discount_program.title
+            },
+            {
+              title: 'Discount Type',
+              dataIndex: 'discount_type',
+              sorter: (a: any, b: any) => a.discount_type - b.discount_type
+            },
+            {
+              title: 'Discount Amount',
+              dataIndex: 'discount_amount',
+              sorter: (a: any, b: any) => a.discount_amount - b.discount_amount
+            },
+          ],
+          searchFunc: DiscountProgramQueries.getListByCartItem,
+          searchParams: { cart_item: cartItem.id },
+        }
+      },
+      helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Profiles",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: 'Name',
+              dataIndex: 'profile',
+              render: (text: any) => renderLink(`/storefront-data/student/${text.id}`, `${text.first_name} ${text.last_name}`),
+              sorter: (a: any, b: any) => a.profile.first_name - b.profile.first_name
+            },
+            {
+              title: 'Email',
+              dataIndex: 'profile',
+              render: (text: any) => text.primary_email,
+              sorter: (a: any, b: any) => a.profile.primary_email - b.profile.primary_email
+            },
+          ],
+          searchFunc: StudentQueries.getListByCartItem,
+          searchParams: { cart_item: cartItem.id },
+        }
+      },
+      helpKey: "sectionsTab"
     },
   ]
 

@@ -59,6 +59,16 @@ export const StudentQueries:IStudentQueries = {
     })
   }, [{operation: ApiPermissionClass.MembershipProgramParticipant, action: ApiPermissionAction.Read}]),
 
+  getListByCartItem: PermissionWrapper(data => {
+    const { id, ...params } = data?.params || {};
+    return adminApi({
+      endpoint: `${endpoints.ALL_CART_ITEM_PROFILE}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CartItemProfile, action: ApiPermissionAction.Read}]),
+
   tagMembersipProgram: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.MEMBERSHIP_PROGRAM_PARTICIPANT}`,

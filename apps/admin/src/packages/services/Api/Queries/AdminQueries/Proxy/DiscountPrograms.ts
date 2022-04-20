@@ -4,6 +4,7 @@ export interface IDiscountProgramQueries {
   getSingle: IQuery
   getList: IQuery
   getPaginatedList: IQuery
+  getListByCartItem: IQuery
   getLookupData: IQuery
   create: IQuery
   update: IQuery
