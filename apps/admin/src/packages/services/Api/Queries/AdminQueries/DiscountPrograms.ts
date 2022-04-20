@@ -24,6 +24,14 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
     })
   }, [{operation: ApiPermissionClass.DiscountProgram, action: ApiPermissionAction.Read}]),
 
+  getListByCartItem: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_CART_ITEM_DISCOUNT,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CartItemDiscount, action: ApiPermissionAction.Read}]),
+
   getPaginatedList: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
