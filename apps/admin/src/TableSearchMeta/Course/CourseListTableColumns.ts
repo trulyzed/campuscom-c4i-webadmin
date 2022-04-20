@@ -31,6 +31,11 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
       title: "Content Ready",
       dataIndex: "content_ready",
       render: (text: any, record: any) => renderBoolean(text)
+    },
+    {
+      title: "Active Status",
+      dataIndex: "active_status",
+      render: (text: any, record: any) => renderBoolean(text)
     }
     // ,
     // {

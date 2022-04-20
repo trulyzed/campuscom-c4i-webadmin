@@ -1,3 +1,4 @@
+import { INPUT_OPTIONS } from "~/Configs/input"
 import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
@@ -33,5 +34,11 @@ export const PublishingSearchMeta: IField[] = [
       { value: 'published', label: 'Published', },
       { value: 'unpublished', label: 'Unpublished', }
     ]
+  },
+  {
+    label: "Active Status",
+    inputType: DROPDOWN,
+    fieldName: "active_status",
+    options: INPUT_OPTIONS.ACTIVE_STATUS
   }
 ]
