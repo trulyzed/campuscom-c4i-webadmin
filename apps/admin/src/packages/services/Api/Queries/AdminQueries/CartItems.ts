@@ -18,7 +18,7 @@ export const CartItemQueries:ICartItemQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.CART}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_CART}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"
