@@ -16,7 +16,7 @@ export const CourseProviderQueries:ICourseProviderQueries = {
 
   getPaginatedList: PermissionWrapper(data => {
     return adminApi({
-      endpoint: endpoints.COURSE_PROVIDER,
+      endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
     })
