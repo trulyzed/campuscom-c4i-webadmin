@@ -36,10 +36,16 @@ export const CourseSharingContractQueries:ICourseSharingContractQueries = {
   }, [{operation: ApiPermissionClass.CourseSharingContract, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      is_active: !!data?.data?.is_active
+    };
+
     return adminApi({
       endpoint: `${endpoints.COURSE_SHARING_CONTRACT}`,
       method: "POST",
       ...data,
+      data: payload
     })
   }, [{operation: ApiPermissionClass.CourseSharingContract, action: ApiPermissionAction.Write}]),
 
