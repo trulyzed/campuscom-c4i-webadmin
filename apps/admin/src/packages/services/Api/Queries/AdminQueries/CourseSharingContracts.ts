@@ -28,7 +28,7 @@ export const CourseSharingContractQueries:ICourseSharingContractQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.COURSE_SHARING_CONTRACT}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_COURSE_SHARING_CONTRACT}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

@@ -28,7 +28,7 @@ export const UserQueries:IUserQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.USER}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_USER}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

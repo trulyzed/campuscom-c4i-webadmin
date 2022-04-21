@@ -28,7 +28,7 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.IDENTITY_PROVIDER}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_IDENTITY_PROVIDER}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

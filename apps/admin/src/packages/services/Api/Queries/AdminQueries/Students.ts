@@ -30,7 +30,7 @@ export const StudentQueries:IStudentQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.STUDENT}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_STUDENT}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

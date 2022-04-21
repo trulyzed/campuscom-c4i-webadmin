@@ -28,7 +28,7 @@ export const ProductQueries:IProductQueries = {
 
   getList: PermissionWrapper(data => {
     return adminApi({
-      endpoint: `${endpoints.PRODUCT}`,
+      endpoint: `${endpoints.ALL_PRODUCT}`,
       ...data,
       method: "GET"
     })

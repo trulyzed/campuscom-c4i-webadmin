@@ -28,7 +28,7 @@ export const PaymentGatewayConfigQueries:IPaymentGatewayConfigQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.PAYMENT_GATEWAY_CONFIG}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_PAYMENT_GATEWAY_CONFIG}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

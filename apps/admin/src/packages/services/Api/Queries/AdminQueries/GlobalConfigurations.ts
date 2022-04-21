@@ -28,7 +28,7 @@ export const GlobalConfigurationQueries:IGlobalConfigurationQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.GLOBAL_CONFIGURATION}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_GLOBAL_CONFIGURATION}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"
