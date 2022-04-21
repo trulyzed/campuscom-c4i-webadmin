@@ -104,7 +104,10 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       },
       helpKey: "sectionsTab"
     },
-    {
+  ]
+
+  if (publishing.store) {
+    tabMetas.push({
       tabTitle: "Subjects",
       tabType: "table",
       tabMeta: {
@@ -127,8 +130,8 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
         }
       },
       helpKey: "sectionsTab"
-    },
-  ]
+    })
+  }
 
   return {
     pageTitle: `Publishing Title - ${publishing.course.title}`,

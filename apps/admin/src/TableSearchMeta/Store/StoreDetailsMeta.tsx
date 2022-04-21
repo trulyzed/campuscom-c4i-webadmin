@@ -24,6 +24,7 @@ import { convertToString } from "~/packages/utils/mapper"
 import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
+import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -53,6 +54,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [CourseSharingContractQueries.create])
+
+  const addStoreConfiguration = QueryConstructor(((data) => StoreQueries.tagConfiguration({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagConfiguration])
 
   const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
@@ -252,6 +260,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           ...getStoreConfigurationListTableColumns(),
           searchParams: { store__id: store.id },
           refreshEventName: "REFRESH_CONFIGURATION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Store Configuration`}
+              formMeta={ConfigurationTaggingFormMeta}
+              formSubmitApi={addStoreConfiguration}
+              buttonLabel={`Add Store Configuration`}
+              iconType="create"
+              refreshEventName={'REFRESH_CONFIGURATION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "configurationTab"

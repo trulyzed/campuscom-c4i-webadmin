@@ -122,4 +122,17 @@ export const StoreQueries:IStoreQueries = {
       ...data,
     })
   }, [{operation: ApiPermissionClass.DeleteStorePaymentGateway, action: ApiPermissionAction.Write}]),
+
+  tagConfiguration: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      config_value: JSON.parse(data?.data.config_value || undefined)
+    }
+    return adminApi({
+      endpoint: `${endpoints.STORE_CONFIGURATION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 }

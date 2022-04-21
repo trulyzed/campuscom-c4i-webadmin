@@ -55,6 +55,7 @@ export enum ApiPermissionClass {
   DiscountProgram = 'DiscountProgramViewSet',
   DiscountProgramUsageHistory = 'DiscountProgramUsageView',
   DiscountRule = 'DiscountRuleViewSet',
+  ExternalEntity = 'ExternalEntityViewSet',
   FailedMQ = 'failed_messages_list',
   GlobalConfiguration = 'GlobalConfigurationViewSet',
   ImportTask = 'ImportTaskViewSet',
