@@ -63,7 +63,8 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       { label: 'Learning Outcome', value: renderHtml(course.learning_outcome) },
       { label: 'Image', value: renderThumb(course.course_image_uri, "Course's photo") },
       { label: 'Syllabus URL', value: course.syllabus_url },
-      { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
+      { label: 'Content Ready', value: !!course.content_ready, render: renderBoolean },
+      { label: 'Active Status', value: !!course.active_status, render: renderBoolean },
     ]
   }
 

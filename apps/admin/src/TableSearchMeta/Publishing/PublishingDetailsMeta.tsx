@@ -52,6 +52,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       { label: 'Enrollment Ready', value: !!publishing.enrollment_ready, render: renderBoolean },
       { label: 'Is Published', value: !!publishing.is_published, render: renderBoolean },
       { label: 'Is Featured', value: !!publishing.is_featured, render: renderBoolean },
+      { label: 'Active Status', value: !!publishing.active_status, render: renderBoolean },
     ]
   }
 
