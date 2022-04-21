@@ -3,7 +3,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { Button, Card, Col, Form, Row } from "antd"
 import { Modal } from "~/packages/components/Modal/Modal"
-import { FormInput } from "@packages/components/lib/Form/FormInput"
+import { FormInput } from "~/packages/components/Form/FormInput"
 
 
 const ChangePassword = () => {

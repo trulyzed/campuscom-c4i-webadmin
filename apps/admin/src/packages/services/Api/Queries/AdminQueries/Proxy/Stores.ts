@@ -6,4 +6,10 @@ export interface IStoreQueries {
   getPaginatedList: IQuery
   getLookupData: IQuery
   getListByCoursePublishing: IQuery
+  create: IQuery
+  update: IQuery
+  tagIdentityProvider: IQuery
+  untagIdentityProvider: IQuery
+  tagPaymentGateway: IQuery
+  untagPaymentGateway: IQuery
 }

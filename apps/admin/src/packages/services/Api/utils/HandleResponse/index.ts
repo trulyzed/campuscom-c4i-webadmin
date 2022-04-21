@@ -1,7 +1,7 @@
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { AxiosError } from "axios"
 import ApiErrorProcessor, { ISimplifiedApiErrorMessage } from "./ApiErrorProcessor"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 
 export const handleError = (error: AxiosError): IApiResponse => {
   const response: IApiResponse = {

@@ -30,7 +30,7 @@ export const SubjectQueries:ISubjectQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.SUBJECT}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_SUBJECT}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

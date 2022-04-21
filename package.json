@@ -11,7 +11,6 @@
     "husky": "^7.0.0"
   },
   "scripts": {
-    "i": "yarn install --pure-lockfile",
     "start:admin": "yarn workspace admin start",
     "clean": "yarn workspace run clean",
     "clean:node_modules": "yarn workspace run clean:node_modules",
@@ -23,9 +22,14 @@
     "build:admin": "yarn workspace admin build",
     "lint": "yarn workspaces run lint",
     "lint:ts": "yarn workspaces run lint:ts",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "reset": "rimraf ./**/node_modules ./**/lib ./**/yarn.lock && yarn && yarn build:packages"
   },
   "name": "hir-web-admin",
   "version": "0.0.1",
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.2"
+  }
 }

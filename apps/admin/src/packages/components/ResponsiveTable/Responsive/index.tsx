@@ -5,10 +5,10 @@ import { IDataTableProps, TableColumnType } from "~/packages/components/Responsi
 import { ListViewforMobile } from "./ListViewforMobile"
 import { TableProps } from "antd/lib/table"
 import { useFirstRender } from "~/packages/components/Hooks/useFirstRender"
-import { eventBus, REFRESH_MODAl, REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { eventBus, REFRESH_MODAl, REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { processTableMetaWithUserMetaConfig } from "~/packages/components/ResponsiveTable/TableMetaShadowingProcessor"
-import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
-import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
+import { objectToQueryString } from "~/packages/utils/ObjectToQueryStringConverter"
+import { querystringToObject } from "~/packages/utils/QueryStringToObjectConverter"
 import { getAndScrollToPosition } from "~/packages/components/ResponsiveTable/ManageScroll"
 
 const DEFAULT_PAGE_SIZE = 20

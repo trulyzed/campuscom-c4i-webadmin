@@ -29,7 +29,7 @@ export const SectionQueries:ISectionQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.SECTION}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_SECTION}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

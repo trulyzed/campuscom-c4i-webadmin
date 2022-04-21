@@ -27,11 +27,9 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
 
   getList: PermissionWrapper(data => {
-    const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.PRODUCT}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_PRODUCT}`,
       ...data,
-      params,
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
@@ -57,4 +55,20 @@ export const ProductQueries:IProductQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Write}]),
+
+  getRelatedProductList: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.RELATED_PRODUCT}`,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.RelatedProduct, action: ApiPermissionAction.Read}]),
+
+  untagRelatedProduct: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_RELATED_PRODUCT}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteRelatedProduct, action: ApiPermissionAction.Write}]),
 }

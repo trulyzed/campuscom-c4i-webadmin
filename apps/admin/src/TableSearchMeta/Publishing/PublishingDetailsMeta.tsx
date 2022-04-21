@@ -6,12 +6,13 @@ import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { message } from "antd"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
 import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
+import { renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
@@ -47,11 +48,12 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
+      { label: 'Active Status', value: publishing.active_status, render: renderActiveStatus },
       { label: 'Store', value: publishing.store ? renderLink(`/administration/store/${publishing.store.id}`, publishing.store.name) : undefined },
       { label: 'Course', value: renderLink(`/institute/course/${publishing.course.id}`, publishing.course.title) },
-      { label: 'Enrollment Ready', value: !!publishing.enrollment_ready, render: renderBoolean },
-      { label: 'Is Published', value: !!publishing.is_published, render: renderBoolean },
-      { label: 'Is Featured', value: !!publishing.is_featured, render: renderBoolean },
+      { label: 'Enrollment Ready', value: publishing.enrollment_ready, render: renderBoolean },
+      { label: 'Is Published', value: publishing.is_published, render: renderBoolean },
+      { label: 'Is Featured', value: publishing.is_featured, render: renderBoolean },
     ]
   }
 

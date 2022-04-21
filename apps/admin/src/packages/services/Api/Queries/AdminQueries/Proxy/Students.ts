@@ -5,4 +5,8 @@ export interface IStudentQueries {
   getPaginatedList: IQuery
   getList: IQuery
   update: IQuery
+  getListByMembershipProgram: IQuery
+  getListByCartItem: IQuery
+  tagMembersipProgram: IQuery
+  untagMembersipProgram: IQuery
 }

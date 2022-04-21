@@ -12,7 +12,7 @@ export const identityProviderListTableColumns: TableColumnType = [
   },
   {
     title: "Slug",
-    dataIndex: 'slug',
+    dataIndex: "slug",
     sorter: (a: any, b: any) => a.slug - b.slug
   },
 ]

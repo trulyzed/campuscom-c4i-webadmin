@@ -5,4 +5,6 @@ export interface IUserQueries {
   getPaginatedList: IQuery
   getList: IQuery
   getListByStore: IQuery
+  create: IQuery
+  update: IQuery
 }

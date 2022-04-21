@@ -7,8 +7,9 @@ import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Pro
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { renderJson, renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -22,7 +23,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
-    cardActions: [
+    cardActions: product.product_type === 'miscellaneous' ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Product`}
         formMeta={ProductFormMeta}
@@ -34,8 +35,9 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
         refreshEventName={REFRESH_PAGE}
       />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ],
+    ] : undefined,
     contents: [
+      { label: 'Active Status', value: !!product.active_status, render: renderActiveStatus },
       { label: 'Store', value: renderLink(`/administration/store/${product.store.id}`, product.store.name), },
       { label: 'Title', value: product.title },
       { label: 'Type', value: product.product_type },
@@ -43,7 +45,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Fee', value: product.fee },
       { label: 'Minimum Fee', value: product.minimum_fee },
       { label: 'Image', value: renderThumb(product.image, "Product's image") },
-      { label: 'Content', value: JSON.stringify(product.content) },
+      { label: 'Content', value: renderJson(product.content) },
       { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkout_url, checkout_url, false, true) : undefined },
     ]
   }
@@ -58,6 +60,92 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "productSummaryTab"
+    },
+    {
+      tabTitle: "Standalone Products",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: 'Product Title',
+              dataIndex: 'optional_product',
+              render: (text: any) => renderLink(`/store/product/${text.id}`, text.name),
+              sorter: (a: any, b: any) => a.optional_product.name - b.optional_product.name,
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_STANDALONE_PRODUCT_TAB"
+                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: ProductQueries.getRelatedProductList,
+          searchParams: { product: product.id, related_product_type: 'standalone' },
+          refreshEventName: "REFRESH_STANDALONE_PRODUCT_TAB",
+          actions: [
+            // <MetaDrivenFormModalOpenButton
+            //   formTitle={`Add Identity Provider`}
+            //   formMeta={IdentityProviderTaggingFormMeta}
+            //   formSubmitApi={addIdentityProvider}
+            //   buttonLabel={`Add Identity Provider`}
+            //   iconType="create"
+            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
+            // />
+          ]
+        }
+      },
+      helpKey: "productTab"
+    },
+    {
+      tabTitle: "Registration Products",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          columns: [
+            {
+              title: 'Product Title',
+              dataIndex: 'optional_product',
+              render: (text: any) => renderLink(`/store/product/${text.id}`, text.name),
+              sorter: (a: any, b: any) => a.optional_product.name - b.optional_product.name,
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_REGISTRATION_PRODUCT_TAB"
+                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: ProductQueries.getRelatedProductList,
+          searchParams: { product: product.id, related_product_type: 'registration' },
+          refreshEventName: "REFRESH_REGISTRATION_PRODUCT_TAB",
+          actions: [
+            // <MetaDrivenFormModalOpenButton
+            //   formTitle={`Add Identity Provider`}
+            //   formMeta={IdentityProviderTaggingFormMeta}
+            //   formSubmitApi={addIdentityProvider}
+            //   buttonLabel={`Add Identity Provider`}
+            //   iconType="create"
+            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
+            // />
+          ]
+        }
+      },
+      helpKey: "productTab"
     },
   ]
 

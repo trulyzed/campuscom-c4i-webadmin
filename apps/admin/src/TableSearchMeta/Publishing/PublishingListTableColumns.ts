@@ -1,4 +1,4 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/Publishings"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -26,6 +26,11 @@ export const publishingListTableColumns: TableColumnType = [
     dataIndex: 'status',
     sorter: (a: any, b: any) => a.status - b.status,
   },
+  {
+    title: "Active Status",
+    dataIndex: "active_status",
+    render: renderBoolean
+  }
 ]
 
 export const getPublishingListTableColumns = (isModal = false): ITableMeta => {

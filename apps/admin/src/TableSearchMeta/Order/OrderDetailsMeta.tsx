@@ -7,6 +7,7 @@ import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/P
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
+import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -97,7 +98,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               pagination: false,
               columns: questionListTableColumns,
               dataSource: processQuestions(order.agreement_details),
-              rowKey: 'id',
+              rowKey: 'question',
               refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",
             }
           }
@@ -141,10 +142,10 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         summary: [
           {
             contents: [
-              { label: 'Enrollment Request (Campus -> ERP)', value: JSON.stringify(order.enrollment_request) },
-              { label: 'Enrollment Request Response from ERP (ERP -> Campus)', value: JSON.stringify(order.enrollment_response) },
-              { label: 'Enrollment Notification (ERP -> Campus)', value: JSON.stringify(order.enrollment_notification) },
-              { label: 'Enrollment Notification Response from Campus (Campus -> ERP)', value: JSON.stringify(order.enrollment_notification_response) },
+              { label: 'Enrollment Request (Campus -> ERP)', value: renderJson(order.enrollment_request) },
+              { label: 'Enrollment Request Response from ERP (ERP -> Campus)', value: renderJson(order.enrollment_response) },
+              { label: 'Enrollment Notification (ERP -> Campus)', value: renderJson(order.enrollment_notification) },
+              { label: 'Enrollment Notification Response from Campus (Campus -> ERP)', value: renderJson(order.enrollment_notification_response) },
             ]
           }
         ]

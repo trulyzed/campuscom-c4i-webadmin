@@ -5,8 +5,8 @@ import { DetailsSearchTab, IDetailsSearchTabProp } from "~/packages/components/P
 import { DetailsTableTab, IDetailsTableTabProp } from "~/packages/components/Page/DetailsPage/DetailsTableTab"
 import { DetailsCustomTab, IDetailsCustomTabProp } from "~/packages/components/Page/DetailsPage/DetailsCustomTab"
 import { IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
-import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
+import { objectToQueryString } from "~/packages/utils/ObjectToQueryStringConverter"
+import { querystringToObject } from "~/packages/utils/QueryStringToObjectConverter"
 import { IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
 

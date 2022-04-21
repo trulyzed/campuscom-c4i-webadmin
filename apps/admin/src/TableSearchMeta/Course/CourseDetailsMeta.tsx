@@ -2,7 +2,7 @@ import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -14,7 +14,10 @@ import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFo
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
-import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
+import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -47,6 +50,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
+      { label: 'Active Status', value: course.active_status, render: renderActiveStatus },
       { label: "Title", value: course.title, render: undefined },
       { label: "Code", value: course.code, render: undefined },
       { label: 'Inquiry URL', value: course.inquiry_url },
@@ -138,6 +142,45 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "publishingStoresTab"
+    },
+    {
+      tabTitle: "Registration Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getQuestionListTableColumns(),
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "question",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, text),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_REGISTRATION_QUESTION_TAB"
+                  onClickRemove={() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: QuestionQueries.getRegistrationQuestionListByCourse,
+          searchParams: { entity_id: course.id },
+          refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
+        }
+      },
+      helpKey: "registrationQuestionsTab"
     },
   ]
 

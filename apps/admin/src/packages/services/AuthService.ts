@@ -1,5 +1,5 @@
 import { cleanStorage } from "~/packages/services/Api/utils/TokenStore"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { AuthQueries } from "~/packages/services/Api/Queries/AdminQueries/Auth"
 import { IApiResponse } from "./Api/utils/Interfaces"

@@ -29,7 +29,7 @@ export const ScheduleQueries:IScheduleQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.SECTION_SCHEDULE}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_SECTION_SCHEDULE}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"

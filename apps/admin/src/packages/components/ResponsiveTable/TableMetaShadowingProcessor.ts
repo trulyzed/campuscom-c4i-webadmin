@@ -1,5 +1,5 @@
 import { PreferenceQueries } from "~/packages/services/Api/Queries/AdminQueries/Preferences";
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { TableColumnType } from "."
 
 export interface IUserTableMetaConfig {

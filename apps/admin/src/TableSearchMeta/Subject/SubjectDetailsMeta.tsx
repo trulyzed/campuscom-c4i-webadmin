@@ -8,7 +8,7 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
 import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 

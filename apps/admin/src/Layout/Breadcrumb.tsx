@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Breadcrumb as AntdBreadcrumb } from "antd"
 import { Link, useLocation } from "react-router-dom"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 
 export const REFRESH_BREADCRUMB = "REFRESH_BREADCRUMB"
 
