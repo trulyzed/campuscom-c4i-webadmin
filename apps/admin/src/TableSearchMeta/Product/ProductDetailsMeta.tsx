@@ -8,7 +8,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderJson, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderJson, renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
@@ -37,6 +37,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ] : undefined,
     contents: [
+      { label: 'Active Status', value: !!product.active_status, render: renderActiveStatus },
       { label: 'Store', value: renderLink(`/administration/store/${product.store.id}`, product.store.name), },
       { label: 'Title', value: product.title },
       { label: 'Type', value: product.product_type },

@@ -14,7 +14,7 @@ import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFo
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
-import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
@@ -50,6 +50,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
+      { label: 'Active Status', value: course.active_status, render: renderActiveStatus },
       { label: "Title", value: course.title, render: undefined },
       { label: "Code", value: course.code, render: undefined },
       { label: 'Inquiry URL', value: course.inquiry_url },
