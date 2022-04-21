@@ -1,12 +1,13 @@
 import React from "react"
 import moment from "moment"
 import { Link } from "react-router-dom"
+import { Tag, TagProps } from "antd"
 import { ReadOutlined } from "@ant-design/icons"
+import rehypeRaw from 'rehype-raw'
+import ReactJsonView from 'react-json-view'
 import { setScrollPosition } from "~/packages/components/ResponsiveTable//ManageScroll"
 import { convertAmountToCSV } from "~/packages/utils/util"
 import ReactMarkdown from 'react-markdown'
-import rehypeRaw from 'rehype-raw'
-import ReactJsonView from 'react-json-view'
 import { parseJSON } from "~/packages/utils/parser"
 
 export const DATE_FORMAT = "MM/DD/YYYY"
@@ -40,10 +41,15 @@ const renderAmount = (text: any) => (!!text ? <div style={{ textAlign: "right" }
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
 
-const renderBoolean = (text: any) => {
+const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, tagColor?: TagProps['color'] }) => {
+  const data = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
   if (typeof text === "boolean") {
-    return text ? "Yes" : "No"
+    return options?.tagColor ? <Tag color={options?.tagColor}>{data}</Tag> : data
   } else return ""
+}
+
+const renderActiveStatus = (status: any) => {
+  return renderBoolean(status, { truthyText: 'Active', falsyText: 'Inactive', tagColor: status ? '#87d068' : '#f50' })
 }
 
 const renderWeek = (text: any[]) => {
@@ -77,6 +83,7 @@ export {
   renderDateTime,
   renderTime,
   renderBoolean,
+  renderActiveStatus,
   renderAmount,
   renderWeek,
   renderThumb,
