@@ -7,4 +7,5 @@ export interface ICourseProviderQueries {
   getLookupData: IQuery
   create: IQuery
   update: IQuery
+  generateApiKey: IQuery
 }

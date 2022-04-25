@@ -1,6 +1,7 @@
 export const endpoints = {
   ACTIVATE_MFA: 'mfa/activate',
   ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS: 'addable-membership-program-discounts',
+  API_KEY: 'key',
   ATTACHMENT_DOWNLOAD: 'attachment-download',
   CAREER: 'careers',
   CAREER_SAVING_STUDENT: 'profiles-by-career',

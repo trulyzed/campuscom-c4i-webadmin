@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { message, notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderHtml, renderJson, renderThumb, renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
@@ -11,6 +11,8 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 // import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 // import { getQuestionListTableColumns } from "../Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { CopyToClipboard } from "react-copy-to-clipboard"
 // import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
@@ -20,6 +22,25 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     }
     return resp
   })), [CourseProviderQueries.update])
+
+  const generateApiKey = QueryConstructor(() => CourseProviderQueries.generateApiKey({ data: { course_provider_id: courseProvider.id, name: `${courseProvider.name} API key` } }).then(resp => {
+    if (resp.success) {
+      notification.success({
+        message: 'API key',
+        description: (
+          <div>
+            <p>The API key can be copied once. Store the key in a safe place. If the key is lost, it should be revoked and a new one needs to be created.</p>
+            <CopyToClipboard text={resp.data.key}>
+              <h3 style={{ cursor: 'pointer' }} title="Click to copy">{resp.data.key}</h3>
+            </CopyToClipboard>
+          </div>
+        ),
+        duration: 0,
+        top: 100
+      })
+    }
+    return resp
+  }), [CourseProviderQueries.generateApiKey])
 
   // const addProfileQuestion = QueryConstructor(((data) => QuestionQueries.create({ ...data, data: { ...data?.data, course: courseProvider.id } }).then(resp => {
   //   if (resp.success) {
@@ -40,6 +61,11 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
         buttonLabel={`Update Course Provider`}
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
+      />,
+      <IconButton
+        toolTip="Generate API key"
+        iconType="process"
+        onClick={generateApiKey}
       />,
       // <IconButton
       //   toolTip="Delete Program Offering"
@@ -69,7 +95,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
       tabTitle: "Summary",
       tabType: "summary",
       tabMeta: summaryMeta,
-      helpKey: "courseProviderSummaryTab"
+      helpKey: "courseProviderSummaryTab",
     },
     {
       tabTitle: "Profile Questions",
