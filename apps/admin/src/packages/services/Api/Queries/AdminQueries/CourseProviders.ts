@@ -62,4 +62,12 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Write}]),
+
+  generateApiKey: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.API_KEY,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.ApiKey, action: ApiPermissionAction.Write}]),
 }

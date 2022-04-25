@@ -11,6 +11,7 @@ export enum ApiPermissionAction {
 
 export enum ApiPermissionClass {
   AddableMembershipProgramDiscount = 'AddableMembershipProgramDiscountView',
+  ApiKey = 'CourseProviderAPIKeyView',
   Campus = 'CourseProviderSiteModelViewSet',
   Career = 'OccupationModelViewSet',
   CareerRecommendation = 'CareerRecommendation',
