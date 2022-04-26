@@ -9,6 +9,7 @@ export interface IDiscountProgramQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
+  tagProduct: IQuery
   untagProduct: IQuery
   getListByMembershipProgram: IQuery
 }
