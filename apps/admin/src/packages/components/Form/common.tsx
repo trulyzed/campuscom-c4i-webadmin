@@ -76,6 +76,7 @@ export interface IField {
 
   multiple?: boolean
   accept?: UploadProps['accept']
+  dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
@@ -83,7 +84,6 @@ export interface IGeneratedField extends Omit<IField, "inputType"> {
   clearTrigger?: boolean
   getValueFromEvent?: (...args: any) => void
   initialValue?: any
-  dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {

@@ -121,10 +121,11 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
             <MetaDrivenFormModalOpenButton
               formTitle={`Tag Subjects`}
               formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
+              initialFormValue={{ subjects: publishing.subjects }}
               formSubmitApi={tagSubjects}
               buttonLabel={`Tag Subjects`}
               iconType="create"
-              refreshEventName={'REFRESH_SUBJECT_LIST'}
+              refreshEventName={REFRESH_PAGE}
             />
           ]
         }

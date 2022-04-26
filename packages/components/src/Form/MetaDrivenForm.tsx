@@ -227,6 +227,7 @@ export function MetaDrivenForm({
     // eslint-disable-next-line
   }, [])
 
+  console.log(props.meta)
   return (
     <Card
       title={
