@@ -8,7 +8,7 @@ export const getProductTaggingFormMeta = (discountProgramId: string): IField[] =
       label: "Products",
       inputType: MULTI_SELECT_GROUP_CHECKBOX,
       fieldName: "products",
-      refLookupService: QueryConstructor(() => ProductQueries.getPaginatedList({params: {discount_program: discountProgramId, addable_discount_product: true, type: 'product', operator: 'in'}}).then(resp => resp.success ? ({...resp, data: [{group: 'Prod1', options: resp.data}, {group: 'Prod2', options: resp.data}]}) : resp), [ProductQueries.getPaginatedList]),
+      refLookupService: QueryConstructor(() => ProductQueries.getPaginatedList({params: {discount_program: discountProgramId, addable_discount_product: true, type: 'product', operator: 'in'}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [ProductQueries.getPaginatedList]),
       displayKey2: "title",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }]

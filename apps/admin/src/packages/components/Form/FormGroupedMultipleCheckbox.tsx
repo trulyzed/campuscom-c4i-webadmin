@@ -44,17 +44,12 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
     // eslint-disable-next-line
   }, [])
 
-  // console.log(options)
-
-  // return null
-
   return (
     <SearchFieldWrapper {...props}>
       <Checkbox.Group style={{ width: "100%" }} onChange={props.onSelectedItems} disabled={props.disabled}>
         <Row gutter={5}>
           {options.map((g: any, idx) => {
             //const allSelected = props.formInstance.getFieldValue(props.fieldName).filter((i: any) => g.options.find((o: any) => o.id === i)).length >= g.options.length
-            console.log(props.formInstance.getFieldValue(props.fieldName))
             return (
               <Col key={`${g[props.displayKey || "group"]}_${idx}`} span={12} style={{ marginBottom: '5px' }}>
                 <div style={{ border: "1px solid lightgray", padding: "5px" }}>
