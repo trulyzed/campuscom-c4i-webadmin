@@ -64,7 +64,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
       />,
       <IconButton
         toolTip="Generate API key"
-        iconType="process"
+        iconType="unlock"
         onClick={generateApiKey}
       />,
       // <IconButton

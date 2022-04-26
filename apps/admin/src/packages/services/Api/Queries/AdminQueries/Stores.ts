@@ -135,4 +135,19 @@ export const StoreQueries:IStoreQueries = {
       data: payload,
     })
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
+
+  updateConfiguration: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      config_value: JSON.parse(data?.data.config_value || undefined)
+    }
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.STORE_CONFIGURATION}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
+    })
+  }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 }

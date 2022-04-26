@@ -29,7 +29,8 @@ import {
   HourglassOutlined,
   MoreOutlined,
   EllipsisOutlined,
-  MergeCellsOutlined
+  MergeCellsOutlined,
+  UnlockOutlined
 } from "@ant-design/icons"
 import { Button, Tooltip } from "antd"
 import { showDeleteConfirm } from "~/packages/components/Modal/Confirmation"
@@ -76,6 +77,7 @@ export type iconType =
   | "bulkOrder"
   | "actions"
   | "merge"
+  | "unlock"
 
 export const IconButton = (props: {
   onClick?: () => void
@@ -170,7 +172,8 @@ export const IconButton = (props: {
       profile: <ProfileIcon alt="" />,
       bulkOrder: <BulkOrderIcon alt="" />,
       actions: <EllipsisOutlined alt="" />,
-      merge: <MergeCellsOutlined alt="" />
+      merge: <MergeCellsOutlined alt="" />,
+      unlock: <UnlockOutlined alt="" />,
     }
     _button = (
       <Button
