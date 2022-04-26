@@ -1,19 +1,20 @@
-// import { message } from "antd"
+import { message } from "antd"
 import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
-// import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-// import { StoreConfigurationFormMeta } from "~/Component/Feature/StoreConfiguration/FormMeta/StoreConfigurationFormMeta"
-// import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
-// const updateStoreConfiguration = QueryConstructor(((data) => StoreConfigurationQueries.update({ ...data }).then(resp => {
-//   if (resp.success) {
-//     message.success(UPDATE_SUCCESSFULLY)
-//   }
-//   return resp
-// })), [StoreConfigurationQueries.update])
+const updateStoreConfiguration = QueryConstructor(((data) => StoreQueries.updateConfiguration({ ...data }).then(resp => {
+  if (resp.success) {
+    message.success(UPDATE_SUCCESSFULLY)
+  }
+  return resp
+})), [StoreQueries.updateConfiguration])
 
 export const storeConfigurationListTableColumns: TableColumnType = [
   {
@@ -31,21 +32,23 @@ export const storeConfigurationListTableColumns: TableColumnType = [
     title: "Action",
     key: "action",
     render: (record: any) => (
-      // <MetaDrivenFormModalOpenButton
-      //   formTitle={`Edit StoreConfiguration`}
-      //   formMeta={StoreConfigurationFormMeta}
-      //   formSubmitApi={updateStoreConfiguration}
-      //   initialFormValue={record}
-      //   buttonLabel={`Edit StoreConfiguration`}
-      //   iconType="edit"
-      //   refreshEventName={'REFRESH_SCHEDULE_LIST'}
-      // />
-      <IconButton
-        toolTip="Delete Store Configuration"
-        iconType="remove"
-        onClickRemove={() => StoreConfigQueries.delete({ data: { id: [record.id] } })}
-        refreshEventName="REFRESH_PAGE"
-      />
+      <>
+        <MetaDrivenFormModalOpenButton
+          formTitle={`Edit Store Configuration`}
+          formMeta={ConfigurationTaggingFormMeta}
+          formSubmitApi={QueryConstructor((data) => updateStoreConfiguration({ ...data, params: { ...data?.params, id: record.id } }), [StoreQueries.updateConfiguration])}
+          initialFormValue={{ ...record, config_value: JSON.stringify(record.config_value) }}
+          buttonLabel={`Edit Store Configuration`}
+          iconType="edit"
+          refreshEventName={'REFRESH_PAGE'}
+        />
+        <IconButton
+          toolTip="Delete Store Configuration"
+          iconType="remove"
+          onClickRemove={() => StoreConfigQueries.delete({ data: { id: [record.id] } })}
+          refreshEventName="REFRESH_PAGE"
+        />
+      </>
     )
   }
 ]
