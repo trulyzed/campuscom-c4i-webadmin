@@ -3,7 +3,7 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { DiscountProgramFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/DiscountProgramFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
@@ -12,6 +12,7 @@ import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 import { getDiscountProgramUsageHistoryListTableColumns } from "~/TableSearchMeta/DiscountProgramUsageHistory/DiscountProgramUsageHistoryListTableColumns"
+import { getProductTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/ProductTaggingFormMeta"
 
 export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => DiscountProgramQueries.update({ ...data, params: { id: discountProgram.id } }).then(resp => {
@@ -20,6 +21,13 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
     }
     return resp
   })), [DiscountProgramQueries.update])
+
+  const addProduct = QueryConstructor(((data) => DiscountProgramQueries.tagProduct({ ...data, data: { ...data?.data, discount_program: discountProgram.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [DiscountProgramQueries.tagProduct])
 
   const summaryInfo: CardContainer = {
     title: `Discount Program: ${discountProgram.title}`,
@@ -94,14 +102,14 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
           searchParams: { discount_program: discountProgram.id },
           refreshEventName: "REFRESH_PRODUCT_TAB",
           actions: [
-            // <MetaDrivenFormModalOpenButton
-            //   formTitle={`Add Identity Provider`}
-            //   formMeta={IdentityProviderTaggingFormMeta}
-            //   formSubmitApi={addIdentityProvider}
-            //   buttonLabel={`Add Identity Provider`}
-            //   iconType="create"
-            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            // />
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Product`}
+              formMeta={getProductTaggingFormMeta(discountProgram.id)}
+              formSubmitApi={addProduct}
+              buttonLabel={`Add Product`}
+              iconType="create"
+              refreshEventName={'REFRESH_PRODUCT_TAB'}
+            />
           ]
         }
       },

@@ -14,7 +14,8 @@ import {
   TEXTAREA,
   MULTI_RADIO,
   FILE,
-  EDITOR
+  EDITOR,
+  MULTI_SELECT_GROUP_CHECKBOX
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -39,6 +40,7 @@ import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { FormFileUpload } from "./FormFileUpload"
 import { FormEditorInput } from "./FormEditorInput"
+import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 
 export function MetaDrivenForm({
   showClearbutton = true,
@@ -465,6 +467,17 @@ const SearchFormFields = (props: {
                 />
               )
               break
+            case MULTI_SELECT_GROUP_CHECKBOX:
+              formField = (
+                <FormGroupedMultipleCheckbox
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  labelColSpan={field.labelColSpan || 4}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
             case MULTI_RADIO:
               formField = (
                 <FormMultipleRadio
@@ -566,7 +579,7 @@ const SearchFormFields = (props: {
               break
           }
 
-          const lg = (props.isHorizontal || (field.inputType === EDITOR)) ? 24 : 12
+          const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
           return (
             <Col key={1000 + i} lg={lg} xs={xs}>

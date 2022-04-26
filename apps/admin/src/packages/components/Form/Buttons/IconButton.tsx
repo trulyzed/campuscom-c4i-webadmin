@@ -30,7 +30,7 @@ import {
   MoreOutlined,
   EllipsisOutlined,
   MergeCellsOutlined,
-  UnlockOutlined
+  KeyOutlined
 } from "@ant-design/icons"
 import { Button, Tooltip } from "antd"
 import { showDeleteConfirm } from "~/packages/components/Modal/Confirmation"
@@ -77,7 +77,7 @@ export type iconType =
   | "bulkOrder"
   | "actions"
   | "merge"
-  | "unlock"
+  | "key"
 
 export const IconButton = (props: {
   onClick?: () => void
@@ -173,7 +173,7 @@ export const IconButton = (props: {
       bulkOrder: <BulkOrderIcon alt="" />,
       actions: <EllipsisOutlined alt="" />,
       merge: <MergeCellsOutlined alt="" />,
-      unlock: <UnlockOutlined alt="" />,
+      key: <KeyOutlined alt="" />,
     }
     _button = (
       <Button

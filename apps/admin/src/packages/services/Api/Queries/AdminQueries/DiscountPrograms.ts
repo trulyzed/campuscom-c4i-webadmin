@@ -91,6 +91,20 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
     })
   }, [{operation: ApiPermissionClass.DeleteDiscountProgram, action: ApiPermissionAction.Delete}]),
 
+  tagProduct: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      type: 'product',
+      operator: 'in',
+    }
+    return adminApi({
+      endpoint: `${endpoints.DISCOUNT_RULE}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.DiscountRule, action: ApiPermissionAction.Write}]),
+
   untagProduct: PermissionWrapper(data => {
     const payload = {
       ...data?.data,
