@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -76,6 +76,7 @@ export function MetaDrivenForm({
   const [meta, setMeta] = useState<IField[]>([])
   const REFRESH_EVENT_NAME = generateUUID("REFRESH")
   const formId = generateUUID(props.metaName)
+  const [dependencyValue, _setDependencyValue] = useState({})
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -223,7 +224,25 @@ export function MetaDrivenForm({
     })
   }
 
+  const setDependencyValue = useCallback((formValues = {}) => {
+    const adjustedDependecyValues: { [key: string]: any } = {}
+    for (const field of props.meta) {
+      if (!(field.dependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
+      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.dependencies || []), ...(field.refLookupDependencies || [])])
+    }
+    _setDependencyValue(dependencyValue => ({
+      ...dependencyValue,
+      ...adjustedDependecyValues
+    }))
+  }, [props.meta, formInstance])
+
+  const handleValuesChange = useCallback((changedValues: any, values: any) => {
+    setDependencyValue(changedValues)
+  }, [setDependencyValue])
+
   useEffect(() => {
+    if (props.initialFormValue) setDependencyValue(props.initialFormValue)
+
     eventBus.subscribe(REFRESH_EVENT_NAME, processMeta)
     eventBus.publish(REFRESH_EVENT_NAME)
     return () => {
@@ -232,7 +251,7 @@ export function MetaDrivenForm({
     }
     // }, [props.meta, props.metaName])
     // eslint-disable-next-line
-  }, [])
+  }, [props.initialFormValue])
 
   return (
     <Card
@@ -326,6 +345,7 @@ export function MetaDrivenForm({
           borderRadius: "4px",
           padding: "10px"
         }}
+        onValuesChange={handleValuesChange}
       >
         <FormError errorMessages={props.errorMessages} />
         <SearchFormFields
@@ -334,6 +354,7 @@ export function MetaDrivenForm({
           formInstance={formInstance}
           clearTrigger={clearTrigger}
           showLess={showLess}
+          dependencyValue={dependencyValue}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -400,6 +421,7 @@ const SearchFormFields = (props: {
   clearTrigger?: boolean
   showLess: boolean
   isHorizontal?: boolean
+  dependencyValue?: any
 }) => {
   return (
     <Row gutter={16}>
@@ -497,6 +519,7 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
                 />
               )
               break
