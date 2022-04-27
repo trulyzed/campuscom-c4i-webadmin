@@ -25,6 +25,7 @@ import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharing
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getPaymentQuestionTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/PaymentQuestionTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -61,6 +62,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagConfiguration])
+
+  const addPaymentQuestion = QueryConstructor(((data) => StoreQueries.tagPaymentQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagPaymentQuestion])
 
   const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
@@ -351,6 +359,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { store: store.id, },
           searchFunc: QuestionQueries.getPaymentQuestionListByStore,
           refreshEventName: "REFRESH_PAYMENT_QUESTION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Payment Question`}
+              formMeta={getPaymentQuestionTaggingFormMeta(store.id)}
+              formSubmitApi={addPaymentQuestion}
+              buttonLabel={`Add Payment Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_PAYMENT_QUESTION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "paymentQuestionTab"
