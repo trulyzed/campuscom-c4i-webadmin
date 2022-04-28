@@ -497,6 +497,7 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 4}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
                 />
               )
               break

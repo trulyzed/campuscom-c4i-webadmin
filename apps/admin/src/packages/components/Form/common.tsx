@@ -79,7 +79,7 @@ export interface IField {
   dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   onDependencyChange?: (value: any, utils: {
-    loadOptions?: (args?: IQueryParams) => void
+    loadOptions?: (args?: IQueryParams) => Promise<any[]>
     setOptions?: (data?: any) => void
   }) => void
 }

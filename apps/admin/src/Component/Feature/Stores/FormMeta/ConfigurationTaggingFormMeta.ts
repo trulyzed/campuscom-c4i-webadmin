@@ -41,6 +41,5 @@ export const ConfigurationTaggingFormMeta: IField[] = [
     fieldName: 'config_value',
     inputType: TEXTAREA,
     rules: [{ required: true, message: "This field is required!" }],
-    dependencies: ['external_entity']
   },
 ]

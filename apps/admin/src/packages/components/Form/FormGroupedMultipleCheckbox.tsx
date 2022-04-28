@@ -2,37 +2,61 @@ import React, { useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Checkbox, Col, Row } from "antd"
 import { eventBus } from "~/packages/utils/EventBus"
+import { IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
-export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFlex?: string }) {
+export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFlex?: string, dependencyValue?: any }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const { refLookupService, displayKey, valueKey, onDependencyChange } = props
 
-  const { refLookupService, displayKey, valueKey, } = props
-
-  const loadOptions = () => {
+  const loadOptions = async (params?: IQueryParams): Promise<any[]> => {
     if (props.options?.length) {
-      setOptions(
-        props.options?.map((x) => {
-          return {
-            group: x[displayKey || "group"],
-            options: x[valueKey || "options"]
-          }
-        })
-      )
+      const adjustedOptions = props.options?.map((x) => {
+        return {
+          group: x[displayKey || "group"],
+          options: x[valueKey || "options"]
+        }
+      })
+      setOptions(adjustedOptions)
+      return adjustedOptions
     } else if (refLookupService) {
       setLoading(true)
-      refLookupService().then((x) => {
-        if (x.success) {
-          x.data = x.data.map((y: any) => ({
-            group: y[displayKey || "group"],
-            options: y[valueKey || "options"]
-          }))
-          setOptions(x.data)
-        }
-        setLoading(false)
-      })
+      const x = await refLookupService(params)
+      setLoading(false)
+      if (x.success) {
+        x.data = x.data.map((y: any) => ({
+          group: y[displayKey || "group"],
+          options: y[valueKey || "options"]
+        }))
+        setOptions(x.data)
+        return x.data
+      }
     }
+    return []
   }
+
+  useEffect(() => {
+    onDependencyChange?.(props.dependencyValue, {
+      loadOptions: async (...args): Promise<any[]> => {
+        props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
+        if (Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined)) {
+          const response = await loadOptions(...args).then(options => {
+            const matchedValue = options.find(o => o.value === props.defaultValue)
+            if (matchedValue) props.formInstance.setFieldsValue({ [props.fieldName]: matchedValue })
+            return options
+          })
+          return response
+        } else {
+          setOptions([])
+        }
+        return []
+      },
+      setOptions: (data) => setOptions(data)
+    })
+
+    // eslint-disable-next-line
+  }, [props.dependencyValue, onDependencyChange, props.defaultValue, props.fieldName, props.formInstance])
+
   useEffect(() => {
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey
       }`

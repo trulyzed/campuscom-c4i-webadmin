@@ -63,6 +63,19 @@ export const CourseProviderQueries:ICourseProviderQueries = {
     })
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Write}]),
 
+  tagProfileQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      config_value: JSON.parse(data?.data.config_value || undefined)
+    }
+    return adminApi({
+      endpoint: `${endpoints.PROFILE_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Write}]),
+
   generateApiKey: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.API_KEY,
