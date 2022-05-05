@@ -1,4 +1,5 @@
-import { BOOLEAN, DATE_PICKER, DROPDOWN, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
+import { INPUT_OPTIONS } from "~/Configs/input"
+import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -19,58 +20,47 @@ export const MembershipProgramFormMeta: IField[] = [
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Discount Amount',
-    inputType: NUMBER,
-    fieldName: 'discount_amount',
-    rules: [{ required: true, message: "This field is required!" }]
-  },
-  {
-    label: 'Type',
+    label: 'Membership Type',
     inputType: DROPDOWN,
-    fieldName: 'type',
+    fieldName: 'membership_type',
     rules: [{ required: true, message: "This field is required!" }],
-    options: [
-      { value: 'fixed', label: 'Fixed', },
-      { value: 'percentage', label: 'Percentage',},
-    ]
+    options: INPUT_OPTIONS.MEMBERSHIP_TYPE
   },
   {
-    label: 'Code',
-    inputType: TEXT,
-    fieldName: 'code',
-  },
-  {
-    label: 'Max Limit',
+    label: 'Duration',
     inputType: NUMBER,
-    fieldName: 'max_limit',
-    rules: [{ required: true, message: "This field is required!" }]
-  },
-  {
-    label: 'Usage Limit',
-    inputType: NUMBER,
-    fieldName: 'usage_limit',
-  },
-  {
-    label: 'Profile Usage Limit',
-    inputType: NUMBER,
-    fieldName: 'profile_usage_limit',
+    fieldName: 'duration',
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['membership_type'],
+    onDependencyChange: (value) => value?.membership_type === 'time_based',
   },
   {
     label: 'Start Date',
     inputType: DATE_PICKER,
     fieldName: 'start_date',
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['membership_type'],
+    onDependencyChange: (value) => value?.membership_type === 'date_based',
   },
   {
     label: 'End Date',
     inputType: DATE_PICKER,
     fieldName: 'end_date',
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['membership_type'],
+    onDependencyChange: (value) => value?.membership_type === 'date_based',
   },
   {
-    label: 'Is Stackable',
-    inputType: BOOLEAN,
-    fieldName: 'is_stackable',
+    label: 'Fee',
+    inputType: NUMBER,
+    fieldName: 'fee',
+    rules: [{ required: true, message: "This field is required!" }],
+  },
+  {
+    label: 'Description',
+    inputType: EDITOR,
+    fieldName: 'description',
+    rules: [{ required: true, message: "This field is required!" }],
   },
   {
     label: 'Is Published',
