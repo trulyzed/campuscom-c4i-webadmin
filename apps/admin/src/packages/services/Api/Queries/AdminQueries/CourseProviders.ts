@@ -66,7 +66,8 @@ export const CourseProviderQueries:ICourseProviderQueries = {
   tagProfileQuestion: PermissionWrapper(data => {
     const payload = {
       ...data?.data,
-      config_value: JSON.parse(data?.data.config_value || undefined)
+      provider_type: 'course_provider',
+      provider_ref: data?.data.course_provider,
     }
     return adminApi({
       endpoint: `${endpoints.PROFILE_QUESTION}`,
