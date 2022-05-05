@@ -15,9 +15,9 @@ export const PreferenceQueries:IPreferenceQueries = {
   }, [{operation: ApiPermissionClass.Preference, action: ApiPermissionAction.Read}]),
   saveOrUpdatePreferences: PermissionWrapper(data => {
     return adminApi({
-      endpoint: `${'endpoints.PREFERENCE'}/${data!.params!.id}`,
+      endpoint: `${'endpoints.PREFERENCE'}`,
       ...data,
-      method: "GET"
+      method: "POST"
     })
   }, [{operation: ApiPermissionClass.Preference, action: ApiPermissionAction.Read}]),
   deletePreferences: PermissionWrapper(data => {
