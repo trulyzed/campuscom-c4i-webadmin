@@ -7,12 +7,13 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 // import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 // import { getQuestionListTableColumns } from "../Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { CopyToClipboard } from "react-copy-to-clipboard"
+import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
 // import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
@@ -22,6 +23,13 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     }
     return resp
   })), [CourseProviderQueries.update])
+
+  const addProfileQuestion = QueryConstructor(((data) => CourseProviderQueries.tagProfileQuestion({ ...data, data: { ...data?.data, course_provider: courseProvider.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseProviderQueries.tagProfileQuestion])
 
   const generateApiKey = QueryConstructor(() => CourseProviderQueries.generateApiKey({ data: { course_provider_id: courseProvider.id, name: `${courseProvider.name} API key` } }).then(resp => {
     if (resp.success) {
@@ -115,19 +123,31 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
               dataIndex: "respondent_type",
               sorter: (a: any, b: any) => a.respondent_type - b.respondent_type
             },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_PROFILE_QUESTION_LIST"
+                  onClickRemove={() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } })}
+                />
+              )
+            },
           ],
           searchFunc: QuestionQueries.getListByCourseProvider,
           searchParams: { provider_type: 'course_provider', provider_ref: courseProvider.id },
           refreshEventName: "REFRESH_PROFILE_QUESTION_LIST",
           actions: [
-            // <MetaDrivenFormModalOpenButton
-            //   formTitle={`Add Profile Question`}
-            //   formMeta={QuestionFormMeta}
-            //   formSubmitApi={addProfileQuestion}
-            //   buttonLabel={`Add Profile Question`}
-            //   iconType="create"
-            //   refreshEventName={'REFRESH_PROFILE_QUESTION_LIST'}
-            // />
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Profile Question`}
+              formMeta={getProfileQuestionTaggingFormMeta(courseProvider.id)}
+              formSubmitApi={addProfileQuestion}
+              buttonLabel={`Add Profile Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_PROFILE_QUESTION_LIST'}
+            />
           ]
         }
       },
