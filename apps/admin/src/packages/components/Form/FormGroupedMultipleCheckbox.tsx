@@ -70,18 +70,18 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
 
   return (
     <SearchFieldWrapper {...props}>
-      {options.map((g: any, idx) => (
-        <div key={g[props.displayKey || "group"]} style={{ border: "1px solid lightgray", padding: "5px" }}>
-          {g[props.displayKey || "group"] ? <h4>{g[props.displayKey || "group"]}</h4> : null}
-          <Skeleton loading={loading}>
+      <Skeleton loading={loading}>
+        {options.map((g: any, idx) => (
+          <div key={g[props.displayKey || "group"]} style={{ border: "1px solid lightgray", padding: "5px" }}>
+            {g[props.displayKey || "group"] ? <h4>{g[props.displayKey || "group"]}</h4> : null}
             <Checkbox.Group
               style={{ width: "100%" }}
               options={g.options.map((o: any) => ({ label: o[props.displayKey2 || "label"], value: o[props.valueKey2 || "value"] }))}
               disabled={props.disabled}
               onChange={(v) => props.formInstance.setFieldsValue({ [props.fieldName]: v })} />
-          </Skeleton>
-        </div>
-      ))}
+          </div>
+        ))}
+      </Skeleton>
     </SearchFieldWrapper>
   )
 }
