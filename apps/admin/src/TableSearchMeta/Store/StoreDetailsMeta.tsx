@@ -25,6 +25,7 @@ import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharing
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ProfileQuestionTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -61,6 +62,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagConfiguration])
+
+  const addProfileQuestion = QueryConstructor(((data) => StoreQueries.tagProfileQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagProfileQuestion])
 
   const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
@@ -313,6 +321,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { provider_ref: store.id, },
           searchFunc: QuestionQueries.getProfileQuestionListByStore,
           refreshEventName: "REFRESH_PROFILE_QUESTION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Profile Question`}
+              formMeta={getProfileQuestionTaggingFormMeta(store.id)}
+              formSubmitApi={addProfileQuestion}
+              buttonLabel={`Add Profile Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_PROFILE_QUESTION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "profileQuestionTab"

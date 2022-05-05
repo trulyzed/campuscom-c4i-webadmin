@@ -136,6 +136,28 @@ export const StoreQueries:IStoreQueries = {
     })
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 
+  tagProfileQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      provider_type: 'store',
+      provider_ref: data?.data.store,
+    }
+    return adminApi({
+      endpoint: `${endpoints.PROFILE_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Write}]),
+
+  untagProfileQuestion: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_PROFILE_QUESTION}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteProfileQuestion, action: ApiPermissionAction.Delete}]),
+
   updateConfiguration: PermissionWrapper(data => {
     const payload = {
       ...data?.data,

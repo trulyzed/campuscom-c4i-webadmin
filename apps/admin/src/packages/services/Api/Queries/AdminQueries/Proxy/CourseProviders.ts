@@ -8,5 +8,6 @@ export interface ICourseProviderQueries {
   create: IQuery
   update: IQuery
   tagProfileQuestion: IQuery
+  untagProfileQuestion: IQuery
   generateApiKey: IQuery
 }

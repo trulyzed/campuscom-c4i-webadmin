@@ -123,6 +123,18 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
               dataIndex: "respondent_type",
               sorter: (a: any, b: any) => a.respondent_type - b.respondent_type
             },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_PROFILE_QUESTION_LIST"
+                  onClickRemove={() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } })}
+                />
+              )
+            },
           ],
           searchFunc: QuestionQueries.getListByCourseProvider,
           searchParams: { provider_type: 'course_provider', provider_ref: courseProvider.id },

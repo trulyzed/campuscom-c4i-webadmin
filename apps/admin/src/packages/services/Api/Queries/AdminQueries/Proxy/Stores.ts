@@ -13,5 +13,7 @@ export interface IStoreQueries {
   tagPaymentGateway: IQuery
   untagPaymentGateway: IQuery
   tagConfiguration: IQuery
+  tagProfileQuestion: IQuery
+  untagProfileQuestion: IQuery
   updateConfiguration: IQuery
 }
