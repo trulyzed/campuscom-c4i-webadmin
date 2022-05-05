@@ -172,4 +172,17 @@ export const StoreQueries:IStoreQueries = {
       params
     })
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
+
+  tagPaymentQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      question_banks: data?.data.question_banks
+    }
+    return adminApi({
+      endpoint: `${endpoints.PAYMENT_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.PaymentQuestion, action: ApiPermissionAction.Write}]),
 }
