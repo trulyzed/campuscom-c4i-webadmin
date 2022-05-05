@@ -28,7 +28,9 @@ export const QuestionFormMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['provider_type'],
+    onDependencyChange: (value) => value?.provider_type === 'course_provider',
   },
   {
     label: 'Store',
@@ -37,7 +39,9 @@ export const QuestionFormMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['provider_type'],
+    onDependencyChange: (value) => value?.provider_type === 'store',
   },
   {
     label: 'External ID',
@@ -62,28 +66,38 @@ export const QuestionFormMeta: IField[] = [
     label: 'Is Autocomplete',
     fieldName: 'is_autocomplete',
     inputType: BOOLEAN,
+    renderDependencies: ['question_type'],
+    onDependencyChange: (value) => value?.question_type === 'select',
   },
   {
     label: 'Options',
     fieldName: 'options',
     inputType: TEXTAREA,
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    renderDependencies: ['question_type', 'is_autocomplete'],
+    onDependencyChange: (value) => value?.question_type === 'select' && !value?.is_autocomplete,
   },
   {
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
-    accept: BATCH_FILE_INPUT_FORMAT
+    accept: BATCH_FILE_INPUT_FORMAT,
+    renderDependencies: ['is_autocomplete'],
+    onDependencyChange: (value) => value?.is_autocomplete,
   },
   {
     label: 'Is Multiple',
     fieldName: 'is_multiple',
     inputType: BOOLEAN,
+    renderDependencies: ['question_type'],
+    onDependencyChange: (value) => value?.question_type === 'attachment',
   },
   {
     label: 'Max File Size',
     fieldName: 'max_file_size',
     inputType: NUMBER,
+    renderDependencies: ['question_type'],
+    onDependencyChange: (value) => value?.question_type === 'attachment',
   },
   {
     label: 'Accepted File Types',
@@ -92,6 +106,8 @@ export const QuestionFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     inputType: MULTI_SELECT_DROPDOWN,
+    renderDependencies: ['question_type'],
+    onDependencyChange: (value) => value?.question_type === 'attachment',
   },
   {
     label: 'Is Required',

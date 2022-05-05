@@ -57,6 +57,7 @@ export function FormDropDown(
     eventBus.subscribe(eventName, loadOptions)
     return () => {
       eventBus.unsubscribe(eventName)
+      props.formInstance.resetFields([props.fieldName])
     }
     // eslint-disable-next-line
   }, [])

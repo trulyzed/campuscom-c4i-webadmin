@@ -227,8 +227,8 @@ export function MetaDrivenForm({
   const setDependencyValue = useCallback((formValues = {}) => {
     const adjustedDependecyValues: { [key: string]: any } = {}
     for (const field of props.meta) {
-      if (!(field.dependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
-      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.dependencies || []), ...(field.refLookupDependencies || [])])
+      if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
+      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.renderDependencies || []), ...(field.refLookupDependencies || [])])
     }
     _setDependencyValue(dependencyValue => ({
       ...dependencyValue,
@@ -605,11 +605,13 @@ const SearchFormFields = (props: {
 
           const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
-          return (
+          const renderField = (!field.renderDependencies || field.onDependencyChange?.(props.dependencyValue[field.fieldName], {}))
+
+          return (formField && renderField) ? (
             <Col key={1000 + i} lg={lg} xs={xs}>
               {formField}
             </Col>
-          )
+          ) : undefined
         })}
     </Row>
   )

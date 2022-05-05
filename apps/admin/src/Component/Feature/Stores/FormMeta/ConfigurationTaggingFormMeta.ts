@@ -34,7 +34,7 @@ export const ConfigurationTaggingFormMeta: IField[] = [
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
     refLookupDependencies: ['entity_type'],
-    onDependencyChange: (value, {loadOptions}) => loadOptions?.({params: {entity_type: value?.entity_type}}),
+    onDependencyChange: (value, {loadOptions}) => {loadOptions?.({params: {entity_type: value?.entity_type}})},
   },
   {
     label: 'Configuration Value',
