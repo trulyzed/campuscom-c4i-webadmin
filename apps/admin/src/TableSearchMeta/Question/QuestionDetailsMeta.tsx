@@ -1,43 +1,49 @@
-// import { message } from "antd"
+import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderHtml, renderJson, renderLink, renderBoolean } from "~/packages/components/ResponsiveTable/tableUtils"
-// import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-// import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-// import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
+import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-// import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-// import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { convertToString } from "~/packages/utils/mapper"
 
 export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetailsMeta => {
-  // const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
-  //   if (resp.success) {
-  //     message.success(UPDATE_SUCCESSFULLY)
-  //   }
-  //   return resp
-  // })), [QuestionQueries.update])
+  const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [QuestionQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `Question: ${convertToString(question.title, true)}`,
     cardActions: [
-      // <MetaDrivenFormModalOpenButton
-      //   formTitle={`Update Question`}
-      //   formMeta={QuestionFormMeta}
-      //   formSubmitApi={updateEntity}
-      //   initialFormValue={{
-      //     ...question, configuration: JSON.stringify(question.configuration),
-      //     provider_ref: question.provider?.id,
-      //     is_autocomplete: question.configuration?.autocomplete,
-      //     is_multiple: question.configuration?.multiple,
-      //     is_required: question.configuration?.required,
-      //   }}
-      //   defaultFormValue={{ questionId: question.id }}
-      //   buttonLabel={`Update Question`}
-      //   iconType="edit"
-      //   refreshEventName={REFRESH_PAGE}
-      // />,
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Question`}
+        formMeta={QuestionFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{
+          ...question,
+          provider_ref: question.provider?.id,
+          autocomplete: question.configuration?.autocomplete,
+          options: question.configuration?.options,
+          multiple: question.configuration?.multiple,
+          max_file_size: question.configuration?.max_file_size,
+          file_types: question.configuration?.file_types,
+          required: question.configuration?.required,
+          default_value: question.configuration?.default_value,
+          placeholder: question.configuration?.placeholder,
+          help_text: question.configuration?.help_text,
+        }}
+        defaultFormValue={{ questionId: question.id }}
+        buttonLabel={`Update Question`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
       <IconButton
         toolTip="Delete Question"
         iconType="remove"

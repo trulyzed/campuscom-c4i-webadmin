@@ -64,7 +64,7 @@ export const QuestionFormMeta: IField[] = [
   },
   {
     label: 'Is Autocomplete',
-    fieldName: 'is_autocomplete',
+    fieldName: 'autocomplete',
     inputType: BOOLEAN,
     renderDependencies: ['question_type'],
     onDependencyChange: (value) => value?.question_type === 'select',
@@ -74,20 +74,20 @@ export const QuestionFormMeta: IField[] = [
     fieldName: 'options',
     inputType: TEXTAREA,
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['question_type', 'is_autocomplete'],
-    onDependencyChange: (value) => value?.question_type === 'select' && !value?.is_autocomplete,
+    renderDependencies: ['question_type', 'autocomplete'],
+    onDependencyChange: (value) => value?.question_type === 'select' && !value?.autocomplete,
   },
   {
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
     accept: BATCH_FILE_INPUT_FORMAT,
-    renderDependencies: ['is_autocomplete'],
-    onDependencyChange: (value) => value?.is_autocomplete,
+    renderDependencies: ['autocomplete'],
+    onDependencyChange: (value) => value?.autocomplete,
   },
   {
     label: 'Is Multiple',
-    fieldName: 'is_multiple',
+    fieldName: 'multiple',
     inputType: BOOLEAN,
     renderDependencies: ['question_type'],
     onDependencyChange: (value) => value?.question_type === 'attachment',
@@ -111,7 +111,7 @@ export const QuestionFormMeta: IField[] = [
   },
   {
     label: 'Is Required',
-    fieldName: 'is_required',
+    fieldName: 'required',
     inputType: BOOLEAN,
   },
   {
