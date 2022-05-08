@@ -7,5 +7,6 @@ export interface IProductQueries {
   create: IQuery
   update: IQuery
   getRelatedProductList: IQuery
+  tagRelatedProducts: IQuery
   untagRelatedProduct: IQuery
 }

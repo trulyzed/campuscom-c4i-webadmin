@@ -4,12 +4,13 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { renderLink } from "~/packages/components/ResponsiveTable"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { UPDATE_SUCCESSFULLY, CREATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderJson, renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { getStandaloneProductsTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/StandaloneProductsTaggingFormMeta'
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -18,6 +19,13 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
     }
     return resp
   })), [ProductQueries.update])
+
+  const addStandaloneProducts = QueryConstructor(((data) => ProductQueries.tagRelatedProducts({ ...data, data: { ...data?.data, product: product.id, related_product_type: 'standalone' } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [ProductQueries.tagRelatedProducts])
 
   const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/${product?.store?.url_slug}?product=${product?.id}&guest=true`
 
@@ -91,14 +99,14 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           searchParams: { product: product.id, related_product_type: 'standalone' },
           refreshEventName: "REFRESH_STANDALONE_PRODUCT_TAB",
           actions: [
-            // <MetaDrivenFormModalOpenButton
-            //   formTitle={`Add Identity Provider`}
-            //   formMeta={IdentityProviderTaggingFormMeta}
-            //   formSubmitApi={addIdentityProvider}
-            //   buttonLabel={`Add Identity Provider`}
-            //   iconType="create"
-            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            // />
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Standalone Products`}
+              formMeta={getStandaloneProductsTaggingFormMeta(product.id)}
+              formSubmitApi={addStandaloneProducts}
+              buttonLabel={`Add Standalone Product`}
+              iconType="create"
+              refreshEventName={'REFRESH_STANDALONE_PRODUCT_TAB'}
+            />
           ]
         }
       },
