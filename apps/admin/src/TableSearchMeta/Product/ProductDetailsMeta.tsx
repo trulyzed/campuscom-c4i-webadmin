@@ -10,7 +10,7 @@ import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFo
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderJson, renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { getStandaloneProductsTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/StandaloneProductsTaggingFormMeta'
+import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -20,7 +20,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
     return resp
   })), [ProductQueries.update])
 
-  const addStandaloneProducts = QueryConstructor(((data) => ProductQueries.tagRelatedProducts({ ...data, data: { ...data?.data, product: product.id, related_product_type: 'standalone' } }).then(resp => {
+  const addRelatedProducts = (relationType: string) => QueryConstructor(((data) => ProductQueries.tagRelatedProducts({ ...data, data: { ...data?.data, product: product.id, related_product_type: relationType } }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
     }
@@ -101,8 +101,8 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Standalone Products`}
-              formMeta={getStandaloneProductsTaggingFormMeta(product.id)}
-              formSubmitApi={addStandaloneProducts}
+              formMeta={getRelatedProductTaggingFormMeta(product.id, 'standalone')}
+              formSubmitApi={addRelatedProducts('standalone')}
               buttonLabel={`Add Standalone Product`}
               iconType="create"
               refreshEventName={'REFRESH_STANDALONE_PRODUCT_TAB'}
@@ -142,14 +142,14 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           searchParams: { product: product.id, related_product_type: 'registration' },
           refreshEventName: "REFRESH_REGISTRATION_PRODUCT_TAB",
           actions: [
-            // <MetaDrivenFormModalOpenButton
-            //   formTitle={`Add Identity Provider`}
-            //   formMeta={IdentityProviderTaggingFormMeta}
-            //   formSubmitApi={addIdentityProvider}
-            //   buttonLabel={`Add Identity Provider`}
-            //   iconType="create"
-            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            // />
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Registered Products`}
+              formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
+              formSubmitApi={addRelatedProducts('registration')}
+              buttonLabel={`Add Registered Product`}
+              iconType="create"
+              refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
+            />
           ]
         }
       },
