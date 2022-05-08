@@ -68,7 +68,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
               meta={props.meta}
               metaName={props.metaName}
               stopProducingQueryParams={props.stopProducingQueryParams}
-              initialFormValue={{ ...props.initialFormValue } || {}}
+              initialFormValue={props.initialFormValue}
               setCurrentPagination={setCurrentPagination}
               onApplyChanges={(newFilterValues) => {
                 setSearchParams({
