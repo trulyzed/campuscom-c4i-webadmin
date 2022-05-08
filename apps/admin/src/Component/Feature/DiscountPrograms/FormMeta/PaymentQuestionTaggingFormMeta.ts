@@ -10,7 +10,7 @@ export const getPaymentQuestionTaggingFormMeta = (storeId: string): IField[] => 
       inputType: MULTI_SELECT_GROUP_CHECKBOX,
       fieldName: "question_banks",
       refLookupService: QueryConstructor(() => QuestionQueries.getList({params: {include_null: true, exclude_from: 'payment_question', provider_ref: storeId, exclude_tagged: storeId}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: processQuestions(resp.data)}]}) : resp), [QuestionQueries.getList]),
-      displayKey2: "title",
+      displayKey2: "question",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }]
     },

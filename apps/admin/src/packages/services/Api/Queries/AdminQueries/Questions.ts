@@ -78,20 +78,50 @@ export const QuestionQueries:IQuestionQueries = {
   }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: {},
+    }
+    if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
+    if (data?.data.options !== undefined) payload.configuration['options'] = data?.data?.options
+    if (data?.data.multiple !== undefined) payload.configuration['multiple'] = data?.data?.multiple
+    if (data?.data.max_file_size !== undefined) payload.configuration['max_file_size'] = data?.data?.max_file_size
+    if (data?.data.file_types !== undefined) payload.configuration['file_types'] = data?.data?.file_types
+    if (data?.data.required !== undefined) payload.configuration['required'] = data?.data?.required
+    if (data?.data.default_value !== undefined) payload.configuration['default_value'] = data?.data?.default_value
+    if (data?.data.placeholder !== undefined) payload.configuration['placeholder'] = data?.data?.placeholder
+    if (data?.data.help_text !== undefined) payload.configuration['help_text'] = data?.data?.help_text
+
     return adminApi({
       endpoint: endpoints.QUESTION,
       method: "POST",
       ...data,
+      data: payload
     })
   }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    const {id, ...params} = data?.params;
+    const {id, ...params} = data?.params
+    const payload = {
+      ...data?.data,
+      configuration: {},
+    }
+    if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
+    if (data?.data.options !== undefined) payload.configuration['options'] = data?.data?.options
+    if (data?.data.multiple !== undefined) payload.configuration['multiple'] = data?.data?.multiple
+    if (data?.data.max_file_size !== undefined) payload.configuration['max_file_size'] = data?.data?.max_file_size
+    if (data?.data.file_types !== undefined) payload.configuration['file_types'] = data?.data?.file_types
+    if (data?.data.required !== undefined) payload.configuration['required'] = data?.data?.required
+    if (data?.data.default_value !== undefined) payload.configuration['default_value'] = data?.data?.default_value
+    if (data?.data.placeholder !== undefined) payload.configuration['placeholder'] = data?.data?.placeholder
+    if (data?.data.help_text !== undefined) payload.configuration['help_text'] = data?.data?.help_text
+
     return adminApi({
       endpoint: `${endpoints.QUESTION}/${id}`,
       method: "PATCH",
       ...data,
-      params
+      params,
+      data: payload
     })
   }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write}]),
 

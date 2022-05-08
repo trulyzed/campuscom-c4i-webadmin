@@ -3,11 +3,11 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
-import { CREATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-// import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
-// import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { getDiscountTaggingFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/DiscountTaggingFormMeta"
+import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
@@ -15,12 +15,12 @@ import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Stu
 import { renderHtml } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: string]: any }): IDetailsMeta => {
-  // const updateEntity = QueryConstructor(((data) => MembershipProgramQueries.update({ ...data, params: { id: membershipProgram.id } }).then(resp => {
-  //   if (resp.success) {
-  //     message.success(UPDATE_SUCCESSFULLY)
-  //   }
-  //   return resp
-  // })), [MembershipProgramQueries.update])
+  const updateEntity = QueryConstructor(((data) => MembershipProgramQueries.update({ ...data, params: { id: membershipProgram.id } }).then(resp => {
+    if (resp.success) {
+      message.success(UPDATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [MembershipProgramQueries.update])
 
   const addMembershipDiscount = QueryConstructor(((data) => MembershipProgramQueries.tagDiscountProgram({ ...data, data: { ...data?.data, membership_program: membershipProgram.id } }).then(resp => {
     if (resp.success) {
@@ -32,16 +32,16 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
   const summaryInfo: CardContainer = {
     title: `Membership Program: ${membershipProgram.title}`,
     cardActions: [
-      // <MetaDrivenFormModalOpenButton
-      //   formTitle={`Update Membership Program`}
-      //   formMeta={MembershipProgramFormMeta}
-      //   formSubmitApi={updateEntity}
-      //   initialFormValue={{ ...membershipProgram, store: membershipProgram.store.id }}
-      //   defaultFormValue={{ membershipProgramId: membershipProgram.id }}
-      //   buttonLabel={`Update Membership Program`}
-      //   iconType="edit"
-      //   refreshEventName={REFRESH_PAGE}
-      // />,
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Update Membership Program`}
+        formMeta={MembershipProgramFormMeta}
+        formSubmitApi={updateEntity}
+        initialFormValue={{ ...membershipProgram, store: membershipProgram.store.id }}
+        defaultFormValue={{ membershipProgramId: membershipProgram.id }}
+        buttonLabel={`Update Membership Program`}
+        iconType="edit"
+        refreshEventName={REFRESH_PAGE}
+      />,
       <IconButton
         toolTip="Delete Membership Program"
         iconType="remove"
@@ -54,7 +54,7 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
       { label: 'Store', value: renderLink(`/administration/store/${membershipProgram.store.id}`, membershipProgram.store.name) },
       { label: 'Title', value: membershipProgram.title },
       { label: 'Membership Type', value: membershipProgram.membership_type },
-      { label: 'Duration', value: `${membershipProgram.duration} day(s)` },
+      { label: 'Duration', value: membershipProgram.duration ? `${membershipProgram.duration} day(s)` : undefined },
       { label: 'Start Date', value: membershipProgram.start_date, render: renderDateTime },
       { label: 'End Date', value: membershipProgram.end_date, render: renderDateTime },
       { label: 'Fee', value: membershipProgram.fee },

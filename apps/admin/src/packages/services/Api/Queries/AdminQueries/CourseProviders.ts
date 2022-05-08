@@ -63,6 +63,28 @@ export const CourseProviderQueries:ICourseProviderQueries = {
     })
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Write}]),
 
+  tagProfileQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      provider_type: 'course_provider',
+      provider_ref: data?.data.course_provider,
+    }
+    return adminApi({
+      endpoint: `${endpoints.PROFILE_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Write}]),
+
+  untagProfileQuestion: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.DELETE_PROFILE_QUESTION}`,
+      method: "DELETE",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.DeleteProfileQuestion, action: ApiPermissionAction.Delete}]),
+
   generateApiKey: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.API_KEY,

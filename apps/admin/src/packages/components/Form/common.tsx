@@ -2,7 +2,7 @@ import React from "react"
 import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { IQuery, IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
 
@@ -76,7 +76,12 @@ export interface IField {
 
   multiple?: boolean
   accept?: UploadProps['accept']
-  dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  onDependencyChange?: (value: any, utils: {
+    loadOptions?: (args?: IQueryParams) => Promise<any[]>
+    setOptions?: (data?: any) => void
+  }) => void | boolean
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
@@ -109,7 +114,6 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       style={props.formItemStyle}
       getValueFromEvent={props.getValueFromEvent}
       initialValue={props.initialValue}
-      dependencies={props.dependencies}
     >
       {props.children}
     </Form.Item>
