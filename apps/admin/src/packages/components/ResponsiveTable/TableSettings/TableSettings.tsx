@@ -99,9 +99,9 @@ export const TableSettings = (props: {
     if (props.tableName) {
       setLoading(true)
       PreferenceQueries.saveOrUpdatePreferences({
-        params: {
-          PreferenceKey: props.tableName,
-          PreferenceValue: tableMetaConfig
+        data: {
+          table_name: props.tableName,
+          value: tableMetaConfig
         }
       }).then((response) => {
         if (response.success) {
