@@ -3,8 +3,9 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { getDiscountTaggingFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/DiscountTaggingFormMeta"
 import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
@@ -20,6 +21,13 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
     }
     return resp
   })), [MembershipProgramQueries.update])
+
+  const addMembershipDiscount = QueryConstructor(((data) => MembershipProgramQueries.tagDiscountProgram({ ...data, data: { ...data?.data, membership_program: membershipProgram.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [MembershipProgramQueries.tagDiscountProgram])
 
   const summaryInfo: CardContainer = {
     title: `Membership Program: ${membershipProgram.title}`,
@@ -95,14 +103,14 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
           searchParams: { membership_program: membershipProgram.id },
           refreshEventName: "REFRESH_DISCOUNTS_TAB",
           actions: [
-            // <MetaDrivenFormModalOpenButton
-            //   formTitle={`Add Identity Provider`}
-            //   formMeta={IdentityProviderTaggingFormMeta}
-            //   formSubmitApi={addIdentityProvider}
-            //   buttonLabel={`Add Identity Provider`}
-            //   iconType="create"
-            //   refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            // />
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Identity Provider`}
+              formMeta={getDiscountTaggingFormMeta(membershipProgram.id)}
+              formSubmitApi={addMembershipDiscount}
+              buttonLabel={`Add Discount`}
+              iconType="create"
+              refreshEventName={'REFRESH_DISCOUNTS_TAB'}
+            />
           ]
         }
       },

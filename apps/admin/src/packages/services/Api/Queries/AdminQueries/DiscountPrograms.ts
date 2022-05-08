@@ -128,4 +128,12 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Read}]),
+
+  getTagListByMembershipProgram: PermissionWrapper(data => {
+    const {id} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS}/${id}`,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Read}]),
 }

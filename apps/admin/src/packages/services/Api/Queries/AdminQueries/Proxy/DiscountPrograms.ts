@@ -12,4 +12,5 @@ export interface IDiscountProgramQueries {
   tagProduct: IQuery
   untagProduct: IQuery
   getListByMembershipProgram: IQuery
+  getTagListByMembershipProgram: IQuery
 }
