@@ -143,10 +143,10 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_REGISTRATION_PRODUCT_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Registered Products`}
+              formTitle={`Add Registration Products`}
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
               formSubmitApi={addRelatedProducts('registration')}
-              buttonLabel={`Add Registered Product`}
+              buttonLabel={`Add registration Product`}
               iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
             />
