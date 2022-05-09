@@ -146,7 +146,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               formTitle={`Add Registration Products`}
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
               formSubmitApi={addRelatedProducts('registration')}
-              buttonLabel={`Add registration Product`}
+              buttonLabel={`Add Registration Product`}
               iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
             />
