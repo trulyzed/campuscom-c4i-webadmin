@@ -204,11 +204,11 @@ const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
 
   // checkout config
   if ('config__checkout__enable_purchase_for_myself' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_purchase_for_myself: payload['config__checkout__enable_purchase_for_myself']}
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_myself: !!payload['config__checkout__enable_purchase_for_myself']}
     delete payload['config__checkout__enable_purchase_for_myself']
   }
   if ('config__checkout__enable_purchase_for_friends_and_family' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_purchase_for_friends_and_family: payload['config__checkout__enable_purchase_for_friends_and_family']}
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_friends_and_family: !!payload['config__checkout__enable_purchase_for_friends_and_family']}
     delete payload['config__checkout__enable_purchase_for_friends_and_family']
   }
   if ('config__checkout__enable_purchase_for_both' in payload) {
@@ -216,11 +216,11 @@ const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
     delete payload['config__checkout__enable_purchase_for_both']
   }
   if ('config__checkout__enable_purchase_for_company' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_purchase_for_company: payload['config__checkout__enable_purchase_for_company']}
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_company: !!payload['config__checkout__enable_purchase_for_company']}
     delete payload['config__checkout__enable_purchase_for_company']
   }
   if ('config__checkout__enable_profile_questions' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_profile_questions: payload['config__checkout__enable_profile_questions']}
+    payload['config_value'] = {...payload['config_value'], enable_profile_questions: !!payload['config__checkout__enable_profile_questions']}
     delete payload['config__checkout__enable_profile_questions']
   }
   if ('config__checkout__enable_registration_questions' in payload) {
@@ -228,11 +228,11 @@ const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
     delete payload['config__checkout__enable_registration_questions']
   }
   if ('config__checkout__enable_standalone_product_checkout' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_standalone_product_checkout: payload['config__checkout__enable_standalone_product_checkout']}
+    payload['config_value'] = {...payload['config_value'], enable_standalone_product_checkout: !!payload['config__checkout__enable_standalone_product_checkout']}
     delete payload['config__checkout__enable_standalone_product_checkout']
   }
   if ('config__checkout__enable_registration_product_checkout' in payload) {
-    payload['config_value'] = {...payload['config_value'], enable_registration_product_checkout: payload['config__checkout__enable_registration_product_checkout']}
+    payload['config_value'] = {...payload['config_value'], enable_registration_product_checkout: !!payload['config__checkout__enable_registration_product_checkout']}
     delete payload['config__checkout__enable_registration_product_checkout']
   }
   if ('config__checkout__enable_multiple_products_checkout' in payload) {

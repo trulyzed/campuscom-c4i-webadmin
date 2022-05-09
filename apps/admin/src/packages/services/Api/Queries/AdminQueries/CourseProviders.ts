@@ -4,6 +4,8 @@ import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { ICourseProviderQueries } from "./Proxy/CourseProviders"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
+import { parseJSON } from "~/packages/utils/parser"
+import { IQueryParams } from "./Proxy/types"
 
 export const CourseProviderQueries:ICourseProviderQueries = {
   getSingle: PermissionWrapper(data => {
@@ -11,7 +13,10 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       endpoint: `${endpoints.COURSE_PROVIDER}/${data!.params!.id}`,
       ...data,
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: parseConfiguration([resp.data])[0],
+    }): resp)
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
   getPaginatedList: PermissionWrapper(data => {
@@ -27,7 +32,10 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       endpoint: endpoints.ALL_COURSE_PROVIDER,
       ...data,
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: parseConfiguration(resp.data)
+    }): resp)
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
   getLookupData: PermissionWrapper(data => {
@@ -42,6 +50,7 @@ export const CourseProviderQueries:ICourseProviderQueries = {
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    data = {...processConfigurationPayload(data)}
     const payload = convertToFormData({...data?.data, course_provider_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
     return adminApi({
       endpoint: endpoints.COURSE_PROVIDER,
@@ -52,7 +61,9 @@ export const CourseProviderQueries:ICourseProviderQueries = {
   }, [{operation: ApiPermissionClass.CourseProvider, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
+    data = {...processConfigurationPayload(data)}
     const payload = convertToFormData({...data?.data, course_provider_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined})
+    console.log(data, payload)
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.COURSE_PROVIDER}/${id}`,
@@ -92,4 +103,49 @@ export const CourseProviderQueries:ICourseProviderQueries = {
       ...data,
     })
   }, [{operation: ApiPermissionClass.ApiKey, action: ApiPermissionAction.Write}]),
+}
+
+const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
+  const payload: {[key: string]: any} = {
+    ...data?.data,
+    configuration: parseJSON(data?.data.configuration || '{}')
+  }
+
+  // email receipt config
+  if ('configuration__erp' in payload) {
+    payload['configuration'] = {...payload['configuration'], erp: payload['configuration__erp']}
+    delete payload['configuration__erp']
+  }
+  if ('configuration__password' in payload) {
+    payload['configuration'] = {...payload['configuration'], password: payload['configuration__password']}
+    delete payload['configuration__password']
+  }
+  if ('configuration__username' in payload) {
+    payload['configuration'] = {...payload['configuration'], username: payload['configuration__username']}
+    delete payload['configuration__username']
+  }
+  if ('configuration__auth_type' in payload) {
+    payload['configuration'] = {...payload['configuration'], auth_type: payload['configuration__auth_type']}
+    delete payload['configuration__auth_type']
+  }
+  if ('configuration__enrollment_url' in payload) {
+    payload['configuration'] = {...payload['configuration'], enrollment_url: payload['configuration__enrollment_url']}
+    delete payload['configuration__enrollment_url']
+  }
+
+  return {
+    ...data,
+    data: payload
+  }
+}
+
+const parseConfiguration = (data: any[]): any[] => {
+  return data.map(i => ({
+    ...i,
+    configuration__erp: i?.configuration?.['erp'],
+    configuration__password: i?.configuration?.['password'],
+    configuration__username: i?.configuration?.['username'],
+    configuration__auth_type: i?.configuration?.['auth_type'],
+    configuration__enrollment_url: i?.configuration?.['enrollment_url'],
+  }))
 }
