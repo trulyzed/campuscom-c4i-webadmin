@@ -67,6 +67,7 @@ export const endpoints = {
   PAYMENT_GATEWAY: 'payment-gateways',
   PAYMENT_GATEWAY_CONFIG: 'payment-gateway-configs',
   PAYMENT_QUESTION: 'payment-questions',
+  PREFERENCE: 'user-table-configurations',
   PRODUCT: 'products',
   PROFILE_LINK: 'profile-links',
   PROFILE_QUESTION: 'profile-questions',
