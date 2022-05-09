@@ -69,6 +69,7 @@ export const getScheduleListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: scheduleListTableColumns,
     searchFunc: QueryConstructor((params) => ScheduleQueries.getPaginatedList(params), [ScheduleQueries.getList]),
-    refreshEventName: 'REFRESH_SCHEDULE_LIST'
+    refreshEventName: 'REFRESH_SCHEDULE_LIST',
+    tableName: 'Schedule'
   }
 }

@@ -30,7 +30,7 @@ export const storeConfigurationListTableColumns: TableColumnType = [
   },
   {
     title: "Action",
-    key: "action",
+    dataIndex: 'action',
     render: (record: any) => (
       <>
         <MetaDrivenFormModalOpenButton
@@ -57,6 +57,7 @@ export const getStoreConfigurationListTableColumns = (isModal = false): ITableMe
   return {
     columns: storeConfigurationListTableColumns,
     searchFunc: QueryConstructor((params) => StoreConfigQueries.getList(params), [StoreConfigQueries.getList]),
-    refreshEventName: 'REFRESH_STORE_CONFIGURATION_LIST'
+    refreshEventName: 'REFRESH_STORE_CONFIGURATION_LIST',
+    tableName: 'StoreConfiguration'
   }
 }

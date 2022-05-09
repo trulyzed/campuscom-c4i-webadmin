@@ -46,5 +46,6 @@ export const getSectionListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: sectionListTableColumns,
     searchFunc: QueryConstructor((params) => SectionQueries.getPaginatedList(params), [SectionQueries.getList]),
+    tableName: 'Section'
   }
 }

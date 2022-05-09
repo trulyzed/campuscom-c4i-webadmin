@@ -22,5 +22,6 @@ export const getInstructorListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: instructorListTableColumns,
     searchFunc: QueryConstructor((params) => InstructorQueries.getPaginatedList(params), [InstructorQueries.getList]),
+    tableName: 'Instructor'
   }
 }

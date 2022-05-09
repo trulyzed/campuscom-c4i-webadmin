@@ -64,5 +64,6 @@ export const getRefundListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: refundListTableColumns,
     searchFunc: QueryConstructor((params) => RefundQueries.getList(params), [RefundQueries.getList]),
+    tableName: 'Refund'
   }
 }

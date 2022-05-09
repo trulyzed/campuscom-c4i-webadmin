@@ -16,5 +16,6 @@ export const getRoleListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: roleListTableColumns,
     searchFunc: QueryConstructor((params) => RoleQueries.getPaginatedList(params), [RoleQueries.getList]),
+    tableName: 'Role'
   }
 }

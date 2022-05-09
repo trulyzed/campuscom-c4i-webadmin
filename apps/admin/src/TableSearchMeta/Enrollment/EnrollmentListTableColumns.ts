@@ -51,5 +51,6 @@ export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: enrollmentListTableColumns,
     searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params), [EnrollmentQueries.getList]),
+    tableName: 'Enrollment'
   }
 }

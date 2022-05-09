@@ -22,5 +22,6 @@ export const getCompanyListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: companyListTableColumns,
     searchFunc: QueryConstructor((params) => CompanyQueries.getPaginatedList(params), [CompanyQueries.getList]),
+    tableName: 'Company'
   }
 }
