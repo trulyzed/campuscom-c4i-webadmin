@@ -51,7 +51,6 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
         }
         return []
       },
-      setOptions: (data) => setOptions(data)
     })
 
     // eslint-disable-next-line

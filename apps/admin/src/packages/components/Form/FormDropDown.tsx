@@ -10,12 +10,13 @@ export function FormDropDown(
     allowClear?: boolean
     dropdownMatchSelectWidth?: boolean | number
     dependencyValue?: any
+    onLookupDataChange?: (data: any) => void
   }
 ) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const { refLookupService, displayKey, valueKey, onDependencyChange } = props
+  const { refLookupService, displayKey, valueKey, onDependencyChange, onLookupDataChange } = props
 
   const loadOptions = async (params?: IQueryParams): Promise<any[]> => {
     if (props.options && props.options.length) {
@@ -49,6 +50,12 @@ export function FormDropDown(
     }
     return []
   }
+
+  useEffect(() => {
+    if (!refLookupService) return
+    onLookupDataChange?.(options)
+    // eslint-disable-next-line
+  }, [options, refLookupService])
 
   useEffect(() => {
     if (!props.refLookupDependencies) loadOptions()
@@ -98,7 +105,6 @@ export function FormDropDown(
           }) : setOptions([])
         return []
       },
-      setOptions: (data) => setOptions(data)
     })
 
     // eslint-disable-next-line

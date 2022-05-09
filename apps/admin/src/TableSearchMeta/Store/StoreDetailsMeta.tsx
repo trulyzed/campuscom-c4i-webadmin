@@ -24,7 +24,7 @@ import { convertToString } from "~/packages/utils/mapper"
 import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
-import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ProfileQuestionTaggingFormMeta"
 import { getPaymentQuestionTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/PaymentQuestionTaggingFormMeta"
 
@@ -279,7 +279,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Store Configuration`}
-              formMeta={ConfigurationTaggingFormMeta}
+              formMeta={getConfigurationTaggingFormMeta()}
               formSubmitApi={addStoreConfiguration}
               buttonLabel={`Add Store Configuration`}
               iconType="create"
