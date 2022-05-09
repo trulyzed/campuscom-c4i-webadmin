@@ -64,6 +64,20 @@ export const ProductQueries:IProductQueries = {
     })
   }, [{operation: ApiPermissionClass.RelatedProduct, action: ApiPermissionAction.Read}]),
 
+  tagRelatedProducts: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      product: data?.data.product
+    };
+
+    return adminApi({
+      endpoint: `${endpoints.RELATED_PRODUCT}`,
+      method: "POST",
+      ...data,
+      data: payload
+    })
+  }, [{operation: ApiPermissionClass.RelatedProduct, action: ApiPermissionAction.Write}]),
+
   untagRelatedProduct: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.DELETE_RELATED_PRODUCT}`,
