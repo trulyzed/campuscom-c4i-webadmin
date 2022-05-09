@@ -8,7 +8,6 @@ export function FormInput(props: IGeneratedField & { readOnly?: boolean; type?: 
       <Input
         type={"text" || props.type}
         maxLength={props.maxLength}
-        defaultValue={props.defaultValue}
         disabled={props.disabled}
         readOnly={props.readOnly}
         placeholder={props.placeholder}

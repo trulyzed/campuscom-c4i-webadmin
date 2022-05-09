@@ -5,7 +5,7 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
@@ -35,9 +35,9 @@ export const storeConfigurationListTableColumns: TableColumnType = [
       <>
         <MetaDrivenFormModalOpenButton
           formTitle={`Edit Store Configuration`}
-          formMeta={ConfigurationTaggingFormMeta}
+          formMeta={getConfigurationTaggingFormMeta(true)}
           formSubmitApi={QueryConstructor((data) => updateStoreConfiguration({ ...data, params: { ...data?.params, id: record.id } }), [StoreQueries.updateConfiguration])}
-          initialFormValue={{ ...record, config_value: JSON.stringify(record.config_value) }}
+          initialFormValue={{ ...record }}
           buttonLabel={`Edit Store Configuration`}
           iconType="edit"
           refreshEventName={'REFRESH_PAGE'}

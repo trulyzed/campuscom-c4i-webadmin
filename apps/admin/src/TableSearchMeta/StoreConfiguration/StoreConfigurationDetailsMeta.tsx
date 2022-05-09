@@ -10,7 +10,7 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
-import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 
 
 export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: string]: any }): IDetailsMeta => {
@@ -26,9 +26,9 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Store Configuration`}
-        formMeta={ConfigurationTaggingFormMeta}
+        formMeta={getConfigurationTaggingFormMeta(true)}
         formSubmitApi={updateEntity}
-        initialFormValue={{ ...storeConfiguration, config_value: JSON.stringify(storeConfiguration.config_value || undefined) }}
+        initialFormValue={{ ...storeConfiguration }}
         defaultFormValue={{ storeConfigurationId: storeConfiguration.id }}
         buttonLabel={`Update Store Configuration`}
         iconType="edit"

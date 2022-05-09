@@ -4,6 +4,8 @@ import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { IStoreQueries } from "./Proxy/Stores"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
+import { parseJSON } from "~/packages/utils/parser"
+import { IQueryParams } from "./Proxy/types"
 
 export const StoreQueries:IStoreQueries = {
   getSingle: PermissionWrapper(data => {
@@ -124,15 +126,10 @@ export const StoreQueries:IStoreQueries = {
   }, [{operation: ApiPermissionClass.DeleteStorePaymentGateway, action: ApiPermissionAction.Write}]),
 
   tagConfiguration: PermissionWrapper(data => {
-    const payload = {
-      ...data?.data,
-      config_value: JSON.parse(data?.data.config_value || undefined)
-    }
     return adminApi({
       endpoint: `${endpoints.STORE_CONFIGURATION}`,
       method: "POST",
-      ...data,
-      data: payload,
+      ...processConfigurationPayload(data),
     })
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 
@@ -159,17 +156,14 @@ export const StoreQueries:IStoreQueries = {
   }, [{operation: ApiPermissionClass.DeleteProfileQuestion, action: ApiPermissionAction.Delete}]),
 
   updateConfiguration: PermissionWrapper(data => {
-    const payload = {
-      ...data?.data,
-      config_value: JSON.parse(data?.data.config_value || undefined)
-    }
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.STORE_CONFIGURATION}/${id}`,
       method: "PATCH",
-      ...data,
-      data: payload,
-      params
+      ...processConfigurationPayload({
+        ...data,
+        params
+      }),
     })
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 
@@ -185,4 +179,91 @@ export const StoreQueries:IStoreQueries = {
       data: payload,
     })
   }, [{operation: ApiPermissionClass.PaymentQuestion, action: ApiPermissionAction.Write}]),
+}
+
+
+const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
+  const payload: {[key: string]: any} = {
+    ...data?.data,
+    config_value: parseJSON(data?.data.config_value || '{}')
+  }
+
+  // email receipt config
+  if ('config__email_receipt__header' in payload) {
+    payload['config_value'] = {...payload['config_value'], header: payload['config__email_receipt__header']}
+    delete payload['config__email_receipt__header']
+  }
+  if ('config__email_receipt__footer' in payload) {
+    payload['config_value'] = {...payload['config_value'], footer: payload['config__email_receipt__footer']}
+    delete payload['config__email_receipt__footer']
+  }
+  if ('config__email_receipt__email_receipt' in payload) {
+    payload['config_value'] = {...payload['config_value'], email_receipt: !!payload['config__email_receipt__email_receipt']}
+    delete payload['config__email_receipt__email_receipt']
+  }
+
+  // checkout config
+  if ('config__checkout__enable_purchase_for_myself' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_myself: payload['config__checkout__enable_purchase_for_myself']}
+    delete payload['config__checkout__enable_purchase_for_myself']
+  }
+  if ('config__checkout__enable_purchase_for_friends_and_family' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_friends_and_family: payload['config__checkout__enable_purchase_for_friends_and_family']}
+    delete payload['config__checkout__enable_purchase_for_friends_and_family']
+  }
+  if ('config__checkout__enable_purchase_for_both' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_both: !!payload['config__checkout__enable_purchase_for_both']}
+    delete payload['config__checkout__enable_purchase_for_both']
+  }
+  if ('config__checkout__enable_purchase_for_company' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_purchase_for_company: payload['config__checkout__enable_purchase_for_company']}
+    delete payload['config__checkout__enable_purchase_for_company']
+  }
+  if ('config__checkout__enable_profile_questions' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_profile_questions: payload['config__checkout__enable_profile_questions']}
+    delete payload['config__checkout__enable_profile_questions']
+  }
+  if ('config__checkout__enable_registration_questions' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_registration_questions: !!payload['config__checkout__enable_registration_questions']}
+    delete payload['config__checkout__enable_registration_questions']
+  }
+  if ('config__checkout__enable_standalone_product_checkout' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_standalone_product_checkout: payload['config__checkout__enable_standalone_product_checkout']}
+    delete payload['config__checkout__enable_standalone_product_checkout']
+  }
+  if ('config__checkout__enable_registration_product_checkout' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_registration_product_checkout: payload['config__checkout__enable_registration_product_checkout']}
+    delete payload['config__checkout__enable_registration_product_checkout']
+  }
+  if ('config__checkout__enable_multiple_products_checkout' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_multiple_products_checkout: !!payload['config__checkout__enable_multiple_products_checkout']}
+    delete payload['config__checkout__enable_multiple_products_checkout']
+  }
+  if ('config__checkout__enable_enrollment_for_multiple_students' in payload) {
+    payload['config_value'] = {...payload['config_value'], enable_enrollment_for_multiple_students: !!payload['config__checkout__enable_enrollment_for_multiple_students']}
+    delete payload['config__checkout__enable_enrollment_for_multiple_students']
+  }
+
+  // checkout status config
+  if ('config__checkout_status__success_redirect_text' in payload) {
+    payload['config_value'] = {...payload['config_value'], success: {...payload['config_value']?.success, redirect_text: payload['config__checkout_status__success_redirect_text']}}
+    delete payload['config__checkout_status__success_redirect_text']
+  }
+  if ('config__checkout_status__success_redirect_url' in payload) {
+    payload['config_value'] = {...payload['config_value'], success: {...payload['config_value']?.success, redirect_url: payload['config__checkout_status__success_redirect_url']}}
+    delete payload['config__checkout_status__success_redirect_url']
+  }
+  if ('config__checkout_status__failure_redirect_text' in payload) {
+    payload['config_value'] = {...payload['config_value'], failure: {...payload['config_value']?.failure, redirect_text: payload['config__checkout_status__failure_redirect_text']}}
+    delete payload['config__checkout_status__failure_redirect_text']
+  }
+  if ('config__checkout_status__failure_redirect_url' in payload) {
+    payload['config_value'] = {...payload['config_value'], failure: {...payload['config_value']?.failure, redirect_url: payload['config__checkout_status__failure_redirect_url']}}
+    delete payload['config__checkout_status__failure_redirect_url']
+  }
+
+  return {
+    ...data,
+    data: payload
+  }
 }
