@@ -14,7 +14,7 @@ export const StoreConfigQueries:IStoreConfigQueries = {
       params
     }).then(resp => resp.success ? ({
       ...resp,
-      data: processConfiguration([resp.data])[0],
+      data: parseConfiguration([resp.data])[0],
     }): resp)
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 
@@ -25,7 +25,7 @@ export const StoreConfigQueries:IStoreConfigQueries = {
       ...data,
     }).then(resp => resp.success ? ({
       ...resp,
-      data: processConfiguration(resp.data)
+      data: parseConfiguration(resp.data)
     }): resp)
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Write}]),
 
@@ -40,7 +40,7 @@ export const StoreConfigQueries:IStoreConfigQueries = {
   }, [{operation: ApiPermissionClass.StoreConfiguration, action: ApiPermissionAction.Delete}]),
 }
 
-const processConfiguration = (data: any[]): any[] => {
+const parseConfiguration = (data: any[]): any[] => {
   return data.map(i => ({
     ...i,
     config__email_receipt__header: i?.config_value?.['header'],
