@@ -16,5 +16,6 @@ export const getGlobalConfigurationListTableColumns = (isModal = false): ITableM
   return {
     columns: globalConfigurationListTableColumns,
     searchFunc: QueryConstructor((params) => GlobalConfigurationQueries.getPaginatedList(params), [GlobalConfigurationQueries.getList]),
+    tableName: 'GlobalConfiguration'
   }
 }

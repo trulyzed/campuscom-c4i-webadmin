@@ -315,7 +315,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
             },
             {
               title: "Action",
-              key: "action",
+              dataIndex: "action",
               render: (record: any) => (
                 <IconButton
                   toolTip="Delete Profile Question"
@@ -363,7 +363,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
             },
             {
               title: "Action",
-              key: "action",
+              dataIndex: "action",
               render: (record: any) => (
                 <IconButton
                   toolTip="Delete Payment Question"

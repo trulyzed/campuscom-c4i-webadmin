@@ -22,5 +22,6 @@ export const getCampusListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: campusListTableColumns,
     searchFunc: QueryConstructor((params) => CampusQueries.getPaginatedList(params), [CampusQueries.getList]),
+    tableName: 'Campus'
   }
 }

@@ -22,5 +22,6 @@ export const getPaymentGatewayConfigListTableColumns = (isModal = false): ITable
   return {
     columns: paymentGatewayConfigListTableColumns,
     searchFunc: QueryConstructor((params) => PaymentGatewayConfigQueries.getPaginatedList(params), [PaymentGatewayConfigQueries.getList]),
+    tableName: 'PaymentGatewayConfig'
   }
 }
