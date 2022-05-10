@@ -75,6 +75,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
             {g[props.displayKey || "group"] ? <h4>{g[props.displayKey || "group"]}</h4> : null}
             <Checkbox.Group
               style={{ width: "100%" }}
+              defaultValue={props.defaultValue}
               options={g.options.map((o: any) => ({ label: o[props.displayKey2 || "label"], value: o[props.valueKey2 || "value"] }))}
               disabled={props.disabled}
               onChange={(v) => props.formInstance.setFieldsValue({ [props.fieldName]: v })} />
