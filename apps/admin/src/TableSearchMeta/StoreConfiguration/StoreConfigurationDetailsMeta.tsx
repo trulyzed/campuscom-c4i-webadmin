@@ -26,7 +26,7 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Store Configuration`}
-        formMeta={getConfigurationTaggingFormMeta(true)}
+        formMeta={getConfigurationTaggingFormMeta(storeConfiguration)}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...storeConfiguration }}
         defaultFormValue={{ storeConfigurationId: storeConfiguration.id }}
