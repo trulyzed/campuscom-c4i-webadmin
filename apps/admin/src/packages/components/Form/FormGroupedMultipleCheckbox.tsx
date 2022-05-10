@@ -69,7 +69,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
 
   return (
     <SearchFieldWrapper {...props}>
-      <Skeleton loading={loading}>
+      <Skeleton loading={loading} active={loading}>
         {options.map((g: any, idx) => (
           <div key={g[props.displayKey || "group"]} style={{ border: "1px solid lightgray", padding: "5px" }}>
             {g[props.displayKey || "group"] ? <h4>{g[props.displayKey || "group"]}</h4> : null}

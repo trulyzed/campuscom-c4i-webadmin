@@ -31,11 +31,11 @@ export const storeConfigurationListTableColumns: TableColumnType = [
   {
     title: "Action",
     dataIndex: 'action',
-    render: (record: any) => (
+    render: (_, record: any) => (
       <>
         <MetaDrivenFormModalOpenButton
           formTitle={`Edit Store Configuration`}
-          formMeta={getConfigurationTaggingFormMeta(true)}
+          formMeta={getConfigurationTaggingFormMeta(record)}
           formSubmitApi={QueryConstructor((data) => updateStoreConfiguration({ ...data, params: { ...data?.params, id: record.id } }), [StoreQueries.updateConfiguration])}
           initialFormValue={{ ...record }}
           buttonLabel={`Edit Store Configuration`}
