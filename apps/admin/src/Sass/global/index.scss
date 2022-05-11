@@ -113,3 +113,18 @@
     white-space: normal;
   }
 }
+
+.view-details {
+  &__action {
+    color: $purple;
+    cursor: pointer;
+  }
+
+  &__modal-overlay {
+    width: 50%;
+
+    @media only screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+}

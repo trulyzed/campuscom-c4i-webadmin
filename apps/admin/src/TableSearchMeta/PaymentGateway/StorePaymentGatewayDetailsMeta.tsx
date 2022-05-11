@@ -1,7 +1,7 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -11,7 +11,23 @@ export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: s
       { label: 'Name', value: storePaymentGateway.name, },
       { label: 'Payment Gateway', value: renderLink(`/configuration/payment-gateway/${storePaymentGateway.payment_gateway.id}`, storePaymentGateway.payment_gateway.name), },
       { label: 'Payment Gateway Config', value: renderLink(`/configuration/payment-gateway-config/${storePaymentGateway.payment_gateway_config.id}`, storePaymentGateway.payment_gateway_config.name), },
-      { label: 'Branding', value: storePaymentGateway.branding, render: renderJson },
+      {
+        label: 'Branding', render: () => (
+          <SummaryTablePopover card={{
+            title: 'Branding Configuration',
+            contents: [
+              {
+                label: 'Text',
+                value: storePaymentGateway.branding?.text
+              },
+              {
+                label: 'Logo',
+                value: storePaymentGateway.branding?.logo ? renderLink(storePaymentGateway.branding?.logo, storePaymentGateway.branding?.logo) : undefined,
+              }
+            ]
+          }} />
+        ),
+      },
     ]
   }
 
