@@ -11,7 +11,7 @@ export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: s
       { label: 'Name', value: storePaymentGateway.name, },
       { label: 'Payment Gateway', value: renderLink(`/configuration/payment-gateway/${storePaymentGateway.payment_gateway.id}`, storePaymentGateway.payment_gateway.name), },
       { label: 'Payment Gateway Config', value: renderLink(`/configuration/payment-gateway-config/${storePaymentGateway.payment_gateway_config.id}`, storePaymentGateway.payment_gateway_config.name), },
-      { label: 'Branding', value: storePaymentGateway.configuration, render: renderJson },
+      { label: 'Branding', value: storePaymentGateway.branding, render: renderJson },
     ]
   }
 

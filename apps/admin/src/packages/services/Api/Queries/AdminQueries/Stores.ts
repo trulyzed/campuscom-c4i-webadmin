@@ -105,15 +105,10 @@ export const StoreQueries:IStoreQueries = {
   }, [{operation: ApiPermissionClass.DeleteStoreIdentityProvider, action: ApiPermissionAction.Write}]),
 
   tagPaymentGateway: PermissionWrapper(data => {
-    const payload = {
-      ...data?.data,
-      catalogs: data?.data.subjects
-    }
     return adminApi({
       endpoint: `${endpoints.STORE_PAYMENT_GATEWAY}`,
       method: "POST",
-      ...data,
-      data: payload,
+      ...processPaymentGatewayConfigurationPayload(data),
     })
   }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Write}]),
 
@@ -260,6 +255,28 @@ const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
   if ('config__checkout_status__failure_redirect_url' in payload) {
     payload['config_value'] = {...payload['config_value'], failure: {...payload['config_value']?.failure, redirect_url: payload['config__checkout_status__failure_redirect_url']}}
     delete payload['config__checkout_status__failure_redirect_url']
+  }
+
+  return {
+    ...data,
+    data: payload
+  }
+}
+
+const processPaymentGatewayConfigurationPayload = (data?: IQueryParams): IQueryParams => {
+  const payload: {[key: string]: any} = {
+    ...data?.data,
+    branding: parseJSON(data?.data.branding || '{}')
+  }
+
+  // email receipt config
+  if ('branding__text' in payload) {
+    payload['branding'] = {...payload['branding'], text: payload['branding__text']}
+    delete payload['branding__text']
+  }
+  if ('branding__logo' in payload) {
+    payload['branding'] = {...payload['branding'], logo: payload['branding__logo']}
+    delete payload['branding__logo']
   }
 
   return {
