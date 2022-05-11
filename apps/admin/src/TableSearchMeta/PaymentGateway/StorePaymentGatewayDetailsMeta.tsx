@@ -2,6 +2,7 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -22,7 +23,7 @@ export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: s
               },
               {
                 label: 'Logo',
-                value: storePaymentGateway.branding?.logo ? renderLink(storePaymentGateway.branding?.logo, storePaymentGateway.branding?.logo) : undefined,
+                value: storePaymentGateway.branding?.logo ? renderThumb(storePaymentGateway.branding?.logo, storePaymentGateway.branding?.logo) : undefined,
               }
             ]
           }} />
