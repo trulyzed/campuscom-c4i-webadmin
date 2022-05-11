@@ -1,4 +1,4 @@
-import { IField, DROPDOWN, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { IField, DROPDOWN, TEXT } from "~/packages/components/Form/common"
 import { PaymentGatewayConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGatewayConfigs"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
@@ -29,8 +29,13 @@ export const PaymentGatewayTaggingFormMeta: IField[] = [
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Branding',
-    fieldName: 'branding',
-    inputType: TEXTAREA,
+    label: 'Branding Text',
+    inputType: TEXT,
+    fieldName: 'branding__text',
+  },
+  {
+    label: 'Branding Logo',
+    inputType: TEXT,
+    fieldName: 'branding__logo',
   },
 ]
