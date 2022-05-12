@@ -2,7 +2,7 @@ import React from "react"
 import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { IQuery, IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
 
@@ -16,6 +16,7 @@ export const DATE_PICKERS = "DATE_PICKERS"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
+export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
 export const FILE = "FILE"
 export const EDITOR = "EDITOR"
@@ -30,6 +31,7 @@ export type IFieldType =
   | typeof NUMBER
   | typeof BOOLEAN
   | typeof MULTI_SELECT_CHECKBOX
+  | typeof MULTI_SELECT_GROUP_CHECKBOX
   | typeof CUSTOM_FIELD
   | typeof MULTI_RADIO
   | typeof FILE
@@ -45,6 +47,7 @@ export interface IField {
   helpkey?: string
 
   fieldName: string
+  initialValue?: any
   defaultValue?: any
   displayKey?: string
   valueKey?: string
@@ -74,13 +77,18 @@ export interface IField {
 
   multiple?: boolean
   accept?: UploadProps['accept']
+  renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  onDependencyChange?: (value: any, options: {
+    loadOptions?: (args?: IQueryParams) => Promise<any[]>
+    formLookupData?: { [key: string]: any }
+  }) => void | boolean
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
   getValueFromEvent?: (...args: any) => void
-  initialValue?: any
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {

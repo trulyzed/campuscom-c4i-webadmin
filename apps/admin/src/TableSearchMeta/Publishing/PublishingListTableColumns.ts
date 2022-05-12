@@ -37,5 +37,6 @@ export const getPublishingListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: publishingListTableColumns,
     searchFunc: QueryConstructor((params) => PublishingQueries.getPaginatedList(params), [PublishingQueries.getPaginatedList]),
+    tableName: 'Publishing'
   }
 }

@@ -53,7 +53,10 @@ export const PaymentGatewayQueries:IPaymentGatewayQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: parseConfiguration(resp.data)
+    }): resp)
   }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Read}]),
 
   getSingleByStore: PermissionWrapper(data => {
@@ -63,6 +66,17 @@ export const PaymentGatewayQueries:IPaymentGatewayQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: parseConfiguration([resp.data])[0],
+    }): resp)
   }, [{operation: ApiPermissionClass.StorePaymentGateway, action: ApiPermissionAction.Read}]),
+}
+
+const parseConfiguration = (data: any[]): any[] => {
+  return data.map(i => ({
+    ...i,
+    branding__text: i?.branding__logo?.['text'],
+    branding__logo: i?.branding__logo?.['logo'],
+  }))
 }

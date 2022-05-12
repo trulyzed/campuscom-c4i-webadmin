@@ -24,7 +24,9 @@ import { convertToString } from "~/packages/utils/mapper"
 import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
-import { ConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
+import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ProfileQuestionTaggingFormMeta"
+import { getPaymentQuestionTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/PaymentQuestionTaggingFormMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -61,6 +63,20 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagConfiguration])
+
+  const addProfileQuestion = QueryConstructor(((data) => StoreQueries.tagProfileQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagProfileQuestion])
+
+  const addPaymentQuestion = QueryConstructor(((data) => StoreQueries.tagPaymentQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreQueries.tagPaymentQuestion])
 
   const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
@@ -263,7 +279,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Store Configuration`}
-              formMeta={ConfigurationTaggingFormMeta}
+              formMeta={getConfigurationTaggingFormMeta()}
               formSubmitApi={addStoreConfiguration}
               buttonLabel={`Add Store Configuration`}
               iconType="create"
@@ -299,7 +315,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
             },
             {
               title: "Action",
-              key: "action",
+              dataIndex: "action",
               render: (record: any) => (
                 <IconButton
                   toolTip="Delete Profile Question"
@@ -313,6 +329,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { provider_ref: store.id, },
           searchFunc: QuestionQueries.getProfileQuestionListByStore,
           refreshEventName: "REFRESH_PROFILE_QUESTION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Profile Question`}
+              formMeta={getProfileQuestionTaggingFormMeta(store.id)}
+              formSubmitApi={addProfileQuestion}
+              buttonLabel={`Add Profile Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_PROFILE_QUESTION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "profileQuestionTab"
@@ -337,7 +363,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
             },
             {
               title: "Action",
-              key: "action",
+              dataIndex: "action",
               render: (record: any) => (
                 <IconButton
                   toolTip="Delete Payment Question"
@@ -351,6 +377,16 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { store: store.id, },
           searchFunc: QuestionQueries.getPaymentQuestionListByStore,
           refreshEventName: "REFRESH_PAYMENT_QUESTION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Payment Question`}
+              formMeta={getPaymentQuestionTaggingFormMeta(store.id)}
+              formSubmitApi={addPaymentQuestion}
+              buttonLabel={`Add Payment Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_PAYMENT_QUESTION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "paymentQuestionTab"

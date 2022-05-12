@@ -56,5 +56,6 @@ export const getDiscountProgramListTableColumns = (isModal = false): ITableMeta 
   return {
     columns: discountProgramListTableColumns,
     searchFunc: QueryConstructor((params) => DiscountProgramQueries.getPaginatedList(params), [DiscountProgramQueries.getList]),
+    tableName: 'DiscountProgram'
   }
 }

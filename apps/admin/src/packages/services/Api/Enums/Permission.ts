@@ -11,6 +11,7 @@ export enum ApiPermissionAction {
 
 export enum ApiPermissionClass {
   AddableMembershipProgramDiscount = 'AddableMembershipProgramDiscountView',
+  ApiKey = 'CourseProviderAPIKeyView',
   Campus = 'CourseProviderSiteModelViewSet',
   Career = 'OccupationModelViewSet',
   CareerRecommendation = 'CareerRecommendation',
@@ -74,7 +75,7 @@ export enum ApiPermissionClass {
   PaymentLog = 'PaymentLogViewSet',
   Permission = 'PermissionViewSet',
   Persona = 'PersonaView',
-  Preference = 'PreferenceViewSet',
+  Preference = 'UserTableConfigurationViewSet',
   Product = 'ProductViewSet',
   Profile = 'ProfileViewSet',
   ProfileActivity = 'GetUserActivities',

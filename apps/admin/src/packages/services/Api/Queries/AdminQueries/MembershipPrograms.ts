@@ -94,18 +94,16 @@ export const MembershipProgramQueries:IMembershipProgramQueries = {
   tagDiscountProgram: PermissionWrapper(data => {
     const payload = {
       ...data?.data,
-      is_remove: true,
-      type: 'product',
-      operator: 'in',
+      membership_program: data?.data.membership_program
     };
 
     return adminApi({
-      endpoint: `${endpoints.DISCOUNT_RULE}`,
+      endpoint: `${endpoints.MEMBERSHIP_PROGRAM_DISCOUNT}`,
       method: "POST",
       ...data,
       data: payload
     })
-  }, [{operation: ApiPermissionClass.DiscountRule, action: ApiPermissionAction.Write}]),
+  }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Write}]),
 
   untagDiscountProgram: PermissionWrapper(data => {
     return adminApi({

@@ -6,7 +6,7 @@ export function convertToFormData (data: Record<string, any>): FormData {
       (data[key] as any[]).forEach(i => (formData.append(key, i)))
       continue
     }
-    formData.append(key, data[key] === 'object' ? JSON.stringify(data[key]) : data[key])
+    formData.append(key, typeof data[key] === 'object' ? JSON.stringify(data[key]) : data[key])
   }
   return formData
 }

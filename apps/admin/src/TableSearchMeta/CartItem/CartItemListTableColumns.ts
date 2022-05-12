@@ -50,5 +50,6 @@ export const getCartItemListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: cartItemListTableColumns,
     searchFunc: QueryConstructor((params) => CartItemQueries.getList(params), [CartItemQueries.getList]),
+    tableName: 'CartItem'
   }
 }

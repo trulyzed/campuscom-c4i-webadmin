@@ -51,5 +51,6 @@ export const getMembershipProgramListTableColumns = (isModal = false): ITableMet
   return {
     columns: membershipProgramListTableColumns,
     searchFunc: QueryConstructor((params) => MembershipProgramQueries.getPaginatedList(params), [MembershipProgramQueries.getList]),
+    tableName: 'MembershipProgram'
   }
 }

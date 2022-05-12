@@ -69,7 +69,7 @@ export const TableSettings = (props: {
   }
 
   const reload = () => {
-    PreferenceQueries.deletePreferences({ params: { PreferenceKey: props.tableName } }).finally(() => props.reload())
+    PreferenceQueries.deletePreferences({ params: { table_name: props.tableName } }).finally(() => props.reload())
   }
 
   const apply = () => {
@@ -99,9 +99,9 @@ export const TableSettings = (props: {
     if (props.tableName) {
       setLoading(true)
       PreferenceQueries.saveOrUpdatePreferences({
-        params: {
-          PreferenceKey: props.tableName,
-          PreferenceValue: tableMetaConfig
+        data: {
+          table_name: props.tableName,
+          value: tableMetaConfig
         }
       }).then((response) => {
         if (response.success) {

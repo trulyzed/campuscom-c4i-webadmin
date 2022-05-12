@@ -21,5 +21,6 @@ export const getIdentityProviderListTableColumns = (isModal = false): ITableMeta
   return {
     columns: identityProviderListTableColumns,
     searchFunc: QueryConstructor((params) => IdentityProviderQueries.getPaginatedList(params), [IdentityProviderQueries.getList]),
+    tableName: 'IdentityProvider'
   }
 }

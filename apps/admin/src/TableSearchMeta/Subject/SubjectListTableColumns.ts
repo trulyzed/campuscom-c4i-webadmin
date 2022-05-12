@@ -28,5 +28,6 @@ export const getSubjectListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: subjectListTableColumns,
     searchFunc: QueryConstructor((params) => SubjectQueries.getPaginatedList(params), [SubjectQueries.getList]),
+    tableName: 'Subject'
   }
 }

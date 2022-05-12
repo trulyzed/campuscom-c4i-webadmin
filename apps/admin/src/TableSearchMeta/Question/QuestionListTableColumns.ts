@@ -22,5 +22,6 @@ export const getQuestionListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: questionListTableColumns,
     searchFunc: QueryConstructor((params) => QuestionQueries.getList(params), [QuestionQueries.getList]),
+    tableName: 'Question'
   }
 }

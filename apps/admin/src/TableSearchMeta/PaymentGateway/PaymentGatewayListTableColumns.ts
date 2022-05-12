@@ -21,5 +21,6 @@ export const getPaymentGatewayListTableColumns = (isModal = false): ITableMeta =
   return {
     columns: paymentGatewayListTableColumns,
     searchFunc: QueryConstructor((params) => PaymentGatewayQueries.getPaginatedList(params), [PaymentGatewayQueries.getList]),
+    tableName: 'PaymentGateway'
   }
 }

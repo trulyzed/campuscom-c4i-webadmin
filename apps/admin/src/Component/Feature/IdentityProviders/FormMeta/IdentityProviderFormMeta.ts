@@ -1,6 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
 import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const IdentityProviderFormMeta: IField[] = [
@@ -18,10 +17,7 @@ export const IdentityProviderFormMeta: IField[] = [
     label: 'Name',
     inputType: TEXT,
     fieldName: 'name',
-    refLookupService: CourseProviderQueries.getLookupData,
-    displayKey: "name",
-    valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
   },
   {
     label: 'Slug',

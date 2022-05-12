@@ -31,5 +31,6 @@ export const getDiscountProgramUsageHistoryListTableColumns = (isModal = false):
   return {
     columns: discountProgramUsageHistoryListTableColumns,
     searchFunc: QueryConstructor((params) => DiscountProgramUsageHistoryQueries.getPaginatedList(params), [DiscountProgramUsageHistoryQueries.getList]),
+    tableName: 'DiscountProgramUsageHistory'
   }
 }

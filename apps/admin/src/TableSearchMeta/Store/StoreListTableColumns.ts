@@ -21,5 +21,6 @@ export const getStoreListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: storeListTableColumns,
     searchFunc: QueryConstructor((params) => StoreQueries.getPaginatedList(params), [StoreQueries.getList]),
+    tableName: 'Store'
   }
 }

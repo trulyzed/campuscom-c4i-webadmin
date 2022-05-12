@@ -47,5 +47,6 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
   return {
     columns,
     searchFunc: CourseQueries.getPaginatedList,
+    tableName: 'Course'
   }
 }

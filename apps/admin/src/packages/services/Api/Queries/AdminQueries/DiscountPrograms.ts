@@ -91,6 +91,20 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
     })
   }, [{operation: ApiPermissionClass.DeleteDiscountProgram, action: ApiPermissionAction.Delete}]),
 
+  tagProduct: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      type: 'product',
+      operator: 'in',
+    }
+    return adminApi({
+      endpoint: `${endpoints.DISCOUNT_RULE}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.DiscountRule, action: ApiPermissionAction.Write}]),
+
   untagProduct: PermissionWrapper(data => {
     const payload = {
       ...data?.data,
@@ -111,6 +125,14 @@ export const DiscountProgramQueries:IDiscountProgramQueries = {
     return adminApi({
       endpoint: endpoints.MEMBERSHIP_PROGRAM_DISCOUNT,
       ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Read}]),
+
+  getTagListByMembershipProgram: PermissionWrapper(data => {
+    const {id} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS}/${id}`,
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.MembershipProgramDiscount, action: ApiPermissionAction.Read}]),

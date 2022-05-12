@@ -24,7 +24,7 @@ export const FormEditorInput = (props: IFormEditorInputProps) => {
   }
 
   return (
-    <SearchFieldWrapper {...props} getValueFromEvent={handleChange} initialValue={""}>
+    <SearchFieldWrapper {...props} getValueFromEvent={handleChange} initialValue={props.initialValue === undefined ? "" : props.initialValue}>
       <ReactQuill
         modules={{
           toolbar: toolbarConfig

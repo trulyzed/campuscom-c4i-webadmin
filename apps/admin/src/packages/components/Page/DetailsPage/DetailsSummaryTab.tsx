@@ -3,7 +3,7 @@ import { Card, Col, Row } from "antd"
 import { CardContainer, CardContents, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDeviceView, useDeviceViews } from "~/packages/components/Hooks/useDeviceViews"
 
-const DetailsCardContainer = (props: { card: CardContainer }) => {
+export const DetailsCardContainer = (props: { card: CardContainer }) => {
   const [mobileView, setMobileView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
     setMobileView(deviceViews.mobile)

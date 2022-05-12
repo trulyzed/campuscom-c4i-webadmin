@@ -83,8 +83,8 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
     setLoading(true)
     PreferenceQueries.saveOrUpdatePreferences({
       params: {
-        PreferenceKey: props.metaName,
-        PreferenceValue: metaConfig
+        table_name: props.metaName,
+        value: metaConfig
       }
     }).then((response) => {
       if (response && response.success) {
@@ -98,7 +98,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
 
   const setDefault = () => {
     setLoading(true)
-    PreferenceQueries.deletePreferences({ params: { PreferenceKey: props.metaName } }).then((response) => {
+    PreferenceQueries.deletePreferences({ params: { table_name: props.metaName } }).then((response) => {
       if (response && response.success) {
         formInstance.resetFields()
         props.reload()

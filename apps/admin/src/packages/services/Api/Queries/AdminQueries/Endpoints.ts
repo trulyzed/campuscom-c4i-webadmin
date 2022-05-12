@@ -1,6 +1,7 @@
 export const endpoints = {
   ACTIVATE_MFA: 'mfa/activate',
   ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS: 'addable-membership-program-discounts',
+  API_KEY: 'key',
   ATTACHMENT_DOWNLOAD: 'attachment-download',
   CAREER: 'careers',
   CAREER_SAVING_STUDENT: 'profiles-by-career',
@@ -66,6 +67,7 @@ export const endpoints = {
   PAYMENT_GATEWAY: 'payment-gateways',
   PAYMENT_GATEWAY_CONFIG: 'payment-gateway-configs',
   PAYMENT_QUESTION: 'payment-questions',
+  PREFERENCE: 'user-table-configurations',
   PRODUCT: 'products',
   PROFILE_LINK: 'profile-links',
   PROFILE_QUESTION: 'profile-questions',

@@ -42,6 +42,7 @@ export const getPaymentListTableColumns = (isModal = false, OrderID?: number): I
 
   return {
     columns,
-    searchFunc: PaymentQueries.getPaginatedList
+    searchFunc: PaymentQueries.getPaginatedList,
+    tableName: 'Payment'
   }
 }

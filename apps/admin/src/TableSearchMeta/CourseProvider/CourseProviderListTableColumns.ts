@@ -21,5 +21,6 @@ export const getCourseProviderListTableColumns = (isModal = false): ITableMeta =
   return {
     columns: courseProviderListTableColumns,
     searchFunc: QueryConstructor((params) => CourseProviderQueries.getPaginatedList(params), [CourseProviderQueries.getList]),
+    tableName: 'CourseProvider'
   }
 }

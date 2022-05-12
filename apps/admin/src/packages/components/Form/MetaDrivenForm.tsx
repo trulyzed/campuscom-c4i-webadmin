@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -14,7 +14,9 @@ import {
   TEXTAREA,
   MULTI_RADIO,
   FILE,
-  EDITOR
+  EDITOR,
+  MULTI_SELECT_GROUP_CHECKBOX,
+  IGeneratedField
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -39,6 +41,7 @@ import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { FormFileUpload } from "./FormFileUpload"
 import { FormEditorInput } from "./FormEditorInput"
+import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 
 export function MetaDrivenForm({
   showClearbutton = true,
@@ -74,6 +77,7 @@ export function MetaDrivenForm({
   const [meta, setMeta] = useState<IField[]>([])
   const REFRESH_EVENT_NAME = generateUUID("REFRESH")
   const formId = generateUUID(props.metaName)
+  const [dependencyValue, _setDependencyValue] = useState<{ [key: string]: any }>({})
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -221,7 +225,25 @@ export function MetaDrivenForm({
     })
   }
 
+  const setDependencyValue = useCallback((formValues = {}) => {
+    const adjustedDependecyValues: { [key: string]: any } = {}
+    for (const field of props.meta) {
+      if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
+      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.renderDependencies || []), ...(field.refLookupDependencies || [])])
+    }
+    _setDependencyValue(dependencyValue => ({
+      ...dependencyValue,
+      ...adjustedDependecyValues
+    }))
+  }, [props.meta, formInstance])
+
+  const handleValuesChange = useCallback((changedValues: any, values: any) => {
+    setDependencyValue(changedValues)
+  }, [setDependencyValue])
+
   useEffect(() => {
+    if (props.initialFormValue) setDependencyValue(props.initialFormValue)
+
     eventBus.subscribe(REFRESH_EVENT_NAME, processMeta)
     eventBus.publish(REFRESH_EVENT_NAME)
     return () => {
@@ -230,7 +252,7 @@ export function MetaDrivenForm({
     }
     // }, [props.meta, props.metaName])
     // eslint-disable-next-line
-  }, [])
+  }, [props.initialFormValue])
 
   return (
     <Card
@@ -324,6 +346,7 @@ export function MetaDrivenForm({
           borderRadius: "4px",
           padding: "10px"
         }}
+        onValuesChange={handleValuesChange}
       >
         <FormError errorMessages={props.errorMessages} />
         <SearchFormFields
@@ -332,6 +355,7 @@ export function MetaDrivenForm({
           formInstance={formInstance}
           clearTrigger={clearTrigger}
           showLess={showLess}
+          dependencyValue={dependencyValue}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -398,7 +422,13 @@ const SearchFormFields = (props: {
   clearTrigger?: boolean
   showLess: boolean
   isHorizontal?: boolean
+  dependencyValue?: any
 }) => {
+  const [formLookupData, setFormLookupData] = useState<{ [key: string]: any }>({})
+  const handleLookupDataChange = useCallback((fieldName: IGeneratedField['fieldName'], data) => {
+    setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
+  }, [])
+
   return (
     <Row gutter={16}>
       {props.meta
@@ -449,8 +479,8 @@ const SearchFormFields = (props: {
                   {...field}
                   key={i}
                   formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
+                  labelColSpan={field.labelColSpan || 12}
+                  wrapperColSpan={field.wrapperColSpan || 20}
                 />
               )
               break
@@ -462,6 +492,18 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case MULTI_SELECT_GROUP_CHECKBOX:
+              formField = (
+                <FormGroupedMultipleCheckbox
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  labelColSpan={field.labelColSpan || 4}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
                 />
               )
               break
@@ -484,6 +526,8 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
+                  onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
                 />
               )
               break
@@ -566,13 +610,15 @@ const SearchFormFields = (props: {
               break
           }
 
-          const lg = (props.isHorizontal || (field.inputType === EDITOR)) ? 24 : 12
+          const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
-          return (
+          const renderField = (!field.renderDependencies || field.onDependencyChange?.(props.dependencyValue[field.fieldName], { formLookupData }))
+
+          return (formField && renderField) ? (
             <Col key={1000 + i} lg={lg} xs={xs}>
               {formField}
             </Col>
-          )
+          ) : undefined
         })}
     </Row>
   )
