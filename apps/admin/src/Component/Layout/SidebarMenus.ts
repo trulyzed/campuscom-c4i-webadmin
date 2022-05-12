@@ -20,6 +20,7 @@ import { getRoleListTableColumns } from "~/TableSearchMeta/Role/RoleListTableCol
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns";
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns";
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns";
+import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns";
 
 export interface ISidebarMenu {
   title: string
@@ -136,7 +137,7 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         title: "Users",
         url: "/administration/user",
         submenu: [],
-        permission: checkAdminApiPermission(getStoreListTableColumns().searchFunc)
+        permission: checkAdminApiPermission(getUserListTableColumns().searchFunc)
       },
       {
         title: "Refunds",

@@ -3,7 +3,6 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { IRoleQueries } from "./Proxy/Roles"
-import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const RoleQueries:IRoleQueries = {
   getSingle: PermissionWrapper(data => {
@@ -54,15 +53,10 @@ export const RoleQueries:IRoleQueries = {
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData({
-      ...data?.data,
-      role_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined,
-    })
     return adminApi({
       endpoint: endpoints.CUSTOM_ROLE,
       method: "POST",
       ...data,
-      data: payload,
     })
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Write}]),
 

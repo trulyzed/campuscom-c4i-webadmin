@@ -5,9 +5,8 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-// import { RoleFormMeta } from "~/Component/Feature/Roles/FormMeta/RoleFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { getRoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
+import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
@@ -22,7 +21,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update ${role.name}`}
-        formMeta={getRoleFormMeta(role.id)}
+        formMeta={RoleFormMeta}
         initialFormValue={{ name: role.name, permissions: role.permissions.map((permission: any) => permission.id), menu_permissions: role.menu_permissions }}
         formSubmitApi={updateEntity}
         buttonLabel={`Update Role`}
