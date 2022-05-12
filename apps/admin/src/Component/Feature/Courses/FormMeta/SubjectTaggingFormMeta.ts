@@ -8,7 +8,7 @@ export const getSubjectTaggingFormMeta = (storeId: string): IField[] => {
       label: "Subjects",
       inputType: MULTI_SELECT_GROUP_CHECKBOX,
       fieldName: "subjects",
-      refLookupService: QueryConstructor(() => SubjectQueries.getPaginatedList({params: {store: storeId}}).then(resp => resp.success ? ({...resp, data: [{group: 'group 1', options: resp.data.map((i: any) => ({...i, id: `${i.id}some`}))}, {group: 'group 2', options: resp.data}]}) : resp), [SubjectQueries.getPaginatedList]),
+      refLookupService: QueryConstructor(() => SubjectQueries.getPaginatedList({params: {store: storeId}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [SubjectQueries.getPaginatedList]),
       displayKey2: "title",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }]

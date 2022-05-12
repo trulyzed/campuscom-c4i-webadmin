@@ -38,12 +38,9 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
 
   const handleChange = useCallback((val: CheckboxValueType[], group: any) => {
     if (options.length < 2) props.formInstance.setFieldsValue({ [props.fieldName]: val })
-    else {
-      console.log(val, group)
-      props.formInstance.setFieldsValue({ [props.fieldName]: [...val, ...props.formInstance.getFieldValue(props.fieldName)] })
-    }
+    else props.formInstance.setFieldsValue({ [props.fieldName]: [...val, ...(props.formInstance.getFieldValue(props.fieldName) as any[] || []).filter(v => !(group.options as any[]).find(o => v === o[props.valueKey2 || "value"]))] })
     // eslint-disable-next-line
-  }, [])
+  }, [options])
 
   useEffect(() => {
     onDependencyChange?.(props.dependencyValue, {
@@ -76,6 +73,12 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
     }
     // eslint-disable-next-line
   }, [])
+
+  useEffect(() => {
+    props.formInstance.resetFields([props.fieldName])
+    props.formInstance.setFieldsValue({ [props.fieldName]: props.defaultValue })
+    // eslint-disable-next-line
+  }, [props.defaultValue])
 
   return (
     <SearchFieldWrapper {...props}>
