@@ -67,7 +67,6 @@ export const RoleQueries:IRoleQueries = {
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    console.log(data);
     const {id} = data?.params;
     const payload = {
       ...data?.data,
