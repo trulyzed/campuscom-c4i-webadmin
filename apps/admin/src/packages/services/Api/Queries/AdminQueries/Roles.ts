@@ -24,6 +24,14 @@ export const RoleQueries:IRoleQueries = {
     })
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Read}]),
 
+  getPermissionList: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_PERMISSION,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Read}]),
+
   getPaginatedList: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
@@ -59,17 +67,14 @@ export const RoleQueries:IRoleQueries = {
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData({
+    const {id} = data?.params;
+    const payload = {
       ...data?.data,
-      role_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined,
-    })
-    const {id, ...params} = data?.params;
+    }
     return adminApi({
       endpoint: `${endpoints.CUSTOM_ROLE}/${id}`,
       method: "PATCH",
-      ...data,
       data: payload,
-      params
     })
   }, [{operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Write}]),
 }
