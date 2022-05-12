@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Checkbox, Skeleton } from "antd"
 import { eventBus } from "~/packages/utils/EventBus"
 import { IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { CheckboxValueType } from "antd/lib/checkbox/Group"
 
 export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFlex?: string, dependencyValue?: any }) {
   const [options, setOptions] = useState<any[]>([])
@@ -34,6 +35,15 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
     }
     return []
   }
+
+  const handleChange = useCallback((val: CheckboxValueType[], group: any) => {
+    if (options.length < 2) props.formInstance.setFieldsValue({ [props.fieldName]: val })
+    else {
+      console.log(val, group)
+      props.formInstance.setFieldsValue({ [props.fieldName]: [...val, ...props.formInstance.getFieldValue(props.fieldName)] })
+    }
+    // eslint-disable-next-line
+  }, [])
 
   useEffect(() => {
     onDependencyChange?.(props.dependencyValue, {
@@ -78,7 +88,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
               defaultValue={props.defaultValue}
               options={g.options.map((o: any) => ({ label: o[props.displayKey2 || "label"], value: o[props.valueKey2 || "value"] }))}
               disabled={props.disabled}
-              onChange={(v) => props.formInstance.setFieldsValue({ [props.fieldName]: v })} />
+              onChange={(val) => handleChange(val, g)} />
           </div>
         ))}
       </Skeleton>
