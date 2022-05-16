@@ -4,6 +4,8 @@ import { IProductQueries } from "./Proxy/Products"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
+import { IQueryParams } from "./Proxy/types"
+import { parseJSON } from "~/packages/utils/parser"
 
 export const ProductQueries:IProductQueries = {
   getSingle: PermissionWrapper(data => {
@@ -13,7 +15,10 @@ export const ProductQueries:IProductQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: parseConfiguration([resp.data])[0],
+    }): resp)
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
 
   getPaginatedList: PermissionWrapper(data => {
@@ -35,6 +40,7 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    data = {...processConfigurationPayload(data)}
     const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     return adminApi({
       endpoint: endpoints.PRODUCT,
@@ -45,6 +51,7 @@ export const ProductQueries:IProductQueries = {
   }, [{operation: ApiPermissionClass.Product, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
+    data = {...processConfigurationPayload(data)}
     const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
     return adminApi({
@@ -85,4 +92,33 @@ export const ProductQueries:IProductQueries = {
       ...data,
     })
   }, [{operation: ApiPermissionClass.DeleteRelatedProduct, action: ApiPermissionAction.Write}]),
+}
+
+const processConfigurationPayload = (data?: IQueryParams): IQueryParams => {
+  const payload: {[key: string]: any} = {
+    ...data?.data,
+    content: parseJSON(data?.data.content || '{}')
+  }
+
+  if ('content__title' in payload) {
+    payload['content'] = {...payload['content'], title: payload['content__title']}
+    delete payload['content__title']
+  }
+  if ('content__image' in payload) {
+    payload['content'] = {...payload['content'], image: payload['content__image']}
+    delete payload['content__image']
+  }
+
+  return {
+    ...data,
+    data: payload
+  }
+}
+
+const parseConfiguration = (data: any[]): any[] => {
+  return data.map(i => ({
+    ...i,
+    content__title: i?.content?.['title'],
+    content__image: i?.content?.['image'],
+  }))
 }

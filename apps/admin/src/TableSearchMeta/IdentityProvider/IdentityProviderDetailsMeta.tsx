@@ -2,13 +2,13 @@ import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => IdentityProviderQueries.update({ ...data, params: { id: identityProvider.id } }).then(resp => {
@@ -39,7 +39,19 @@ export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]
       { label: 'Slug', value: identityProvider.slug, },
       { label: 'Is Sandboxed?', value: identityProvider.is_sandboxed, render: renderBoolean },
       { label: 'Is School Provider?', value: identityProvider.is_school_provider, render: renderBoolean },
-      { label: 'Configuration', value: identityProvider.configuration, render: renderJson },
+      {
+        label: 'Configuration', render: () => (
+          <SummaryTablePopover card={{
+            title: 'Configuration',
+            contents: [
+              {
+                label: 'Text',
+                value: identityProvider.configuration?.text
+              },
+            ]
+          }} />
+        ),
+      },
     ]
   }
 

@@ -1,7 +1,7 @@
 import { message, notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderHtml, renderJson, renderThumb, renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderHtml, renderThumb, renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
@@ -14,6 +14,7 @@ import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Qu
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
+import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 // import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
@@ -90,7 +91,23 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
       { label: 'Description', value: renderHtml(courseProvider.description), },
       { label: 'Logo', value: renderThumb(courseProvider.course_provider_logo_uri, "Course Provider's logo"), },
       { label: 'Refund Email', value: courseProvider.refund_email, },
-      { label: 'Configuration', value: renderJson(courseProvider.configuration), },
+      {
+        label: 'Configuration', render: () => (
+          <SummaryTablePopover card={{
+            title: 'Configuration',
+            contents: [
+              {
+                label: 'ERP',
+                value: courseProvider.configuration?.erp
+              },
+              {
+                label: 'Enrollment URL',
+                value: renderLink(courseProvider.configuration?.enrollment_url, courseProvider.configuration?.enrollment_url, undefined, true)
+              },
+            ]
+          }} />
+        ),
+      },
     ]
   }
 

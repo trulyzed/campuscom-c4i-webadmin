@@ -8,9 +8,10 @@ import { UPDATE_SUCCESSFULLY, CREATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderJson, renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
+import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -53,7 +54,23 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Fee', value: product.fee },
       { label: 'Minimum Fee', value: product.minimum_fee },
       { label: 'Image', value: renderThumb(product.image, "Product's image") },
-      { label: 'Content', value: renderJson(product.content) },
+      {
+        label: 'Content', render: () => (
+          <SummaryTablePopover card={{
+            title: 'Content',
+            contents: [
+              {
+                label: 'Title',
+                value: product.content?.title
+              },
+              {
+                label: 'Image',
+                value: product.content?.image ? renderThumb(product.content?.image, product.content?.image) : undefined,
+              }
+            ]
+          }} />
+        ),
+      },
       { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkout_url, checkout_url, false, true) : undefined },
     ]
   }
