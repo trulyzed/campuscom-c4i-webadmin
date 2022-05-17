@@ -25,8 +25,6 @@ export default function GroupedList(props: IDetailsGroupedListProp) {
     setProcessedData(processData(props.groupBy, props.data))
   }, [props])
 
-  console.log(processedData);
-
   return (
     <div className="site-card-wrapper">
       <Row gutter={16}>
