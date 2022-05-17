@@ -7,6 +7,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
+import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
@@ -32,6 +33,8 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     ],
     contents: [
       { label: 'Name', value: role.name },
+      { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupBy={'group'} /> },
+      { label: 'Menu Permissions', value: role.menu_permissions, render: () => <GroupedList data={role.menu_permissions} groupBy={'group'} /> }
     ]
   }
 
