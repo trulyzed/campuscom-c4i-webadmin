@@ -1,39 +1,42 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Card, Col, Row, Tag } from "antd";
 
 interface IDetailsGroupedListProp {
-  data: [object],
-  groupBy: string
+  data: { [key: string]: any }[],
+  groupKey: string,
+  titleKey: string,
 }
-interface Dic {
-  [key: string]: { id: any, name: string }[]
-}
-
-const processData = (_k: any, a: any[]) => a.reduce((r: { [x: string]: any; }, { [_k]: k, ...p }: any) => ({
-  ...r, ...{
-    [k]: (
-      r[k] ? [...r[k], { ...p }] : [{ ...p }]
-    )
-  }
-}), {});
 
 export default function GroupedList(props: IDetailsGroupedListProp) {
 
-  const [processedData, setProcessedData] = useState<Dic | undefined>(undefined)
+  const {
+    groupKey,
+    data,
+    titleKey
+  } = props
 
-  useEffect(() => {
-    setProcessedData(processData(props.groupBy, props.data))
-  }, [props])
+  const processedData = data.reduce((a: { [key: string]: any }[], c) => {
+    const matchedIndex = a.findIndex(i => i.groupName === c[groupKey])
+    const dataItem = c
+    if (matchedIndex > -1) a[matchedIndex].data.push(dataItem);
+    else {
+      a.push({
+        groupName: c[groupKey],
+        data: [dataItem]
+      })
+    }
+    return a;
+  }, [])
 
   return (
     <div className="site-card-wrapper">
       <Row gutter={16}>
         <Col span={24}>
           {
-            processedData && Object.keys(processedData).map((group: string, index: number) => (
-              <Card key={index} title={group} size={'small'} style={{ marginBottom: 4 }}>
+            processedData.map((group: { [key: string]: any }, index: number) => (
+              <Card key={index} title={group.groupName} size={'small'} style={{ marginBottom: 4 }}>
                 {
-                  processedData[group].map((permission: { id: any, name: string }) => <Tag key={permission.id}>{permission.name}</Tag>)
+                  group.data.map((dataItem: { [key: string]: any }, indx: number) => <Tag key={indx}>{dataItem[titleKey]}</Tag>)
                 }
               </Card>
             ))
