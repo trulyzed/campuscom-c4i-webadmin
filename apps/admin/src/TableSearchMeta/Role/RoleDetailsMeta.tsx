@@ -33,8 +33,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     ],
     contents: [
       { label: 'Name', value: role.name },
-      { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupBy={'group'} /> },
-      { label: 'Menu Permissions', value: role.menu_permissions, render: () => <GroupedList data={role.menu_permissions} groupBy={'group'} /> }
+      { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupBy={'group'} /> }
     ]
   }
 

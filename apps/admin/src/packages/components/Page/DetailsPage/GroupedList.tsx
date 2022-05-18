@@ -30,10 +30,10 @@ export default function GroupedList(props: IDetailsGroupedListProp) {
       <Row gutter={16}>
         <Col span={24}>
           {
-            processedData && Object.keys(processedData).map((group: string) => (
-              <Card title={group} size={'small'} style={{ marginBottom: 4 }}>
+            processedData && Object.keys(processedData).map((group: string, index: number) => (
+              <Card key={index} title={group} size={'small'} style={{ marginBottom: 4 }}>
                 {
-                  processedData[group].map((permission: { id: any, name: string }) => <Tag>{permission.name}</Tag>)
+                  processedData[group].map((permission: { id: any, name: string }) => <Tag key={permission.id}>{permission.name}</Tag>)
                 }
               </Card>
             ))
