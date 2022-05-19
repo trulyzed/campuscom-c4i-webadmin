@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { DROPDOWN, FILE, IField, NUMBER, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { DROPDOWN, FILE, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
@@ -57,8 +57,13 @@ export const ProductFormMeta: IField[] = [
     accept: IMAGE_INPUT_FORMAT,
   },
   {
-    label: 'Content',
-    fieldName: 'content',
-    inputType: TEXTAREA,
+    label: 'Content Title',
+    inputType: TEXT,
+    fieldName: 'content__title',
+  },
+  {
+    label: 'Content Image',
+    inputType: TEXT,
+    fieldName: 'content__image',
   },
 ]

@@ -19,7 +19,7 @@ export const CourseSearchMeta: IField[] = [
   {
     label: "Slug",
     inputType: TEXT,
-    fieldName: "slug"
+    fieldName: "slug__icontains"
   },
   {
     label: "Content Ready",
