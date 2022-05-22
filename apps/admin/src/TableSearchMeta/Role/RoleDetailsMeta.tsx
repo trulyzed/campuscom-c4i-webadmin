@@ -7,8 +7,13 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
+import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
+//import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
+//import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
+
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
     if (resp.success) {
       message.success(UPDATE_SUCCESSFULLY)
@@ -32,6 +37,12 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     ],
     contents: [
       { label: 'Name', value: role.name },
+      { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupKey={'group'} displayKey={'name'} /> },
+      /* {
+        label: 'Menu Permissions',
+        value: role.permissions,
+        render: () => <HierarchicalList data={role.menu_permissions} />
+      } */
     ]
   }
 
