@@ -8,8 +8,9 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
-//import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
-//import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
+import isArray from "lodash/isArray"
+import mergeWith from "lodash/mergeWith"
 
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
@@ -21,6 +22,31 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [RoleQueries.update])
 
+  const permittedMenuList = () => {
+    return role.menu_permissions.reduce((m: any[], item: string, index: number) => {
+      function customizer(objValue: any, srcValue: any) {
+        if (isArray(objValue)) {
+          return objValue.concat(srcValue);
+        }
+      }
+      const dataItem = item
+      const itemSplit: string[] = dataItem.split('__')
+      const dataMap: { title: string, key: string, children: { [key: string]: any }[] }[] = itemSplit.map((x, i) => ({ title: x, key: itemSplit.slice(0, i + 1).join('__'), children: [] }))
+      const dataNest = dataMap.reduce((accumulator, currentValue) => {
+        accumulator.children.push(currentValue)
+        return accumulator
+      })
+      const matchedIndex = m.findIndex(i => i.title === dataNest.title)
+      if (matchedIndex > -1) {
+        const target = m[matchedIndex]
+        const mergedObj = mergeWith(target, dataNest, customizer)
+        m[matchedIndex] = mergedObj
+      } else {
+        m.push(dataNest)
+      }
+      return m
+    }, [])
+  }
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,
     cardActions: [
@@ -38,11 +64,11 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     contents: [
       { label: 'Name', value: role.name },
       { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupKey={'group'} displayKey={'name'} /> },
-      /* {
+      {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={role.menu_permissions} />
-      } */
+        render: () => <HierarchicalList data={permittedMenuList()} />
+      }
     ]
   }
 
