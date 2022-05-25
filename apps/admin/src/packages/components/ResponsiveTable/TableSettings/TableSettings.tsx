@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Modal } from "~/packages/components/Modal/Modal"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { Button, Card, Col, Form, Row } from "antd"
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { VisibleColumns } from "~/packages/components/ResponsiveTable/TableSettings/VisibleColumns"
 import { HiddenColumns } from "~/packages/components/ResponsiveTable/TableSettings/HiddenColumns"
 import { IUserTableMetaConfig } from "~/packages/components/ResponsiveTable/TableMetaShadowingProcessor"
@@ -69,7 +69,7 @@ export const TableSettings = (props: {
   }
 
   const reload = () => {
-    PreferenceQueries.deletePreferences({ params: { PreferenceKey: props.tableName } }).finally(() => props.reload())
+    PreferenceQueries.deletePreferences({ params: { table_name: props.tableName } }).finally(() => props.reload())
   }
 
   const apply = () => {
@@ -99,9 +99,9 @@ export const TableSettings = (props: {
     if (props.tableName) {
       setLoading(true)
       PreferenceQueries.saveOrUpdatePreferences({
-        params: {
-          PreferenceKey: props.tableName,
-          PreferenceValue: tableMetaConfig
+        data: {
+          table_name: props.tableName,
+          value: tableMetaConfig
         }
       }).then((response) => {
         if (response.success) {

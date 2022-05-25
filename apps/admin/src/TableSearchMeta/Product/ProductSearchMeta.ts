@@ -1,3 +1,4 @@
+import { INPUT_OPTIONS } from "~/Configs/input"
 import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
@@ -25,5 +26,11 @@ export const ProductSearchMeta: IField[] = [
       { value: 'membership',label: 'Membership', },
       { value: 'miscellaneous',label: 'Miscellaneous', },
     ]
+  },
+  {
+    label: "Active Status",
+    inputType: DROPDOWN,
+    fieldName: "active_status",
+    options: INPUT_OPTIONS.ACTIVE_STATUS
   }
 ]

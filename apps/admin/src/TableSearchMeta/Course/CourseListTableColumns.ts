@@ -25,12 +25,16 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
     {
       title: "Slug",
       dataIndex: "slug",
-      render: (text: any, record: any) => renderLink(`/${record.slug}`, text, isModal),
       sorter: (a: any, b: any) => a.slug.length - b.slug.length
     },
     {
       title: "Content Ready",
       dataIndex: "content_ready",
+      render: (text: any, record: any) => renderBoolean(text)
+    },
+    {
+      title: "Active Status",
+      dataIndex: "active_status",
       render: (text: any, record: any) => renderBoolean(text)
     }
     // ,
@@ -43,5 +47,6 @@ export const getCourseListTableColumns = (isModal = false, CourseID?: number): I
   return {
     columns,
     searchFunc: CourseQueries.getPaginatedList,
+    tableName: 'Course'
   }
 }

@@ -1,7 +1,18 @@
+// import { message } from "antd"
 import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+// import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+// import { ScheduleFormMeta } from "~/Component/Feature/Schedule/FormMeta/ScheduleFormMeta"
+// import { UPDATE_SUCCESSFULLY } from "~/Constants"
+
+// const updateSchedule = QueryConstructor(((data) => ScheduleQueries.update({ ...data }).then(resp => {
+//   if (resp.success) {
+//     message.success(UPDATE_SUCCESSFULLY)
+//   }
+//   return resp
+// })), [ScheduleQueries.update])
 
 export const scheduleListTableColumns: TableColumnType = [
   {
@@ -37,11 +48,28 @@ export const scheduleListTableColumns: TableColumnType = [
     render: (text: any, record: any) => renderDateTime(text),
     sorter: (a: any, b: any) => a.end_at - b.end_at,
   },
+  // {
+  //   title: "Action",
+  //   key: "action",
+  //   render: (record: any) => (
+  //     <MetaDrivenFormModalOpenButton
+  //       formTitle={`Edit Schedule`}
+  //       formMeta={ScheduleFormMeta}
+  //       formSubmitApi={updateSchedule}
+  //       initialFormValue={record}
+  //       buttonLabel={`Edit Schedule`}
+  //       iconType="edit"
+  //       refreshEventName={'REFRESH_SCHEDULE_LIST'}
+  //     />
+  //   )
+  // }
 ]
 
 export const getScheduleListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: scheduleListTableColumns,
     searchFunc: QueryConstructor((params) => ScheduleQueries.getPaginatedList(params), [ScheduleQueries.getList]),
+    refreshEventName: 'REFRESH_SCHEDULE_LIST',
+    tableName: 'Schedule'
   }
 }

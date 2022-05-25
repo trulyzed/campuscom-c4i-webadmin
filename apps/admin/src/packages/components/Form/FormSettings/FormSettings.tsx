@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { Modal } from "~/packages/components/Modal/Modal"
 import { FixedQuestionSortableTable } from "~/packages/components/ResponsiveTable/FixedQuestionSortableTable"
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { zIndexLevel } from "~/packages/components/zIndexLevel"
 import { IField } from "~/packages/components/Form/common"
 import { MenuOutlined } from "@ant-design/icons"
 import { SortableHandle as sortableHandle } from "react-sortable-hoc"
-import { debounce } from "@packages/utilities/lib/debounce"
+import { debounce } from "~/packages/utils/debounce"
 import { CheckboxChangeEvent } from "antd/lib/checkbox"
 import { PreferenceQueries } from "~/packages/services/Api/Queries/AdminQueries/Preferences";
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -83,8 +83,8 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
     setLoading(true)
     PreferenceQueries.saveOrUpdatePreferences({
       params: {
-        PreferenceKey: props.metaName,
-        PreferenceValue: metaConfig
+        table_name: props.metaName,
+        value: metaConfig
       }
     }).then((response) => {
       if (response && response.success) {
@@ -98,7 +98,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
 
   const setDefault = () => {
     setLoading(true)
-    PreferenceQueries.deletePreferences({ params: { PreferenceKey: props.metaName } }).then((response) => {
+    PreferenceQueries.deletePreferences({ params: { table_name: props.metaName } }).then((response) => {
       if (response && response.success) {
         formInstance.resetFields()
         props.reload()

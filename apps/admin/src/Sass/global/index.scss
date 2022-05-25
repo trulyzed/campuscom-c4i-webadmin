@@ -94,9 +94,37 @@
   text-align: left;
 }
 
+.dorakata-table .thumb {
+  width: 100%;
+  max-width: 200px;
+  height: 100px;
+  object-fit: contain;
+  object-position: left;
+}
+
+.dorakata-table .external-link:focus {
+  border: none !important;
+  box-shadow: none;
+}
+
 .ant-form-item-label {
   label {
     height: 40px !important;
     white-space: normal;
+  }
+}
+
+.view-details {
+  &__action {
+    color: $purple;
+    cursor: pointer;
+  }
+
+  &__modal-overlay {
+    width: 50%;
+
+    @media only screen and (max-width: 767px) {
+      width: 100%;
+    }
   }
 }

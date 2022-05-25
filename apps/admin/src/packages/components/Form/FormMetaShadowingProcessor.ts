@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Rule } from "antd/lib/form";
 import { IField } from "~/packages/components/Form/common";
-import { eventBus } from "@packages/utilities/lib/EventBus";
+import { eventBus } from "~/packages/utils/EventBus";
 import { PreferenceQueries } from "~/packages/services/Api/Queries/AdminQueries/Preferences";
 
 export interface IUserFormMetaConfig {
@@ -20,7 +20,7 @@ async function getUserFormMetaConfig(
 	metaName: string
 ): Promise<{ [key: string]: any }> {
 	let userFormMeta: { [key: string]: any } = {};
-	const response = await PreferenceQueries.getPreferences({params: { PreferenceKey: metaName }});
+	const response = await PreferenceQueries.getPreferences({params: { table_name: metaName }});
 	if (response.success && response.data !== "") userFormMeta = response.data;
 	// try {
 	//   const _fileMap = (await axios.request({ baseURL, url: `/webconfig/Config/fileMap.json` })).data

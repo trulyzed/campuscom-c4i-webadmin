@@ -11,6 +11,7 @@ export enum ApiPermissionAction {
 
 export enum ApiPermissionClass {
   AddableMembershipProgramDiscount = 'AddableMembershipProgramDiscountView',
+  ApiKey = 'CourseProviderAPIKeyView',
   Campus = 'CourseProviderSiteModelViewSet',
   Career = 'OccupationModelViewSet',
   CareerRecommendation = 'CareerRecommendation',
@@ -55,6 +56,7 @@ export enum ApiPermissionClass {
   DiscountProgram = 'DiscountProgramViewSet',
   DiscountProgramUsageHistory = 'DiscountProgramUsageView',
   DiscountRule = 'DiscountRuleViewSet',
+  ExternalEntity = 'ExternalEntityViewSet',
   FailedMQ = 'failed_messages_list',
   GlobalConfiguration = 'GlobalConfigurationViewSet',
   ImportTask = 'ImportTaskViewSet',
@@ -73,7 +75,7 @@ export enum ApiPermissionClass {
   PaymentLog = 'PaymentLogViewSet',
   Permission = 'PermissionViewSet',
   Persona = 'PersonaView',
-  Preference = 'PreferenceViewSet',
+  Preference = 'UserTableConfigurationViewSet',
   Product = 'ProductViewSet',
   Profile = 'ProfileViewSet',
   ProfileActivity = 'GetUserActivities',

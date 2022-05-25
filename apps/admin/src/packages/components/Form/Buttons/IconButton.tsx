@@ -29,16 +29,18 @@ import {
   HourglassOutlined,
   MoreOutlined,
   EllipsisOutlined,
-  MergeCellsOutlined
+  MergeCellsOutlined,
+  KeyOutlined
 } from "@ant-design/icons"
 import { Button, Tooltip } from "antd"
 import { showDeleteConfirm } from "~/packages/components/Modal/Confirmation"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { Redirect } from "react-router"
 import { ButtonType } from "antd/lib/button"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus } from "~/packages/utils/EventBus"
 import { ProfileIcon } from "~/packages/components/Svg/ProfileIcon"
 import { BulkOrderIcon } from "~/packages/components/Svg/BulkOrderIcon"
+import { BaseButtonProps } from "antd/lib/button/button"
 
 export type iconType =
   | "cart"
@@ -75,11 +77,13 @@ export type iconType =
   | "bulkOrder"
   | "actions"
   | "merge"
+  | "key"
 
 export const IconButton = (props: {
   onClick?: () => void
   onClickRemove?: () => Promise<IApiResponse>
   redirectTo?: string
+  title?: string
   iconType: iconType
   inProgress?: boolean
   toolTip: string
@@ -88,6 +92,8 @@ export const IconButton = (props: {
   style?: CSSProperties
   buttonType?: ButtonType
   refreshEventName?: string
+  shape?: BaseButtonProps['shape']
+  text?: string | JSX.Element
 }) => {
   const [localLoading, setLocalLoading] = useState(false)
   const [redirectTo, setRedirectTo] = useState<string>()
@@ -166,14 +172,15 @@ export const IconButton = (props: {
       profile: <ProfileIcon alt="" />,
       bulkOrder: <BulkOrderIcon alt="" />,
       actions: <EllipsisOutlined alt="" />,
-      merge: <MergeCellsOutlined alt="" />
+      merge: <MergeCellsOutlined alt="" />,
+      key: <KeyOutlined alt="" />,
     }
     _button = (
       <Button
         style={{ marginRight: "5px", ...props.style }}
         aria-label={props.toolTip}
         icon={icons[props.iconType]}
-        shape="circle"
+        shape={props.shape || 'circle'}
         danger={props.iconType === "danger" || props.iconType === "error"}
         onClick={() => {
           props.onClick && props.onClick()
@@ -182,13 +189,13 @@ export const IconButton = (props: {
         type={props.buttonType || "primary"}
         loading={props.loading}
         disabled={props.disabled}
-      />
+      >{props.title}</Button>
     )
   }
   return (
     <>
       {redirectTo && <Redirect to={redirectTo} />}
-      <Tooltip title={props.toolTip}>{_button}</Tooltip>
+      {props.text} <Tooltip title={props.toolTip}>{_button}</Tooltip>
     </>
   )
 }

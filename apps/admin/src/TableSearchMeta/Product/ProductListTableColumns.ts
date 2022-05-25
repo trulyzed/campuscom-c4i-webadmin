@@ -1,4 +1,4 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -26,11 +26,17 @@ export const productListTableColumns: TableColumnType = [
     dataIndex: 'product_type',
     sorter: (a: any, b: any) => a.product_type - b.product_type,
   },
+  {
+    title: "Active Status",
+    dataIndex: "active_status",
+    render: renderBoolean
+  }
 ]
 
 export const getProductListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: productListTableColumns,
-    searchFunc: QueryConstructor((params) => ProductQueries.getPaginatedList(params), [ProductQueries.getList]),
+    searchFunc: QueryConstructor((params) => ProductQueries.getList(params), [ProductQueries.getList]),
+    tableName: 'Product'
   }
 }

@@ -2,16 +2,22 @@ import { message } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
 import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
+import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
+import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
+import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -44,18 +50,19 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
+      { label: 'Active Status', value: course.active_status, render: renderActiveStatus },
       { label: "Title", value: course.title, render: undefined },
       { label: "Code", value: course.code, render: undefined },
       { label: 'Inquiry URL', value: course.inquiry_url },
-      { label: 'Course Provider', value: course.provider.name },
+      { label: 'Course Provider', value: renderLink(`/administration/course-provider/${course.provider.id}`, course.provider.name) },
       { label: 'External ID', value: course.external_id },
       { label: 'External URL', value: course.external_url },
       { label: 'Slug', value: course.slug },
       { label: 'Level', value: course.level },
       { label: 'Summary', value: course.summary },
-      { label: 'Description', value: course.description },
-      { label: 'Learning Outcome', value: course.learning_outcome },
-      { label: 'Image', value: course.course_image_uri },
+      { label: 'Description', value: renderHtml(course.description) },
+      { label: 'Learning Outcome', value: renderHtml(course.learning_outcome) },
+      { label: 'Image', value: renderThumb(course.course_image_uri, "Course's photo") },
       { label: 'Syllabus URL', value: course.syllabus_url },
       { label: 'Content Ready', value: course.content_ready, render: renderBoolean },
     ]
@@ -107,6 +114,73 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "enrollmentsTab"
+    },
+    {
+      tabTitle: "Publishing Stores",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getStoreListTableColumns(),
+          columns: [
+            {
+              title: "Name",
+              dataIndex: "store",
+              render: (text: any, record: any) => record.id ? renderLink(`/administration/store/${record.id}`, text) : text,
+              sorter: (a: any, b: any) => a.store - b.store
+            },
+            {
+              title: "Url",
+              dataIndex: 'url',
+              render: (text: any) => renderLink(text, text, false, true),
+              sorter: (a: any, b: any) => a.url - b.url
+            },
+          ],
+          searchFunc: StoreQueries.getListByCoursePublishing,
+          searchParams: { course__id: course.id },
+          refreshEventName: "REFRESH_PUBLISHING_STORE_TAB",
+        }
+      },
+      helpKey: "publishingStoresTab"
+    },
+    {
+      tabTitle: "Registration Questions",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getQuestionListTableColumns(),
+          columns: [
+            {
+              title: "Title",
+              dataIndex: "question",
+              render: (text: any, record: any) => renderLink(`/administration/question/${record.question_bank}`, text),
+              sorter: (a: any, b: any) => a.title - b.title
+            },
+            {
+              title: "Type",
+              dataIndex: 'question_type',
+              sorter: (a: any, b: any) => a.question_type - b.question_type
+            },
+            {
+              title: "Action",
+              dataIndex: "id",
+              render: (text) => (
+                <IconButton
+                  iconType="remove"
+                  toolTip="Remove"
+                  refreshEventName="REFRESH_REGISTRATION_QUESTION_TAB"
+                  onClickRemove={() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } })}
+                />
+              )
+            },
+          ],
+          searchFunc: QuestionQueries.getRegistrationQuestionListByCourse,
+          searchParams: { entity_id: course.id },
+          refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
+        }
+      },
+      helpKey: "registrationQuestionsTab"
     },
   ]
 

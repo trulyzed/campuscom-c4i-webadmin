@@ -28,11 +28,50 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.IDENTITY_PROVIDER}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_IDENTITY_PROVIDER}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"
     })
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Read}]),
+
+  create: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: JSON.parse(data?.data.configuration || undefined)
+    }
+    return adminApi({
+      endpoint: endpoints.IDENTITY_PROVIDER,
+      method: "POST",
+      ...data,
+      data: payload
+    })
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
+
+  update: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      configuration: JSON.parse(data?.data.configuration || undefined)
+    }
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.IDENTITY_PROVIDER}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
+    })
+  }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Write}]),
+
+  getLookupData: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_IDENTITY_PROVIDER,
+      ...data,
+      method: "GET"
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: (resp.data as Array<any>).map(i => ({id: i.id, name: i.name}))
+    }) : resp)
   }, [{operation: ApiPermissionClass.IdentityProvider, action: ApiPermissionAction.Read}]),
 
   getListByStore: PermissionWrapper(data => {
@@ -44,7 +83,7 @@ export const IdentityProviderQueries:IIdentityProviderQueries = {
       method: "GET"
     }).then(resp => resp.success ? ({
       ...resp,
-      data: resp.data.map((i: any) => ({...i.identity_provider}))
+      data: resp.data.map((i: any) => ({...i.identity_provider, store_identity_provider_id: i.id}))
     }) : resp)
   }, [{operation: ApiPermissionClass.StoreIdentityProvider, action: ApiPermissionAction.Read}]),
 }

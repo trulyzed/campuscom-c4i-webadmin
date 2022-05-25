@@ -1,3 +1,4 @@
+import { INPUT_OPTIONS } from "~/Configs/input"
 import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 
@@ -18,7 +19,7 @@ export const CourseSearchMeta: IField[] = [
   {
     label: "Slug",
     inputType: TEXT,
-    fieldName: "slug"
+    fieldName: "slug__icontains"
   },
   {
     label: "Content Ready",
@@ -28,5 +29,11 @@ export const CourseSearchMeta: IField[] = [
       { label: "Ready", value: "True" },
       { label: "Not Ready", value: "False" }
     ]
+  },
+  {
+    label: "Active Status",
+    inputType: DROPDOWN,
+    fieldName: "active_status",
+    options: INPUT_OPTIONS.ACTIVE_STATUS
   }
 ]

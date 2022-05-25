@@ -30,7 +30,7 @@ export const SubjectQueries:ISubjectQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.SUBJECT}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_SUBJECT}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"
@@ -38,7 +38,12 @@ export const SubjectQueries:ISubjectQueries = {
   }, [{operation: ApiPermissionClass.Subject, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({
+      ...data?.data,
+      image: data?.data.image_file?.length ? data?.data.image_file : undefined,
+      start_date: mapDatetimeToPayload(data?.data?.start_date),
+      end_date: mapDatetimeToPayload(data?.data?.end_date),
+    })
     return adminApi({
       endpoint: endpoints.SUBJECT,
       method: "POST",
@@ -50,6 +55,7 @@ export const SubjectQueries:ISubjectQueries = {
   update: PermissionWrapper(data => {
     const payload = convertToFormData({
       ...data?.data,
+      image: data?.data.image_file?.length ? data?.data.image_file : undefined,
       start_date: mapDatetimeToPayload(data?.data?.start_date),
       end_date: mapDatetimeToPayload(data?.data?.end_date),
     })

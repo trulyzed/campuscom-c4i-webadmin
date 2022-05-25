@@ -1,5 +1,5 @@
 import { PreferenceQueries } from "~/packages/services/Api/Queries/AdminQueries/Preferences";
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
+import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { TableColumnType } from "."
 
 export interface IUserTableMetaConfig {
@@ -11,7 +11,7 @@ export interface IUserTableMetaConfig {
 
 async function getUserTableMetaConfig(tableName?: string): Promise<{ [key: string]: any }> {
   if (!tableName) return Promise.resolve({})
-  const response = await PreferenceQueries.getPreferences({ params: { PreferenceKey: tableName }})
+  const response = await PreferenceQueries.getPreferences({ params: { table_name: tableName }})
   if (!response.data || response.data === "") return Promise.resolve({})
 
   const userFormMeta: { [key: string]: any } = response.data

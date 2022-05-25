@@ -1,5 +1,5 @@
-import { eventBus } from "@packages/utilities/lib/EventBus";
-import { removeSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util";
+import { eventBus } from "~/packages/utils/EventBus";
+import { removeSpaceBetweenCapitalLetters } from "~/packages/utils/util";
 import {
 	getHistory as getHistoryFromStorage,
 	removeHistory as removeHistoryFromStorage,

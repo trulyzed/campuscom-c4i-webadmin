@@ -27,5 +27,6 @@ export const getUserListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: userListTableColumns,
     searchFunc: QueryConstructor((params) => UserQueries.getPaginatedList(params), [UserQueries.getList]),
+    tableName: 'User'
   }
 }

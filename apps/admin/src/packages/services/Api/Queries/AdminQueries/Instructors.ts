@@ -29,7 +29,7 @@ export const InstructorQueries:IInstructorQueries = {
   getList: PermissionWrapper(data => {
     const { id, ...params } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.INSTRUCTOR}/${data?.params.id}`,
+      endpoint: `${endpoints.ALL_INSTRUCTOR}/${data?.params.id}`,
       ...data,
       params,
       method: "GET"
@@ -48,7 +48,7 @@ export const InstructorQueries:IInstructorQueries = {
   }, [{operation: ApiPermissionClass.Instructor, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     return adminApi({
       endpoint: endpoints.INSTRUCTOR,
       method: "POST",
@@ -58,7 +58,7 @@ export const InstructorQueries:IInstructorQueries = {
   }, [{operation: ApiPermissionClass.Instructor, action: ApiPermissionAction.Write}]),
 
   update: PermissionWrapper(data => {
-    const payload = convertToFormData(data?.data || {})
+    const payload = convertToFormData({...data?.data, image: data?.data.image_file?.length ? data?.data.image_file : undefined})
     const {id, ...params} = data?.params;
     return adminApi({
       endpoint: `${endpoints.INSTRUCTOR}/${id}`,

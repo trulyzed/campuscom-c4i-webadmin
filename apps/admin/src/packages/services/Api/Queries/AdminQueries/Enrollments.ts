@@ -24,4 +24,14 @@ export const EnrollmentQueries:IEnrollmentQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read}]),
+
+  getSingleCourseEnrollment: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.COURSE_ENROLLMENT}/${data!.params!.id}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read}]),
 }

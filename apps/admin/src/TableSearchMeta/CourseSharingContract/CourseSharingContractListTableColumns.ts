@@ -28,5 +28,6 @@ export const getCourseSharingContractListTableColumns = (isModal = false): ITabl
   return {
     columns: courseSharingContractListTableColumns,
     searchFunc: QueryConstructor((params) => CourseSharingContractQueries.getPaginatedList(params), [CourseSharingContractQueries.getList]),
+    tableName: 'CourseSharingContract'
   }
 }

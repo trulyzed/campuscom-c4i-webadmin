@@ -17,6 +17,7 @@ const processSections = (data: Record<string, string | number | any[]>): Record<
 export const PublishingQueries:IPublishingQueries = {
   getSingle: PermissionWrapper(data => {
     const {id, ...params} = data?.params;
+
     return adminApi({
       endpoint: `${endpoints.STORE_COURSE_RETRIEVE}/${data!.params!.id}`,
       ...data,
@@ -27,6 +28,26 @@ export const PublishingQueries:IPublishingQueries = {
       data: processSections(resp.data)
     } : resp)
   }, [{operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
+
+  getSingleWithTaggedSubjects: PermissionWrapper(data => {
+    const {id, ...params} = data?.params;
+    return Promise.all([PublishingQueries.getSingle(data), adminApi({
+      endpoint: `${endpoints.STORE_COURSE_SUBJECT_TAGGING}/${data!.params!.id}`,
+      ...data,
+      params,
+      method: "GET"
+    })]).then(responses => {
+      const [resp1, resp2] = responses
+      return {
+        ...resp1,
+        ...resp2,
+        data: {
+          ...resp1.data,
+          subjects: resp2.data.catalogs
+        },
+      }
+    })
+  }, [{operation: ApiPermissionClass.StoreCourseSubjectTagging, action: ApiPermissionAction.Read}, {operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Read}]),
 
   getReadyType: PermissionWrapper(data => {
     const {id, ...params} = data?.params;

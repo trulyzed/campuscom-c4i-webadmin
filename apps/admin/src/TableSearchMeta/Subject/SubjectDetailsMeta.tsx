@@ -8,8 +8,9 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
+import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SubjectQueries.update({ ...data, params: { id: subject.id } }).then(resp => {
@@ -37,8 +38,8 @@ export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetails
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${subject.store.id}`, subject.store.name) },
       { label: 'Title', value: subject.title, },
-      { label: 'Description', value: subject.description },
-      { label: 'Image', value: subject.image, render: (text: any) => text },
+      { label: 'Description', value: renderHtml(subject.description) },
+      { label: 'Image', value: renderThumb(subject.image, "Subject's image") },
       { label: 'Start Date', value: subject.start_date, render: renderDateTime },
       { label: 'End Date', value: subject.end_date, render: renderDateTime },
       { label: 'Is Published', value: subject.is_published, render: renderBoolean },

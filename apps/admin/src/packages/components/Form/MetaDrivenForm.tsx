@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -12,7 +12,11 @@ import {
   CUSTOM_FIELD,
   MULTI_SELECT_CHECKBOX,
   TEXTAREA,
-  MULTI_RADIO
+  MULTI_RADIO,
+  FILE,
+  EDITOR,
+  MULTI_SELECT_GROUP_CHECKBOX,
+  IGeneratedField
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -20,8 +24,8 @@ import { FormMultiSelectDropDown } from "~/packages/components/Form/FormMultiSel
 import { FormDatePicker } from "~/packages/components/Form/FormDatePicker"
 import { FormDatePickers } from "~/packages/components/Form/FormDatePickers"
 import { FormCheckbox } from "~/packages/components/Form/FormCheckbox"
-import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
-import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
+import { querystringToObject } from "~/packages/utils/QueryStringToObjectConverter"
+import { objectToQueryString } from "~/packages/utils/ObjectToQueryStringConverter"
 import { FormInstance } from "antd/lib/form"
 import { FormMultipleCheckbox } from "~/packages/components/Form/FormMultipleCheckbox"
 import { FormMultipleRadio } from "~/packages/components/Form/FormMultipleRadio"
@@ -30,11 +34,14 @@ import { FormError } from "~/packages/components/Form/FormError"
 import { FormTextArea } from "~/packages/components/Form/FormTextArea"
 import { FormInputNumber } from "~/packages/components/Form/FormInputNumber"
 import { processFormMetaWithUserMetaConfig } from "~/packages/components/Form/FormMetaShadowingProcessor"
-import { eventBus } from "@packages/utilities/lib/EventBus"
-import { generateUUID } from "@packages/utilities/lib/UUID"
+import { eventBus } from "~/packages/utils/EventBus"
+import { generateUUID } from "~/packages/utils/UUID"
 import { FormSettings } from "~/packages/components/Form/FormSettings/FormSettings"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
+import { FormFileUpload } from "./FormFileUpload"
+import { FormEditorInput } from "./FormEditorInput"
+import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 
 export function MetaDrivenForm({
   showClearbutton = true,
@@ -55,6 +62,7 @@ export function MetaDrivenForm({
   currentPagination?: number
   showClearbutton?: boolean
   applyButtonLabel?: string
+  applyButtonAriaControl?: string
   clearButtonLabel?: string
   isHorizontal?: boolean
   showFullForm?: boolean
@@ -69,6 +77,7 @@ export function MetaDrivenForm({
   const [meta, setMeta] = useState<IField[]>([])
   const REFRESH_EVENT_NAME = generateUUID("REFRESH")
   const formId = generateUUID(props.metaName)
+  const [dependencyValue, _setDependencyValue] = useState<{ [key: string]: any }>({})
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -152,16 +161,21 @@ export function MetaDrivenForm({
       const meta = props.meta.find((x) => x.fieldName === fieldName)
       return meta && !!meta.disabled
     }
+    const getDefaultValue = (key?: string, field?: IField) => {
+      const matchedField = field || props.meta.find((x) => x.fieldName === key)
+      return matchedField?.inputType === EDITOR ? "" : undefined
+    }
     Object.keys(formInstance.getFieldsValue()).forEach((key) => {
       if (dontReset(key)) return
-      formInstance.setFieldsValue({ [key]: undefined })
+      formInstance.setFieldsValue({ [key]: getDefaultValue(key) })
     })
     setClearTrigger(!clearTrigger)
 
     const _meta = props.meta.map((x) => {
+      const defaultValue = getDefaultValue(undefined, x)
       if (dontReset(x.fieldName)) return x
-      x.defaultValue = undefined
-      x.defaultValue2 = undefined
+      x.defaultValue = defaultValue
+      x.defaultValue2 = defaultValue
       return x
     })
     setMeta(_meta)
@@ -211,7 +225,25 @@ export function MetaDrivenForm({
     })
   }
 
+  const setDependencyValue = useCallback((formValues = {}) => {
+    const adjustedDependecyValues: { [key: string]: any } = {}
+    for (const field of props.meta) {
+      if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
+      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.renderDependencies || []), ...(field.refLookupDependencies || [])])
+    }
+    _setDependencyValue(dependencyValue => ({
+      ...dependencyValue,
+      ...adjustedDependecyValues
+    }))
+  }, [props.meta, formInstance])
+
+  const handleValuesChange = useCallback((changedValues: any, values: any) => {
+    setDependencyValue(changedValues)
+  }, [setDependencyValue])
+
   useEffect(() => {
+    if (props.initialFormValue) setDependencyValue(props.initialFormValue)
+
     eventBus.subscribe(REFRESH_EVENT_NAME, processMeta)
     eventBus.publish(REFRESH_EVENT_NAME)
     return () => {
@@ -220,7 +252,7 @@ export function MetaDrivenForm({
     }
     // }, [props.meta, props.metaName])
     // eslint-disable-next-line
-  }, [])
+  }, [props.initialFormValue])
 
   return (
     <Card
@@ -248,91 +280,20 @@ export function MetaDrivenForm({
         </Row>
       }
       loading={props.loading}
-    // actions={[
-    //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
-    //     {!props.showFullForm && !props.closeModal && meta.length > 4 && (
-    //       <Col>
-    //         <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
-    //       </Col>
-    //     )}
-    //     {props.closeModal && (
-    //       <Col>
-    //         <Button
-    //           type="ghost"
-    //           aria-label="Cancel"
-    //           danger
-    //           onClick={() => {
-    //             formInstance.resetFields()
-    //             props.closeModal && props.closeModal()
-    //           }}
-    //         >
-    //           Cancel
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     {showClearbutton && (
-    //       <Col>
-    //         <Button danger type="primary" onClick={clearParams}>
-    //           {clearButtonLabel}
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     <Col>
-    //       <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
-    //         {applyButtonLabel}
-    //       </Button>
-    //     </Col>
-    //   </Row>
-    // ]}
-    >
-      <Col
-        className={`gutter-row`}
-        style={{
-          background: "$white",
-          borderRadius: "4px",
-          marginBottom: "1rem",
-          padding: "1rem !important"
-        }}
-        xs={24}
-        sm={24}
-        md={24}
-      >
-        <Form
-          id={formId}
-          layout="horizontal"
-          initialValues={props.initialFormValue}
-          form={formInstance}
-          scrollToFirstError
-          {...(props.isModal && {
-            style: {
-              maxHeight: "66vh",
-              overflowY: "scroll"
-            }
-          })}
-        >
-          <FormError errorMessages={props.errorMessages} />
-          <SearchFormFields
-            meta={meta}
-            isHorizontal={props.isHorizontal}
-            formInstance={formInstance}
-            clearTrigger={clearTrigger}
-            showLess={showLess}
-          />
-          <Row
-            justify="end"
-            gutter={[8, 8]}
-            style={{
-              marginLeft: "-25px",
-              marginRight: "-25px",
-              rowGap: "0px",
-              paddingTop: "10px",
-              borderTop: "3px solid #f0f2f5",
-              marginBottom: "-30px"
-            }}
-          >
+      bodyStyle={{ padding: "20px", paddingBottom: "0px" }}
+      {...((props.isModal || props.closeModal) && {
+        actions: [
+          <Row justify="end" gutter={[8, 8]} style={{
+            padding: "10px",
+          }}>
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
               <Col>
-                <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
               </Col>
             )}
             {props.closeModal && (
@@ -358,13 +319,99 @@ export function MetaDrivenForm({
               </Col>
             )}
             <Col>
-              <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
                 {applyButtonLabel}
               </Button>
             </Col>
           </Row>
-        </Form>
-      </Col>
+        ]
+      })}
+    >
+
+      <Form
+        id={formId}
+        layout="horizontal"
+        initialValues={props.initialFormValue}
+        form={formInstance}
+        scrollToFirstError
+        style={{
+          ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
+          background: "white",
+          borderRadius: "4px",
+          padding: "10px"
+        }}
+        onValuesChange={handleValuesChange}
+      >
+        <FormError errorMessages={props.errorMessages} />
+        <SearchFormFields
+          meta={meta}
+          isHorizontal={props.isHorizontal}
+          formInstance={formInstance}
+          clearTrigger={clearTrigger}
+          showLess={showLess}
+          dependencyValue={dependencyValue}
+        />
+        {!(props.isModal || props.closeModal) && (
+          <Row
+            justify="end"
+            gutter={[8, 8]}
+            style={{
+              padding: "10px",
+              borderTop: "1px solid #f0f2f5"
+            }}
+          >
+            {!props.showFullForm && !props.closeModal && meta.length > 4 && (
+              <Col>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
+              </Col>
+            )}
+            {props.closeModal && (
+              <Col>
+                <Button
+                  type="ghost"
+                  aria-label="Cancel"
+                  danger
+                  onClick={() => {
+                    formInstance.resetFields()
+                    props.closeModal && props.closeModal()
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            )}
+            {showClearbutton && (
+              <Col>
+                <Button danger type="primary" onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
+              </Col>
+            )}
+            <Col>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
+                {applyButtonLabel}
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </Form>
     </Card>
   )
 }
@@ -375,7 +422,13 @@ const SearchFormFields = (props: {
   clearTrigger?: boolean
   showLess: boolean
   isHorizontal?: boolean
+  dependencyValue?: any
 }) => {
+  const [formLookupData, setFormLookupData] = useState<{ [key: string]: any }>({})
+  const handleLookupDataChange = useCallback((fieldName: IGeneratedField['fieldName'], data) => {
+    setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
+  }, [])
+
   return (
     <Row gutter={16}>
       {props.meta
@@ -426,8 +479,8 @@ const SearchFormFields = (props: {
                   {...field}
                   key={i}
                   formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
+                  labelColSpan={field.labelColSpan || 12}
+                  wrapperColSpan={field.wrapperColSpan || 20}
                 />
               )
               break
@@ -439,6 +492,18 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case MULTI_SELECT_GROUP_CHECKBOX:
+              formField = (
+                <FormGroupedMultipleCheckbox
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  labelColSpan={field.labelColSpan || 4}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
                 />
               )
               break
@@ -461,6 +526,8 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                  dependencyValue={props.dependencyValue[field.fieldName]}
+                  onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
                 />
               )
               break
@@ -499,6 +566,30 @@ const SearchFormFields = (props: {
                 />
               )
               break
+            case FILE:
+              formField = (
+                <FormFileUpload
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  clearTrigger={props.clearTrigger}
+                  labelColSpan={field.labelColSpan || 8}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case EDITOR:
+              formField = (
+                <FormEditorInput
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  clearTrigger={props.clearTrigger}
+                  labelColSpan={field.labelColSpan || 4}
+                  wrapperColSpan={field.wrapperColSpan || 20}
+                />
+              )
+              break
             case CUSTOM_FIELD:
               if (field.customFilterComponent) {
                 formField = (
@@ -519,15 +610,15 @@ const SearchFormFields = (props: {
               break
           }
 
-          const lg = props.isHorizontal ? 24 : 12
-          const md = props.isHorizontal ? 24 : 12
-          const sm = props.isHorizontal ? 24 : 12
+          const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
-          return (
-            <Col key={1000 + i} lg={lg} md={md} sm={sm} xs={xs}>
+          const renderField = (!field.renderDependencies || field.onDependencyChange?.(props.dependencyValue[field.fieldName], { formLookupData }))
+
+          return (formField && renderField) ? (
+            <Col key={1000 + i} lg={lg} xs={xs}>
               {formField}
             </Col>
-          )
+          ) : undefined
         })}
     </Row>
   )

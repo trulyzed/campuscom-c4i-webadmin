@@ -12,7 +12,7 @@ export const identityProviderListTableColumns: TableColumnType = [
   },
   {
     title: "Slug",
-    dataIndex: 'slug',
+    dataIndex: "slug",
     sorter: (a: any, b: any) => a.slug - b.slug
   },
 ]
@@ -21,5 +21,6 @@ export const getIdentityProviderListTableColumns = (isModal = false): ITableMeta
   return {
     columns: identityProviderListTableColumns,
     searchFunc: QueryConstructor((params) => IdentityProviderQueries.getPaginatedList(params), [IdentityProviderQueries.getList]),
+    tableName: 'IdentityProvider'
   }
 }

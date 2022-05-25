@@ -1,8 +1,10 @@
 import React from "react"
-import { Form } from "antd"
+import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
-import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { IQuery, IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { ValidateErrorEntity } from "rc-field-form/lib/interface"
+import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -14,7 +16,10 @@ export const DATE_PICKERS = "DATE_PICKERS"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
+export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
+export const FILE = "FILE"
+export const EDITOR = "EDITOR"
 
 export type IFieldType =
   | typeof TEXT
@@ -26,8 +31,11 @@ export type IFieldType =
   | typeof NUMBER
   | typeof BOOLEAN
   | typeof MULTI_SELECT_CHECKBOX
+  | typeof MULTI_SELECT_GROUP_CHECKBOX
   | typeof CUSTOM_FIELD
   | typeof MULTI_RADIO
+  | typeof FILE
+  | typeof EDITOR
 
 export interface IField {
   label: React.ReactNode
@@ -39,10 +47,12 @@ export interface IField {
   helpkey?: string
 
   fieldName: string
+  initialValue?: any
   defaultValue?: any
   displayKey?: string
   valueKey?: string
   ariaLabel?: string
+  previewKey?: string
 
   fieldName2?: string
   defaultValue2?: any
@@ -64,11 +74,21 @@ export interface IField {
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number
+
+  multiple?: boolean
+  accept?: UploadProps['accept']
+  renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  onDependencyChange?: (value: any, options: {
+    loadOptions?: (args?: IQueryParams) => Promise<any[]>
+    formLookupData?: { [key: string]: any }
+  }) => void | boolean
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
+  getValueFromEvent?: (...args: any) => void
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {
@@ -92,6 +112,8 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       validateStatus={props.validateStatus}
       help={props.help}
       style={props.formItemStyle}
+      getValueFromEvent={props.getValueFromEvent}
+      initialValue={props.initialValue}
     >
       {props.children}
     </Form.Item>
@@ -119,4 +141,20 @@ export function SearchComponentWrapper(
       {props.children}
     </Form.Item>
   )
+}
+
+export interface IValidationError { }
+export const convertValidationErrorToErroMessage = (
+  validation: ValidateErrorEntity<{ [key: string]: any }>
+): ISimplifiedApiErrorMessage[] => {
+  const errorMessages: ISimplifiedApiErrorMessage[] = validation.errorFields.map((x) => {
+    return { message: x.errors[0], propertyName: x.name[0] as string }
+  })
+  if (errorMessages.length > 0 && errorMessages[0].propertyName) {
+    setTimeout(() => {
+      const errorMessages = document.getElementById("errorMessages")
+      if (errorMessages) errorMessages.focus()
+    }, 1 * 1000)
+  }
+  return errorMessages
 }
