@@ -3,6 +3,7 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { IQuestionQueries, processQuestions } from "./Proxy/Questions"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
+import { parseJSON } from "~/packages/utils/parser"
 
 export const QuestionQueries:IQuestionQueries = {
   getSingle: PermissionWrapper(data => {
@@ -23,7 +24,7 @@ export const QuestionQueries:IQuestionQueries = {
       params: {...nonPaginationParams},
       method: "GET"
     })
-  }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}]),
+  }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Read}]),
 
   getListByCourseProvider: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
@@ -83,7 +84,7 @@ export const QuestionQueries:IQuestionQueries = {
       configuration: {},
     }
     if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
-    if (data?.data.options !== undefined) payload.configuration['options'] = data?.data?.options
+    if (data?.data.options !== undefined) payload.configuration['options'] = parseJSON(data?.data?.options)
     if (data?.data.multiple !== undefined) payload.configuration['multiple'] = data?.data?.multiple
     if (data?.data.max_file_size !== undefined) payload.configuration['max_file_size'] = data?.data?.max_file_size
     if (data?.data.file_types !== undefined) payload.configuration['file_types'] = data?.data?.file_types
@@ -107,7 +108,7 @@ export const QuestionQueries:IQuestionQueries = {
       configuration: {},
     }
     if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
-    if (data?.data.options !== undefined) payload.configuration['options'] = data?.data?.options
+    if (data?.data.options !== undefined) payload.configuration['options'] = parseJSON(data?.data?.options)
     if (data?.data.multiple !== undefined) payload.configuration['multiple'] = data?.data?.multiple
     if (data?.data.max_file_size !== undefined) payload.configuration['max_file_size'] = data?.data?.max_file_size
     if (data?.data.file_types !== undefined) payload.configuration['file_types'] = data?.data?.file_types
