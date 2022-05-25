@@ -170,7 +170,15 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
     ],
-    permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getStoreListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getRoleListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getUserListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getRefundListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
@@ -200,6 +208,10 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
       },
-    ]
+    ],
+    permission: checkAdminApiPermission(getIdentityProviderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentGatewayListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentGatewayConfigListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
   }
 ]
