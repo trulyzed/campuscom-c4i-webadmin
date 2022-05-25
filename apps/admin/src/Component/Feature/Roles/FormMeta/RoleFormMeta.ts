@@ -1,15 +1,12 @@
-import { IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
+import { HIERARCHIALL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
-//import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 
-// const processSubmenuList = (data: any)=>{
-//   return data.map((element: any) => ({...element, value:element.url.substring(1).replaceAll('/', '__')}));
-// }
 const processGroupedList = (data: any)=>{
   return data.map((element: any) => ({...element, options:element.permissions}));
 }
-//const menus = getSidebarMenus().map(menu=> ({...menu, group:menu.title, options:processSubmenuList(menu.submenu)}));
+const menus = getSidebarMenus()
 
 export const RoleFormMeta: IField[] = [
   {
@@ -32,13 +29,11 @@ export const RoleFormMeta: IField[] = [
     valueKey2: "id",
     rules: [{ required: true, message: "This field is required!" }]
   },
-  // {
-  //   label: "Menu Permissions",
-  //   inputType: MULTI_SELECT_GROUP_CHECKBOX,
-  //   fieldName: "menu_permissions",
-  //   options: menus,
-  //   displayKey2: "title",
-  //   valueKey2: "value",
-  //   rules: [{ required: true, message: "This field is required!" }]
-  // },
+  {
+    label: "Menu Permissions",
+    inputType: HIERARCHIALL_MULTIPLE_CHECKBOX,
+    fieldName: "menu_permissions",
+    rules: [{ required: true, message: "This field is required!" }],
+    treeData: menus
+  },
 ]

@@ -15,16 +15,14 @@ export default function HierarchialList(props: IDetailsHierarchialListProp) {
     showLine: true,
     showIcon: false,
     showLeafIcon: false,
+    defaultExpandAll: true,
+    treeData: data,
+    fieldNames: { key: 'key', children: 'submenu', title: 'title' }
   }
 
   return (
     <div>
-      <Tree
-        showLine={treeProps.showLine}
-        showIcon={treeProps.showIcon}
-        defaultExpandedKeys={[]}
-        treeData={data}
-      />
+      <Tree {...treeProps} />
     </div>
   )
 }

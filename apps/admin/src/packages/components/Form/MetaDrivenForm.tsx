@@ -16,11 +16,13 @@ import {
   FILE,
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
-  IGeneratedField
+  IGeneratedField,
+  HIERARCHIALL_MULTIPLE_CHECKBOX
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
 import { FormMultiSelectDropDown } from "~/packages/components/Form/FormMultiSelectDropDown"
+import { FormHierarchicalMultipleCheckbox } from "~/packages/components/Form/FormHierarchicalMultipleCheckbox"
 import { FormDatePicker } from "~/packages/components/Form/FormDatePicker"
 import { FormDatePickers } from "~/packages/components/Form/FormDatePickers"
 import { FormCheckbox } from "~/packages/components/Form/FormCheckbox"
@@ -534,6 +536,17 @@ const SearchFormFields = (props: {
             case MULTI_SELECT_DROPDOWN:
               formField = (
                 <FormMultiSelectDropDown
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  labelColSpan={field.labelColSpan || 8}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case HIERARCHIALL_MULTIPLE_CHECKBOX:
+              formField = (
+                <FormHierarchicalMultipleCheckbox
                   {...field}
                   key={i}
                   formInstance={props.formInstance}

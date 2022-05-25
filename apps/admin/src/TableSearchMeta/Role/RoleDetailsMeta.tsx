@@ -9,8 +9,9 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
 import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
-import isArray from "lodash/isArray"
-import mergeWith from "lodash/mergeWith"
+import cloneDeepWith from "lodash/cloneDeepWith"
+import isPlainObject from "lodash/isPlainObject"
+import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
@@ -22,31 +23,22 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [RoleQueries.update])
 
-  const permittedMenuList = () => {
-    return role.menu_permissions.reduce((m: any[], item: string, index: number) => {
-      function customizer(objValue: any, srcValue: any) {
-        if (isArray(objValue)) {
-          return objValue.concat(srcValue);
-        }
-      }
-      const dataItem = item
-      const itemSplit: string[] = dataItem.split('__')
-      const dataMap: { title: string, key: string, children: { [key: string]: any }[] }[] = itemSplit.map((x, i) => ({ title: x, key: itemSplit.slice(0, i + 1).join('__'), children: [] }))
-      const dataNest = dataMap.reduce((accumulator, currentValue) => {
-        accumulator.children.push(currentValue)
-        return accumulator
-      })
-      const matchedIndex = m.findIndex(i => i.title === dataNest.title)
-      if (matchedIndex > -1) {
-        const target = m[matchedIndex]
-        const mergedObj = mergeWith(target, dataNest, customizer)
-        m[matchedIndex] = mergedObj
+  function customizer(value: any) {
+    if (isPlainObject(value)) {
+      if (value.submenu && value.submenu.length) {
+        value.submenu = value.submenu.filter((leaf: any) => role.menu_permissions.includes(leaf.key))
+        if (value.submenu.length)
+          return value
+        else return null
       } else {
-        m.push(dataNest)
+        return value
       }
-      return m
-    }, [])
+    }
   }
+  const menus = cloneDeepWith(getSidebarMenus(), customizer)
+  const filteredMenus = menus.filter((element: any) => {
+    return element !== null;
+  });
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,
     cardActions: [
@@ -67,7 +59,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={permittedMenuList()} />
+        render: () => <HierarchicalList data={filteredMenus} />
       }
     ]
   }
