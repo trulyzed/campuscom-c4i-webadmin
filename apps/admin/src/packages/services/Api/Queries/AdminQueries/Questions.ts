@@ -23,7 +23,7 @@ export const QuestionQueries:IQuestionQueries = {
       params: {...nonPaginationParams},
       method: "GET"
     })
-  }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}]),
+  }, [{operation: ApiPermissionClass.Question, action: ApiPermissionAction.Read}]),
 
   getListByCourseProvider: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
