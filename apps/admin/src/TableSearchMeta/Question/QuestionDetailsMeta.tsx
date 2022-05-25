@@ -30,7 +30,7 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
           ...question,
           provider_ref: question.provider?.id,
           autocomplete: question.configuration?.autocomplete,
-          options: question.configuration?.options,
+          options: JSON.stringify(question.configuration?.options),
           multiple: question.configuration?.multiple,
           max_file_size: question.configuration?.max_file_size,
           file_types: question.configuration?.file_types,
