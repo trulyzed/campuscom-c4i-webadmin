@@ -29,16 +29,14 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
         value.submenu = value.submenu.filter((leaf: any) => role.menu_permissions.includes(leaf.key))
         if (value.submenu.length)
           return value
-        else return null
-      } else {
-        return value
+        else
+          return null
       }
     }
   }
-  const menus = cloneDeepWith(getSidebarMenus(), customizer)
-  const filteredMenus = menus.filter((element: any) => {
+  const permittedMenus = cloneDeepWith(getSidebarMenus(), customizer).filter((element: any) => {
     return element !== null;
-  });
+  })
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,
     cardActions: [
@@ -59,7 +57,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={filteredMenus} />
+        render: () => <HierarchicalList data={permittedMenus} />
       }
     ]
   }

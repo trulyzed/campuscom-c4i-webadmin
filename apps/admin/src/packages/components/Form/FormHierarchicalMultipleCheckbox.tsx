@@ -7,6 +7,7 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField & { tree
   const [checkedKeys, setCheckedKeys] = useState(props.defaultValue)
 
   const { formInstance, fieldName } = props
+
   useEffect(() => {
     if (fieldName && formInstance && checkedKeys)
       formInstance.setFieldsValue({
@@ -18,19 +19,6 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField & { tree
     setCheckedKeys(checkedKeysValue);
   };
 
-  const handleSelect = (selectedKeysValue: React.Key[], info: any) => {
-    if (info.node) {
-      if (!info.node.checked)
-        setCheckedKeys((prev: any) => [...prev, ...[info.node.key]])
-      else
-        setCheckedKeys((prev: any) => {
-          const value = prev.filter((item: any) => item !== info.node.key)
-          return value
-        })
-    }
-    //setSelectedKeys(selectedKeysValue);
-  };
-
   const treeProps = {
     treeData: props.treeData,
     checkedKeys: checkedKeys,
@@ -38,7 +26,7 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField & { tree
     onCheck: handleCheck,
     multiple: true,
     defaultExpandAll: true,
-    onSelect: handleSelect,
+    selectable: false,
     fieldNames: { key: 'key', children: 'submenu', title: 'title' }
   };
 
