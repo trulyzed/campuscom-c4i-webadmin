@@ -8,6 +8,7 @@ import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTa
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -24,11 +25,25 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
   }
 
   const purchaserInfo: CardContainer = {
-    title: 'Purchaser',
-    contents: [
-      { label: 'First Name', value: order.purchaser_info.first_name, },
-      { label: 'Last Name', value: order.purchaser_info.last_name, },
-      { label: 'Email', value: order.purchaser_info.primary_email },
+    groupedContents: [
+      {
+        title: 'Purchaser',
+        contents: [
+          ...[
+            { label: 'First Name', value: order.purchaser_info.first_name, },
+            { label: 'Last Name', value: order.purchaser_info.last_name, },
+            { label: 'Email', value: order.purchaser_info.primary_email },
+          ],
+          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company }] : []
+        ],
+      },
+      {
+        title: 'Additional Information',
+        contents: processQuestions((order.purchaser_info?.extra_info || []) as any[]).map(i => ({
+          label: i.question,
+          value: i.answer
+        })),
+      }
     ]
   }
 
@@ -112,7 +127,27 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       tabMeta: {
         tableProps: {
           pagination: false,
-          columns: studentListTableColumns,
+          columns: [
+            ...studentListTableColumns.filter(i => i.dataIndex !== 'date_of_birth'),
+            {
+              title: "Email",
+              dataIndex: "email",
+              sorter: (a: any, b: any) => a.email - b.email
+            },
+            {
+              title: "",
+              dataIndex: "extra_info",
+              render: (value) => (
+                <SummaryTablePopover card={{
+                  title: 'Profile Questions',
+                  contents: (processQuestions((value || []) as any[])).map((i: any) => ({
+                    label: i.question,
+                    value: i.answer
+                  }))
+                }} />
+              ),
+            },
+          ],
           dataSource: order.student_details,
           rowKey: 'product_id',
           refreshEventName: "REFRESH_STUDENT_TAB",
