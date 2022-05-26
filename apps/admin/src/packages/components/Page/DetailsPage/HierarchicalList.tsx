@@ -18,7 +18,6 @@ export default function HierarchialList(props: IDetailsHierarchialListProp) {
     defaultExpandAll: true,
     treeData: data,
     selectable: false,
-    /* fieldNames: { key: 'key', children: 'submenu', title: 'title' } */
   }
 
   return (
