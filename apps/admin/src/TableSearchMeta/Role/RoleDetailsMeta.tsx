@@ -9,9 +9,9 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
 import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
-import cloneDeepWith from "lodash/cloneDeepWith"
-import isPlainObject from "lodash/isPlainObject"
-import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+//import cloneDeepWith from "lodash/cloneDeepWith"
+//import isPlainObject from "lodash/isPlainObject"
+import { ITreeItem, treeMenus } from "~/Component/Layout/SidebarMenus"
 
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
@@ -23,7 +23,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [RoleQueries.update])
 
-  function customizer(value: any) {
+  /* function customizer(value: any) {
     if (isPlainObject(value)) {
       if (value.submenu && value.submenu.length) {
         value.submenu = value.submenu.filter((leaf: any) => role.menu_permissions.includes(leaf.key))
@@ -33,10 +33,16 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
           return null
       }
     }
-  }
-  const permittedMenus = cloneDeepWith(getSidebarMenus(), customizer).filter((element: any) => {
+  } */
+  /* const permittedMenus = cloneDeepWith(getSidebarMenus(), customizer).filter((element: any) => {
     return element !== null;
-  })
+  }) */
+  const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[]): ITreeItem[] => treeMenus.reduce((a, c) => {
+    const children = getSelectedTreeMenus(c.children, data);
+    if (data.includes(c.key) || children.length) a.push({ ...c, children })
+    return a;
+  }, [] as ITreeItem[])
+
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,
     cardActions: [
@@ -57,7 +63,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={permittedMenus} />
+        render: () => <HierarchicalList data={getSelectedTreeMenus(treeMenus, role.menu_permissions)} />
       }
     ]
   }

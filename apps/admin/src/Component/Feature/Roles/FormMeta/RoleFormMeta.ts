@@ -1,12 +1,11 @@
-import { HIERARCHIALL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
+import { HIERARCHICAL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
-import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { treeMenus } from "~/Component/Layout/SidebarMenus"
 
 const processGroupedList = (data: any)=>{
-  return data.map((element: any) => ({...element, options:element.permissions}));
+  return data.map((element: any) => ({...element, options:element.permissions}))
 }
-const menus = getSidebarMenus()
 
 export const RoleFormMeta: IField[] = [
   {
@@ -31,9 +30,9 @@ export const RoleFormMeta: IField[] = [
   },
   {
     label: "Menu Permissions",
-    inputType: HIERARCHIALL_MULTIPLE_CHECKBOX,
+    inputType: HIERARCHICAL_MULTIPLE_CHECKBOX,
     fieldName: "menu_permissions",
     rules: [{ required: true, message: "This field is required!" }],
-    treeData: menus
+    options: treeMenus
   },
 ]

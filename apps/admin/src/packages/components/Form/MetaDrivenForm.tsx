@@ -17,7 +17,7 @@ import {
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
   IGeneratedField,
-  HIERARCHIALL_MULTIPLE_CHECKBOX
+  HIERARCHICAL_MULTIPLE_CHECKBOX
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
@@ -544,7 +544,7 @@ const SearchFormFields = (props: {
                 />
               )
               break
-            case HIERARCHIALL_MULTIPLE_CHECKBOX:
+            case HIERARCHICAL_MULTIPLE_CHECKBOX:
               formField = (
                 <FormHierarchicalMultipleCheckbox
                   {...field}
