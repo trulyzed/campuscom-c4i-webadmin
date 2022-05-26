@@ -29,6 +29,12 @@ export interface ISidebarMenu {
   submenu: ISidebarMenu[]
 }
 
+export interface ITreeItem {
+  title: string
+  key: string
+  children: ITreeItem[]
+}
+
 export const getSidebarMenus = (): ISidebarMenu[] => [
   {
     title: "Institute",
@@ -203,3 +209,14 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     ]
   }
 ]
+
+export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
+  const key = `${keyPrepend || ''}${i.title}`;
+  return {
+    title: i.title,
+    key,
+    children: getTreeMenus(i.submenu, `${key}__`)
+  }
+})
+
+export const treeMenus = getTreeMenus(getSidebarMenus())

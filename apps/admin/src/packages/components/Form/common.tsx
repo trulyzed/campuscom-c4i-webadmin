@@ -13,6 +13,7 @@ export const MULTI_SELECT_DROPDOWN = "MULTI_SELECT_DROPDOWN"
 export const MULTI_RADIO = "MULTI_RADIO"
 export const DATE_PICKER = "DATE_PICKER"
 export const DATE_PICKERS = "DATE_PICKERS"
+export const HIERARCHICAL_MULTIPLE_CHECKBOX = "HIERARCHICAL_MULTIPLE_CHECKBOX"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
@@ -28,6 +29,7 @@ export type IFieldType =
   | typeof MULTI_SELECT_DROPDOWN
   | typeof DATE_PICKER
   | typeof DATE_PICKERS
+  | typeof HIERARCHICAL_MULTIPLE_CHECKBOX
   | typeof NUMBER
   | typeof BOOLEAN
   | typeof MULTI_SELECT_CHECKBOX
@@ -53,7 +55,6 @@ export interface IField {
   valueKey?: string
   ariaLabel?: string
   previewKey?: string
-
   fieldName2?: string
   defaultValue2?: any
   ariaLabel2?: string
