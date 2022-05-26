@@ -176,7 +176,15 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
     ],
-    permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
+    permission: checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getStoreListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getRoleListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getUserListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getRefundListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
@@ -206,7 +214,11 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
       },
-    ]
+    ],
+    permission: checkAdminApiPermission(getIdentityProviderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentGatewayListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentGatewayConfigListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
   }
 ]
 
@@ -220,3 +232,9 @@ export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeIt
 })
 
 export const treeMenus = getTreeMenus(getSidebarMenus())
+
+export const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[]): ITreeItem[] => treeMenus.reduce((a, c) => {
+  const children = getSelectedTreeMenus(c.children, data);
+  if (data.includes(c.key) || children.length) a.push({ ...c, children })
+  return a;
+}, [] as ITreeItem[])

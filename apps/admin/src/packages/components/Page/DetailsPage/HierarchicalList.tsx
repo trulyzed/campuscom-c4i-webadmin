@@ -1,12 +1,10 @@
-import React from "react"
 import { Tree } from "antd";
 
-interface IDetailsHierarchialListProp {
+interface IHierarchicalListProp {
   data: { [key: string]: any }[],
 }
 
-export default function HierarchialList(props: IDetailsHierarchialListProp) {
-
+export const HierarchicalList = (props: IHierarchicalListProp) => {
   const {
     data
   } = props

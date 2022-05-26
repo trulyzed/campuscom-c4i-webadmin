@@ -8,24 +8,16 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
-import HierarchicalList from "~/packages/components/Page/DetailsPage/HierarchicalList"
-import { ITreeItem, treeMenus } from "~/Component/Layout/SidebarMenus"
-
+import { HierarchicalList } from "~/packages/components/Page/DetailsPage/HierarchicalList"
+import { getSelectedTreeMenus, treeMenus } from "~/Component/Layout/SidebarMenus"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
-
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
     if (resp.success) {
       message.success(UPDATE_SUCCESSFULLY)
     }
     return resp
   })), [RoleQueries.update])
-
-  const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[]): ITreeItem[] => treeMenus.reduce((a, c) => {
-    const children = getSelectedTreeMenus(c.children, data);
-    if (data.includes(c.key) || children.length) a.push({ ...c, children })
-    return a;
-  }, [] as ITreeItem[])
 
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,

@@ -11,7 +11,6 @@ export const getSubjectTaggingFormMeta = (storeId: string): IField[] => {
       refLookupService: QueryConstructor(() => SubjectQueries.getPaginatedList({params: {store: storeId}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [SubjectQueries.getPaginatedList]),
       displayKey2: "title",
       valueKey2: "id",
-      rules: [{ required: true, message: "This field is required!" }]
     },
   ]
 }
