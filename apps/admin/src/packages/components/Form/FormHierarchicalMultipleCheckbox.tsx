@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react"
+import { useState, useEffect, ComponentProps } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Tree } from "antd"
+import { CaretDownOutlined } from '@ant-design/icons'
 
 export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
   const [checkedKeys, setCheckedKeys] = useState(props.defaultValue)
@@ -18,7 +19,7 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
     setCheckedKeys(checkedKeysValue);
   };
 
-  const treeProps = {
+  const treeProps: ComponentProps<typeof Tree> = {
     treeData: props.options,
     checkedKeys: checkedKeys,
     checkable: true,
@@ -26,6 +27,7 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
     multiple: true,
     defaultExpandAll: true,
     selectable: false,
+    switcherIcon: <CaretDownOutlined />
   };
 
   return (
