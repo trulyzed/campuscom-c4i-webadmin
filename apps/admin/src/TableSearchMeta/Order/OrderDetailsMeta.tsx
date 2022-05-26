@@ -29,9 +29,12 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       {
         title: 'Purchaser',
         contents: [
-          { label: 'First Name', value: order.purchaser_info.first_name, },
-          { label: 'Last Name', value: order.purchaser_info.last_name, },
-          { label: 'Email', value: order.purchaser_info.primary_email },
+          ...[
+            { label: 'First Name', value: order.purchaser_info.first_name, },
+            { label: 'Last Name', value: order.purchaser_info.last_name, },
+            { label: 'Email', value: order.purchaser_info.primary_email },
+          ],
+          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company }] : []
         ],
       },
       {
