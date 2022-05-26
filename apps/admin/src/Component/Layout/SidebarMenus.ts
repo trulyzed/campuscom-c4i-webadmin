@@ -232,3 +232,9 @@ export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeIt
 })
 
 export const treeMenus = getTreeMenus(getSidebarMenus())
+
+export const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[]): ITreeItem[] => treeMenus.reduce((a, c) => {
+  const children = getSelectedTreeMenus(c.children, data);
+  if (data.includes(c.key) || children.length) a.push({ ...c, children })
+  return a;
+}, [] as ITreeItem[])

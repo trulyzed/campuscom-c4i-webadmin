@@ -3,9 +3,7 @@ import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/
 import { Tree } from "antd"
 
 export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
-
   const [checkedKeys, setCheckedKeys] = useState(props.defaultValue)
-
   const { formInstance, fieldName } = props
 
   useEffect(() => {
@@ -32,7 +30,9 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
 
   return (
     <SearchFieldWrapper {...props}>
-      <Tree {...treeProps} />
+      <div style={{ border: "1px solid lightgray", padding: "5px" }}>
+        <Tree {...treeProps} />
+      </div>
     </SearchFieldWrapper>
   )
 }
