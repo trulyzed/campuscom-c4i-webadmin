@@ -224,21 +224,21 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
   }
 ]
 
-export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
+export const getSidebarMenusWithKey = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
   const key = `${keyPrepend || ''}${i.title.trim()}`
   return {
     title: i.title,
     key,
     url: i.url,
     permission: i.permission,
-    submenu: getTreeMenus(i.submenu, `${key}__`)
+    submenu: getSidebarMenusWithKey(i.submenu, `${key}__`)
   }
 })
 
-export const treeMenus = getTreeMenus(getSidebarMenus())
+export const sidebarMenusWithKey = getSidebarMenusWithKey(getSidebarMenus())
 
-export const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[] | undefined): ITreeItem[] => treeMenus.reduce((a, c) => {
-  const submenu = getSelectedTreeMenus(c.submenu, data);
+export const getFilteredMenusWithKey = (treeMenus: ITreeItem[], data: string[] | undefined): ITreeItem[] => treeMenus.reduce((a, c) => {
+  const submenu = getFilteredMenusWithKey(c.submenu, data);
   if (data?.includes(c.key) || submenu.length) a.push({ ...c, submenu })
   return a;
 }, [] as ITreeItem[])
