@@ -17,6 +17,11 @@ export const HierarchicalList = (props: IHierarchicalListProp) => {
     treeData: data,
     selectable: false,
     switcherIcon: <CaretDownOutlined />,
+    fieldNames: {
+      title: 'title',
+      key: 'key',
+      children: 'submenu',
+    }
   }
 
   return (

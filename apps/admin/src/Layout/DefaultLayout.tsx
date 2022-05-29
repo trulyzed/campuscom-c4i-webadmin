@@ -6,8 +6,9 @@ import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
-import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { treeMenus, getSelectedTreeMenus } from "~/Component/Layout/SidebarMenus"
 import { logout } from "~/packages/services/AuthService"
+import { getUser } from "~/packages/services/Api/utils/TokenStore"
 
 const { Header, Content } = Layout
 
@@ -17,10 +18,11 @@ interface ILayoutProps {
 
 export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
-
+  const user = getUser()
+  const permittedMenus = user?.menu_permissions
   return (
     <Layout>
-      <Sidebar collapsed={collapsed} logout={logout} getSidebarMenus={getSidebarMenus} />
+      <Sidebar collapsed={collapsed} logout={logout} getSidebarMenus={() => getSelectedTreeMenus(treeMenus, permittedMenus)} />
       <Layout className="site-layout">
         <Header role="none" className="site-layout-background" style={{ padding: 0 }}>
           <Row>

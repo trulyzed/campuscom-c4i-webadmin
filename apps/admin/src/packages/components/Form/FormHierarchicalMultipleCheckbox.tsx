@@ -27,7 +27,12 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
     multiple: true,
     defaultExpandAll: true,
     selectable: false,
-    switcherIcon: <CaretDownOutlined />
+    switcherIcon: <CaretDownOutlined />,
+    fieldNames: {
+      title: 'title',
+      key: 'key',
+      children: 'submenu',
+    }
   };
 
   return (
