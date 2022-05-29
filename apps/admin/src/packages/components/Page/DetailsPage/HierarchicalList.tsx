@@ -12,7 +12,7 @@ export const HierarchicalList = (props: IHierarchicalListProp) => {
   } = props
 
   const treeProps: ComponentProps<typeof Tree> = {
-    showLine: true,
+    showLine: { showLeafIcon: false },
     defaultExpandAll: true,
     treeData: data,
     selectable: false,
