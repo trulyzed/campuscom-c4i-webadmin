@@ -1,4 +1,3 @@
-import React from "react"
 import { Card, Col, Row, Tag } from "antd";
 
 interface IDetailsGroupedListProp {
