@@ -97,19 +97,19 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Orders ",
+        title: "Orders",
         url: "/storefront-data/order",
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
       {
-        title: "Payments ",
+        title: "Payments",
         url: "/storefront-data/payment",
         submenu: [],
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
       },
       {
-        title: "Students ",
+        title: "Students",
         url: "/storefront-data/student",
         submenu: [],
         permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
@@ -225,7 +225,7 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
 ]
 
 export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
-  const key = `${keyPrepend || ''}${i.title}`;
+  const key = `${keyPrepend || ''}${i.title.trim()}`
   return {
     title: i.title,
     key,
