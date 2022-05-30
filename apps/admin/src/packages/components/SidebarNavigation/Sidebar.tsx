@@ -89,7 +89,7 @@ export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISid
       eventBus.unsubscribe("REFRESH_SIDEBAR")
     }
     // eslint-disable-next-line
-  }, [])
+  }, [props.getSidebarMenus])
 
   return (
     <Layout.Sider

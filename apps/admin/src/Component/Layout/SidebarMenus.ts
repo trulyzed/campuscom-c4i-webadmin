@@ -32,7 +32,9 @@ export interface ISidebarMenu {
 export interface ITreeItem {
   title: string
   key: string
-  children: ITreeItem[]
+  url: string
+  permission?: boolean
+  submenu: ITreeItem[]
 }
 
 export const getSidebarMenus = (): ISidebarMenu[] => [
@@ -95,19 +97,19 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Orders ",
+        title: "Orders",
         url: "/storefront-data/order",
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
       {
-        title: "Payments ",
+        title: "Payments",
         url: "/storefront-data/payment",
         submenu: [],
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
       },
       {
-        title: "Students ",
+        title: "Students",
         url: "/storefront-data/student",
         submenu: [],
         permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
@@ -222,19 +224,21 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
   }
 ]
 
-export const getTreeMenus = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
-  const key = `${keyPrepend || ''}${i.title}`;
+export const getSidebarMenusWithKey = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
+  const key = `${keyPrepend || ''}${i.title.trim()}`
   return {
     title: i.title,
     key,
-    children: getTreeMenus(i.submenu, `${key}__`)
+    url: i.url,
+    permission: i.permission,
+    submenu: getSidebarMenusWithKey(i.submenu, `${key}__`)
   }
 })
 
-export const treeMenus = getTreeMenus(getSidebarMenus())
+export const sidebarMenusWithKey = getSidebarMenusWithKey(getSidebarMenus())
 
-export const getSelectedTreeMenus = (treeMenus: ITreeItem[], data: string[]): ITreeItem[] => treeMenus.reduce((a, c) => {
-  const children = getSelectedTreeMenus(c.children, data);
-  if (data.includes(c.key) || children.length) a.push({ ...c, children })
+export const getFilteredMenusWithKey = (treeMenus: ITreeItem[], data: string[] | undefined): ITreeItem[] => treeMenus.reduce((a, c) => {
+  const submenu = getFilteredMenusWithKey(c.submenu, data);
+  if (data?.includes(c.key) || submenu.length) a.push({ ...c, submenu })
   return a;
 }, [] as ITreeItem[])

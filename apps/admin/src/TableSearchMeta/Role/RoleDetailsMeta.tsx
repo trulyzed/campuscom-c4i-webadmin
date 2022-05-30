@@ -9,7 +9,7 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
 import { HierarchicalList } from "~/packages/components/Page/DetailsPage/HierarchicalList"
-import { getSelectedTreeMenus, treeMenus } from "~/Component/Layout/SidebarMenus"
+import { getFilteredMenusWithKey, sidebarMenusWithKey } from "~/Component/Layout/SidebarMenus"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
@@ -39,7 +39,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={getSelectedTreeMenus(treeMenus, role.menu_permissions)} />
+        render: () => <HierarchicalList data={getFilteredMenusWithKey(sidebarMenusWithKey, role.menu_permissions)} />
       }
     ]
   }
