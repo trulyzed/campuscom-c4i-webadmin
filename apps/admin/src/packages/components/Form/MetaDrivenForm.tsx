@@ -552,6 +552,7 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                  fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
                 />
               )
               break

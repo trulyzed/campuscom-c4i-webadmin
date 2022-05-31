@@ -3,9 +3,9 @@ import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/
 import { Tree } from "antd"
 import { CaretDownOutlined } from '@ant-design/icons'
 
-export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
+export function FormHierarchicalMultipleCheckbox(props: IGeneratedField & { fieldNames?: ComponentProps<typeof Tree>['fieldNames'] }) {
   const [checkedKeys, setCheckedKeys] = useState(props.defaultValue)
-  const { formInstance, fieldName } = props
+  const { formInstance, fieldName, fieldNames } = props
 
   useEffect(() => {
     if (fieldName && formInstance && checkedKeys)
@@ -28,11 +28,7 @@ export function FormHierarchicalMultipleCheckbox(props: IGeneratedField) {
     defaultExpandAll: true,
     selectable: false,
     switcherIcon: <CaretDownOutlined />,
-    fieldNames: {
-      title: 'title',
-      key: 'key',
-      children: 'submenu',
-    }
+    fieldNames
   };
 
   return (
