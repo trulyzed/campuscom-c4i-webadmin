@@ -9,7 +9,7 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
 import { HierarchicalList } from "~/packages/components/Page/DetailsPage/HierarchicalList"
-import { getFilteredMenusWithKey, sidebarMenusWithKey } from "~/Component/Layout/SidebarMenus"
+import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
@@ -18,6 +18,12 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     }
     return resp
   })), [RoleQueries.update])
+
+  const getMenuPermissions = (sidebarMenus: ISidebarMenu[] = getSidebarMenus()): ISidebarMenu[] => sidebarMenus.reduce((a, c) => {
+    const submenu = getMenuPermissions(c.submenu);
+    if (role.menu_permissions?.includes(c.key || '') || submenu.length) a.push({ ...c, submenu })
+    return a;
+  }, [] as ISidebarMenu[])
 
   const summaryInfo: CardContainer = {
     title: `Role: ${role.name}`,
@@ -39,7 +45,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       {
         label: 'Menu Permissions',
         value: role.permissions,
-        render: () => <HierarchicalList data={getFilteredMenusWithKey(sidebarMenusWithKey, role.menu_permissions)} />
+        render: () => <HierarchicalList data={getMenuPermissions()} fieldNames={{ children: 'submenu' }} />
       }
     ]
   }

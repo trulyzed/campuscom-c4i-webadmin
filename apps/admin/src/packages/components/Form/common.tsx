@@ -75,6 +75,7 @@ export interface IField {
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number
+  childrenKey?: string
 
   multiple?: boolean
   accept?: UploadProps['accept']

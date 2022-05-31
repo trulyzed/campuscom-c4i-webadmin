@@ -1,7 +1,7 @@
 import { HIERARCHICAL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
-import { treeMenus } from "~/Component/Layout/SidebarMenus"
+import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 
 const processGroupedList = (data: any)=>{
   return data.map((element: any) => ({...element, options:element.permissions}))
@@ -33,6 +33,7 @@ export const RoleFormMeta: IField[] = [
     inputType: HIERARCHICAL_MULTIPLE_CHECKBOX,
     fieldName: "menu_permissions",
     rules: [{ required: true, message: "This field is required!" }],
-    options: treeMenus
+    options: getSidebarMenus(),
+    childrenKey: 'submenu'
   },
 ]

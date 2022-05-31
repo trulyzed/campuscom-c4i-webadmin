@@ -1,4 +1,6 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
+import { IUser } from "~/packages/services/Api/utils/Interfaces";
+import { getUser } from "~/packages/services/Api/utils/TokenStore";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
@@ -23,21 +25,14 @@ import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectLis
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns";
 
 export interface ISidebarMenu {
+  key?: string
   title: string
   url: string
   permission?: boolean
   submenu: ISidebarMenu[]
 }
 
-export interface ITreeItem {
-  title: string
-  key: string
-  url: string
-  permission?: boolean
-  submenu: ITreeItem[]
-}
-
-export const getSidebarMenus = (): ISidebarMenu[] => [
+const getSidebarMenuData = ():ISidebarMenu[] => [
   {
     title: "Institute",
     url: "",
@@ -224,21 +219,19 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
   }
 ]
 
-export const getSidebarMenusWithKey = (data: ISidebarMenu[], keyPrepend?: string): ITreeItem[] => data.map(i => {
+// generate sidebar menu with unique key and menu permission
+const generateSidebarMenuPermission = (data: ISidebarMenu[], keyPrepend?: string, user: (IUser | null) = getUser()): ISidebarMenu[] => data.map(i => {
   const key = `${keyPrepend || ''}${i.title.trim()}`
+  const submenu = generateSidebarMenuPermission(i.submenu, `${key}__`, user)
+
   return {
-    title: i.title,
+    ...i,
     key,
-    url: i.url,
-    permission: i.permission,
-    submenu: getSidebarMenusWithKey(i.submenu, `${key}__`)
+    permission: user?.is_superuser ? true : i.permission && !!(user?.menu_permissions?.includes(key) || submenu.some(i => i.permission)),
+    submenu
   }
 })
 
-export const sidebarMenusWithKey = getSidebarMenusWithKey(getSidebarMenus())
-
-export const getFilteredMenusWithKey = (treeMenus: ITreeItem[], data: string[] | undefined): ITreeItem[] => treeMenus.reduce((a, c) => {
-  const submenu = getFilteredMenusWithKey(c.submenu, data);
-  if (data?.includes(c.key) || submenu.length) a.push({ ...c, submenu })
-  return a;
-}, [] as ITreeItem[])
+export const getSidebarMenus = (): ISidebarMenu[] => {
+  return generateSidebarMenuPermission(getSidebarMenuData())
+}

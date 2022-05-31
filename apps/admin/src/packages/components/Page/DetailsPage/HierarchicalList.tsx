@@ -4,11 +4,13 @@ import { CaretDownOutlined } from '@ant-design/icons'
 
 interface IHierarchicalListProp {
   data: { [key: string]: any }[],
+  fieldNames?: ComponentProps<typeof Tree>['fieldNames']
 }
 
 export const HierarchicalList = (props: IHierarchicalListProp) => {
   const {
-    data
+    data,
+    fieldNames
   } = props
 
   const treeProps: ComponentProps<typeof Tree> = {
@@ -17,11 +19,7 @@ export const HierarchicalList = (props: IHierarchicalListProp) => {
     treeData: data,
     selectable: false,
     switcherIcon: <CaretDownOutlined />,
-    fieldNames: {
-      title: 'title',
-      key: 'key',
-      children: 'submenu',
-    }
+    fieldNames
   }
 
   return (

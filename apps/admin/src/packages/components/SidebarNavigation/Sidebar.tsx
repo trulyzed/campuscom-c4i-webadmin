@@ -3,6 +3,7 @@ import { Layout } from "antd"
 import { Link } from "react-router-dom"
 import { eventBus } from "~/packages/utils/EventBus"
 import { UpOutlined, DownOutlined } from "@ant-design/icons"
+import { ISidebarMenu } from "~/Component/Layout/SidebarMenus"
 
 const ulStyle = { listStyle: "none", paddingLeft: "0px" }
 const liStyle = { color: "white", width: "170px", padding: "10px" }
@@ -16,13 +17,6 @@ const buttonStyle: React.CSSProperties = {
   color: "#000000",
   backgroundColor: "transparent",
   border: "1px"
-}
-
-export interface ISidebarMenu {
-  title: string
-  url: string
-  permission?: boolean
-  submenu: ISidebarMenu[]
 }
 
 const RenderMenu = (props: {
@@ -49,17 +43,16 @@ const RenderMenu = (props: {
       )}
       {expanded && (
         <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px` }}>
-          {props._sidebarMenus.map((x, i) => {
-            if (!x.permission && x.permission !== undefined) return <></>
+          {props._sidebarMenus.filter(i => i.permission).map(x => {
             if (x.submenu && x.submenu.length > 0)
               return (
-                <li key={i}>
+                <li key={x.key}>
                   <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 20} />
                 </li>
               )
             else
               return (
-                <li key={i} style={liStyle}>
+                <li key={x.key} style={liStyle}>
                   <Link
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
@@ -75,13 +68,13 @@ const RenderMenu = (props: {
     </>
   )
 }
-export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISidebarMenu[]; logout: () => void }) {
+export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[]; logout: () => void }) {
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>([])
 
   useEffect(() => {
     eventBus.subscribe("REFRESH_SIDEBAR", () =>
       setTimeout(() => {
-        setSidebarMenus(props.getSidebarMenus())
+        setSidebarMenus(props.sidebarMenus)
       }, 0)
     )
     eventBus.publish("REFRESH_SIDEBAR")
@@ -89,7 +82,7 @@ export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISid
       eventBus.unsubscribe("REFRESH_SIDEBAR")
     }
     // eslint-disable-next-line
-  }, [props.getSidebarMenus])
+  }, [props.sidebarMenus])
 
   return (
     <Layout.Sider
