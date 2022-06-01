@@ -124,16 +124,26 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           ...getStoreListTableColumns(),
           columns: [
             {
-              title: "Name",
-              dataIndex: "store",
-              render: (text: any, record: any) => record.id ? renderLink(`/administration/store/${record.id}`, text) : text,
-              sorter: (a: any, b: any) => a.store - b.store
+              title: "Store",
+              dataIndex: "store_name",
+              render: (text: any, record: any) => record.store_id ? renderLink(`/administration/store/${record.store_id}`, text) : text,
+              sorter: (a: any, b: any) => a.store_name - b.store_name
             },
             {
-              title: "Url",
-              dataIndex: 'url',
-              render: (text: any) => renderLink(text, text, false, true),
-              sorter: (a: any, b: any) => a.url - b.url
+              title: "Section Name",
+              dataIndex: "section_name",
+              render: (text: any, record: any) => record.section_id ? renderLink(`/institute/section/${record.section_id}`, text) : text,
+              sorter: (a: any, b: any) => a.section_name - b.section_name
+            },
+            {
+              title: "Fee",
+              dataIndex: "product_fee",
+              sorter: (a: any, b: any) => a.product_fee - b.product_fee
+            },
+            {
+              title: "Checkout Url",
+              dataIndex: 'product_id',
+              render: (text: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/${text}`, false, true),
             },
           ],
           searchFunc: StoreQueries.getListByCoursePublishing,

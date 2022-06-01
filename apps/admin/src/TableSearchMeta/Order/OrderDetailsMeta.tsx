@@ -7,7 +7,7 @@ import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/P
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderJson, renderAnswer } from "~/packages/components/ResponsiveTable/tableUtils"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
@@ -34,7 +34,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
             { label: 'Last Name', value: order.purchaser_info.last_name, },
             { label: 'Email', value: order.purchaser_info.primary_email },
           ],
-          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company }] : []
+          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company?.company_name }] : []
         ],
       },
       {
@@ -111,7 +111,15 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           tabMeta: {
             tableProps: {
               pagination: false,
-              columns: questionListTableColumns,
+              columns: [
+                questionListTableColumns[0],
+                {
+                  title: "Answer",
+                  dataIndex: 'answer',
+                  render: renderAnswer,
+                  sorter: (a: any, b: any) => a.answer - b.answer
+                },
+              ],
               dataSource: processQuestions(order.agreement_details),
               rowKey: 'question',
               refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",

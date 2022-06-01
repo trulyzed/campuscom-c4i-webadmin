@@ -9,6 +9,7 @@ import { setScrollPosition } from "~/packages/components/ResponsiveTable//Manage
 import { convertAmountToCSV } from "~/packages/utils/util"
 import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "~/packages/utils/parser"
+import DownloadableLink from "./DownloadableLink"
 
 export const DATE_FORMAT = "MM/DD/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -62,6 +63,18 @@ const renderThumb = (url: string, alt?: string) => {
   return <a className="external-link" target={"_blank"} rel={"noopener noreferrer"} href={url}><img className="thumb" src={url} alt={alt || url} /></a>
 }
 
+const renderAnswer = (value: any, record: any) => {
+  if (!record) return undefined
+  switch (record.type) {
+    case 'checkbox':
+      return renderBoolean(value)
+    case 'attachment':
+      return <DownloadableLink link={value} />
+    default:
+      return value
+  }
+}
+
 const sortByBoolean = (a: boolean, b: boolean) => (a === b ? 0 : a ? -1 : 1)
 const sortByString = (a: string, b: string) => a.localeCompare(b)
 const sortByTime = (a?: string, b?: string) => {
@@ -89,6 +102,7 @@ export {
   renderThumb,
   renderHtml,
   renderJson,
+  renderAnswer,
   sortByBoolean,
   sortByString,
   sortByTime,
