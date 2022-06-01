@@ -143,7 +143,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
             {
               title: "Checkout Url",
               dataIndex: 'product_id',
-              render: (text: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/${text}`, false, true),
+              render: (text: any, record: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, false, true),
             },
           ],
           searchFunc: StoreQueries.getListByCoursePublishing,
