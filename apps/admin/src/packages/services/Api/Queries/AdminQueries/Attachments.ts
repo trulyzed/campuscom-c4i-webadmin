@@ -22,6 +22,7 @@ export const AttachmentQueries:IAttachmentQueries = {
         link.setAttribute('download', filename)
         link.click()
         link.remove()
+        URL.revokeObjectURL(objectURL)
       }
       return resp
     })
