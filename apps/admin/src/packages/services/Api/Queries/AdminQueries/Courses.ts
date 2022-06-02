@@ -77,6 +77,20 @@ export const CourseQueries:ICourseQueries = {
     })
   }, [{operation: ApiPermissionClass.StoreCourseSubject, action: ApiPermissionAction.Write}]),
 
+  tagRegistrationQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      entity_type: 'course',
+      entity_id: data?.data.course,
+    }
+    return adminApi({
+      endpoint: `${endpoints.REGISTRATION_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Write}]),
+
   untagRegistrationQuestion: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.DELETE_REGISTRATION_QUESTION}`,
