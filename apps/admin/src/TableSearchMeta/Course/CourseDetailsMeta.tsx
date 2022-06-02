@@ -141,7 +141,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               sorter: (a: any, b: any) => a.product_fee - b.product_fee
             },
             {
-              title: "Checkout Url",
+              title: "Checkout URL",
               dataIndex: 'product_id',
               render: (text: any, record: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, false, true),
             },
