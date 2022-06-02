@@ -13,7 +13,7 @@ interface IRequestConfig {
   params?: AxiosRequestConfig['params']
   data?: AxiosRequestConfig['data']
   headers?: AxiosRequestConfig['headers']
-  //responseType: ResponseType
+  responseType?: AxiosRequestConfig['responseType']
 }
 
 export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiResponse> => {
@@ -25,6 +25,7 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
       method: requestConfig.method,
       data: requestConfig.data,
       params: requestConfig.params,
+      responseType: requestConfig.responseType,
       url: `${process.env.REACT_APP_API_ROOT}${handleTrailingSlashAppend(requestConfig.endpoint, true)}`,
       ...(token && { headers: { Authorization: `Bearer ${token}` } })
     })
