@@ -41,7 +41,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         title: 'Additional Information',
         contents: processQuestions((order.purchaser_info?.extra_info || []) as any[]).map(i => ({
           label: i.question,
-          value: i.answer
+          value: renderAnswer(i.answer, i)
         })),
       }
     ]
@@ -150,7 +150,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
                   title: 'Profile Questions',
                   contents: (processQuestions((value || []) as any[])).map((i: any) => ({
                     label: i.question,
-                    value: i.answer
+                    value: renderAnswer(i.answer, i)
                   }))
                 }} />
               ),
