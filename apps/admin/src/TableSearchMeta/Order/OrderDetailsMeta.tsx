@@ -7,7 +7,7 @@ import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/P
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderJson, renderAnswer } from "~/packages/components/ResponsiveTable/tableUtils"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
@@ -34,14 +34,14 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
             { label: 'Last Name', value: order.purchaser_info.last_name, },
             { label: 'Email', value: order.purchaser_info.primary_email },
           ],
-          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company }] : []
+          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company?.company_name }] : []
         ],
       },
       {
         title: 'Additional Information',
         contents: processQuestions((order.purchaser_info?.extra_info || []) as any[]).map(i => ({
           label: i.question,
-          value: i.answer
+          value: renderAnswer(i.answer, i)
         })),
       }
     ]
@@ -111,7 +111,15 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           tabMeta: {
             tableProps: {
               pagination: false,
-              columns: questionListTableColumns,
+              columns: [
+                questionListTableColumns[0],
+                {
+                  title: "Answer",
+                  dataIndex: 'answer',
+                  render: renderAnswer,
+                  sorter: (a: any, b: any) => a.answer - b.answer
+                },
+              ],
               dataSource: processQuestions(order.agreement_details),
               rowKey: 'question',
               refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",
@@ -142,7 +150,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
                   title: 'Profile Questions',
                   contents: (processQuestions((value || []) as any[])).map((i: any) => ({
                     label: i.question,
-                    value: i.answer
+                    value: renderAnswer(i.answer, i)
                   }))
                 }} />
               ),

@@ -13,7 +13,7 @@ interface IRequestConfig {
   params?: AxiosRequestConfig['params']
   data?: AxiosRequestConfig['data']
   headers?: AxiosRequestConfig['headers']
-  //responseType: ResponseType
+  responseType?: AxiosRequestConfig['responseType']
 }
 
 export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiResponse> => {
