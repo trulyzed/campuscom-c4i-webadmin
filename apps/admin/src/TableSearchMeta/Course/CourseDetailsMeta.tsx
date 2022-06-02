@@ -18,6 +18,7 @@ import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/componen
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { getRegistrationQuestionTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/RegistrationQuestionTaggingFormMeta"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -33,6 +34,13 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
     }
     return resp
   })), [CourseQueries.create])
+
+  const tagRegistrationQuestion = QueryConstructor(((data) => CourseQueries.tagRegistrationQuestion({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseQueries.tagRegistrationQuestion])
 
   const summary: CardContainer = {
     title: course.title,
@@ -188,6 +196,16 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           searchFunc: QuestionQueries.getRegistrationQuestionListByCourse,
           searchParams: { entity_id: course.id },
           refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Registration Question`}
+              formMeta={getRegistrationQuestionTaggingFormMeta(course.id)}
+              formSubmitApi={tagRegistrationQuestion}
+              buttonLabel={`Add Registration Question`}
+              iconType="create"
+              refreshEventName={'REFRESH_REGISTRATION_QUESTION_TAB'}
+            />
+          ]
         }
       },
       helpKey: "registrationQuestionsTab"
