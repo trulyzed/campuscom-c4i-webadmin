@@ -65,9 +65,8 @@ const renderThumb = (url: string, alt?: string) => {
 
 const renderAnswer = (value: any, record: any) => {
   if (!record) return undefined
+  if (typeof value === 'boolean') return renderBoolean(value)
   switch (record.type) {
-    case 'checkbox':
-      return renderBoolean(value)
     case 'date':
       return renderDate(value)
     case 'attachment':
