@@ -68,7 +68,11 @@ const renderAnswer = (value: any, record: any) => {
   switch (record.type) {
     case 'checkbox':
       return renderBoolean(value)
+    case 'date':
+      return renderDate(value)
     case 'attachment':
+      return <DownloadableLink link={value} />
+    case 'signature':
       return <DownloadableLink link={value} />
     default:
       return value
