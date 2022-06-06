@@ -3,7 +3,7 @@ import { BOOLEAN, DROPDOWN, IField, TEXT, FILE, EDITOR } from "~/packages/compon
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const CourseFormMeta: IField[] = [
+export const getCourseFormMeta = (course?: any): IField[] => [
   {
     label: "Course Provider",
     inputType: DROPDOWN,
@@ -17,6 +17,7 @@ export const CourseFormMeta: IField[] = [
     label: "Title",
     inputType: TEXT,
     fieldName: "title",
+    disabled: !!course?.from_importer,
     maxLength: 50,
     rules: [{ required: true, message: "This field is required!" }]
   },
@@ -24,18 +25,21 @@ export const CourseFormMeta: IField[] = [
     label: "Code",
     inputType: TEXT,
     fieldName: "code",
+    disabled: !!course?.from_importer,
     maxLength: 50,
   },
   {
     label: "Inquiry URL",
     inputType: TEXT,
     fieldName: "inquiry_url",
+    disabled: !!course?.from_importer,
     maxLength: 50,
   },
   {
     label: 'External ID',
     inputType: TEXT,
     fieldName: "external_id",
+    disabled: !!course?.from_importer,
     maxLength: 50,
     rules: [{ required: true, message: "This field is required!" }]
   },
@@ -43,6 +47,7 @@ export const CourseFormMeta: IField[] = [
     label: 'External URL',
     inputType: TEXT,
     fieldName: "external_url",
+    disabled: !!course?.from_importer,
     maxLength: 50,
   },
   {

@@ -6,7 +6,7 @@ import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTa
 import { CourseSearchMeta } from "~/TableSearchMeta/Course/CourseSearchMeta"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
-import { CourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
+import { getCourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 
@@ -33,7 +33,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Course`}
-              formMeta={CourseFormMeta}
+              formMeta={getCourseFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Add Course`}
               iconType="create"
