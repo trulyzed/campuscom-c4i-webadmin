@@ -40,4 +40,26 @@ export const CareerQueries:ICareerQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.TaggedCourseCareer, action: ApiPermissionAction.Read}]),
+
+  getSkillsByCareer: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.CAREER_SKILL}`,
+      ...data,
+      method: "GET"
+    }).then(resp => resp.success ? ({
+      ...resp,
+      data: (resp.data.grouped_skills as any[]).reduce((a, c) => {
+        if (c.skills.length) a.push({group: c.skill_type, options: (c.skills as any[]).sort((a: any, b: any) => (a.name as string).localeCompare(b.name)) })
+        return a
+      }, [])
+    }) : resp)
+  }, [{operation: ApiPermissionClass.Skill, action: ApiPermissionAction.Read}]),
+
+  getCareersAndSkillsByCourse: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.TAGGED_COURSE_CAREER_AND_SKILL}`,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.TaggedCourseCareerAndSkill, action: ApiPermissionAction.Read}]),
 }

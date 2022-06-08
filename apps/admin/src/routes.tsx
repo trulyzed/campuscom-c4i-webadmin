@@ -10,7 +10,6 @@ export const AppRoutes: RouteProps[] = [
   { path: "/institute/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
   { path: "/institute/campus", component: React.lazy(() => import("~/Pages/Institute/Campuses").then((x) => ({ default: x.List }))) },
   { path: "/institute/campus/:campusID", component: React.lazy(() => import("~/Pages/Institute/Campuses/CampusDetailsPage").then((x) => ({ default: x.CampusDetailsPage }))) },
-  { path: "/institute/career/:careerID", component: React.lazy(() => import("~/Pages/Institute/Careers/CareerDetailsPage").then((x) => ({ default: x.CareerDetailsPage }))) },
 
   { path: "/store/subject", component: React.lazy(() => import("~/Pages/Store/Subjects").then((x) => ({ default: x.List }))) },
   { path: "/store/subject/:subjectID", component: React.lazy(() => import("~/Pages/Store/Subjects/SubjectDetailsPage").then((x) => ({ default: x.SubjectDetailsPage }))) },
@@ -55,6 +54,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/discount-program/:discountProgramID", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms/DiscountProgramDetailsPage").then((x) => ({ default: x.DiscountProgramDetailsPage }))) },
   { path: "/administration/membership-program", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms").then((x) => ({ default: x.List }))) },
   { path: "/administration/membership-program/:membershipProgramID", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms/MembershipProgramDetailsPage").then((x) => ({ default: x.MembershipProgramDetailsPage }))) },
+  { path: "/administration/career/:careerID", component: React.lazy(() => import("~/Pages/Administration/Careers/CareerDetailsPage").then((x) => ({ default: x.CareerDetailsPage }))) },
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },

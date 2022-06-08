@@ -104,6 +104,7 @@ export const CourseQueries:ICourseQueries = {
       endpoint: `${endpoints.TAGGED_COURSE_CAREER_AND_SKILL}`,
       method: "POST",
       ...data,
+      data: {...data?.data, threshold: undefined}
     })
   }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Write}]),
 }

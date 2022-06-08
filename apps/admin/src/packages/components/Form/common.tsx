@@ -82,7 +82,7 @@ export interface IField {
   renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   onDependencyChange?: (value: any, options: {
-    loadOptions?: (args?: IQueryParams) => Promise<any[]>
+    loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
     formLookupData?: { [key: string]: any }
   }) => void | boolean
 }

@@ -38,7 +38,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
     return resp
   })), [CourseQueries.create])
 
-  const tagCareer = QueryConstructor(((data) => CourseQueries.tagCareer({ ...data, data: { ...data?.data, course_id: course.id } }).then(resp => {
+  const tagCareer = QueryConstructor(((data) => CourseQueries.tagCareer({ ...data, data: { ...data?.data }, params: { course_id: course.id } }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
     }
@@ -133,11 +133,12 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Tag Career`}
-              formMeta={getCareerTaggingFormMeta(course.id)}
+              formMeta={getCareerTaggingFormMeta()}
               formSubmitApi={tagCareer}
               buttonLabel={`Tag Career`}
               iconType="create"
               refreshEventName={'REFRESH_CAREER_LIST'}
+              initialFormValue={{ careers: course.tagged_careers, skills: course.tagged_skills }}
             />
           ]
         }
