@@ -95,14 +95,16 @@ export function FormDropDown(
 
   useEffect(() => {
     onDependencyChange?.(props.dependencyValue, {
-      loadOptions: async (...args): Promise<any[]> => {
+      loadOptions: async (args, reset): Promise<any[]> => {
         props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
-        Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined) ?
-          await loadOptions(...args).then(options => {
-            const matchedValue = options.find(o => o.value === props.defaultValue)
-            if (matchedValue) props.formInstance.setFieldsValue({ [props.fieldName]: matchedValue })
-            return options
-          }) : setOptions([])
+        if (!reset) {
+          Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined) ?
+            await loadOptions(args).then(options => {
+              const matchedValue = options.find(o => o.value === props.defaultValue)
+              if (matchedValue) props.formInstance.setFieldsValue({ [props.fieldName]: matchedValue })
+              return options
+            }) : setOptions([])
+        }
         return []
       },
     })

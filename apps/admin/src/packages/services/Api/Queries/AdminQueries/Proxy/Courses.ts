@@ -9,4 +9,5 @@ export interface ICourseQueries {
   tagToSubjects: IQuery
   tagRegistrationQuestion: IQuery
   untagRegistrationQuestion: IQuery
+  tagCareer: IQuery
 }

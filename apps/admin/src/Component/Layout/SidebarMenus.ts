@@ -2,6 +2,7 @@ import { checkAdminApiPermission } from "~/packages/services/Api/Permission/Admi
 import { IUser } from "~/packages/services/Api/utils/Interfaces";
 import { getUser } from "~/packages/services/Api/utils/TokenStore";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
+import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns";
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
@@ -118,6 +119,12 @@ const getSidebarMenuData = ():ISidebarMenu[] => [
     title: "Administration",
     url: "",
     submenu: [
+      {
+        title: "Careers",
+        url: "/administration/career",
+        submenu: [],
+        permission: checkAdminApiPermission(getCareerListTableColumns().searchFunc)
+      },
       {
         title: "Course Providers",
         url: "/administration/course-provider",
