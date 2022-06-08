@@ -41,6 +41,14 @@ export const CareerQueries:ICareerQueries = {
     })
   }, [{operation: ApiPermissionClass.TaggedCourseCareer, action: ApiPermissionAction.Read}]),
 
+  getSkillsByCourse: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.TAGGED_COURSE_SKILL}`,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.TaggedCourseSkill, action: ApiPermissionAction.Read}]),
+
   getSkillsByCareer: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.CAREER_SKILL}`,

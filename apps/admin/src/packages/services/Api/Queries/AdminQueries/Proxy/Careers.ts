@@ -5,6 +5,7 @@ export interface ICareerQueries {
   getPaginatedList: IQuery
   getList: IQuery
   getListByCourse: IQuery
+  getSkillsByCourse: IQuery
   getSkillsByCareer: IQuery
   getCareersAndSkillsByCourse: IQuery
 }

@@ -22,6 +22,7 @@ import { getRegistrationQuestionTaggingFormMeta } from "~/Component/Feature/Cour
 import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns"
 import { getCareerTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/CareerTaggingFormMeta"
 import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
+import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTableColumns"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -144,6 +145,19 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "careersTab"
+    },
+    {
+      tabTitle: "Skills",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getSkillListTableColumns(),
+          searchParams: { id: course.id },
+          refreshEventName: "REFRESH_SKILL_LIST",
+        }
+      },
+      helpKey: "skillsTab"
     },
     {
       tabTitle: "Enrollments",
