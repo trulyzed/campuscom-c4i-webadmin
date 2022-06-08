@@ -1,4 +1,4 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -18,11 +18,13 @@ export const careerListTableColumns: TableColumnType = [
   {
     title: 'Bright Outlook',
     dataIndex: 'bright_outlook',
+    render: (text) => renderBoolean(text === 'True' ? true : text === 'False' ? false : text),
     sorter: (a: any, b: any) => a.bright_outlook - b.bright_outlook,
   },
   {
     title: 'Green',
     dataIndex: 'green',
+    render: (text) => renderBoolean(text === 'True' ? true : text === 'False' ? false : text),
     sorter: (a: any, b: any) => a.green - b.green,
   },
 ]
