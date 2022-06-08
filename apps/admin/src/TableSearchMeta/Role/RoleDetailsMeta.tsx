@@ -7,8 +7,8 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
-import GroupedList from "~/packages/components/Page/DetailsPage/GroupedList"
-import { HierarchicalList } from "~/packages/components/Page/DetailsPage/HierarchicalList"
+import GroupedList from "~/packages/components/DisplayFormatter/GroupedList"
+import { HierarchicalList } from "~/packages/components/DisplayFormatter/HierarchicalList"
 import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {

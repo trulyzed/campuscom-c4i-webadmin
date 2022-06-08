@@ -19,6 +19,9 @@ import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/Question
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getRegistrationQuestionTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/RegistrationQuestionTaggingFormMeta"
+import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns"
+import { getCareerTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/CareerTaggingFormMeta"
+import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -34,6 +37,13 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
     }
     return resp
   })), [CourseQueries.create])
+
+  const tagCareer = QueryConstructor(((data) => CourseQueries.tagCareer({ ...data, data: { ...data?.data, course_id: course.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [CourseQueries.tagCareer])
 
   const tagRegistrationQuestion = QueryConstructor(((data) => CourseQueries.tagRegistrationQuestion({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
@@ -109,6 +119,30 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Careers",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getCareerListTableColumns(),
+          searchFunc: CareerQueries.getListByCourse,
+          searchParams: { id: course.id },
+          refreshEventName: "REFRESH_CAREER_LIST",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Tag Career`}
+              formMeta={getCareerTaggingFormMeta(course.id)}
+              formSubmitApi={tagCareer}
+              buttonLabel={`Tag Career`}
+              iconType="create"
+              refreshEventName={'REFRESH_CAREER_LIST'}
+            />
+          ]
+        }
+      },
+      helpKey: "careersTab"
     },
     {
       tabTitle: "Enrollments",

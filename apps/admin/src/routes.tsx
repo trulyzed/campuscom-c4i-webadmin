@@ -10,6 +10,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/institute/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
   { path: "/institute/campus", component: React.lazy(() => import("~/Pages/Institute/Campuses").then((x) => ({ default: x.List }))) },
   { path: "/institute/campus/:campusID", component: React.lazy(() => import("~/Pages/Institute/Campuses/CampusDetailsPage").then((x) => ({ default: x.CampusDetailsPage }))) },
+  { path: "/institute/career/:careerID", component: React.lazy(() => import("~/Pages/Institute/Careers/CareerDetailsPage").then((x) => ({ default: x.CareerDetailsPage }))) },
 
   { path: "/store/subject", component: React.lazy(() => import("~/Pages/Store/Subjects").then((x) => ({ default: x.List }))) },
   { path: "/store/subject/:subjectID", component: React.lazy(() => import("~/Pages/Store/Subjects/SubjectDetailsPage").then((x) => ({ default: x.SubjectDetailsPage }))) },

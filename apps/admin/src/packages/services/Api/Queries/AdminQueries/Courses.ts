@@ -98,4 +98,12 @@ export const CourseQueries:ICourseQueries = {
       ...data
     })
   }, [{operation: ApiPermissionClass.DeleteRegistrationQuestion, action: ApiPermissionAction.Delete}]),
+
+  tagCareer: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.TAGGED_COURSE_CAREER_AND_SKILL}`,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Write}]),
 }
