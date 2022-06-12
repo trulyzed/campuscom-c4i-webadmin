@@ -40,14 +40,10 @@ export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedIte
         loading={loading}
         disabled={props.disabled}
         onChange={props.onSelectedItems}
-      >
-        {options &&
-          options.map(({ label, value }, i) => (
-            <Select.Option value={value} key={`${value}_${i}`}>
-              {label}
-            </Select.Option>
-          ))}
-      </Select>
+        options={options}
+        optionFilterProp={"label"}
+        optionLabelProp={"label"}
+      />
     </SearchFieldWrapper>
   )
 }
