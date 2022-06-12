@@ -106,5 +106,5 @@ export const CourseQueries:ICourseQueries = {
       ...data,
       data: {...data?.data, threshold: undefined}
     })
-  }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Write}]),
+  }, [{operation: ApiPermissionClass.TaggedCourseCareer, action: ApiPermissionAction.Write}]),
 }
