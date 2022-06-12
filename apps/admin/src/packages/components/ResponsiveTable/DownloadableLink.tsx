@@ -42,10 +42,10 @@ const DownloadableLink = ({
     )
   } else return (link ?
     <span
-      className='ant-btn ant-btn-link'
+      className='ant-btn-link cursor-pointer'
       onClick={isDownloading ? undefined : (e) => handleClick(e, link)}
       onKeyDown={isDownloading ? undefined : (e) => handleClick(e, link)}>
-      {link}
+      Download
       {isDownloading && <Spin style={{ marginLeft: '10px' }} />}
     </span>
     : null
