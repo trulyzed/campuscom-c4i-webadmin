@@ -158,7 +158,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
             },
           ],
           dataSource: order.student_details,
-          rowKey: 'product_id',
+          rowKey: 'email',
           refreshEventName: "REFRESH_STUDENT_TAB",
         }
       },
