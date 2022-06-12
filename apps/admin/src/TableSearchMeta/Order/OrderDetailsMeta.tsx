@@ -21,6 +21,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       { label: 'Extended amount', value: order.gross_amount },
       { label: 'Discount amount', value: order.total_discount },
       { label: 'Tax amount', value: order.tax_amount },
+      { label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type },
     ]
   }
 
@@ -34,7 +35,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
             { label: 'Last Name', value: order.purchaser_info.last_name, },
             { label: 'Email', value: order.purchaser_info.primary_email },
           ],
-          ...order.purchaser_info.company ? [{ label: 'Company', value: order.purchaser_info.company?.company_name }] : []
+          ...order.purchaser_info.purchasing_for?.type === 'company' ? [{ label: 'Company', value: order.purchaser_info.purchasing_for?.ref?.company_name }] : []
         ],
       },
       {
