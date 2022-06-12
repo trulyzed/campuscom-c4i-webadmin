@@ -117,8 +117,6 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
     }
   }
 
-  console.log(storeConfiguration)
-
   const summaryInfo: CardContainer = {
     title: `Store Configuration: ${storeConfiguration.entity_name}`,
     cardActions: [

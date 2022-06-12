@@ -231,16 +231,20 @@ export function MetaDrivenForm({
     const adjustedDependecyValues: { [key: string]: any } = {}
     for (const field of props.meta) {
       if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
-      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.renderDependencies || []), ...(field.refLookupDependencies || [])])
+      const dependencies = [...(field.renderDependencies || []), ...(field.refLookupDependencies || [])]
+      adjustedDependecyValues[field.fieldName] = dependencies.reduce((a: any, c) => {
+        a[c as string] = formValues[c as string]
+        return a
+      }, {})
     }
     _setDependencyValue(dependencyValue => ({
       ...dependencyValue,
       ...adjustedDependecyValues
     }))
-  }, [props.meta, formInstance])
+  }, [props.meta])
 
-  const handleValuesChange = useCallback((changedValues: any, values: any) => {
-    setDependencyValue(changedValues)
+  const handleValuesChange = useCallback((_: any, values: any) => {
+    setDependencyValue(values)
   }, [setDependencyValue])
 
   useEffect(() => {

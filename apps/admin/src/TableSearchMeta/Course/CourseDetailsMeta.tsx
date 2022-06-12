@@ -44,7 +44,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
       message.success(CREATE_SUCCESSFULLY)
     }
     return resp
-  })), [CourseQueries.tagCareer])
+  })), [CourseQueries.tagCareer, CareerQueries.getCareersAndSkillsByCourse])
 
   const tagRegistrationQuestion = QueryConstructor(((data) => CourseQueries.tagRegistrationQuestion({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
@@ -52,6 +52,20 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
     }
     return resp
   })), [CourseQueries.tagRegistrationQuestion])
+
+
+  const taggedCareersAndSkillQuery = QueryConstructor(() => {
+    return CareerQueries.getCareersAndSkillsByCourse({ params: { course_id: course.id } }).then(resp => {
+      return {
+        ...resp,
+        data: {
+          ...resp.data,
+          careers: resp.data.careers.map((i: any) => i.id),
+          skills: resp.data.skills.map((i: any) => i.id)
+        }
+      }
+    })
+  }, [CareerQueries.getCareersAndSkillsByCourse])
 
   const summary: CardContainer = {
     title: course.title,
@@ -139,7 +153,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               buttonLabel={`Tag Career`}
               iconType="create"
               refreshEventName={'REFRESH_CAREER_LIST'}
-              initialFormValue={{ careers: course.tagged_careers, skills: course.tagged_skills }}
+              initialFormValueApi={taggedCareersAndSkillQuery}
             />
           ]
         }
