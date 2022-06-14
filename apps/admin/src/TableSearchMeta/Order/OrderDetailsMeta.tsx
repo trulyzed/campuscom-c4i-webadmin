@@ -13,7 +13,7 @@ import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTableP
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
     title: `Order: ${order.order_ref}`,
-    contents: [
+    contents: [...[
       { label: 'Store', value: order.store, render: (text: any) => text.name },
       { label: 'Student', value: renderLink(`/storefront-data/student/${order.profile.id}`, `${order.profile.first_name} ${order.profile.last_name}`), },
       { label: 'Enrollment Date', value: order.datetime, render: renderDate },
@@ -21,8 +21,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       { label: 'Extended amount', value: order.gross_amount },
       { label: 'Discount amount', value: order.total_discount },
       { label: 'Tax amount', value: order.tax_amount },
-      { label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type },
-    ]
+    ], ...order.purchaser_info.purchasing_for?.type ? [{ label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type }] : []]
   }
 
   const purchaserInfo: CardContainer = {
