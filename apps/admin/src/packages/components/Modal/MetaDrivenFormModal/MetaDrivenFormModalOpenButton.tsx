@@ -19,6 +19,7 @@ interface IMetaDrivenFormModalOpenButton {
   formSubmitApi: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
+  initialFormValueApi?: IQuery
   defaultFormValue?: { [key: string]: any }
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
   helpkey?: string
@@ -53,6 +54,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           formSubmitApi={props.formSubmitApi}
           onFormSubmit={props.onFormSubmit}
           initialFormValue={props.initialFormValue}
+          initialFormValueApi={props.initialFormValueApi}
           defaultFormValue={props.defaultFormValue}
           refreshEventAfterFormSubmission={props.refreshEventName}
           closeModal={() => setShowModal(false)}

@@ -7,5 +7,7 @@ export interface ICourseQueries {
   create: IQuery
   update: IQuery
   tagToSubjects: IQuery
+  tagRegistrationQuestion: IQuery
   untagRegistrationQuestion: IQuery
+  tagCareer: IQuery
 }

@@ -16,11 +16,13 @@ import {
   FILE,
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
-  IGeneratedField
+  IGeneratedField,
+  HIERARCHICAL_MULTIPLE_CHECKBOX
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
 import { FormDropDown } from "~/packages/components/Form/FormDropDown"
 import { FormMultiSelectDropDown } from "~/packages/components/Form/FormMultiSelectDropDown"
+import { FormHierarchicalMultipleCheckbox } from "~/packages/components/Form/FormHierarchicalMultipleCheckbox"
 import { FormDatePicker } from "~/packages/components/Form/FormDatePicker"
 import { FormDatePickers } from "~/packages/components/Form/FormDatePickers"
 import { FormCheckbox } from "~/packages/components/Form/FormCheckbox"
@@ -229,16 +231,20 @@ export function MetaDrivenForm({
     const adjustedDependecyValues: { [key: string]: any } = {}
     for (const field of props.meta) {
       if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
-      adjustedDependecyValues[field.fieldName] = formInstance.getFieldsValue([...(field.renderDependencies || []), ...(field.refLookupDependencies || [])])
+      const dependencies = [...(field.renderDependencies || []), ...(field.refLookupDependencies || [])]
+      adjustedDependecyValues[field.fieldName] = dependencies.reduce((a: any, c) => {
+        a[c as string] = formValues[c as string]
+        return a
+      }, {})
     }
     _setDependencyValue(dependencyValue => ({
       ...dependencyValue,
       ...adjustedDependecyValues
     }))
-  }, [props.meta, formInstance])
+  }, [props.meta])
 
-  const handleValuesChange = useCallback((changedValues: any, values: any) => {
-    setDependencyValue(changedValues)
+  const handleValuesChange = useCallback((_: any, values: any) => {
+    setDependencyValue(values)
   }, [setDependencyValue])
 
   useEffect(() => {
@@ -539,6 +545,18 @@ const SearchFormFields = (props: {
                   formInstance={props.formInstance}
                   labelColSpan={field.labelColSpan || 8}
                   wrapperColSpan={field.wrapperColSpan || 24}
+                />
+              )
+              break
+            case HIERARCHICAL_MULTIPLE_CHECKBOX:
+              formField = (
+                <FormHierarchicalMultipleCheckbox
+                  {...field}
+                  key={i}
+                  formInstance={props.formInstance}
+                  labelColSpan={field.labelColSpan || 8}
+                  wrapperColSpan={field.wrapperColSpan || 24}
+                  fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
                 />
               )
               break
