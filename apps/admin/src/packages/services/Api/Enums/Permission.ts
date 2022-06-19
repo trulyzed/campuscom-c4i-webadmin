@@ -108,6 +108,7 @@ export enum ApiPermissionClass {
   StoreCourse = 'StoreCourseView',
   StoreCourseSubject = 'CourseCatalogViewSet',
   StoreCourseSubjectTagging = 'CourseCatalogTagging',
+  StoreDomainConfiguration = 'StoreDomainConfigurationViewSet',
   StoreEnrollment = 'StoreEnrollmentViewSet',
   StoreFeaturedCareer = 'StoreFeaturedCareerViewSet',
   StoreIdentityProvider = 'StoreIdentityProviderViewSet',
