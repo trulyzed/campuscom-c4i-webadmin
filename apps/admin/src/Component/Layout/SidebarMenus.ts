@@ -1,5 +1,8 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
+import { IUser } from "~/packages/services/Api/utils/Interfaces";
+import { getUser } from "~/packages/services/Api/utils/TokenStore";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
+import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns";
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns";
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns";
@@ -23,13 +26,14 @@ import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectLis
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns";
 
 export interface ISidebarMenu {
+  key?: string
   title: string
   url: string
   permission?: boolean
   submenu: ISidebarMenu[]
 }
 
-export const getSidebarMenus = (): ISidebarMenu[] => [
+const getSidebarMenuData = ():ISidebarMenu[] => [
   {
     title: "Institute",
     url: "",
@@ -89,19 +93,19 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Orders ",
+        title: "Orders",
         url: "/storefront-data/order",
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
       {
-        title: "Payments ",
+        title: "Payments",
         url: "/storefront-data/payment",
         submenu: [],
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
       },
       {
-        title: "Students ",
+        title: "Students",
         url: "/storefront-data/student",
         submenu: [],
         permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
@@ -115,6 +119,12 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
     title: "Administration",
     url: "",
     submenu: [
+      {
+        title: "Careers",
+        url: "/administration/career",
+        submenu: [],
+        permission: checkAdminApiPermission(getCareerListTableColumns().searchFunc)
+      },
       {
         title: "Course Providers",
         url: "/administration/course-provider",
@@ -215,3 +225,20 @@ export const getSidebarMenus = (): ISidebarMenu[] => [
       checkAdminApiPermission(getGlobalConfigurationListTableColumns().searchFunc)
   }
 ]
+
+// generate sidebar menu with unique key and menu permission
+const generateSidebarMenuPermission = (data: ISidebarMenu[], keyPrepend?: string, user: (IUser | null) = getUser()): ISidebarMenu[] => data.map(i => {
+  const key = `${keyPrepend || ''}${i.title.trim()}`
+  const submenu = generateSidebarMenuPermission(i.submenu, `${key}__`, user)
+
+  return {
+    ...i,
+    key,
+    permission: user?.is_superuser ? true : i.permission && !!(user?.menu_permissions?.includes(key) || submenu.some(i => i.permission)),
+    submenu
+  }
+})
+
+export const getSidebarMenus = (): ISidebarMenu[] => {
+  return generateSidebarMenuPermission(getSidebarMenuData())
+}

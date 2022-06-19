@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React, { Suspense, useState, useEffect } from "react"
 import { Col, Layout, Row, Spin } from "antd"
 import { Link } from "react-router-dom"
 import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
@@ -6,8 +6,10 @@ import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
-import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 import { logout } from "~/packages/services/AuthService"
+import { eventBus } from "~/packages/utils/EventBus"
+import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
+import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
 
 const { Header, Content } = Layout
 
@@ -17,10 +19,18 @@ interface ILayoutProps {
 
 export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
+  const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(getSidebarMenus())
+
+  useEffect(() => {
+    eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(getSidebarMenus()))
+    return () => {
+      eventBus.unsubscribe(LOGGED_IN_SUCCESSFULLY)
+    }
+  }, [])
 
   return (
     <Layout>
-      <Sidebar collapsed={collapsed} logout={logout} getSidebarMenus={getSidebarMenus} />
+      <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
       <Layout className="site-layout">
         <Header role="none" className="site-layout-background" style={{ padding: 0 }}>
           <Row>

@@ -5,7 +5,7 @@ import { Store } from "antd/lib/form/interface"
 import { Redirect } from "react-router"
 import { setLoginInfo } from "~/packages/services/Api/utils/TokenStore"
 import { eventBus } from "~/packages/utils/EventBus"
-import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
+import { LOGGED_IN_SUCCESSFULLY, REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { IUser } from "~/packages/services/Api/utils/Interfaces"
 import { login } from "~/packages/services/AuthService"
 
@@ -49,7 +49,10 @@ export function Login(props: {
         if (props.redirect) setRedirect("/")
       }
     }
-    if (response.success) setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
+    if (response.success) {
+      setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
+      eventBus.publish(LOGGED_IN_SUCCESSFULLY, response.data.userData)
+    }
     else if (Array.isArray(response.error) && response.error.length > 0) {
       setError(response.error[0].message)
     }

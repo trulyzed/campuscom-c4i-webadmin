@@ -77,6 +77,20 @@ export const CourseQueries:ICourseQueries = {
     })
   }, [{operation: ApiPermissionClass.StoreCourseSubject, action: ApiPermissionAction.Write}]),
 
+  tagRegistrationQuestion: PermissionWrapper(data => {
+    const payload = {
+      ...data?.data,
+      entity_type: 'course',
+      entity_id: data?.data.course,
+    }
+    return adminApi({
+      endpoint: `${endpoints.REGISTRATION_QUESTION}`,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.RegistrationQuestion, action: ApiPermissionAction.Write}]),
+
   untagRegistrationQuestion: PermissionWrapper(data => {
     return adminApi({
       endpoint: `${endpoints.DELETE_REGISTRATION_QUESTION}`,
@@ -84,4 +98,13 @@ export const CourseQueries:ICourseQueries = {
       ...data
     })
   }, [{operation: ApiPermissionClass.DeleteRegistrationQuestion, action: ApiPermissionAction.Delete}]),
+
+  tagCareer: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: `${endpoints.TAGGED_COURSE_CAREER_AND_SKILL}`,
+      method: "POST",
+      ...data,
+      data: {...data?.data, threshold: undefined, matched_keywords: []}
+    })
+  }, [{operation: ApiPermissionClass.TaggedCourseCareerAndSkill, action: ApiPermissionAction.Write}]),
 }
