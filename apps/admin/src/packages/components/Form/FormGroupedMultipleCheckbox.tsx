@@ -45,7 +45,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
   useEffect(() => {
     onDependencyChange?.(props.dependencyValue, {
       loadOptions: async (args, reset): Promise<any[]> => {
-        props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
+        props.formInstance.setFieldsValue({ [props.fieldName]: props.defaultValue })
         if (!reset && Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined)) {
           const response = await loadOptions(args).then(options => {
             // const matchedValue = options.find(o => o.value === props.defaultValue)
