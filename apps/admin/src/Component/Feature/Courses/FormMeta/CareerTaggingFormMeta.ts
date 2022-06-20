@@ -16,7 +16,7 @@ export const getCareerTaggingFormMeta = (): IField[] => {
       label: "Threshold",
       inputType: NUMBER,
       fieldName: "threshold",
-      initialValue: 50
+      defaultValue: 50,
     },
     {
       label: 'Competencies',

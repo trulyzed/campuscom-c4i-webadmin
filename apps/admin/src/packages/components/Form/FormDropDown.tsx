@@ -96,7 +96,7 @@ export function FormDropDown(
   useEffect(() => {
     onDependencyChange?.(props.dependencyValue, {
       loadOptions: async (args, reset): Promise<any[]> => {
-        props.formInstance.setFieldsValue({ [props.fieldName]: props.defaultValue })
+        props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
         if (!reset) {
           Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined) ?
             await loadOptions(args).then(options => {
