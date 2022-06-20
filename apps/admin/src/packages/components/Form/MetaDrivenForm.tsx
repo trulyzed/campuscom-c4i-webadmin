@@ -71,6 +71,7 @@ export function MetaDrivenForm({
   setCurrentPagination?: (page: number) => void
   closeModal?: () => void
   stopProducingQueryParams?: boolean
+  autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
 }) {
   const [formInstance] = Form.useForm()
@@ -213,7 +214,7 @@ export function MetaDrivenForm({
       })
       if (onlyPaginationExist) setShowLess(true)
       else setShowLess(false)
-      applyChanges(queryParams)
+      if (props.autoApplyChangeFromQueryParams) applyChanges(queryParams)
     } else if (props.closeModal) {
       setShowLess(false)
     }
