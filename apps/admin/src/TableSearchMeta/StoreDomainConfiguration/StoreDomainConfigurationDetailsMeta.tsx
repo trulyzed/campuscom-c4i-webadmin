@@ -43,7 +43,7 @@ export const getStoreDomainConfigurationDetailsMeta = (storeDomainConfiguration:
       { label: 'Certificate Expires On', value: storeDomainConfiguration.expiry_at, render: renderDateTime },
       { label: 'Config', value: storeDomainConfiguration.config, render: renderJson },
       { label: 'Note', value: storeDomainConfiguration.note, },
-      { label: 'Expiry Status', value: storeDomainConfiguration.expiry_status, render: (text: any) => renderStoreDomainConfigurationStatus(text, storeDomainConfiguration.expiry_duration) },
+      { label: 'Expiry Status', value: storeDomainConfiguration.expiry_status, render: (text: any) => renderStoreDomainConfigurationStatus(text, storeDomainConfiguration.expiry_days) },
     ]
   }
 

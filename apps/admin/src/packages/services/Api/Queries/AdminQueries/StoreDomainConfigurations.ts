@@ -15,7 +15,7 @@ export const StoreDomainConfigurationQueries:IStoreDomainConfigurationQueries = 
     })
     // return Promise.resolve({
     //   code: 200,
-    //   data: {id: '1212', store: {name: 'Test Store'}, domain: 'ne-academy.xyz', upload_at: '2022-04-14T08:45:25Z', expiry_at: '2035-05-20T08:45:25Z', expiry_status: 'safe', expiry_duration: 5, config: {}, note: 'A note'},
+    //   data: {id: '1212', store: {name: 'Test Store'}, domain: 'ne-academy.xyz', upload_at: '2022-04-14T08:45:25Z', expiry_at: '2035-05-20T08:45:25Z', expiry_status: 'safe', expiry_days: 5, config: {}, note: 'A note'},
     //   success: true,
     //   error: undefined
     // })
@@ -41,7 +41,7 @@ export const StoreDomainConfigurationQueries:IStoreDomainConfigurationQueries = 
     })
     // return Promise.resolve({
     //   code: 200,
-    //   data: [{id: '1212', store: {name: 'Test Store'}, domain: 'ne-academy.xyz', upload_at: '2022-04-14T08:45:25Z', expiry_at: '2035-05-20T08:45:25Z', expiry_status: 'safe', expiry_duration: 5, config: {}, note: 'A note'}],
+    //   data: [{id: '1212', store: {name: 'Test Store'}, domain: 'ne-academy.xyz', upload_at: '2022-04-14T08:45:25Z', expiry_at: '2035-05-20T08:45:25Z', expiry_status: 'safe', expiry_days: 5, config: {}, note: 'A note'}],
     //   success: true,
     //   error: undefined
     // })

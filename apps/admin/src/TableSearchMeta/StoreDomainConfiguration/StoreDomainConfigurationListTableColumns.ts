@@ -26,7 +26,7 @@ export const storeDomainConfigurationListTableColumns: TableColumnType = [
   {
     title: "Expiry Status",
     dataIndex: "expiry_status",
-    render: (text: any, record: any) => renderStoreDomainConfigurationStatus(text, record.expiry_duration),
+    render: (text: any, record: any) => renderStoreDomainConfigurationStatus(text, record.expiry_days),
     sorter: (a: any, b: any) => a.status - b.status
   },
 ]
