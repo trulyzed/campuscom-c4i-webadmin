@@ -56,6 +56,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/membership-program/:membershipProgramID", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms/MembershipProgramDetailsPage").then((x) => ({ default: x.MembershipProgramDetailsPage }))) },
   { path: "/administration/career", component: React.lazy(() => import("~/Pages/Administration/Careers").then((x) => ({ default: x.List }))) },
   { path: "/administration/career/:careerID", component: React.lazy(() => import("~/Pages/Administration/Careers/CareerDetailsPage").then((x) => ({ default: x.CareerDetailsPage }))) },
+  { path: "/administration/store-domain-configuration/:storeDomainConfigurationID", component: React.lazy(() => import("~/Pages/Administration/StoreDomainConfigurations/StoreDomainConfigurationDetailsPage").then((x) => ({ default: x.StoreDomainConfigurationDetailsPage }))) },
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
