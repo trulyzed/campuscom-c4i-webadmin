@@ -80,6 +80,7 @@ export function MetaDrivenForm({
   const REFRESH_EVENT_NAME = generateUUID("REFRESH")
   const formId = generateUUID(props.metaName)
   const [dependencyValue, _setDependencyValue] = useState<{ [key: string]: any }>({})
+  const [initialFormValue, setInitialFormValue] = useState()
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -165,7 +166,7 @@ export function MetaDrivenForm({
     }
     const getDefaultValue = (key?: string, field?: IField) => {
       const matchedField = field || props.meta.find((x) => x.fieldName === key)
-      return matchedField?.inputType === EDITOR ? "" : undefined
+      return matchedField?.inputType === EDITOR ? (field?.defaultValue || "") : field?.defaultValue
     }
     Object.keys(formInstance.getFieldsValue()).forEach((key) => {
       if (dontReset(key)) return
@@ -177,7 +178,6 @@ export function MetaDrivenForm({
       const defaultValue = getDefaultValue(undefined, x)
       if (dontReset(x.fieldName)) return x
       x.defaultValue = defaultValue
-      x.defaultValue2 = defaultValue
       return x
     })
     setMeta(_meta)
@@ -201,8 +201,8 @@ export function MetaDrivenForm({
       formInstance.setFieldsValue(queryParams)
       paginationExist && setPagination(queryParams)
       _meta = props.meta.map((x) => {
-        x.defaultValue = queryParams[x.fieldName]
-        x.defaultValue2 = x.fieldName2 ? queryParams[x.fieldName2] : undefined
+        x.defaultValue = queryParams[x.fieldName] !== undefined ? queryParams[x.fieldName] : x.defaultValue
+        x.defaultValue2 = x.fieldName2 && (queryParams[x.fieldName2] !== undefined) ? queryParams[x.fieldName2] : x.defaultValue2
         if (x.extraProps && Array.isArray(x.extraProps.selectorKeys)) {
           x.extraProps.selectorKeys = x.extraProps.selectorKeys.map((y) => {
             y.defaultValue = queryParams[y.fieldName]
@@ -248,7 +248,8 @@ export function MetaDrivenForm({
   }, [setDependencyValue])
 
   useEffect(() => {
-    if (props.initialFormValue) setDependencyValue(props.initialFormValue)
+    if (props.loading || !initialFormValue) return
+    setDependencyValue(initialFormValue)
 
     eventBus.subscribe(REFRESH_EVENT_NAME, processMeta)
     eventBus.publish(REFRESH_EVENT_NAME)
@@ -258,7 +259,19 @@ export function MetaDrivenForm({
     }
     // }, [props.meta, props.metaName])
     // eslint-disable-next-line
-  }, [props.initialFormValue])
+  }, [initialFormValue, props.loading])
+
+  useEffect(() => {
+    const defaultValues = props.meta.reduce((a: any, c) => {
+      if (c.defaultValue !== undefined) a[c.fieldName] = c.defaultValue
+      return a
+    }, {})
+    setInitialFormValue({
+      ...props.defaultFormValue,
+      ...defaultValues,
+      ...props.initialFormValue,
+    })
+  }, [props.initialFormValue, props.defaultFormValue, props.meta])
 
   return (
     <Card
@@ -343,7 +356,7 @@ export function MetaDrivenForm({
       <Form
         id={formId}
         layout="horizontal"
-        initialValues={props.initialFormValue}
+        initialValues={initialFormValue}
         form={formInstance}
         scrollToFirstError
         style={{
