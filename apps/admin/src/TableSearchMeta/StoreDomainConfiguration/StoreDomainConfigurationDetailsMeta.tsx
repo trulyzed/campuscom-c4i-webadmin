@@ -12,7 +12,7 @@ import { convertToString } from "~/packages/utils/mapper"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
 
 export const renderStoreDomainConfigurationStatus = (status: string, duration: number): JSX.Element | string => {
-  return status ? <Tag color={status === 'danger' ? '#f50' : status === 'warning' ? '#d46b08' : '#87d068'}>{duration} day(s) remaining</Tag> : ''
+  return status && (duration === 0 || duration) ? <Tag color={status === 'danger' ? '#f50' : status === 'warning' ? '#d46b08' : '#87d068'}>{duration} day(s) remaining</Tag> : ''
 }
 
 export const getStoreDomainConfigurationDetailsMeta = (storeDomainConfiguration: { [key: string]: any }): IDetailsMeta => {
