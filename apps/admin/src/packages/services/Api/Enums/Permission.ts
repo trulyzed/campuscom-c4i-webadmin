@@ -13,6 +13,7 @@ export enum ApiPermissionClass {
   AddableMembershipProgramDiscount = 'AddableMembershipProgramDiscountView',
   AttachmentDownload = 'AttachmentDownloadView',
   ApiKey = 'CourseProviderAPIKeyView',
+  AuditTrail = 'UserAuditTrailViewSet',
   Campus = 'CourseProviderSiteModelViewSet',
   Career = 'OccupationModelViewSet',
   CareerRecommendation = 'CareerRecommendation',
