@@ -3,10 +3,10 @@ import moment from "moment"
 import { IGeneratedField, SearchFieldWrapper } from "~/packages/components/Form/common"
 import { DatePicker, Form, Input } from "antd"
 import { useFirstRender } from "~/packages/components/Hooks/useFirstRender"
+import { HELPER_FIELD_PATTERN } from "./MetaDrivenForm"
+import { DATE_DISPLAY_FORMAT, DATE_PAYLOAD_FORMAT } from "~/Configs/format"
 
-const DATE_FORMAT = "MM/DD/YYYY"
 export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }) {
-  const dateFormat = props.dateFormate || DATE_FORMAT
   const firstRender = useFirstRender()
   const [value, setValue] = useState<any>(undefined)
   useEffect(() => {
@@ -15,9 +15,9 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
       const t1 = moment(date)
       setValue(t1)
       props.formInstance.setFieldsValue({
-        [props.fieldName]: t1.format(dateFormat)
+        [props.fieldName]: t1.format(props.dateFormate || DATE_PAYLOAD_FORMAT)
       })
-      props.formInstance.setFieldsValue({ [`__${props.fieldName}`]: t1 })
+      props.formInstance.setFieldsValue({ [`${HELPER_FIELD_PATTERN}${props.fieldName}`]: t1 })
     }
     // eslint-disable-next-line
   }, [props.defaultValue])
@@ -31,7 +31,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
       <Form.Item colon={false} style={{ display: "none" }} name={props.fieldName}>
         <Input />
       </Form.Item>
-      <SearchFieldWrapper {...props} fieldName={`__${props.fieldName}`}>
+      <SearchFieldWrapper {...props} fieldName={`${HELPER_FIELD_PATTERN}${props.fieldName}`}>
         {/* {value && ( */}
         <DatePicker
           getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
@@ -39,15 +39,15 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
           disabled={props.disabled}
           placeholder={props.placeholder}
           value={value}
-          onChange={(date, dateString) => {
-            dateString &&
-              props.formInstance.setFieldsValue({
-                [props.fieldName]: dateString
-              })
+          onChange={(date) => {
+            const formattedDate = date?.format(props.dateFormate || DATE_PAYLOAD_FORMAT)
+            props.formInstance.setFieldsValue({
+              [props.fieldName]: formattedDate
+            })
             setValue(date)
-            props.onSelectedItems && props.onSelectedItems(dateString)
+            props.onSelectedItems && props.onSelectedItems(formattedDate)
           }}
-          format={dateFormat}
+          format={DATE_DISPLAY_FORMAT}
         />
         {/* )}
         {!value && (
