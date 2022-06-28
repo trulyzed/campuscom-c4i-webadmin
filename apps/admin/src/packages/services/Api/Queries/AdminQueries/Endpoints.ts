@@ -3,6 +3,7 @@ export const endpoints = {
   ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS: 'addable-membership-program-discounts',
   API_KEY: 'key',
   ATTACHMENT_DOWNLOAD: 'attachment-download',
+  AUDIT_TRAIL: 'user-audit-trails',
   CAREER: 'careers',
   CAREER_SAVING_STUDENT: 'profiles-by-career',
   CAREER_SKILL: 'occupations-skills',
@@ -118,6 +119,7 @@ export const endpoints = {
 
 
   // for miscellaneous, non-paginated
+  ALL_AUDIT_TRAIL: 'user-audit-trails?limit=1000',
   ALL_CAMPUS: 'course-provider-sites?limit=1000',
   ALL_CAREER: 'careers?limit=1000',
   ALL_CART: 'carts?limit=1000',

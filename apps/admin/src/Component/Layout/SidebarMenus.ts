@@ -1,6 +1,7 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission";
 import { IUser } from "~/packages/services/Api/utils/Interfaces";
 import { getUser } from "~/packages/services/Api/utils/TokenStore";
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns";
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns";
 import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns";
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns";
@@ -178,6 +179,12 @@ const getSidebarMenuData = ():ISidebarMenu[] => [
         url: "/administration/company",
         submenu: [],
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      },
+      {
+        title: "Audit Trails",
+        url: "/administration/audit-trail",
+        submenu: [],
+        permission: checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc)
       },
     ],
     permission: checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc) ||

@@ -57,6 +57,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/career", component: React.lazy(() => import("~/Pages/Administration/Careers").then((x) => ({ default: x.List }))) },
   { path: "/administration/career/:careerID", component: React.lazy(() => import("~/Pages/Administration/Careers/CareerDetailsPage").then((x) => ({ default: x.CareerDetailsPage }))) },
   { path: "/administration/store-domain-configuration/:storeDomainConfigurationID", component: React.lazy(() => import("~/Pages/Administration/StoreDomainConfigurations/StoreDomainConfigurationDetailsPage").then((x) => ({ default: x.StoreDomainConfigurationDetailsPage }))) },
+  { path: "/administration/audit-trail", component: React.lazy(() => import("~/Pages/Administration/AuditTrails").then((x) => ({ default: x.List }))) },
+  { path: "/administration/audit-trail/:auditTrailID", component: React.lazy(() => import("~/Pages/Administration/AuditTrails/AuditTrailDetailsPage").then((x) => ({ default: x.AuditTrailDetailsPage }))) },
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
