@@ -16,11 +16,11 @@ export const AuditTrailQueries:IAuditTrailQueries = {
   }, [{operation: ApiPermissionClass.AuditTrail, action: ApiPermissionAction.Read}]),
 
   getPaginatedList: PermissionWrapper(data => {
-    const { pagination, ...nonPaginationParams } = data?.params || {};
+    const { id, ...params } = data?.params || {};
     return adminApi({
       endpoint: endpoints.ALL_AUDIT_TRAIL,
       ...data,
-      params: {...nonPaginationParams},
+      params,
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.AuditTrail, action: ApiPermissionAction.Read}]),
@@ -32,9 +32,6 @@ export const AuditTrailQueries:IAuditTrailQueries = {
       ...data,
       params,
       method: "GET"
-    }).then(resp => ({
-      ...resp,
-      data: [d]
-    }))
+    })
   }, [{operation: ApiPermissionClass.AuditTrail, action: ApiPermissionAction.Read}]),
 }
