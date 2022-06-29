@@ -61,15 +61,15 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     },
     {
       tabTitle: "Activities",
-      tabType: "table",
+      tabType: "searchtable",
       tabMeta: {
         searchMeta: AuditTrailSearchMeta,
-        searchMetaName: "Search Activity",
+        searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
-          pagination: false,
           ...getAuditTrailListTableColumns(),
           searchParams: { user__id: user.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
         }
       },
       helpKey: "activitiesTab"
