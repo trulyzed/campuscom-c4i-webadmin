@@ -33,7 +33,7 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
   const funcName = props.tableProps.searchFunc ? props.tableProps.searchFunc?.name : "generic"
   const func = {
     [funcName]: function (params) {
-      setSearchParams(params?.params)
+      setSearchParams(params?.data)
       return Promise.resolve({
         code: 200,
         success: true,
