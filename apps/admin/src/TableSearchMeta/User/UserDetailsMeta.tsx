@@ -9,6 +9,8 @@ import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 
 export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
@@ -56,6 +58,21 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "userSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "table",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "Search Activity",
+        tableProps: {
+          pagination: false,
+          ...getAuditTrailListTableColumns(),
+          searchParams: { user__id: user.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
