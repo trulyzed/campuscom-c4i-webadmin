@@ -20,15 +20,19 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
   // const userString = localStorage.getItem("user")
   const token = getToken()
 
+  console.log((requestConfig.headers?.ResponseType === "application/vnd.ms-excel" || requestConfig.headers?.ResponseType === "text/csv") ? "blob" : requestConfig.responseType)
+
   try {
     const response = await axios.request({
       method: requestConfig.method,
       data: requestConfig.data,
       params: requestConfig.params,
-      responseType: requestConfig.responseType,
+      responseType: (requestConfig.headers?.ResponseType === "application/vnd.ms-excel" || requestConfig.headers?.ResponseType === "text/csv") ? "blob" : requestConfig.responseType,
       url: `${process.env.REACT_APP_API_ROOT}${handleTrailingSlashAppend(requestConfig.endpoint, true)}`,
       ...(token && { headers: { Authorization: `Bearer ${token}` } })
     })
+
+    console.log(response.headers["content-type"])
 
     return {
       code: response.status,
