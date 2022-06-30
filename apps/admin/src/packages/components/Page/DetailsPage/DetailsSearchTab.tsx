@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Col, Row } from "antd"
 import { IField } from "~/packages/components/Form/common"
 import { ResponsiveTable, IDataTableProps } from "~/packages/components/ResponsiveTable"
@@ -29,6 +29,7 @@ export interface IDetailsSearchTabProp {
 export function DetailsSearchTab(props: IDetailsSearchTabProp) {
   const [rowData, setRowData] = useState<Array<any>>([])
   const [searchParams, setSearchParams] = useState<{ [key: string]: any }>(props.initialFormValue || props.defaultFormValue || {})
+  const [tableSearchParams, setTableSearchParams] = useState<{ [key: string]: any } | undefined>()
 
   const funcName = props.tableProps.searchFunc ? props.tableProps.searchFunc?.name : "generic"
   const func = {
@@ -53,6 +54,13 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
       formSubmitApi={func[funcName]}
     />
   )
+
+  useEffect(() => {
+    setTableSearchParams({
+      ...searchParams,
+      ...props?.tableProps?.searchParams,
+    })
+  }, [props?.tableProps?.searchParams, searchParams])
 
   return (
     <>
@@ -79,10 +87,7 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
           <ResponsiveTable
             {...props.tableProps}
             actions={props.tableProps.actions ? [...props.tableProps.actions, searchFilterButton] : [searchFilterButton]}
-            searchParams={{
-              ...searchParams,
-              ...props?.tableProps?.searchParams
-            }}
+            searchParams={tableSearchParams}
             refreshEventName={props?.tableProps?.refreshEventName || "REFRESH_" + Date.now().toString()}
             dataLoaded={(Params: any[]) => setRowData(Params)}
           />
