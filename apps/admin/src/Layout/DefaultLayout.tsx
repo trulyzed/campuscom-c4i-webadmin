@@ -33,19 +33,16 @@ export function DefaultLayout(props: ILayoutProps) {
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
       <Layout className="site-layout">
         <Header role="none" className="site-layout-background" style={{ padding: 0 }}>
-          <Row>
-            <Col flex="50px" role="navigation" aria-label="Sidebar Toggle">
+          <Row style={{ height: "100%" }}>
+            <Col className="sidebar-toggle" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
             <Col flex="auto" role="navigation" aria-label="Go to home page">
-              <h2 aria-label="School Name" style={{ marginTop: "-7px" }}>
+              <h2 aria-label="School Name" className="site-title">
                 <Link
                   id="main-title"
                   style={{
-                    color: "white",
-                    fontSize: "25px",
-                    marginTop: "-7px",
-                    textAlign: "start",
+                    fontSize: "24px",
                     marginLeft: "20px"
                   }}
                   to="/"
@@ -89,8 +86,8 @@ interface IMenuToggle {
 function MenuToggle(props: IMenuToggle) {
   return (
     <>
-      {props.collapsed && <MenuUnfoldOutlined role="button" style={{ fontSize: "30px", paddingLeft: "15px", color: "white" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
-      {!props.collapsed && <MenuFoldOutlined role="button" style={{ fontSize: "30px", paddingLeft: "15px", color: "white" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
+      {props.collapsed && <MenuUnfoldOutlined role="button" style={{ fontSize: "24px", padding: "0 15px", verticalAlign: "middle" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
+      {!props.collapsed && <MenuFoldOutlined role="button" style={{ fontSize: "24px", padding: "0 15px", verticalAlign: "middle" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
     </>
   )
 }

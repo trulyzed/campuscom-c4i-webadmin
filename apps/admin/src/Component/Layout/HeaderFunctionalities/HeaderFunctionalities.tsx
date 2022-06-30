@@ -52,7 +52,7 @@ export const HeaderFunctionalities = () => {
             type="link"
             shape="circle"
             aria-label="Press enter and tab to open dropdown for Page Jump, New Order, History and Profile Shortcut"
-            icon={<DownOutlined style={{ color: "white", fontSize: "16px" }} />}
+            icon={<DownOutlined style={{ fontSize: "16px" }} />}
           />
         </Dropdown>
       )}
