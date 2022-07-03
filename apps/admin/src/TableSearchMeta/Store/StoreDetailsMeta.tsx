@@ -434,7 +434,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
           ...getAuditTrailListTableColumns(),
-          searchParams: { context__id: store.id },
+          searchParams: { changes_in__id: store.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
         }

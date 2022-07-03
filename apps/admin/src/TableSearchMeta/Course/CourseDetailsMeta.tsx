@@ -283,7 +283,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
           ...getAuditTrailListTableColumns(),
-          searchParams: { context__id: course.id },
+          searchParams: { changes_in__id: course.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
         }

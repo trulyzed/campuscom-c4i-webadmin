@@ -182,7 +182,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
         searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
           ...getAuditTrailListTableColumns(),
-          searchParams: { context__id: product.id },
+          searchParams: { changes_in__id: product.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
         }
