@@ -67,7 +67,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
         searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
           ...getAuditTrailListTableColumns(),
-          searchParams: { user__id: user.id },
+          searchParams: { changes_in__id: user.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
         }

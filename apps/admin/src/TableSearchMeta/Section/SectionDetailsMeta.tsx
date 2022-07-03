@@ -134,7 +134,7 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
         searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
           ...getAuditTrailListTableColumns(),
-          searchParams: { context__id: section.id },
+          searchParams: { changes_in__id: section.id },
           refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
         }
