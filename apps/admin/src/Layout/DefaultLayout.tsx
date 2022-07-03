@@ -32,12 +32,12 @@ export function DefaultLayout(props: ILayoutProps) {
     <Layout>
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
       <Layout className="site-layout">
-        <Header role="none" className="site-layout-background" style={{ padding: 0 }}>
+        <Header role="none" className="site-layout-background">
           <Row style={{ height: "100%" }}>
-            <Col className="sidebar-toggle" flex="50px" role="navigation" aria-label="Sidebar Toggle">
+            <Col style={{ height: "100%" }} className="sidebar-toggle" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
-            <Col flex="auto" role="navigation" aria-label="Go to home page">
+            <Col className="site-header__item" style={{ height: "100%", borderBottomLeftRadius: "15px" }} flex="auto" role="navigation" aria-label="Go to home page">
               <h2 aria-label="School Name" className="site-title">
                 <Link
                   id="main-title"

@@ -94,7 +94,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       trigger={null}
       collapsible
       collapsed={props.collapsed}
-      className={"sidebar"}
+      className={`sidebar${props.collapsed ? " sidebar--borderless" : ""}`}
     >
       <div style={{ overflowY: "auto", height: "100vh", padding: "10px 15px" }}>
         <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
