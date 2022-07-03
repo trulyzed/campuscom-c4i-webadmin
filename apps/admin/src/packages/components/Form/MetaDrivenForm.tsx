@@ -313,6 +313,7 @@ export function MetaDrivenForm({
                 <Button
                   aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
                   onClick={() => setShowLess(!showLess)}
+                  type="primary"
                 >
                   {showLess ? "Show More" : "Show Less"}
                 </Button>
@@ -321,9 +322,8 @@ export function MetaDrivenForm({
             {props.closeModal && (
               <Col>
                 <Button
-                  type="ghost"
+                  type="primary"
                   aria-label="Cancel"
-                  danger
                   onClick={() => {
                     formInstance.resetFields()
                     props.closeModal && props.closeModal()
@@ -335,7 +335,7 @@ export function MetaDrivenForm({
             )}
             {showClearbutton && (
               <Col>
-                <Button danger type="primary" onClick={clearParams}>
+                <Button type="primary" onClick={clearParams}>
                   {clearButtonLabel}
                 </Button>
               </Col>
@@ -393,6 +393,7 @@ export function MetaDrivenForm({
                 <Button
                   aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
                   onClick={() => setShowLess(!showLess)}
+                  type="primary"
                 >
                   {showLess ? "Show More" : "Show Less"}
                 </Button>
@@ -401,9 +402,8 @@ export function MetaDrivenForm({
             {props.closeModal && (
               <Col>
                 <Button
-                  type="ghost"
+                  type="primary"
                   aria-label="Cancel"
-                  danger
                   onClick={() => {
                     formInstance.resetFields()
                     props.closeModal && props.closeModal()
@@ -415,7 +415,7 @@ export function MetaDrivenForm({
             )}
             {showClearbutton && (
               <Col>
-                <Button danger type="primary" onClick={clearParams}>
+                <Button type="primary" onClick={clearParams}>
                   {clearButtonLabel}
                 </Button>
               </Col>
