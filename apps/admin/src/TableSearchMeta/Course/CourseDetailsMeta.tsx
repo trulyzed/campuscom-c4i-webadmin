@@ -23,6 +23,8 @@ import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTa
 import { getCareerTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/CareerTaggingFormMeta"
 import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
 import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -272,6 +274,21 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
         }
       },
       helpKey: "registrationQuestionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: course.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
