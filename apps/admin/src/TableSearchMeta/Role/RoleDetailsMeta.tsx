@@ -10,6 +10,8 @@ import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "~/packages/components/DisplayFormatter/GroupedList"
 import { HierarchicalList } from "~/packages/components/DisplayFormatter/HierarchicalList"
 import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => RoleQueries.update({ ...data, params: { id: role.id } }).then(resp => {
@@ -60,6 +62,21 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "roleSummaryTab",
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: role.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

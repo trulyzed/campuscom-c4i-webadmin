@@ -8,6 +8,8 @@ import { message } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { CampusQueries } from "~/packages/services/Api/Queries/AdminQueries/Campuses"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCampusDetailsMeta = (campus: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CampusQueries.update({ ...data, params: { id: campus.id } }).then(resp => {
@@ -49,6 +51,21 @@ export const getCampusDetailsMeta = (campus: { [key: string]: any }): IDetailsMe
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "campusSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: campus.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
