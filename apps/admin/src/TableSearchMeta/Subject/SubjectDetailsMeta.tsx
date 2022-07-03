@@ -11,6 +11,8 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
 import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SubjectQueries.update({ ...data, params: { id: subject.id } }).then(resp => {
@@ -70,6 +72,21 @@ export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetails
         }
       },
       helpKey: "courseTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: subject.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

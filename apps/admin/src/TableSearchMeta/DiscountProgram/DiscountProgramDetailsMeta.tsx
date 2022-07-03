@@ -13,6 +13,8 @@ import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductLis
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 import { getDiscountProgramUsageHistoryListTableColumns } from "~/TableSearchMeta/DiscountProgramUsageHistory/DiscountProgramUsageHistoryListTableColumns"
 import { getProductTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/ProductTaggingFormMeta"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => DiscountProgramQueries.update({ ...data, params: { id: discountProgram.id } }).then(resp => {
@@ -126,6 +128,21 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
         }
       },
       helpKey: "discountProgramUsageHistoryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: discountProgram.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

@@ -2,6 +2,8 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
 import { List } from "~/packages/components/DisplayFormatter/List"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 
 export const getCareerDetailsMeta = (career: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -27,6 +29,21 @@ export const getCareerDetailsMeta = (career: { [key: string]: any }): IDetailsMe
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "careerSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: career.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
