@@ -13,6 +13,8 @@ import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Cour
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
 import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
 import { renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
@@ -103,6 +105,21 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
         }
       },
       helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: publishing.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

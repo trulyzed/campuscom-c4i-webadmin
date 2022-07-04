@@ -12,6 +12,8 @@ import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 
 export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: string]: any }): IDetailsMeta => {
@@ -162,6 +164,21 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeConfigurationSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: storeConfiguration.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
