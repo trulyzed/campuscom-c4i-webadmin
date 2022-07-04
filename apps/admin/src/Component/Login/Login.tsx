@@ -68,7 +68,7 @@ export function Login(props: {
       {props.modal && (
         <>
           <Card.Meta title={modalProps.title} />
-          <Typography.Title level={5} style={{ marginTop: "20px", color: "#8b0000" }}>
+          <Typography.Title className={"login-modal__message"} level={5} style={{ marginTop: "20px" }}>
             {modalProps.description}
           </Typography.Title>
         </>

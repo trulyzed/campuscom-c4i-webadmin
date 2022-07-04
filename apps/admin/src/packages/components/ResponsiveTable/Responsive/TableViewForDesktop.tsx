@@ -33,14 +33,14 @@ export function TableViewForDesktop(
             marginLeft: "5px"
           }}
         >
-          {!props.loading && (
+          {!props.loading && props.conditionalProps.dataSource.length ? (
             <Pagination
               current={props.currentPagination || 0}
               onChange={props.paginationChange}
               defaultPageSize={DEFAULT_PAGE_SIZE}
               total={props.conditionalProps.dataSource.length}
             />
-          )}
+          ) : null}
         </Col>
       )}
       <Col flex={"auto"}>

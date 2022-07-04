@@ -21,7 +21,7 @@ export const Pagination = (props: {
   }
   return (
     <div>
-      <Button aria-label="Pagination Previous" onClick={prev}>
+      <Button type="primary" aria-label="Pagination Previous" onClick={prev}>
         {"<"}
       </Button>
       <span
@@ -36,10 +36,11 @@ export const Pagination = (props: {
           marginRight: "5px",
           marginLeft: "5px"
         }}
+        className={"pagination__page-count"}
       >
         {props.current}
       </span>
-      <Button aria-label="Pagination Next" onClick={next}>
+      <Button type="primary" aria-label="Pagination Next" onClick={next}>
         {">"}
       </Button>
       {props.total && props.total > 0 ? (

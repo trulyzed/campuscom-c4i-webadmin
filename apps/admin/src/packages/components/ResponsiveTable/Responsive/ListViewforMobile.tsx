@@ -37,14 +37,14 @@ export const ListViewforMobile = (
                 paddingBottom: "10px"
               }}
             >
-              {!props.loading && (
+              {!props.loading && props.conditionalProps.dataSource.length ? (
                 <Pagination
                   current={props.currentPagination || 0}
                   onChange={props.paginationChange}
                   defaultPageSize={20}
                   total={props.conditionalProps.dataSource.length}
                 />
-              )}
+              ) : null}
             </Col>
           )}
           <Col flex={"auto"}>
