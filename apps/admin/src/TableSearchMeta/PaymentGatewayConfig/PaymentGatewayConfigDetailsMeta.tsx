@@ -2,6 +2,8 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPaymentGatewayConfigDetailsMeta = (paymentGatewayConfig: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -23,6 +25,21 @@ export const getPaymentGatewayConfigDetailsMeta = (paymentGatewayConfig: { [key:
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "paymentGatewayConfigSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: paymentGatewayConfig.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

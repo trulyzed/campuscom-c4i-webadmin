@@ -8,6 +8,8 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { GlobalConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/GlobalConfigurations"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getGlobalConfigurationDetailsMeta = (globalConfiguration: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => GlobalConfigurationQueries.update({ ...data, params: { id: globalConfiguration.id } }).then(resp => {
@@ -48,6 +50,21 @@ export const getGlobalConfigurationDetailsMeta = (globalConfiguration: { [key: s
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "globalConfigurationSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: globalConfiguration.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
