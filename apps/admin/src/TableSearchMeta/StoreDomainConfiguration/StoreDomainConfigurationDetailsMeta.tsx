@@ -10,6 +10,8 @@ import { StoreDomainConfigurationQueries } from "~/packages/services/Api/Queries
 import { getStoreDomainConfigurationFormMeta } from "~/Component/Feature/Stores/FormMeta/DomainConfigurationFormMeta"
 import { convertToString } from "~/packages/utils/mapper"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const renderStoreDomainConfigurationStatus = (status: string, duration: number): JSX.Element | string => {
   return status && (duration === 0 || duration) ? <Tag color={status === 'danger' ? '#f50' : status === 'warning' ? '#d46b08' : '#87d068'}>{duration} day(s) remaining</Tag> : ''
@@ -57,6 +59,21 @@ export const getStoreDomainConfigurationDetailsMeta = (storeDomainConfiguration:
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeDomainConfigurationSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: storeDomainConfiguration.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
