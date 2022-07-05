@@ -261,7 +261,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               render: (text, record) => (
                 <MetaDrivenFormModalOpenButton
                   formTitle={`Update User`}
-                  formMeta={UserFormMeta}
+                  formMeta={UserFormMeta.filter(i => i.fieldName !== "password")}
                   formSubmitApi={updateUser(record)}
                   initialFormValue={{ ...record, custom_roles: record.custom_roles.map((i: any) => i.id || i), }}
                   defaultFormValue={{ userId: record.id }}
