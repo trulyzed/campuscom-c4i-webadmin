@@ -25,7 +25,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update User`}
-        formMeta={UserFormMeta}
+        formMeta={UserFormMeta.filter(i => i.fieldName !== "password")}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...user, custom_roles: user.custom_roles.map((i: any) => i.id), }}
         defaultFormValue={{ userId: user.id }}
