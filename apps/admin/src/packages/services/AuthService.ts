@@ -9,8 +9,8 @@ export const logout = () => {
   eventBus.publish(REDIRECT_TO_LOGIN, true)
 }
 
-export const login = async ({username, password}: {username: string, password: string}): Promise<IApiResponse> => {
-  return AuthQueries.login({data: {username, password}}).then(resp => {
+export const login = async ({ username, password }: { username: string; password: string }): Promise<IApiResponse> => {
+  return AuthQueries.login({ data: { username, password } }).then((resp) => {
     if (resp && resp.success) {
       setTimeout(() => {
         eventBus.publishSimilarEvents(/REFRESH.*/i)
@@ -18,6 +18,6 @@ export const login = async ({username, password}: {username: string, password: s
         eventBus.publish(REDIRECT_TO_LOGIN, false)
       }, 0)
     }
-    return resp;
+    return resp
   })
 }
