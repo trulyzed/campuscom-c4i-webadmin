@@ -50,7 +50,7 @@ const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: s
 }
 
 const renderActiveStatus = (status: any) => {
-  return renderBoolean(status, { truthyText: 'Active', falsyText: 'Inactive', tagColor: status ? '#87d068' : '#f50' })
+  return renderBoolean(status, { truthyText: 'Active', falsyText: 'Inactive', tagColor: status ? '#4B8400' : '#D7143B' })
 }
 
 const renderWeek = (text: any[]) => {

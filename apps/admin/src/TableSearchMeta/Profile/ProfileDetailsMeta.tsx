@@ -17,7 +17,7 @@ const ChangePassword = () => {
   }
   return (
     <>
-      <Button onClick={() => setShowModal(!showModal)}>Change Password</Button>
+      <Button type="primary" onClick={() => setShowModal(!showModal)}>Change Password</Button>
       {showModal && (
         <Modal width="1000px">
           <Card title="Change Password">
@@ -37,12 +37,12 @@ const ChangePassword = () => {
               />
               <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
                 <Col>
-                  <Button onClick={() => setShowModal(false)} danger>
+                  <Button type="primary" onClick={() => setShowModal(false)}>
                     Cancel
                   </Button>
                 </Col>
                 <Col>
-                  <Button form="passwordChangeForm" onClick={() => submitNewPassword()}>
+                  <Button type="primary" form="passwordChangeForm" onClick={() => submitNewPassword()}>
                     Submit
                   </Button>
                 </Col>

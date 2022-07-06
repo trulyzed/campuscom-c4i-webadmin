@@ -38,7 +38,7 @@ import { FormInputNumber } from "~/packages/components/Form/FormInputNumber"
 import { processFormMetaWithUserMetaConfig } from "~/packages/components/Form/FormMetaShadowingProcessor"
 import { eventBus } from "~/packages/utils/EventBus"
 import { generateUUID } from "~/packages/utils/UUID"
-import { FormSettings } from "~/packages/components/Form/FormSettings/FormSettings"
+// import { FormSettings } from "~/packages/components/Form/FormSettings/FormSettings"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { FormFileUpload } from "./FormFileUpload"
@@ -294,11 +294,11 @@ export function MetaDrivenForm({
           <Col flex="none">
             <HelpButton helpKey={props.helpKey} />
           </Col>
-          {props.metaName && (
+          {/* {props.metaName && (
             <Col flex="none">
               <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
             </Col>
-          )}
+          )} */}
         </Row>
       }
       loading={props.loading}

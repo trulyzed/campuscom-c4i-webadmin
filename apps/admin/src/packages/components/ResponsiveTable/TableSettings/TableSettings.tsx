@@ -127,7 +127,7 @@ export const TableSettings = (props: {
             title={`Settings For ${props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
               }`}
             actions={[
-              <Button onClick={() => setShowModal(false)}>Close</Button>,
+              <Button type="primary" onClick={() => setShowModal(false)}>Close</Button>,
               <Button type="primary" onClick={apply}>
                 Apply
               </Button>
