@@ -9,6 +9,8 @@ import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/Enrollm
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 import { renderJson, renderAnswer } from "~/packages/components/ResponsiveTable/tableUtils"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -194,6 +196,21 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         ]
       },
       helpKey: "logTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: order.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

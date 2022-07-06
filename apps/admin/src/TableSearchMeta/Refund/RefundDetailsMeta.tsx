@@ -4,6 +4,8 @@ import { renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { RefundQueries } from "~/packages/services/Api/Queries/AdminQueries/Refunds"
 import { message } from "antd"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMeta => {
   const cancelEnrollment = async () => {
@@ -58,6 +60,21 @@ export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMe
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "refundSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: refund.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

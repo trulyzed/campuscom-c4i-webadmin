@@ -104,7 +104,11 @@ export const ResponsiveTable = (props: IDataTableProps) => {
 
     _conditionalProps.dataSource = props.dataSource ? props.dataSource : data
     if (Array.isArray(_conditionalProps.dataSource)) {
-      !props.hidePagination && setPaginatedData(_conditionalProps.dataSource?.filter((x, i) => i < DEFAULT_PAGE_SIZE))
+      const page = props.currentPagination === undefined ? currentPagination : props.currentPagination
+      !props.hidePagination && setPaginatedData(_conditionalProps.dataSource.slice(
+        page === 1 ? 0 : page * DEFAULT_PAGE_SIZE - DEFAULT_PAGE_SIZE,
+        page * DEFAULT_PAGE_SIZE
+      ))
       props.hidePagination && setPaginatedData(_conditionalProps.dataSource)
     }
 

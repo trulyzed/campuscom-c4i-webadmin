@@ -3,6 +3,7 @@ export const endpoints = {
   ADDABLE_MEMBERSHIP_PROGRAM_DISCOUNTS: 'addable-membership-program-discounts',
   API_KEY: 'key',
   ATTACHMENT_DOWNLOAD: 'attachment-download',
+  AUDIT_TRAIL: 'user-audit-trails',
   CAREER: 'careers',
   CAREER_SAVING_STUDENT: 'profiles-by-career',
   CAREER_SKILL: 'occupations-skills',
@@ -94,6 +95,7 @@ export const endpoints = {
   STORE_COURSE_SUBJECT_TAGGING: 'course-catalog-tagging',
   STORE_COURSE_RETRIEVE: 'combined-store-course',
   STORE_COURSE_READY_RETRIEVE: 'combined-course',
+  STORE_DOMAIN_CONFIGURATION: 'store-domain-configurations',
   STORE_FEATURED_CAREER: 'store-featured-careers',
   STORE_IDENTITY_PROVIDER: 'store-identity-providers',
   STORE_PAYMENT_GATEWAY: 'store-payment-gateways',
@@ -117,6 +119,7 @@ export const endpoints = {
 
 
   // for miscellaneous, non-paginated
+  ALL_AUDIT_TRAIL: 'user-audit-trails?limit=1000',
   ALL_CAMPUS: 'course-provider-sites?limit=1000',
   ALL_CAREER: 'careers?limit=1000',
   ALL_CART: 'carts?limit=1000',
@@ -160,6 +163,7 @@ export const endpoints = {
   ALL_STORE_CONFIGURATION: 'store-configurations?limit=1000',
   ALL_STORE_COURSE: 'store-courses?limit=1000',
   ALL_STORE_COURSE_SUBJECT: 'course-catalogs?limit=1000',
+  ALL_STORE_DOMAIN_CONFIGURATION: 'store-domain-configurations?limit=1000',
   ALL_STORE_IDENTITY_PROVIDER: 'store-identity-providers?limit=1000',
   ALL_STORE_PAYMENT_GATEWAY: 'store-payment-gateways?limit=1000',
   ALL_STUDENT: 'profiles?limit=1000',

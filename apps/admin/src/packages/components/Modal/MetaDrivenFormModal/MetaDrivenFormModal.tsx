@@ -31,7 +31,6 @@ export const MetaDrivenFormModal = (props: {
   const [clearTrigger, setClearTrigger] = useState(false)
   const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
   const [loading, setLoading] = useState(!!initialFormValueApi)
-  const [stopFirstOnApplyChanges, setStopFirstOnApplyChanges] = useState(true)
   const clearParams = () => {
     Object.keys(formInstance.getFieldsValue()).forEach((key) => formInstance.setFieldsValue({ [key]: undefined }))
     setClearTrigger(!clearTrigger)
@@ -92,14 +91,7 @@ export const MetaDrivenFormModal = (props: {
         applyButtonLabel="Submit"
         stopProducingQueryParams={true}
         errorMessages={error}
-        onApplyChanges={(newValues: { [key: string]: any }) => {
-          if (initialFormValue && stopFirstOnApplyChanges) {
-            setStopFirstOnApplyChanges(false)
-          } else {
-            console.log("submitting form ", newValues)
-            submit(newValues)
-          }
-        }}
+        onApplyChanges={submit}
       />
     </Modal>
   )

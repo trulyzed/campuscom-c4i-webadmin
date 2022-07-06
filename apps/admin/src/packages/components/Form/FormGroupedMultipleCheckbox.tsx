@@ -47,11 +47,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
       loadOptions: async (args, reset): Promise<any[]> => {
         props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
         if (!reset && Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined)) {
-          const response = await loadOptions(args).then(options => {
-            // const matchedValue = options.find(o => o.value === props.defaultValue)
-            // if (matchedValue) props.formInstance.setFieldsValue({ [props.fieldName]: matchedValue })
-            return options
-          })
+          const response = await loadOptions(args)
           return response
         } else {
           setOptions([])
@@ -88,7 +84,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
             {g[props.displayKey || "group"] ? <h4>{g[props.displayKey || "group"]}</h4> : null}
             <Checkbox.Group
               style={{ width: "100%" }}
-              defaultValue={props.defaultValue}
+              defaultValue={props.formInstance.getFieldValue(props.fieldName)}
               options={g.options.map((o: any) => ({ label: o[props.displayKey2 || "label"], value: o[props.valueKey2 || "value"] }))}
               disabled={props.disabled}
               onChange={(val) => handleChange(val, g)} />

@@ -9,6 +9,8 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => IdentityProviderQueries.update({ ...data, params: { id: identityProvider.id } }).then(resp => {
@@ -65,6 +67,21 @@ export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "identityProviderSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: identityProvider.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

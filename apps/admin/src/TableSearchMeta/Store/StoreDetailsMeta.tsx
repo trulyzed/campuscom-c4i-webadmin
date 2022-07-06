@@ -27,6 +27,11 @@ import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ProfileQuestionTaggingFormMeta"
 import { getPaymentQuestionTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/PaymentQuestionTaggingFormMeta"
+import { getStoreDomainConfigurationFormMeta } from "~/Component/Feature/Stores/FormMeta/DomainConfigurationFormMeta"
+import { StoreDomainConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreDomainConfigurations"
+import { getStoreDomainConfigurationListTableColumns } from "~/TableSearchMeta/StoreDomainConfiguration/StoreDomainConfigurationListTableColumns"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -63,6 +68,13 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [StoreQueries.tagConfiguration])
+
+  const addDomainConfiguration = QueryConstructor(((data) => StoreDomainConfigurationQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
+    if (resp.success) {
+      message.success(CREATE_SUCCESSFULLY)
+    }
+    return resp
+  })), [StoreDomainConfigurationQueries.create])
 
   const addProfileQuestion = QueryConstructor(((data) => StoreQueries.tagProfileQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
@@ -249,7 +261,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               render: (text, record) => (
                 <MetaDrivenFormModalOpenButton
                   formTitle={`Update User`}
-                  formMeta={UserFormMeta}
+                  formMeta={UserFormMeta.filter(i => i.fieldName !== "password")}
                   formSubmitApi={updateUser(record)}
                   initialFormValue={{ ...record, custom_roles: record.custom_roles.map((i: any) => i.id || i), }}
                   defaultFormValue={{ userId: record.id }}
@@ -289,6 +301,29 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "configurationTab"
+    },
+    {
+      tabTitle: "Domain Configurations",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          pagination: false,
+          ...getStoreDomainConfigurationListTableColumns(),
+          searchParams: { store__id: store.id },
+          refreshEventName: "REFRESH_DOMAIN_CONFIGURATION_TAB",
+          actions: [
+            <MetaDrivenFormModalOpenButton
+              formTitle={`Add Domain Configuration`}
+              formMeta={getStoreDomainConfigurationFormMeta()}
+              formSubmitApi={addDomainConfiguration}
+              buttonLabel={`Add Domain Configuration`}
+              iconType="create"
+              refreshEventName={'REFRESH_DOMAIN_CONFIGURATION_TAB'}
+            />
+          ]
+        }
+      },
+      helpKey: "domainConfigurationTab"
     },
     {
       tabTitle: "Profile Questions",
@@ -390,6 +425,21 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "paymentQuestionTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: store.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

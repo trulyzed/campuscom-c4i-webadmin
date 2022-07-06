@@ -42,8 +42,6 @@ export const ScheduleQueries:IScheduleQueries = {
       start_at: mapDatetimeToPayload(data?.data?.start_at),
       end_at: mapDatetimeToPayload(data?.data?.end_at),
     }
-    delete payload.__start_at
-    delete payload.__end_at
     return adminApi({
       endpoint: endpoints.SECTION_SCHEDULE,
       method: "POST",
@@ -58,8 +56,6 @@ export const ScheduleQueries:IScheduleQueries = {
       start_at: mapDatetimeToPayload(data?.data?.start_at),
       end_at: mapDatetimeToPayload(data?.data?.end_at),
     }
-    delete payload.__start_at
-    delete payload.__end_at
     return adminApi({
       endpoint: `${endpoints.SECTION_SCHEDULE}/${data?.data.id}`,
       method: "PATCH",

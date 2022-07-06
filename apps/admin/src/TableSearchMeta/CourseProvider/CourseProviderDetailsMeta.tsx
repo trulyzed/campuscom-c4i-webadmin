@@ -15,6 +15,8 @@ import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 // import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
@@ -169,6 +171,21 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
         }
       },
       helpKey: "profileQuestionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: courseProvider.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

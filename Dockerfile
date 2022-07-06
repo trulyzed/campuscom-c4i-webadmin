@@ -5,7 +5,7 @@ FROM node:16.14.0-alpine
 WORKDIR /app
 
 # copy files
-COPY ./apps/ ./apps/
+COPY ./apps/admin/ ./apps/admin/
 COPY ./packages/ ./packages/
 COPY package.json ./
 COPY yarn.lock ./

@@ -3,7 +3,7 @@ FROM node:16.14.0-alpine as build-stage
 
 WORKDIR /app
 
-COPY ./apps/ ./apps/
+COPY ./apps/admin/ ./apps/admin/
 COPY ./packages/ ./packages/
 COPY package.json ./
 COPY yarn.lock ./

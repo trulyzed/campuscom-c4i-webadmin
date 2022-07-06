@@ -10,6 +10,8 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { convertToString } from "~/packages/utils/mapper"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
@@ -80,6 +82,21 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "questionSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: question.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

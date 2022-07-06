@@ -9,6 +9,8 @@ import { CompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyF
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderLink } from "~/packages/components/ResponsiveTable"
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CompanyQueries.update({ ...data, params: { id: company.id } }).then(resp => {
@@ -54,6 +56,21 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "companySummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: company.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

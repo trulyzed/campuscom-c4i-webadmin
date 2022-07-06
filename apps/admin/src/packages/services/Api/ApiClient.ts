@@ -3,6 +3,7 @@ import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { handleTrailingSlashAppend } from "~/packages/services/Api/utils/TrailingSlash"
 import { handleError } from "~/packages/services/Api/utils/HandleResponse"
+import { saveAs } from "file-saver"
 
 //type ResponseType = "list" | "retrieve" | "create" | "update" | "delete" | "other"
 
@@ -25,10 +26,22 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
       method: requestConfig.method,
       data: requestConfig.data,
       params: requestConfig.params,
-      responseType: requestConfig.responseType,
+      responseType: (requestConfig.headers?.ResponseType === "application/vnd.ms-excel" || requestConfig.headers?.ResponseType === "text/csv") ? "blob" : requestConfig.responseType,
       url: `${process.env.REACT_APP_API_ROOT}${handleTrailingSlashAppend(requestConfig.endpoint, true)}`,
-      ...(token && { headers: { Authorization: `Bearer ${token}` } })
+      headers: {
+        ...requestConfig.headers,
+        ...token && {Authorization: `Bearer ${token}`},
+      }
     })
+
+    switch (requestConfig.headers?.ResponseType) {
+      case "text/csv":
+        saveAs(response.data, `report-${new Date().toISOString()}.csv`)
+        return { data: response, success: true, code: 200, error: null }
+      case "application/vnd.ms-excel":
+        saveAs(response.data, `report-${new Date().toISOString()}.xls`)
+        return { data: response, success: true, code: 200, error: null }
+      }
 
     return {
       code: response.status,

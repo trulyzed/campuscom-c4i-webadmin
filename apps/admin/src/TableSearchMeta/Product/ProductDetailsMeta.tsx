@@ -12,6 +12,8 @@ import { renderThumb, renderActiveStatus } from "~/packages/components/Responsiv
 import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -171,6 +173,21 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
         }
       },
       helpKey: "productTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: product.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
