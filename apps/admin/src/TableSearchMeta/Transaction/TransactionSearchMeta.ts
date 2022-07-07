@@ -6,7 +6,7 @@ export const TransactionSearchMeta: IField[] = [
     label: "Store",
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
-    fieldName: "store",
+    fieldName: "store__id",
     displayKey: "name",
     valueKey: "id"
   },
@@ -18,7 +18,7 @@ export const TransactionSearchMeta: IField[] = [
   {
     label: "Order Id",
     inputType: TEXT,
-    fieldName: "order_id"
+    fieldName: "order_ref"
   },
   {
     label: "Transaction Date From",
@@ -33,11 +33,11 @@ export const TransactionSearchMeta: IField[] = [
   {
     label: "Purchaser Name",
     inputType: TEXT,
-    fieldName: "purchaser_name"
+    fieldName: "profile__first_name"
   },
   {
     label: "Purchaser Email",
     inputType: TEXT,
-    fieldName: "purchaser_email"
+    fieldName: "profile__primary_email"
   }
 ]
