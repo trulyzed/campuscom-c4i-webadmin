@@ -131,8 +131,8 @@ export const transactionListTableColumns: TableColumnType = [
   },
   {
     title: "Student1 Products",
-    dataIndex: "student1_courses",
-    sorter: (a: any, b: any) => a.student1_courses - b.student1_courses
+    dataIndex: "student1_products",
+    sorter: (a: any, b: any) => a.student1_products - b.student1_products
   },
   {
     title: "Student2 Name",
@@ -146,8 +146,8 @@ export const transactionListTableColumns: TableColumnType = [
   },
   {
     title: "Student2 Products",
-    dataIndex: "student2_courses",
-    sorter: (a: any, b: any) => a.student2_courses - b.student2_courses
+    dataIndex: "student2_products",
+    sorter: (a: any, b: any) => a.student2_products - b.student2_products
   },
   {
     title: "Student3 Name",
@@ -161,8 +161,8 @@ export const transactionListTableColumns: TableColumnType = [
   },
   {
     title: "Student3 Products",
-    dataIndex: "student3_courses",
-    sorter: (a: any, b: any) => a.student3_courses - b.student3_courses
+    dataIndex: "student3_products",
+    sorter: (a: any, b: any) => a.student3_products - b.student3_products
   },
   {
     title: "Student4 Name",
@@ -176,8 +176,8 @@ export const transactionListTableColumns: TableColumnType = [
   },
   {
     title: "Student4 Products",
-    dataIndex: "student4_courses",
-    sorter: (a: any, b: any) => a.student4_courses - b.student4_courses
+    dataIndex: "student4_products",
+    sorter: (a: any, b: any) => a.student4_products - b.student4_products
   },
   {
     title: "Student5 Name",
@@ -191,8 +191,8 @@ export const transactionListTableColumns: TableColumnType = [
   },
   {
     title: "Student5 Products",
-    dataIndex: "student5_courses",
-    sorter: (a: any, b: any) => a.student5_courses - b.student5_courses
+    dataIndex: "student5_products",
+    sorter: (a: any, b: any) => a.student5_products - b.student5_products
   }
 ]
 
