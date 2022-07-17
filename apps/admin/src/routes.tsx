@@ -60,6 +60,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/store-domain-configuration/:storeDomainConfigurationID", component: React.lazy(() => import("~/Pages/Administration/StoreDomainConfigurations/StoreDomainConfigurationDetailsPage").then((x) => ({ default: x.StoreDomainConfigurationDetailsPage }))) },
   { path: "/administration/audit-trail", component: React.lazy(() => import("~/Pages/Administration/AuditTrails").then((x) => ({ default: x.List }))) },
   { path: "/administration/audit-trail/:auditTrailID", component: React.lazy(() => import("~/Pages/Administration/AuditTrails/AuditTrailDetailsPage").then((x) => ({ default: x.AuditTrailDetailsPage }))) },
+  { path: "/administration/contact-group", component: React.lazy(() => import("~/Pages/Administration/ContactGroups").then((x) => ({ default: x.List }))) },
+  { path: "/administration/contact-group/:contactGroupID", component: React.lazy(() => import("~/Pages/Administration/ContactGroups/ContactGroupDetailsPage").then((x) => ({ default: x.ContactGroupDetailsPage }))) },
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
