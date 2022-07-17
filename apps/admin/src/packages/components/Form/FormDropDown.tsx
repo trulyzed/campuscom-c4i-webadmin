@@ -58,7 +58,7 @@ export function FormDropDown(
   }, [options, refLookupService])
 
   useEffect(() => {
-    if (!props.refLookupDependencies) loadOptions()
+    if (props.performInitialLookup || !props.refLookupDependencies) loadOptions()
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey + props.fieldName
       }`
     eventBus.subscribe(eventName, loadOptions)

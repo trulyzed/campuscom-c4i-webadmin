@@ -81,10 +81,12 @@ export interface IField {
   accept?: UploadProps['accept']
   renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  performInitialLookup?: boolean
   onDependencyChange?: (value: any, options: {
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
     formLookupData?: { [key: string]: any }
   }) => void | boolean
+  excludeFromSubmission?: boolean
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {

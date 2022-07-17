@@ -5,6 +5,7 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns"
 import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns"
 import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns"
+import { getContactGroupListTableColumns } from "~/TableSearchMeta/ContactGroup/ContactGroupListTableColumns"
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns"
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns"
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns"
@@ -195,6 +196,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/administration/audit-trail",
         submenu: [],
         permission: checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc)
+      },
+      {
+        title: "Contact Groups",
+        url: "/administration/contact-group",
+        submenu: [],
+        permission: checkAdminApiPermission(getContactGroupListTableColumns().searchFunc)
       }
     ],
     permission:

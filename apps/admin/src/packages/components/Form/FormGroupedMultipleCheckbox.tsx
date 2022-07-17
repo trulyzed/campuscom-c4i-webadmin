@@ -60,7 +60,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
   }, [props.dependencyValue, onDependencyChange, props.defaultValue, props.fieldName, props.formInstance])
 
   useEffect(() => {
-    if (!props.refLookupDependencies) loadOptions()
+    if (props.performInitialLookup || !props.refLookupDependencies) loadOptions()
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey
       }`
     eventBus.subscribe(eventName, loadOptions)
