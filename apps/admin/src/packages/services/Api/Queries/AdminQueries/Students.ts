@@ -28,11 +28,11 @@ export const StudentQueries:IStudentQueries = {
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   getList: PermissionWrapper(data => {
-    const { id, ...params } = data?.params || {};
+    const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
-      endpoint: `${endpoints.ALL_STUDENT}/${data?.params.id}`,
+      endpoint: endpoints.ALL_STUDENT,
       ...data,
-      params,
+      params: {...nonPaginationParams},
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
@@ -68,6 +68,16 @@ export const StudentQueries:IStudentQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.CartItemProfile, action: ApiPermissionAction.Read}]),
+
+  getListByContactGroup: PermissionWrapper(data => {
+    const { id, ...params } = data?.params || {};
+    return adminApi({
+      endpoint: `${endpoints.ALL_CONTACT_GROUP_PROFILE}`,
+      ...data,
+      params,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.ContactGroupProfile, action: ApiPermissionAction.Read}]),
 
   tagMembersipProgram: PermissionWrapper(data => {
     return adminApi({

@@ -146,7 +146,8 @@ export function MetaDrivenForm({
           ...props.defaultFormValue
         }
         for (const key in mergedParams) {
-          if (key === "" || mergedParams[key] === undefined || mergedParams[key] === null || key.startsWith(HELPER_FIELD_PATTERN))
+          const matchedField = props.meta.find((x) => x.fieldName === key)
+          if (matchedField?.excludeFromSubmission || key === "" || mergedParams[key] === undefined || mergedParams[key] === null || key.startsWith(HELPER_FIELD_PATTERN))
             delete mergedParams[key]
         }
         if (props.currentPagination) mergedParams["pagination"] = props.currentPagination
