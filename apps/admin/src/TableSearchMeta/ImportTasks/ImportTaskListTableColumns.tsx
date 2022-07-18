@@ -18,14 +18,14 @@ export const importTaskListTableColumns: TableColumnType = [
   {
     title: "Course Provider",
     dataIndex: 'course_provider',
-    render: (text: any, record: any) => renderLink(`/administration/course-provider/${text}`, text),
-    sorter: (a: any, b: any) => a.course_provider - b.course_provider
+    render: (text: any, record: any) => text ? renderLink(`/administration/course-provider/${text.id}`, text.name) : null,
+    sorter: (a: any, b: any) => a.course_provider?.name - b.course_provider?.name
   },
   {
     title: "Store",
     dataIndex: 'store',
-    render: (text: any, record: any) => renderLink(`/administration/store/${text}`, text),
-    sorter: (a: any, b: any) => a.store - b.store
+    render: (text: any, record: any) => text ? renderLink(`/administration/store/${text.id}`, text.name) : null,
+    sorter: (a: any, b: any) => a.store?.name - b.store?.name
   },
   {
     title: "Filename",

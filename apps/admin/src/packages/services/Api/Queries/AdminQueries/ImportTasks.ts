@@ -3,6 +3,7 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { IImportTaskQueries } from "./Proxy/ImportTasks"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
+import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const ImportTaskQueries:IImportTaskQueries = {
   getPaginatedList: PermissionWrapper(data => {
@@ -26,10 +27,15 @@ export const ImportTaskQueries:IImportTaskQueries = {
   }, [{operation: ApiPermissionClass.ImportTask, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    const payload = convertToFormData({
+      ...data?.data,
+      filename: data?.data.filename?.length ? data?.data.filename : undefined,
+    })
     return adminApi({
       endpoint: endpoints.IMPORT_TASK,
       method: "POST",
       ...data,
+      data: payload,
     })
   }, [{operation: ApiPermissionClass.ImportTask, action: ApiPermissionAction.Write}]),
 

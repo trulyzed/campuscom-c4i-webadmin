@@ -1,8 +1,13 @@
-import { DROPDOWN, IField, DATE_PICKER } from "~/packages/components/Form/common"
+import { DROPDOWN, IField, DATE_PICKER, TEXT } from "~/packages/components/Form/common"
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 
 export const ImportTaskSearchMeta: IField[] = [
+  {
+    label: "Ref Id",
+    inputType: TEXT,
+    fieldName: "ref_id",
+  },
   {
     label: "Course Provider",
     inputType: DROPDOWN,

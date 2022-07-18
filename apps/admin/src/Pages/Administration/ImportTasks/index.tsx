@@ -1,5 +1,3 @@
-import { useState } from "react"
-import { Redirect } from "react-router-dom"
 import { message } from "antd"
 import { ImportTaskFormMeta } from "~/Component/Feature/ImportTasks/FormMeta/ImportTaskFormMeta"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
@@ -11,35 +9,31 @@ import { ImportTaskSearchMeta } from "~/TableSearchMeta/ImportTasks/ImportTaskSe
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 
 export const List = () => {
-  const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
-
   const createEntity = QueryConstructor(((data) => ImportTaskQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/administration/import-task/${resp.data.id}`)
+      window.location.href = "?pagination=1"
     }
     return resp
   })), [ImportTaskQueries.create])
 
   return (
-    <>
-      {redirectAfterCreate && <Redirect to={redirectAfterCreate} />}
-      <SearchPage
-        title={"Import Tasks"}
-        meta={ImportTaskSearchMeta}
-        tableProps={{
-          ...getImportTaskListTableColumns(),
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Import Task`}
-              formMeta={ImportTaskFormMeta}
-              formSubmitApi={createEntity}
-              buttonLabel={`Add Import Task`}
-              iconType="create"
-            />
-          ]
-        }}
-      />
-    </>
+    <SearchPage
+      title={"Import Tasks"}
+      meta={ImportTaskSearchMeta}
+      tableProps={{
+        ...getImportTaskListTableColumns(),
+        actions: [
+          <MetaDrivenFormModalOpenButton
+            formTitle={`Add Import Task`}
+            formMeta={ImportTaskFormMeta}
+            formSubmitApi={createEntity}
+            buttonLabel={`Add Import Task`}
+            iconType="create"
+            refreshEventName={"REFRESH_IMPORT_TASK"}
+          />
+        ]
+      }}
+    />
   )
 }
