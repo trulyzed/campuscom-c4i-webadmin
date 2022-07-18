@@ -145,6 +145,7 @@ export const endpoints = {
   ALL_EXTERNAL_ENTITY: "external-entities?limit=1000",
   ALL_GLOBAL_CONFIGURATION: "global-configurations?limit=1000",
   ALL_IDENTITY_PROVIDER: "identity-providers?limit=1000",
+  ALL_IMPORT_TASK: "import-task?limit=1000",
   ALL_INSTRUCTOR: "instructors?limit=1000",
   ALL_MEMBERSHIP_PROGRAM: "membership-programs?limit=1000",
   ALL_MEMBERSHIP_PROGRAM_DISCOUNT: "membership-program-discounts?limit=1000",

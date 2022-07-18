@@ -11,6 +11,7 @@ import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvi
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns"
 import { getGlobalConfigurationListTableColumns } from "~/TableSearchMeta/GlobalConfiguration/GlobalConfigurationListTableColumns"
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
+import { getImportTaskListTableColumns } from "~/TableSearchMeta/ImportTasks/ImportTaskListTableColumns"
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns"
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns"
@@ -202,6 +203,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/administration/contact-group",
         submenu: [],
         permission: checkAdminApiPermission(getContactGroupListTableColumns().searchFunc)
+      },
+      {
+        title: "Import Tasks",
+        url: "/administration/import-task",
+        submenu: [],
+        permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       }
     ],
     permission:
