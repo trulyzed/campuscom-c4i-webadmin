@@ -1,4 +1,4 @@
-import { TableColumnType } from "~/packages/components/ResponsiveTable"
+import { renderDate, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { TransactionQueries } from "~/packages/services/Api/Queries/AdminQueries/Transactions"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -22,7 +22,8 @@ export const transactionListTableColumns: TableColumnType = [
   {
     title: "Transaction Date",
     dataIndex: "transaction_date",
-    sorter: (a: any, b: any) => a.transaction_date - b.transaction_date
+    render: renderDate,
+    sorter: (a: any, b: any) => a.transaction_date - b.transaction_date,
   },
   {
     title: "Purchaser Name",
@@ -203,6 +204,7 @@ export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
       (params) => TransactionQueries.getPaginatedList(params),
       [TransactionQueries.getPaginatedList]
     ),
-    tableName: "Transaction"
+    tableName: "Transaction",
+    scroll: { x: 4000, y: 600 }
   }
 }
