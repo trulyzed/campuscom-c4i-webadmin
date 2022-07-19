@@ -1,3 +1,4 @@
+import { TableProps } from "antd"
 import { TableColumnType } from "~/packages/components/ResponsiveTable"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
@@ -9,6 +10,7 @@ export interface ITableMeta {
   hideSettings?: boolean
   hideDownload?: boolean
   searchFunc: IQuery
+  scroll?: TableProps<any>["scroll"]
 }
 
 export interface ITableMetaWithDataSource {
