@@ -73,6 +73,12 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
               sorter: (a: any, b: any) => a.profile.name - b.profile.name
             },
             {
+              title: "Email",
+              dataIndex: "profile",
+              render: (text: any, record: any) => text.primary_email,
+              sorter: (a: any, b: any) => a.profile.primary_email - b.profile.primary_email
+            },
+            {
               title: "Action",
               dataIndex: "id",
               render: (text) => (

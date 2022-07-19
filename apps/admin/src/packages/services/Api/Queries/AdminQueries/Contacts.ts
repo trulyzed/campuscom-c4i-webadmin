@@ -5,6 +5,14 @@ import { PermissionWrapper } from "./Proxy"
 import { IContactQueries } from "./Proxy/Contacts"
 
 export const ContactQueries:IContactQueries = {
+  getList: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.ALL_CONTACT,
+      ...data,
+      method: "GET"
+    })
+  }, [{operation: ApiPermissionClass.Contact, action: ApiPermissionAction.Read}]),
+
   getListByContactGroup: PermissionWrapper(data => {
     const { pagination, ...nonPaginationParams } = data?.params || {};
     return adminApi({
