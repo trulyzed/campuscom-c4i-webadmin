@@ -1,8 +1,8 @@
 import { IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
+import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
 
-export const getProfileTaggingFormMeta = (storeID: string): IField[] => {
+export const getProfileTaggingFormMeta = (contactGroupID: string): IField[] => {
   return [
     {
       label: "Search",
@@ -15,7 +15,7 @@ export const getProfileTaggingFormMeta = (storeID: string): IField[] => {
       inputType: MULTI_SELECT_GROUP_CHECKBOX,
       fieldName: "profiles",
       rules: [{ required: true, message: "This field is required!" }],
-      refLookupService: QueryConstructor(args => StudentQueries.getList({...args, params: {...args?.params, store: storeID}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [StudentQueries.getList]),
+      refLookupService: QueryConstructor(args => ContactQueries.getListByContactGroup({...args, params: {...args?.params, contact_group: contactGroupID}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [ContactQueries.getListByContactGroup]),
       displayKey2: "primary_email",
       valueKey2: "id",
       refLookupDependencies: ['search'],

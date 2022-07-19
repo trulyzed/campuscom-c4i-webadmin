@@ -26,6 +26,7 @@ export enum ApiPermissionClass {
   CertificateCourse = "CertificateCourseView",
   CertificateEnrollment = "CertificateEnrollmentViewSet",
   ChangePassword = "ChangePasswordView",
+  Contact = "ContactViewSet",
   ContactGroup = "ContactGroupViewSet",
   ContactGroupProfile = "ContactGroupProfileViewSet",
   Course = "CourseViewSet",

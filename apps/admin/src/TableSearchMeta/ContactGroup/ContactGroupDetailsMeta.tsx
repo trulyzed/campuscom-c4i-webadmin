@@ -92,7 +92,7 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Profile`}
-              formMeta={getProfileTaggingFormMeta(contactGroup.store.id)}
+              formMeta={getProfileTaggingFormMeta(contactGroup.id)}
               formSubmitApi={createProfile}
               buttonLabel={`Add Profile`}
               iconType="create"
