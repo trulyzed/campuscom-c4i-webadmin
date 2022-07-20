@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react"
 import { Breadcrumb as AntdBreadcrumb } from "antd"
 import { Link, useLocation } from "react-router-dom"
 import { eventBus } from "~/packages/utils/EventBus"
+import { transformToLabel } from "~/packages/utils/util"
 
 export const REFRESH_BREADCRUMB = "REFRESH_BREADCRUMB"
-
-function transformRouteToLabel(route: string | number): string | number {
-  if (typeof route === "number") return route
-  return route.replace(/\w/, (str) => str.toUpperCase()).replace(/\W/g, " ")
-}
 
 interface IBreadcrumbPath {
   label: string | number
@@ -31,7 +27,7 @@ const generateBreadcrumbPath = (path: string): IBreadcrumbPath[] => {
       path = `${path}/${route}`
     }
 
-    breadcrumbPaths.push({ path, label: transformRouteToLabel(convertedRoute) })
+    breadcrumbPaths.push({ path, label: transformToLabel(convertedRoute) })
     return path
   }, breadcrumbPaths[0].path)
 

@@ -37,3 +37,8 @@ export const printArrayStringWithComma = ({ collection, propName = "", seperator
   })
   return csvString
 }
+
+export const transformToLabel = (value: string | number): string | number => {
+  if (typeof value === "number") return value
+  return value.replace(/\w/, (str) => str.toUpperCase()).replace(/\W/g, " ")
+}

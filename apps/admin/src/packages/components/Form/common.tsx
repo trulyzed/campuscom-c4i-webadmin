@@ -83,6 +83,7 @@ export interface IField {
   refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   performInitialLookup?: boolean
   onDependencyChange?: (value: any, options: {
+    hasFieldUpdated?: (fieldname: IField['fieldName']) => boolean
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
     formLookupData?: { [key: string]: any }
   }) => void | boolean
