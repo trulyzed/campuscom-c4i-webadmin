@@ -27,7 +27,7 @@ export const contactGroupListTableColumns: TableColumnType = [
 export const getContactGroupListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: contactGroupListTableColumns,
-    searchFunc: QueryConstructor((params) => ContactGroupQueries.getPaginatedList(params), [ContactGroupQueries.getList]),
+    searchFunc: QueryConstructor((params) => ContactGroupQueries.getPaginatedList(params), [ContactGroupQueries.getPaginatedList]),
     tableName: 'ContactGroup'
   }
 }

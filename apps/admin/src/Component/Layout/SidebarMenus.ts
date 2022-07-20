@@ -126,7 +126,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+      checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
   },
   {
     title: "Administration",
@@ -212,6 +213,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       }
     ],
     permission:
+      checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStoreListTableColumns().searchFunc) ||
       checkAdminApiPermission(getRoleListTableColumns().searchFunc) ||
@@ -220,7 +222,10 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
