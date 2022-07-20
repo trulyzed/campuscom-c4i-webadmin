@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 import { UploadFile, UploadChangeParam } from 'antd/lib/upload/interface'
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
+import { useDependencyValue } from '~/packages/components/Hooks/useDependencyValue';
 
 function getBase64(file: File): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
@@ -20,6 +21,7 @@ interface IFormFieldProps extends IGeneratedField {
 export const FormFileUpload = (props: IFormFieldProps) => {
   const [files, setFiles] = useState<UploadProps['fileList']>()
   const defaultValue = props.previewKey ? props.formInstance.getFieldValue(props.previewKey) : undefined
+  useDependencyValue({ ...props })
 
   useEffect(() => {
     if (!defaultValue) return

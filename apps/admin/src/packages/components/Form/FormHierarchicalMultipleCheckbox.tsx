@@ -2,10 +2,12 @@ import { useState, useEffect, ComponentProps } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Tree } from "antd"
 import { CaretDownOutlined } from '@ant-design/icons'
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormHierarchicalMultipleCheckbox(props: IGeneratedField & { fieldNames?: ComponentProps<typeof Tree>['fieldNames'] }) {
   const [checkedKeys, setCheckedKeys] = useState(props.defaultValue)
   const { formInstance, fieldName, fieldNames } = props
+  useDependencyValue({ ...props })
 
   useEffect(() => {
     if (fieldName && formInstance && checkedKeys)

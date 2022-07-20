@@ -28,6 +28,7 @@ import { FormDatePickers } from "~/packages/components/Form/FormDatePickers"
 import { FormCheckbox } from "~/packages/components/Form/FormCheckbox"
 import { querystringToObject } from "~/packages/utils/QueryStringToObjectConverter"
 import { objectToQueryString } from "~/packages/utils/ObjectToQueryStringConverter"
+import { debounce } from "~/packages/utils/debounce"
 import { FormInstance } from "antd/lib/form"
 import { FormMultipleCheckbox } from "~/packages/components/Form/FormMultipleCheckbox"
 import { FormMultipleRadio } from "~/packages/components/Form/FormMultipleRadio"
@@ -44,6 +45,7 @@ import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigatio
 import { FormFileUpload } from "./FormFileUpload"
 import { FormEditorInput } from "./FormEditorInput"
 import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
+import { FormHiddenInput } from "./FormHiddenInput"
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
@@ -231,25 +233,32 @@ export function MetaDrivenForm({
     })
   }
 
-  const setDependencyValue = useCallback((formValues = {}) => {
-    const adjustedDependecyValues: { [key: string]: any } = {}
-    for (const field of props.meta) {
-      if (!(field.renderDependencies || field.refLookupDependencies)?.find(d => Object.keys(formValues).includes(d as string))) continue
-      const dependencies = [...(field.renderDependencies || []), ...(field.refLookupDependencies || [])]
-      adjustedDependecyValues[field.fieldName] = dependencies.reduce((a: any, c) => {
-        a[c as string] = formValues[c as string]
-        return a
-      }, {})
-    }
-    _setDependencyValue(dependencyValue => ({
-      ...dependencyValue,
-      ...adjustedDependecyValues
-    }))
+  const setDependencyValue = useCallback((values = {}) => {
+    const valueKeys = Object.keys(values)
+    _setDependencyValue(dependencyValue => {
+      const adjustedDependecyValue = props.meta.reduce((a, field) => {
+        const fieldValues = valueKeys.reduce((a2, c) => {
+          if (field.dependencies?.includes(c)) a2[c] = values[c]
+          return a2
+        }, {} as Record<string, any>)
+
+        if (Object.keys(fieldValues).length) {
+          a[field.fieldName] = {
+            ...a[field.fieldName],
+            ...fieldValues
+          }
+        }
+        return a;
+      }, { ...dependencyValue })
+      return adjustedDependecyValue
+    })
   }, [props.meta])
 
-  const handleValuesChange = useCallback((_: any, values: any) => {
-    setDependencyValue(values)
-  }, [setDependencyValue])
+  const setDependencyValueDebounced = debounce(setDependencyValue, 200)
+
+  const handleValuesChange = useCallback((changedValues: any) => {
+    setDependencyValueDebounced(changedValues)
+  }, [setDependencyValueDebounced])
 
   useEffect(() => {
     if (props.loading || !initialFormValue) return
@@ -379,6 +388,7 @@ export function MetaDrivenForm({
           clearTrigger={clearTrigger}
           showLess={showLess}
           dependencyValue={dependencyValue}
+          updateMeta={setMeta}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -446,214 +456,250 @@ const SearchFormFields = (props: {
   showLess: boolean
   isHorizontal?: boolean
   dependencyValue?: any
+  updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }) => {
-  const [formLookupData, setFormLookupData] = useState<{ [key: string]: any }>({})
+  //const [formLookupData, setFormLookupData] = useState<{ [key: string]: any }>({})
   const handleLookupDataChange = useCallback((fieldName: IGeneratedField['fieldName'], data) => {
-    setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
+    //setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
   }, [])
 
   return (
     <Row gutter={16}>
       {props.meta
-        .filter((field) => !field.hidden)
         .filter((field, index) => {
           if (props.showLess && index < 4) return true
           return !props.showLess
         })
         .map((field, i) => {
           let formField: any
-          switch (field.inputType) {
-            case TEXT:
-              formField = (
-                <FormInput
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case NUMBER:
-              formField = (
-                <FormInputNumber
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case TEXTAREA:
-              formField = (
-                <FormTextArea
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case BOOLEAN:
-              formField = (
-                <FormCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 12}
-                  wrapperColSpan={field.wrapperColSpan || 20}
-                />
-              )
-              break
-            case MULTI_SELECT_CHECKBOX:
-              formField = (
-                <FormMultipleCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case MULTI_SELECT_GROUP_CHECKBOX:
-              formField = (
-                <FormGroupedMultipleCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 4}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                  dependencyValue={props.dependencyValue[field.fieldName]}
-                />
-              )
-              break
-            case MULTI_RADIO:
-              formField = (
-                <FormMultipleRadio
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case DROPDOWN:
-              formField = (
-                <FormDropDown
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                  dependencyValue={props.dependencyValue[field.fieldName]}
-                  onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
-                />
-              )
-              break
-            case MULTI_SELECT_DROPDOWN:
-              formField = (
-                <FormMultiSelectDropDown
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case HIERARCHICAL_MULTIPLE_CHECKBOX:
-              formField = (
-                <FormHierarchicalMultipleCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                  fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
-                />
-              )
-              break
-            case DATE_PICKER:
-              formField = (
-                <FormDatePicker
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case DATE_PICKERS:
-              formField = (
-                <FormDatePickers
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case FILE:
-              formField = (
-                <FormFileUpload
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case EDITOR:
-              formField = (
-                <FormEditorInput
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 4}
-                  wrapperColSpan={field.wrapperColSpan || 20}
-                />
-              )
-              break
-            case CUSTOM_FIELD:
-              if (field.customFilterComponent) {
+          if (!field.hidden) {
+            switch (field.inputType) {
+              case TEXT:
                 formField = (
-                  <field.customFilterComponent
-                    {...{
-                      ...field,
-                      key: i,
-                      formInstance: props.formInstance,
-                      clearTrigger: props.clearTrigger
-                    }}
+                  <FormInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
                     labelColSpan={field.labelColSpan || 8}
                     wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
                   />
                 )
-              }
-              break
-            default:
-              break
+                break
+              case NUMBER:
+                formField = (
+                  <FormInputNumber
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case TEXTAREA:
+                formField = (
+                  <FormTextArea
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case BOOLEAN:
+                formField = (
+                  <FormCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 12}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_CHECKBOX:
+                formField = (
+                  <FormMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_GROUP_CHECKBOX:
+                formField = (
+                  <FormGroupedMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_RADIO:
+                formField = (
+                  <FormMultipleRadio
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DROPDOWN:
+                formField = (
+                  <FormDropDown
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_DROPDOWN:
+                formField = (
+                  <FormMultiSelectDropDown
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case HIERARCHICAL_MULTIPLE_CHECKBOX:
+                formField = (
+                  <FormHierarchicalMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DATE_PICKER:
+                formField = (
+                  <FormDatePicker
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DATE_PICKERS:
+                formField = (
+                  <FormDatePickers
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case FILE:
+                formField = (
+                  <FormFileUpload
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case EDITOR:
+                formField = (
+                  <FormEditorInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case CUSTOM_FIELD:
+                if (field.customFilterComponent) {
+                  formField = (
+                    <field.customFilterComponent
+                      {...{
+                        ...field,
+                        key: i,
+                        formInstance: props.formInstance,
+                        clearTrigger: props.clearTrigger
+                      }}
+                      labelColSpan={field.labelColSpan || 8}
+                      wrapperColSpan={field.wrapperColSpan || 24}
+                    />
+                  )
+                }
+                break
+              default:
+                break
+            }
           }
 
           const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
-          const renderField = (!field.renderDependencies || field.onDependencyChange?.(props.dependencyValue[field.fieldName], { formLookupData }))
 
-          return (formField && renderField) ? (
-            <Col key={1000 + i} lg={lg} xs={xs}>
-              {formField}
-            </Col>
-          ) : undefined
+          return field.hidden ? (
+            <FormHiddenInput
+              {...field}
+              key={i}
+              formInstance={props.formInstance}
+              dependencyValue={props.dependencyValue[field.fieldName]}
+              updateMeta={props.updateMeta}
+            />
+          )
+            : formField ? (
+              <Col key={1000 + i} lg={lg} xs={xs}>
+                {formField}
+              </Col>
+            ) : undefined
         })}
     </Row>
   )

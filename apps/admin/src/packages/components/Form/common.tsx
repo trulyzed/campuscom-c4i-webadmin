@@ -79,11 +79,10 @@ export interface IField {
 
   multiple?: boolean
   accept?: UploadProps['accept']
-  renderDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
-  refLookupDependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
   performInitialLookup?: boolean
   onDependencyChange?: (value: any, options: {
-    hasFieldUpdated?: (fieldname: IField['fieldName']) => boolean
+    toggleField?: (status: boolean) => void
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
     formLookupData?: { [key: string]: any }
   }) => void | boolean
@@ -94,6 +93,9 @@ export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
   getValueFromEvent?: (...args: any) => void
+  dependencyValue?: any
+  onLookupDataChange?: (data: any) => void
+  updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {

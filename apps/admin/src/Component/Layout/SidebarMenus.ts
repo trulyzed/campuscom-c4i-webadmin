@@ -1,5 +1,5 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
-import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
+import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
 import { IUser } from "~/packages/services/Api/utils/Interfaces"
 import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -216,7 +216,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         title: "Create Order",
         url: "/administration/create-order",
         submenu: [],
-        permission: checkAdminApiPermission(EnrollmentQueries.create)
+        permission: checkAdminApiPermission(OrderQueries.create)
       }
     ],
     permission:

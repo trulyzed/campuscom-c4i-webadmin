@@ -1,5 +1,5 @@
 import { CreatePage } from "~/packages/components/Page/CreatePage/CreatePage"
-import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
+import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
 import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
 export const Create = () => {
@@ -7,7 +7,7 @@ export const Create = () => {
     <CreatePage
       title={"Create Order"}
       meta={getEnrollmentFormMeta()}
-      formSubmitApi={EnrollmentQueries.getList}
+      formSubmitApi={OrderQueries.create}
     />
   )
 }

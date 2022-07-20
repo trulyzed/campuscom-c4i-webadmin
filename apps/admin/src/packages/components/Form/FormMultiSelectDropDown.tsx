@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { IGeneratedField, SearchFieldWrapper } from "~/packages/components/Form/common"
 import { Select } from "antd"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedItems?: (params: any) => void }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  useDependencyValue({ ...props })
 
   const { refLookupService, displayKey, valueKey } = props
   useEffect(() => {

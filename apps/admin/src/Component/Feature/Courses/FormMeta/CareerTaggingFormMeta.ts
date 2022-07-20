@@ -26,7 +26,7 @@ export const getCareerTaggingFormMeta = (): IField[] => {
       displayKey2: "name",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }],
-      refLookupDependencies: ['careers', 'threshold'],
+      dependencies: ['careers', 'threshold'],
       onDependencyChange: (value, {loadOptions}) => {loadOptions?.({params: {occupation_ids: (value?.careers as any[] || []).join(','), threshold: value?.threshold || 0}}, !value?.careers?.length)},
     },
   ]

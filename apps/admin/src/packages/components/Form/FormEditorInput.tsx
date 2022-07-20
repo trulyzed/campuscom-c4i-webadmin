@@ -1,5 +1,6 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useDependencyValue } from '~/packages/components/Hooks/useDependencyValue';
 import { IGeneratedField, SearchFieldWrapper } from "./common"
 
 const toolbarConfig = [
@@ -19,6 +20,7 @@ interface IFormEditorInputProps extends IGeneratedField {
 }
 
 export const FormEditorInput = (props: IFormEditorInputProps) => {
+  useDependencyValue({ ...props })
   const handleChange: React.ComponentPropsWithRef<typeof ReactQuill>['onChange'] = (content, delta, source, editor) => {
     return editor.getText().trim() ? content : ""
   }
