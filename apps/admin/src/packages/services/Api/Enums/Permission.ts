@@ -126,7 +126,7 @@ export enum ApiPermissionClass {
   TaggedCourseCareer = "TaggedCourseCareersView",
   TaggedCourseCareerAndSkill = "TaggedCourseCareersSkillsViewSet",
   TaggedCourseSkill = "TaggedCourseSkillsView",
-  Transaction = "TransactionViewSet",
+  Transaction = "TransactionReportView",
   UnlinkProfile = "UnlinkProfile",
   UpdatePaymentQuestion = "UpdatePaymentQuestionView",
   UpdateProfileQuestion = "UpdateProfileQuestionView",
