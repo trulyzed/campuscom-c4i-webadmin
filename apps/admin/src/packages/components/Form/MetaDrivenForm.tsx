@@ -75,6 +75,7 @@ export function MetaDrivenForm({
   stopProducingQueryParams?: boolean
   autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
+  isWizard?: boolean
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
