@@ -37,7 +37,7 @@ export const getConfigurationTaggingFormMeta = (record?: {[key: string]: any}): 
     inputType: DROPDOWN,
     refLookupService: ExternalEntityQueries.getLookupData,
     displayKey: "entity_name",
-    valueKey: "id",
+    valueKey: "entity_name",
     rules: [{ required: true, message: "This field is required!" }],
   },
   {
