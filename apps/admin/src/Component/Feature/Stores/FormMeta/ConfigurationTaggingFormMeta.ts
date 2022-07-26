@@ -4,31 +4,29 @@ import { ExternalEntityQueries } from "~/packages/services/Api/Queries/AdminQuer
 
 const COMMON_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
   dependencies: ['external_entity',],
-  onDependencyChange: (value, {toggleField, formLookupData}) => {
-    const matchedField = (formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])
-    toggleField?.(matchedField?.label === 'Avatax' || matchedField?.label === 'Hubspot')
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Avatax' || value?.external_entity === 'Hubspot')
   },
 }
 
 const COMMON_EMAIL_RECEIPT_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
   dependencies: ['external_entity',],
-  onDependencyChange: (value, {toggleField, formLookupData}) => {
-    console.log(value, formLookupData)
-    toggleField?.((formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Email Receipt')
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Email Receipt')
   },
 }
 
 const COMMON_CHECKOUT_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
   dependencies: ['external_entity',],
-  onDependencyChange: (value, {toggleField, formLookupData}) => {
-    toggleField?.((formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Checkout Configuration')
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Checkout Configuration')
   },
 }
 
 const COMMON_CHECKOUT_STATUS_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
   dependencies: ['external_entity',],
-  onDependencyChange: (value, {toggleField, formLookupData}) => {
-    toggleField?.((formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Checkout Status Configuration')
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Checkout Status Configuration')
   },
 }
 

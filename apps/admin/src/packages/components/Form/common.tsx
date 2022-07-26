@@ -84,7 +84,6 @@ export interface IField {
   onDependencyChange?: (value: any, options: {
     toggleField?: (status: boolean) => void
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
-    formLookupData?: { [key: string]: any }
   }) => void | boolean
   excludeFromSubmission?: boolean
 }
@@ -94,7 +93,6 @@ export interface IGeneratedField extends Omit<IField, "inputType"> {
   clearTrigger?: boolean
   getValueFromEvent?: (...args: any) => void
   dependencyValue?: any
-  onLookupDataChange?: (data: any) => void
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }
 

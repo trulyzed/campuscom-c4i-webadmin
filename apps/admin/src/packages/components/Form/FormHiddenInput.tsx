@@ -4,10 +4,8 @@ import { IField, IGeneratedField } from "~/packages/components/Form/common"
 export function FormHiddenInput(props: IGeneratedField & {
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
-  formLookupData?: Record<string, any>
 }) {
-  const { onDependencyChange, updateMeta, fieldName, dependencyValue, formLookupData } = props
-  console.log(props)
+  const { onDependencyChange, updateMeta, fieldName, dependencyValue } = props
   useEffect(() => {
     onDependencyChange?.(dependencyValue, {
       toggleField: (status) => updateMeta?.(prevVal => (prevVal.reduce((a, c) => {
@@ -16,9 +14,8 @@ export function FormHiddenInput(props: IGeneratedField & {
         return a
       }, [] as IField[])
       )),
-      formLookupData
     })
-  }, [dependencyValue, onDependencyChange, fieldName, updateMeta, formLookupData])
+  }, [dependencyValue, onDependencyChange, fieldName, updateMeta])
 
   return (
     null

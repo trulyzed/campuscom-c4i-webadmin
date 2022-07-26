@@ -16,7 +16,6 @@ import {
   FILE,
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
-  IGeneratedField,
   HIERARCHICAL_MULTIPLE_CHECKBOX
 } from "~/packages/components/Form/common"
 import { FormInput } from "~/packages/components/Form/FormInput"
@@ -459,11 +458,6 @@ const SearchFormFields = (props: {
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }) => {
-  const [formLookupData, setFormLookupData] = useState<Record<string, any>>({})
-  const handleLookupDataChange = useCallback((fieldName: IGeneratedField['fieldName'], data) => {
-    setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
-  }, [])
-
   return (
     <Row gutter={16}>
       {props.meta
@@ -574,10 +568,8 @@ const SearchFormFields = (props: {
                     formInstance={props.formInstance}
                     labelColSpan={field.labelColSpan || 8}
                     wrapperColSpan={field.wrapperColSpan || 24}
-                    onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
-                    formLookupData={formLookupData}
                   />
                 )
                 break
@@ -695,7 +687,6 @@ const SearchFormFields = (props: {
               formInstance={props.formInstance}
               dependencyValue={props.dependencyValue[field.fieldName]}
               updateMeta={props.updateMeta}
-              formLookupData={formLookupData}
             />
           )
             : formField ? (

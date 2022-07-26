@@ -10,13 +10,12 @@ export function FormDropDown(
     renderLabel?: (Params: { [key: string]: any }) => string
     allowClear?: boolean
     dropdownMatchSelectWidth?: boolean | number
-    formLookupData?: Record<string, any>
   }
 ) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, onLookupDataChange, formLookupData } = props
+  const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
     setOptions([])
@@ -53,7 +52,7 @@ export function FormDropDown(
     return []
   }, [formInstance, optionsProp, renderLabel, displayKey, refLookupService, valueKey, fieldName])
 
-  useDependencyValue({ ...props, loadOptions, setOptions, formLookupData })
+  useDependencyValue({ ...props, loadOptions, setOptions })
 
   useEffect(() => {
     if ((!props.dependencies || props.dependencyValue !== undefined) || props.performInitialLookup) loadOptions()
@@ -66,12 +65,6 @@ export function FormDropDown(
     }
     // eslint-disable-next-line
   }, [])
-
-  useEffect(() => {
-    if (!refLookupService) return
-    onLookupDataChange?.(options)
-    // eslint-disable-next-line
-  }, [options, refLookupService])
 
   useEffect(() => {
     if (
