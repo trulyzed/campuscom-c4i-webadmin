@@ -458,9 +458,9 @@ const SearchFormFields = (props: {
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }) => {
-  //const [formLookupData, setFormLookupData] = useState<{ [key: string]: any }>({})
+  const [formLookupData, setFormLookupData] = useState<Record<string, any>>({})
   const handleLookupDataChange = useCallback((fieldName: IGeneratedField['fieldName'], data) => {
-    //setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
+    setFormLookupData((prevData) => ({ ...prevData, [fieldName]: data }))
   }, [])
 
   return (
@@ -576,6 +576,7 @@ const SearchFormFields = (props: {
                     onLookupDataChange={(data) => handleLookupDataChange(field.fieldName, data)}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
+                    formLookupData={formLookupData}
                   />
                 )
                 break
@@ -693,6 +694,7 @@ const SearchFormFields = (props: {
               formInstance={props.formInstance}
               dependencyValue={props.dependencyValue[field.fieldName]}
               updateMeta={props.updateMeta}
+              formLookupData={formLookupData}
             />
           )
             : formField ? (

@@ -5,11 +5,13 @@ import { IField, IGeneratedField } from "~/packages/components/Form/common"
 interface IArgs extends IGeneratedField {
   loadOptions?: (params?: IQueryParams) => Promise<any[]>,
   setOptions?: React.Dispatch<React.SetStateAction<any[]>>,
+  formLookupData?: Record<string, any>
 }
 
 export function useDependencyValue(args: IArgs) {
-  const { fieldName, formInstance, defaultValue, dependencyValue, onDependencyChange, updateMeta, loadOptions, setOptions } = args
+  const { fieldName, formInstance, dependencyValue, onDependencyChange, updateMeta, loadOptions, setOptions, formLookupData } = args
   useEffect(() => {
+    if (formLookupData) return
     onDependencyChange?.(dependencyValue, {
       toggleField: (status) => updateMeta?.(prevVal => (prevVal.reduce((a, c) => {
         if (c.fieldName === fieldName) c.hidden = !status
@@ -28,7 +30,21 @@ export function useDependencyValue(args: IArgs) {
       } : undefined,
     })
     // eslint-disable-next-line
-  }, [fieldName, defaultValue, dependencyValue, onDependencyChange, loadOptions])
+  }, [fieldName, dependencyValue, onDependencyChange, loadOptions, formLookupData])
+
+  useEffect(() => {
+    console.log(formLookupData, dependencyValue)
+    onDependencyChange?.(dependencyValue, {
+      toggleField: (status) => updateMeta?.(prevVal => (prevVal.reduce((a, c) => {
+        if (c.fieldName === fieldName) c.hidden = !status
+        a.push(c)
+        return a
+      }, [] as IField[])
+      )),
+      formLookupData
+    })
+    // eslint-disable-next-line
+  }, [fieldName, dependencyValue, onDependencyChange, formLookupData])
 
   return null
 }
