@@ -23,8 +23,10 @@ export const ImportTaskFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['import_type'],
-    onDependencyChange: (value) => value?.import_type === 'course' || value?.import_type === 'section',
+    dependencies: ['import_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.import_type === 'course' || value?.import_type === 'section')
+    }
   },
   {
     label: "Store",
@@ -34,8 +36,10 @@ export const ImportTaskFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['import_type'],
-    onDependencyChange: (value) => value?.import_type === 'contact',
+    dependencies: ['import_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.import_type === 'contact')
+    }
   },
   {
     label: 'Upload File',

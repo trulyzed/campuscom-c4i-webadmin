@@ -20,8 +20,8 @@ export const getEnrollmentFormMeta = (course?: any): IField[] => [
     inputType: DROPDOWN,
     fieldName: "order_type",
     options: [
-      {label: "Group Enrollment", value: "group_order"},
-      {label: "Profile Enrollment", value: "profile_order"},
+      {label: "Group Order", value: "group_order"},
+      {label: "Profile Order", value: "profile_order"},
     ],
     rules: [{ required: true, message: "This field is required!" }]
   },
@@ -33,11 +33,10 @@ export const getEnrollmentFormMeta = (course?: any): IField[] => [
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['store', 'order_type'],
-    refLookupDependencies: ['store'],
-    onDependencyChange: (value, {loadOptions}) => {
-      loadOptions?.({params: {store: value.store}})
-      return value?.store && value?.order_type === 'group_order'
+    dependencies: ['store', 'order_type'],
+    onDependencyChange: (value, { toggleField, loadOptions }) => {
+      toggleField?.(value?.store && (value?.order_type === 'group_order'))
+      loadOptions?.({params: {store: value?.store}})
     },
   },
   {
@@ -48,12 +47,10 @@ export const getEnrollmentFormMeta = (course?: any): IField[] => [
     displayKey: "primary_email",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['store', 'order_type'],
-    refLookupDependencies: ['store'],
-    onDependencyChange: (value, {hasFieldUpdated, loadOptions}) => {
-      console.log('xxxxxxxxxxxxxxxx')
-      hasFieldUpdated?.('store') && loadOptions?.({params: {profile_stores__store: value.store}})
-      return  value?.store && value?.order_type === 'profile_order'
+    dependencies: ['store', 'order_type'],
+    onDependencyChange: (value, { toggleField, loadOptions }) => {
+      toggleField?.(value?.store && (value?.order_type === 'profile_order'))
+      loadOptions?.({params: {profile_stores__store: value?.store}})
     },
   },
   {
@@ -69,7 +66,7 @@ export const getEnrollmentFormMeta = (course?: any): IField[] => [
     label: "Payment Note",
     inputType: TEXTAREA,
     fieldName: "payment_note",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
   },
   {
     label: "Payment Ref",

@@ -1,26 +1,27 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Select } from "antd"
 import { eventBus } from "~/packages/utils/EventBus"
 import { IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormDropDown(
   props: IGeneratedField & {
     renderLabel?: (Params: { [key: string]: any }) => string
     allowClear?: boolean
     dropdownMatchSelectWidth?: boolean | number
-    dependencyValue?: any
-    onLookupDataChange?: (data: any) => void
   }
 ) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const { refLookupService, displayKey, valueKey, onDependencyChange, onLookupDataChange } = props
+  const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
-  const loadOptions = async (params?: IQueryParams): Promise<any[]> => {
-    if (props.options && props.options.length) {
-      const adjustedOptions = props.options.map((x) => {
+  const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
+    setOptions([])
+    formInstance.setFieldsValue({ [fieldName]: undefined })
+    if (optionsProp && optionsProp.length) {
+      const adjustedOptions = optionsProp.map((x) => {
         return {
           label: x["label"],
           value: x["value"]
@@ -34,14 +35,14 @@ export function FormDropDown(
       setLoading(false)
       if (x.success && displayKey && valueKey) {
         x.data = x.data.map((y: any) => ({
-          label: props.renderLabel ? props.renderLabel(y) : y[displayKey || "label"],
+          label: renderLabel ? renderLabel(y) : y[displayKey || "label"],
           value: y[valueKey || "value"]
         }))
         setOptions(x.data)
         return x.data
       } else if (x.success && Array.isArray(x.data)) {
         x.data = x.data.map((y: any) => ({
-          label: props.renderLabel ? props.renderLabel(y) : y,
+          label: renderLabel ? renderLabel(y) : y,
           value: y
         }))
         setOptions(x.data)
@@ -49,16 +50,12 @@ export function FormDropDown(
       }
     }
     return []
-  }
+  }, [formInstance, optionsProp, renderLabel, displayKey, refLookupService, valueKey, fieldName])
+
+  useDependencyValue({ ...props, loadOptions, setOptions })
 
   useEffect(() => {
-    if (!refLookupService) return
-    onLookupDataChange?.(options)
-    // eslint-disable-next-line
-  }, [options, refLookupService])
-
-  useEffect(() => {
-    if (props.performInitialLookup || !props.refLookupDependencies) loadOptions()
+    if ((!props.dependencies || props.dependencyValue !== undefined) || props.performInitialLookup) loadOptions()
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey + props.fieldName
       }`
     eventBus.subscribe(eventName, loadOptions)
@@ -92,29 +89,6 @@ export function FormDropDown(
 
     // eslint-disable-next-line
   }, [props.defaultValue])
-
-  useEffect(() => {
-    onDependencyChange?.(props.dependencyValue, {
-      hasFieldUpdated: (fieldname) => {
-        console.log(fieldname, props.formInstance.getFieldValue(fieldname), props.dependencyValue[fieldname])
-        return props.formInstance.getFieldValue(fieldname) !== props.dependencyValue[fieldname]
-      },
-      loadOptions: async (args, reset): Promise<any[]> => {
-        props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
-        if (!reset) {
-          Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined) ?
-            await loadOptions(args).then(options => {
-              const matchedValue = options.find(o => o.value === props.defaultValue)
-              if (matchedValue) props.formInstance.setFieldsValue({ [props.fieldName]: matchedValue })
-              return options
-            }) : setOptions([])
-        }
-        return []
-      },
-    })
-
-    // eslint-disable-next-line
-  }, [props.dependencyValue, onDependencyChange, props.defaultValue, props.fieldName, props.formInstance])
 
   return (
     <SearchFieldWrapper {...props}>

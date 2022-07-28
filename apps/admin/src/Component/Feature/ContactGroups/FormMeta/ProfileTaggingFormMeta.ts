@@ -18,7 +18,7 @@ export const getProfileTaggingFormMeta = (contactGroupID: string): IField[] => {
       refLookupService: QueryConstructor(args => ContactQueries.getListByContactGroup({...args, params: {...args?.params, contact_group: contactGroupID}}).then(resp => resp.success ? ({...resp, data: [{group: '', options: resp.data}]}) : resp), [ContactQueries.getListByContactGroup]),
       displayKey2: "primary_email",
       valueKey2: "id",
-      refLookupDependencies: ['search'],
+      dependencies: ['search'],
       performInitialLookup: true,
       onDependencyChange: (value, {loadOptions}) => {loadOptions?.({params: {primary_email__icontains: value?.search}})},
     },

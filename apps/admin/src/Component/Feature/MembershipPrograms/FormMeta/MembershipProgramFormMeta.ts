@@ -31,24 +31,30 @@ export const MembershipProgramFormMeta: IField[] = [
     inputType: NUMBER,
     fieldName: 'duration',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'time_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'time_based')
+    },
   },
   {
     label: 'Start Date',
     inputType: DATE_PICKER,
     fieldName: 'start_date',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'date_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'date_based')
+    },
   },
   {
     label: 'End Date',
     inputType: DATE_PICKER,
     fieldName: 'end_date',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'date_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'date_based')
+    },
   },
   {
     label: 'Fee',

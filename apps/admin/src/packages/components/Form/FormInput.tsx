@@ -1,8 +1,10 @@
 import React from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Input } from "antd"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue";
 
 export function FormInput(props: IGeneratedField & { readOnly?: boolean; type?: "text" | "password" }) {
+  useDependencyValue({ ...props })
   return (
     <SearchFieldWrapper {...props}>
       <Input

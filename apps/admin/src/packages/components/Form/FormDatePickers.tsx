@@ -2,11 +2,13 @@ import React, { useEffect } from "react"
 import { IGeneratedField, SearchFieldWrapper } from "~/packages/components/Form/common"
 import { DatePicker, Input, Form } from "antd"
 import moment from "moment"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 const DATE_FORMAT = "MM/DD/YYYY"
 export function FormDatePickers(props: IGeneratedField & { dateFormate?: string }) {
   const dateFormat = props.dateFormate || DATE_FORMAT
   const fieldName = `___${props.fieldName}${props.fieldName2}`
+  useDependencyValue({ ...props })
   useEffect(() => {
     const t1 = moment(props.defaultValue)
     const t2 = moment(props.defaultValue2)
