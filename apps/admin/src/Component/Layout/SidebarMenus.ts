@@ -213,8 +213,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },
       {
-        title: "Create Order",
-        url: "/administration/create-order",
+        title: "Create Enrollment",
+        url: "/administration/create-enrollment",
         submenu: [],
         permission: checkAdminApiPermission(OrderQueries.create)
       }
