@@ -1,4 +1,5 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
+import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
 import { IUser } from "~/packages/services/Api/utils/Interfaces"
 import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -11,6 +12,7 @@ import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvi
 import { getDiscountProgramListTableColumns } from "~/TableSearchMeta/DiscountProgram/DiscountProgramListTableColumns"
 import { getGlobalConfigurationListTableColumns } from "~/TableSearchMeta/GlobalConfiguration/GlobalConfigurationListTableColumns"
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
+import { getImportTaskListTableColumns } from "~/TableSearchMeta/ImportTasks/ImportTaskListTableColumns"
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns"
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns"
@@ -125,7 +127,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+      checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
   },
   {
     title: "Administration",
@@ -202,9 +205,22 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/administration/contact-group",
         submenu: [],
         permission: checkAdminApiPermission(getContactGroupListTableColumns().searchFunc)
+      },
+      {
+        title: "Import Tasks",
+        url: "/administration/import-task",
+        submenu: [],
+        permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
+      },
+      {
+        title: "Create Enrollment",
+        url: "/administration/create-enrollment",
+        submenu: [],
+        permission: checkAdminApiPermission(OrderQueries.create)
       }
     ],
     permission:
+      checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCourseProviderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStoreListTableColumns().searchFunc) ||
       checkAdminApiPermission(getRoleListTableColumns().searchFunc) ||
@@ -213,7 +229,10 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
   },
   {
     title: "Configuration",

@@ -1,6 +1,7 @@
 import React from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { InputNumber } from "antd"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormInputNumber(
   props: IGeneratedField & {
@@ -16,6 +17,7 @@ export function FormInputNumber(
   //     object.target.value = 0
   //   }
   // }
+  useDependencyValue({ ...props })
   return (
     <SearchFieldWrapper {...props}>
       <InputNumber

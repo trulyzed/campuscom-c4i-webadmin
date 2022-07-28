@@ -37,7 +37,7 @@ export const storeConfigurationListTableColumns: TableColumnType = [
           formTitle={`Edit Store Configuration`}
           formMeta={getConfigurationTaggingFormMeta(record)}
           formSubmitApi={QueryConstructor((data) => updateStoreConfiguration({ ...data, params: { ...data?.params, id: record.id } }), [StoreQueries.updateConfiguration])}
-          initialFormValue={{ ...record }}
+          initialFormValue={{ ...record, external_entity: record.entity_name }}
           buttonLabel={`Edit Store Configuration`}
           iconType="edit"
           refreshEventName={'REFRESH_PAGE'}

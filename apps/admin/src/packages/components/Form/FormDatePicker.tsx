@@ -5,10 +5,12 @@ import { DatePicker, Form, Input } from "antd"
 import { useFirstRender } from "~/packages/components/Hooks/useFirstRender"
 import { HELPER_FIELD_PATTERN } from "./MetaDrivenForm"
 import { DATE_DISPLAY_FORMAT, DATE_PAYLOAD_FORMAT } from "~/Configs/format"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }) {
   const firstRender = useFirstRender()
   const [value, setValue] = useState<any>(undefined)
+  useDependencyValue({ ...props })
   useEffect(() => {
     const date = props.defaultValue || props.formInstance.getFieldValue(props.fieldName)
     if (date) {

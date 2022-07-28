@@ -25,7 +25,7 @@ export const getProfileQuestionTaggingFormMeta = (courseProviderId: string): IFi
       displayKey2: "question",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }],
-      refLookupDependencies: ['respondent_type'],
+      dependencies: ['respondent_type'],
       onDependencyChange: (value, {loadOptions}) => {loadOptions?.({params: {exclude_from: 'profile_question', include_null: true, exclude_tagged: courseProviderId, provider_ref: courseProviderId, respondent_type: value?.respondent_type}})},
     },
   ]

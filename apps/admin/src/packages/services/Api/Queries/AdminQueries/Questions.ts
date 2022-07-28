@@ -82,6 +82,7 @@ export const QuestionQueries:IQuestionQueries = {
     const payload = {
       ...data?.data,
       configuration: {},
+      provider_ref: data?.data.course_provider || data?.data.store
     }
     if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
     if (data?.data.options !== undefined) payload.configuration['options'] = parseJSON(data?.data?.options)
@@ -106,6 +107,7 @@ export const QuestionQueries:IQuestionQueries = {
     const payload = {
       ...data?.data,
       configuration: {},
+      provider_ref: data?.data.course_provider || data?.data.store
     }
     if (data?.data.autocomplete !== undefined) payload.configuration['autocomplete'] = data?.data?.autocomplete
     if (data?.data.options !== undefined) payload.configuration['options'] = parseJSON(data?.data?.options)

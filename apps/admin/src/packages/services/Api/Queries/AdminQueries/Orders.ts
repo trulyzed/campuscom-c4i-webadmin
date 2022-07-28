@@ -31,4 +31,12 @@ export const OrderQueries:IOrderQueries = {
       method: "GET"
     })
   }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read}]),
+
+  create: PermissionWrapper(data => {
+    return adminApi({
+      endpoint: endpoints.CART,
+      method: "POST",
+      ...data,
+    })
+  }, [{operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Write}]),
 }

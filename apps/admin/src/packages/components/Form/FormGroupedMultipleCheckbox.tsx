@@ -4,15 +4,19 @@ import { Checkbox, Skeleton } from "antd"
 import { eventBus } from "~/packages/utils/EventBus"
 import { IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 import { CheckboxValueType } from "antd/lib/checkbox/Group"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
-export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFlex?: string, dependencyValue?: any }) {
+export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFlex?: string }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-  const { refLookupService, displayKey, valueKey, onDependencyChange } = props
+  const { fieldName, options: optionsProp, formInstance, refLookupService, displayKey, valueKey } = props
 
-  const loadOptions = async (params?: IQueryParams): Promise<any[]> => {
-    if (props.options?.length) {
-      const adjustedOptions = props.options?.map((x) => {
+  const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
+    setOptions([])
+    formInstance.setFieldsValue({ [fieldName]: undefined })
+
+    if (optionsProp?.length) {
+      const adjustedOptions = optionsProp?.map((x) => {
         return {
           group: x[displayKey || "group"],
           options: x[valueKey || "options"]
@@ -34,7 +38,9 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
       }
     }
     return []
-  }
+  }, [formInstance, optionsProp, displayKey, refLookupService, valueKey, fieldName])
+
+  useDependencyValue({ ...props, loadOptions, setOptions })
 
   const handleChange = useCallback((val: CheckboxValueType[], group: any) => {
     if (options.length < 2) props.formInstance.setFieldsValue({ [props.fieldName]: val })
@@ -43,24 +49,7 @@ export function FormGroupedMultipleCheckbox(props: IGeneratedField & { columnFle
   }, [options])
 
   useEffect(() => {
-    onDependencyChange?.(props.dependencyValue, {
-      loadOptions: async (args, reset): Promise<any[]> => {
-        props.formInstance.setFieldsValue({ [props.fieldName]: undefined })
-        if (!reset && Object.keys(props.dependencyValue || {}).find(key => props.dependencyValue[key] !== undefined)) {
-          const response = await loadOptions(args)
-          return response
-        } else {
-          setOptions([])
-        }
-        return []
-      },
-    })
-
-    // eslint-disable-next-line
-  }, [props.dependencyValue, onDependencyChange, props.defaultValue, props.fieldName, props.formInstance])
-
-  useEffect(() => {
-    if (props.performInitialLookup || !props.refLookupDependencies) loadOptions()
+    if ((!props.dependencies || props.dependencyValue !== undefined) || props.performInitialLookup) loadOptions()
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey
       }`
     eventBus.subscribe(eventName, loadOptions)

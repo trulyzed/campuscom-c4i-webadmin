@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/packages/components/Form/common"
 import { Col, Radio, Row } from "antd"
 import { eventBus } from "~/packages/utils/EventBus"
+import { useDependencyValue } from "~/packages/components/Hooks/useDependencyValue"
 
 export function FormMultipleRadio(
   props: IGeneratedField & {
@@ -11,6 +12,7 @@ export function FormMultipleRadio(
 ) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  useDependencyValue({ ...props })
 
   const { refLookupService, displayKey, valueKey, fieldName } = props
 

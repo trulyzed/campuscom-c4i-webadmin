@@ -40,6 +40,8 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
           default_value: question.configuration?.default_value,
           placeholder: question.configuration?.placeholder,
           help_text: question.configuration?.help_text,
+          store: question.provider_type === 'store' ? question.provider?.id : undefined,
+          course_provider: question.provider_type === 'course_provider' ? question.provider?.id : undefined,
         }}
         defaultFormValue={{ questionId: question.id }}
         buttonLabel={`Update Question`}

@@ -40,11 +40,6 @@ export const ContactGroupQueries:IContactGroupQueries = {
       endpoint: endpoints.CONTACT_GROUP,
       method: "POST",
       ...data,
-      data: {
-        ...data?.data,
-        // remove dummy
-        created_by: "ca94a2df-c929-460d-bd1a-10790380d5d6",
-      }
     })
   }, [{operation: ApiPermissionClass.ContactGroup, action: ApiPermissionAction.Write}]),
 

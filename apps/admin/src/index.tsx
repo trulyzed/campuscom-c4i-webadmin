@@ -12,6 +12,7 @@ import "~/Sass/quill/index.scss"
 // import "antd/dist/antd.less" // Import Ant Design styles by less entry
 import "~/Less/theme.less"
 import "~/Less/style.less"
+import "~/Sass/override.scss"
 
 if (process.env.REACT_APP_SENTRY_RELEASE && process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({
