@@ -106,7 +106,6 @@ export function TableViewForDesktop(
         <Table
           {...props.conditionalProps}
           dataSource={props.paginatedData}
-          bordered={true}
           pagination={false}
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}

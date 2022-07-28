@@ -1,0 +1,67 @@
+@import "./variables.scss";
+
+// Site layout
+.site-layout-background {
+  border-top: 1px solid $fill-dark;
+  border-bottom: 2px solid $fill-dark;
+  padding: 0;
+  background-color: $fill-dark;
+}
+.site-title {
+  a {
+    color: $fill-dark;
+  }
+}
+.site-header__item {
+  background-color: $text-light;
+}
+
+// Sidebar
+.sidebar-toggle {
+  height: 100%;
+  background: $fill-dark;
+  span {
+    color: $text-light;
+  }
+}
+.sidebar {
+  border-right: 1px solid $border-dark;
+}
+.sidebar--borderless {
+  border-right: 0;
+}
+.submenu {
+  color: $text;
+}
+
+// Master lookup
+.master-look-up {
+  label {
+    //color: $interactive;
+  }
+}
+
+// Footer
+.footer {
+  color: $text-disabled;
+}
+
+// Pagination
+.pagination__page-count {
+  background-color: $interactive-disabled;
+  color: $text;
+}
+
+// Login modal
+.login-modal__message {
+  color: $danger !important;
+}
+
+// Table filter
+.filter-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $accent-light;
+  color: $text;
+}
