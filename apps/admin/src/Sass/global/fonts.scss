@@ -51,3 +51,21 @@
     url(//fonts.gstatic.com/ea/notosansbengaliui/v1/NotoSansBengaliUI-Bold.woff) format("woff"),
     url(//fonts.gstatic.com/ea/notosansbengaliui/v1/NotoSansBengaliUI-Bold.ttf) format("truetype");
 }
+
+
+@font-face {
+  font-family: 'AvertaLight';
+  src: url("~/Fonts/averta-light.woff") format('woff');
+}
+@font-face {
+  font-family: 'Averta';
+  src: url("~/Fonts/averta-regular.woff") format('woff');
+}
+@font-face {
+  font-family: 'AvertaSemiBold';
+  src: url("~/Fonts/averta-semibold.woff") format('woff');
+}
+@font-face {
+  font-family: 'Glyphicons Halflings';
+  src: url("~/Fonts/glyphicons-halflings-regular.woff") format('woff'), url("~/Fonts/glyphicons-halflings-regular.svg") format('svg');
+}

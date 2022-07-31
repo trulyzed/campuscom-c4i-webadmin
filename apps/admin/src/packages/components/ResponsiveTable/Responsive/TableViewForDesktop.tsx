@@ -1,11 +1,12 @@
 import React from "react"
 import Table, { TableProps } from "antd/lib/table"
 import { Col, Row, SpinProps } from "antd"
-import { IDataTableProps, sortByNumber } from "~/packages/components/ResponsiveTable"
-import { processTableMetaWithUserMetaConfig } from "~/packages/components/ResponsiveTable/TableMetaShadowingProcessor"
+import { IDataTableProps } from "~/packages/components/ResponsiveTable"
+// import { processTableMetaWithUserMetaConfig } from "~/packages/components/ResponsiveTable/TableMetaShadowingProcessor"
 import { DownloadButton } from "~/packages/components/ResponsiveTable/DownloadButton"
-import { TableSettings } from "~/packages/components/ResponsiveTable/TableSettings/TableSettings"
+// import { TableSettings } from "~/packages/components/ResponsiveTable/TableSettings/TableSettings"
 import { Pagination } from "~/packages/components/ResponsiveTable/Pagination"
+import { DropdownActions } from "~/packages/components/Actions/DropdownActions"
 
 const DEFAULT_PAGE_SIZE = 20
 export function TableViewForDesktop(
@@ -45,22 +46,16 @@ export function TableViewForDesktop(
       )}
       <Col flex={"auto"}>
         <Row
-          gutter={4}
+          gutter={0}
           justify="end"
-          style={{
-            marginTop: "10px",
-            marginRight: "10px",
-            marginBottom: "10px"
-          }}
+          className="table-actions"
         >
           <Col flex="auto"></Col>
-          {props.actions &&
-            props.actions?.length > 0 &&
-            props.actions.map((action, i) => (
-              <Col key={i} flex="none">
-                {action}
-              </Col>
-            ))}
+          {props.actions?.length ?
+            <Col flex="none">
+              {props.actions[0]}
+            </Col>
+            : null}
           {props.searchFunc &&
             props.searchParams &&
             !props.isModal &&
@@ -68,16 +63,28 @@ export function TableViewForDesktop(
             props.conditionalProps.dataSource &&
             props.conditionalProps.dataSource.length > 0 &&
             !props.hideDownload && (
-              <Col flex="none">
-                <DownloadButton
-                  searchFunc={props.searchFunc}
-                  searchParams={props.searchParams}
-                  downloading={props.downloading}
-                  setDownloading={props.setDownloading}
-                />
-              </Col>
+              <>
+                <Col flex="none">
+                  <DownloadButton
+                    searchFunc={props.searchFunc}
+                    searchParams={props.searchParams}
+                    downloading={props.downloading}
+                    setDownloading={props.setDownloading}
+                    fileType={"CSV"}
+                  />
+                </Col>
+                <Col flex="none">
+                  <DownloadButton
+                    searchFunc={props.searchFunc}
+                    searchParams={props.searchParams}
+                    downloading={props.downloading}
+                    setDownloading={props.setDownloading}
+                    fileType={"EXCEL"}
+                  />
+                </Col>
+              </>
             )}
-          {props.tableName && !props.hideSettings && (
+          {/* {props.tableName && !props.hideSettings && (
             <Col flex="none">
               <TableSettings
                 tableName={props.tableName}
@@ -99,7 +106,13 @@ export function TableViewForDesktop(
                 }}
               />
             </Col>
-          )}
+          )} */}
+          <DropdownActions title="More" actions={[
+            {
+              title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
+              key: 'setting',
+            }
+          ]} />
         </Row>
       </Col>
       <Col span={24}>

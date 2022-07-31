@@ -1,5 +1,4 @@
-// import { TextAction } from "~/packages/components/Actions/TextAction"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 import { renderBoolean, renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
@@ -51,14 +50,11 @@ export const membershipProgramListTableColumns: TableColumnType = [
     title: "Action",
     dataIndex: 'action',
     render: (_, record: any) => (
-      <IconButton
-        toolTip="Delete Membership Program"
-        iconType="remove"
-        onClickRemove={() => MembershipProgramQueries.delete({ data: { ids: [record.id] } })}
+      <ContextAction
+        type="delete"
+        queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [record.id] } }), [MembershipProgramQueries.delete])}
         refreshEventName="REFRESH_MEMBER_PROGRAM_LIST"
-        shape="default"
       />
-      // <TextAction text={"Delete"} queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [record.id] } }), [MembershipProgramQueries.delete])} type={'delete'} />
     )
   }
 ]

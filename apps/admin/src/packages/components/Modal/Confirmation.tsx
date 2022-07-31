@@ -3,7 +3,7 @@ import { message, Modal } from "antd"
 import { ExclamationCircleOutlined } from "@ant-design/icons"
 import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 
-export const showDeleteConfirm = (
+export const showDeleteConfirm = async (
   remove: () => Promise<IApiResponse>,
   { success, error, title, warningText }: { success?: string; error?: string; title?: string; warningText?: string } = {
     success: "Delete Successfull",
@@ -12,29 +12,36 @@ export const showDeleteConfirm = (
     warningText: ""
   }
 ) => {
-  Modal.confirm({
-    title: title,
-    icon: <ExclamationCircleOutlined />,
-    content: warningText,
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      remove().then((result: IApiResponse) => {
-        if (result.success) message.success(success, 2)
-        else {
-          if (typeof result.error === "string") message.error(result.error, 2)
-          else if (Array.isArray(result.error) && result.error.length > 0) {
-            result.error.forEach((err) => message.error(err.message, 2))
-          } else {
-            message.error(error, 2)
+  return new Promise<boolean>((resolve, reject) => {
+    Modal.confirm({
+      title: title,
+      icon: <ExclamationCircleOutlined />,
+      content: warningText,
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        remove().then((result: IApiResponse) => {
+          if (result.success) {
+            message.success(success, 2)
+            resolve(true)
           }
-        }
-      })
-    },
-    onCancel() {
-      console.log("Cancel")
-    }
+          else {
+            if (typeof result.error === "string") message.error(result.error, 2)
+            else if (Array.isArray(result.error) && result.error.length > 0) {
+              result.error.forEach((err) => message.error(err.message, 2))
+            } else {
+              message.error(error, 2)
+            }
+            reject(false)
+          }
+        })
+      },
+      onCancel() {
+        console.log("Cancel")
+        reject(false)
+      }
+    })
   })
 }
 

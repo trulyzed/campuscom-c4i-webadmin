@@ -72,14 +72,26 @@ export const ListViewforMobile = (
                 props.conditionalProps.dataSource &&
                 props.conditionalProps.dataSource.length > 0 &&
                 !props.hideDownload && (
-                  <Col flex="none">
-                    <DownloadButton
-                      searchFunc={props.searchFunc}
-                      searchParams={props.searchParams}
-                      downloading={props.downloading}
-                      setDownloading={props.setDownloading}
-                    />
-                  </Col>
+                  <>
+                    <Col flex="none">
+                      <DownloadButton
+                        searchFunc={props.searchFunc}
+                        searchParams={props.searchParams}
+                        downloading={props.downloading}
+                        setDownloading={props.setDownloading}
+                        fileType={"CSV"}
+                      />
+                    </Col>
+                    <Col flex="none">
+                      <DownloadButton
+                        searchFunc={props.searchFunc}
+                        searchParams={props.searchParams}
+                        downloading={props.downloading}
+                        setDownloading={props.setDownloading}
+                        fileType={"EXCEL"}
+                      />
+                    </Col>
+                  </>
                 )}
               {props.tableName && !props.hideSettings && (
                 <Col flex="none">

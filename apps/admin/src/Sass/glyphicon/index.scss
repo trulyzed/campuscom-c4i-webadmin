@@ -1,0 +1,40 @@
+@import "~/Sass/global/variables.scss";
+
+.glyphicon {
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  &::before {
+    position: relative;
+    top: -1px;
+    right: -1px;
+  }
+
+  &--danger {
+    color: $danger;
+  }
+  &--in-circle {
+    background-color: white;
+    color: $interactive;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.glyphicon-plus:before {
+  content: "\002b";
+}
+.glyphicon-trash:before {
+  content: "\E020";
+}
+.glyphicon-edit:before {
+  content: "\270F";
+}
+.glyphicon-down:before {
+  content: "\E114";
+}
+.glyphicon-setting:before {
+  content: "\E019";
+}
