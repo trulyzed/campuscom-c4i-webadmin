@@ -32,7 +32,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
         <>
           {" "}
           {props.iconType ? (
-            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} />
+            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
           ) : (
             <Button
               type="primary"

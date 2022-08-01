@@ -35,7 +35,7 @@ export const List = () => {
               formMeta={MembershipProgramFormMeta}
               formSubmitApi={createEntity}
               buttonLabel={`Create`}
-              buttonProps={{ icon: <span className="glyphicon glyphicon-plus glyphicon--in-circle mr-5" />, }}
+              iconType={'create'}
             />
           ]
         }}

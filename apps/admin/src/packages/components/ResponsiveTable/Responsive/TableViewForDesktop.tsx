@@ -11,6 +11,7 @@ import { DropdownActions } from "~/packages/components/Actions/DropdownActions"
 const DEFAULT_PAGE_SIZE = 20
 export function TableViewForDesktop(
   props: IDataTableProps & {
+    tableTitle?: string
     loading?: boolean | SpinProps
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
@@ -21,25 +22,21 @@ export function TableViewForDesktop(
   }
 ) {
   return (
-    <Row style={{ backgroundColor: "#fafafa", ...props.style }}>
+    <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
+      {props.tableTitle ?
+        <Col md={24} className={"ml-10 mt-20"}>
+          <h2>{props.tableTitle}</h2>
+        </Col>
+        : null}
       {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (
-        <Col
-          flex={"auto"}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            paddingTop: "10px",
-            paddingRight: "10px",
-            paddingBottom: "10px",
-            marginLeft: "5px"
-          }}
-        >
+        <Col>
           {!props.loading && props.conditionalProps.dataSource.length ? (
             <Pagination
               current={props.currentPagination || 0}
               onChange={props.paginationChange}
               defaultPageSize={DEFAULT_PAGE_SIZE}
               total={props.conditionalProps.dataSource.length}
+              showSummary
             />
           ) : null}
         </Col>
@@ -124,6 +121,18 @@ export function TableViewForDesktop(
           rowKey={props.rowKey || ((record: any) => record.rowKey)}
         />
       </Col>
+      {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (
+        <Col>
+          {!props.loading && props.conditionalProps.dataSource.length ? (
+            <Pagination
+              current={props.currentPagination || 0}
+              onChange={props.paginationChange}
+              defaultPageSize={DEFAULT_PAGE_SIZE}
+              total={props.conditionalProps.dataSource.length}
+            />
+          ) : null}
+        </Col>
+      )}
     </Row>
   )
 }

@@ -92,6 +92,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
             setCurrentPagination={setCurrentPagination}
             {...props.tableProps}
             searchParams={searchParams}
+            tableTitle={props.title}
           />
         </>
       )}

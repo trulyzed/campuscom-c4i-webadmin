@@ -12,7 +12,7 @@ import { querystringToObject } from "~/packages/utils/QueryStringToObjectConvert
 import { getAndScrollToPosition } from "~/packages/components/ResponsiveTable/ManageScroll"
 
 const DEFAULT_PAGE_SIZE = 20
-export const ResponsiveTable = (props: IDataTableProps) => {
+export const ResponsiveTable = (props: IDataTableProps & { tableTitle?: string }) => {
   const [desktopView, setDesktopView] = useState(true)
   useDeviceViews((deviceViews: IDeviceView) => {
     setDesktopView(deviceViews.desktop)
@@ -137,7 +137,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
   return desktopView || conditionalProps.rowSelection ? (
     <TableViewForDesktop
       {...props}
-      title={() => props.title || props.tableName}
+      tableTitle={props.tableTitle}
       loading={props.loading || loading}
       currentPagination={props.currentPagination || currentPagination}
       conditionalProps={conditionalProps}

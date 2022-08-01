@@ -51,6 +51,33 @@
   background-color: $interactive-disabled;
   color: $text;
 }
+.ant-pagination-prev, .ant-pagination-next {
+  margin-right: 0;
+  button {
+    color: $interactive;
+  }
+}
+.ant-pagination-item {
+  margin-right: 0;
+  a {
+    text-decoration: none;
+    color: $interactive;
+  }
+
+  &-active {
+    border: none;
+    a {
+      color: $text;
+      font-weight: bold;
+      &::before {
+        content: '... Page ';
+      }
+      &::after {
+        content: ' ...';
+      }
+    }
+  }
+}
 
 // Login modal
 .login-modal__message {
