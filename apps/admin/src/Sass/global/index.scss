@@ -32,6 +32,10 @@
 //   }
 // }
 
+.logo {
+  text-decoration: none;
+}
+
 .hidden {
   height: 0;
   margin: 0 !important;
@@ -111,7 +115,6 @@
 
 .ant-form-item-label {
   label {
-    height: 40px !important;
     white-space: normal;
   }
 }

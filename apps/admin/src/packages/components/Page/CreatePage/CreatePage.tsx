@@ -21,7 +21,7 @@ export interface ICreatePageProps {
   formSubmitApi: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   helpKey?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   refreshEventAfterFormSubmission?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
@@ -88,7 +88,7 @@ export function CreatePage(props: ICreatePageProps) {
               title={props.title}
               helpKey={props.helpKey}
               loading={loading}
-              isHorizontal={props.isHorizontal}
+              isVertical={props.isVertical}
               initialFormValue={props.initialFormValue}
               defaultFormValue={props.defaultFormValue}
               applyButtonLabel="Submit"

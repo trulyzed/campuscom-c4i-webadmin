@@ -69,7 +69,7 @@ export function MetaDrivenForm({
   applyButtonLabel?: string
   applyButtonAriaControl?: string
   clearButtonLabel?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   showFullForm?: boolean
   setCurrentPagination?: (page: number) => void
   closeModal?: () => void
@@ -368,7 +368,7 @@ export function MetaDrivenForm({
 
       <Form
         id={formId}
-        layout="horizontal"
+        layout={props.isVertical ? "vertical" : "horizontal"}
         initialValues={initialFormValue}
         form={formInstance}
         scrollToFirstError
@@ -383,7 +383,7 @@ export function MetaDrivenForm({
         <FormError errorMessages={props.errorMessages} />
         <SearchFormFields
           meta={meta}
-          isHorizontal={props.isHorizontal}
+          isVertical={props.isVertical}
           formInstance={formInstance}
           clearTrigger={clearTrigger}
           showLess={showLess}
@@ -454,10 +454,11 @@ const SearchFormFields = (props: {
   formInstance: FormInstance
   clearTrigger?: boolean
   showLess: boolean
-  isHorizontal?: boolean
+  isVertical?: boolean
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }) => {
+  const labelColSpan = props.isVertical ? 24 : 8
   return (
     <Row gutter={16}>
       {props.meta
@@ -475,7 +476,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -488,7 +489,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -501,7 +502,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -514,7 +515,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 12}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 20}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -527,7 +528,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -540,7 +541,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 4}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -553,7 +554,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -566,7 +567,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -579,7 +580,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -592,7 +593,7 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
                     dependencyValue={props.dependencyValue[field.fieldName]}
@@ -607,7 +608,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -621,7 +622,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -635,7 +636,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 8}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -649,7 +650,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 4}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 20}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -666,7 +667,7 @@ const SearchFormFields = (props: {
                         formInstance: props.formInstance,
                         clearTrigger: props.clearTrigger
                       }}
-                      labelColSpan={field.labelColSpan || 8}
+                      labelColSpan={field.labelColSpan || labelColSpan}
                       wrapperColSpan={field.wrapperColSpan || 24}
                     />
                   )
@@ -677,7 +678,7 @@ const SearchFormFields = (props: {
             }
           }
 
-          const lg = (props.isHorizontal || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
+          const lg = (props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
           const xs = 24
 
           return field.hidden ? (

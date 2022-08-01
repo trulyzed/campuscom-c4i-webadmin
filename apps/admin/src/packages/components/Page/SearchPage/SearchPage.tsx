@@ -59,41 +59,47 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
               </Col>
             </Row>
           )}
-
-          {props.meta && (
-            <MetaDrivenForm
-              title={props.title}
-              blocks={props.blocks}
-              helpKey={props.helpKey}
-              meta={props.meta}
-              metaName={props.metaName}
-              stopProducingQueryParams={props.stopProducingQueryParams}
-              autoApplyChangeFromQueryParams
-              initialFormValue={props.initialFormValue}
-              setCurrentPagination={setCurrentPagination}
-              onApplyChanges={(newFilterValues) => {
-                setSearchParams({
-                  ...props.defaultFormValue,
-                  ...newFilterValues
-                })
-                props.updatedParams &&
-                  props.updatedParams({
-                    ...props.defaultFormValue,
-                    ...newFilterValues
-                  })
-                if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
-                else setCurrentPagination(1)
-              }}
-            />
-          )}
-
-          <ResponsiveTable
-            currentPagination={currentPagination}
-            setCurrentPagination={setCurrentPagination}
-            {...props.tableProps}
-            searchParams={searchParams}
-            tableTitle={props.title}
-          />
+          <Row gutter={25}>
+            {props.meta &&
+              <Col lg={6} xl={5}>
+                <MetaDrivenForm
+                  title={`${props.title} Filter`}
+                  blocks={props.blocks}
+                  helpKey={props.helpKey}
+                  meta={props.meta}
+                  metaName={props.metaName}
+                  stopProducingQueryParams={props.stopProducingQueryParams}
+                  autoApplyChangeFromQueryParams
+                  initialFormValue={props.initialFormValue}
+                  setCurrentPagination={setCurrentPagination}
+                  onApplyChanges={(newFilterValues) => {
+                    setSearchParams({
+                      ...props.defaultFormValue,
+                      ...newFilterValues
+                    })
+                    props.updatedParams &&
+                      props.updatedParams({
+                        ...props.defaultFormValue,
+                        ...newFilterValues
+                      })
+                    if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
+                    else setCurrentPagination(1)
+                  }}
+                  isVertical
+                  showFullForm
+                />
+              </Col>
+            }
+            <Col lg={18} xl={19}>
+              <ResponsiveTable
+                currentPagination={currentPagination}
+                setCurrentPagination={setCurrentPagination}
+                {...props.tableProps}
+                searchParams={searchParams}
+                tableTitle={props.title}
+              />
+            </Col>
+          </Row>
         </>
       )}
       {props.tableProps.searchFunc && !checkAdminApiPermission(props.tableProps.searchFunc) && (

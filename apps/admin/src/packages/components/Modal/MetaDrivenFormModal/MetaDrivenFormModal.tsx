@@ -15,7 +15,7 @@ export const MetaDrivenFormModal = (props: {
   meta: IField[]
   metaName?: string
   helpKey?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   initialFormValue?: { [key: string]: any }
   initialFormValueApi?: IQuery
   defaultFormValue?: { [key: string]: any }
@@ -83,7 +83,7 @@ export const MetaDrivenFormModal = (props: {
         title={props.title}
         helpKey={props.helpKey}
         loading={loading}
-        isHorizontal={props.isHorizontal}
+        isVertical={props.isVertical}
         isModal={true}
         closeModal={props.closeModal}
         initialFormValue={initialFormValue}

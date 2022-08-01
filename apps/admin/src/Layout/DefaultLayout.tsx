@@ -37,7 +37,7 @@ export function DefaultLayout(props: ILayoutProps) {
             <Col style={{ height: "100%" }} className="sidebar-toggle" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
-            <Col className="site-header__item" style={{ height: "100%", borderBottomLeftRadius: "15px" }} flex="auto" role="navigation" aria-label="Go to home page">
+            <Col className="site-header__item" style={{ height: "100%", }} flex="auto" role="navigation" aria-label="Go to home page">
               <h2 aria-label="School Name" className="site-title">
                 <Link
                   id="main-title"
@@ -46,6 +46,7 @@ export function DefaultLayout(props: ILayoutProps) {
                     marginLeft: "20px"
                   }}
                   to="/"
+                  className="logo"
                 >
                   C4I Webadmin
                 </Link>
