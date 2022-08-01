@@ -1,7 +1,6 @@
 import React, { Suspense, useState, useEffect } from "react"
 import { Col, Layout, Row, Spin } from "antd"
 import { Link } from "react-router-dom"
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/packages/components/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
@@ -34,7 +33,7 @@ export function DefaultLayout(props: ILayoutProps) {
       <Layout className="site-layout">
         <Header role="none" className="site-layout-background">
           <Row style={{ height: "100%" }}>
-            <Col style={{ height: "100%" }} className="sidebar-toggle" flex="50px" role="navigation" aria-label="Sidebar Toggle">
+            <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
             <Col className="site-header__item" style={{ height: "100%", }} flex="auto" role="navigation" aria-label="Go to home page">
@@ -86,9 +85,12 @@ interface IMenuToggle {
 
 function MenuToggle(props: IMenuToggle) {
   return (
-    <>
-      {props.collapsed && <MenuUnfoldOutlined role="button" style={{ fontSize: "24px", padding: "0 15px", verticalAlign: "middle" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
-      {!props.collapsed && <MenuFoldOutlined role="button" style={{ fontSize: "24px", padding: "0 15px", verticalAlign: "middle" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
-    </>
+    <span
+      style={{ fontSize: '25px', flex: 1, textAlign: 'center' }}
+      tabIndex={0}
+      role={"button"}
+      className="glyphicon glyphicon-th-large cursor-pointer"
+      onClick={() => props.setCollapsed(!props.collapsed)}
+      onKeyDown={() => props.setCollapsed(!props.collapsed)} />
   )
 }

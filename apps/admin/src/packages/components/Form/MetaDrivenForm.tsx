@@ -50,8 +50,8 @@ export const HELPER_FIELD_PATTERN = "__##__"
 
 export function MetaDrivenForm({
   showClearbutton = true,
-  applyButtonLabel = "Search",
-  clearButtonLabel = "Clear",
+  applyButtonLabel = "Apply",
+  clearButtonLabel = "Clear All",
   ...props
 }: {
   meta: IField[]
@@ -77,6 +77,7 @@ export function MetaDrivenForm({
   autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
   isWizard?: boolean
+  bordered?: boolean
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
@@ -288,13 +289,21 @@ export function MetaDrivenForm({
 
   return (
     <Card
+      bordered={props.bordered}
       title={
         <Row>
-          <Col flex="auto">
-            <SidebarMenuTargetHeading level={1} targetID="navigation">
+          <Col md={24}>
+            <SidebarMenuTargetHeading level={3} targetID="navigation">
               {props.title}
             </SidebarMenuTargetHeading>
           </Col>
+          {showClearbutton && !props.isModal && (
+            <Col>
+              <Button size="small" onClick={clearParams}>
+                {clearButtonLabel}
+              </Button>
+            </Col>
+          )}
           {props.blocks &&
             props.blocks.map((x, i) => (
               <Col flex="none" key={i}>
@@ -312,7 +321,7 @@ export function MetaDrivenForm({
         </Row>
       }
       loading={props.loading}
-      bodyStyle={{ padding: "20px", paddingBottom: "0px" }}
+      bodyStyle={{ padding: "20px", paddingBottom: "0px", }}
       {...((props.isModal || props.closeModal) && {
         actions: [
           <Row justify="end" gutter={[8, 8]} style={{
@@ -396,7 +405,7 @@ export function MetaDrivenForm({
             gutter={[8, 8]}
             style={{
               padding: "10px",
-              borderTop: "1px solid #f0f2f5"
+              borderTop: props.bordered ? "1px solid #f0f2f5" : undefined
             }}
           >
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
@@ -421,13 +430,6 @@ export function MetaDrivenForm({
                   }}
                 >
                   Cancel
-                </Button>
-              </Col>
-            )}
-            {showClearbutton && (
-              <Col>
-                <Button type="primary" onClick={clearParams}>
-                  {clearButtonLabel}
                 </Button>
               </Col>
             )}

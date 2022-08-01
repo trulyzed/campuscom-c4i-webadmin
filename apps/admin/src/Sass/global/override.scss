@@ -1,5 +1,9 @@
 @import "~/Sass/global/variables.scss";
 
+h2, h3, h5 {
+  font-family: AvertaLight;
+}
+
 // antd wizard
 .ant-steps {
   .ant-steps-item-title {
@@ -79,4 +83,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+// antd pagination
+.ant-pagination-prev, .ant-pagination-next {
+  margin-right: 0;
+  button {
+    color: $interactive;
+  }
+}
+.ant-pagination-item {
+  margin-right: 0;
+  a {
+    text-decoration: none;
+    color: $interactive;
+  }
+
+  &-active {
+    border: none;
+    a {
+      color: $text;
+      font-weight: bold;
+      &::before {
+        content: '... Page ';
+      }
+      &::after {
+        content: ' ...';
+      }
+    }
+  }
+}
+
+// antd form
+.ant-form-item-label {
+  font-weight: bold;
+}
+.ant-form-vertical .ant-form-item {
+  margin-bottom: 10px;
 }

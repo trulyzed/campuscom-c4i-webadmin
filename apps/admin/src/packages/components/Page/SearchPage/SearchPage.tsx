@@ -6,6 +6,7 @@ import { Button, Col, Result, Row } from "antd"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
+import Title from "antd/lib/typography/Title"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title: string
@@ -33,6 +34,13 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     <div className="site-layout-content">
       {props.tableProps.searchFunc && checkAdminApiPermission(props.tableProps.searchFunc) && (
         <>
+          <Row>
+            <Col>
+              <Title level={3}>
+                Manage {props.title}
+              </Title>
+            </Col>
+          </Row>
           {!props.meta && (
             <Row
               justify="space-between"
