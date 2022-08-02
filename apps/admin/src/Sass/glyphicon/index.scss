@@ -11,6 +11,9 @@
     right: -1px;
   }
 
+  &--primary {
+    color: $interactive;
+  }
   &--danger {
     color: $danger;
   }
@@ -40,4 +43,7 @@
 }
 .glyphicon-th-large:before {
   content: "\E011";
+}
+.glyphicon-filter:before {
+  content: "\E138";
 }

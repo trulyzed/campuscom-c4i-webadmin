@@ -2,7 +2,6 @@
 @import "./fonts";
 @import "./global";
 @import "./searchPage";
-@import "./spacing";
 
 // a,
 // tr,
@@ -142,4 +141,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.link {
+  text-decoration: underline;
+  color: $interactive;
+  cursor: pointer;
 }

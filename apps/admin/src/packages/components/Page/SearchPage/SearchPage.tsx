@@ -7,6 +7,8 @@ import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import Title from "antd/lib/typography/Title"
+import Text from "antd/lib/typography/Text"
+import { DEFAULT_PAGE_SIZE } from "~/packages/components/ResponsiveTable/Responsive"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title: string
@@ -25,6 +27,11 @@ export interface ISearchListWithVisibleSearchFormProp {
 export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
   const [searchParams, setSearchParams] = useState<{ [key: string]: any }>()
   const [currentPagination, setCurrentPagination] = useState<number>()
+  const [pagination, setPagination] = useState<{ currentPage: number, total: number, currentPageSize: number }>({
+    currentPage: 1,
+    total: 0,
+    currentPageSize: DEFAULT_PAGE_SIZE
+  })
 
   useEffect(() => {
     if (props.initSearchAtMount) setSearchParams({ ...props.initialFormValue, ...props.defaultFormValue })
@@ -35,10 +42,13 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
       {props.tableProps.searchFunc && checkAdminApiPermission(props.tableProps.searchFunc) && (
         <>
           <Row>
-            <Col>
+            <Col md={24} className={'mt-15'}>
               <Title level={3}>
                 Manage {props.title}
               </Title>
+            </Col>
+            <Col md={24} className={'mb-10'}>
+              <Text style={{ textTransform: 'lowercase' }} type="secondary" className="ml-10">{pagination.total} {props.title} displayed</Text>
             </Col>
           </Row>
           {!props.meta && (
@@ -105,6 +115,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 {...props.tableProps}
                 searchParams={searchParams}
                 tableTitle={props.title}
+                onPaginationChange={setPagination}
               />
             </Col>
           </Row>

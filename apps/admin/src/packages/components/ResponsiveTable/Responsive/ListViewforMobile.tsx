@@ -12,10 +12,11 @@ export const ListViewforMobile = (
     loading?: boolean | SpinProps
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
-    setConditionalProps: (props: TableProps<{ [key: string]: string }>) => void
+    setConditionalProps: (props: TableProps<{ [key: string]: string }> & { currentPagination?: number }) => void
     downloading: boolean
     setDownloading: (flag: boolean) => void
     paginatedData: any[]
+    currentPageSize: number
   }
 ) => {
   return (
@@ -41,7 +42,7 @@ export const ListViewforMobile = (
                 <Pagination
                   current={props.currentPagination || 0}
                   onChange={props.paginationChange}
-                  defaultPageSize={20}
+                  defaultPageSize={props.currentPageSize}
                   total={props.conditionalProps.dataSource.length}
                 />
               ) : null}

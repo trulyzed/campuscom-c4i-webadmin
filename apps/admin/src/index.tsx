@@ -14,6 +14,7 @@ import "~/Sass/quill/index.scss"
 import "~/Less/theme.less"
 import "~/Sass/global/theme.scss"
 import "~/Sass/global/override.scss"
+import "~/Sass/global/spacing.scss"
 
 if (process.env.REACT_APP_SENTRY_RELEASE && process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({

@@ -8,17 +8,17 @@ import { DownloadButton } from "~/packages/components/ResponsiveTable/DownloadBu
 import { Pagination } from "~/packages/components/ResponsiveTable/Pagination"
 import { DropdownActions } from "~/packages/components/Actions/DropdownActions"
 
-const DEFAULT_PAGE_SIZE = 20
 export function TableViewForDesktop(
   props: IDataTableProps & {
     tableTitle?: string
     loading?: boolean | SpinProps
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
-    setConditionalProps: (props: TableProps<{ [key: string]: string }>) => void
+    setConditionalProps: (props: TableProps<{ [key: string]: string } & { currentPagination?: number }>) => void
     downloading: boolean
     setDownloading: (flag: boolean) => void
     paginatedData: any[]
+    currentPageSize: number
   }
 ) {
   return (
@@ -34,7 +34,7 @@ export function TableViewForDesktop(
             <Pagination
               current={props.currentPagination || 0}
               onChange={props.paginationChange}
-              defaultPageSize={DEFAULT_PAGE_SIZE}
+              defaultPageSize={props.currentPageSize}
               total={props.conditionalProps.dataSource.length}
               showSummary
             />
@@ -127,7 +127,7 @@ export function TableViewForDesktop(
             <Pagination
               current={props.currentPagination || 0}
               onChange={props.paginationChange}
-              defaultPageSize={DEFAULT_PAGE_SIZE}
+              defaultPageSize={props.currentPageSize}
               total={props.conditionalProps.dataSource.length}
             />
           ) : null}

@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react"
-import { Col, Layout, Row, Spin } from "antd"
+import { Card, Col, Layout, Row, Spin } from "antd"
 import { Link } from "react-router-dom"
 import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/packages/components/Hooks/useSidebarCollapsed"
@@ -55,7 +55,9 @@ export function DefaultLayout(props: ILayoutProps) {
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px" }}>
-          <Breadcrumb />
+          <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
+            <Breadcrumb />
+          </Card>
           <Suspense
             fallback={
               <Spin

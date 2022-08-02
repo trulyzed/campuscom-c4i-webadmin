@@ -1,5 +1,6 @@
 import React, { useCallback } from "react"
 import { Button, PaginationProps, Pagination as AntdPagination } from "antd"
+import { DEFAULT_PAGE_SIZE } from "./Responsive"
 
 export const Pagination = (props: {
   current: number
@@ -11,6 +12,7 @@ export const Pagination = (props: {
   const startPos = ((props.current - 1) * props.defaultPageSize) + 1
   let endPos = props.current * props.defaultPageSize
   endPos = endPos > (props.total || 0) ? (props.total || 0) : endPos
+  const showingAll = props.defaultPageSize === props.total
 
   const itemRender: PaginationProps['itemRender'] = useCallback((_, type, originalElement) => {
     if (type === 'prev') {
@@ -22,8 +24,8 @@ export const Pagination = (props: {
     return originalElement;
   }, [])
 
-  const handleShowAll = useCallback(() => {
-    props.onChange(1, props.total)
+  const handleShowAll = useCallback((reset?: boolean) => {
+    props.onChange(1, reset ? DEFAULT_PAGE_SIZE : props.total)
     // eslint-disable-next-line
   }, [])
 
@@ -46,7 +48,11 @@ export const Pagination = (props: {
           itemRender={itemRender}
           showLessItems
         />
-        <Button className="ml-12" title="Show All" children={"Show All"} onClick={handleShowAll} />
+        {(props.total || 0) <= DEFAULT_PAGE_SIZE ? null
+          : showingAll ?
+            <Button className="ml-12" title="Reset" children={"Reset"} onClick={() => handleShowAll(true)} />
+            : <Button className="ml-12" title="Show All" children={"Show All"} onClick={() => handleShowAll()} />
+        }
       </div>
     </div>
   )
