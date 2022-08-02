@@ -141,7 +141,7 @@ export const IconButton = (props: {
   } else {
     const icons: { [key: string]: JSX.Element } = {
       cart: <ShoppingCartOutlined alt="" />,
-      create: <span className="glyphicon glyphicon-plus glyphicon--in-circle mr-5" aria-label="create" />,
+      create: <span className="glyphicon glyphicon-plus-sign mr-5" aria-label="create" />,
       edit: <EditOutlined alt="" />,
       close: <CloseOutlined alt="" />,
       copy: <CopyOutlined alt="" />,

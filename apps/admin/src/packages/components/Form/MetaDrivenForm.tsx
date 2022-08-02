@@ -76,6 +76,7 @@ export function MetaDrivenForm({
   stopProducingQueryParams?: boolean
   autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
+  isAside?: boolean
   isWizard?: boolean
   bordered?: boolean
 }) {
@@ -290,6 +291,7 @@ export function MetaDrivenForm({
   return (
     <Card
       bordered={props.bordered}
+      className={props.isAside ? 'is-aside' : ''}
       title={
         <Row>
           <Col md={24}>

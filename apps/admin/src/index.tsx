@@ -6,15 +6,12 @@ import { App } from "~/App"
 // import "antd/dist/antd.css"
 // import 'antd/dist/antd.dark.css';
 // import "antd/dist/antd.compact.css"
-import "~/Sass/global/index.scss"
 import "~/Sass/glyphicon/index.scss"
 import "~/Sass/quill/index.scss"
+import "~/Sass/index.scss"
+import "~/Less/index.less"
 // import "antd/lib/style/themes/default.less"
 // import "antd/dist/antd.less" // Import Ant Design styles by less entry
-import "~/Less/theme.less"
-import "~/Sass/global/theme.scss"
-import "~/Sass/global/override.scss"
-import "~/Sass/global/spacing.scss"
 
 if (process.env.REACT_APP_SENTRY_RELEASE && process.env.REACT_APP_SENTRY_DSN) {
   Sentry.init({

@@ -104,6 +104,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                     else setCurrentPagination(1)
                   }}
                   isVertical
+                  isAside
                   showFullForm
                 />
               </Col>
