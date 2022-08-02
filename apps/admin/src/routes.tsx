@@ -63,7 +63,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/contact-group", component: React.lazy(() => import("~/Pages/Administration/ContactGroups").then((x) => ({ default: x.List }))) },
   { path: "/administration/contact-group/:contactGroupID", component: React.lazy(() => import("~/Pages/Administration/ContactGroups/ContactGroupDetailsPage").then((x) => ({ default: x.ContactGroupDetailsPage }))) },
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
-  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Orders/create").then((x) => ({ default: x.Create }))) },
+  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/create").then((x) => ({ default: x.Create }))) },
 
   { path: "/configuration/identity-provider", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders").then((x) => ({ default: x.List }))) },
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },

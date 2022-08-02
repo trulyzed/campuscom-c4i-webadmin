@@ -17,6 +17,8 @@ export function FormDropDown(
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
+  console.log(props.dependencyValue)
+
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
     setOptions([])
     formInstance.setFieldsValue({ [fieldName]: undefined })

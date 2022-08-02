@@ -27,7 +27,20 @@ const meta: IField[] = [
     refLookupService: ProductQueries.getList,
     displayKey: "title",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['store'],
+    onDependencyChange: (value, { loadOptions }) => { loadOptions?.({ params: { store: value?.store } }) },
+  },
+  {
+    fieldName: "related_product",
+    label: "Related Product",
+    inputType: DROPDOWN,
+    refLookupService: ProductQueries.getList,
+    displayKey: "title",
+    valueKey: "id",
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['product'],
+    onDependencyChange: (value, { loadOptions }) => { loadOptions?.({ params: { id: value?.product } }) },
   },
 ]
 
