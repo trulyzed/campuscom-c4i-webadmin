@@ -77,6 +77,7 @@ export function MetaDrivenForm({
   autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
   isWizard?: boolean
+  resetOnSubmit?: boolean
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
@@ -154,6 +155,7 @@ export function MetaDrivenForm({
         }
         if (props.currentPagination) mergedParams["pagination"] = props.currentPagination
         props.onApplyChanges(mergedParams)
+        if (props.resetOnSubmit) formInstance.resetFields()
 
         if (!props.stopProducingQueryParams) {
           const _queryString = objectToQueryString(Object.keys(mergedParams).length > 0 ? mergedParams : null)
@@ -248,8 +250,15 @@ export function MetaDrivenForm({
             ...fieldValues
           }
         }
+        // if (field.dependencies?.length) {
+        //   const fieldsValue = formInstance.getFieldsValue(field.dependencies)
+        //   Object.keys(fieldsValue).forEach(key => {
+        //     if (fieldsValue[key] === undefined) delete fieldsValue[key]
+        //   })
+        //   if (Object.keys(fieldsValue).length) a[field.fieldName] = fieldsValue
+        // }
         return a;
-      }, { ...dependencyValue })
+      }, { ...dependencyValue } as Record<string, any>)
       return adjustedDependecyValue
     })
   }, [props.meta])
