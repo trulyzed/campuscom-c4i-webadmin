@@ -34,8 +34,8 @@ export const List = () => {
               formTitle={`Add Membership Program`}
               formMeta={MembershipProgramFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Membership Program`}
-              iconType="create"
+              buttonLabel={`Create`}
+              iconType={'create'}
             />
           ]
         }}

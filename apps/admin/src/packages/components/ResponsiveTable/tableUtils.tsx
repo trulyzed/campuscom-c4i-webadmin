@@ -10,6 +10,7 @@ import { convertAmountToCSV } from "~/packages/utils/util"
 import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "~/packages/utils/parser"
 import DownloadableLink from "./DownloadableLink"
+import Text from "antd/lib/typography/Text"
 
 export const DATE_FORMAT = "MM/DD/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -42,15 +43,16 @@ const renderAmount = (text: any) => (!!text ? <div style={{ textAlign: "right" }
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
 
-const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, tagColor?: TagProps['color'] }) => {
-  const data = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
+const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, uncolorize?: boolean, tagColor?: TagProps['color'] }) => {
+  const formattedText = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
+  const data = options?.uncolorize ? formattedText : <Text type={text ? 'success' : 'danger'}>{formattedText}</Text>
   if (typeof text === "boolean") {
     return options?.tagColor ? <Tag color={options?.tagColor}>{data}</Tag> : data
   } else return ""
 }
 
 const renderActiveStatus = (status: any) => {
-  return renderBoolean(status, { truthyText: 'Active', falsyText: 'Inactive', tagColor: status ? '#87d068' : '#f50' })
+  return renderBoolean(status, { truthyText: 'Active', falsyText: 'Inactive', tagColor: status ? '#4B8400' : '#D7143B', uncolorize: true })
 }
 
 const renderWeek = (text: any[]) => {

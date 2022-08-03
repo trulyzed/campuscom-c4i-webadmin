@@ -15,7 +15,7 @@ interface IMetaDrivenFormModalOpenButton {
   formTitle: React.ReactNode
   formMeta: IField[]
   formMetaName?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   formSubmitApi: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
@@ -32,7 +32,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
         <>
           {" "}
           {props.iconType ? (
-            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} />
+            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
           ) : (
             <Button
               type="primary"
@@ -48,7 +48,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
         <MetaDrivenFormModal
           title={props.formTitle}
           helpKey={props.helpkey}
-          isHorizontal={props.isHorizontal}
+          isVertical={props.isVertical}
           meta={props.formMeta}
           metaName={props.formMetaName}
           formSubmitApi={props.formSubmitApi}

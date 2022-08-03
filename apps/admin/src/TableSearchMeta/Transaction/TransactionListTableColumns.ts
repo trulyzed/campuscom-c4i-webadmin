@@ -205,6 +205,6 @@ export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
       [TransactionQueries.getPaginatedList]
     ),
     tableName: "Transaction",
-    scroll: { x: 4000, y: 600 }
+    scroll: { x: 6000, y: 600 }
   }
 }

@@ -31,12 +31,12 @@ const RenderMenu = (props: {
     <>
       {props.title && (
         <button onClick={() => setExpanded(!expanded)} style={buttonStyle}>
-          <span style={{ color: "white" }}>{props.title}</span>
+          <span>{props.title}</span>
           <span>
             {expanded ? (
-              <UpOutlined style={{ color: "#ffffff", fontSize: "0.7rem" }} />
+              <UpOutlined style={{ fontSize: "0.7rem" }} />
             ) : (
-              <DownOutlined style={{ color: "#ffffff", fontSize: "0.7rem" }} />
+              <DownOutlined style={{ fontSize: "0.7rem" }} />
             )}
           </span>
         </button>
@@ -56,7 +56,7 @@ const RenderMenu = (props: {
                   <Link
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
-                    style={{ color: "#ffffff" }}
+                    className={'submenu'}
                   >
                     {x.title}
                   </Link>
@@ -94,11 +94,12 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       trigger={null}
       collapsible
       collapsed={props.collapsed}
+      className={`sidebar${props.collapsed ? " sidebar--borderless" : ""}`}
     >
-      <div style={{ overflow: "scroll", height: "100vh" }}>
+      <div style={{ overflowY: "auto", height: "100vh", padding: "10px 15px" }}>
         <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
         <button style={buttonStyle} onClick={props.logout}>
-          <span style={{ color: "white" }}>Logout</span>
+          <span>Logout</span>
         </button>
       </div>
     </Layout.Sider>

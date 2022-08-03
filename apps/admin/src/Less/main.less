@@ -1,34 +1,6 @@
-@import "./variables";
-@import "./fonts";
-@import "./global";
-
-// a,
-// tr,
-// td {
-//   &:focus {
-//     border: 2px solid !important;
-//     border-color: #1890ff !important;
-//     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-//     outline: 0;
-//   }
-// }
-
-// .ant-btn,
-// .ant-input,
-// .ant-select,
-// .ant-select-single,
-// .ant-select-selector,
-// .ant-select-item,
-// .ant-select-show-arrow,
-// .ant-checkbox-input,
-// .ant-radio-input {
-//   &:focus {
-//     border: 2px solid !important;
-//     border-color: #1890ff !important;
-//     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-//     outline: 0;
-//   }
-// }
+.logo {
+  text-decoration: none;
+}
 
 .hidden {
   height: 0;
@@ -50,7 +22,7 @@
 }
 
 .disabled-link {
-  color: $dark;
+  color: @dark;
   pointer-events: none;
 }
 
@@ -109,18 +81,17 @@
 
 .ant-form-item-label {
   label {
-    height: 40px !important;
     white-space: normal;
   }
 }
 
 .view-details {
-  &__action {
-    color: $purple;
+  .view-details__action {
+    color: @purple;
     cursor: pointer;
   }
 
-  &__modal-overlay {
+  .view-details__modal-overlay {
     width: 50%;
 
     @media only screen and (max-width: 767px) {
@@ -130,5 +101,17 @@
 }
 
 .cursor-pointer {
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  text-decoration: underline;
+  color: @interactive;
   cursor: pointer;
 }

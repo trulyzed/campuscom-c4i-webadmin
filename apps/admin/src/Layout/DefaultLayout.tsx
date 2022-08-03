@@ -1,7 +1,6 @@
 import React, { Suspense, useState, useEffect } from "react"
-import { Col, Layout, Row, Spin } from "antd"
+import { Card, Col, Layout, Row, Spin } from "antd"
 import { Link } from "react-router-dom"
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons"
 import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/packages/components/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
@@ -32,23 +31,21 @@ export function DefaultLayout(props: ILayoutProps) {
     <Layout>
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
       <Layout className="site-layout">
-        <Header role="none" className="site-layout-background" style={{ padding: 0 }}>
-          <Row>
-            <Col flex="50px" role="navigation" aria-label="Sidebar Toggle">
+        <Header role="none" className="site-layout-background">
+          <Row style={{ height: "100%" }}>
+            <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
-            <Col flex="auto" role="navigation" aria-label="Go to home page">
-              <h2 aria-label="School Name" style={{ marginTop: "-7px" }}>
+            <Col className="site-header__item" style={{ height: "100%", }} flex="auto" role="navigation" aria-label="Go to home page">
+              <h2 aria-label="School Name" className="site-title">
                 <Link
                   id="main-title"
                   style={{
-                    color: "white",
-                    fontSize: "25px",
-                    marginTop: "-7px",
-                    textAlign: "start",
+                    fontSize: "24px",
                     marginLeft: "20px"
                   }}
                   to="/"
+                  className="logo"
                 >
                   C4I Webadmin
                 </Link>
@@ -58,7 +55,9 @@ export function DefaultLayout(props: ILayoutProps) {
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px" }}>
-          <Breadcrumb />
+          <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
+            <Breadcrumb />
+          </Card>
           <Suspense
             fallback={
               <Spin
@@ -88,9 +87,12 @@ interface IMenuToggle {
 
 function MenuToggle(props: IMenuToggle) {
   return (
-    <>
-      {props.collapsed && <MenuUnfoldOutlined role="button" style={{ fontSize: "30px", paddingLeft: "15px", color: "white" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
-      {!props.collapsed && <MenuFoldOutlined role="button" style={{ fontSize: "30px", paddingLeft: "15px", color: "white" }} onClick={() => props.setCollapsed(!props.collapsed)} />}
-    </>
+    <span
+      style={{ fontSize: '25px', flex: 1, textAlign: 'center' }}
+      tabIndex={0}
+      role={"button"}
+      className="glyphicon glyphicon-th-large cursor-pointer"
+      onClick={() => props.setCollapsed(!props.collapsed)}
+      onKeyDown={() => props.setCollapsed(!props.collapsed)} />
   )
 }

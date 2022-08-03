@@ -220,7 +220,7 @@ export const Create = () => {
               <Card style={{ margin: "10px 0 0 10px" }} title={"Your Information"}>
                 <MetaDrivenForm
                   meta={meta2}
-                  onApplyChanges={(values) => console.log(values)}
+                  onApplyChanges={(values) => setCurrentStep(2)}
                   isWizard
                   applyButtonLabel="Continue"
                   showFullForm
@@ -278,30 +278,44 @@ export const Create = () => {
                 </Card>
                 : currentStep === 3 ?
                   <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
-                    {productData.map(product => (
-                      <div key={product.id} style={{ marginBottom: '15px' }}>
-                        <Title level={5}>"{product.title}" registration information</Title>
-                        <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.primary_email, value: student.id }))} />
-                      </div>
-                    ))}
+                    <Row>
+                      <Col>
+                        {productData.map(product => (
+                          <div key={product.id} style={{ marginBottom: '15px' }}>
+                            <Title level={5}>"{product.title}" registration information</Title>
+                            <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.primary_email, value: student.id }))} />
+                          </div>
+                        ))}
+                      </Col>
+                      <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                        <Button style={{ marginTop: "20px", }} disabled={!registrationData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(4)} />
+                      </Col>
+                    </Row>
                   </Card>
                   : currentStep === 4 ?
                     <Card style={{ margin: "10px 0 0 10px" }} title={"Additional Registration Information"}>
-                      {registrationData.map(registration => (
-                        <div key={registration.product} style={{ marginBottom: '20px' }}>
-                          <Title level={4}>"{productData.find(product => product.id === registration.product)?.title}" registration information</Title>
-                          <Form form={formInstance}>
-                            {registration.students.map((student: any) =>
-                              <div key={student}>
-                                <Text strong>{studentData.find(s => s.id === student)?.primary_email}</Text>
-                                <div style={{ marginTop: "30px" }}>
-                                  <FormInput fieldName="test" label={"Type related completed courses"} formInstance={formInstance} />
-                                </div>
-                              </div>
-                            )}
-                          </Form>
-                        </div>
-                      ))}
+                      <Row>
+                        <Col>
+                          {registrationData.map(registration => (
+                            <div key={registration.product} style={{ marginBottom: '20px' }}>
+                              <Title level={4}>"{productData.find(product => product.id === registration.product)?.title}" registration information</Title>
+                              <Form form={formInstance}>
+                                {registration.students.map((student: any) =>
+                                  <div key={student}>
+                                    <Text strong>{studentData.find(s => s.id === student)?.primary_email}</Text>
+                                    <div style={{ marginTop: "30px" }}>
+                                      <FormInput fieldName="test" label={"Type related completed courses"} formInstance={formInstance} />
+                                    </div>
+                                  </div>
+                                )}
+                              </Form>
+                            </div>
+                          ))}
+                        </Col>
+                        <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                          <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(6)} />
+                        </Col>
+                      </Row>
                     </Card>
                     : currentStep === 6 ?
                       <Card style={{ margin: "10px 0 0 10px" }} title={"Payment Details"}>

@@ -11,8 +11,11 @@ import { objectToQueryString } from "~/packages/utils/ObjectToQueryStringConvert
 import { querystringToObject } from "~/packages/utils/QueryStringToObjectConverter"
 import { getAndScrollToPosition } from "~/packages/components/ResponsiveTable/ManageScroll"
 
-const DEFAULT_PAGE_SIZE = 20
-export const ResponsiveTable = (props: IDataTableProps) => {
+export const DEFAULT_PAGE_SIZE = 20
+export const ResponsiveTable = (props: IDataTableProps & {
+  tableTitle?: string
+  onPaginationChange?: (pagination: { currentPage: number, total: number, currentPageSize: number }) => void
+}) => {
   const [desktopView, setDesktopView] = useState(true)
   useDeviceViews((deviceViews: IDeviceView) => {
     setDesktopView(deviceViews.desktop)
@@ -23,6 +26,8 @@ export const ResponsiveTable = (props: IDataTableProps) => {
   const [paginatedData, setPaginatedData] = useState<any[]>([])
   const [currentPagination, setCurrentPagination] = useState<number>(1)
   const firstRender = useFirstRender()
+  const [currentPageSize, setCurrentPageSize] = useState<number>(DEFAULT_PAGE_SIZE)
+  const { currentPagination: propCurrentPagination, onPaginationChange: propOnPaginationChange } = props
 
   const loadDataFromSearchFunc = (refreshParams?: { [key: string]: any }) => {
     processTableMetaWithUserMetaConfig(props.columns, props.tableName).then((columnsConfigByUser: TableColumnType) => {
@@ -82,7 +87,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
     // eslint-disable-next-line
   }, [])
 
-  const [conditionalProps, setConditionalProps] = useState<TableProps<{ [key: string]: string }>>({})
+  const [conditionalProps, setConditionalProps] = useState<TableProps<{ [key: string]: string }> & { currentPagination?: number }>({})
   const setTableProps = (columnsConfigByUser: TableColumnType, data: any = []) => {
     const _conditionalProps: TableProps<{ [key: string]: string }> = {
       ...props,
@@ -106,8 +111,8 @@ export const ResponsiveTable = (props: IDataTableProps) => {
     if (Array.isArray(_conditionalProps.dataSource)) {
       const page = props.currentPagination === undefined ? currentPagination : props.currentPagination
       !props.hidePagination && setPaginatedData(_conditionalProps.dataSource.slice(
-        page === 1 ? 0 : page * DEFAULT_PAGE_SIZE - DEFAULT_PAGE_SIZE,
-        page * DEFAULT_PAGE_SIZE
+        page === 1 ? 0 : page * currentPageSize - currentPageSize,
+        page * currentPageSize
       ))
       props.hidePagination && setPaginatedData(_conditionalProps.dataSource)
     }
@@ -118,9 +123,10 @@ export const ResponsiveTable = (props: IDataTableProps) => {
     setConditionalProps(_conditionalProps)
   }
 
-  const paginationChange = (page: number, pageSize = DEFAULT_PAGE_SIZE) => {
+  const paginationChange = (page: number, pageSize = currentPageSize) => {
     if (props.setCurrentPagination) props.setCurrentPagination(page)
     else setCurrentPagination(page)
+    setCurrentPageSize(pageSize)
 
     const quaryParams = { ...querystringToObject(), pagination: page }
     const _queryString = objectToQueryString(Object.keys(quaryParams).length > 0 ? quaryParams : null)
@@ -134,10 +140,19 @@ export const ResponsiveTable = (props: IDataTableProps) => {
       setPaginatedData(__dataSource)
     }
   }
+
+  useEffect(() => {
+    propOnPaginationChange?.({
+      currentPage: propCurrentPagination || currentPagination,
+      total: conditionalProps.dataSource?.length || 0,
+      currentPageSize
+    })
+  }, [conditionalProps.dataSource, propOnPaginationChange, propCurrentPagination, currentPagination, currentPageSize])
+
   return desktopView || conditionalProps.rowSelection ? (
     <TableViewForDesktop
       {...props}
-      title={() => props.title || props.tableName}
+      tableTitle={props.tableTitle}
       loading={props.loading || loading}
       currentPagination={props.currentPagination || currentPagination}
       conditionalProps={conditionalProps}
@@ -146,6 +161,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
       setDownloading={setDownloading}
       paginatedData={paginatedData}
       paginationChange={paginationChange}
+      currentPageSize={currentPageSize}
     />
   ) : (
     <ListViewforMobile
@@ -158,6 +174,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
       setDownloading={setDownloading}
       paginatedData={paginatedData}
       paginationChange={paginationChange}
+      currentPageSize={currentPageSize}
     />
   )
 }

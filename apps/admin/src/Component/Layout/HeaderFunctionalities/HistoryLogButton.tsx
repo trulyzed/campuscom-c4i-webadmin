@@ -97,7 +97,6 @@ export const HistoryLogButton = () => {
             iconType="history"
             toolTip="Last Visited Pages"
             onClick={() => setShowModal(true)}
-            buttonType="default"
           />
           {showModal && (
             <History Urls={Urls} mobileView={mobileView} showModal={showModal} setShowModal={setShowModal} />
@@ -106,7 +105,7 @@ export const HistoryLogButton = () => {
       )}
       {mobileView && (
         <>
-          <IconButton iconType="history" toolTip="" onClick={() => setShowModal(true)} buttonType="default" />
+          <IconButton iconType="history" toolTip="" onClick={() => setShowModal(true)} />
           {showModal && (
             <Modal width="1000px">
               <Card actions={[<Button onClick={() => setShowModal(false)}>Close</Button>]}>

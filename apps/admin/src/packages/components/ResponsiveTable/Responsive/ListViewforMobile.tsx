@@ -12,10 +12,11 @@ export const ListViewforMobile = (
     loading?: boolean | SpinProps
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
-    setConditionalProps: (props: TableProps<{ [key: string]: string }>) => void
+    setConditionalProps: (props: TableProps<{ [key: string]: string }> & { currentPagination?: number }) => void
     downloading: boolean
     setDownloading: (flag: boolean) => void
     paginatedData: any[]
+    currentPageSize: number
   }
 ) => {
   return (
@@ -37,14 +38,14 @@ export const ListViewforMobile = (
                 paddingBottom: "10px"
               }}
             >
-              {!props.loading && (
+              {!props.loading && props.conditionalProps.dataSource.length ? (
                 <Pagination
                   current={props.currentPagination || 0}
                   onChange={props.paginationChange}
-                  defaultPageSize={20}
+                  defaultPageSize={props.currentPageSize}
                   total={props.conditionalProps.dataSource.length}
                 />
-              )}
+              ) : null}
             </Col>
           )}
           <Col flex={"auto"}>
@@ -72,14 +73,26 @@ export const ListViewforMobile = (
                 props.conditionalProps.dataSource &&
                 props.conditionalProps.dataSource.length > 0 &&
                 !props.hideDownload && (
-                  <Col flex="none">
-                    <DownloadButton
-                      searchFunc={props.searchFunc}
-                      searchParams={props.searchParams}
-                      downloading={props.downloading}
-                      setDownloading={props.setDownloading}
-                    />
-                  </Col>
+                  <>
+                    <Col flex="none">
+                      <DownloadButton
+                        searchFunc={props.searchFunc}
+                        searchParams={props.searchParams}
+                        downloading={props.downloading}
+                        setDownloading={props.setDownloading}
+                        fileType={"CSV"}
+                      />
+                    </Col>
+                    <Col flex="none">
+                      <DownloadButton
+                        searchFunc={props.searchFunc}
+                        searchParams={props.searchParams}
+                        downloading={props.downloading}
+                        setDownloading={props.setDownloading}
+                        fileType={"EXCEL"}
+                      />
+                    </Col>
+                  </>
                 )}
               {props.tableName && !props.hideSettings && (
                 <Col flex="none">

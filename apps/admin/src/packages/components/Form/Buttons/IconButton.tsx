@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from "react"
 import {
   ShoppingCartOutlined,
-  PlusOutlined,
+  //PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   CloseOutlined,
@@ -141,7 +141,7 @@ export const IconButton = (props: {
   } else {
     const icons: { [key: string]: JSX.Element } = {
       cart: <ShoppingCartOutlined alt="" />,
-      create: <PlusOutlined alt="" />,
+      create: <span className="glyphicon glyphicon-plus-sign mr-5" aria-label="create" />,
       edit: <EditOutlined alt="" />,
       close: <CloseOutlined alt="" />,
       copy: <CopyOutlined alt="" />,
@@ -177,10 +177,10 @@ export const IconButton = (props: {
     }
     _button = (
       <Button
-        style={{ marginRight: "5px", ...props.style }}
+        style={{ ...props.style }}
         aria-label={props.toolTip}
         icon={icons[props.iconType]}
-        shape={props.shape || 'circle'}
+        shape={props.shape}
         danger={props.iconType === "danger" || props.iconType === "error"}
         onClick={() => {
           props.onClick && props.onClick()

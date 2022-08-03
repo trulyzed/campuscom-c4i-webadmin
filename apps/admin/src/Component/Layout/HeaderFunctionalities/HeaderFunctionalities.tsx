@@ -30,31 +30,33 @@ export const HeaderFunctionalities = () => {
     <>
       {desktopView && (
         <>
-          <Col flex="auto">
+          <Col className="site-header__item" style={{ height: "100%" }} flex="auto">
             <MasterLookupComponent />
           </Col>
-          <Col flex="50px" role="navigation" aria-label="History Log">
+          <Col className="site-header__item" style={{ height: "100%" }} flex="50px" role="navigation" aria-label="History Log">
             <HistoryLogButton />
           </Col>
-          <Col flex="50px" role="navigation" aria-label="Go to User Profile page">
+          <Col className="site-header__item" style={{ height: "100%" }} flex="50px" role="navigation" aria-label="Go to User Profile page">
             <GoToUserProfileButton />
           </Col>
         </>
       )}
       {!desktopView && (
-        <Dropdown
-          getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
-          overlay={menu}
-          trigger={["click"]}
-        >
-          <Button
-            style={{ margin: "10px" }}
-            type="link"
-            shape="circle"
-            aria-label="Press enter and tab to open dropdown for Page Jump, New Order, History and Profile Shortcut"
-            icon={<DownOutlined style={{ color: "white", fontSize: "16px" }} />}
-          />
-        </Dropdown>
+        <div className="site-header__item" style={{ height: "100%" }}>
+          <Dropdown
+            getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
+            overlay={menu}
+            trigger={["click"]}
+          >
+            <Button
+              style={{ margin: "10px" }}
+              type="link"
+              shape="circle"
+              aria-label="Press enter and tab to open dropdown for Page Jump, New Order, History and Profile Shortcut"
+              icon={<DownOutlined style={{ fontSize: "16px" }} />}
+            />
+          </Dropdown>
+        </div>
       )}
     </>
   )

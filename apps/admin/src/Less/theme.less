@@ -1,16 +1,229 @@
 @import "~antd/lib/style/themes/default.less";
 @import "~antd/dist/antd.less";
+@import "./variable.less";
 
 @primary-color: #10069f; // primary color for all components
-@link-color: #0057b8; // link color
-@success-color: #64a70b; // success state color
-@warning-color: #a76d11; // warning state color
-@error-color: #80225f; // error state color
+@link-color: #10069d; // link color
+@link-decoration: underline;
+@success-color: @success; // success state color
+@warning-color: @warning; // warning state color
+@error-color: @danger;
 @font-size-base: 14px; // major text font size
 @heading-color: rgba(0, 0, 0, 0.85); // heading text color
-@text-color: rgba(0, 0, 0, 0.65); // major text color
-@text-color-secondary: rgba(0, 0, 0, 0.75); // secondary text color
+@text-color: #333333; // major text color
+@text-color-secondary: #696969; // secondary text color
 @disabled-color: rgba(0, 0, 0, 0.75); // disable state color
 @border-radius-base: 2px; // major border radius
 @border-color-base: #d9d9d9; // major border color
-@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05); // major shadow for layers
+@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
+  0 9px 28px 8px rgba(0, 0, 0, 0.05); // major shadow for layers
+@layout-body-background: @fill-light;
+@layout-header-background: @text-light;
+@layout-header-color: @text-color;
+@layout-header-height: 60px;
+@layout-sider-background: @fill-light;
+@btn-primary-bg: @interactive;
+@btn-default-color: @interactive;
+@item-hover-bg: @fill-light;
+@primary-color-active: @interactive;
+@tabs-active-color: @interactive-active;
+@tabs-hover-color: @interactive;
+@input-hover-border-color: @interactive;
+@table-header-bg: @text-light;
+@font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+@typography-title-font-weight: 400;
+
+// Site layout
+.site-layout-background {
+  border-top: 1px solid @fill-dark;
+  border-bottom: 2px solid @fill-dark;
+  padding: 0;
+  background-color: @fill-dark;
+}
+.site-title {
+  a {
+    color: @fill-dark;
+  }
+}
+.site-header__item {
+  background-color: @text-light;
+}
+
+// Sidebar
+.sidebar-toggle {
+  height: 100%;
+  background: @fill-dark;
+  span {
+    color: @text-light;
+  }
+}
+.sidebar {
+  border-right: 1px solid @border-dark;
+}
+.sidebar--borderless {
+  border-right: 0;
+}
+.submenu {
+  color: @text;
+}
+
+// Master lookup
+.master-look-up {
+  label {
+    //color: @interactive;
+  }
+}
+
+// Footer
+.footer {
+  color: @text-disabled;
+}
+
+// Pagination
+.pagination__page-count {
+  background-color: @interactive-disabled;
+  color: @text;
+}
+
+// Login modal
+.login-modal__message {
+  color: @danger !important;
+}
+
+// Table filter
+.filter-counter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: @accent-light;
+  color: @text;
+}
+
+h2, h3, h5 {
+  font-family: AvertaLight;
+}
+
+// antd wizard
+.ant-steps {
+  .ant-steps-item-title {
+    text-decoration: underline;
+  }
+  .ant-steps-item-icon {
+    border-width: 2px;
+    background-color: @primary-color;
+  }
+  .ant-steps-item-process > .ant-steps-item-container > .ant-steps-item-tail::after {
+    background-color: @primary-color;
+  }
+  .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+    color: white;
+  }
+  .ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+    color: white;
+  }
+  .ant-steps-item.ant-steps-item-process.ant-steps-item-active {
+    .ant-steps-item-icon {
+      background-color: white;
+      .ant-steps-icon {
+        color: @primary-color;
+      }
+    }
+    .ant-steps-item-tail::after {
+      background-color: @light;
+    }
+  }
+  .ant-steps-item.ant-steps-item-wait {
+    .ant-steps-item-icon {
+      background-color: white;
+      border-color: @light;
+      border-width: 1px;
+      .ant-steps-icon {
+        color: @light;
+      }
+    }
+    .ant-steps-item-title {
+      color: @light;
+    }
+  }
+  .ant-steps-item.ant-steps-item-finish {
+    .ant-steps-item-container {
+      &:hover {
+        .ant-steps-icon {
+          color: white !important;
+        }
+      }
+    }
+  }
+}
+
+// antd table
+.ant-table-column-sorters {
+  justify-content: flex-start;
+  .ant-table-column-title {
+    flex: none;
+  }
+}
+
+.ant-table-column-title, .ant-table-thead > tr > th {
+  font-weight: bold;
+}
+
+// antd input
+.ant-input:focus,
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  border: 2px solid !important;
+  border-color: @interactive-active !important;
+  outline: 0;
+  box-shadow: none !important;
+}
+
+// antd button, antd dropdown item title
+.ant-dropdown-menu-title-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// antd pagination
+.ant-pagination-prev, .ant-pagination-next {
+  margin-right: 0;
+  button {
+    color: @interactive;
+  }
+}
+.ant-pagination-item {
+  margin-right: 0;
+  a {
+    text-decoration: none;
+    color: @interactive;
+  }
+
+  &-active {
+    border: none;
+    a {
+      color: @text;
+      font-weight: bold;
+      &::before {
+        content: '... Page ';
+      }
+      &::after {
+        content: ' ...';
+      }
+    }
+  }
+}
+
+// antd form
+.ant-form-item-label {
+  font-weight: bold;
+}
+.ant-form-vertical .ant-form-item {
+  margin-bottom: 10px;
+}
+
+// antd card
+.ant-card.is-aside {
+  .ant-card-head-title {
+    white-space: normal;
+  }
+}

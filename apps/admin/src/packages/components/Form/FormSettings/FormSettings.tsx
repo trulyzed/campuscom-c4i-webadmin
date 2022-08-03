@@ -116,7 +116,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
           <Card
             title={`Settings For ${putSpaceBetweenCapitalLetters(props.metaName.replace("Columns", ""))}`}
             actions={[
-              <Button onClick={() => setShowModal(false)}>Close</Button>,
+              <Button type="primary" onClick={() => setShowModal(false)}>Close</Button>,
               <Button onClick={setDefault} danger>
                 Default
               </Button>,

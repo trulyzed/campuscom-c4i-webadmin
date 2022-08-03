@@ -16,7 +16,6 @@ export const GoToUserProfileButton = () => {
             setRedirectTo(undefined)
           }, 0)
         }}
-        buttonType={"default"}
       />
     </>
   )

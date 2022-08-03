@@ -24,9 +24,9 @@ const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; de
   return (
     <>
       {redirectTo && <Redirect to={redirectTo} />}
-      <Form form={formInstance} style={{ marginRight: "20px", marginTop: "16px" }}>
+      <Form form={formInstance} style={{ marginRight: "20px", marginTop: "16px" }} className={"master-look-up"}>
         <FormDropDown
-          label={<span style={{ color: props.desktop ? "white" : "black", marginTop: "-8px" }}>Jump To Page</span>}
+          label={<span style={{ marginTop: "-8px" }}>Jump To Page</span>}
           fieldName="JumpTo"
           labelColSpan={6}
           wrapperColSpan={18}

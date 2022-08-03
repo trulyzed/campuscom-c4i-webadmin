@@ -1,3 +1,4 @@
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 import { renderBoolean, renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
@@ -45,12 +46,24 @@ export const membershipProgramListTableColumns: TableColumnType = [
     render: renderBoolean,
     sorter: (a: any, b: any) => a.is_published - b.is_published
   },
+  {
+    title: "Action",
+    dataIndex: 'action',
+    render: (_, record: any) => (
+      <ContextAction
+        type="delete"
+        queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [record.id] } }), [MembershipProgramQueries.delete])}
+        refreshEventName="REFRESH_MEMBER_PROGRAM_LIST"
+      />
+    )
+  }
 ]
 
 export const getMembershipProgramListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: membershipProgramListTableColumns,
     searchFunc: QueryConstructor((params) => MembershipProgramQueries.getPaginatedList(params), [MembershipProgramQueries.getList]),
-    tableName: 'MembershipProgram'
+    tableName: 'MembershipProgram',
+    refreshEventName: "REFRESH_MEMBER_PROGRAM_LIST"
   }
 }
