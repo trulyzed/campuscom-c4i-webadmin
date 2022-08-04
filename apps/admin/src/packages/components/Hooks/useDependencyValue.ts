@@ -12,7 +12,6 @@ export function useDependencyValue(args: IArgs) {
   const memoizedDependencyValue = useMemo(() => dependencyValue, [dependencyValue])
 
   useEffect(() => {
-    console.log(fieldName, memoizedDependencyValue)
     onDependencyChange?.(memoizedDependencyValue, {
       toggleField: (status) => updateMeta?.(prevVal => (prevVal.reduce((a, c) => {
         if (c.fieldName === fieldName) c.hidden = !status

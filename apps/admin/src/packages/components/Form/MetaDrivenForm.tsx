@@ -302,34 +302,36 @@ export function MetaDrivenForm({
       bordered={props.bordered}
       className={props.isAside ? 'is-aside' : ''}
       title={
-        <Row>
-          <Col md={24}>
-            <SidebarMenuTargetHeading level={3} targetID="navigation">
-              {props.title}
-            </SidebarMenuTargetHeading>
-          </Col>
-          {showClearbutton && !props.isModal && (
-            <Col>
-              <Button size="small" onClick={clearParams}>
-                {clearButtonLabel}
-              </Button>
+        (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
+          <Row>
+            <Col md={24}>
+              <SidebarMenuTargetHeading level={3} targetID="navigation">
+                {props.title}
+              </SidebarMenuTargetHeading>
             </Col>
-          )}
-          {props.blocks &&
-            props.blocks.map((x, i) => (
-              <Col flex="none" key={i}>
-                {x}
+            {showClearbutton && props.isAside && (
+              <Col>
+                <Button size="small" onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
               </Col>
-            ))}
-          <Col flex="none">
-            <HelpButton helpKey={props.helpKey} />
-          </Col>
-          {/* {props.metaName && (
+            )}
+            {props.blocks &&
+              props.blocks.map((x, i) => (
+                <Col flex="none" key={i}>
+                  {x}
+                </Col>
+              ))}
             <Col flex="none">
-              <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
+              <HelpButton helpKey={props.helpKey} />
             </Col>
-          )} */}
-        </Row>
+            {/* {props.metaName && (
+              <Col flex="none">
+                <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
+              </Col>
+            )} */}
+          </Row>
+          : null
       }
       loading={props.loading}
       bodyStyle={{ padding: "20px", paddingBottom: "0px", }}
