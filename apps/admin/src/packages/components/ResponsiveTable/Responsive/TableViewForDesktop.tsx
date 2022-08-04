@@ -104,12 +104,14 @@ export function TableViewForDesktop(
               />
             </Col>
           )} */}
-          <DropdownActions title="More" actions={[
-            {
-              title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
-              key: 'setting',
-            }
-          ]} />
+          {props.tableName && !props.hideSettings ?
+            <DropdownActions title="More" actions={[
+              {
+                title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
+                key: 'setting',
+              }
+            ]} />
+            : null}
         </Row>
       </Col>
       <Col span={24}>

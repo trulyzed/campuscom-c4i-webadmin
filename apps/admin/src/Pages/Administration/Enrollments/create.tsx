@@ -8,14 +8,14 @@ import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Store
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 import { ResponsiveTable } from "~/packages/components/ResponsiveTable"
 import Title from "antd/lib/typography/Title"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
 import { CheckboxValueType } from "antd/lib/checkbox/Group"
 import Text from "antd/lib/typography/Text"
-import { FormInput } from "~/packages/components/Form/FormInput"
+// import { FormInput } from "~/packages/components/Form/FormInput"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 import { getDecimalValue } from "~/packages/utils/util"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 //import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
 const { Step } = Steps
@@ -148,21 +148,50 @@ export const Create = () => {
     })
   }, [])
 
+  const generateCartDetailsPayload = useCallback(() => {
+    return registrationData.map(registration => ({
+      product_id: registration.product,
+      quantity: registration.students.length,
+      is_related: false,
+      related_to: "",
+      student_email: ""
+    }))
+  }, [registrationData])
+
+  const generateStudentDetailsPayload = useCallback(() => {
+    return registrationData.reduce((a, c) => {
+      c.students.forEach((studentId: any) => {
+        a.push({
+          product_id: c.product,
+          profile_id: studentId,
+        })
+      })
+      return a
+    }, [])
+  }, [registrationData])
+
   const getPaymentSummary = useCallback(async () => {
     const payload = {
-      cart_details: registrationData.map(registration => ({
-        product_id: registration.product,
-        quantity: registration.students.length,
-        is_related: false,
-        related_to: "",
-        student_email: ""
-      })),
+      cart_details: generateCartDetailsPayload(),
       store,
       coupon_codes: couponCode ? [couponCode] : [],
     }
     const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
     setInvoiceData(!resp.data.message ? resp.data : undefined)
-  }, [registrationData, couponCode, store])
+  }, [couponCode, store, generateCartDetailsPayload])
+
+  const handleSubmit = useCallback(async (values) => {
+    const payload = {
+      store,
+      product_ids: productData.map(p => p.id),
+      cart_details: generateCartDetailsPayload(),
+      student_details: generateStudentDetailsPayload(),
+      payment_ref: values.payment_ref,
+      payment_note: values.payment_note,
+    }
+    const resp = await EnrollmentQueries.create({ data: payload })
+    console.log(payload, resp)
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, store])
 
   useEffect(() => {
     getPaymentSummary()
@@ -250,9 +279,9 @@ export const Create = () => {
                         title: 'Action',
                         dataIndex: "action",
                         render: (_, record: any) => (
-                          <IconButton
-                            toolTip="Delete Profile Question"
-                            iconType="danger"
+                          <ContextAction
+                            type="delete"
+                            tooltip="Delete Product"
                             onClick={() => setProductData(productData.filter(i => i.id !== record.id))}
                           />
                         )
@@ -260,6 +289,8 @@ export const Create = () => {
                     ]}
                     dataSource={productData}
                     rowKey={"id"}
+                    hidePagination
+                    hideSettings
                   />
                 </Col>
                 <Col span={6} offset={18} style={{ textAlign: "right" }}>
@@ -311,9 +342,9 @@ export const Create = () => {
                             title: 'Action',
                             dataIndex: "action",
                             render: (_, record: any) => (
-                              <IconButton
-                                toolTip="Delete Profile Question"
-                                iconType="danger"
+                              <ContextAction
+                                type="delete"
+                                tooltip="Delete Profile"
                                 onClick={() => setStudentData(studentData.filter(i => i.id !== record.id))}
                               />
                             )
@@ -321,6 +352,8 @@ export const Create = () => {
                         ]}
                         dataSource={studentData}
                         rowKey={"id"}
+                        hidePagination
+                        hideSettings
                       />
                     </Col>
                     <Col span={6} offset={18} style={{ textAlign: "right" }}>
@@ -356,9 +389,9 @@ export const Create = () => {
                                 {registration.students.map((student: any) =>
                                   <div key={student}>
                                     <Title level={5}>{studentData.find(s => s.id === student)?.primary_email}</Title>
-                                    <div style={{ marginTop: "20px" }}>
+                                    {/* <div style={{ marginTop: "20px" }}>
                                       <FormInput fieldName="test" label={"Type related completed courses"} formInstance={formInstance} />
-                                    </div>
+                                    </div> */}
                                   </div>
                                 )}
                               </Form>
@@ -436,7 +469,7 @@ export const Create = () => {
                         <Card style={{ margin: "10px 0 0 10px" }} title={"Payment Details"}>
                           <MetaDrivenForm
                             meta={meta7}
-                            onApplyChanges={(values) => console.log(values)}
+                            onApplyChanges={handleSubmit}
                             isWizard
                             applyButtonLabel="Submit"
                             showFullForm

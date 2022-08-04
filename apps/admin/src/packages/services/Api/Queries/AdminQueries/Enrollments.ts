@@ -3,6 +3,7 @@ import { adminApi } from "~/packages/services/Api/ApiClient"
 import { IEnrollmentQueries } from "./Proxy/Enrollments"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
+import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
 
 export const EnrollmentQueries:IEnrollmentQueries = {
   getList: PermissionWrapper(data => {
@@ -36,10 +37,12 @@ export const EnrollmentQueries:IEnrollmentQueries = {
   }, [{operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read}]),
 
   create: PermissionWrapper(data => {
+    const payload = convertToFormData(data?.data)
     return adminApi({
       endpoint: endpoints.CREATE_ENROLLMENT,
       method: "POST",
       ...data,
+      data: payload,
     })
   }, [{operation: ApiPermissionClass.CreateEnrollment, action: ApiPermissionAction.Write}]),
 

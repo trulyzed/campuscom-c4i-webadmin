@@ -141,7 +141,7 @@ export const IconButton = (props: {
   } else {
     const icons: { [key: string]: JSX.Element } = {
       cart: <ShoppingCartOutlined alt="" />,
-      create: <span className="glyphicon glyphicon-plus-sign mr-5" aria-label="create" />,
+      create: <span className={`glyphicon glyphicon-plus-sign${props.title ? " mr-5" : ""}`} aria-label="create" />,
       edit: <EditOutlined alt="" />,
       close: <CloseOutlined alt="" />,
       copy: <CopyOutlined alt="" />,
@@ -152,7 +152,7 @@ export const IconButton = (props: {
       leftCircle: <LeftOutlined alt="" />,
       down: <DownOutlined alt="" />,
       up: <UpOutlined alt="" />,
-      danger: <DeleteOutlined alt="" />,
+      danger: <span className="glyphicon glyphicon-trash" aria-label="danger" />,
       filter: <FilterTwoTone alt="" />,
       payment: <CreditCardOutlined alt="" />,
       error: <ExclamationOutlined alt="" />,

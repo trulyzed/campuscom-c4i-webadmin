@@ -52,6 +52,7 @@ export const membershipProgramListTableColumns: TableColumnType = [
     render: (_, record: any) => (
       <ContextAction
         type="delete"
+        tooltip="Delete Membership Program"
         queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [record.id] } }), [MembershipProgramQueries.delete])}
         refreshEventName="REFRESH_MEMBER_PROGRAM_LIST"
       />

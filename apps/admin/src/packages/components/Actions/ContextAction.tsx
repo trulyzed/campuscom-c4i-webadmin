@@ -9,7 +9,9 @@ type ActionType = 'edit' | 'delete'
 
 interface IContextActionProps {
   text?: string
+  tooltip: string
   type: ActionType
+  onClick?: (...args: any[]) => void
   queryService?: IQuery
   refreshEventName?: string
 }
@@ -21,7 +23,9 @@ const iconTypes: Record<ActionType, React.ReactNode> = {
 
 export const ContextAction = ({
   text,
+  tooltip,
   queryService,
+  onClick,
   type = 'edit',
   refreshEventName
 }: IContextActionProps) => {
@@ -32,11 +36,11 @@ export const ContextAction = ({
         console.log(eventBus.eventListeners, refreshEventName)
         refreshEventName && eventBus.publish(refreshEventName)
       })
-    }
-  }, [queryService, type, refreshEventName])
+    } else if (onClick) { onClick() }
+  }, [queryService, type, refreshEventName, onClick])
 
   return (
     text ? <Text className="cursor-pointer" strong type="danger" onClick={handleClick}>{text}</Text>
-      : <Button className="p-0 m-0" onClick={handleClick} type={'link'} icon={iconTypes[type]} />
+      : <Button className="p-0 m-0" onClick={handleClick} type={'link'} icon={iconTypes[type]} title={tooltip} />
   )
 }
