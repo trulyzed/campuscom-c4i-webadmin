@@ -49,7 +49,7 @@ export function TableViewForDesktop(
         >
           <Col flex="auto"></Col>
           {props.actions?.length ?
-            <Col flex="none">
+            <Col flex="none" className="create-entity-container">
               {props.actions[0]}
             </Col>
             : null}

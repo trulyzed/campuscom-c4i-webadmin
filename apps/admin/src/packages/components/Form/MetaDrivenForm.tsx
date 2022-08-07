@@ -305,7 +305,7 @@ export function MetaDrivenForm({
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>
             <Col md={24}>
-              <SidebarMenuTargetHeading level={3} targetID="navigation">
+              <SidebarMenuTargetHeading level={props.isModal ? 2 : 3} targetID="navigation">
                 {props.title}
               </SidebarMenuTargetHeading>
             </Col>
@@ -351,10 +351,16 @@ export function MetaDrivenForm({
                 </Button>
               </Col>
             )}
+            {showClearbutton && (
+              <Col>
+                <Button onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
+              </Col>
+            )}
             {props.closeModal && (
               <Col>
                 <Button
-                  type="primary"
                   aria-label="Cancel"
                   onClick={() => {
                     formInstance.resetFields()
@@ -362,13 +368,6 @@ export function MetaDrivenForm({
                   }}
                 >
                   Cancel
-                </Button>
-              </Col>
-            )}
-            {showClearbutton && (
-              <Col>
-                <Button type="primary" onClick={clearParams}>
-                  {clearButtonLabel}
                 </Button>
               </Col>
             )}
@@ -417,7 +416,7 @@ export function MetaDrivenForm({
             justify="end"
             gutter={[8, 8]}
             style={{
-              padding: "10px",
+              padding: props.isAside ? "5px 0" : "10px",
               borderTop: props.bordered ? "1px solid #f0f2f5" : undefined
             }}
           >
@@ -435,7 +434,6 @@ export function MetaDrivenForm({
             {props.closeModal && (
               <Col>
                 <Button
-                  type="primary"
                   aria-label="Cancel"
                   onClick={() => {
                     formInstance.resetFields()
@@ -556,8 +554,8 @@ const SearchFormFields = (props: {
                     {...field}
                     key={i}
                     formInstance={props.formInstance}
-                    labelColSpan={field.labelColSpan || labelColSpan}
-                    wrapperColSpan={field.wrapperColSpan || 24}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 20}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
                   />
@@ -665,7 +663,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || labelColSpan}
+                    labelColSpan={field.labelColSpan || 4}
                     wrapperColSpan={field.wrapperColSpan || 20}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}

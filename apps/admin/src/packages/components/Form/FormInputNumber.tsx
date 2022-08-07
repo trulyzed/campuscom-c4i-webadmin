@@ -22,7 +22,7 @@ export function FormInputNumber(
     <SearchFieldWrapper {...props}>
       <InputNumber
         maxLength={props.maxLength}
-        style={{ width: "200px", textAlign: "right" }}
+        style={{ width: "100%", textAlign: "right" }}
         max={props.maxValue ? props.maxValue : 999999}
         min={0}
         // {...(props.formatter && { formatter: props.formatter })}
