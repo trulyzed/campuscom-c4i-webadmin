@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Divider, Form, Popover, Row, Steps } from "antd"
+import { Button, Card, Checkbox, Col, Divider, Form, notification, Popover, Row, Steps } from "antd"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
@@ -177,8 +177,19 @@ export const Create = () => {
       coupon_codes: couponCode ? [couponCode] : [],
     }
     const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
-    setInvoiceData(!resp.data.message ? resp.data : undefined)
+    setInvoiceData(!resp.data?.message ? resp.data : undefined)
   }, [couponCode, store, generateCartDetailsPayload])
+
+  const reset = useCallback(() => {
+    setCurrentStep(StepNames.ProductInformation)
+    setStore(undefined)
+    setProductData([])
+    setStudentData([])
+    setRegistrationData([])
+    setInvoiceData(undefined)
+    setCouponCode(undefined)
+    formInstance.resetFields()
+  }, [formInstance])
 
   const handleSubmit = useCallback(async (values) => {
     const payload = {
@@ -190,8 +201,11 @@ export const Create = () => {
       payment_note: values.payment_note,
     }
     const resp = await EnrollmentQueries.create({ data: payload })
-    console.log(payload, resp)
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, store])
+    if (resp.success) {
+      notification.success({ message: 'Successfully created.' })
+      reset()
+    }
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, store, reset])
 
   useEffect(() => {
     getPaymentSummary()
