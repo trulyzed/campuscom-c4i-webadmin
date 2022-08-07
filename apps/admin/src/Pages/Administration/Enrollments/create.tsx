@@ -16,6 +16,8 @@ import Text from "antd/lib/typography/Text"
 import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 import { getDecimalValue } from "~/packages/utils/util"
 import { ContextAction } from "~/packages/components/Actions/ContextAction"
+import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
+import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 //import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
 const { Step } = Steps
@@ -86,18 +88,6 @@ const meta2: IField[] = [
     label: "Email",
     inputType: TEXT,
     disabled: true,
-  },
-]
-
-const meta3: IField[] = [
-  {
-    fieldName: "profile",
-    label: "Profile",
-    inputType: DROPDOWN,
-    refLookupService: StudentQueries.getLookupData,
-    displayKey: "name",
-    valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
   },
 ]
 
@@ -330,7 +320,17 @@ export const Create = () => {
                   <Row>
                     <Col md={24}>
                       <MetaDrivenForm
-                        meta={meta3}
+                        meta={[
+                          {
+                            fieldName: "profile",
+                            label: "Profile",
+                            inputType: DROPDOWN,
+                            refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
+                            displayKey: "name",
+                            valueKey: "id",
+                            rules: [{ required: true, message: "This field is required!" }]
+                          },
+                        ]}
                         onApplyChanges={async (values) => {
                           const { data } = await StudentQueries.getSingle({ params: { id: values.profile } })
                           setStudentData([...studentData, data])
