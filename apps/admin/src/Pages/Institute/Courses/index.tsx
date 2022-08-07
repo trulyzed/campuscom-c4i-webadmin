@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Redirect } from "react-router"
-import { message } from "antd"
+import { notification } from "antd"
 import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns"
 import { CourseSearchMeta } from "~/TableSearchMeta/Course/CourseSearchMeta"
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => CourseQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/institute/course/${resp.data.id}`)
     }
     return resp

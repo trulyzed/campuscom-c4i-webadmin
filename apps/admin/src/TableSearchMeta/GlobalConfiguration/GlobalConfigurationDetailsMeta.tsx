@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
@@ -14,7 +14,7 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 export const getGlobalConfigurationDetailsMeta = (globalConfiguration: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => GlobalConfigurationQueries.update({ ...data, params: { id: globalConfiguration.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [GlobalConfigurationQueries.update])

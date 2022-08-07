@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => UserQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/administration/user/${resp.data.id}`)
     }
     return resp

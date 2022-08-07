@@ -4,7 +4,7 @@ import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/Publishings"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { message } from "antd"
+import { notification } from "antd"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
@@ -19,14 +19,14 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [PublishingQueries.update])
 
   const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.create])

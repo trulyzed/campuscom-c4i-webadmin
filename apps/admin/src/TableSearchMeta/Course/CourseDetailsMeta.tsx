@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
@@ -29,28 +29,28 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.update])
 
   const createSection = QueryConstructor(((data) => SectionQueries.create({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.create])
 
   const tagCareer = QueryConstructor(((data) => CourseQueries.tagCareer({ ...data, data: { ...data?.data }, params: { course_id: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.tagCareer, CareerQueries.getCareersAndSkillsByCourse])
 
   const tagRegistrationQuestion = QueryConstructor(((data) => CourseQueries.tagRegistrationQuestion({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.tagRegistrationQuestion])

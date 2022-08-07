@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
 import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => IdentityProviderQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/configuration/identity-provider/${resp.data.id}`)
     }
     return resp

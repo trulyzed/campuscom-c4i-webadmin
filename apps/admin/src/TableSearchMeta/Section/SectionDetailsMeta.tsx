@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
@@ -19,14 +19,14 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SectionQueries.update({ ...data, params: { id: section.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [SectionQueries.update])
 
   const createSchedule = QueryConstructor(((data) => ScheduleQueries.create({ ...data, data: { ...data?.data, section: section.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [ScheduleQueries.create])

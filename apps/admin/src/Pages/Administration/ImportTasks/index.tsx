@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { ImportTaskFormMeta } from "~/Component/Feature/ImportTasks/FormMeta/ImportTaskFormMeta"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
@@ -11,7 +11,7 @@ import { CREATE_SUCCESSFULLY } from "~/Constants"
 export const List = () => {
   const createEntity = QueryConstructor(((data) => ImportTaskQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       window.location.href = "?pagination=1"
     }
     return resp

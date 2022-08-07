@@ -4,7 +4,7 @@ import { renderLink } from "~/packages/components/ResponsiveTable"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { CampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { message } from "antd"
+import { notification } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { CampusQueries } from "~/packages/services/Api/Queries/AdminQueries/Campuses"
@@ -14,7 +14,7 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 export const getCampusDetailsMeta = (campus: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CampusQueries.update({ ...data, params: { id: campus.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CampusQueries.update])

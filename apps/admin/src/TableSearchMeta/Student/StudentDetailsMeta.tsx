@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink, renderDate, renderDateTime } from "~/packages/components/ResponsiveTable"
@@ -19,14 +19,14 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StudentQueries.update({ ...data, params: { id: student.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [StudentQueries.update])
 
   const addMembershipProgram = QueryConstructor(((data) => StudentQueries.tagMembersipProgram({ ...data, data: { ...data?.data, profiles: [student.id] } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StudentQueries.tagMembersipProgram])

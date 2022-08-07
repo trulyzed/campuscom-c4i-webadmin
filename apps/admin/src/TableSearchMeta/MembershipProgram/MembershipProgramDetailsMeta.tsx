@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -19,14 +19,14 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => MembershipProgramQueries.update({ ...data, params: { id: membershipProgram.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [MembershipProgramQueries.update])
 
   const addMembershipDiscount = QueryConstructor(((data) => MembershipProgramQueries.tagDiscountProgram({ ...data, data: { ...data?.data, membership_program: membershipProgram.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [MembershipProgramQueries.tagDiscountProgram])

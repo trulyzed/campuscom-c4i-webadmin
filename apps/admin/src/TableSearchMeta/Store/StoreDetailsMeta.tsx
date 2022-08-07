@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable"
@@ -36,63 +36,63 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.update])
 
   const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.tagIdentityProvider])
 
   const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.tagPaymentGateway])
 
   const addCourseSharingContract = QueryConstructor(((data) => CourseSharingContractQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseSharingContractQueries.create])
 
   const addStoreConfiguration = QueryConstructor(((data) => StoreQueries.tagConfiguration({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.tagConfiguration])
 
   const addDomainConfiguration = QueryConstructor(((data) => StoreDomainConfigurationQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreDomainConfigurationQueries.create])
 
   const addProfileQuestion = QueryConstructor(((data) => StoreQueries.tagProfileQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.tagProfileQuestion])
 
   const addPaymentQuestion = QueryConstructor(((data) => StoreQueries.tagPaymentQuestion({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreQueries.tagPaymentQuestion])
 
   const updateUser = (user: any) => QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [UserQueries.update])

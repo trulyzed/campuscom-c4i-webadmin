@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderBoolean } from "~/packages/components/ResponsiveTable"
@@ -15,7 +15,7 @@ import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSe
 export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [UserQueries.update])

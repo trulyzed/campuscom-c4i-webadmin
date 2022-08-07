@@ -3,7 +3,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/Detail
 import { renderDateTime } from "~/packages/components/ResponsiveTable"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { message, Tag } from "antd"
+import { notification, Tag } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { StoreDomainConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreDomainConfigurations"
@@ -20,7 +20,7 @@ export const renderStoreDomainConfigurationStatus = (status: string, duration: n
 export const getStoreDomainConfigurationDetailsMeta = (storeDomainConfiguration: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreDomainConfigurationQueries.update({ ...data, params: { id: storeDomainConfiguration.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [StoreDomainConfigurationQueries.update])

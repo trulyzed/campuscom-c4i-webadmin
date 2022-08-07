@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -11,7 +11,7 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 const updateStoreConfiguration = QueryConstructor(((data) => StoreQueries.updateConfiguration({ ...data }).then(resp => {
   if (resp.success) {
-    message.success(UPDATE_SUCCESSFULLY)
+    notification.success({ message: UPDATE_SUCCESSFULLY })
   }
   return resp
 })), [StoreQueries.updateConfiguration])

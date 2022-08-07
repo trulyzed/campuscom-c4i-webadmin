@@ -2,7 +2,7 @@ import { CardContainer, IDetailsSummary } from "~/packages/components/Page/Detai
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
 import { RefundQueries } from "~/packages/services/Api/Queries/AdminQueries/Refunds"
-import { message } from "antd"
+import { notification } from "antd"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "~/packages/components/Actions/ContextAction"
@@ -11,24 +11,24 @@ export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMe
   const cancelEnrollment = async () => {
     const resp = await RefundQueries.cancelEnrollment({ params: { refund_id: refund.id } })
     if (!resp.success) {
-      if (Array.isArray(resp.error)) resp.error.forEach(e => message.error(e.message || 'Failed'))
-      else message.error('Failed')
+      if (Array.isArray(resp.error)) resp.error.forEach(e => notification.error({ message: e.message || 'Failed' }))
+      else notification.error({ message: 'Failed' })
     }
   }
 
   const updateTaxRecord = async () => {
     const resp = await RefundQueries.updateTaxRecord({ params: { refund_id: refund.id } })
     if (!resp.success) {
-      if (Array.isArray(resp.error)) resp.error.forEach(e => message.error(e.message || 'Failed'))
-      else message.error('Failed')
+      if (Array.isArray(resp.error)) resp.error.forEach(e => notification.error({ message: e.message || 'Failed' }))
+      else notification.error({ message: 'Failed' })
     }
   }
 
   const sendInfoToCRM = async () => {
     const resp = await RefundQueries.sendInformationToCRM({ params: { refund_id: refund.id } })
     if (!resp.success) {
-      if (Array.isArray(resp.error)) resp.error.forEach(e => message.error(e.message || 'Failed'))
-      else message.error('Failed')
+      if (Array.isArray(resp.error)) resp.error.forEach(e => notification.error({ message: e.message || 'Failed' }))
+      else notification.error({ message: 'Failed' })
     }
   }
 

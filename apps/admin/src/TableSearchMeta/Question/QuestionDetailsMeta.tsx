@@ -1,4 +1,4 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderHtml, renderJson, renderLink, renderBoolean } from "~/packages/components/ResponsiveTable/tableUtils"
@@ -16,7 +16,7 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [QuestionQueries.update])

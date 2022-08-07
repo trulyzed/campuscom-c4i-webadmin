@@ -1,4 +1,4 @@
-// import { message } from "antd"
+// import { notification } from "antd"
 import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
@@ -9,7 +9,7 @@ import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/P
 
 // const updateSchedule = QueryConstructor(((data) => ScheduleQueries.update({ ...data }).then(resp => {
 //   if (resp.success) {
-//     message.success(UPDATE_SUCCESSFULLY)
+//     notification.success({message: UPDATE_SUCCESSFULLY})
 //   }
 //   return resp
 // })), [ScheduleQueries.update])
