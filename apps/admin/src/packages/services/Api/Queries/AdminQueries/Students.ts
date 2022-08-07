@@ -1,6 +1,6 @@
 import { endpoints } from "~/packages/services/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/packages/services/Api/ApiClient"
-import { IStudentQueries } from "./Proxy/Students"
+import { IStudentQueries, processStudents } from "./Proxy/Students"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 import { convertToFormData } from "~/packages/services/Api/utils/ConvertToFormData"
@@ -14,7 +14,7 @@ export const StudentQueries:IStudentQueries = {
       ...data,
       params,
       method: "GET"
-    })
+    }).then(resp => resp.success ? {...resp, data: processStudents([resp.data])[0]} : resp)
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   getPaginatedList: PermissionWrapper(data => {
@@ -24,7 +24,7 @@ export const StudentQueries:IStudentQueries = {
       ...data,
       params: {...nonPaginationParams},
       method: "GET"
-    })
+    }).then(resp => resp.success ? {...resp, data: processStudents(resp.data)} : resp)
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   getList: PermissionWrapper(data => {
@@ -34,7 +34,7 @@ export const StudentQueries:IStudentQueries = {
       ...data,
       params: {...nonPaginationParams},
       method: "GET"
-    })
+    }).then(resp => resp.success ? {...resp, data: processStudents(resp.data)} : resp)
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 
   getLookupData: PermissionWrapper(data => {
@@ -44,7 +44,7 @@ export const StudentQueries:IStudentQueries = {
       method: "GET"
     }).then(resp => resp.success ? ({
       ...resp,
-      data: (resp.data as Array<any>).map(i => ({id: i.id, name: `${i.first_name} ${i.last_name}`}))
+      data: processStudents(resp.data)
     }) : resp)
   }, [{operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read}]),
 

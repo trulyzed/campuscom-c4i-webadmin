@@ -349,8 +349,8 @@ export const Create = () => {
                         columns={[
                           {
                             title: 'Profile',
-                            dataIndex: 'primary_email',
-                            sorter: (a: any, b: any) => a.primary_email - b.primary_email
+                            dataIndex: 'name',
+                            sorter: (a: any, b: any) => a.name - b.name
                           },
                           {
                             title: 'Action',
@@ -382,7 +382,7 @@ export const Create = () => {
                         {productData.map(product => (
                           <div key={product.id} style={{ marginBottom: '15px' }}>
                             <Title level={4}>"{product.title}" registration information</Title>
-                            <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.primary_email, value: student.id }))} />
+                            <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.name, value: student.id }))} />
                             <Divider />
                           </div>
                         ))}
@@ -402,7 +402,7 @@ export const Create = () => {
                               <Form form={formInstance}>
                                 {registration.students.map((student: any) =>
                                   <div key={student}>
-                                    <Title level={5}>{studentData.find(s => s.id === student)?.primary_email}</Title>
+                                    <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
                                     {/* <div style={{ marginTop: "20px" }}>
                                       <FormInput fieldName="test" label={"Type related completed courses"} formInstance={formInstance} />
                                     </div> */}
