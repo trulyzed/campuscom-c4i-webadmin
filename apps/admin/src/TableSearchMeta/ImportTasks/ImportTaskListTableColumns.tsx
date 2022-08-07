@@ -2,7 +2,6 @@ import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTab
 import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
 import { ImportTaskQueries } from "~/packages/services/Api/Queries/AdminQueries/ImportTasks"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-// import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 
 export const importTaskListTableColumns: TableColumnType = [
   {
@@ -47,11 +46,11 @@ export const importTaskListTableColumns: TableColumnType = [
   //   title: "Action",
   //   dataIndex: "id",
   //   render: (text, record) => (
-  //     record.status === "failed" && record.queue_processed > 0 ? <IconButton
-  //       iconType="refresh"
-  //       toolTip="Requeue"
+  //     record.status === "failed" && record.queue_processed > 0 ? <ContextAction
+  //       type="refresh"
+  //       tooltip="Requeue"
   //       refreshEventName="REFRESH_IMPORT_TASK"
-  //       onClick={() => ImportTaskQueries.requeue({ data: { import_task_id: text } })}
+  //       queryService={QueryConstructor(() => ImportTaskQueries.requeue({ data: { import_task_id: text } }), [ImportTaskQueries.requeue])}
   //     /> : null
   //   )
   // },

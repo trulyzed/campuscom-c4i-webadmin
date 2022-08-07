@@ -7,6 +7,7 @@ import { MetaDrivenFormModal } from "~/packages/components/Modal/MetaDrivenFormM
 import { IconButton, iconType } from "~/packages/components/Form/Buttons/IconButton"
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
   iconType?: iconType
@@ -31,17 +32,18 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
       {checkAdminApiPermission(props.formSubmitApi) && (
         <>
           {" "}
-          {props.iconType ? (
+          {props.iconType === "create" ?
             <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
-          ) : (
-            <Button
-              type="primary"
-              {...props.buttonProps}
-              style={props.style}
-              onClick={() => setShowModal(true)}
-              children={props.buttonLabel}
-            />
-          )}
+            : (props.iconType === "edit") || (props.iconType === "remove") ? <ContextAction tooltip={props.buttonLabel} type={props.iconType === "remove" ? "delete" : "edit"} onClick={() => setShowModal(true)} />
+              : (
+                <Button
+                  type="primary"
+                  {...props.buttonProps}
+                  style={props.style}
+                  onClick={() => setShowModal(true)}
+                  children={props.buttonLabel}
+                />
+              )}
         </>
       )}
       {showModal && (

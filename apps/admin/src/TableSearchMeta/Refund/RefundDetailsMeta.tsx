@@ -1,11 +1,11 @@
 import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
 import { renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { RefundQueries } from "~/packages/services/Api/Queries/AdminQueries/Refunds"
 import { message } from "antd"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMeta => {
   const cancelEnrollment = async () => {
@@ -44,9 +44,9 @@ export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMe
       { label: 'Paid Amount', value: refund.paid_amount, },
       { label: 'Refund Amount', value: refund.amount, },
       { label: 'Refund Status', value: refund.status, },
-      { label: 'Cancel Enrollment', value: refund.task_cancel_enrollment, render: (text) => <IconButton iconType="run" toolTip="Start" text={text} onClick={cancelEnrollment} /> },
-      { label: 'Tax Refund', value: refund.task_tax_refund, render: (text) => <IconButton iconType="run" toolTip="Start" text={text} onClick={updateTaxRecord} /> },
-      { label: 'CRM Update', value: refund.task_crm_update, render: (text) => <IconButton iconType="run" toolTip="Start" text={text} onClick={sendInfoToCRM} /> },
+      { label: 'Cancel Enrollment', value: refund.task_cancel_enrollment, render: (text) => <ContextAction type="start" tooltip="Start Cancel Enrollment Process" text={text} onClick={cancelEnrollment} /> },
+      { label: 'Tax Refund', value: refund.task_tax_refund, render: (text) => <ContextAction type="start" tooltip="Start Update Tax Record Process" text={text} onClick={updateTaxRecord} /> },
+      { label: 'CRM Update', value: refund.task_crm_update, render: (text) => <ContextAction type="start" tooltip="Start Send Info to CRM Process" text={text} onClick={sendInfoToCRM} /> },
     ]
   }
 

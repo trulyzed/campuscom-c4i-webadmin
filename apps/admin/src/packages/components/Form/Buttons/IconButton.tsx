@@ -2,7 +2,6 @@ import React, { CSSProperties, useState } from "react"
 import {
   ShoppingCartOutlined,
   //PlusOutlined,
-  EditOutlined,
   DeleteOutlined,
   CloseOutlined,
   CopyOutlined,
@@ -14,8 +13,6 @@ import {
   LeftOutlined,
   CreditCardOutlined,
   ExclamationOutlined,
-  HistoryOutlined,
-  SearchOutlined,
   SettingOutlined,
   ReloadOutlined,
   DownOutlined,
@@ -38,7 +35,6 @@ import { IApiResponse } from "~/packages/services/Api/utils/Interfaces"
 import { Redirect } from "react-router"
 import { ButtonType } from "antd/lib/button"
 import { eventBus } from "~/packages/utils/EventBus"
-import { ProfileIcon } from "~/packages/components/Svg/ProfileIcon"
 import { BulkOrderIcon } from "~/packages/components/Svg/BulkOrderIcon"
 import { BaseButtonProps } from "antd/lib/button/button"
 
@@ -56,6 +52,7 @@ export type iconType =
   | "filter"
   | "right"
   | "leftCircle"
+  | "back"
   | "up"
   | "down"
   | "payment"
@@ -142,7 +139,7 @@ export const IconButton = (props: {
     const icons: { [key: string]: JSX.Element } = {
       cart: <ShoppingCartOutlined alt="" />,
       create: <span className={`glyphicon glyphicon-plus-sign${props.title ? " mr-5" : ""}`} aria-label="create" />,
-      edit: <EditOutlined alt="" />,
+      edit: <span className={`glyphicon glyphicon-edit${props.title ? " mr-5" : ""}`} aria-label="edit" />,
       close: <CloseOutlined alt="" />,
       copy: <CopyOutlined alt="" />,
       email: <MailOutlined alt="" />,
@@ -150,6 +147,7 @@ export const IconButton = (props: {
       info: <InfoOutlined alt="" />,
       right: <RightOutlined alt="" />,
       leftCircle: <LeftOutlined alt="" />,
+      back: <span className="glyphicon glyphicon-back" aria-label="back" />,
       down: <DownOutlined alt="" />,
       up: <UpOutlined alt="" />,
       danger: <span className="glyphicon glyphicon-trash" aria-label="danger" />,
@@ -157,8 +155,8 @@ export const IconButton = (props: {
       payment: <CreditCardOutlined alt="" />,
       error: <ExclamationOutlined alt="" />,
       update: <SyncOutlined alt="" />,
-      history: <HistoryOutlined alt="" />,
-      search: <SearchOutlined alt="" />,
+      history: <span className="glyphicon glyphicon-time" aria-label="history" />,
+      search: <span className="glyphicon glyphicon-search" aria-label="search" />,
       settings: <SettingOutlined alt="" />,
       reload: <ReloadOutlined alt="" />,
       download: <CloudDownloadOutlined alt="" />,
@@ -169,7 +167,7 @@ export const IconButton = (props: {
       check: <CheckCircleOutlined alt="" />,
       process: <HourglassOutlined alt="" />,
       more: <MoreOutlined alt="" />,
-      profile: <ProfileIcon alt="" />,
+      profile: <span className="glyphicon glyphicon-user" aria-label="profile" />,
       bulkOrder: <BulkOrderIcon alt="" />,
       actions: <EllipsisOutlined alt="" />,
       merge: <MergeCellsOutlined alt="" />,

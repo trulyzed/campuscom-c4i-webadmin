@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react"
 import { Button, Card, Col, List, Row, Typography } from "antd"
 import moment from "moment"
 import { Link } from "react-router-dom"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { eventBus } from "~/packages/utils/EventBus"
 import { lastVisitedProcessor, ILastVisited, UPDATE_HISTORY } from "~/packages/components/HistoryProcessor"
 import { IDeviceView, useDeviceViews } from "~/packages/components/Hooks/useDeviceViews"
 import { Modal } from "~/packages/components/Modal/Modal"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 
 const History = (props: {
@@ -93,9 +93,9 @@ export const HistoryLogButton = () => {
     <>
       {!mobileView && (
         <div onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
-          <IconButton
-            iconType="history"
-            toolTip="Last Visited Pages"
+          <ContextAction
+            type="showHistory"
+            tooltip="Last Visited Pages"
             onClick={() => setShowModal(true)}
           />
           {showModal && (
@@ -105,7 +105,11 @@ export const HistoryLogButton = () => {
       )}
       {mobileView && (
         <>
-          <IconButton iconType="history" toolTip="" onClick={() => setShowModal(true)} />
+          <ContextAction
+            type="showHistory"
+            tooltip="Last Visited Pages"
+            onClick={() => setShowModal(true)}
+          />
           {showModal && (
             <Modal width="1000px">
               <Card actions={[<Button onClick={() => setShowModal(false)}>Close</Button>]}>

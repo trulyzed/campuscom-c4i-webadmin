@@ -1,15 +1,15 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const GoToUserProfileButton = () => {
   const [redirectTo, setRedirectTo] = useState<string | undefined>()
   return (
     <>
       {redirectTo && <Redirect to={redirectTo} />}
-      <IconButton
-        iconType="profile"
-        toolTip="User Profile"
+      <ContextAction
+        type="goToProfile"
+        tooltip="User Profile"
         onClick={() => {
           setRedirectTo("/user-profile")
           setTimeout(() => {

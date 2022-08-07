@@ -164,13 +164,13 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length === 0 && <Empty description="No data found in the given url" />}
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
-          <Row>
+          <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
             <Col>
               <GoToSearchResultPageButton />
             </Col>
             {title && (
               <Col>
-                <SidebarMenuTargetHeading level={1}>{title}</SidebarMenuTargetHeading>
+                <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>
               </Col>
             )}
             <Col flex="auto"></Col>

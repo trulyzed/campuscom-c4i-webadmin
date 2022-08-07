@@ -17,7 +17,6 @@ import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTable
 import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getRegistrationQuestionTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/RegistrationQuestionTaggingFormMeta"
 import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns"
 import { getCareerTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/CareerTaggingFormMeta"
@@ -25,6 +24,7 @@ import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Care
 import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -249,11 +249,11 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_REGISTRATION_QUESTION_TAB"
-                  onClickRemove={() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } }), [CourseQueries.untagRegistrationQuestion])}
                 />
               )
             },

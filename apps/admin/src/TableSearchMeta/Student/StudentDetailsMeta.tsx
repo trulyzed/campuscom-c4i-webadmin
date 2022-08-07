@@ -10,11 +10,11 @@ import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Stu
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
 import { MembershipProgramTaggingFormMeta } from "~/Component/Feature/Students/FormMeta/MembershipProgramTaggingFormMeta"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StudentQueries.update({ ...data, params: { id: student.id } }).then(resp => {
@@ -116,11 +116,11 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  type="delete"
+                  tooltip="Remove"
+                  queryService={QueryConstructor(() => StudentQueries.untagMembersipProgram({ data: { ids: [text] } }), [StudentQueries.untagMembersipProgram])}
                   refreshEventName="REFRESH_MEMBERSHIP_PROGRAM_TAB"
-                  onClickRemove={() => StudentQueries.untagMembersipProgram({ data: { ids: [text] } })}
                 />
               )
             },

@@ -15,5 +15,5 @@ export const GoToSearchResultPageButton = () => {
       }
     }
   }, [])
-  return <>{url && <IconButton buttonType="default" iconType="leftCircle" toolTip="Go to Search Results" redirectTo={url} />}</>
+  return <>{url && <IconButton buttonType="default" iconType="back" toolTip="Go to Search Results" redirectTo={url} />}</>
 }

@@ -10,7 +10,7 @@ import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { ContactGroupQueries } from "~/packages/services/Api/Queries/AdminQueries/ContactGroups"
 import { ContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any }): IDetailsMeta => {
   const createProfile = QueryConstructor(((data) => ContactGroupQueries.tagProfile({ ...data, data: { ...data?.data, contact_group: contactGroup.id } }).then(resp => {
@@ -82,11 +82,11 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_PROFILE_LIST"
-                  onClickRemove={() => ContactGroupQueries.untagProfile({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ContactGroupQueries.untagProfile({ data: { ids: [text] } }), [ContactGroupQueries.untagProfile])}
                 />
               )
             },

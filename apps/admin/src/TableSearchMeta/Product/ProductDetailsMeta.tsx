@@ -9,11 +9,11 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
@@ -105,11 +105,11 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_STANDALONE_PRODUCT_TAB"
-                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } }), [ProductQueries.untagRelatedProduct])}
                 />
               )
             },
@@ -148,11 +148,11 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_REGISTRATION_PRODUCT_TAB"
-                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } }), [ProductQueries.untagRelatedProduct])}
                 />
               )
             },

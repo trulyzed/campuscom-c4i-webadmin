@@ -15,7 +15,6 @@ import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Store
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
 import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
@@ -32,6 +31,7 @@ import { StoreDomainConfigurationQueries } from "~/packages/services/Api/Queries
 import { getStoreDomainConfigurationListTableColumns } from "~/TableSearchMeta/StoreDomainConfiguration/StoreDomainConfigurationListTableColumns"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
@@ -144,11 +144,11 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               title: "Action",
               dataIndex: "store_identity_provider_id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  type="delete"
+                  tooltip="Remove"
+                  queryService={QueryConstructor(() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } }), [StoreQueries.untagIdentityProvider])}
                   refreshEventName="REFRESH_STORE_IDENTITY_PROVIDER_TAB"
-                  onClickRemove={() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } })}
                 />
               )
             },
@@ -199,11 +199,11 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  type="delete"
+                  tooltip="Remove"
+                  queryService={QueryConstructor(() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } }), [StoreQueries.untagPaymentGateway])}
                   refreshEventName="REFRESH_STORE_PAYMENT_GATEWAY_TAB"
-                  onClickRemove={() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } })}
                 />
               )
             },
@@ -352,10 +352,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               title: "Action",
               dataIndex: "action",
               render: (_, record: any) => (
-                <IconButton
-                  toolTip="Delete Profile Question"
-                  iconType="remove"
-                  onClickRemove={() => QuestionQueries.untagProfileQuestion({ data: { ids: [record.id] } })}
+                <ContextAction
+                  type="delete"
+                  tooltip="Delete Profile Question"
+                  queryService={QueryConstructor(() => QuestionQueries.untagProfileQuestion({ data: { ids: [record.id] } }), [QuestionQueries.untagProfileQuestion])}
                   refreshEventName="REFRESH_PAGE"
                 />
               )
@@ -400,10 +400,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               title: "Action",
               dataIndex: "action",
               render: (_, record: any) => (
-                <IconButton
-                  toolTip="Delete Payment Question"
-                  iconType="remove"
-                  onClickRemove={() => QuestionQueries.untagPaymentQuestion({ data: { ids: [record.id] } })}
+                <ContextAction
+                  type="delete"
+                  tooltip="Delete Payment Question"
+                  queryService={QueryConstructor(() => QuestionQueries.untagPaymentQuestion({ data: { ids: [record.id] } }), [QuestionQueries.untagPaymentQuestion])}
                   refreshEventName="REFRESH_PAGE"
                 />
               )

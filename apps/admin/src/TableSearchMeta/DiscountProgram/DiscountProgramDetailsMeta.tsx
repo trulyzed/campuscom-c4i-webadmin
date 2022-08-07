@@ -8,13 +8,13 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { DiscountProgramFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/DiscountProgramFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
 import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
 import { getDiscountProgramUsageHistoryListTableColumns } from "~/TableSearchMeta/DiscountProgramUsageHistory/DiscountProgramUsageHistoryListTableColumns"
 import { getProductTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/ProductTaggingFormMeta"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => DiscountProgramQueries.update({ ...data, params: { id: discountProgram.id } }).then(resp => {
@@ -44,11 +44,11 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Discount Program"
-        iconType="remove"
+      <ContextAction
+        tooltip="Delete Discount Program"
+        type="delete"
         redirectTo="/administration/discount-program"
-        onClickRemove={() => DiscountProgramQueries.delete({ data: { ids: [discountProgram.id] } })}
+        queryService={QueryConstructor(() => DiscountProgramQueries.delete({ data: { ids: [discountProgram.id] } }), [DiscountProgramQueries.delete])}
       />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
@@ -91,11 +91,11 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_PRODUCT_TAB"
-                  onClickRemove={() => DiscountProgramQueries.untagProduct({ data: { discount_program: discountProgram.id, products: [text] } })}
+                  queryService={QueryConstructor(() => DiscountProgramQueries.untagProduct({ data: { discount_program: discountProgram.id, products: [text] } }), [DiscountProgramQueries.untagProduct])}
                 />
               )
             },

@@ -13,7 +13,7 @@ export const DetailsCardContainer = (props: { card: CardContainer }) => {
       title={props.card.title}
       extra={
         props.card.cardActions ? (
-          <Row>
+          <Row className="action-container">
             {props.card.cardActions.map((action, i) => (
               <Col key={i}>{action}</Col>
             ))}

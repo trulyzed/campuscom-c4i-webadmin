@@ -13,7 +13,7 @@ const routeSkipLink = css`
   text-decoration: none;
 
   &:before {
-    content: "⇽";
+    content: "\E079";
     display: block;
   }
   &:focus,
@@ -36,6 +36,7 @@ export const SidebarMenuTargetHeading = ({ level = 1, targetID = "navigation", c
 
   return (
     <Heading
+      style={{margin: 0}}
       css={routeSkipHeading} className="routeSkipHeading"
     >
       <a ref={headingRef} href={`#${tempTargetID}`} id="main" className="routeSkipLink reset" css={routeSkipLink}

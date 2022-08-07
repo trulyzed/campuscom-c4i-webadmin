@@ -8,12 +8,12 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 
 export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: string]: any }): IDetailsMeta => {
@@ -132,10 +132,10 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Store Configuration"
-        iconType="remove"
-        onClickRemove={() => StoreConfigQueries.delete({ data: { id: [storeConfiguration.id] } })}
+      <ContextAction
+        tooltip="Delete Store Configuration"
+        type="delete"
+        queryService={QueryConstructor(() => StoreConfigQueries.delete({ data: { id: [storeConfiguration.id] } }), [StoreConfigQueries.delete])}
         redirectTo={`/administration/store/${storeConfiguration.store.id}?activeTabKey=6-1`}
       />
     ],

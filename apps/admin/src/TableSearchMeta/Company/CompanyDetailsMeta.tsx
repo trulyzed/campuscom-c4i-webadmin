@@ -8,9 +8,9 @@ import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaD
 import { CompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderLink } from "~/packages/components/ResponsiveTable"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CompanyQueries.update({ ...data, params: { id: company.id } }).then(resp => {
@@ -32,11 +32,11 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Company"
-        iconType="remove"
+      <ContextAction
+        tooltip="Delete Company"
+        type="delete"
         redirectTo="/administration/company"
-        onClickRemove={() => CompanyQueries.delete({ data: { ids: [company.id] } })}
+        queryService={QueryConstructor(() => CompanyQueries.delete({ data: { ids: [company.id] } }), [CompanyQueries.delete])}
       />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],

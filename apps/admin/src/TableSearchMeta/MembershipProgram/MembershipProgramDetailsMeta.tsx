@@ -9,12 +9,12 @@ import { getDiscountTaggingFormMeta } from "~/Component/Feature/MembershipProgra
 import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
 import { REFRESH_PAGE } from "~/packages/utils/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
 import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
 import { renderHtml } from "~/packages/components/ResponsiveTable/tableUtils"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => MembershipProgramQueries.update({ ...data, params: { id: membershipProgram.id } }).then(resp => {
@@ -44,12 +44,7 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Membership Program"
-        iconType="remove"
-        redirectTo="/administration/discount-program"
-        onClickRemove={() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } })}
-      />
+      <ContextAction tooltip="Delete Membership Program" type="delete" queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } }), [MembershipProgramQueries.delete])} />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
@@ -92,11 +87,11 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_DISCOUNTS_TAB"
-                  onClickRemove={() => MembershipProgramQueries.untagDiscountProgram({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => MembershipProgramQueries.untagDiscountProgram({ data: { ids: [text] } }), [MembershipProgramQueries.untagDiscountProgram])}
                 />
               )
             },

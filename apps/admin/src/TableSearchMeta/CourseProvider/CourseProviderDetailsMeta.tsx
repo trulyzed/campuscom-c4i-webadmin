@@ -8,16 +8,13 @@ import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/Form
 import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-// import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-// import { getQuestionListTableColumns } from "../Question/QuestionListTableColumns"
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
 import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
-// import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseProviderQueries.update({ ...data, params: { id: courseProvider.id } }).then(resp => {
@@ -53,13 +50,6 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     return resp
   }), [CourseProviderQueries.generateApiKey])
 
-  // const addProfileQuestion = QueryConstructor(((data) => QuestionQueries.create({ ...data, data: { ...data?.data, course: courseProvider.id } }).then(resp => {
-  //   if (resp.success) {
-  //     message.success(CREATE_SUCCESSFULLY)
-  //   }
-  //   return resp
-  // })), [QuestionQueries.create])
-
   const summaryInfo: CardContainer = {
     title: `Course Provider: ${courseProvider.name}`,
     cardActions: [
@@ -73,17 +63,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Generate API key"
-        iconType="key"
-        onClick={generateApiKey}
-      />,
-      // <IconButton
-      //   toolTip="Delete Program Offering"
-      //   iconType="remove"
-      //   redirectTo="/administration/course-provider"
-      //   onClickRemove={() => CourseProviderQueries.delete({ data: { ids: [courseProvider.id] } })}
-      // />
+      <ContextAction type="generateKey" tooltip="Generate API key" onClick={generateApiKey} />
     ],
     contents: [
       { label: 'Name', value: courseProvider.name, },
@@ -146,11 +126,11 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_PROFILE_QUESTION_LIST"
-                  onClickRemove={() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } }), [CourseProviderQueries.untagProfileQuestion])}
                 />
               )
             },

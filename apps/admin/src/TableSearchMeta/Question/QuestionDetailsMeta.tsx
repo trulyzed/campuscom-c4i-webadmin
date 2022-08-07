@@ -8,10 +8,10 @@ import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/Questio
 import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { convertToString } from "~/packages/utils/mapper"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "~/packages/components/Actions/ContextAction"
 
 export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
@@ -48,11 +48,11 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Question"
-        iconType="remove"
+      <ContextAction
+        tooltip="Delete Question"
+        type="delete"
         redirectTo="/administration/question"
-        onClickRemove={() => QuestionQueries.delete({ data: { ids: [question.id] } })}
+        queryService={QueryConstructor(() => QuestionQueries.delete({ data: { ids: [question.id] } }), [QuestionQueries.delete])}
       />
     ],
     contents: [
