@@ -245,6 +245,39 @@ h2, h3, h5 {
   }
 }
 
+// antd alert
+.ant-notification-notice {
+  padding: 16px 10px;
+}
+.ant-notification-notice-message {
+  padding-right: 40px;
+  padding-top: 5px;
+  margin-left: 48px
+}
+.ant-notification-notice-close {
+  text-decoration: none;
+  top: 15px;
+}
+.ant-notification-notice-success {
+  .ant-notification-notice-content {
+    border-left: 4px solid @success;
+  }
+}
+.ant-notification-notice-error {
+  .ant-notification-notice-content {
+    border-left: 4px solid @danger;
+  }
+}
+.ant-notification-notice-warning {
+  .ant-notification-notice-content {
+    border-left: 4px solid @warning;
+  }
+}
+.ant-notification-notice-icon {
+  margin-left: 12px;
+  padding-top: 5px;
+}
+
 .create-entity-container {
   >button {
     background-color: @success;

@@ -9,6 +9,12 @@ import { LoginModal } from "~/Component/Login/LoginModal"
 import { getToken } from "~/packages/services/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { useGlobalErrorHandler } from "~/packages/services/Api/Hooks/useGlobalErrorHandler"
+import { notification } from "antd"
+
+notification.config({
+  closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
+  duration: 4
+})
 
 export function App(): JSX.Element {
   const [redirectToLogin, setRedirectToLogin] = useState(false)
