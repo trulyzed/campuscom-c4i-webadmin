@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { Modal } from "~/packages/components/Modal/Modal"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
 import { Button, Card, Col, Form, Row } from "antd"
 import { putSpaceBetweenCapitalLetters } from "~/packages/utils/util"
 import { VisibleColumns } from "~/packages/components/ResponsiveTable/TableSettings/VisibleColumns"
@@ -14,8 +13,10 @@ export const TableSettings = (props: {
   activeColumns: any[]
   allColumns: any[]
   reload: () => void
+  show: boolean
+  onToggle: (status: boolean) => void
+  hideIcon?: boolean
 }) => {
-  const [showModal, setShowModal] = useState(false)
   const [visibleListFormInstance] = Form.useForm()
   const [hiddenListFormInstance] = Form.useForm()
   const [visibleColumns, setVisibleColumns] = useState<any[]>([])
@@ -106,55 +107,50 @@ export const TableSettings = (props: {
       }).then((response) => {
         if (response.success) {
           setLoading(false)
-          setShowModal(false)
+          props.onToggle(false)
           props.reload()
         }
       })
     }
   }
 
-  return (
-    <>
-      <IconButton toolTip="Settings" onClick={() => setShowModal(true)} iconType="settings" />
-      {showModal && (
-        <Modal
-          closeModal={() => setShowModal(false)}
-          loading={loading}
-          loadingTip="Saving Table Configuration"
-          width="1000px"
-        >
-          <Card
-            title={`Settings For ${props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
-              }`}
-            actions={[
-              <Button type="primary" onClick={() => setShowModal(false)}>Close</Button>,
-              <Button type="primary" onClick={apply}>
-                Apply
-              </Button>
-            ]}
-          >
-            <Row gutter={4} justify="space-between" style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-              <Col xs={24} sm={24} md={8}>
-                <VisibleColumns
-                  visibleColumns={visibleColumns}
-                  setVisibleColumns={setVisibleColumns}
-                  formInstance={visibleListFormInstance}
-                />
-              </Col>
-              <Col xs={24} sm={24} md={2}>
-                <SettingsActionButtons
-                  updateVisibleColumns={updateVisibleColumns}
-                  updateHiddenColumns={updateHiddenColumns}
-                  reload={reload}
-                />
-              </Col>
-              <Col xs={24} sm={24} md={14}>
-                <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} />
-              </Col>
-            </Row>
-          </Card>
-        </Modal>
-      )}
-    </>
-  )
+  return props.show ? (
+    <Modal
+      closeModal={() => props.onToggle(false)}
+      loading={loading}
+      loadingTip="Saving Table Configuration"
+      width="1000px"
+    >
+      <Card
+        title={`Settings For ${props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
+          }`}
+        actions={[
+          <Button type="primary" onClick={() => props.onToggle(false)}>Close</Button>,
+          <Button type="primary" onClick={apply}>
+            Apply
+          </Button>
+        ]}
+      >
+        <Row gutter={4} justify="space-between" style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+          <Col xs={24} sm={24} md={8}>
+            <VisibleColumns
+              visibleColumns={visibleColumns}
+              setVisibleColumns={setVisibleColumns}
+              formInstance={visibleListFormInstance}
+            />
+          </Col>
+          <Col xs={24} sm={24} md={2}>
+            <SettingsActionButtons
+              updateVisibleColumns={updateVisibleColumns}
+              updateHiddenColumns={updateHiddenColumns}
+              reload={reload}
+            />
+          </Col>
+          <Col xs={24} sm={24} md={14}>
+            <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} />
+          </Col>
+        </Row>
+      </Card>
+    </Modal>
+  ) : null
 }

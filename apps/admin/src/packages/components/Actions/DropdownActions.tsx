@@ -3,6 +3,7 @@ import { Button, Dropdown, Menu, Space } from "antd"
 interface IActionItem {
   title: React.ReactNode
   key: string
+  onClick?: () => void
 }
 
 interface IDropdownActionsProp {
@@ -17,7 +18,7 @@ export const DropdownActions = ({
   const menu = (
     <Menu>
       {actions.map(action => (
-        <Menu.Item key={action.key}>
+        <Menu.Item key={action.key} onClick={action.onClick}>
           {action.title}
         </Menu.Item>
       ))}
