@@ -34,7 +34,7 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
       }
     })
 
-    switch (requestConfig.headers?.ResponseType) {
+    switch (response.headers?.["content-type"]) {
       case "text/csv":
         saveAs(response.data, `report-${new Date().toISOString()}.csv`)
         return { data: response, success: true, code: 200, error: null }

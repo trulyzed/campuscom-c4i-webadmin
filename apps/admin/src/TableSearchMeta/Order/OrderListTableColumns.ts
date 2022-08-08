@@ -35,6 +35,7 @@ export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITa
   return {
     columns,
     searchFunc: OrderQueries.getPaginatedList,
-    tableName: 'Order'
+    tableName: 'Order',
+    showDownload: true
   }
 }

@@ -8,7 +8,7 @@ export interface ITableMeta {
   refreshEventName?: string
   hidePagination?: boolean
   hideSettings?: boolean
-  hideDownload?: boolean
+  showDownload?: boolean
   searchFunc: IQuery
   scroll?: TableProps<any>["scroll"]
 }

@@ -39,7 +39,7 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   rowKey?: string
   hidePagination?: boolean
   hideSettings?: boolean
-  hideDownload?: boolean
+  showDownload?: boolean
   disableSorting?: boolean
   currentPagination?: number
   setCurrentPagination?: (page: number) => void

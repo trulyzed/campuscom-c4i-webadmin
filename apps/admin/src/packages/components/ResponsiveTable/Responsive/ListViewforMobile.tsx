@@ -68,7 +68,7 @@ export const ListViewforMobile = (
                 props.conditionalProps &&
                 props.conditionalProps.dataSource &&
                 props.conditionalProps.dataSource.length > 0 &&
-                !props.hideDownload && (
+                props.showDownload && (
                   <>
                     <Col flex="none">
                       <DownloadButton
