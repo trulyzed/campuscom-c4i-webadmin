@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react"
-import { Layout } from "antd"
+import { Layout, Typography } from "antd"
 import { Link } from "react-router-dom"
 import { eventBus } from "~/packages/utils/EventBus"
-import { UpOutlined, DownOutlined } from "@ant-design/icons"
 import { ISidebarMenu } from "~/Component/Layout/SidebarMenus"
 
-const ulStyle = { listStyle: "none", paddingLeft: "0px" }
-const liStyle = { color: "white", width: "170px", padding: "10px" }
+const ulStyle = { listStyle: "none", paddingLeft: "0", paddingBottom: "25px", paddingTop: "10px" }
+const liStyle = { color: "white", padding: "5px", paddingRight: "15px" }
 const buttonStyle: React.CSSProperties = {
   width: "100%",
-  padding: "10px",
+  padding: "12px 15px",
   cursor: "pointer",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
   color: "#000000",
   backgroundColor: "transparent",
-  border: "1px"
+  border: "none",
 }
 
 const RenderMenu = (props: {
@@ -31,23 +30,23 @@ const RenderMenu = (props: {
     <>
       {props.title && (
         <button onClick={() => setExpanded(!expanded)} style={buttonStyle}>
-          <span>{props.title}</span>
+          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>{props.title}</Typography.Title>
           <span>
             {expanded ? (
-              <UpOutlined style={{ fontSize: "0.7rem" }} />
+              <span className="glyphicon glyphicon--primary glyphicon-chevron-up" />
             ) : (
-              <DownOutlined style={{ fontSize: "0.7rem" }} />
+              <span className="glyphicon glyphicon--primary glyphicon-chevron-down" />
             )}
           </span>
         </button>
       )}
       {expanded && (
-        <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px` }}>
+        <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px`, }}>
           {props._sidebarMenus.filter(i => i.permission).map(x => {
             if (x.submenu && x.submenu.length > 0)
               return (
-                <li key={x.key}>
-                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 20} />
+                <li key={x.key} style={{ borderBottomWidth: "1px" }} className={"border-styles"}>
+                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 40} />
                 </li>
               )
             else
@@ -57,8 +56,12 @@ const RenderMenu = (props: {
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
                     className={'submenu'}
+                    style={{ textDecoration: "none", }}
                   >
-                    {x.title}
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      {x.title}
+                      <span className="glyphicon glyphicon-triangle-right glyphicon--primary" />
+                    </div>
                   </Link>
                 </li>
               )
@@ -96,10 +99,15 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       collapsed={props.collapsed}
       className={`sidebar${props.collapsed ? " sidebar--borderless" : ""}`}
     >
-      <div style={{ overflowY: "auto", height: "100vh", padding: "10px 15px" }}>
-        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
+      <div style={{ overflowY: "auto", height: "100vh", }}>
+        <div style={{ padding: "20px 14px", borderBottomWidth: "1px" }} className={"border-styles"}>
+          <Typography.Title level={3} style={{ margin: 0 }}>Navigation</Typography.Title>
+        </div>
+        <div style={{ marginTop: "-10px" }}>
+          <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
+        </div>
         <button style={buttonStyle} onClick={props.logout}>
-          <span>Logout</span>
+          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
         </button>
       </div>
     </Layout.Sider>
