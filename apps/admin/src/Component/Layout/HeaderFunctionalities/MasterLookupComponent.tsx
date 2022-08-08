@@ -26,10 +26,11 @@ const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; de
       {redirectTo && <Redirect to={redirectTo} />}
       <Form form={formInstance} style={{ marginRight: "20px", marginTop: "16px" }} className={"master-look-up"}>
         <FormDropDown
-          label={<span>Jump To Page</span>}
+          label={""}
+          placeholder={"Jump To Page"}
           fieldName="JumpTo"
-          labelColSpan={6}
-          wrapperColSpan={18}
+          labelColSpan={0}
+          wrapperColSpan={24}
           onSelectedItems={goToPage}
           options={AppRoutes.filter((x) => x && x.path !== undefined)
             .filter((x) => !x.path?.includes(":"))

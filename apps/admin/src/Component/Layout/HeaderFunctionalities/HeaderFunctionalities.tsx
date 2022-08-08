@@ -30,10 +30,10 @@ export const HeaderFunctionalities = () => {
     <>
       {desktopView && (
         <>
-          <Col className="site-header__item" style={{ height: "100%" }} flex="auto">
+          <Col className="site-header__item" style={{ height: "100%" }} flex="300px">
             <MasterLookupComponent />
           </Col>
-          <Col className="site-header__item" style={{ height: "100%" }} flex="50px" role="navigation" aria-label="History Log">
+          <Col className="site-header__item" style={{ height: "100%" }} flex="40px" role="navigation" aria-label="History Log">
             <HistoryLogButton />
           </Col>
           <Col className="site-header__item" style={{ height: "100%" }} flex="50px" role="navigation" aria-label="Go to User Profile page">

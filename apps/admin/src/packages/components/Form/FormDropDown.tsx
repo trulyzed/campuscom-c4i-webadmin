@@ -95,6 +95,7 @@ export function FormDropDown(
       <Select
         showSearch
         aria-expanded={isOpen ? "true" : "false"}
+        placeholder={props.placeholder}
         onDropdownVisibleChange={(open: boolean) => setIsOpen(open)}
         allowClear={props.allowClear === undefined ? true : props.allowClear}
         loading={loading}
