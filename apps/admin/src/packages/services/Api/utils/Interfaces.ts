@@ -59,9 +59,3 @@ export interface IApiResponse {
   success: boolean
   cacheEntryTime?: number
 }
-
-export const RESPONSE_TYPE = {
-  EXCEL: "__downloadDataAsEXCEL",
-  CSV: "__downloadDataAsCSV",
-  PDF: "__downloadDataAsPDF"
-}

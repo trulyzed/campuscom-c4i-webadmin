@@ -23,7 +23,6 @@ export const ResponsiveTable = (props: IDataTableProps & {
   })
 
   const [loading, setLoading] = useState(false)
-  const [downloading, setDownloading] = useState(false)
   const [paginatedData, setPaginatedData] = useState<any[]>([])
   const [currentPagination, setCurrentPagination] = useState<number>(1)
   const firstRender = useFirstRender()
@@ -161,8 +160,6 @@ export const ResponsiveTable = (props: IDataTableProps & {
           currentPagination={props.currentPagination || currentPagination}
           conditionalProps={conditionalProps}
           setConditionalProps={setConditionalProps}
-          downloading={downloading}
-          setDownloading={setDownloading}
           paginatedData={paginatedData}
           paginationChange={paginationChange}
           currentPageSize={currentPageSize}
@@ -175,8 +172,6 @@ export const ResponsiveTable = (props: IDataTableProps & {
           currentPagination={props.currentPagination || currentPagination}
           conditionalProps={conditionalProps}
           setConditionalProps={setConditionalProps}
-          downloading={downloading}
-          setDownloading={setDownloading}
           paginatedData={paginatedData}
           paginationChange={paginationChange}
           currentPageSize={currentPageSize}

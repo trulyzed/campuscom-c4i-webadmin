@@ -13,8 +13,6 @@ export function TableViewForDesktop(
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
     setConditionalProps: (props: TableProps<{ [key: string]: string } & { currentPagination?: number }>) => void
-    downloading: boolean
-    setDownloading: (flag: boolean) => void
     paginatedData: any[]
     currentPageSize: number
     showTableSettings: () => void
@@ -64,8 +62,6 @@ export function TableViewForDesktop(
                   <DownloadButton
                     searchFunc={props.searchFunc}
                     searchParams={props.searchParams}
-                    downloading={props.downloading}
-                    setDownloading={props.setDownloading}
                     fileType={"CSV"}
                   />
                 </Col>
@@ -73,8 +69,6 @@ export function TableViewForDesktop(
                   <DownloadButton
                     searchFunc={props.searchFunc}
                     searchParams={props.searchParams}
-                    downloading={props.downloading}
-                    setDownloading={props.setDownloading}
                     fileType={"EXCEL"}
                   />
                 </Col>

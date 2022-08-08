@@ -11,8 +11,6 @@ export const ListViewforMobile = (
     paginationChange: (page: number, pageSize?: number) => void
     conditionalProps: TableProps<{ [key: string]: string }>
     setConditionalProps: (props: TableProps<{ [key: string]: string }> & { currentPagination?: number }) => void
-    downloading: boolean
-    setDownloading: (flag: boolean) => void
     paginatedData: any[]
     currentPageSize: number
   }
@@ -76,8 +74,6 @@ export const ListViewforMobile = (
                       <DownloadButton
                         searchFunc={props.searchFunc}
                         searchParams={props.searchParams}
-                        downloading={props.downloading}
-                        setDownloading={props.setDownloading}
                         fileType={"CSV"}
                       />
                     </Col>
@@ -85,8 +81,6 @@ export const ListViewforMobile = (
                       <DownloadButton
                         searchFunc={props.searchFunc}
                         searchParams={props.searchParams}
-                        downloading={props.downloading}
-                        setDownloading={props.setDownloading}
                         fileType={"EXCEL"}
                       />
                     </Col>

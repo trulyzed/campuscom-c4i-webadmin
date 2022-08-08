@@ -1,34 +1,32 @@
-import React from "react"
+import React, { useState } from "react"
 import { Button, } from "antd"
-import { RESPONSE_TYPE } from "~/packages/services/Api/utils/Interfaces"
 import { IQuery } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 
 export const DownloadButton = (props: {
   searchFunc: IQuery
   searchParams: { [key: string]: any }
-  setDownloading: (flag: boolean) => void
-  downloading: boolean
-  fileType: "CSV" | "EXCEL"
+  fileType: "EXCEL" | "CSV"
 }) => {
+  const [downloading, setDownloading] = useState(false)
   const downloadData = () => {
     let header = {}
     switch (props.fileType) {
-      case RESPONSE_TYPE.EXCEL:
+      case "EXCEL":
         header = { ResponseType: "application/vnd.ms-excel" }
         break
-      case RESPONSE_TYPE.CSV:
+      case "CSV":
         header = { ResponseType: "text/csv" }
         break
     }
-
-    props.setDownloading(true)
-    props.searchFunc({ params: props.searchParams, headers: header }).finally(() => props.setDownloading(false))
+    setDownloading(true)
+    props.searchFunc({ params: props.searchParams, headers: header }).finally(() => setDownloading(false))
   }
   return (
     <Button
       aria-label={"Download Table Data"}
       title={`Export to ${props.fileType}`}
       onClick={() => downloadData()}
+      loading={downloading}
     >{`Export to ${props.fileType}`}</Button>
   )
 }
