@@ -6,7 +6,7 @@ import { eventBus } from "~/packages/utils/EventBus"
 import { Button } from "antd"
 import { useHistory } from "react-router-dom"
 
-type ActionType = 'edit' | 'delete' | 'generateKey' | 'start' | 'showHistory' | 'goToProfile'
+type ActionType = 'edit' | 'delete' | 'generateKey' | 'start' | 'showHistory' | 'goToProfile' | 'previous' | 'next' | 'reload'
 
 interface IContextActionProps {
   text?: string
@@ -26,6 +26,9 @@ const iconTypes: Record<ActionType, React.ReactNode> = {
   start: <span className="glyphicon glyphicon-play-circle" />,
   showHistory: <span className="glyphicon glyphicon-time" />,
   goToProfile: <span className="glyphicon glyphicon-user" />,
+  previous: <span className="glyphicon glyphicon-chevron-left" />,
+  next: <span className="glyphicon glyphicon-chevron-right" />,
+  reload: <span className="glyphicon glyphicon-repeat" />,
 }
 
 export const ContextAction = ({

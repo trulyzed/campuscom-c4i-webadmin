@@ -116,6 +116,14 @@
   cursor: pointer;
 }
 
+.border {
+  border: 1px solid @border-light;
+  &--left-right {
+    border-top: none;
+    border-bottom: none;
+  }
+}
+
 .action-container {
   >div {
     border: .5px solid @border-light;
@@ -127,5 +135,18 @@
   >div:last-child {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+  }
+
+  &--is-vertical {
+    >div:first-child {
+      border-radius: 0px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    >div:last-child {
+      border-radius: 0px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
   }
 }

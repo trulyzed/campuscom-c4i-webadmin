@@ -147,7 +147,7 @@ export const IconButton = (props: {
       info: <InfoOutlined alt="" />,
       right: <RightOutlined alt="" />,
       leftCircle: <LeftOutlined alt="" />,
-      back: <span className="glyphicon glyphicon-back" aria-label="back" />,
+      back: <span className="glyphicon glyphicon-chevron-left" aria-label="back" />,
       down: <DownOutlined alt="" />,
       up: <UpOutlined alt="" />,
       danger: <span className="glyphicon glyphicon-trash" aria-label="danger" />,
