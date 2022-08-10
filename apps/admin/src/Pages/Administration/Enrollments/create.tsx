@@ -323,7 +323,7 @@ export const Create = () => {
                         meta={[
                           {
                             fieldName: "profile",
-                            label: "Profile",
+                            label: "Student",
                             inputType: DROPDOWN,
                             refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
                             displayKey: "name",
@@ -336,7 +336,7 @@ export const Create = () => {
                           setStudentData([...studentData, data])
                         }}
                         isWizard
-                        applyButtonLabel="Add Profile"
+                        applyButtonLabel="Add Student"
                         showFullForm
                         showClearbutton={false}
                         stopProducingQueryParams
@@ -345,10 +345,10 @@ export const Create = () => {
                     </Col>
                     <Col md={24}>
                       <ResponsiveTable
-                        title={() => <Title level={5}>Selected Profiles</Title>}
+                        title={() => <Title level={5}>Selected Students</Title>}
                         columns={[
                           {
-                            title: 'Profile',
+                            title: 'Student',
                             dataIndex: 'name',
                             sorter: (a: any, b: any) => a.name - b.name
                           },

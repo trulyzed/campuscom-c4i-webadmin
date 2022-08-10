@@ -50,6 +50,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             props.onSelectedItems && props.onSelectedItems(formattedDate)
           }}
           format={DATE_DISPLAY_FORMAT}
+          style={{ width: "100%", }}
         />
         {/* )}
         {!value && (
