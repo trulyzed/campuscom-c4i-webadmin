@@ -673,16 +673,16 @@ const SearchFormFields = (props: {
               case CUSTOM_FIELD:
                 if (field.customFilterComponent) {
                   formField = (
-                    <field.customFilterComponent
-                      {...{
-                        ...field,
-                        key: i,
-                        formInstance: props.formInstance,
-                        clearTrigger: props.clearTrigger
-                      }}
-                      labelColSpan={field.labelColSpan || labelColSpan}
-                      wrapperColSpan={field.wrapperColSpan || 24}
-                    />
+                    <Form.Item colon={false} label={field.label} labelCol={{ span: field.labelColSpan || 4 }} wrapperCol={{ span: field.wrapperColSpan || 20 }} style={field.formItemStyle}>
+                      <field.customFilterComponent
+                        {...{
+                          ...field,
+                          key: i,
+                          formInstance: props.formInstance,
+                          clearTrigger: props.clearTrigger
+                        }}
+                      />
+                    </Form.Item>
                   )
                 }
                 break
@@ -691,7 +691,7 @@ const SearchFormFields = (props: {
             }
           }
 
-          const lg = (props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX)) ? 24 : 12
+          const lg = (props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX) || (field.inputType === CUSTOM_FIELD)) ? 24 : 12
           const xs = 24
 
           return field.hidden ? (
