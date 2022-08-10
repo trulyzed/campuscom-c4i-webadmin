@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Divider, Form, notification, Popover, Row, Steps } from "antd"
+import { Button, Card, Checkbox, Col, Divider, Form, Popover, Row, Steps } from "antd"
 import { SidebarMenuTargetHeading } from "~/packages/components/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "~/packages/components/Help/HelpButton"
 import { MetaDrivenForm } from "~/packages/components/Form/MetaDrivenForm"
@@ -18,6 +18,7 @@ import { getDecimalValue } from "~/packages/utils/util"
 import { ContextAction } from "~/packages/components/Actions/ContextAction"
 import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { Alert } from "~/packages/components/Alert/Alert"
 //import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
 const { Step } = Steps
@@ -123,6 +124,7 @@ export const Create = () => {
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [formInstance] = Form.useForm()
+  const [orderRef, setOrderRef] = useState<string | undefined>()
 
   const handleStepChange = useCallback((current) => {
     setCurrentStep(current)
@@ -191,8 +193,8 @@ export const Create = () => {
       payment_note: values.payment_note,
     }
     const resp = await EnrollmentQueries.create({ data: payload })
-    if (resp.success) {
-      notification.success({ message: 'Successfully created.' })
+    if (resp.success && resp.data.order_ref) {
+      setOrderRef(resp.data.order_ref)
       reset()
     }
   }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, store, reset])
@@ -215,6 +217,15 @@ export const Create = () => {
 
   return (
     <>
+      {orderRef ?
+        <Alert
+          className="mb-20"
+          type="success"
+          message={"Success"}
+          description={`Order ref: ${orderRef}`}
+          onClose={() => setOrderRef(undefined)}
+        />
+        : null}
       <Card
         title={
           <Row>
