@@ -222,7 +222,7 @@ export const Create = () => {
           className="mb-20"
           type="success"
           message={"Success"}
-          description={`Order ref: ${orderRef}`}
+          description={`Order ID: ${orderRef}`}
           onClose={() => setOrderRef(undefined)}
         />
         : null}

@@ -3,12 +3,13 @@ import { Breadcrumb as AntdBreadcrumb } from "antd"
 import { Link, useLocation } from "react-router-dom"
 import { eventBus } from "~/packages/utils/EventBus"
 import { transformToLabel } from "~/packages/utils/util"
+import { AppRoutes } from "~/routes"
 
 export const REFRESH_BREADCRUMB = "REFRESH_BREADCRUMB"
 
 interface IBreadcrumbPath {
   label: string | number
-  path: string
+  path?: string
 }
 
 const generateBreadcrumbPath = (path: string): IBreadcrumbPath[] => {
@@ -27,7 +28,7 @@ const generateBreadcrumbPath = (path: string): IBreadcrumbPath[] => {
       path = `${path}/${route}`
     }
 
-    breadcrumbPaths.push({ path, label: transformToLabel(convertedRoute) })
+    breadcrumbPaths.push({ path: AppRoutes.some(i => i.path === path) ? path : undefined, label: transformToLabel(convertedRoute) })
     return path
   }, breadcrumbPaths[0].path)
 
@@ -51,10 +52,10 @@ export function Breadcrumb() {
   }, [location.pathname])
 
   return (
-    <AntdBreadcrumb style={{ margin: "16px 0" }}>
+    <AntdBreadcrumb style={{ margin: "16px 0" }} separator={<span className="glyphicon glyphicon-triangle-right" />}>
       {breadcrumbPaths.map((item, i) => (
         <AntdBreadcrumb.Item key={i}>
-          <Link to={item.path}>{item.label}</Link>
+          {(item.path && i !== (breadcrumbPaths.length - 1)) ? <Link to={item.path}>{item.label}</Link> : item.label}
         </AntdBreadcrumb.Item>
       ))}
     </AntdBreadcrumb>

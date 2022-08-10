@@ -35,6 +35,10 @@
 @alert-success-bg-color: #F6F9F1;
 @alert-info-bg-color: #ECF8FE;
 @alert-warning-bg-color: #FDF6EC;
+@breadcrumb-link-color: @interactive;
+@breadcrumb-separator-color: black;
+@breadcrumb-last-item-color: black;
+@breadcrumb-separator-margin: 5px;
 
 // Site layout
 .site-layout-background {
@@ -283,6 +287,13 @@ h2, h3, h5 {
 .ant-notification-notice-icon {
   margin-left: 12px;
   padding-top: 5px;
+}
+
+// antd breadcrumb
+.ant-breadcrumb-separator {
+  .glyphicon {
+    font-size: 10px;
+  }
 }
 
 .create-entity-container {
