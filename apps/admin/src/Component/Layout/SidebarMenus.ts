@@ -1,5 +1,5 @@
 import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
-import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
+import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
 import { IUser } from "~/packages/services/Api/utils/Interfaces"
 import { getUser } from "~/packages/services/Api/utils/TokenStore"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -216,7 +216,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         title: "Create Enrollment",
         url: "/administration/create-enrollment",
         submenu: [],
-        permission: checkAdminApiPermission(OrderQueries.create)
+        permission: checkAdminApiPermission(EnrollmentQueries.create)
       }
     ],
     permission:
@@ -233,7 +233,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
-      checkAdminApiPermission(OrderQueries.create)
+      checkAdminApiPermission(EnrollmentQueries.create)
   },
   {
     title: "Configuration",
