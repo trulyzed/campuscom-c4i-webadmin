@@ -1,0 +1,156 @@
+.logo {
+  text-decoration: none;
+}
+
+.hidden {
+  height: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  visibility: hidden;
+  width: 0;
+}
+
+.modal-form {
+  height: 65vh;
+  overflow-y: scroll;
+  padding: 10px;
+}
+
+.modal-card {
+  max-height: 65vh;
+  overflow: scroll;
+}
+
+.disabled-link {
+  color: @dark;
+  pointer-events: none;
+}
+
+.credit-memo-data-table {
+  width: 60%;
+}
+
+.issue-certificate-data-table {
+  width: 80%;
+}
+
+// dorakata-table css
+.dorakata-table {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.dorakata-table td {
+  padding: 8px;
+  word-wrap: break-word;
+}
+
+.dorakata-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.dorakata-table tr:hover {
+  background-color: #ddd;
+}
+
+.dorakata-table th {
+  background-color: #727272;
+  // border: 1px solid #ddd;
+  color: #f2f2f2;
+  padding: 8px;
+  padding-bottom: 12px;
+  padding-top: 12px;
+  text-align: left;
+}
+
+.dorakata-table .thumb {
+  width: 100%;
+  max-width: 200px;
+  height: 100px;
+  object-fit: contain;
+  object-position: left;
+}
+
+.dorakata-table .external-link:focus {
+  border: none !important;
+  box-shadow: none;
+}
+
+.ant-form-item-label {
+  label {
+    white-space: normal;
+  }
+}
+
+.view-details {
+  .view-details__action {
+    color: @purple;
+    cursor: pointer;
+  }
+
+  .view-details__modal-overlay {
+    width: 50%;
+
+    @media only screen and (max-width: 767px) {
+      width: 100%;
+    }
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  text-decoration: underline;
+  color: @interactive;
+  cursor: pointer;
+}
+
+.border {
+  border: 1px solid @border-light;
+  &--left-right {
+    border-top: none;
+    border-bottom: none;
+  }
+}
+.border-styles {
+  border-width: 0px;
+  border-color: @border-light;
+  border-style: solid;
+}
+
+.action-container {
+  >div {
+    border: .5px solid @border-light;
+  }
+  >div:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+  }
+  >div:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &--is-vertical {
+    >div:first-child {
+      border-radius: 0px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+    >div:last-child {
+      border-radius: 0px;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
