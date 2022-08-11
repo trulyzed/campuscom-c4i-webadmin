@@ -232,7 +232,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
+      checkAdminApiPermission(OrderQueries.create)
   },
   {
     title: "Configuration",
