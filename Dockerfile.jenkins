@@ -24,6 +24,7 @@ RUN yarn build:${APP_MODULE}
 FROM python:2.7
 RUN pip install awscli --upgrade --user
 WORKDIR /root/
-COPY --from=0 /app/apps/${APP_MODULE}/build /root/build
+ARG APP_MODULE
 ARG ADMIN_FRONTEND_S3_BUCKET
+COPY --from=0 /app/apps/${APP_MODULE}/build /root/build
 RUN /root/.local/bin/aws s3 cp /root/build s3://${ADMIN_FRONTEND_S3_BUCKET} --recursive
