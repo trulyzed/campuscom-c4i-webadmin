@@ -20,7 +20,7 @@
     "build:api": "yarn workspace @packages/api build",
     "build:components": "yarn workspace @packages/components build",
     "build:packages": "yarn build:utils && yarn build:api && yarn build:components",
-    "build:admin": "yarn workspace admin build",
+    "build:admin": "yarn build:utils && yarn build:api && yarn build:components && yarn workspace admin build",
     "build:affiliate": "yarn build:utils && yarn build:api && yarn build:components && yarn workspace affiliate build",
     "lint": "yarn workspaces run lint",
     "lint:ts": "yarn workspaces run lint:ts",
