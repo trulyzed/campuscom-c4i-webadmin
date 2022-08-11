@@ -19,7 +19,7 @@ ARG REACT_APP_CDN_URL
 ARG REACT_APP_STOREFRONT_URL
 ARG REACT_APP_ENROLLMENT_URL
 
-RUN yarn build
+RUN yarn build:admin
 
 # Stage 1, ship built files (/app/apps/admin/build) to bucket
 FROM python:2.7
