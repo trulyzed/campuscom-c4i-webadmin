@@ -30,7 +30,7 @@ const RenderMenu = (props: {
     <>
       {props.title && (
         <button onClick={() => setExpanded(!expanded)} style={buttonStyle}>
-          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>{props.title}</Typography.Title>
+          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }} className={"no-white-space-wrap"}>{props.title}</Typography.Title>
           <span>
             {expanded ? (
               <span className="glyphicon glyphicon--primary glyphicon-chevron-up" />
@@ -101,7 +101,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
     >
       <div style={{ overflowY: "auto", height: "100vh", }}>
         <div style={{ padding: "20px 14px", borderBottomWidth: "1px" }} className={"border-styles"}>
-          <Typography.Title level={3} style={{ margin: 0 }}>Navigation</Typography.Title>
+          <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
         </div>
         <div style={{ marginTop: "-10px" }}>
           <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
