@@ -58,7 +58,7 @@ const RenderMenu = (props: {
                     className={'submenu'}
                     style={{ textDecoration: "none", }}
                   >
-                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", whiteSpace: "nowrap" }}>
                       {x.title}
                       <span className="glyphicon glyphicon-triangle-right glyphicon--primary" />
                     </div>
