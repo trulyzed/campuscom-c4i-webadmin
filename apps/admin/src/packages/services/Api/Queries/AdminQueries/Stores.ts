@@ -83,6 +83,21 @@ export const StoreQueries:IStoreQueries = {
     })
   }, [{operation: ApiPermissionClass.Store, action: ApiPermissionAction.Write}]),
 
+  updateWithoutSlug: PermissionWrapper(data => {
+    const payload = convertToFormData({
+      ...data?.data,
+      store_logo_uri: data?.data.image_file?.length ? data?.data.image_file : undefined,
+    })
+    const {id, ...params} = data?.params;
+    return adminApi({
+      endpoint: `${endpoints.STORE_UPDATE}/${id}`,
+      method: "PATCH",
+      ...data,
+      data: payload,
+      params
+    })
+  }, [{operation: ApiPermissionClass.StoreUpdate, action: ApiPermissionAction.Write}]),
+
   tagIdentityProvider: PermissionWrapper(data => {
     const payload = {
       ...data?.data,

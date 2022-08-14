@@ -8,6 +8,7 @@ export interface IStoreQueries {
   getListByCoursePublishing: IQuery
   create: IQuery
   update: IQuery
+  updateWithoutSlug: IQuery
   tagIdentityProvider: IQuery
   untagIdentityProvider: IQuery
   tagPaymentGateway: IQuery

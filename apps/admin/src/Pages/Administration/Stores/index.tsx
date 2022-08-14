@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { notification } from "antd"
-import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
+import { getStoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Store`}
-              formMeta={StoreFormMeta}
+              formMeta={getStoreFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Add Store`}
               iconType="create"

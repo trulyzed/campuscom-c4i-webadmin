@@ -9,7 +9,7 @@ import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableCol
 import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
 import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { StoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
+import { getStoreFormMeta } from "~/Component/Feature/Stores/FormMeta/StoreFormMeta"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
@@ -32,14 +32,17 @@ import { getStoreDomainConfigurationListTableColumns } from "~/TableSearchMeta/S
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { ContextAction } from "~/packages/components/Actions/ContextAction"
+import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
+
+const hasEditPermission = checkAdminApiPermission(StoreQueries.update.__permissions)
 
 export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => StoreQueries.update({ ...data, params: { id: store.id } }).then(resp => {
+  const update = QueryConstructor(((data) => StoreQueries[hasEditPermission ? "update" : "updateWithoutSlug"]({ ...data, params: { id: store.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
-  })), [StoreQueries.update])
+  })), [hasEditPermission ? StoreQueries.update : StoreQueries.updateWithoutSlug])
 
   const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
@@ -102,8 +105,8 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Store`}
-        formMeta={StoreFormMeta}
-        formSubmitApi={updateEntity}
+        formMeta={getStoreFormMeta(!hasEditPermission)}
+        formSubmitApi={update}
         initialFormValue={{ ...store, }}
         defaultFormValue={{ storeId: store.id }}
         buttonLabel={`Update Store`}
