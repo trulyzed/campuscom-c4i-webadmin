@@ -5,5 +5,6 @@ export interface IEnrollmentQueries {
   getCourseEnrollmentList: IQuery
   getSingleCourseEnrollment: IQuery
   create: IQuery
+  createWithPurchaserInfo: IQuery
   getPaymentSummary: IQuery
 }

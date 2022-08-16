@@ -39,6 +39,7 @@ export enum ApiPermissionClass {
   CoursePublishingStore = "SharedCoursesView",
   CourseSharingContract = "CourseSharingContractViewSet",
   CreateEnrollment = "CreateEnrollmentView",
+  CreateEnrollmentWithPurchaserInfo = "CreateEnrollmentWithPurchaserView",
   CreateEnrollmentPaymentSummary = "PaymentSummaryView",
   CreateEnrollmentProductDetails = "EnrollmentProductDetailsView",
   CustomRole = "CustomRoleViewSet",

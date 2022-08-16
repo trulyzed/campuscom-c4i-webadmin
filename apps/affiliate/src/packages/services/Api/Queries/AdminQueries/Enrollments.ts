@@ -46,6 +46,16 @@ export const EnrollmentQueries:IEnrollmentQueries = {
     })
   }, [{operation: ApiPermissionClass.CreateEnrollment, action: ApiPermissionAction.Write}]),
 
+  createWithPurchaserInfo: PermissionWrapper(data => {
+    const payload = convertToFormData(data?.data)
+    return adminApi({
+      endpoint: endpoints.CREATE_ENROLLMENT_WITH_PURCHASER_INFO,
+      method: "POST",
+      ...data,
+      data: payload,
+    })
+  }, [{operation: ApiPermissionClass.CreateEnrollmentWithPurchaserInfo, action: ApiPermissionAction.Write}]),
+
   getPaymentSummary: PermissionWrapper(data => {
     return adminApi({
       endpoint: endpoints.CREATE_ENROLLMENT_PAYMENT_SUMMARY,

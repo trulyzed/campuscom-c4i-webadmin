@@ -31,6 +31,7 @@ export const endpoints = {
   COURSE_RECOMMENDED_CAREER: "career-recommendation",
   COURSE_SHARING_CONTRACT: "course-sharing-contracts",
   CREATE_ENROLLMENT: "create-enrollment",
+  CREATE_ENROLLMENT_WITH_PURCHASER_INFO: "create-enrollment-with-purchaser",
   CREATE_ENROLLMENT_PAYMENT_SUMMARY: "payment-summary",
   CREATE_ENROLLMEMT_PRODUCT_DETAILS: "enrollment-product-details",
   CUSTOM_ROLE: "custom-roles",
