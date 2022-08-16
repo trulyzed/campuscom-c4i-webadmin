@@ -106,6 +106,7 @@ export const endpoints = {
   STORE_FEATURED_CAREER: "store-featured-careers",
   STORE_IDENTITY_PROVIDER: "store-identity-providers",
   STORE_PAYMENT_GATEWAY: "store-payment-gateways",
+  STORE_UPDATE: "store-updates",
   STORE_USER: "store-users",
   STUDENT: "profiles",
   STUDENT_ACTIVITY: "user-activities",
