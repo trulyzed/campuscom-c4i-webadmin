@@ -200,12 +200,12 @@ export const Create = () => {
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
     }
-    const resp = await EnrollmentQueries.create({ data: payload })
+    const resp = await (createWithPurchaserInfo ? EnrollmentQueries.createWithPurchaserInfo : EnrollmentQueries.create)({ data: payload })
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       reset()
     }
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, purchaserData, productData, store, reset])
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, purchaserData, productData, createWithPurchaserInfo, store, reset])
 
   useEffect(() => {
     getPaymentSummary()
