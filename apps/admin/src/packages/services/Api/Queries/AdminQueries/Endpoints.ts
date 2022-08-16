@@ -97,7 +97,7 @@ export const endpoints = {
   STORE_FEATURED_CAREER: 'store-featured-careers',
   STORE_IDENTITY_PROVIDER: 'store-identity-providers',
   STORE_PAYMENT_GATEWAY: 'store-payment-gateways',
-  STORE_UPDATE: 'store-update',
+  STORE_UPDATE: 'store-updates',
   STORE_USER: 'store-users',
   STUDENT: 'profiles',
   STUDENT_ACTIVITY: 'user-activities',
@@ -115,6 +115,7 @@ export const endpoints = {
   UPDATE_PAYMENT_QUESTION: 'update-payment-questions',
   UPDATE_PROFILE_QUESTION: 'update-profile-questions',
   UPDATE_REGISTRATION_QUESTION: 'update-registration-questions',
+
 
   // for miscellaneous, non-paginated
   ALL_CAMPUS: 'course-provider-sites?limit=1000',
