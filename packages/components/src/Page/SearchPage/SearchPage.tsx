@@ -4,8 +4,11 @@ import { IField } from "~/Form/common"
 import { ResponsiveTable, IDataTableProps } from "~/ResponsiveTable"
 import { Button, Col, Result, Row } from "antd"
 import { HelpButton } from "~/Help/HelpButton"
-import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
+import Title from "antd/lib/typography/Title"
+import Text from "antd/lib/typography/Text"
+import { DEFAULT_PAGE_SIZE } from "~/ResponsiveTable/Responsive"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title: string
@@ -24,6 +27,11 @@ export interface ISearchListWithVisibleSearchFormProp {
 export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
   const [searchParams, setSearchParams] = useState<{ [key: string]: any }>()
   const [currentPagination, setCurrentPagination] = useState<number>()
+  const [pagination, setPagination] = useState<{ currentPage: number, total: number, currentPageSize: number }>({
+    currentPage: 1,
+    total: 0,
+    currentPageSize: DEFAULT_PAGE_SIZE
+  })
 
   useEffect(() => {
     if (props.initSearchAtMount) setSearchParams({ ...props.initialFormValue, ...props.defaultFormValue })
@@ -33,6 +41,16 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     <div className="site-layout-content">
       {props.tableProps.searchFunc && checkAdminApiPermission(props.tableProps.searchFunc) && (
         <>
+          <Row>
+            <Col md={24} className={'mt-15'}>
+              <Title level={3}>
+                Manage {props.title}
+              </Title>
+            </Col>
+            <Col md={24} className={'mb-10'}>
+              <Text style={{ textTransform: 'lowercase' }} type="secondary" className="ml-10">{pagination.total} {props.title} displayed</Text>
+            </Col>
+          </Row>
           {!props.meta && (
             <Row
               justify="space-between"
@@ -59,39 +77,49 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
               </Col>
             </Row>
           )}
-
-          {props.meta && (
-            <MetaDrivenForm
-              title={props.title}
-              blocks={props.blocks}
-              helpKey={props.helpKey}
-              meta={props.meta}
-              metaName={props.metaName}
-              stopProducingQueryParams={props.stopProducingQueryParams}
-              initialFormValue={{ ...props.initialFormValue } || {}}
-              setCurrentPagination={setCurrentPagination}
-              onApplyChanges={(newFilterValues) => {
-                setSearchParams({
-                  ...props.defaultFormValue,
-                  ...newFilterValues
-                })
-                props.updatedParams &&
-                  props.updatedParams({
-                    ...props.defaultFormValue,
-                    ...newFilterValues
-                  })
-                if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
-                else setCurrentPagination(1)
-              }}
-            />
-          )}
-
-          <ResponsiveTable
-            currentPagination={currentPagination}
-            setCurrentPagination={setCurrentPagination}
-            {...props.tableProps}
-            searchParams={searchParams}
-          />
+          <Row gutter={25}>
+            {props.meta &&
+              <Col lg={6} xl={5}>
+                <MetaDrivenForm
+                  title={`${props.title} Filter`}
+                  blocks={props.blocks}
+                  helpKey={props.helpKey}
+                  meta={props.meta}
+                  metaName={props.metaName}
+                  stopProducingQueryParams={props.stopProducingQueryParams}
+                  autoApplyChangeFromQueryParams
+                  initialFormValue={props.initialFormValue}
+                  setCurrentPagination={setCurrentPagination}
+                  onApplyChanges={(newFilterValues) => {
+                    setSearchParams({
+                      ...props.defaultFormValue,
+                      ...newFilterValues
+                    })
+                    props.updatedParams &&
+                      props.updatedParams({
+                        ...props.defaultFormValue,
+                        ...newFilterValues
+                      })
+                    if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
+                    else setCurrentPagination(1)
+                  }}
+                  isVertical
+                  isAside
+                  showFullForm
+                />
+              </Col>
+            }
+            <Col lg={18} xl={19}>
+              <ResponsiveTable
+                currentPagination={currentPagination}
+                setCurrentPagination={setCurrentPagination}
+                {...props.tableProps}
+                searchParams={searchParams}
+                tableTitle={props.title}
+                onPaginationChange={setPagination}
+              />
+            </Col>
+          </Row>
         </>
       )}
       {props.tableProps.searchFunc && !checkAdminApiPermission(props.tableProps.searchFunc) && (

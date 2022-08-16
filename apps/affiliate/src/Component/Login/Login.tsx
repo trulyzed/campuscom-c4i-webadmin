@@ -3,11 +3,11 @@ import { Form, Button, Card, Typography, Input } from "antd"
 import { Error } from "~/Component/Error"
 import { Store } from "antd/lib/form/interface"
 import { Redirect } from "react-router"
-import { setLoginInfo } from "~/packages/services/Api/utils/TokenStore"
-import { eventBus } from "~/packages/utils/EventBus"
+import { setLoginInfo } from "@packages/services/lib/Api/utils/TokenStore"
+import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY, REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
-import { IUser } from "~/packages/services/Api/utils/Interfaces"
-import { login } from "~/packages/services/AuthService"
+import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { login } from "@packages/services/lib/AuthService"
 
 interface IFormState {
   username: string

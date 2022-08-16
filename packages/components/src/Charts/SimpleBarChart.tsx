@@ -1,4 +1,3 @@
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces";
 import { Row, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import {
@@ -11,15 +10,12 @@ import {
 	Legend,
 } from "recharts";
 import { IChartConfig } from "~/Charts/IChartConfig";
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types";
 
 interface ISimpleBarChart {
 	config: IChartConfig;
 	searchParams?: { [key: string]: any };
-	searchFunc: (
-		Params: { [key: string]: any },
-		from?: number,
-		to?: number
-	) => Promise<IApiResponse>;
+	searchFunc: IQuery
 }
 
 export function SimpleBarChart(props: ISimpleBarChart) {
@@ -31,7 +27,7 @@ export function SimpleBarChart(props: ISimpleBarChart) {
 		setErrorMessage("");
 		if (props.searchFunc && props.searchParams) {
 			setLoading(true);
-			props.searchFunc(props.searchParams).then((response) => {
+			props.searchFunc({ params: props.searchParams }).then((response) => {
 				if (
 					response.success &&
 					Array.isArray(response.data) &&

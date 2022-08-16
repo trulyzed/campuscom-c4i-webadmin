@@ -1,6 +1,6 @@
 import { Avatar, Card } from "antd"
 import { UserOutlined, MailOutlined } from "@ant-design/icons"
-import { IUser } from "~/packages/services/Api/utils/Interfaces"
+import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 
 export const Intro = (props: { userInfo: IUser }) => {
   return (

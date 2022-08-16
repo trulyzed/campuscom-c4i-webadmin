@@ -1,4 +1,4 @@
-import { IField } from "~/packages/components/Form/common"
+import { IField } from "@packages/components/lib/Form/common"
 
 export const IMAGE_INPUT_FORMAT = '.jpg, .jpeg, .png'
 export const BATCH_FILE_INPUT_FORMAT = '.csv'

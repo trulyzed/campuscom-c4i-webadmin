@@ -1,8 +1,10 @@
 import React from "react"
-import { Form } from "antd"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { Form, UploadProps } from "antd"
 import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
+import { IQuery, IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
+import { ValidateErrorEntity } from "rc-field-form/lib/interface"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -11,10 +13,14 @@ export const MULTI_SELECT_DROPDOWN = "MULTI_SELECT_DROPDOWN"
 export const MULTI_RADIO = "MULTI_RADIO"
 export const DATE_PICKER = "DATE_PICKER"
 export const DATE_PICKERS = "DATE_PICKERS"
+export const HIERARCHICAL_MULTIPLE_CHECKBOX = "HIERARCHICAL_MULTIPLE_CHECKBOX"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
+export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
+export const FILE = "FILE"
+export const EDITOR = "EDITOR"
 
 export type IFieldType =
   | typeof TEXT
@@ -23,11 +29,15 @@ export type IFieldType =
   | typeof MULTI_SELECT_DROPDOWN
   | typeof DATE_PICKER
   | typeof DATE_PICKERS
+  | typeof HIERARCHICAL_MULTIPLE_CHECKBOX
   | typeof NUMBER
   | typeof BOOLEAN
   | typeof MULTI_SELECT_CHECKBOX
+  | typeof MULTI_SELECT_GROUP_CHECKBOX
   | typeof CUSTOM_FIELD
   | typeof MULTI_RADIO
+  | typeof FILE
+  | typeof EDITOR
 
 export interface IField {
   label: React.ReactNode
@@ -39,11 +49,12 @@ export interface IField {
   helpkey?: string
 
   fieldName: string
+  initialValue?: any
   defaultValue?: any
   displayKey?: string
   valueKey?: string
   ariaLabel?: string
-
+  previewKey?: string
   fieldName2?: string
   defaultValue2?: any
   ariaLabel2?: string
@@ -51,7 +62,7 @@ export interface IField {
   valueKey2?: string
   extraProps?: { [key: string]: any }
   options?: any[]
-  refLookupService?: () => Promise<IApiResponse>
+  refLookupService?: IQuery
   customFilterComponent?: React.FunctionComponent<any>
   rules?: Rule[]
   required?: boolean
@@ -64,11 +75,25 @@ export interface IField {
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number
+  childrenKey?: string
+
+  multiple?: boolean
+  accept?: UploadProps['accept']
+  dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
+  performInitialLookup?: boolean
+  onDependencyChange?: (value: any, options: {
+    toggleField?: (status: boolean) => void
+    loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
+  }) => void | boolean
+  excludeFromSubmission?: boolean
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {
   formInstance: FormInstance
   clearTrigger?: boolean
+  getValueFromEvent?: (...args: any) => void
+  dependencyValue?: any
+  updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }
 
 export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {
@@ -92,6 +117,8 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       validateStatus={props.validateStatus}
       help={props.help}
       style={props.formItemStyle}
+      getValueFromEvent={props.getValueFromEvent}
+      initialValue={props.initialValue}
     >
       {props.children}
     </Form.Item>
@@ -119,4 +146,20 @@ export function SearchComponentWrapper(
       {props.children}
     </Form.Item>
   )
+}
+
+export interface IValidationError { }
+export const convertValidationErrorToErroMessage = (
+  validation: ValidateErrorEntity<{ [key: string]: any }>
+): ISimplifiedApiErrorMessage[] => {
+  const errorMessages: ISimplifiedApiErrorMessage[] = validation.errorFields.map((x) => {
+    return { message: x.errors[0], propertyName: x.name[0] as string }
+  })
+  if (errorMessages.length > 0 && errorMessages[0].propertyName) {
+    setTimeout(() => {
+      const errorMessages = document.getElementById("errorMessages")
+      if (errorMessages) errorMessages.focus()
+    }, 1 * 1000)
+  }
+  return errorMessages
 }

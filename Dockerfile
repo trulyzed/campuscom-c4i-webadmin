@@ -13,7 +13,7 @@ COPY package.json ./
 COPY yarn.lock ./
 COPY ./apps/${APP_MODULE}/package.json ./apps/${APP_MODULE}/
 COPY ./packages/utilities/package.json ./packages/utilities/
-COPY ./packages/api/package.json ./packages/api/
+COPY ./packages/services/package.json ./packages/services/
 COPY ./packages/components/package.json ./packages/components/
 
 RUN yarn

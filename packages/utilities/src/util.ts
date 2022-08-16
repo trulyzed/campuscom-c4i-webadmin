@@ -37,3 +37,16 @@ export const printArrayStringWithComma = ({ collection, propName = "", seperator
   })
   return csvString
 }
+
+export const transformToLabel = (value: string | number): string | number => {
+  if (typeof value === "number") return value
+  return value.replace(/\w/, (str) => str.toUpperCase()).replace(/\W/g, " ")
+}
+
+export const getDecimalValue = (val?: number, digit = 2) => {
+  if (typeof val !== "number") return val
+  return val.toLocaleString(undefined, {
+    minimumFractionDigits: digit,
+    maximumFractionDigits: digit
+  })
+}

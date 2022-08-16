@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import { eventBus, REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { getUser } from "~/packages/services/Api/utils/TokenStore"
+import { eventBus, REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { Intro } from "~/Component/Feature/Intro"
-import { IUser } from "~/packages/services/Api/utils/Interfaces"
+import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 
 export function HomePage() {
   const [userInfo, setUserInfo] = useState<IUser>()

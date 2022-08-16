@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@packages/api": "1.0.0",
+    "@packages/services": "1.0.0",
     "@packages/components": "1.0.0",
     "@packages/utilities": "1.0.0",
     "@sentry/react": "^6.15.0",
