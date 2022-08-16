@@ -19,6 +19,8 @@ import { ContextAction } from "~/packages/components/Actions/ContextAction"
 import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
 import { Alert } from "~/packages/components/Alert/Alert"
+import { checkAdminApiPermission } from "~/packages/services/Api/Permission/AdminApiPermission"
+import { ApiPermissionAction, ApiPermissionClass } from "~/packages/services/Api/Enums/Permission"
 //import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
 const { Step } = Steps
@@ -71,27 +73,6 @@ const meta1: IField[] = [
   // },
 ]
 
-const meta2: IField[] = [
-  {
-    fieldName: "first_name",
-    label: "First Name",
-    inputType: TEXT,
-    disabled: true,
-  },
-  {
-    fieldName: "last_name",
-    label: "Last Name",
-    inputType: TEXT,
-    disabled: true,
-  },
-  {
-    fieldName: "email",
-    label: "Email",
-    inputType: TEXT,
-    disabled: true,
-  },
-]
-
 const meta6: IField[] = [
   {
     fieldName: "coupon",
@@ -119,12 +100,38 @@ export const Create = () => {
   const [store, setStore] = useState()
   const [currentStep, setCurrentStep] = useState(StepNames.ProductInformation)
   const [productData, setProductData] = useState<Record<string, any>[]>([])
+  const [purchaserData, setPurchaserData] = useState<Record<string, any>>(getUser() as Record<string, any>)
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [formInstance] = Form.useForm()
   const [orderRef, setOrderRef] = useState<string | undefined>()
+  const createWithPurchaserInfo = checkAdminApiPermission([{ operation: ApiPermissionClass.CreateEnrollmentWithPurchserInfo, action: ApiPermissionAction.Write }])
+
+  const meta2: IField[] = [
+    {
+      fieldName: "first_name",
+      label: "First Name",
+      inputType: TEXT,
+      disabled: !createWithPurchaserInfo,
+      rules: [{ required: true, message: "This field is required!" }]
+    },
+    {
+      fieldName: "last_name",
+      label: "Last Name",
+      inputType: TEXT,
+      disabled: !createWithPurchaserInfo,
+      rules: [{ required: true, message: "This field is required!" }]
+    },
+    {
+      fieldName: "email",
+      label: "Email",
+      inputType: TEXT,
+      disabled: !createWithPurchaserInfo,
+      rules: [{ required: true, message: "This field is required!" }]
+    },
+  ]
 
   const handleStepChange = useCallback((current) => {
     setCurrentStep(current)
@@ -187,6 +194,7 @@ export const Create = () => {
     const payload = {
       store,
       product_ids: productData.map(p => p.id),
+      purchaser_info: purchaserData ? { ...purchaserData, primary_email: purchaserData.email } : undefined,
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
@@ -197,7 +205,7 @@ export const Create = () => {
       setOrderRef(resp.data.order_ref)
       reset()
     }
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, store, reset])
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, purchaserData, productData, store, reset])
 
   useEffect(() => {
     getPaymentSummary()
@@ -317,13 +325,16 @@ export const Create = () => {
               <Card style={{ margin: "10px 0 0 10px" }} title={"Your Information"}>
                 <MetaDrivenForm
                   meta={meta2}
-                  onApplyChanges={(values) => setCurrentStep(StepNames.StudentInformation)}
+                  onApplyChanges={(values) => {
+                    setPurchaserData(values)
+                    setCurrentStep(StepNames.StudentInformation)
+                  }}
                   isWizard
                   applyButtonLabel="Continue"
                   showFullForm
                   showClearbutton={false}
                   stopProducingQueryParams
-                  initialFormValue={getUser() as Record<string, any>}
+                  initialFormValue={createWithPurchaserInfo ? purchaserData : getUser() as Record<string, any>}
                 />
               </Card>
               : currentStep === StepNames.StudentInformation ?
