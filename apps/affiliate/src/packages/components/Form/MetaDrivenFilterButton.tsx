@@ -15,7 +15,7 @@ export const MetaDrivenFilterButton = (props: {
 		<>
 			<MetaDrivenFormModalOpenButton
 				iconType="filter"
-				buttonLabel="Search Filters"
+				buttonLabel="Apply Filters"
 				formTitle={props.searchTitle}
 				formMeta={props.searchMeta}
 				formMetaName={props.searchMetaName}
@@ -23,29 +23,6 @@ export const MetaDrivenFilterButton = (props: {
 				initialFormValue={props.initialFormValue}
 				formSubmitApi={props.formSubmitApi}
 			/>
-			<div
-				style={{
-					borderRadius: "20px",
-					margin: "auto",
-					width:
-						props.initialFormValue &&
-							Object.keys(props.initialFormValue).length > 9
-							? "30px"
-							: "20px",
-					height: "20px",
-					fontSize: "12px",
-					position: "absolute",
-					top: "-5px",
-					right: "0px",
-				}}
-				className={"filter-counter"}
-			>
-				<span>
-					{props.initialFormValue
-						? Object.keys(props.initialFormValue).length
-						: 0}
-				</span>
-			</div>
 		</>
 	);
 };
