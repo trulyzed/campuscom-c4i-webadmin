@@ -1,5 +1,5 @@
-import { DROPDOWN, IField, TEXT, NUMBER, DATE_PICKER, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
-import { InstructorQueries } from "~/packages/services/Api/Queries/AdminQueries/Instructors"
+import { DROPDOWN, IField, TEXT, NUMBER, DATE_PICKER, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
+import { InstructorQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Instructors"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const SectionFormMeta: IField[] = [

@@ -1,6 +1,6 @@
-import { IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
+import { IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 
 export const getProfileTaggingFormMeta = (contactGroupID: string): IField[] => {
   return [

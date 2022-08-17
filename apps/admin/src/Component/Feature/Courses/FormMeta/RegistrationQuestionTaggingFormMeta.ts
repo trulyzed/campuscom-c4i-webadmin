@@ -1,7 +1,7 @@
-import { IField, MULTI_SELECT_GROUP_CHECKBOX } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/Proxy/Questions"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IField, MULTI_SELECT_GROUP_CHECKBOX } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getRegistrationQuestionTaggingFormMeta = (courseId: string): IField[] => {

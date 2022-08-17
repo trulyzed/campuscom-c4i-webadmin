@@ -2,11 +2,11 @@ import React, { useState } from "react"
 import { Button, Card, Form } from "antd"
 import { Redirect } from "react-router-dom"
 import { AppRoutes } from "~/routes"
-import { IDeviceView, useDeviceViews } from "~/packages/components/Hooks/useDeviceViews"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { zIndexLevel } from "~/packages/components/zIndexLevel"
-import { Modal } from "~/packages/components/Modal/Modal"
-import { FormDropDown } from "~/packages/components/Form/FormDropDown"
+import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
+import { IconButton } from "@packages/components/lib/Form/Buttons/IconButton"
+import { zIndexLevel } from "@packages/components/lib/zIndexLevel"
+import { Modal } from "@packages/components/lib/Modal/Modal"
+import { FormDropDown } from "@packages/components/lib/Form/FormDropDown"
 
 const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; desktop: boolean }) => {
   const [formInstance] = Form.useForm()

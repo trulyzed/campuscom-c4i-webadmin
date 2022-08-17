@@ -1,7 +1,7 @@
-import { CUSTOM_FIELD, DROPDOWN, FILE, IField } from "~/packages/components/Form/common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { CUSTOM_FIELD, DROPDOWN, FILE, IField } from "@packages/components/lib/Form/common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const ImportTaskFormMeta: IField[] = [

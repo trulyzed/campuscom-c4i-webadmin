@@ -1,6 +1,6 @@
-import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
+import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITableMeta => {
   const columns: TableColumnType = [

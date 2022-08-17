@@ -1,9 +1,9 @@
 import React, { useState } from "react"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { Button, Card, Col, Form, Row } from "antd"
-import { Modal } from "~/packages/components/Modal/Modal"
-import { FormInput } from "~/packages/components/Form/FormInput"
+import { Modal } from "@packages/components/lib/Modal/Modal"
+import { FormInput } from "@packages/components/lib/Form/FormInput"
 
 
 const ChangePassword = () => {

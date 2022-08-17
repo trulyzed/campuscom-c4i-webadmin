@@ -1,8 +1,8 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
-import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
-import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 
 export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {

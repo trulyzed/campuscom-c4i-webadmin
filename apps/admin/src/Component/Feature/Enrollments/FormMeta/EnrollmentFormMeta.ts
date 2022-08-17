@@ -1,8 +1,8 @@
-import { DROPDOWN, IField, TEXTAREA } from "~/packages/components/Form/common"
-import { ContactGroupQueries } from "~/packages/services/Api/Queries/AdminQueries/ContactGroups"
-import { ContactQueries } from "~/packages/services/Api/Queries/AdminQueries/Contacts"
-import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DROPDOWN, IField, TEXTAREA } from "@packages/components/lib/Form/common"
+import { ContactGroupQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ContactGroups"
+import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
+import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getEnrollmentFormMeta = (course?: any): IField[] => [

@@ -1,5 +1,5 @@
-import { DATE_PICKER, DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DATE_PICKER, DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 export const DiscountProgramSearchMeta: IField[] = [
   {

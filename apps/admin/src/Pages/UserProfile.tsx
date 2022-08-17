@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Result } from "antd"
-import { IUser } from "~/packages/services/Api/utils/Interfaces"
-import { getUser } from "~/packages/services/Api/utils/TokenStore"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getProfileMeta } from "~/TableSearchMeta/Profile/ProfileDetailsMeta"
-import { PermissionWrapper } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { PermissionWrapper } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export function UserProfile() {
   const [userInfo, setUserInfo] = useState<IUser>()

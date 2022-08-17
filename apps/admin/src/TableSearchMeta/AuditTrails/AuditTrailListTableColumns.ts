@@ -1,7 +1,7 @@
-import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { AuditTrailQueries } from "~/packages/services/Api/Queries/AdminQueries/AuditTrails"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { AuditTrailQueries } from "@packages/services/lib/Api/Queries/AdminQueries/AuditTrails"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const auditTrailListTableColumns: TableColumnType = [
   {

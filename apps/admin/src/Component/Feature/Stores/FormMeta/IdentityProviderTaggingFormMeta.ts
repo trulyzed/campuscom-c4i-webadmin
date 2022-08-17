@@ -1,5 +1,5 @@
-import { IField, DROPDOWN } from "~/packages/components/Form/common"
-import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
+import { IField, DROPDOWN } from "@packages/components/lib/Form/common"
+import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const IdentityProviderTaggingFormMeta: IField[] = [

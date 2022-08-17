@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Button, Col, Dropdown, Menu } from "antd"
 import { HistoryLogButton } from "~/Component/Layout/HeaderFunctionalities/HistoryLogButton"
 import { MasterLookupComponent } from "~/Component/Layout/HeaderFunctionalities/MasterLookupComponent"
-import { IDeviceView, useDeviceViews } from "~/packages/components/Hooks/useDeviceViews"
+import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
 import { DownOutlined } from "@ant-design/icons"
 import { GoToUserProfileButton } from "~/Component/Layout/HeaderFunctionalities/GoToUserProfileButton"
 
