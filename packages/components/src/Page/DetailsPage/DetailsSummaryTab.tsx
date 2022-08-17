@@ -3,7 +3,7 @@ import { Card, Col, Row } from "antd"
 import { CardContainer, CardContents, IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
 import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 
-const DetailsCardContainer = (props: { card: CardContainer }) => {
+export const DetailsCardContainer = (props: { card: CardContainer }) => {
   const [mobileView, setMobileView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
     setMobileView(deviceViews.mobile)
@@ -13,7 +13,7 @@ const DetailsCardContainer = (props: { card: CardContainer }) => {
       title={props.card.title}
       extra={
         props.card.cardActions ? (
-          <Row>
+          <Row className="action-container">
             {props.card.cardActions.map((action, i) => (
               <Col key={i}>{action}</Col>
             ))}

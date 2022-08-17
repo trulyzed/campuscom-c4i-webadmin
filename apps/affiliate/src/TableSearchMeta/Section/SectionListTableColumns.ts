@@ -1,7 +1,7 @@
-import { renderDate, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderDate, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const sectionListTableColumns: TableColumnType = [
   {

@@ -1,7 +1,7 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderDateTime } from "~/packages/components/ResponsiveTable"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderDateTime } from "@packages/components/lib/ResponsiveTable"
+import { renderJson } from "@packages/components/lib/ResponsiveTable/tableUtils"
 
 export const getAuditTrailDetailsMeta = (auditTrail: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {

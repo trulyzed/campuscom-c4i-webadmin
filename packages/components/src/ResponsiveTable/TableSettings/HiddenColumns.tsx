@@ -5,7 +5,7 @@ import { Checkbox, Col, Row, Typography } from "antd"
 export const HiddenColumns = (props: { hiddenColumns: any[]; formInstance: FormInstance }) => {
   return (
     <>
-      <Typography.Title level={3}>In Active Columns</Typography.Title>
+      <Typography.Title level={3}>Inactive Columns</Typography.Title>
       <Form form={props.formInstance}>
         <Row>
           {props.hiddenColumns.map((col, index) => (

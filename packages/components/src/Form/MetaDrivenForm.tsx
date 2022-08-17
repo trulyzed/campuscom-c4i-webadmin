@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row } from "antd"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -12,34 +12,46 @@ import {
   CUSTOM_FIELD,
   MULTI_SELECT_CHECKBOX,
   TEXTAREA,
-  MULTI_RADIO
+  MULTI_RADIO,
+  FILE,
+  EDITOR,
+  MULTI_SELECT_GROUP_CHECKBOX,
+  HIERARCHICAL_MULTIPLE_CHECKBOX
 } from "~/Form/common"
 import { FormInput } from "~/Form/FormInput"
 import { FormDropDown } from "~/Form/FormDropDown"
 import { FormMultiSelectDropDown } from "~/Form/FormMultiSelectDropDown"
+import { FormHierarchicalMultipleCheckbox } from "~/Form/FormHierarchicalMultipleCheckbox"
 import { FormDatePicker } from "~/Form/FormDatePicker"
 import { FormDatePickers } from "~/Form/FormDatePickers"
 import { FormCheckbox } from "~/Form/FormCheckbox"
 import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
+import { debounce } from "@packages/utilities/lib/debounce"
 import { FormInstance } from "antd/lib/form"
 import { FormMultipleCheckbox } from "~/Form/FormMultipleCheckbox"
 import { FormMultipleRadio } from "~/Form/FormMultipleRadio"
-import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { FormError } from "~/Form/FormError"
 import { FormTextArea } from "~/Form/FormTextArea"
 import { FormInputNumber } from "~/Form/FormInputNumber"
 import { processFormMetaWithUserMetaConfig } from "~/Form/FormMetaShadowingProcessor"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { generateUUID } from "@packages/utilities/lib/UUID"
-import { FormSettings } from "~/Form/FormSettings/FormSettings"
+// import { FormSettings } from "~/Form/FormSettings/FormSettings"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
+import { FormFileUpload } from "./FormFileUpload"
+import { FormEditorInput } from "./FormEditorInput"
+import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
+import { FormHiddenInput } from "./FormHiddenInput"
+
+export const HELPER_FIELD_PATTERN = "__##__"
 
 export function MetaDrivenForm({
   showClearbutton = true,
-  applyButtonLabel = "Search",
-  clearButtonLabel = "Clear",
+  applyButtonLabel = "Apply",
+  clearButtonLabel = "Clear All",
   ...props
 }: {
   meta: IField[]
@@ -55,13 +67,19 @@ export function MetaDrivenForm({
   currentPagination?: number
   showClearbutton?: boolean
   applyButtonLabel?: string
+  applyButtonAriaControl?: string
   clearButtonLabel?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   showFullForm?: boolean
   setCurrentPagination?: (page: number) => void
   closeModal?: () => void
   stopProducingQueryParams?: boolean
+  autoApplyChangeFromQueryParams?: boolean
   errorMessages?: Array<ISimplifiedApiErrorMessage>
+  isAside?: boolean
+  isWizard?: boolean
+  resetOnSubmit?: boolean
+  bordered?: boolean
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
@@ -69,6 +87,8 @@ export function MetaDrivenForm({
   const [meta, setMeta] = useState<IField[]>([])
   const REFRESH_EVENT_NAME = generateUUID("REFRESH")
   const formId = generateUUID(props.metaName)
+  const [dependencyValue, _setDependencyValue] = useState<{ [key: string]: any }>({})
+  const [initialFormValue, setInitialFormValue] = useState()
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -124,26 +144,23 @@ export function MetaDrivenForm({
     formInstance
       .validateFields()
       .then((validatedValues) => {
-        // console.log("validatedValues ", validatedValues)
         if (!isCustomFormFieldValuesValid) return
-        // console.log(validatedValues)
         const params: { [key: string]: any } = queryParams || validatedValues
         const mergedParams: { [key: string]: any } = {
           ...params,
           ...props.defaultFormValue
         }
         for (const key in mergedParams) {
-          if (key === "" || mergedParams[key] === undefined || mergedParams[key] === null)
+          const matchedField = props.meta.find((x) => x.fieldName === key)
+          if (matchedField?.excludeFromSubmission || key === "" || mergedParams[key] === undefined || mergedParams[key] === null || key.startsWith(HELPER_FIELD_PATTERN))
             delete mergedParams[key]
         }
         if (props.currentPagination) mergedParams["pagination"] = props.currentPagination
         props.onApplyChanges(mergedParams)
+        if (props.resetOnSubmit) formInstance.resetFields()
 
         if (!props.stopProducingQueryParams) {
-          // console.log("props.stopProducingQueryParams ", props.stopProducingQueryParams)
-          console.log("_mergedParams ", mergedParams)
           const _queryString = objectToQueryString(Object.keys(mergedParams).length > 0 ? mergedParams : null)
-          // console.log("_queryString ", _queryString, mergedParams)
           window.history && window.history.pushState({}, "", _queryString)
         }
       })
@@ -157,16 +174,20 @@ export function MetaDrivenForm({
       const meta = props.meta.find((x) => x.fieldName === fieldName)
       return meta && !!meta.disabled
     }
+    const getDefaultValue = (key?: string, field?: IField) => {
+      const matchedField = field || props.meta.find((x) => x.fieldName === key)
+      return matchedField?.inputType === EDITOR ? (field?.defaultValue || "") : field?.defaultValue
+    }
     Object.keys(formInstance.getFieldsValue()).forEach((key) => {
       if (dontReset(key)) return
-      formInstance.setFieldsValue({ [key]: undefined })
+      formInstance.setFieldsValue({ [key]: getDefaultValue(key) })
     })
     setClearTrigger(!clearTrigger)
 
     const _meta = props.meta.map((x) => {
+      const defaultValue = getDefaultValue(undefined, x)
       if (dontReset(x.fieldName)) return x
-      x.defaultValue = undefined
-      x.defaultValue2 = undefined
+      x.defaultValue = defaultValue
       return x
     })
     setMeta(_meta)
@@ -190,8 +211,8 @@ export function MetaDrivenForm({
       formInstance.setFieldsValue(queryParams)
       paginationExist && setPagination(queryParams)
       _meta = props.meta.map((x) => {
-        x.defaultValue = queryParams[x.fieldName]
-        x.defaultValue2 = x.fieldName2 ? queryParams[x.fieldName2] : undefined
+        x.defaultValue = queryParams[x.fieldName] !== undefined ? queryParams[x.fieldName] : x.defaultValue
+        x.defaultValue2 = x.fieldName2 && (queryParams[x.fieldName2] !== undefined) ? queryParams[x.fieldName2] : x.defaultValue2
         if (x.extraProps && Array.isArray(x.extraProps.selectorKeys)) {
           x.extraProps.selectorKeys = x.extraProps.selectorKeys.map((y) => {
             y.defaultValue = queryParams[y.fieldName]
@@ -202,7 +223,7 @@ export function MetaDrivenForm({
       })
       if (onlyPaginationExist) setShowLess(true)
       else setShowLess(false)
-      applyChanges(queryParams)
+      if (props.autoApplyChangeFromQueryParams) applyChanges(queryParams)
     } else if (props.closeModal) {
       setShowLess(false)
     }
@@ -216,7 +237,44 @@ export function MetaDrivenForm({
     })
   }
 
+  const setDependencyValue = useCallback((values = {}) => {
+    const valueKeys = Object.keys(values)
+    _setDependencyValue(dependencyValue => {
+      const adjustedDependecyValue = props.meta.reduce((a, field) => {
+        const fieldValues = valueKeys.reduce((a2, c) => {
+          if (field.dependencies?.includes(c)) a2[c] = values[c]
+          return a2
+        }, {} as Record<string, any>)
+
+        if (Object.keys(fieldValues).length) {
+          a[field.fieldName] = {
+            ...a[field.fieldName],
+            ...fieldValues
+          }
+        }
+        // if (field.dependencies?.length) {
+        //   const fieldsValue = formInstance.getFieldsValue(field.dependencies)
+        //   Object.keys(fieldsValue).forEach(key => {
+        //     if (fieldsValue[key] === undefined) delete fieldsValue[key]
+        //   })
+        //   if (Object.keys(fieldsValue).length) a[field.fieldName] = fieldsValue
+        // }
+        return a;
+      }, { ...dependencyValue } as Record<string, any>)
+      return adjustedDependecyValue
+    })
+  }, [props.meta])
+
+  const setDependencyValueDebounced = debounce(setDependencyValue, 200)
+
+  const handleValuesChange = useCallback((changedValues: any) => {
+    setDependencyValueDebounced(changedValues)
+  }, [setDependencyValueDebounced])
+
   useEffect(() => {
+    if (props.loading || !initialFormValue) return
+    setDependencyValue(initialFormValue)
+
     eventBus.subscribe(REFRESH_EVENT_NAME, processMeta)
     eventBus.publish(REFRESH_EVENT_NAME)
     return () => {
@@ -225,128 +283,85 @@ export function MetaDrivenForm({
     }
     // }, [props.meta, props.metaName])
     // eslint-disable-next-line
-  }, [])
+  }, [initialFormValue, props.loading])
 
-  console.log(props.meta)
+  useEffect(() => {
+    const defaultValues = props.meta.reduce((a: any, c) => {
+      if (c.defaultValue !== undefined) a[c.fieldName] = c.defaultValue
+      return a
+    }, {})
+    setInitialFormValue({
+      ...props.defaultFormValue,
+      ...defaultValues,
+      ...props.initialFormValue,
+    })
+  }, [props.initialFormValue, props.defaultFormValue, props.meta])
+
   return (
     <Card
+      bordered={props.bordered}
+      className={props.isAside ? 'is-aside' : ''}
       title={
-        <Row>
-          <Col flex="auto">
-            <SidebarMenuTargetHeading level={1} targetID="navigation">
-              {props.title}
-            </SidebarMenuTargetHeading>
-          </Col>
-          {props.blocks &&
-            props.blocks.map((x, i) => (
-              <Col flex="none" key={i}>
-                {x}
-              </Col>
-            ))}
-          <Col flex="none">
-            <HelpButton helpKey={props.helpKey} />
-          </Col>
-          {props.metaName && (
-            <Col flex="none">
-              <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
+        (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
+          <Row>
+            <Col md={24}>
+              <SidebarMenuTargetHeading level={props.isModal ? 2 : 3} targetID="navigation">
+                {props.title}
+              </SidebarMenuTargetHeading>
             </Col>
-          )}
-        </Row>
+            {showClearbutton && props.isAside && (
+              <Col>
+                <Button size="small" onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
+              </Col>
+            )}
+            {props.blocks &&
+              props.blocks.map((x, i) => (
+                <Col flex="none" key={i}>
+                  {x}
+                </Col>
+              ))}
+            <Col flex="none">
+              <HelpButton helpKey={props.helpKey} />
+            </Col>
+            {/* {props.metaName && (
+              <Col flex="none">
+                <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
+              </Col>
+            )} */}
+          </Row>
+          : null
       }
       loading={props.loading}
-    // actions={[
-    //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
-    //     {!props.showFullForm && !props.closeModal && meta.length > 4 && (
-    //       <Col>
-    //         <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
-    //       </Col>
-    //     )}
-    //     {props.closeModal && (
-    //       <Col>
-    //         <Button
-    //           type="ghost"
-    //           aria-label="Cancel"
-    //           danger
-    //           onClick={() => {
-    //             formInstance.resetFields()
-    //             props.closeModal && props.closeModal()
-    //           }}
-    //         >
-    //           Cancel
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     {showClearbutton && (
-    //       <Col>
-    //         <Button danger type="primary" onClick={clearParams}>
-    //           {clearButtonLabel}
-    //         </Button>
-    //       </Col>
-    //     )}
-    //     <Col>
-    //       <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
-    //         {applyButtonLabel}
-    //       </Button>
-    //     </Col>
-    //   </Row>
-    // ]}
-    >
-      <Col
-        className={`gutter-row`}
-        style={{
-          background: "$white",
-          borderRadius: "4px",
-          marginBottom: "1rem",
-          padding: "1rem !important"
-        }}
-        xs={24}
-        sm={24}
-        md={24}
-      >
-        <Form
-          id={formId}
-          layout="horizontal"
-          initialValues={props.initialFormValue}
-          form={formInstance}
-          scrollToFirstError
-          {...(props.isModal && {
-            style: {
-              maxHeight: "66vh",
-              overflowY: "scroll"
-            }
-          })}
-        >
-          <FormError errorMessages={props.errorMessages} />
-          <SearchFormFields
-            meta={meta}
-            isHorizontal={props.isHorizontal}
-            formInstance={formInstance}
-            clearTrigger={clearTrigger}
-            showLess={showLess}
-          />
-          <Row
-            justify="end"
-            gutter={[8, 8]}
-            style={{
-              marginLeft: "-25px",
-              marginRight: "-25px",
-              rowGap: "0px",
-              paddingTop: "10px",
-              borderTop: "3px solid #f0f2f5",
-              marginBottom: "-30px"
-            }}
-          >
+      bodyStyle={{ padding: "20px", paddingBottom: "0px", }}
+      {...((props.isModal || props.closeModal) && {
+        actions: [
+          <Row justify="end" gutter={[8, 8]} style={{
+            padding: "10px",
+          }}>
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
               <Col>
-                <Button onClick={() => setShowLess(!showLess)}>{showLess ? "Show More" : "Show Less"}</Button>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                  type="primary"
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
+              </Col>
+            )}
+            {showClearbutton && (
+              <Col>
+                <Button onClick={clearParams}>
+                  {clearButtonLabel}
+                </Button>
               </Col>
             )}
             {props.closeModal && (
               <Col>
                 <Button
-                  type="ghost"
                   aria-label="Cancel"
-                  danger
                   onClick={() => {
                     formInstance.resetFields()
                     props.closeModal && props.closeModal()
@@ -356,21 +371,93 @@ export function MetaDrivenForm({
                 </Button>
               </Col>
             )}
-            {showClearbutton && (
-              <Col>
-                <Button danger type="primary" onClick={clearParams}>
-                  {clearButtonLabel}
-                </Button>
-              </Col>
-            )}
             <Col>
-              <Button type="primary" form={formId} aria-label="Apply Filter" onClick={() => applyChanges()}>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
                 {applyButtonLabel}
               </Button>
             </Col>
           </Row>
-        </Form>
-      </Col>
+        ]
+      })}
+    >
+
+      <Form
+        id={formId}
+        layout={props.isVertical ? "vertical" : "horizontal"}
+        initialValues={initialFormValue}
+        form={formInstance}
+        scrollToFirstError
+        style={{
+          ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
+          background: "white",
+          borderRadius: "4px",
+          padding: "10px"
+        }}
+        onValuesChange={handleValuesChange}
+      >
+        <FormError errorMessages={props.errorMessages} />
+        <SearchFormFields
+          meta={meta}
+          isVertical={props.isVertical}
+          formInstance={formInstance}
+          clearTrigger={clearTrigger}
+          showLess={showLess}
+          dependencyValue={dependencyValue}
+          updateMeta={setMeta}
+        />
+        {!(props.isModal || props.closeModal) && (
+          <Row
+            justify="end"
+            gutter={[8, 8]}
+            style={{
+              padding: props.isAside ? "5px 0" : "10px",
+              borderTop: props.bordered ? "1px solid #f0f2f5" : undefined
+            }}
+          >
+            {!props.showFullForm && !props.closeModal && meta.length > 4 && (
+              <Col>
+                <Button
+                  aria-label={showLess ? "Show More Fields" : "Show Less Fields"}
+                  onClick={() => setShowLess(!showLess)}
+                  type="primary"
+                >
+                  {showLess ? "Show More" : "Show Less"}
+                </Button>
+              </Col>
+            )}
+            {props.closeModal && (
+              <Col>
+                <Button
+                  aria-label="Cancel"
+                  onClick={() => {
+                    formInstance.resetFields()
+                    props.closeModal && props.closeModal()
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            )}
+            <Col>
+              <Button
+                aria-controls={props.applyButtonAriaControl}
+                type="primary"
+                form={formId}
+                aria-label={applyButtonLabel}
+                onClick={() => applyChanges()}
+              >
+                {applyButtonLabel}
+              </Button>
+            </Col>
+          </Row>
+        )}
+      </Form>
     </Card>
   )
 }
@@ -380,161 +467,247 @@ const SearchFormFields = (props: {
   formInstance: FormInstance
   clearTrigger?: boolean
   showLess: boolean
-  isHorizontal?: boolean
+  isVertical?: boolean
+  dependencyValue?: any
+  updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }) => {
+  const labelColSpan = props.isVertical ? 24 : 8
   return (
     <Row gutter={16}>
       {props.meta
-        .filter((field) => !field.hidden)
         .filter((field, index) => {
           if (props.showLess && index < 4) return true
           return !props.showLess
         })
         .map((field, i) => {
           let formField: any
-          console.log(field.label)
-          switch (field.inputType) {
-            case TEXT:
-              formField = (
-                <FormInput
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case NUMBER:
-              formField = (
-                <FormInputNumber
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case TEXTAREA:
-              formField = (
-                <FormTextArea
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case BOOLEAN:
-              formField = (
-                <FormCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case MULTI_SELECT_CHECKBOX:
-              formField = (
-                <FormMultipleCheckbox
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case MULTI_RADIO:
-              formField = (
-                <FormMultipleRadio
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case DROPDOWN:
-              formField = (
-                <FormDropDown
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case MULTI_SELECT_DROPDOWN:
-              formField = (
-                <FormMultiSelectDropDown
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case DATE_PICKER:
-              formField = (
-                <FormDatePicker
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case DATE_PICKERS:
-              formField = (
-                <FormDatePickers
-                  {...field}
-                  key={i}
-                  formInstance={props.formInstance}
-                  clearTrigger={props.clearTrigger}
-                  labelColSpan={field.labelColSpan || 8}
-                  wrapperColSpan={field.wrapperColSpan || 24}
-                />
-              )
-              break
-            case CUSTOM_FIELD:
-              if (field.customFilterComponent) {
+          if (!field.hidden) {
+            switch (field.inputType) {
+              case TEXT:
                 formField = (
-                  <field.customFilterComponent
-                    {...{
-                      ...field,
-                      key: i,
-                      formInstance: props.formInstance,
-                      clearTrigger: props.clearTrigger
-                    }}
-                    labelColSpan={field.labelColSpan || 8}
+                  <FormInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
                   />
                 )
-              }
-              break
-            default:
-              break
+                break
+              case NUMBER:
+                formField = (
+                  <FormInputNumber
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case TEXTAREA:
+                formField = (
+                  <FormTextArea
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case BOOLEAN:
+                formField = (
+                  <FormCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_CHECKBOX:
+                formField = (
+                  <FormMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_GROUP_CHECKBOX:
+                formField = (
+                  <FormGroupedMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_RADIO:
+                formField = (
+                  <FormMultipleRadio
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DROPDOWN:
+                formField = (
+                  <FormDropDown
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case MULTI_SELECT_DROPDOWN:
+                formField = (
+                  <FormMultiSelectDropDown
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case HIERARCHICAL_MULTIPLE_CHECKBOX:
+                formField = (
+                  <FormHierarchicalMultipleCheckbox
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    fieldNames={{ title: field.displayKey, key: field.valueKey, children: field.childrenKey }}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DATE_PICKER:
+                formField = (
+                  <FormDatePicker
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case DATE_PICKERS:
+                formField = (
+                  <FormDatePickers
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case FILE:
+                formField = (
+                  <FormFileUpload
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case EDITOR:
+                formField = (
+                  <FormEditorInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case CUSTOM_FIELD:
+                if (field.customFilterComponent) {
+                  formField = (
+                    <Form.Item colon={false} label={field.label} labelCol={{ span: field.labelColSpan || 4 }} wrapperCol={{ span: field.wrapperColSpan || 20 }} style={field.formItemStyle}>
+                      <field.customFilterComponent
+                        {...{
+                          ...field,
+                          key: i,
+                          formInstance: props.formInstance,
+                          clearTrigger: props.clearTrigger
+                        }}
+                      />
+                    </Form.Item>
+                  )
+                }
+                break
+              default:
+                break
+            }
           }
 
-          const lg = props.isHorizontal ? 24 : 12
-          const md = props.isHorizontal ? 24 : 12
-          const sm = props.isHorizontal ? 24 : 12
+          const lg = (props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX) || (field.inputType === CUSTOM_FIELD)) ? 24 : 12
           const xs = 24
-          return (
-            <Col key={1000 + i} lg={lg} md={md} sm={sm} xs={xs}>
-              {formField}
-            </Col>
+
+          return field.hidden ? (
+            <FormHiddenInput
+              {...field}
+              key={i}
+              formInstance={props.formInstance}
+              dependencyValue={props.dependencyValue[field.fieldName]}
+              updateMeta={props.updateMeta}
+            />
           )
+            : formField ? (
+              <Col key={1000 + i} lg={lg} xs={xs}>
+                {formField}
+              </Col>
+            ) : undefined
         })}
     </Row>
   )

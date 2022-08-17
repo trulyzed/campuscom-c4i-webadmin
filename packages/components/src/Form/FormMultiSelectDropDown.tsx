@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { Select } from "antd"
+import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedItems?: (params: any) => void }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  useDependencyValue({ ...props })
 
   const { refLookupService, displayKey, valueKey } = props
   useEffect(() => {
@@ -40,14 +42,10 @@ export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedIte
         loading={loading}
         disabled={props.disabled}
         onChange={props.onSelectedItems}
-      >
-        {options &&
-          options.map(({ label, value }, i) => (
-            <Select.Option value={value} key={`${value}_${i}`}>
-              {label}
-            </Select.Option>
-          ))}
-      </Select>
+        options={options}
+        optionFilterProp={"label"}
+        optionLabelProp={"label"}
+      />
     </SearchFieldWrapper>
   )
 }

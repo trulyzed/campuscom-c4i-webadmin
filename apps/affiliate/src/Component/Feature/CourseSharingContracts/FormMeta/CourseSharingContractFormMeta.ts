@@ -1,5 +1,5 @@
-import { BOOLEAN, DROPDOWN, IField } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
+import { BOOLEAN, DROPDOWN, IField } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const CourseSharingContractFormMeta: IField[] = [

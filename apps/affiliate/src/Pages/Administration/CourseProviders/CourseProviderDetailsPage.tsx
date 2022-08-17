@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router-dom"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getCourseProviderDetailsMeta } from "~/TableSearchMeta/CourseProvider/CourseProviderDetailsMeta"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 
 export function CourseProviderDetailsPage(props: RouteComponentProps<{ courseProviderID?: string }>) {
   const CourseProviderID = props?.match?.params?.courseProviderID

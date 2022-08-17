@@ -3,6 +3,7 @@ import moment from "moment"
 import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { DatePicker, Form, Input } from "antd"
 import { useFirstRender } from "~/Hooks/useFirstRender"
+import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export const DATE_TIME_FORMAT = "MM/DD/YYYY hh:mm A"
 export const DATE_TIME_FORMAT_NEW = "MM/DD/YYYY HH:mm"
@@ -17,6 +18,7 @@ export function FormDateTimePicker(
 
   const firstRender = useFirstRender()
   const [value, setValue] = useState<any>(undefined)
+  useDependencyValue({ ...props })
   useEffect(() => {
     if (props.defaultValue) {
       const t1 = moment(props.defaultValue)

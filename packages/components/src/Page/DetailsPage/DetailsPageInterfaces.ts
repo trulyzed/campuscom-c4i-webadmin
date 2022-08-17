@@ -1,4 +1,4 @@
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 export interface IDetailsSummary {
   summary: CardContainer[]

@@ -1,14 +1,15 @@
 import React, { Suspense, useState, useEffect } from "react"
 import { Card, Col, Layout, Row, Spin } from "antd"
 import { Link } from "react-router-dom"
-import { Sidebar } from "~/packages/components/SidebarNavigation/Sidebar"
-import { useSidebarCollapsed } from "~/packages/components/Hooks/useSidebarCollapsed"
-import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
+import { Sidebar } from "@packages/components/lib/SidebarNavigation/Sidebar"
+import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
+import { HeaderFunctionalities } from "@packages/components/lib/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
-import { logout } from "~/packages/services/AuthService"
-import { eventBus } from "~/packages/utils/EventBus"
+import { logout } from "@packages/services/lib/AuthService"
+import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
-import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
+import { getSidebarMenus, ISidebarMenu } from "@packages/components/lib/Layout/SidebarMenus"
+import { AppRoutes } from "~/routes"
 
 const { Header, Content } = Layout
 
@@ -51,7 +52,7 @@ export function DefaultLayout(props: ILayoutProps) {
                 </Link>
               </h2>
             </Col>
-            <HeaderFunctionalities />
+            <HeaderFunctionalities routes={AppRoutes} />
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px" }}>

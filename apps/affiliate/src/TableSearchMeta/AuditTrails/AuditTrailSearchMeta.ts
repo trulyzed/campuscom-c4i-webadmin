@@ -1,4 +1,4 @@
-import { DROPDOWN, IField, TEXT, DATE_PICKER } from "~/packages/components/Form/common"
+import { DROPDOWN, IField, TEXT, DATE_PICKER } from "@packages/components/lib/Form/common"
 
 export const AuditTrailSearchMeta: IField[] = [
   {

@@ -1,5 +1,5 @@
-import { BOOLEAN, DATE_PICKER, DROPDOWN, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { BOOLEAN, DATE_PICKER, DROPDOWN, IField, NUMBER, TEXT } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const DiscountProgramFormMeta: IField[] = [
