@@ -9,7 +9,7 @@ import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import Title from "antd/lib/typography/Title"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
-import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { ContactQueries as AffiliateContactQueries } from "@packages/services/lib/Api/Queries/AffiliateQueries/Contacts"
 import { CheckboxValueType } from "antd/lib/checkbox/Group"
 import Text from "antd/lib/typography/Text"
 // import { FormInput } from "@packages/components/Form/FormInput"
@@ -148,6 +148,12 @@ export const Create = () => {
     })
   }, [])
 
+  const generatePurchaserDetailsPayload = useCallback(() => {
+    const data: any = purchaserData ? { ...purchaserData, primary_email: purchaserData.email } : undefined
+    if (data) delete data["email"]
+    return data
+  }, [purchaserData])
+
   const generateCartDetailsPayload = useCallback(() => {
     return registrationData.map(registration => ({
       product_id: registration.product,
@@ -195,7 +201,7 @@ export const Create = () => {
     const payload = {
       store,
       product_ids: productData.map(p => p.id),
-      purchaser_info: purchaserData ? { ...purchaserData, primary_email: purchaserData.email } : undefined,
+      purchaser_info: generatePurchaserDetailsPayload(),
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
@@ -206,7 +212,7 @@ export const Create = () => {
       setOrderRef(resp.data.order_ref)
       reset()
     }
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, purchaserData, productData, createWithPurchaserInfo, store, reset])
+  }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, productData, createWithPurchaserInfo, store, reset])
 
   useEffect(() => {
     getPaymentSummary()
@@ -355,7 +361,7 @@ export const Create = () => {
                           },
                         ]}
                         onApplyChanges={async (values) => {
-                          const { data } = await StudentQueries.getSingle({ params: { id: values.profile } })
+                          const { data } = await AffiliateContactQueries.getSingle({ params: { id: values.profile } })
                           setStudentData([...studentData, data])
                         }}
                         isWizard
