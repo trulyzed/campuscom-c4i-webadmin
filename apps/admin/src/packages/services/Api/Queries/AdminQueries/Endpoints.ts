@@ -126,6 +126,7 @@ export const endpoints = {
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
   UPDATE_REGISTRATION_QUESTION: "update-registration-questions",
 
+
   // for miscellaneous, non-paginated
   ALL_AUDIT_TRAIL: "user-audit-trails?limit=1000",
   ALL_CAMPUS: "course-provider-sites?limit=1000",
