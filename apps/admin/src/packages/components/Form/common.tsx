@@ -4,7 +4,7 @@ import { FormInstance, Rule } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery, IQueryParams } from "~/packages/services/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
-import { ISimplifiedApiErrorMessage } from "@packages/services/lib/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "~/packages/services/Api/utils/HandleResponse/ApiErrorProcessor"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
