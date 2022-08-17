@@ -11,8 +11,8 @@
     "husky": "^7.0.0"
   },
   "scripts": {
-    "start:admin": "yarn workspace admin start",
-    "start:affiliate": "yarn workspace affiliate start",
+    "start:admin": "yarn build:packages && yarn workspace admin start",
+    "start:affiliate": "yarn build:packages && yarn workspace affiliate start",
     "clean": "yarn workspace run clean",
     "clean:node_modules": "yarn workspace run clean:node_modules",
     "build": "yarn workspaces run build",
