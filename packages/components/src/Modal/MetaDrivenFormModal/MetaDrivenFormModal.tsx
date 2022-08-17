@@ -1,30 +1,36 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
+import { Form } from "antd"
+import { History } from "history"
 import { Modal } from "~/Modal/Modal"
 import { zIndexLevel } from "~/zIndexLevel"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
 import { IField } from "~/Form/common"
-import { Form } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export const MetaDrivenFormModal = (props: {
   title: React.ReactNode
   meta: IField[]
   metaName?: string
   helpKey?: string
-  isHorizontal?: boolean
+  isVertical?: boolean
   initialFormValue?: { [key: string]: any }
+  initialFormValueApi?: IQuery
   defaultFormValue?: { [key: string]: any }
-  formSubmitApi: (Params: any) => Promise<IApiResponse>
+  formSubmitApi: IQuery
+  onFormSubmit?: (data?: any, navigator?: History['push']) => void
   closeModal: () => void
   refreshEventAfterFormSubmission?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }) => {
+  const { initialFormValueApi } = props
+  const history = useHistory();
   const [formInstance] = Form.useForm()
+  const [initialFormValue, setInitialFormValue] = useState(props.initialFormValue ? { ...props.initialFormValue } : undefined)
   const [clearTrigger, setClearTrigger] = useState(false)
   const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
-  const [loading, setLoading] = useState(false)
-  const [stopFirstOnApplyChanges, setStopFirstOnApplyChanges] = useState(true)
+  const [loading, setLoading] = useState(!!initialFormValueApi)
   const clearParams = () => {
     Object.keys(formInstance.getFieldsValue()).forEach((key) => formInstance.setFieldsValue({ [key]: undefined }))
     setClearTrigger(!clearTrigger)
@@ -33,7 +39,7 @@ export const MetaDrivenFormModal = (props: {
   const submit = (newValues: { [key: string]: any }) => {
     setError([])
     setLoading(true)
-    props.formSubmitApi(newValues).then((x) => {
+    props.formSubmitApi({ data: newValues }).then((x) => {
       if (x.success) {
         if (props.refreshEventAfterFormSubmission && typeof props.refreshEventAfterFormSubmission === "string")
           eventBus.publish(props.refreshEventAfterFormSubmission)
@@ -43,6 +49,7 @@ export const MetaDrivenFormModal = (props: {
           }
         setLoading(false)
         closeModal()
+        props.onFormSubmit?.(x.data, history.push)
       } else {
         setError(x.error)
         setLoading(false)
@@ -55,6 +62,19 @@ export const MetaDrivenFormModal = (props: {
     props.closeModal()
   }
 
+  useEffect(() => {
+    if (!initialFormValueApi) return
+    initialFormValueApi().then(resp => {
+      if (resp.success) {
+        setInitialFormValue(prevValue => ({
+          ...prevValue,
+          ...resp.data
+        }))
+      }
+      return resp
+    }).finally(() => setLoading(false))
+  }, [initialFormValueApi])
+
   return (
     <Modal closeModal={props.closeModal} width="1000px" zIndex={zIndexLevel.defaultModal}>
       <MetaDrivenForm
@@ -63,22 +83,15 @@ export const MetaDrivenFormModal = (props: {
         title={props.title}
         helpKey={props.helpKey}
         loading={loading}
-        isHorizontal={props.isHorizontal}
+        isVertical={props.isVertical}
         isModal={true}
         closeModal={props.closeModal}
-        initialFormValue={props.initialFormValue}
+        initialFormValue={initialFormValue}
         defaultFormValue={props.defaultFormValue}
         applyButtonLabel="Submit"
         stopProducingQueryParams={true}
         errorMessages={error}
-        onApplyChanges={(newValues: { [key: string]: any }) => {
-          if (stopFirstOnApplyChanges) {
-            setStopFirstOnApplyChanges(false)
-          } else {
-            console.log("submitting form ", newValues)
-            submit(newValues)
-          }
-        }}
+        onApplyChanges={submit}
       />
     </Modal>
   )

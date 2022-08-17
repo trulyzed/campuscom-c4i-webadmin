@@ -1,4 +1,4 @@
-import { IField, TEXT } from "~/packages/components/Form/common"
+import { IField, TEXT } from "@packages/components/lib/Form/common"
 
 export const UserSearchMeta: IField[] = [
   {

@@ -1,5 +1,5 @@
 import { INPUT_OPTIONS } from "~/Configs/input"
-import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 
 export const QuestionSearchMeta: IField[] = [
   {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { IProcessedApiError } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
+import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
 import { DetailsTableTab, IDetailsTableTabProp } from "~/Page/DetailsPage/DetailsTableTab"
@@ -11,15 +11,16 @@ import { querystringToObject } from "@packages/utilities/lib/QueryStringToObject
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { DetailsSummary } from "~/Page/DetailsPage/DetailsSummaryTab"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
-import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { GoToSearchResultPageButton } from "~/Page/DetailsPage/GoToSearchResultPageButton"
+import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 
 export function DetailsPage(props: IDetailsPage) {
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
-  const [error, setError] = useState<IProcessedApiError>()
+  const [error, setError] = useState<IApiErrorProcessor>()
   const [meta, setMeta] = useState<IDetailsTabMeta[]>([])
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
@@ -94,11 +95,13 @@ export function DetailsPage(props: IDetailsPage) {
     if (!checkAdminApiPermission(props.getDetailsPageContent)) return
     setLoading(true)
     setError(undefined)
+    eventBus.publish(UPDATE_HISTORY)
     props
-      .getDetailsPageContent()
+      .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
         if (x.success && x.data) {
           const { tabs, pageTitle } = props.getMeta(x.data, props.entityType, props.entityID)
+          lastVisitedProcessor.updateName(pageTitle)
 
           setMeta(tabs)
           setTitle(pageTitle)
@@ -161,13 +164,13 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length === 0 && <Empty description="No data found in the given url" />}
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
-          <Row>
+          <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
             <Col>
               <GoToSearchResultPageButton />
             </Col>
             {title && (
               <Col>
-                <SidebarMenuTargetHeading level={1}>{title}</SidebarMenuTargetHeading>
+                <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>
               </Col>
             )}
             <Col flex="auto"></Col>

@@ -1,28 +1,21 @@
 import React, { useEffect, useState } from "react"
-import { Layout } from "antd"
+import { Layout, Typography } from "antd"
 import { Link } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { UpOutlined, DownOutlined } from "@ant-design/icons"
+import { ISidebarMenu } from "~/Layout/SidebarMenus"
 
-const ulStyle = { listStyle: "none", paddingLeft: "0px" }
-const liStyle = { color: "white", width: "170px", padding: "10px" }
+const ulStyle = { listStyle: "none", paddingLeft: "0", paddingBottom: "25px", paddingTop: "10px" }
+const liStyle = { color: "white", padding: "5px", paddingRight: "15px" }
 const buttonStyle: React.CSSProperties = {
   width: "100%",
-  padding: "10px",
+  padding: "12px 15px",
   cursor: "pointer",
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
   color: "#000000",
   backgroundColor: "transparent",
-  border: "1px"
-}
-
-export interface ISidebarMenu {
-  title: string
-  url: string
-  permission?: boolean
-  submenu: ISidebarMenu[]
+  border: "none",
 }
 
 const RenderMenu = (props: {
@@ -37,35 +30,38 @@ const RenderMenu = (props: {
     <>
       {props.title && (
         <button onClick={() => setExpanded(!expanded)} style={buttonStyle}>
-          <span style={{ color: "white" }}>{props.title}</span>
+          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>{props.title}</Typography.Title>
           <span>
             {expanded ? (
-              <UpOutlined style={{ color: "#ffffff", fontSize: "0.7rem" }} />
+              <span className="glyphicon glyphicon--primary glyphicon-chevron-up" />
             ) : (
-              <DownOutlined style={{ color: "#ffffff", fontSize: "0.7rem" }} />
+              <span className="glyphicon glyphicon--primary glyphicon-chevron-down" />
             )}
           </span>
         </button>
       )}
       {expanded && (
-        <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px` }}>
-          {props._sidebarMenus.map((x, i) => {
-            if (!x.permission && x.permission !== undefined) return <></>
+        <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px`, }}>
+          {props._sidebarMenus.filter(i => i.permission).map(x => {
             if (x.submenu && x.submenu.length > 0)
               return (
-                <li key={i}>
-                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 20} />
+                <li key={x.key} style={{ borderBottomWidth: "1px" }} className={"border-styles"}>
+                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 40} />
                 </li>
               )
             else
               return (
-                <li key={i} style={liStyle}>
+                <li key={x.key} style={liStyle}>
                   <Link
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
-                    style={{ color: "#ffffff" }}
+                    className={'submenu'}
+                    style={{ textDecoration: "none", }}
                   >
-                    {x.title}
+                    <div style={{ display: "flex", justifyContent: "space-between" }}>
+                      {x.title}
+                      <span className="glyphicon glyphicon-triangle-right glyphicon--primary" />
+                    </div>
                   </Link>
                 </li>
               )
@@ -75,13 +71,13 @@ const RenderMenu = (props: {
     </>
   )
 }
-export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISidebarMenu[]; logout: () => void }) {
+export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[]; logout: () => void }) {
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>([])
 
   useEffect(() => {
     eventBus.subscribe("REFRESH_SIDEBAR", () =>
       setTimeout(() => {
-        setSidebarMenus(props.getSidebarMenus())
+        setSidebarMenus(props.sidebarMenus)
       }, 0)
     )
     eventBus.publish("REFRESH_SIDEBAR")
@@ -89,7 +85,7 @@ export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISid
       eventBus.unsubscribe("REFRESH_SIDEBAR")
     }
     // eslint-disable-next-line
-  }, [])
+  }, [props.sidebarMenus])
 
   return (
     <Layout.Sider
@@ -101,11 +97,17 @@ export function Sidebar(props: { collapsed: boolean; getSidebarMenus: () => ISid
       trigger={null}
       collapsible
       collapsed={props.collapsed}
+      className={`sidebar${props.collapsed ? " sidebar--borderless" : ""}`}
     >
-      <div style={{ overflow: "scroll", height: "100vh" }}>
-        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
+      <div style={{ overflowY: "auto", height: "100vh", }}>
+        <div style={{ padding: "20px 14px", borderBottomWidth: "1px" }} className={"border-styles"}>
+          <Typography.Title level={3} style={{ margin: 0 }}>Navigation</Typography.Title>
+        </div>
+        <div style={{ marginTop: "-10px" }}>
+          <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
+        </div>
         <button style={buttonStyle} onClick={props.logout}>
-          <span style={{ color: "white" }}>Logout</span>
+          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
         </button>
       </div>
     </Layout.Sider>

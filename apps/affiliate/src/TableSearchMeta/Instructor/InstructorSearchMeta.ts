@@ -1,5 +1,5 @@
-import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 
 export const InstructorSearchMeta: IField[] = [
   {

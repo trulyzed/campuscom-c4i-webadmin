@@ -1,4 +1,4 @@
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 

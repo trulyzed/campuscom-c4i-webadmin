@@ -1,11 +1,11 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
-import { RefundQueries } from "~/packages/services/Api/Queries/AdminQueries/Refunds"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { RefundQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Refunds"
 import { notification } from "antd"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
-import { ContextAction } from "~/packages/components/Actions/ContextAction"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getRefundDetailsMeta = (refund: { [key: string]: any }): IDetailsMeta => {
   const cancelEnrollment = async () => {

@@ -1,4 +1,4 @@
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getRefundListTableColumns } from "~/TableSearchMeta/Refund/RefundListTableColumns"
 import { RefundSearchMeta } from "~/TableSearchMeta/Refund/RefundSearchMeta"
 

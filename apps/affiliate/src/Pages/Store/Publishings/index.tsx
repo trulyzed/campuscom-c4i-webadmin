@@ -1,4 +1,4 @@
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getPublishingListTableColumns } from "~/TableSearchMeta/Publishing/PublishingListTableColumns"
 import { PublishingSearchMeta } from "~/TableSearchMeta/Publishing/PublishingSearchMeta"
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Card } from "antd"
-import { zIndexLevel } from "~/packages/components/zIndexLevel"
-import { Modal } from "~/packages/components/Modal/Modal"
+import { zIndexLevel } from "@packages/components/lib/zIndexLevel"
+import { Modal } from "@packages/components/lib/Modal/Modal"
 
 export function OfflineAlert() {
   const [IsOffline, setIsOffline] = useState(!navigator.onLine)

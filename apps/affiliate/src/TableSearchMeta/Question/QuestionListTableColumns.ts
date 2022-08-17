@@ -1,8 +1,8 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { convertToString } from "~/packages/utils/mapper"
+import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
+import { convertToString } from "@packages/utilities/lib/mapper"
 
 export const questionListTableColumns: TableColumnType = [
   {

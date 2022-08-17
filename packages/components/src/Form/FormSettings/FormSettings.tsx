@@ -10,7 +10,7 @@ import { MenuOutlined } from "@ant-design/icons"
 import { SortableHandle as sortableHandle } from "react-sortable-hoc"
 import { debounce } from "@packages/utilities/lib/debounce"
 import { CheckboxChangeEvent } from "antd/lib/checkbox"
-import { deletePreferences, saveOrUpdatePreferences } from "@packages/api/lib/ApiService/PreferenceService"
+import { PreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Preferences";
 import { FormDropDown } from "~/Form/FormDropDown"
 import { FormDatePicker } from "~/Form/FormDatePicker"
 
@@ -25,7 +25,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
   useEffect(() => {
     if (showModal) {
       const _dataSource = props.meta.map((x, i) => {
-        ;(x as any)["index"] = i
+        ; (x as any)["index"] = i
         return { ...x }
       })
       setDataSource(_dataSource)
@@ -59,7 +59,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
 
   const onSortUpdate = (params: any[]) => {
     const _dataSource = params.map((x, i) => {
-      ;(x as any)["index"] = i
+      ; (x as any)["index"] = i
       return x
     })
     setDataSource(_dataSource)
@@ -81,9 +81,11 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
     })
 
     setLoading(true)
-    saveOrUpdatePreferences({
-      PreferenceKey: props.metaName,
-      PreferenceValue: metaConfig
+    PreferenceQueries.saveOrUpdatePreferences({
+      params: {
+        table_name: props.metaName,
+        value: metaConfig
+      }
     }).then((response) => {
       if (response && response.success) {
         formInstance.resetFields()
@@ -96,7 +98,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
 
   const setDefault = () => {
     setLoading(true)
-    deletePreferences({ PreferenceKey: props.metaName }).then((response) => {
+    PreferenceQueries.deletePreferences({ params: { table_name: props.metaName } }).then((response) => {
       if (response && response.success) {
         formInstance.resetFields()
         props.reload()
@@ -114,7 +116,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
           <Card
             title={`Settings For ${putSpaceBetweenCapitalLetters(props.metaName.replace("Columns", ""))}`}
             actions={[
-              <Button onClick={() => setShowModal(false)}>Close</Button>,
+              <Button type="primary" onClick={() => setShowModal(false)}>Close</Button>,
               <Button onClick={setDefault} danger>
                 Default
               </Button>,
@@ -227,75 +229,69 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
                         />
                       )
                     } else if (record.inputType === "DROPDOWN") {
-                      {
-                        return (
-                          <Form form={formInstance}>
-                            <FormDropDown
-                              {...record}
-                              defaultValue={text}
-                              formInstance={formInstance}
-                              label=""
-                              labelColSpan={0}
-                              wrapperColSpan={24}
-                              onSelectedItems={(value) => {
-                                onUpdateValue({
-                                  key: "defaultValue",
-                                  value: value,
-                                  record
-                                })
-                              }}
-                            />
-                          </Form>
-                        )
-                      }
+                      return (
+                        <Form form={formInstance}>
+                          <FormDropDown
+                            {...record}
+                            defaultValue={text}
+                            formInstance={formInstance}
+                            label=""
+                            labelColSpan={0}
+                            wrapperColSpan={24}
+                            onSelectedItems={(value) => {
+                              onUpdateValue({
+                                key: "defaultValue",
+                                value: value,
+                                record
+                              })
+                            }}
+                          />
+                        </Form>
+                      )
                     } else if (record.inputType === "DATE_PICKER") {
-                      {
-                        return (
-                          <Form form={formInstance}>
-                            <FormDatePicker
-                              {...record}
-                              defaultValue={text}
-                              formInstance={formInstance}
-                              label=""
-                              labelColSpan={0}
-                              wrapperColSpan={24}
-                              onSelectedItems={(value) => {
-                                onUpdateValue({
-                                  key: "defaultValue",
-                                  value: value,
-                                  record
-                                })
-                              }}
-                            />
-                          </Form>
-                        )
-                      }
+                      return (
+                        <Form form={formInstance}>
+                          <FormDatePicker
+                            {...record}
+                            defaultValue={text}
+                            formInstance={formInstance}
+                            label=""
+                            labelColSpan={0}
+                            wrapperColSpan={24}
+                            onSelectedItems={(value) => {
+                              onUpdateValue({
+                                key: "defaultValue",
+                                value: value,
+                                record
+                              })
+                            }}
+                          />
+                        </Form>
+                      )
                     } else if (record.inputType === "CUSTOM_FIELD") {
-                      {
-                        return (
-                          <>
-                            {record.customFilterComponent && (
-                              <Form form={formInstance}>
-                                <record.customFilterComponent
-                                  {...record}
-                                  defaultValue={text}
-                                  formInstance={formInstance}
-                                  label=""
-                                  labelColSpan={0}
-                                  wrapperColSpan={24}
-                                  onSelectedItems={(value: any) => {
-                                    onUpdateValue({
-                                      key: "defaultValue",
-                                      value: value,
-                                      record
-                                    })
-                                  }}
-                                />
-                              </Form>
-                            )}
-                          </>
-                        )
-                      }
+                      return (
+                        <>
+                          {record.customFilterComponent && (
+                            <Form form={formInstance}>
+                              <record.customFilterComponent
+                                {...record}
+                                defaultValue={text}
+                                formInstance={formInstance}
+                                label=""
+                                labelColSpan={0}
+                                wrapperColSpan={24}
+                                onSelectedItems={(value: any) => {
+                                  onUpdateValue({
+                                    key: "defaultValue",
+                                    value: value,
+                                    record
+                                  })
+                                }}
+                              />
+                            </Form>
+                          )}
+                        </>
+                      )
                     }
                     return <></>
                   }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Button, Calendar, Card, Empty, Spin } from "antd"
 import moment, { Moment } from "moment"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { useFirstRender } from "~/Hooks/useFirstRender"
 import { DATE_FORMAT } from "~/ResponsiveTable/tableUtils"

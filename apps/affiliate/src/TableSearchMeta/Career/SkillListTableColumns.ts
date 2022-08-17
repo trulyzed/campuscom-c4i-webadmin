@@ -1,7 +1,7 @@
-import { TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { CareerQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Careers"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const skillListTableColumns: TableColumnType = [
   {

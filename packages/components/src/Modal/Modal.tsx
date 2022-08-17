@@ -6,6 +6,7 @@ import FocusTrap from "focus-trap-react"
 import { Options as FocusTrapOptions } from "focus-trap"
 import { generateUUID } from "@packages/utilities/lib/UUID"
 
+export const MODAL_HEADING_ID = "modal-heading-id"
 const modalStyle: CSSProperties = {
   backgroundColor: "rgba(0, 0, 0, 0.4)",
   display: "#fff",
@@ -72,7 +73,7 @@ export function Modal({
   }, [])
 
   useEffect(() => {
-    const handleEscape = (e) => {
+    const handleEscape = (e: any) => {
       if (e.key === "Escape" || e.code === "Escape" || e.keyCode === 27) {
         if (modalRef && modalRef.current) {
           const modalContainer = modalRef.current as HTMLElement

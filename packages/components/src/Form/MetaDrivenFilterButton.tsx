@@ -1,7 +1,7 @@
 import React from "react";
 import { IField } from "~/Form/common";
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces";
 import { MetaDrivenFormModalOpenButton } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton";
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types";
 
 export const MetaDrivenFilterButton = (props: {
 	searchTitle?: string;
@@ -9,7 +9,7 @@ export const MetaDrivenFilterButton = (props: {
 	searchMetaName: string;
 	defaultFormValue?: { [key: string]: any };
 	initialFormValue?: { [key: string]: any };
-	formSubmitApi: (param: { [key: string]: any }) => Promise<IApiResponse>;
+	formSubmitApi: IQuery;
 }) => {
 	return (
 		<>
@@ -25,24 +25,20 @@ export const MetaDrivenFilterButton = (props: {
 			/>
 			<div
 				style={{
-					border: "1px solid",
 					borderRadius: "20px",
-					padding: "0px 5px",
 					margin: "auto",
-					display: "block",
 					width:
 						props.initialFormValue &&
-						Object.keys(props.initialFormValue).length > 9
+							Object.keys(props.initialFormValue).length > 9
 							? "30px"
 							: "20px",
 					height: "20px",
-					backgroundColor: "white",
-					color: "black",
 					fontSize: "12px",
 					position: "absolute",
 					top: "-5px",
 					right: "0px",
 				}}
+				className={"filter-counter"}
 			>
 				<span>
 					{props.initialFormValue

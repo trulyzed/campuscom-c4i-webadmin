@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
 import { IField } from "~/Form/common"
 import { Button, Card, Col, Row } from "antd"
 import { HelpButton } from "~/Help/HelpButton"
@@ -7,11 +6,12 @@ import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
 import { ResponsiveTable, TableColumnType } from "~/ResponsiveTable"
 import { zIndexLevel } from "~/zIndexLevel"
 import { Modal } from "~/Modal/Modal"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 interface ILookupModal {
   title: string
   closeModal: (items?: any[]) => void
-  searchFunc: (Params: { [key: string]: any }) => Promise<IApiResponse>
+  searchFunc: IQuery
   isArray?: boolean
   columns: TableColumnType
   meta: IField[]

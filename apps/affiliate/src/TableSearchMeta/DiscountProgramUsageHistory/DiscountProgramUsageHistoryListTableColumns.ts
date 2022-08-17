@@ -1,7 +1,7 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { DiscountProgramUsageHistoryQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountProgramUsageHistories"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { DiscountProgramUsageHistoryQueries } from "@packages/services/lib/Api/Queries/AdminQueries/DiscountProgramUsageHistories"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const discountProgramUsageHistoryListTableColumns: TableColumnType = [
   {
