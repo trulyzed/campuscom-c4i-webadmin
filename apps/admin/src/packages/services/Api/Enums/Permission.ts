@@ -136,3 +136,4 @@ export enum ApiPermissionClass {
   UpdateProfileQuestion = "UpdateProfileQuestionView",
   UpdateRegistrationQuestion = "UpdateRegistrationQuestionView"
 }
+
