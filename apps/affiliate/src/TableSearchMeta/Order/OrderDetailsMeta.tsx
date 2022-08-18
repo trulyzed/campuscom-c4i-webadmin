@@ -1,8 +1,7 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { cartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
-import { renderDate, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
-import { questionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
+import { renderDate, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
@@ -53,30 +52,6 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
     summary: [basicInfo, purchaserInfo]
   }
 
-  const paymentSummaryMeta: IDetailsSummary = {
-    summary: (order.payments as any[]).map(payment => ({
-      title: `Payment: ${payment.transaction_request_id}`,
-      contents: [
-        { label: 'Store Payment Gateway', value: payment.store_payment_gateway?.name },
-        { label: 'Amount', value: payment.amount },
-        { label: 'Transaction Reference', value: payment.transaction_reference },
-        { label: 'Status', value: payment.status },
-        { label: 'Account Number', value: payment.account_number },
-        { label: 'Active Status', value: payment.active_status },
-        { label: 'Auth Code', value: payment.auth_code },
-        { label: 'Bank', value: payment.bank },
-        { label: 'Card Number', value: payment.card_number },
-        { label: 'Card Type', value: payment.card_type },
-        { label: 'Currency Code', value: payment.currency_code },
-        { label: 'Customer IP', value: payment.customer_ip },
-        { label: 'Payment Type', value: payment.payment_type },
-        { label: 'Reason Code', value: payment.reason_code },
-        { label: 'Reason Description', value: payment.reason_description },
-        { label: 'Transaction Time', value: payment.transaction_time, render: renderDateTime },
-      ]
-    }))
-  }
-
   const tabMetas: IDetailsTabMeta[] = [
     {
       tabTitle: "Summary",
@@ -97,39 +72,6 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "invoiceTab"
-    },
-    {
-      tabTitle: "Payment",
-      tabType: "summary",
-      multipleTabMetas: [
-        {
-          tabTitle: 'All Payments',
-          tabType: 'summary',
-          tabMeta: paymentSummaryMeta
-        },
-        {
-          tabTitle: 'Payment Questions',
-          tabType: 'table',
-          tabMeta: {
-            tableProps: {
-              pagination: false,
-              columns: [
-                questionListTableColumns[0],
-                {
-                  title: "Answer",
-                  dataIndex: 'answer',
-                  render: renderAnswer,
-                  sorter: (a: any, b: any) => a.answer - b.answer
-                },
-              ],
-              dataSource: processQuestions(order.agreement_details),
-              rowKey: 'question',
-              refreshEventName: "REFRESH_QUESTIONNAIRE_TAB",
-            }
-          }
-        },
-      ],
-      helpKey: "paymentTab",
     },
     {
       tabTitle: "Students",
