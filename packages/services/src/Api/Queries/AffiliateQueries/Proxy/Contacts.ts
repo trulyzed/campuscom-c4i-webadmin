@@ -2,6 +2,8 @@ import { IQuery } from "./types"
 
 export interface IContactQueries {
   getSingle: IQuery
+  getList: IQuery
+  getPaginatedList: IQuery
 }
 
 export const processContacts = (data: { first_name: string; last_name: string; primary_email: string }[]): { name: string }[] => {

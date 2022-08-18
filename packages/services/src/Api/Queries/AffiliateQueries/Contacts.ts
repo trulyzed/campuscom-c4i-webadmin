@@ -15,6 +15,32 @@ export const ContactQueries: IContactQueries = {
         method: "GET"
       }).then((resp) => (resp.success ? { ...resp, data: processContacts([resp.data])[0] } : resp))
     },
-    [{ operation: ApiPermissionClass.Profile, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.Contact, action: ApiPermissionAction.Read }]
+  ),
+
+  getPaginatedList: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.ALL_CONTACT,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "GET"
+      }).then((resp) => (resp.success ? { ...resp, data: processContacts(resp.data) } : resp))
+    },
+    [{ operation: ApiPermissionClass.Contact, action: ApiPermissionAction.Read }]
+  ),
+
+  getList: PermissionWrapper(
+    (data) => {
+      const { id, ...params } = data?.params || {}
+      return adminApi({
+        endpoint: `${endpoints.ALL_CONTACT}/${data?.params.id}`,
+        ...data,
+        params,
+        method: "GET"
+      }).then((resp) => (resp.success ? { ...resp, data: processContacts(resp.data) } : resp))
+    },
+    [{ operation: ApiPermissionClass.Contact, action: ApiPermissionAction.Read }]
   )
 }

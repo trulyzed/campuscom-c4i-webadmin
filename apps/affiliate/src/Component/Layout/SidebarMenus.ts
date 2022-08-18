@@ -6,6 +6,7 @@ import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { getImportTaskListTableColumns } from "~/TableSearchMeta/ImportTasks/ImportTaskListTableColumns"
 import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTableColumns"
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
+import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -41,6 +42,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
+        title: "Contacts",
+        url: "/administration/contact",
+        submenu: [],
+        permission: checkAdminApiPermission(getContactListTableColumns().searchFunc)
+      },
+      {
         title: "Import Contacts",
         url: "/administration/import-contacts",
         submenu: [],
@@ -53,7 +60,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(EnrollmentQueries.createWithPurchaserInfo) || checkAdminApiPermission(EnrollmentQueries.create)
       }
     ],
-    permission:
+    permission: checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
       (checkAdminApiPermission(EnrollmentQueries.createWithPurchaserInfo) || checkAdminApiPermission(EnrollmentQueries.create))
   },

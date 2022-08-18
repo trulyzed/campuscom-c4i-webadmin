@@ -30,6 +30,7 @@ import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentLis
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
+import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -194,6 +195,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc)
       },
       {
+        title: "Contacts",
+        url: "/administration/contact",
+        submenu: [],
+        permission: checkAdminApiPermission(getContactListTableColumns().searchFunc)
+      },
+      {
         title: "Contact Groups",
         url: "/administration/contact-group",
         submenu: [],
@@ -224,6 +231,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
       checkAdminApiPermission(EnrollmentQueries.create)
