@@ -10,17 +10,6 @@ export const importTaskListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },
   {
-    title: "Import Type",
-    dataIndex: 'import_type',
-    sorter: (a: any, b: any) => a.import_type - b.import_type
-  },
-  {
-    title: "Course Provider",
-    dataIndex: 'course_provider',
-    render: (text: any, record: any) => text ? renderLink(`/administration/course-provider/${text.id}`, text.name) : null,
-    sorter: (a: any, b: any) => a.course_provider?.name - b.course_provider?.name
-  },
-  {
     title: "Store",
     dataIndex: 'store',
     render: (text: any, record: any) => text ? renderLink(`/administration/store/${text.id}`, text.name) : null,

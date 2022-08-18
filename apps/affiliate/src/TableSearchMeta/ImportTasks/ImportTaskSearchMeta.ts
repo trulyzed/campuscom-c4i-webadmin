@@ -1,5 +1,4 @@
 import { DROPDOWN, IField, DATE_PICKER, TEXT } from "@packages/components/lib/Form/common"
-import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 export const ImportTaskSearchMeta: IField[] = [
@@ -7,14 +6,6 @@ export const ImportTaskSearchMeta: IField[] = [
     label: "Ref Id",
     inputType: TEXT,
     fieldName: "ref_id",
-  },
-  {
-    label: "Course Provider",
-    inputType: DROPDOWN,
-    refLookupService: CourseProviderQueries.getLookupData,
-    fieldName: "course_provider",
-    displayKey: "name",
-    valueKey: "id"
   },
   {
     label: "Store",

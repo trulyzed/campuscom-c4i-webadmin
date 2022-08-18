@@ -9,7 +9,7 @@ import { ImportTaskSearchMeta } from "~/TableSearchMeta/ImportTasks/ImportTaskSe
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 
 export const List = () => {
-  const createEntity = QueryConstructor(((data) => ImportTaskQueries.create({ ...data }).then(resp => {
+  const createEntity = QueryConstructor(((data) => ImportTaskQueries.create({ ...data, data: { ...data?.data, import_type: "contact" } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
       window.location.href = "?pagination=1"
@@ -19,16 +19,16 @@ export const List = () => {
 
   return (
     <SearchPage
-      title={"Import Tasks"}
+      title={"Import Contacts"}
       meta={ImportTaskSearchMeta}
       tableProps={{
         ...getImportTaskListTableColumns(),
         actions: [
           <MetaDrivenFormModalOpenButton
-            formTitle={`Add Task`}
+            formTitle={`Import Contacts`}
             formMeta={ImportTaskFormMeta}
             formSubmitApi={createEntity}
-            buttonLabel={`Add Task`}
+            buttonLabel={`Import`}
             iconType="create"
             refreshEventName={"REFRESH_IMPORT_TASK"}
           />
