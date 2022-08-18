@@ -1,8 +1,8 @@
-import { cleanStorage } from "~/Api/utils/TokenStore"
+import { cleanStorage } from "@packages/services/lib/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "@packages/utilities/lib/Constants"
-import { AuthQueries } from "~/Api/Queries/AdminQueries/Auth"
-import { IApiResponse } from "./Api/utils/Interfaces"
+import { AuthQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Auth"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 export const logout = () => {
   cleanStorage()

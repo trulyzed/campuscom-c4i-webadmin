@@ -7,7 +7,7 @@ import { setLoginInfo } from "@packages/services/lib/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY, REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
-import { login } from "@packages/services/lib/AuthService"
+import { login } from "~/Services/AuthService"
 
 interface IFormState {
   username: string

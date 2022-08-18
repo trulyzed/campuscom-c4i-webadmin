@@ -41,8 +41,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     url: "",
     submenu: [
       {
-        title: "Import Tasks",
-        url: "/administration/import-task",
+        title: "Import Contacts",
+        url: "/administration/import-contacts",
         submenu: [],
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },

@@ -5,7 +5,7 @@ import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigatio
 import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
-import { logout } from "@packages/services/lib/AuthService"
+import { logout } from "~/Services/AuthService"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
