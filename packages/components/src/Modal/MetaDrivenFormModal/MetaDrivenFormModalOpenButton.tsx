@@ -32,9 +32,9 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
       {checkAdminApiPermission(props.formSubmitApi) && (
         <>
           {" "}
-          {props.iconType === "create" ?
-            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
-            : (props.iconType === "edit") || (props.iconType === "remove") ? <ContextAction tooltip={props.buttonLabel} type={props.iconType === "remove" ? "delete" : "edit"} onClick={() => setShowModal(true)} />
+          {(props.iconType === "edit") || (props.iconType === "remove") ?
+            <ContextAction tooltip={props.buttonLabel} type={props.iconType === "remove" ? "delete" : "edit"} onClick={() => setShowModal(true)} />
+            : props.iconType ? <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
               : (
                 <Button
                   type="primary"
@@ -43,7 +43,8 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
                   onClick={() => setShowModal(true)}
                   children={props.buttonLabel}
                 />
-              )}
+              )
+          }
         </>
       )}
       {showModal && (

@@ -9,7 +9,6 @@ import {
   UndoOutlined,
   InfoOutlined,
   RightOutlined,
-  FilterTwoTone,
   LeftOutlined,
   CreditCardOutlined,
   ExclamationOutlined,
@@ -151,7 +150,7 @@ export const IconButton = (props: {
       down: <DownOutlined alt="" />,
       up: <UpOutlined alt="" />,
       danger: <span className="glyphicon glyphicon-trash" aria-label="danger" />,
-      filter: <FilterTwoTone alt="" />,
+      filter: <span className="glyphicon glyphicon-filter" aria-label="filter" />,
       payment: <CreditCardOutlined alt="" />,
       error: <ExclamationOutlined alt="" />,
       update: <SyncOutlined alt="" />,
@@ -175,6 +174,7 @@ export const IconButton = (props: {
     }
     _button = (
       <Button
+        className={`${props.iconType === "create" ? "create-entity" : ""}`}
         style={{ ...props.style }}
         aria-label={props.toolTip}
         icon={icons[props.iconType]}
