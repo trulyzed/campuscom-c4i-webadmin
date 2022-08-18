@@ -1,52 +1,19 @@
-import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
-import { UPDATE_SUCCESSFULLY, CREATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
 import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: UPDATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [ProductQueries.update])
-
-  const addRelatedProducts = (relationType: string) => QueryConstructor(((data) => ProductQueries.tagRelatedProducts({ ...data, data: { ...data?.data, product: product.id, related_product_type: relationType } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: CREATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [ProductQueries.tagRelatedProducts])
-
   const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/${product?.store?.url_slug}?product=${product?.id}&guest=true`
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
-    cardActions: product.product_type === 'miscellaneous' ? [
-      <MetaDrivenFormModalOpenButton
-        formTitle={`Update Product`}
-        formMeta={ProductFormMeta}
-        formSubmitApi={updateEntity}
-        initialFormValue={{ ...product, store: product.store.id, content: JSON.stringify(product.content) }}
-        defaultFormValue={{ productId: product.id }}
-        buttonLabel={`Update Product`}
-        iconType="edit"
-        refreshEventName={REFRESH_PAGE}
-      />,
-      // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ] : undefined,
     contents: [
       { label: 'Active Status', value: !!product.active_status, render: renderActiveStatus },
       { label: 'Store', value: renderLink(`/administration/store/${product.store.id}`, product.store.name), },
@@ -117,16 +84,6 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           searchFunc: ProductQueries.getRelatedProductList,
           searchParams: { product: product.id, related_product_type: 'standalone' },
           refreshEventName: "REFRESH_STANDALONE_PRODUCT_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Standalone Products`}
-              formMeta={getRelatedProductTaggingFormMeta(product.id, 'standalone')}
-              formSubmitApi={addRelatedProducts('standalone')}
-              buttonLabel={`Add Standalone Product`}
-              iconType="create"
-              refreshEventName={'REFRESH_STANDALONE_PRODUCT_TAB'}
-            />
-          ]
         }
       },
       helpKey: "productTab"
@@ -160,16 +117,6 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           searchFunc: ProductQueries.getRelatedProductList,
           searchParams: { product: product.id, related_product_type: 'registration' },
           refreshEventName: "REFRESH_REGISTRATION_PRODUCT_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Registration Products`}
-              formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
-              formSubmitApi={addRelatedProducts('registration')}
-              buttonLabel={`Add Registration Product`}
-              iconType="create"
-              refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
-            />
-          ]
         }
       },
       helpKey: "productTab"
