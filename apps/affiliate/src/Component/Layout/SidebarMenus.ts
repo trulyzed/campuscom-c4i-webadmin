@@ -1,15 +1,8 @@
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
-
-export interface ISidebarMenu {
-  key?: string
-  title: string
-  url: string
-  permission?: boolean
-  submenu: ISidebarMenu[]
-}
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {

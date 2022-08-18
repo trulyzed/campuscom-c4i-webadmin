@@ -1,6 +1,7 @@
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns"
@@ -29,14 +30,6 @@ import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentLis
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
-
-export interface ISidebarMenu {
-  key?: string
-  title: string
-  url: string
-  permission?: boolean
-  submenu: ISidebarMenu[]
-}
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {

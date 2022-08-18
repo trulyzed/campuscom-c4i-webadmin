@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react"
 import { Layout, Typography } from "antd"
 import { Link } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { ISidebarMenu } from "~/Layout/SidebarMenus"
+
+export interface ISidebarMenu {
+  key?: string
+  title: string
+  url: string
+  permission?: boolean
+  submenu: ISidebarMenu[]
+}
 
 const ulStyle = { listStyle: "none", paddingLeft: "0", paddingBottom: "25px", paddingTop: "10px" }
 const liStyle = { color: "white", padding: "5px", paddingRight: "15px" }

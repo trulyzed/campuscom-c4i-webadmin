@@ -1,7 +1,7 @@
 import { HIERARCHICAL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "@packages/components/lib/Form/common"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Roles"
-import { getSidebarMenus } from "@packages/components/lib/Layout/SidebarMenus"
+import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 
 const processGroupedList = (data: any)=>{
   return data.map((element: any) => ({...element, options:element.permissions}))

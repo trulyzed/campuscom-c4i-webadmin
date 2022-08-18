@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Redirect } from "react-router"
-import { ContextAction } from "~/Actions/ContextAction"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const GoToUserProfileButton = () => {
   const [redirectTo, setRedirectTo] = useState<string | undefined>()

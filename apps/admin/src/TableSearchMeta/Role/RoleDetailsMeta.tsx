@@ -9,7 +9,8 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "@packages/components/lib/DisplayFormatter/GroupedList"
 import { HierarchicalList } from "@packages/components/lib/DisplayFormatter/HierarchicalList"
-import { getSidebarMenus, ISidebarMenu } from "~/Component/Layout/SidebarMenus"
+import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 

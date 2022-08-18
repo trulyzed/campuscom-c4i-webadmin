@@ -1,10 +1,10 @@
 import React, { useState } from "react"
 import { Button, Col, Dropdown, Menu } from "antd"
-import { HistoryLogButton } from "~/Layout/HeaderFunctionalities/HistoryLogButton"
-import { MasterLookupComponent } from "~/Layout/HeaderFunctionalities/MasterLookupComponent"
-import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
+import { HistoryLogButton } from "~/Component/Layout/HeaderFunctionalities/HistoryLogButton"
+import { MasterLookupComponent } from "~/Component/Layout/HeaderFunctionalities/MasterLookupComponent"
+import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
 import { DownOutlined } from "@ant-design/icons"
-import { GoToUserProfileButton } from "~/Layout/HeaderFunctionalities/GoToUserProfileButton"
+import { GoToUserProfileButton } from "~/Component/Layout/HeaderFunctionalities/GoToUserProfileButton"
 import { RouteProps } from "react-router-dom"
 
 export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
