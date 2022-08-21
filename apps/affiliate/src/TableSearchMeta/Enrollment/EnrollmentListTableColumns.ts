@@ -7,31 +7,31 @@ export const enrollmentListTableColumns: TableColumnType = [
   {
     title: "Enrollment ID",
     dataIndex: "ref_id",
-    render: (text: any, record: any) => renderLink(`/storefront-data/course-enrollment/${record.id}`, text),
+    render: (text: any, record: any) => renderLink(`/administration/enrollment/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },
   {
     title: 'Student',
     dataIndex: 'profile',
-    render: (text: any) => renderLink(`/storefront-data/student/${text.id}`, `${text.first_name} ${text.last_name}`),
+    render: (text: any) => `${text.first_name} ${text.last_name}`,
     sorter: (a: any, b: any) => a.first_name - b.first_name
   },
   {
     title: 'Store',
     dataIndex: 'store',
-    render: (text: any) => renderLink(`/administration/store/${text.id}`, text.name),
+    render: (text: any) => text.name,
     sorter: (a: any, b: any) => a.store - b.store
   },
   {
     title: 'Course',
     dataIndex: 'course',
-    render: (text: any) => renderLink(`/institute/course/${text.id}`, text.title),
+    render: (text: any) => text.title,
     sorter: (a: any, b: any) => a.course - b.course
   },
   {
     title: 'Section',
     dataIndex: 'section',
-    render: (text: any) => renderLink(`/institute/section/${text.id}`, text.name),
+    render: (text: any) => text.name,
     sorter: (a: any, b: any) => a.section - b.section
   },
   {
@@ -50,7 +50,7 @@ export const enrollmentListTableColumns: TableColumnType = [
 export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: enrollmentListTableColumns,
-    searchFunc: QueryConstructor((params) => EnrollmentQueries.getPaginatedList(params), [EnrollmentQueries.getPaginatedList]),
+    searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params), [EnrollmentQueries.getCourseEnrollmentList]),
     tableName: 'Enrollment'
   }
 }
