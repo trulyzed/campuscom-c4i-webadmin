@@ -13,7 +13,8 @@ export const ImportTaskSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: 'Status',

@@ -12,6 +12,7 @@ export const ImportTaskFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'Upload File',
