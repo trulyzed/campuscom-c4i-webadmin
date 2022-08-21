@@ -7,4 +7,6 @@ export interface ICompanyQueries {
   create: IQuery
   update: IQuery
   delete: IQuery
+  createUser: IQuery
+  getUserList: IQuery
 }

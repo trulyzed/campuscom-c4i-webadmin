@@ -75,5 +75,29 @@ export const CompanyQueries: ICompanyQueries = {
       })
     },
     [{ operation: ApiPermissionClass.DeleteCompany, action: ApiPermissionAction.Delete }]
+  ),
+
+  createUser: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.COMPANY_USER,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.CompanyUser, action: ApiPermissionAction.Write }]
+  ),
+
+  getUserList: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.ALL_COMPANY_USER,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.CompanyUser, action: ApiPermissionAction.Read }]
   )
 }
