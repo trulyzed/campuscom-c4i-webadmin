@@ -6,7 +6,7 @@ export const ContactSearchMeta: IField[] = [
     label: "Store",
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
-    fieldName: "store",
+    fieldName: "profile_stores__store",
     displayKey: "name",
     valueKey: "id"
   },
