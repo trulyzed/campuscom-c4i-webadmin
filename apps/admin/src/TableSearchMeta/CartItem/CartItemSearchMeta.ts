@@ -13,7 +13,8 @@ export const CourseSearchMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "course_provider",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Slug",

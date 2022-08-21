@@ -8,7 +8,8 @@ export const PaymentSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store_payment_gateway__store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Status",

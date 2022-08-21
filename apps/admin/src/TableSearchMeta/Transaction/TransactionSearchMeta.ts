@@ -8,7 +8,8 @@ export const TransactionSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store__id",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Transaction Ref.",

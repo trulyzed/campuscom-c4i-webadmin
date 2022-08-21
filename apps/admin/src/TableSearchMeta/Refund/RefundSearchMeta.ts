@@ -8,7 +8,8 @@ export const RefundSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "payment__store_payment_gateway__store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "From Date",

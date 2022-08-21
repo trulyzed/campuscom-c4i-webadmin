@@ -10,7 +10,8 @@ export const PublishingSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Title",
@@ -23,7 +24,8 @@ export const PublishingSearchMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "course_provider",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Status",

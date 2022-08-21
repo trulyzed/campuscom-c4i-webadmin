@@ -70,7 +70,8 @@ export const UserFormMeta: IField[] = [
     fieldName: "course_providers",
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Stores",
@@ -78,6 +79,7 @@ export const UserFormMeta: IField[] = [
     fieldName: "stores",
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   }
 ]

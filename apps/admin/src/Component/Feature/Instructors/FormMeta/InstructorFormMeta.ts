@@ -18,7 +18,8 @@ export const InstructorFormMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'External ID',

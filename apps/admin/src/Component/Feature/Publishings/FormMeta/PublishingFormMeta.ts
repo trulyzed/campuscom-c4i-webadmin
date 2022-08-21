@@ -12,6 +12,7 @@ export const PublishingFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'Enrollment Ready',

@@ -8,7 +8,8 @@ export const OrderSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   // {
   //   label: 'From Date',

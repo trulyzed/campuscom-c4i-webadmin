@@ -33,6 +33,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'course_provider')
     },
+    autoSelectDefault: true
   },
   {
     label: 'Store',
@@ -46,6 +47,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'store')
     },
+    autoSelectDefault: true
   },
   {
     label: 'External ID',

@@ -14,7 +14,8 @@ export const ImportTaskSearchMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "course_provider",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Store",
@@ -22,7 +23,8 @@ export const ImportTaskSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: 'Status',

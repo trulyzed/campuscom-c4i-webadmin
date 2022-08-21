@@ -40,7 +40,8 @@ export const ImportTaskFormMeta: IField[] = [
     dependencies: ['import_type'],
     onDependencyChange: (value, { toggleField }) => {
       toggleField?.(value?.import_type === 'contact')
-    }
+    },
+    autoSelectDefault: true
   },
   {
     label: 'Upload File',

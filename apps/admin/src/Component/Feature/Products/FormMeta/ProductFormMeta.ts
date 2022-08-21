@@ -11,7 +11,8 @@ export const ProductFormMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'Title',

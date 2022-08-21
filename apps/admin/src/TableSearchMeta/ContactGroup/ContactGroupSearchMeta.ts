@@ -8,7 +8,8 @@ export const ContactGroupSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Title",
