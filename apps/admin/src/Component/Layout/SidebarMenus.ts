@@ -31,6 +31,7 @@ import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectLis
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
+import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -213,6 +214,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },
       {
+        title: "Enrollments",
+        url: "/administration/enrollment",
+        submenu: [],
+        permission: checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
+      },
+      {
         title: "Create Enrollment",
         url: "/administration/create-enrollment",
         submenu: [],
@@ -234,6 +241,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc) ||
       checkAdminApiPermission(EnrollmentQueries.create)
   },
   {

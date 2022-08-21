@@ -6,13 +6,37 @@ import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
 import { convertToFormData } from "~/Api/utils/ConvertToFormData"
 
 export const EnrollmentQueries: IEnrollmentQueries = {
-  getList: PermissionWrapper(
+  getSingle: PermissionWrapper(
     (data) => {
-      const { id, ...params } = data?.params || {}
+      const { id, ...params } = data?.params
       return adminApi({
-        endpoint: `${endpoints.CART}/${data?.params.id}`,
+        endpoint: `${endpoints.CART}/${data!.params!.id}`,
         ...data,
         params,
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read }]
+  ),
+
+  getList: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.CART}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.Cart, action: ApiPermissionAction.Read }]
+  ),
+
+  getPaginatedList: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: `${endpoints.ALL_CART}`,
+        ...data,
+        params: { ...nonPaginationParams },
         method: "GET"
       })
     },
@@ -23,7 +47,7 @@ export const EnrollmentQueries: IEnrollmentQueries = {
     (data) => {
       const { id, ...params } = data?.params || {}
       return adminApi({
-        endpoint: `${endpoints.COURSE_ENROLLMENT}`,
+        endpoint: `${endpoints.ALL_COURSE_ENROLLMENT}`,
         ...data,
         params,
         method: "GET"

@@ -141,6 +141,7 @@ export const endpoints = {
   ALL_CONTACT_GROUP_PROFILE: "contact-group-profiles?limit=1000",
   ALL_COUPON: "coupons?limit=1000",
   ALL_COURSE: "courses?limit=1000",
+  ALL_COURSE_ENROLLMENT: "course-enrollments?limit=1000",
   ALL_COURSE_BY_SUBJECT: "courses-by-catalog?limit=1000",
   ALL_COURSE_PROVIDER: "course-providers?limit=1000",
   ALL_COURSE_PUBLISHING_STORE: "course-publishing-stores?limit=1000",
