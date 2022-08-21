@@ -8,6 +8,7 @@ import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/Me
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { RoleFormMeta } from '~/Component/Feature/Roles/FormMeta/RoleFormMeta'
 import GroupedList from "@packages/components/lib/DisplayFormatter/GroupedList"
+import { List } from "@packages/components/lib/DisplayFormatter/List"
 import { HierarchicalList } from "@packages/components/lib/DisplayFormatter/HierarchicalList"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
@@ -34,7 +35,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
       <MetaDrivenFormModalOpenButton
         formTitle={`Update ${role.name}`}
         formMeta={RoleFormMeta}
-        initialFormValue={{ name: role.name, permissions: role.permissions.map((permission: any) => permission.id), menu_permissions: role.menu_permissions }}
+        initialFormValue={{ name: role.name, app_permissions: role.app_permissions, permissions: role.permissions.map((permission: any) => permission.id), menu_permissions: role.menu_permissions }}
         formSubmitApi={updateEntity}
         buttonLabel={`Update Role`}
         iconType="edit"
@@ -44,6 +45,7 @@ export const getRoleDetailsMeta = (role: { [key: string]: any }): IDetailsMeta =
     ],
     contents: [
       { label: 'Name', value: role.name },
+      { label: 'App Permissions', value: role.app_permissions, render: () => <List data={role.app_permissions} /> },
       { label: 'API Permissions', value: role.permissions, render: () => <GroupedList data={role.permissions} groupKey={'group'} displayKey={'name'} /> },
       {
         label: 'Menu Permissions',
