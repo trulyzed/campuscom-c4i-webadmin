@@ -86,6 +86,8 @@ export interface IField {
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
   }) => void | boolean
   excludeFromSubmission?: boolean
+  autoSelectDefault?: boolean
+  onAutoSelectDefault?: (...args: any) => void
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {

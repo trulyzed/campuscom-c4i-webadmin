@@ -410,6 +410,7 @@ export function MetaDrivenForm({
           showLess={showLess}
           dependencyValue={dependencyValue}
           updateMeta={setMeta}
+          handleValuesChange={handleValuesChange}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -470,6 +471,7 @@ const SearchFormFields = (props: {
   isVertical?: boolean
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
+  handleValuesChange?: (...args: any) => void
 }) => {
   const labelColSpan = props.isVertical ? 24 : 8
   return (
@@ -584,6 +586,8 @@ const SearchFormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
+                    autoSelectDefault={field.autoSelectDefault}
+                    onAutoSelectDefault={(value) => props.handleValuesChange?.({ [field.fieldName]: value })}
                   />
                 )
                 break

@@ -8,7 +8,8 @@ export const ContactSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "profile_stores__store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "First Name",

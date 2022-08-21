@@ -90,6 +90,13 @@ export function FormDropDown(
     // eslint-disable-next-line
   }, [props.defaultValue])
 
+  useEffect(() => {
+    if (!props.autoSelectDefault || options.length !== 1) return
+    formInstance.setFieldValue(fieldName, options[0].value)
+    props.onAutoSelectDefault?.(options[0].value)
+    // eslint-disable-next-line
+  }, [options, props.autoSelectDefault, formInstance.setFieldValue, fieldName])
+
   return (
     <SearchFieldWrapper {...props}>
       <Select
