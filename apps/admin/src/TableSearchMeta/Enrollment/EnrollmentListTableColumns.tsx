@@ -1,5 +1,3 @@
-import { Space } from "antd"
-import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
@@ -47,28 +45,6 @@ export const enrollmentListTableColumns: TableColumnType = [
     dataIndex: 'status',
     sorter: (a: any, b: any) => a.status - b.status
   },
-  {
-    title: "Action",
-    dataIndex: 'action',
-    render: () => (
-      <>
-        <Space size={"small"}>
-          <ContextAction
-            type="drop"
-            tooltip="Drop"
-            queryService={QueryConstructor(() => Promise.reject(), [])}
-            refreshEventName="REFRESH_ENROLLMENT_LIST"
-          />
-          <ContextAction
-            type="swap"
-            tooltip="Swap"
-            queryService={QueryConstructor(() => Promise.reject(), [])}
-            refreshEventName="REFRESH_ENROLLMENT_LIST"
-          />
-        </Space>
-      </>
-    )
-  }
 ]
 
 export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
