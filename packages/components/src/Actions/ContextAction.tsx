@@ -6,7 +6,8 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button } from "antd"
 import { useHistory } from "react-router-dom"
 
-type ActionType = 'edit' | 'delete' | 'generateKey' | 'start' | 'showHistory' | 'goToProfile' | 'previous' | 'next' | 'reload'
+type ActionType = 'delete' | 'drop' | 'edit' | 'generateKey' | 'goToProfile' | 'next'
+  | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
 
 interface IContextActionProps {
   text?: string
@@ -20,15 +21,17 @@ interface IContextActionProps {
 }
 
 const iconTypes: Record<ActionType, React.ReactNode> = {
-  edit: <span className="glyphicon glyphicon-edit" />,
   delete: <span className="glyphicon glyphicon--danger glyphicon-trash" />,
+  drop: <span className="glyphicon glyphicon--danger glyphicon-ban-circle" />,
+  edit: <span className="glyphicon glyphicon-edit" />,
   generateKey: <span className="glyphicon glyphicon-key" />,
-  start: <span className="glyphicon glyphicon-play-circle" />,
-  showHistory: <span className="glyphicon glyphicon-time" />,
   goToProfile: <span className="glyphicon glyphicon-user" />,
-  previous: <span className="glyphicon glyphicon-chevron-left" />,
   next: <span className="glyphicon glyphicon-chevron-right" />,
+  previous: <span className="glyphicon glyphicon-chevron-left" />,
   reload: <span className="glyphicon glyphicon-repeat" />,
+  showHistory: <span className="glyphicon glyphicon-time" />,
+  start: <span className="glyphicon glyphicon-play-circle" />,
+  swap: <span className="glyphicon glyphicon-random" />,
 }
 
 export const ContextAction = ({

@@ -1,4 +1,6 @@
+import { Space } from "antd"
 import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -45,12 +47,35 @@ export const enrollmentListTableColumns: TableColumnType = [
     dataIndex: 'status',
     sorter: (a: any, b: any) => a.status - b.status
   },
+  {
+    title: "Action",
+    dataIndex: 'action',
+    render: () => (
+      <>
+        <Space size={"small"}>
+          <ContextAction
+            type="drop"
+            tooltip="Drop"
+            queryService={QueryConstructor(() => Promise.reject(), [])}
+            refreshEventName="REFRESH_ENROLLMENT_LIST"
+          />
+          <ContextAction
+            type="swap"
+            tooltip="Swap"
+            queryService={QueryConstructor(() => Promise.reject(), [])}
+            refreshEventName="REFRESH_ENROLLMENT_LIST"
+          />
+        </Space>
+      </>
+    )
+  }
 ]
 
 export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: enrollmentListTableColumns,
     searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params), [EnrollmentQueries.getCourseEnrollmentList]),
-    tableName: 'Enrollment'
+    tableName: 'Enrollment',
+    refreshEventName: "REFRESH_ENROLLMENT_LIST"
   }
 }
