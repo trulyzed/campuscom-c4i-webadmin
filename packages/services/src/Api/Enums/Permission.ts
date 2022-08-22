@@ -32,7 +32,7 @@ export enum ApiPermissionClass {
   Course = "CourseViewSet",
   CourseBySubject = "CourseBySubjectView",
   Company = "StoreCompanyViewSet",
-  CompanyUser = "AffiliateUserViewSet",
+  CompanyUser = "CompanyUserViewSet",
   Coupon = "CouponViewSet",
   CouponUsage = "CouponUsageView",
   CourseEnrollment = "CourseEnrollmentViewSet",
