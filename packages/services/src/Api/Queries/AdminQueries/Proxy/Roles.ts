@@ -6,6 +6,7 @@ export interface IRoleQueries {
   getPermissionList: IQuery
   getPaginatedList: IQuery
   getLookupData: IQuery
+  getCompanyCustomRoleLookupData: IQuery
   create: IQuery
   update: IQuery
 }

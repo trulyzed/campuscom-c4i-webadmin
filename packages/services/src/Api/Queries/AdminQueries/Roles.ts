@@ -71,6 +71,24 @@ export const RoleQueries: IRoleQueries = {
     [{ operation: ApiPermissionClass.CustomRole, action: ApiPermissionAction.Read }]
   ),
 
+  getCompanyCustomRoleLookupData: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.ALL_COMPANY_CUSTOM_ROLE,
+        ...data,
+        method: "GET"
+      }).then((resp) =>
+        resp.success
+          ? {
+              ...resp,
+              data: (resp.data as Array<any>).map((i) => ({ id: i.id, name: i.name }))
+            }
+          : resp
+      )
+    },
+    [{ operation: ApiPermissionClass.CompanyCustomRole, action: ApiPermissionAction.Read }]
+  ),
+
   create: PermissionWrapper(
     (data) => {
       return adminApi({

@@ -1,9 +1,9 @@
 import { BOOLEAN, IField, TEXT, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
-import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
 import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Roles"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const getCreateUserFormMeta = ():IField[] => [
+export const getCompanyUserFormMeta = ():IField[] => [
   {
     label: "First name",
     inputType: TEXT,
@@ -44,14 +44,17 @@ export const getCreateUserFormMeta = ():IField[] => [
     label: "Roles",
     inputType: MULTI_SELECT_DROPDOWN,
     fieldName: "custom_roles",
-    refLookupService: QueryConstructor(() => RoleQueries.getLookupData({params: {app_permissions__contains: "{AFFILIATE}"}}), [RoleQueries.getLookupData]),
+    refLookupService: RoleQueries.getCompanyCustomRoleLookupData,
     displayKey: "name",
     valueKey: "id"
   },
   {
-    label: "Is Scope Disabled",
-    inputType: BOOLEAN,
-    fieldName: "is_scope_disabled"
+    label: "Organizations",
+    inputType: MULTI_SELECT_DROPDOWN,
+    fieldName: "companies",
+    refLookupService: CompanyQueries.getLookupData,
+    displayKey: "name",
+    valueKey: "id"
   },
   {
     label: "Two-factor authentication enabled",

@@ -42,6 +42,24 @@ export const CompanyQueries: ICompanyQueries = {
     [{ operation: ApiPermissionClass.Company, action: ApiPermissionAction.Read }]
   ),
 
+  getLookupData: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.ALL_COMPANY,
+        ...data,
+        method: "GET"
+      }).then((resp) =>
+        resp.success
+          ? {
+              ...resp,
+              data: (resp.data as Array<any>).map((i) => ({ id: i.id, name: i.company_name }))
+            }
+          : resp
+      )
+    },
+    [{ operation: ApiPermissionClass.Company, action: ApiPermissionAction.Read }]
+  ),
+
   create: PermissionWrapper(
     (data) => {
       return adminApi({
@@ -75,29 +93,5 @@ export const CompanyQueries: ICompanyQueries = {
       })
     },
     [{ operation: ApiPermissionClass.DeleteCompany, action: ApiPermissionAction.Delete }]
-  ),
-
-  createUser: PermissionWrapper(
-    (data) => {
-      return adminApi({
-        endpoint: endpoints.COMPANY_USER,
-        method: "POST",
-        ...data
-      })
-    },
-    [{ operation: ApiPermissionClass.CompanyUser, action: ApiPermissionAction.Write }]
-  ),
-
-  getUserList: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.ALL_COMPANY_USER,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "GET"
-      })
-    },
-    [{ operation: ApiPermissionClass.CompanyUser, action: ApiPermissionAction.Read }]
   )
 }

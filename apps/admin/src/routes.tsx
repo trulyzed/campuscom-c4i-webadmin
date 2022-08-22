@@ -47,6 +47,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/question/:questionID", component: React.lazy(() => import("~/Pages/Administration/Questions/QuestionDetailsPage").then((x) => ({ default: x.QuestionDetailsPage }))) },
   { path: "/administration/company", component: React.lazy(() => import("~/Pages/Administration/Companies").then((x) => ({ default: x.List }))) },
   { path: "/administration/company/:companyID", component: React.lazy(() => import("~/Pages/Administration/Companies/CompanyDetailsPage").then((x) => ({ default: x.CompanyDetailsPage }))) },
+  { path: "/administration/affiliate-user", component: React.lazy(() => import("~/Pages/Administration/CompanyUsers").then((x) => ({ default: x.List }))) },
+  { path: "/administration/affiliate-user/:companyUserID", component: React.lazy(() => import("~/Pages/Administration/CompanyUsers/CompanyUserDetailsPage").then((x) => ({ default: x.CompanyUserDetailsPage }))) },
   { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Administration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },
   { path: "/configuration/payment-gateway-config/:paymentGatewayConfigID", component: React.lazy(() => import("~/Pages/Administration/PaymentGatewayConfigs/PaymentGatewayConfigDetailsPage").then((x) => ({ default: x.PaymentGatewayConfigDetailsPage }))) },
   { path: "/administration/refund", component: React.lazy(() => import("~/Pages/Administration/Refunds").then((x) => ({ default: x.List }))) },

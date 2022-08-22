@@ -32,6 +32,7 @@ import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/Tr
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -190,6 +191,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
       {
+        title: "Affiliate Users",
+        url: "/administration/affiliate-user",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc)
+      },
+      {
         title: "Audit Trails",
         url: "/administration/audit-trail",
         submenu: [],
@@ -237,6 +244,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc) ||
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||

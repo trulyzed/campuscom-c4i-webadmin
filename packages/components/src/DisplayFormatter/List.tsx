@@ -1,16 +1,23 @@
-import { List as AntList } from 'antd'
+import { List as AntList, Tag } from 'antd'
 
 interface IListProps {
   data: string[]
+  showInTags?: boolean
 }
 
-export const List = ({ data }: IListProps) => {
+export const List = ({ data, showInTags }: IListProps) => {
   return (
-    <AntList
-      dataSource={data}
-      renderItem={item => <AntList.Item>{item}</AntList.Item>}
-      size={'small'}
-      bordered
-    />
+    showInTags ?
+      <div>
+        {data.map((d, idx) => (
+          <Tag key={`${d}__${idx}`}>{d}</Tag>
+        ))}
+      </div>
+      : <AntList
+        dataSource={data}
+        renderItem={item => <AntList.Item>{item}</AntList.Item>}
+        size={'small'}
+        bordered
+      />
   )
 }
