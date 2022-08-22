@@ -1,6 +1,6 @@
 import { renderDate, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
-import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AffiliateQueries/Students"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const studentListTableColumns: TableColumnType = [

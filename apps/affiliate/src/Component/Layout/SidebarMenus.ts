@@ -8,6 +8,7 @@ import { getOrderListTableColumns } from "~/TableSearchMeta/Order/OrderListTable
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -34,9 +35,16 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
+      {
+        title: "Students",
+        url: "/storefront-data/student",
+        submenu: [],
+        permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
+      },
     ],
     permission:
-      checkAdminApiPermission(getOrderListTableColumns().searchFunc)
+      checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getStudentListTableColumns().searchFunc)
   },
   {
     title: "Administration",

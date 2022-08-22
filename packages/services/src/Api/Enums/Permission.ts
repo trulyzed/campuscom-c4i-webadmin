@@ -125,6 +125,7 @@ export enum ApiPermissionClass {
   StorePaymentGateway = "StorePaymentGatewayViewSet",
   StoreUpdate = "StoreUpdateViewSet",
   StoreUser = "StoreUsers",
+  Student = "StudentViewSet",
   Subject = "CatalogViewSet",
   TaggedCertificateCareer = "TaggedCertificateCareersView",
   TaggedCertificateCareerAndSkill = "TaggedCertificateCareersSkillsViewSet",
