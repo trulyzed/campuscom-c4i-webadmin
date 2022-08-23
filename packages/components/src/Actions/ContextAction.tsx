@@ -6,7 +6,7 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button } from "antd"
 import { useHistory } from "react-router-dom"
 
-export type ActionType = 'delete' | 'download' | 'drop' | 'edit' | 'generateKey' | 'goToProfile' | 'makePayment' | 'next'
+export type ActionType = 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'next'
   | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
 
 interface IContextActionProps {
@@ -22,10 +22,12 @@ interface IContextActionProps {
 }
 
 const iconTypes: Record<ActionType, React.ReactNode> = {
+  create: <span className="glyphicon glyphicon-plus-sign" />,
   delete: <span className="glyphicon glyphicon--danger glyphicon-trash" />,
   download: <span className="glyphicon glyphicon-floppy-save" />,
   drop: <span className="glyphicon glyphicon--danger glyphicon-ban-circle" />,
   edit: <span className="glyphicon glyphicon-edit" />,
+  filter: <span className="glyphicon glyphicon-filter" />,
   generateKey: <span className="glyphicon glyphicon-key" />,
   goToProfile: <span className="glyphicon glyphicon-user" />,
   makePayment: <span className="glyphicon glyphicon-dollar" />,

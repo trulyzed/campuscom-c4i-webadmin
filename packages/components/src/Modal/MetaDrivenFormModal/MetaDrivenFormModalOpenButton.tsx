@@ -4,13 +4,13 @@ import { History } from "history"
 import { BaseButtonProps } from "antd/lib/button/button"
 import { IField } from "~/Form/common"
 import { MetaDrivenFormModal } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
-import { IconButton, iconType } from "~/Form/Buttons/IconButton"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { ContextAction } from "~/Actions/ContextAction"
+import { ActionType, ContextAction } from "~/Actions/ContextAction"
+import { IconButton } from "~/Form/Buttons/IconButton"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
-  iconType?: iconType
+  iconType?: ActionType
   buttonProps?: BaseButtonProps
   style?: CSSProperties
   formTitle: React.ReactNode
@@ -32,9 +32,10 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
       {checkAdminApiPermission(props.formSubmitApi) && (
         <>
           {" "}
-          {(props.iconType === "edit") || (props.iconType === "remove") ?
-            <ContextAction tooltip={props.buttonLabel} type={props.iconType === "remove" ? "delete" : "edit"} onClick={() => setShowModal(true)} />
-            : props.iconType ? <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
+          {(props.iconType === "create" || props.iconType === "filter") ?
+            <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
+            : props.iconType ?
+              <ContextAction tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} />
               : (
                 <Button
                   type="primary"
