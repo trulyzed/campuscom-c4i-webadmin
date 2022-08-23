@@ -28,6 +28,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/storefront-data/student", component: React.lazy(() => import("~/Pages/StorefrontData/Students").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/student/:studentID", component: React.lazy(() => import("~/Pages/StorefrontData/Students/StudentDetailsPage").then((x) => ({ default: x.StudentDetailsPage }))) },
   { path: "/storefront-data/transaction", component: React.lazy(() => import("~/Pages/StorefrontData/Transactions").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/transaction-batch", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionBatches").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/transaction-batch/:transactionBatchID", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionBatches/TransactionBatchDetailsPage").then((x) => ({ default: x.TransactionBatchDetailsPage }))) },
   { path: "/storefront-data/cart-item/:cartItemID", component: React.lazy(() => import("~/Pages/StorefrontData/CartItems/CartItemDetailsPage").then((x) => ({ default: x.CartItemDetailsPage }))) },
   { path: "/storefront-data/course-enrollment/:courseEnrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/CourseEnrollmentDetailsPage").then((x) => ({ default: x.CourseEnrollmentDetailsPage }))) },
 

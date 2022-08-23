@@ -33,6 +33,7 @@ import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableCol
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
+import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatches/TransactionBatchListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -118,13 +119,20 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/transaction",
         submenu: [],
         permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+      },
+      {
+        title: "Transaction Batches",
+        url: "/storefront-data/transaction-batch",
+        submenu: [],
+        permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
       }
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+      checkAdminApiPermission(getTransactionListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },
   {
     title: "Administration",

@@ -58,9 +58,11 @@ export const endpoints = {
   DELETE_STORE_IDENTITY_PROVIDER: "delete-store-identity-providers",
   DELETE_STORE_PAYMENT_GATEWAY: "delete-store-payment-gateways",
   DELETE_STUDENT: "delete-profile",
+  DELETE_TRANSACTION_BATCH: "delete-transaction-batches",
   DISCOUNT_PROGRAM: "discount-programs",
   DISCOUNT_PROGRAM_USAGE_HISTORY: "discount-program-usage",
   DISCOUNT_RULE: "discount-rules",
+  DOWNLOAD_TRANSACTION_BATCH: "download-transaction-batch",
   EXTERNAL_ENTITY: "external-entities",
   FAILED_MQ: "failed-messages",
   GENERATE_SECRET_KEY: "generate-secret-key",
@@ -124,6 +126,7 @@ export const endpoints = {
   TAGGED_COURSE_CAREER_AND_SKILL: "tagged-course-careers-skills",
   TAGGED_COURSE_SKILL: "tagged-course-skills",
   TRANSACTIONS: "transaction-report",
+  TRANSACTION_BATCH: "transaction-batches",
   USER: "users",
   UPDATE_PAYMENT_QUESTION: "update-payment-questions",
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
@@ -187,5 +190,6 @@ export const endpoints = {
   ALL_STUDENT: "profiles?limit=1000",
   ALL_SUBJECT: "catalogs?limit=1000",
   ALL_TRANSACTIONS: "transaction-report?limit=1000",
+  ALL_TRANSACTION_BATCH: "transaction-batches?limit=1000",
   ALL_USER: "users?limit=1000"
 }
