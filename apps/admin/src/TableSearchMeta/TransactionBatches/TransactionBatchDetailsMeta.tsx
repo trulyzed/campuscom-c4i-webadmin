@@ -28,8 +28,13 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
         formMeta={PaymentFormMeta}
         formSubmitApi={makePayment}
         buttonLabel={`Make Payment`}
-        iconType="edit"
+        iconType="makePayment"
         refreshEventName={REFRESH_PAGE}
+      />,
+      <ContextAction
+        type="download"
+        tooltip="Download Transaction Batch"
+        queryService={QueryConstructor(() => TransactionBatchQueries.download({ data: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
       />,
       <ContextAction
         type="delete"
