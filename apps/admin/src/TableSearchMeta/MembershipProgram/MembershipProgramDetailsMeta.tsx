@@ -44,7 +44,12 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <ContextAction tooltip="Delete Membership Program" type="delete" queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } }), [MembershipProgramQueries.delete])} />
+      <ContextAction
+        tooltip="Delete Membership Program"
+        type="delete"
+        queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } }), [MembershipProgramQueries.delete])}
+        redirectTo={'/administration/membership-program?pagination=1'}
+      />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [

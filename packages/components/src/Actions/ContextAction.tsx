@@ -15,7 +15,7 @@ interface IContextActionProps {
   type: ActionType
   onClick?: (...args: any[]) => void
   queryService?: IQuery
-  refreshEventName?: string
+  refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
   redirectTo?: string
   textOnly?: boolean
   downloadAs?: "EXCEL" | "CSV"
@@ -30,7 +30,7 @@ const iconTypes: Record<ActionType, React.ReactNode> = {
   filter: <span className="glyphicon glyphicon-filter" />,
   generateKey: <span className="glyphicon glyphicon-key" />,
   goToProfile: <span className="glyphicon glyphicon-user" />,
-  makePayment: <span className="glyphicon glyphicon-dollar" />,
+  makePayment: <span className="glyphicon glyphicon-payment" />,
   next: <span className="glyphicon glyphicon-chevron-right" />,
   previous: <span className="glyphicon glyphicon-chevron-left" />,
   reload: <span className="glyphicon glyphicon-repeat" />,
@@ -56,7 +56,11 @@ export const ContextAction = ({
   const handleClick = useCallback(async () => {
     if (type === 'delete' && queryService) {
       showDeleteConfirm(queryService, { setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
-        refreshEventName && eventBus.publish(refreshEventName)
+        if (Array.isArray(refreshEventName)) {
+          refreshEventName.forEach(i => {
+            eventBus.publish(i)
+          })
+        } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
         redirectTo && push(redirectTo)
       })
     } else if (type === 'download' && queryService) {

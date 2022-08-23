@@ -1,7 +1,7 @@
 @import "~/Sass/variables.scss";
 
 .glyphicon {
-  font-family: 'Glyphicons Halflings';
+  font-family: 'Glyphicons Halflings', 'Jenzabar Halflings';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
@@ -96,8 +96,8 @@
 .glyphicon-random:before {
   content: "\E110";
 }
-.glyphicon-dollar:before {
-  content: "\E148";
+.glyphicon-payment:before {
+  content: "\E626";
 }
 .glyphicon-floppy-save:before {
   content: "\E175";

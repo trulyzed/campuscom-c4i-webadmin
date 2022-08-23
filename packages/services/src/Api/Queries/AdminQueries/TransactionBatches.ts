@@ -4,28 +4,16 @@ import { ITransactionBatchQueries } from "./Proxy/TransactionBatches"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
 
-const dummy = {
-  id: "e8f24524-155e-4030-bc4f-ac711cc25956",
-  batch_name: "Batch 1",
-  start_date: "2022-02-01T08:45:25Z",
-  end_date: "2022-02-01T08:45:25Z",
-  status: "unpaid",
-  payment_details: { payment_ref: "23RE23", payment_note: "Note 1", payment_date: "2022-02-01T08:45:25Z" }
-}
-
 export const TransactionBatchQueries: ITransactionBatchQueries = {
   getSingle: PermissionWrapper(
     (data) => {
       const { id, ...params } = data?.params
       return adminApi({
-        endpoint: `${endpoints.STORE}/${data!.params!.id}`,
+        endpoint: `${endpoints.TRANSACTION_BATCH}/${data!.params!.id}`,
         ...data,
         params,
         method: "GET"
-      }).then((resp) => ({
-        ...resp,
-        data: dummy
-      }))
+      })
     },
     [{ operation: ApiPermissionClass.TransactionBatch, action: ApiPermissionAction.Read }]
   ),
@@ -47,24 +35,31 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
     (data) => {
       const { id, ...params } = data?.params || {}
       return adminApi({
-        endpoint: endpoints.ALL_STORE,
+        endpoint: endpoints.ALL_TRANSACTION_BATCH,
         ...data,
         params,
         method: "GET"
-      }).then((resp) => ({
-        ...resp,
-        data: [dummy]
-      }))
+      })
     },
     [{ operation: ApiPermissionClass.TransactionBatch, action: ApiPermissionAction.Read }]
   ),
 
   create: PermissionWrapper(
     (data) => {
+      const payload = {
+        ...data?.data,
+        payment_info: {
+          ref: data?.data.payment_ref,
+          note: data?.data.payment_note
+        },
+        start_date: `${data?.data.start_date} 00:00:00.000000+00`,
+        end_date: `${data?.data.end_date} 00:00:00.000000+00`
+      }
       return adminApi({
         endpoint: endpoints.TRANSACTION_BATCH,
         method: "POST",
-        ...data
+        ...data,
+        data: payload
       })
     },
     [{ operation: ApiPermissionClass.TransactionBatch, action: ApiPermissionAction.Write }]

@@ -7,9 +7,9 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 export const transactionBatchListTableColumns: TableColumnType = [
   {
     title: "Batch Name",
-    dataIndex: "batch_name",
+    dataIndex: "name",
     render: (text: any, record: any) => renderLink(`/storefront-data/transaction-batch/${record.id}`, text),
-    sorter: (a: any, b: any) => a.batch_name - b.batch_name
+    sorter: (a: any, b: any) => a.name - b.name
   },
   {
     title: "Start Date",
@@ -36,7 +36,7 @@ export const transactionBatchListTableColumns: TableColumnType = [
         <ContextAction
           type="download"
           tooltip="Download Transaction Batch"
-          queryService={QueryConstructor(() => TransactionBatchQueries.download({ data: { transaction_batch: record.id } }), [TransactionBatchQueries.download])}
+          queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: record.id } }), [TransactionBatchQueries.download])}
         />
         {record.status === "unpaid" ? <ContextAction
           type="delete"

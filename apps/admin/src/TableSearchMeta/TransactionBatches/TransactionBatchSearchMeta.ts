@@ -4,7 +4,7 @@ export const TransactionBatchSearchMeta: IField[] = [
   {
     label: "Batch Name",
     inputType: TEXT,
-    fieldName: "batch_name__icontains",
+    fieldName: "name__icontains",
   },
   {
     label: "Start Date",

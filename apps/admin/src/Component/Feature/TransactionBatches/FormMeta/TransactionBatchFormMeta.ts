@@ -5,7 +5,7 @@ export const TransactionBatchFormMeta: IField[] = [
   {
     label: "Batch Name",
     inputType: TEXT,
-    fieldName: "batch_name",
+    fieldName: "name",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {

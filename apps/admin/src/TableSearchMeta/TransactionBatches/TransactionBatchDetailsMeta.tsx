@@ -21,7 +21,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   })), [TransactionBatchQueries.makePayment])
 
   const summaryInfo: CardContainer = {
-    title: `Transaction Batch: ${transactionBatch.batch_name}`,
+    title: `Transaction Batch: ${transactionBatch.name}`,
     cardActions: transactionBatch.status === "unpaid" ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Make Payment`}
@@ -34,7 +34,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       <ContextAction
         type="download"
         tooltip="Download Transaction Batch"
-        queryService={QueryConstructor(() => TransactionBatchQueries.download({ data: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
+        queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
       />,
       <ContextAction
         type="delete"
@@ -45,19 +45,19 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ] : [],
     contents: [
-      { label: 'Batch Name', value: transactionBatch.batch_name, render: (text: any) => text },
+      { label: 'Batch Name', value: transactionBatch.name, render: (text: any) => text },
       { label: 'Start Date', value: transactionBatch.start_date, render: renderDateTime },
       { label: 'End Date', value: transactionBatch.end_date, render: renderDateTime },
       { label: 'Status', value: transactionBatch.status },
     ]
   }
 
-  const paymentInfo: CardContainer | undefined = (transactionBatch.status === "paid" && transactionBatch.payment_details) ? {
-    title: `Payment: ${transactionBatch.payment_details.payment_ref}`,
+  const paymentInfo: CardContainer | undefined = (transactionBatch.status === "paid") ? {
+    title: `Payment: ${transactionBatch.payment_ref}`,
     contents: [
-      { label: 'Payment Ref', value: transactionBatch.payment_details.payment_ref },
-      { label: 'Payment Note', value: transactionBatch.payment_details.payment_note },
-      { label: 'Payment Date', value: transactionBatch.payment_details.payment_date, render: renderDateTime },
+      { label: 'Payment Ref', value: transactionBatch.payment_info?.ref },
+      { label: 'Payment Note', value: transactionBatch.payment_info?.note },
+      { label: 'Payment Date', value: transactionBatch.payment_date, render: renderDateTime },
     ]
   } : undefined
 
@@ -90,7 +90,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   ]
 
   return {
-    pageTitle: `Transaction Batch Title - ${transactionBatch.batch_name}`,
+    pageTitle: `Transaction Batch Title - ${transactionBatch.name}`,
     tabs: tabMetas
   }
 }

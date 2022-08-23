@@ -35,7 +35,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           {(props.iconType === "create" || props.iconType === "filter") ?
             <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
             : props.iconType ?
-              <ContextAction tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} />
+              <ContextAction tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} refreshEventName={props.refreshEventName} />
               : (
                 <Button
                   type="primary"
