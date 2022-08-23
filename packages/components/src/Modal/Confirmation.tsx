@@ -5,13 +5,13 @@ import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 export const showDeleteConfirm = async (
   remove: () => Promise<IApiResponse>,
-  { success, error, title, warningText }: { success?: string; error?: string; title?: string; warningText?: string } = {
-    success: "Delete Successfull",
-    error: "Delete Unsuccessfull",
-    title: "Are you sure to delete this?",
-    warningText: ""
-  }
+  { success, error, title, warningText, setIsProcessing }: { success?: string; error?: string; title?: string; warningText?: string; setIsProcessing?: (status: boolean) => void } = {}
 ) => {
+  success = success || "Delete Successfull"
+  error = error || "Delete Unsuccessfull"
+  title = title || "Are you sure to delete this?"
+  warningText = warningText || ""
+
   return new Promise<boolean>((resolve, reject) => {
     Modal.confirm({
       title: title,
@@ -21,6 +21,7 @@ export const showDeleteConfirm = async (
       okType: "danger",
       cancelText: "No",
       onOk() {
+        setIsProcessing?.(true)
         remove().then((result: IApiResponse) => {
           if (result.success) {
             notification.success({ message: success })
@@ -35,6 +36,8 @@ export const showDeleteConfirm = async (
             }
             reject(false)
           }
+        }).finally(() => {
+          setIsProcessing?.(false)
         })
       },
       onCancel() {

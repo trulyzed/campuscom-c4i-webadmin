@@ -53,7 +53,7 @@ export const ContextAction = ({
 
   const handleClick = useCallback(async () => {
     if (type === 'delete' && queryService) {
-      showDeleteConfirm(queryService).then(() => {
+      showDeleteConfirm(queryService, { setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
         refreshEventName && eventBus.publish(refreshEventName)
         redirectTo && push(redirectTo)
       })
