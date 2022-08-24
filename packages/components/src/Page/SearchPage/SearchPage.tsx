@@ -11,7 +11,7 @@ import Text from "antd/lib/typography/Text"
 import { DEFAULT_PAGE_SIZE } from "~/ResponsiveTable/Responsive"
 
 export interface ISearchListWithVisibleSearchFormProp {
-  title: string
+  title?: string
   blocks?: JSX.Element[]
   meta?: IField[]
   metaName?: string
@@ -22,6 +22,8 @@ export interface ISearchListWithVisibleSearchFormProp {
   stopProducingQueryParams?: boolean
   initSearchAtMount?: boolean
   updatedParams?: (params?: any) => void
+  hideHeading?: boolean
+  onChange?: (args: { data: any; searchParams: any }) => void
 }
 
 export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
@@ -41,16 +43,18 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     <div className="site-layout-content">
       {props.tableProps.searchFunc && checkAdminApiPermission(props.tableProps.searchFunc) && (
         <>
-          <Row>
-            <Col md={24} className={'mt-15'}>
-              <Title level={3}>
-                Manage {props.title}
-              </Title>
-            </Col>
-            <Col md={24} className={'mb-10'}>
-              <Text style={{ textTransform: 'lowercase' }} type="secondary" className="ml-10">{pagination.total} {props.title} displayed</Text>
-            </Col>
-          </Row>
+          {(!props.hideHeading && props.title) ?
+            <Row>
+              <Col md={24} className={'mt-15'}>
+                <Title level={3}>
+                  Manage {props.title}
+                </Title>
+              </Col>
+              <Col md={24} className={'mb-10'}>
+                <Text style={{ textTransform: 'lowercase' }} type="secondary" className="ml-10">{pagination.total} {props.title} displayed</Text>
+              </Col>
+            </Row>
+            : null}
           {!props.meta && (
             <Row
               justify="space-between"
@@ -81,7 +85,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
             {props.meta &&
               <Col lg={6} xl={5}>
                 <MetaDrivenForm
-                  title={`${props.title} Filter`}
+                  title={props.title ? `${props.title} Filter` : undefined}
                   blocks={props.blocks}
                   helpKey={props.helpKey}
                   meta={props.meta}
@@ -117,6 +121,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 searchParams={searchParams}
                 tableTitle={props.title}
                 onPaginationChange={setPagination}
+                dataLoaded={(data) => props.onChange?.({ data, searchParams })}
               />
             </Col>
           </Row>

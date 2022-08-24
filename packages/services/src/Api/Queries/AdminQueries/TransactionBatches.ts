@@ -48,12 +48,8 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
     (data) => {
       const payload = {
         ...data?.data,
-        payment_info: {
-          ref: data?.data.payment_ref,
-          note: data?.data.payment_note
-        },
-        start_date: `${data?.data.start_date} 00:00:00.000000+00`,
-        end_date: `${data?.data.end_date} 00:00:00.000000+00`
+        start_date: data?.data.start_date ? `${data.data.start_date} 00:00:00.000000+00` : undefined,
+        end_date: data?.data.end_date ? `${data.data.end_date} 00:00:00.000000+00` : undefined
       }
       return adminApi({
         endpoint: endpoints.TRANSACTION_BATCH,

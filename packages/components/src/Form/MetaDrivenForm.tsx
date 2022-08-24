@@ -51,6 +51,7 @@ export const HELPER_FIELD_PATTERN = "__##__"
 export function MetaDrivenForm({
   showClearbutton = true,
   applyButtonLabel = "Apply",
+  actionContainerStyle,
   clearButtonLabel = "Clear All",
   ...props
 }: {
@@ -67,6 +68,8 @@ export function MetaDrivenForm({
   currentPagination?: number
   showClearbutton?: boolean
   applyButtonLabel?: string
+  disableApplyButton?: boolean
+  actionContainerStyle?: React.CSSProperties
   applyButtonAriaControl?: string
   clearButtonLabel?: string
   isVertical?: boolean
@@ -339,6 +342,7 @@ export function MetaDrivenForm({
         actions: [
           <Row justify="end" gutter={[8, 8]} style={{
             padding: "10px",
+            ...actionContainerStyle
           }}>
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
               <Col>
@@ -378,6 +382,7 @@ export function MetaDrivenForm({
                 form={formId}
                 aria-label={applyButtonLabel}
                 onClick={() => applyChanges()}
+                disabled={!!props.disableApplyButton}
               >
                 {applyButtonLabel}
               </Button>
@@ -418,7 +423,8 @@ export function MetaDrivenForm({
             gutter={[8, 8]}
             style={{
               padding: props.isAside ? "5px 0" : "10px",
-              borderTop: props.bordered ? "1px solid #f0f2f5" : undefined
+              borderTop: props.bordered ? "1px solid #f0f2f5" : undefined,
+              ...actionContainerStyle
             }}
           >
             {!props.showFullForm && !props.closeModal && meta.length > 4 && (
@@ -452,6 +458,7 @@ export function MetaDrivenForm({
                 form={formId}
                 aria-label={applyButtonLabel}
                 onClick={() => applyChanges()}
+                disabled={!!props.disableApplyButton}
               >
                 {applyButtonLabel}
               </Button>

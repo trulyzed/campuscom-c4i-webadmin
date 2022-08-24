@@ -1,10 +1,10 @@
-import { DATE_PICKER, IField, TEXTAREA } from "@packages/components/lib/Form/common"
+import { DATE_PICKER, IField, TEXTAREA, TEXT } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const PaymentFormMeta: IField[] = [
   {
     label: "Payment Ref",
-    inputType: TEXTAREA,
+    inputType: TEXT,
     fieldName: "payment_ref",
     rules: [{ required: true, message: "This field is required!" }]
   },
