@@ -125,8 +125,8 @@ export const endpoints = {
   TAGGED_COURSE_CAREER: "tagged-course-careers",
   TAGGED_COURSE_CAREER_AND_SKILL: "tagged-course-careers-skills",
   TAGGED_COURSE_SKILL: "tagged-course-skills",
-  TRANSACTIONS: "transaction-report",
   TRANSACTION_BATCH: "transaction-batches",
+  TRANSACTION_REPORT: "transaction-report",
   USER: "users",
   UPDATE_PAYMENT_QUESTION: "update-payment-questions",
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
@@ -189,7 +189,7 @@ export const endpoints = {
   ALL_STORE_PAYMENT_GATEWAY: "store-payment-gateways?limit=1000",
   ALL_STUDENT: "profiles?limit=1000",
   ALL_SUBJECT: "catalogs?limit=1000",
-  ALL_TRANSACTIONS: "transaction-report?limit=1000",
   ALL_TRANSACTION_BATCH: "transaction-batches?limit=1000",
+  ALL_TRANSACTION_REPORT: "transaction-report?limit=1000",
   ALL_USER: "users?limit=1000"
 }
