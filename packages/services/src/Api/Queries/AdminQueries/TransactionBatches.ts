@@ -61,12 +61,27 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
     [{ operation: ApiPermissionClass.TransactionBatch, action: ApiPermissionAction.Write }]
   ),
 
-  makePayment: PermissionWrapper(
+  update: PermissionWrapper(
     (data) => {
+      const payload = {
+        ...data?.data,
+        ...(data?.data.payment_ref && {
+          payment_info: {
+            ref: data.data.payment_ref,
+            note: data.data.payment_note
+          },
+          payment_date: data.data.payment_date
+        }),
+        start_date: data?.data.start_date ? `${data.data.start_date} 00:00:00.000000+00` : undefined,
+        end_date: data?.data.end_date ? `${data.data.end_date} 00:00:00.000000+00` : undefined
+      }
+      const { id, ...params } = data?.params
       return adminApi({
-        endpoint: endpoints.TRANSACTION_BATCH,
-        method: "POST",
-        ...data
+        endpoint: `${endpoints.TRANSACTION_BATCH}/${id}`,
+        method: "PATCH",
+        ...data,
+        data: payload,
+        params
       })
     },
     [{ operation: ApiPermissionClass.TransactionBatch, action: ApiPermissionAction.Write }]

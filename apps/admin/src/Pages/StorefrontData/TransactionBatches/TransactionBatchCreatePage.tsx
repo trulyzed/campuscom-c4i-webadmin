@@ -39,7 +39,15 @@ export const TransactionBatchCreatePage = () => {
 
   const handleCreateBatch = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await TransactionBatchQueries.create({ data: searchData?.searchParams })
+    const resp = await TransactionBatchQueries.create({
+      data: {
+        start_date: searchData?.searchParams.payment_transactions__transaction_time__gte,
+        end_date: searchData?.searchParams.payment_transactions__transaction_time__lt,
+        course_provider: searchData?.searchParams.cart__cart_items__product__store_course_section__section__course__course_provider,
+        store: searchData?.searchParams.cart__store,
+        settlement_status: searchData?.searchParams.settlement_status,
+      }
+    })
     setIsProcessing(false)
     if (resp.success) {
       setBatchData(resp.data)
@@ -49,7 +57,7 @@ export const TransactionBatchCreatePage = () => {
 
   const handleMakePayment = useCallback(async (values) => {
     setIsProcessing(true)
-    const resp = await TransactionBatchQueries.makePayment({ data: values })
+    const resp = await TransactionBatchQueries.update({ data: values, params: { id: batchData.id } })
     setIsProcessing(false)
     if (resp.success) {
       setCurrentStep(StepNames.FilterTransactions)
@@ -57,7 +65,7 @@ export const TransactionBatchCreatePage = () => {
       setRevenuePercentage(undefined)
       setBatchData(undefined)
     }
-  }, [])
+  }, [batchData])
 
   return (
     <>

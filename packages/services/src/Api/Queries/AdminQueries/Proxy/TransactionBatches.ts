@@ -5,7 +5,7 @@ export interface ITransactionBatchQueries {
   getPaginatedList: IQuery
   getList: IQuery
   create: IQuery
+  update: IQuery
   delete: IQuery
   download: IQuery
-  makePayment: IQuery
 }

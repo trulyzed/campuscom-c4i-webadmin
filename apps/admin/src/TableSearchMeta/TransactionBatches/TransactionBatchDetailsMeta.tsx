@@ -13,12 +13,12 @@ import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/Admi
 import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 
 export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]: any }): IDetailsMeta => {
-  const makePayment = QueryConstructor(((data) => TransactionBatchQueries.makePayment({ ...data, params: { id: transactionBatch.id } }).then(resp => {
+  const makePayment = QueryConstructor(((data) => TransactionBatchQueries.update({ ...data, params: { id: transactionBatch.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
-  })), [TransactionBatchQueries.makePayment])
+  })), [TransactionBatchQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `Transaction Batch: ${transactionBatch.name}`,
