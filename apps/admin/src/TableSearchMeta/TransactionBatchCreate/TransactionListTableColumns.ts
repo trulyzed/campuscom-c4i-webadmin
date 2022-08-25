@@ -1,4 +1,4 @@
-import { renderDate, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { renderDate, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -6,44 +6,50 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 export const transactionListTableColumns: TableColumnType = [
   {
     title: "Order ID",
-    dataIndex: "order_id",
-    sorter: (a: any, b: any) => a.order_id - b.order_id
+    dataIndex: "cart",
+    render: (text) => renderLink(`/storefront-data/order/${text.id}`, text.order_ref, undefined, true),
+    sorter: (a: any, b: any) => a.cart.order_ref - b.cart.order_ref
   },
   {
     title: "Order Date",
-    dataIndex: "order_date",
-    render: renderDate,
-    sorter: (a: any, b: any) => a.transaction_date - b.transaction_date,
+    dataIndex: "cart",
+    render: (text) => renderDate(text.created_at),
+    sorter: (a: any, b: any) => a.cart.created_at - b.cart.created_at,
   },
   {
     title: "Status",
-    dataIndex: "status",
-    sorter: (a: any, b: any) => a.status - b.status
+    dataIndex: "settlement_status",
+    sorter: (a: any, b: any) => a.settlement_status - b.settlement_status
   },
   {
     title: "Gross Order Value",
-    dataIndex: "gross_order_value",
-    sorter: (a: any, b: any) => a.gross_order_value - b.gross_order_value
+    dataIndex: "cart",
+    render: (text) => text.gross_amount,
+    sorter: (a: any, b: any) => a.cart.gross_amount - b.cart.gross_amount
   },
   {
     title: "Discount",
-    dataIndex: "Discount",
-    sorter: (a: any, b: any) => a.Discount - b.Discount
+    dataIndex: "cart",
+    render: (text) => text.total_discount,
+    sorter: (a: any, b: any) => a.cart.total_discount - b.cart.total_discount
   },
   {
     title: "Net Order Value",
-    dataIndex: "net_order_value",
-    sorter: (a: any, b: any) => a.net_order_value - b.net_order_value
+    dataIndex: "cart",
+    render: (text) => text.total_amount,
+    sorter: (a: any, b: any) => a.cart.total_amount - b.cart.total_amount
   },
   {
     title: "Card Fees",
-    dataIndex: "card_fees",
-    sorter: (a: any, b: any) => a.card_fees - b.card_fees
+    dataIndex: "cart",
+    render: () => 0,
+    sorter: (a: any, b: any) => a.cart.card_fees - b.cart.card_fees
   },
   {
     title: "Net Payment Received",
-    dataIndex: "net_payment_received",
-    sorter: (a: any, b: any) => a.net_payment_received - b.net_payment_received
+    dataIndex: "cart",
+    render: (text) => text.total_amount,
+    sorter: (a: any, b: any) => a.cart.total_amount - b.cart.total_amount
   },
 ]
 
@@ -51,8 +57,8 @@ export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: transactionListTableColumns,
     searchFunc: QueryConstructor(
-      (params) => TransactionQueries.getPaginatedList(params),
-      [TransactionQueries.getPaginatedList]
+      (params) => TransactionQueries.getList(params),
+      [TransactionQueries.getList]
     ),
     tableName: "TransactionBatchCreate",
     showDownload: false,

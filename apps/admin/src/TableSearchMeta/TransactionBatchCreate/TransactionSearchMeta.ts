@@ -7,7 +7,7 @@ export const TransactionSearchMeta: IField[] = [
     label: "Course Provider",
     inputType: DROPDOWN,
     refLookupService: CourseProviderQueries.getLookupData,
-    fieldName: "course_provider__id",
+    fieldName: "cart__cart_items__product__store_course_section__section__course__course_provider",
     displayKey: "name",
     valueKey: "id",
     autoSelectDefault: true
@@ -16,7 +16,7 @@ export const TransactionSearchMeta: IField[] = [
     label: "Store",
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
-    fieldName: "store__id",
+    fieldName: "cart__store",
     displayKey: "name",
     valueKey: "id",
     autoSelectDefault: true
@@ -24,17 +24,17 @@ export const TransactionSearchMeta: IField[] = [
   {
     label: "Start Date",
     inputType: DATE_PICKER,
-    fieldName: "start_date__gte"
+    fieldName: "payment_transactions__transaction_time__gte"
   },
   {
     label: "End Date",
     inputType: DATE_PICKER,
-    fieldName: "end_date__lt"
+    fieldName: "payment_transactions__transaction_time__lt"
   },
   {
     label: "Status",
     inputType: DROPDOWN,
-    fieldName: "status",
+    fieldName: "settlement_status",
     options: [
       { value: 'settled', label: 'Settled' },
       { value: 'unsettled', label: 'Unsettled' },

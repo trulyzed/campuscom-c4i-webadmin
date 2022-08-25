@@ -201,8 +201,8 @@ export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: transactionListTableColumns,
     searchFunc: QueryConstructor(
-      (params) => TransactionQueries.getPaginatedList(params),
-      [TransactionQueries.getPaginatedList]
+      (params) => TransactionQueries.getTransactionReportList(params),
+      [TransactionQueries.getTransactionReportList]
     ),
     tableName: "Transaction",
     showDownload: true,

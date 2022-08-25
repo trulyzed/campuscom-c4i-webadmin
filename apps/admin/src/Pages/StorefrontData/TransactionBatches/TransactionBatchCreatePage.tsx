@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Steps } from "antd"
+import { Button, Card, Col, Row, Steps } from "antd"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
 import { TransactionSearchMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionSearchMeta"
@@ -11,6 +11,9 @@ import { getDecimalValue } from "@packages/utilities/lib/util"
 import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { Alert } from "@packages/components/lib/Alert/Alert"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 
 const { Step } = Steps
 
@@ -101,6 +104,7 @@ export const TransactionBatchCreatePage = () => {
                   meta={TransactionSearchMeta}
                   tableProps={{
                     ...getTransactionListTableColumns(),
+                    searchFunc: QueryConstructor((data) => TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed" } }), [TransactionQueries.getList])
                   }}
                   hideHeading
                   onChange={setSearchData}
