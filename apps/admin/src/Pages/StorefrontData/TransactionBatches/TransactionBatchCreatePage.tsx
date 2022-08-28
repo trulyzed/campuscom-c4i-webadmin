@@ -1,44 +1,54 @@
-import { Button, Card, Col, Row, Steps } from "antd"
+import { Button, Card, Col, Row } from "antd"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
 import { TransactionSearchMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionSearchMeta"
 import { useCallback, useState } from "react"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
-import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
-import { getTransactionBatchRevenueCalculateFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/TransactionBatchRevenueCalculateFormMeta"
-import { getDecimalValue } from "@packages/utilities/lib/util"
-import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
+// import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
+// import { getTransactionBatchRevenueCalculateFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/TransactionBatchRevenueCalculateFormMeta"
+// import { getDecimalValue } from "@packages/utilities/lib/util"
+// import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
-
-const { Step } = Steps
+import { DetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsSummaryTab"
+import { getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
 
 enum StepNames {
   FilterTransactions,
   CreateBatch,
-  MakePayment,
 }
 
 export const TransactionBatchCreatePage = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.FilterTransactions)
-  const [searchData, setSearchData] = useState<{ data: any, searchParams: any }>()
-  const [revenuePercentage, setRevenuePercentage] = useState<number>()
+  const [searchData, setSearchData] = useState<{ data: any, summary: any, searchParams: any }>()
+  const [revenuePercentage] = useState<number>()
+  // const [revenuePercentage, setRevenuePercentage] = useState<number>()
   const [isProcessing, setIsProcessing] = useState(false)
   const [batchData, setBatchData] = useState<any>()
-  const totalTransactionAmount = searchData?.data.reduce((a: any, c: Record<string, any>) => {
-    a += c.cart.total_amount
-    return a
-  }, 0)
-  const revenueAmount = revenuePercentage !== undefined ? totalTransactionAmount * (revenuePercentage / 100) : undefined
-  const totalChequeAmount = revenueAmount !== undefined ? (totalTransactionAmount - revenueAmount) : undefined
+  // const totalTransactionAmount = searchData?.data.reduce((a: any, c: Record<string, any>) => {
+  //   a += c.cart.total_amount
+  //   return a
+  // }, 0)
+  // const revenueAmount = revenuePercentage !== undefined ? totalTransactionAmount * (revenuePercentage / 100) : undefined
+  // const totalChequeAmount = revenueAmount !== undefined ? (totalTransactionAmount - revenueAmount) : undefined
 
-  const handleStepChange = useCallback((current) => {
-    setCurrentStep(current)
-  }, [])
+  // const handleStepChange = useCallback((current) => {
+  //   setCurrentStep(current)
+  // }, [])
+
+  const handleSearch = QueryConstructor((data) => {
+    return TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed" } }).then(resp => {
+      if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: resp.data.summary })
+      return {
+        ...resp,
+        data: resp.data.list
+      }
+    })
+  }, [TransactionQueries.getList])
 
   const handleCreateBatch = useCallback(async () => {
     setIsProcessing(true)
@@ -54,21 +64,20 @@ export const TransactionBatchCreatePage = () => {
     setIsProcessing(false)
     if (resp.success) {
       setBatchData(resp.data)
-      setCurrentStep(StepNames.MakePayment)
     }
   }, [searchData])
 
-  const handleMakePayment = useCallback(async (values) => {
-    setIsProcessing(true)
-    const resp = await TransactionBatchQueries.update({ data: values, params: { id: batchData.id } })
-    setIsProcessing(false)
-    if (resp.success) {
-      setCurrentStep(StepNames.FilterTransactions)
-      setSearchData(undefined)
-      setRevenuePercentage(undefined)
-      setBatchData(undefined)
-    }
-  }, [batchData])
+  // const handleMakePayment = useCallback(async (values) => {
+  //   setIsProcessing(true)
+  //   const resp = await TransactionBatchQueries.update({ data: values, params: { id: batchData.id } })
+  //   setIsProcessing(false)
+  //   if (resp.success) {
+  //     setCurrentStep(StepNames.FilterTransactions)
+  //     setSearchData(undefined)
+  //     setRevenuePercentage(undefined)
+  //     setBatchData(undefined)
+  //   }
+  // }, [batchData])
 
   return (
     <>
@@ -97,54 +106,31 @@ export const TransactionBatchCreatePage = () => {
         />
         : null}
       <Row gutter={20} style={{ marginTop: "10px" }}>
-        <Col md={4}>
-          <Card>
-            <Steps direction="vertical" size="small" current={currentStep} onChange={handleStepChange}>
-              <Step title="Transactions" />
-              <Step title="Create Batch" />
-              <Step title="Make Payment" />
-            </Steps>
-          </Card>
-        </Col>
-        <Col md={20}>
-          {currentStep === StepNames.FilterTransactions ?
-            <Row>
-              <Col md={24}>
-                <SearchPage
-                  title="Unsettled Transactions"
-                  meta={TransactionSearchMeta}
-                  tableProps={{
-                    ...getTransactionListTableColumns(),
-                    searchFunc: QueryConstructor((data) => TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed" } }), [TransactionQueries.getList])
-                  }}
-                  hideHeading
-                  onChange={setSearchData}
-                />
-              </Col>
+        <Col md={24}>
+          <Row>
+            <Col md={24}>
+              <SearchPage
+                title="Unsettled Transactions"
+                meta={TransactionSearchMeta}
+                tableProps={{
+                  ...getTransactionListTableColumns(),
+                  searchFunc: handleSearch
+                }}
+                hideHeading
+              />
+            </Col>
+            {currentStep === StepNames.FilterTransactions ?
               <Col span={19} offset={5}>
                 <Card bodyStyle={{ textAlign: "right" }}>
-                  <Button type="primary" disabled={!searchData || !searchData.data.length} children={"Continue"} onClick={() => setCurrentStep(StepNames.CreateBatch)} />
+                  <Button type="primary" disabled={!searchData || !searchData.data.length} children={"Next"} onClick={() => setCurrentStep(StepNames.CreateBatch)} />
                 </Card>
               </Col>
-            </Row>
-            : null}
+              : null}
+          </Row>
           {currentStep === StepNames.CreateBatch ?
             <Row>
               <Col md={24}>
-                <MetaDrivenForm
-                  title={"Calculate Revenue"}
-                  meta={getTransactionBatchRevenueCalculateFormMeta(revenuePercentage === undefined)}
-                  initialFormValue={{
-                    total_transaction_amount: totalTransactionAmount !== undefined ? `$${getDecimalValue(totalTransactionAmount)}` : undefined,
-                    revenue_amount: revenueAmount !== undefined ? `$${getDecimalValue(revenueAmount)}` : undefined,
-                    total_cheque_amount: totalChequeAmount !== undefined ? `$${getDecimalValue(totalChequeAmount)}` : undefined,
-                    revenue_percentage: revenuePercentage,
-                  }}
-                  onApplyChanges={(values) => setRevenuePercentage(values.revenue_percentage)}
-                  applyButtonLabel="Calculate"
-                  actionContainerStyle={{ justifyContent: "flex-start" }}
-                  stopProducingQueryParams
-                  isVertical />
+                <DetailsSummary summary={getTransactionBatchSummaryMeta({ ...searchData?.summary })} />
               </Col>
               <Col span={24}>
                 <Card bodyStyle={{ textAlign: "right" }}>
@@ -153,8 +139,7 @@ export const TransactionBatchCreatePage = () => {
               </Col>
             </Row>
             : null}
-          {currentStep === StepNames.MakePayment ?
-            <Row>
+          {/* <Row>
               <Col md={24}>
                 <MetaDrivenForm
                   title={"Make Payment"}
@@ -164,8 +149,7 @@ export const TransactionBatchCreatePage = () => {
                   disableApplyButton={isProcessing || !batchData}
                   stopProducingQueryParams />
               </Col>
-            </Row>
-            : null}
+            </Row> */}
         </Col>
       </Row>
     </>

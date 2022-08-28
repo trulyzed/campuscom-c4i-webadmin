@@ -10,7 +10,8 @@ export const TransactionSearchMeta: IField[] = [
     fieldName: "cart__cart_items__product__store_course_section__section__course__course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectDefault: true,
+    rules: [{ required: true, message: "This field is required!" }],
   },
   {
     label: "Store",
@@ -22,22 +23,8 @@ export const TransactionSearchMeta: IField[] = [
     autoSelectDefault: true
   },
   {
-    label: "Start Date",
-    inputType: DATE_PICKER,
-    fieldName: "payment_transactions__transaction_time__gte"
-  },
-  {
     label: "End Date",
     inputType: DATE_PICKER,
     fieldName: "payment_transactions__transaction_time__lt"
   },
-  {
-    label: "Status",
-    inputType: DROPDOWN,
-    fieldName: "settlement_status",
-    options: [
-      { value: 'settled', label: 'Settled' },
-      { value: 'unsettled', label: 'Unsettled' },
-    ]
-  }
 ]

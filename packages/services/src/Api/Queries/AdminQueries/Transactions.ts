@@ -13,7 +13,18 @@ export const TransactionQueries: ITransactionQueries = {
         ...data,
         params: { ...nonPaginationParams },
         method: "GET"
-      })
+      }).then((resp) =>
+        resp.success
+          ? {
+              ...resp,
+              data: {
+                list: resp.data.data,
+                summary: resp.extraData,
+                searchParams: nonPaginationParams
+              }
+            }
+          : resp
+      )
     },
     [{ operation: ApiPermissionClass.Transaction, action: ApiPermissionAction.Read }]
   ),

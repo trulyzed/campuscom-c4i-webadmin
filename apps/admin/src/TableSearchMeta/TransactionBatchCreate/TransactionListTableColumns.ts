@@ -17,11 +17,6 @@ export const transactionListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.cart.created_at - b.cart.created_at,
   },
   {
-    title: "Status",
-    dataIndex: "settlement_status",
-    sorter: (a: any, b: any) => a.settlement_status - b.settlement_status
-  },
-  {
     title: "Gross Order Value",
     dataIndex: "cart",
     render: (text) => text.gross_amount,
