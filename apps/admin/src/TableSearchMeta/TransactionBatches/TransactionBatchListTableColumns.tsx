@@ -6,27 +6,22 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const transactionBatchListTableColumns: TableColumnType = [
   {
-    title: "Batch Name",
-    dataIndex: "name",
-    render: (text: any, record: any) => renderLink(`/storefront-data/transaction-batch/${record.id}`, text),
-    sorter: (a: any, b: any) => a.name - b.name
+    title: "Course Provider",
+    dataIndex: "course_provider",
+    render: (text) => renderLink(`/administration/course-provider/${text.id}`, text.name),
+    sorter: (a: any, b: any) => a.course_provider.name - b.course_provider.name
   },
   {
-    title: "Start Date",
-    dataIndex: "start_date",
-    render: renderDateTime,
-    sorter: (a: any, b: any) => a.start_date - b.start_date
+    title: "Store",
+    dataIndex: "store",
+    render: (text) => renderLink(`/administration/store/${text.id}`, text.name),
+    sorter: (a: any, b: any) => a.store.name - b.store.name
   },
   {
     title: "End Date",
     dataIndex: "end_date",
     render: renderDateTime,
     sorter: (a: any, b: any) => a.end_date - b.end_date
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    sorter: (a: any, b: any) => a.status - b.status
   },
   {
     title: "Action",

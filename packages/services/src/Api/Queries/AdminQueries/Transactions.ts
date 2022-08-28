@@ -9,7 +9,7 @@ export const TransactionQueries: ITransactionQueries = {
     (data) => {
       const { pagination, ...nonPaginationParams } = data?.params || {}
       return adminApi({
-        endpoint: endpoints.ALL_TRANSACTION_REPORT,
+        endpoint: endpoints.ALL_TRANSACTION,
         ...data,
         params: { ...nonPaginationParams },
         method: "GET"

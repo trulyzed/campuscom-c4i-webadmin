@@ -21,7 +21,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   })), [TransactionBatchQueries.update])
 
   const summaryInfo: CardContainer = {
-    title: `Transaction Batch: ${transactionBatch.name}`,
+    title: `Transaction Batch: ${transactionBatch.batch_ref}`,
     cardActions: transactionBatch.status === "unpaid" ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Make Payment`}
@@ -45,7 +45,6 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ] : [],
     contents: [
-      { label: 'Batch Name', value: transactionBatch.name, render: (text: any) => text },
       { label: 'Start Date', value: transactionBatch.start_date, render: renderDateTime },
       { label: 'End Date', value: transactionBatch.end_date, render: renderDateTime },
       { label: 'Status', value: transactionBatch.status },
@@ -90,7 +89,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   ]
 
   return {
-    pageTitle: `Transaction Batch Title - ${transactionBatch.name}`,
+    pageTitle: `Transaction Batch Title - ${transactionBatch.batch_ref}`,
     tabs: tabMetas
   }
 }
