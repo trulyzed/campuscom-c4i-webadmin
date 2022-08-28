@@ -21,7 +21,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   })), [TransactionBatchQueries.update])
 
   const summaryInfo: CardContainer = {
-    title: `Transaction Batch: ${transactionBatch.batch_ref}`,
+    title: `Settlement Batch: ${transactionBatch.batch_ref}`,
     cardActions: transactionBatch.status === "unpaid" ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Make Payment`}
@@ -33,12 +33,12 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       />,
       <ContextAction
         type="download"
-        tooltip="Download Transaction Batch"
+        tooltip="Download Settlement Batch"
         queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
       />,
       <ContextAction
         type="delete"
-        tooltip="Delete Transaction Batch"
+        tooltip="Delete Settlement Batch"
         queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { id: [transactionBatch.id] } }), [TransactionBatchQueries.delete])}
         refreshEventName={REFRESH_PAGE}
       />
@@ -89,7 +89,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
   ]
 
   return {
-    pageTitle: `Transaction Batch Title - ${transactionBatch.batch_ref}`,
+    pageTitle: `Settlement Batch Title - ${transactionBatch.batch_ref}`,
     tabs: tabMetas
   }
 }

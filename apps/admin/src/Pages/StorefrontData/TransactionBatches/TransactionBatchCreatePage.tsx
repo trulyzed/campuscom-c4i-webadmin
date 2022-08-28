@@ -28,9 +28,12 @@ export const TransactionBatchCreatePage = () => {
   const [searchData, setSearchData] = useState<{ data: any, searchParams: any }>()
   const [revenuePercentage, setRevenuePercentage] = useState<number>()
   const [isProcessing, setIsProcessing] = useState(false)
-  const [batchData, setBatchData] = useState<any>({ id: 234 })
-  const totalTransactionAmount = 200
-  const revenueAmount = revenuePercentage !== undefined ? 200 * (revenuePercentage / 100) : undefined
+  const [batchData, setBatchData] = useState<any>()
+  const totalTransactionAmount = searchData?.data.reduce((a: any, c: Record<string, any>) => {
+    a += c.cart.total_amount
+    return a
+  }, 0)
+  const revenueAmount = revenuePercentage !== undefined ? totalTransactionAmount * (revenuePercentage / 100) : undefined
   const totalChequeAmount = revenueAmount !== undefined ? (totalTransactionAmount - revenueAmount) : undefined
 
   const handleStepChange = useCallback((current) => {
@@ -75,11 +78,11 @@ export const TransactionBatchCreatePage = () => {
           <Row>
             <Col flex="auto">
               <SidebarMenuTargetHeading level={1} targetID="navigation">
-                Create Transaction Batch
+                Create Settlement Batch
               </SidebarMenuTargetHeading>
             </Col>
             <Col flex="none">
-              <HelpButton helpKey={'Create Transaction Batch'} />
+              <HelpButton helpKey={'Create Settlement Batch'} />
             </Col>
           </Row>
         }
@@ -90,7 +93,7 @@ export const TransactionBatchCreatePage = () => {
           className="my-10"
           type="success"
           message={"Success"}
-          description={<span>Batch creation was successful (Batch reference: {renderLink(`/storefront-data/transaction-batch/${batchData.id}`, batchData.id)})</span>}
+          description={<span>Batch creation was successful (Batch reference: {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.id)})</span>}
         />
         : null}
       <Row gutter={20} style={{ marginTop: "10px" }}>
@@ -108,7 +111,7 @@ export const TransactionBatchCreatePage = () => {
             <Row>
               <Col md={24}>
                 <SearchPage
-                  title="Transactions"
+                  title="Unsettled Transactions"
                   meta={TransactionSearchMeta}
                   tableProps={{
                     ...getTransactionListTableColumns(),

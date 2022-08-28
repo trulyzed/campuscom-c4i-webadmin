@@ -122,14 +122,14 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
       },
       {
-        title: "Create Transaction Batch",
-        url: "/storefront-data/transaction-batch-create",
+        title: "Create Settlement Batch",
+        url: "/storefront-data/create-settlement-batch",
         submenu: [],
         permission: checkAdminApiPermission(TransactionBatchQueries.create)
       },
       {
-        title: "Transaction Batches",
-        url: "/storefront-data/transaction-batch",
+        title: "Settlement Batches",
+        url: "/storefront-data/settlement-batch",
         submenu: [],
         permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
       }
