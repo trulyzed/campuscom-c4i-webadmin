@@ -118,27 +118,28 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       {
         title: "Transactions",
         url: "/storefront-data/transaction",
-        submenu: [],
-        permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+        submenu: [
+          {
+            title: "Create Settlement Batch",
+            url: "/storefront-data/create-settlement-batch",
+            submenu: [],
+            permission: checkAdminApiPermission(TransactionBatchQueries.create)
+          },
+          {
+            title: "Settlement Batches",
+            url: "/storefront-data/settlement-batch",
+            submenu: [],
+            permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
+          }
+        ],
+        permission: checkAdminApiPermission(TransactionBatchQueries.create) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
       },
-      {
-        title: "Create Settlement Batch",
-        url: "/storefront-data/create-settlement-batch",
-        submenu: [],
-        permission: checkAdminApiPermission(TransactionBatchQueries.create)
-      },
-      {
-        title: "Settlement Batches",
-        url: "/storefront-data/settlement-batch",
-        submenu: [],
-        permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
-      }
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(TransactionBatchQueries.create) ||
+      (checkAdminApiPermission(TransactionBatchQueries.create) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getTransactionListTableColumns().searchFunc) ||
       checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },
