@@ -30,6 +30,7 @@ const RenderMenu = (props: {
   _sidebarMenus: ISidebarMenu[]
   defaultExpanded?: boolean
   padding: number
+  showLastItemBorder?: boolean
 }) => {
   const [expanded, setExpanded] = useState(props.defaultExpanded)
 
@@ -49,11 +50,11 @@ const RenderMenu = (props: {
       )}
       {expanded && (
         <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px`, }}>
-          {props._sidebarMenus.filter(i => i.permission).map(x => {
+          {props._sidebarMenus.filter(i => i.permission).map((x, idx, arr) => {
             if (x.submenu && x.submenu.length > 0)
               return (
-                <li key={x.key} style={{ borderBottomWidth: "1px" }} className={"border-styles"}>
-                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 40} />
+                <li key={x.key} style={props.showLastItemBorder || arr.length !== (idx + 1) ? { borderBottomWidth: "1px" } : undefined} className={"border-styles"}>
+                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 10} />
                 </li>
               )
             else
@@ -111,7 +112,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
           <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
         </div>
         <div style={{ marginTop: "-10px" }}>
-          <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} />
+          <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder />
         </div>
         <button style={buttonStyle} onClick={props.logout}>
           <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
