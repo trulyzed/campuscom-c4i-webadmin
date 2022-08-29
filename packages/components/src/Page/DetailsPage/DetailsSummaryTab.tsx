@@ -1,13 +1,23 @@
-import React, { useState } from "react"
-import { Card, Col, Row } from "antd"
+import React, { useCallback, useState } from "react"
+import { Card, Col, Descriptions, Row, Typography } from "antd"
 import { CardContainer, CardContents, IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
 import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 
-export const DetailsCardContainer = (props: { card: CardContainer }) => {
+export const DetailsCardContainer = (props: { card: CardContainer, horizontal?: boolean }) => {
   const [mobileView, setMobileView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
     setMobileView(deviceViews.mobile)
   })
+  const EmptyState = (
+    <tr>
+      <td style={{ color: "red" }}>No data available!</td>
+    </tr>
+  )
+
+  const renderValue = useCallback((y: CardContents) => {
+    return y.jsx ? y.jsx : y.render ? y.render(y.value) : y.value
+  }, [])
+
   return (
     <Card
       title={props.card.title}
@@ -20,42 +30,52 @@ export const DetailsCardContainer = (props: { card: CardContainer }) => {
           </Row>
         ) : undefined
       }
+      style={props.card.style}
     >
-      <table className="dorakata-table" role="presentation">
-        <tbody>
-          {Array.isArray(props.card.contents) && props.card.contents.length > 0 ? (
-            props.card.contents.map((y: CardContents, j: number) =>
-              mobileView ? (
-                <tr>
-                  <td>
-                    {y.label !== "" && <div> {y.label}: </div>}
-                    <div>{y.jsx ? y.jsx : y.render ? y.render(y.value) : y.value}</div>
-                  </td>
-                </tr>
-              ) : (
-                <tr key={j} className={y.cssClass}>
-                  {y.label !== "" && (
-                    <>
-                      <td>{y.label}</td>
-                      <td style={{ width: "30px" }}></td>
-                    </>
-                  )}
-                  <td>{y.jsx ? y.jsx : y.render ? y.render(y.value) : y.value}</td>
-                </tr>
+      {props.horizontal ?
+        (Array.isArray(props.card.contents) && props.card.contents.length > 0 ?
+          <Descriptions layout="vertical" colon={false} size="middle">
+            {props.card.contents.map((y: CardContents, j: number) => (
+              <Descriptions.Item key={j}
+                label={<Typography.Text strong children={y.label} style={y.emphasize ? { fontSize: "18px" } : undefined} />}>
+                {y.emphasize ? <Typography.Text strong children={renderValue(y)} style={y.emphasize ? { fontSize: "16px" } : undefined} /> : renderValue(y)}
+              </Descriptions.Item>
+            ))}
+          </Descriptions>
+          : EmptyState
+        )
+        : <table className="dorakata-table" role="presentation">
+          <tbody>
+            {Array.isArray(props.card.contents) && props.card.contents.length > 0 ? (
+              props.card.contents.map((y: CardContents, j: number) =>
+                mobileView ? (
+                  <tr>
+                    <td>
+                      {y.label !== "" && <div> {y.label}: </div>}
+                      <div>{renderValue(y)}</div>
+                    </td>
+                  </tr>
+                ) : (
+                  <tr key={j} className={y.cssClass}>
+                    {y.label !== "" && (
+                      <>
+                        <td>{y.label}</td>
+                        <td style={{ width: "30px" }}></td>
+                      </>
+                    )}
+                    <td>{renderValue(y)}</td>
+                  </tr>
+                )
               )
-            )
-          ) : (
-            <tr>
-              <td style={{ color: "red" }}>No data available!</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            ) : EmptyState}
+          </tbody>
+        </table>
+      }
     </Card>
   )
 }
 
-export const DetailsSummary = (props: IDetailsSummary) => {
+export const DetailsSummary = (props: IDetailsSummary & { horizontal?: boolean }) => {
   return (
     <>
       {Array.isArray(props.actions) && (
@@ -70,12 +90,12 @@ export const DetailsSummary = (props: IDetailsSummary) => {
       <Row>
         {props.summary.length > 0 &&
           props.summary.map((x: CardContainer, i) => (
-            <Col key={i} xs={24} sm={24} md={12}>
+            <Col key={i} xs={24} sm={24} md={x.colSpan || 12}>
               {Array.isArray(x.contents) ? (
-                <DetailsCardContainer card={x} />
+                <DetailsCardContainer horizontal={props.horizontal} card={x} />
               ) : Array.isArray(x.groupedContents) ? (
                 x.groupedContents.map((y: CardContainer, j: number) => (
-                  <DetailsCardContainer key={`${i}${j * 100}`} card={y} />
+                  <DetailsCardContainer horizontal={props.horizontal} key={`${i}${j * 100}`} card={y} />
                 ))
               ) : null}
             </Col>

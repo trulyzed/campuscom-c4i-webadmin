@@ -34,7 +34,6 @@ import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactLis
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatches/TransactionBatchListTableColumns"
-import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -120,26 +119,20 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/transaction",
         submenu: [
           {
-            title: "Create Settlement Batch",
-            url: "/storefront-data/create-settlement-batch",
-            submenu: [],
-            permission: checkAdminApiPermission(TransactionBatchQueries.create)
-          },
-          {
             title: "Settlement Batches",
             url: "/storefront-data/settlement-batch",
             submenu: [],
             permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
           }
         ],
-        permission: checkAdminApiPermission(TransactionBatchQueries.create) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
+        permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
       },
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      (checkAdminApiPermission(TransactionBatchQueries.create) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
+      checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc) ||
       checkAdminApiPermission(getTransactionListTableColumns().searchFunc) ||
       checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },

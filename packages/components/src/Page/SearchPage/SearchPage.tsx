@@ -24,6 +24,7 @@ export interface ISearchListWithVisibleSearchFormProp {
   updatedParams?: (params?: any) => void
   hideHeading?: boolean
   onChange?: (args: { data: any; searchParams: any }) => void
+  tableFooter?: React.ReactNode
 }
 
 export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
@@ -123,6 +124,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 onPaginationChange={setPagination}
                 dataLoaded={(data) => props.onChange?.({ data, searchParams })}
               />
+              {props.tableFooter}
             </Col>
           </Row>
         </>

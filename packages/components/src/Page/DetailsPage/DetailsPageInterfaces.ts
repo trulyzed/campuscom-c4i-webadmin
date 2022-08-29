@@ -11,6 +11,7 @@ export type CardContents = {
   cssClass?: string
   jsx?: JSX.Element
   render?: (text: any) => string | JSX.Element
+  emphasize?: boolean
 }
 
 export type CardContainer = {
@@ -18,6 +19,8 @@ export type CardContainer = {
   contents?: CardContents[]
   cardActions?: JSX.Element[]
   groupedContents?: CardContainer[]
+  style?: React.CSSProperties
+  colSpan?: number
 }
 // ================================================
 export interface IStandardDetailsPage {

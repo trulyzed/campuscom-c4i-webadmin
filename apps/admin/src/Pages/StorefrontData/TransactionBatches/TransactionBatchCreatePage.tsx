@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row } from "antd"
+import { Button, Card, Col, Row, Space } from "antd"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
 import { TransactionSearchMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionSearchMeta"
@@ -15,7 +15,7 @@ import { Alert } from "@packages/components/lib/Alert/Alert"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 import { DetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsSummaryTab"
-import { getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
+import { getTransactionBatchEmphasizedSummaryMeta, getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
 
 enum StepNames {
   FilterTransactions,
@@ -25,7 +25,7 @@ enum StepNames {
 export const TransactionBatchCreatePage = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.FilterTransactions)
   const [searchData, setSearchData] = useState<{ data: any, summary: any, searchParams: any }>()
-  const [revenuePercentage] = useState<number>()
+  // const [revenuePercentage] = useState<number>()
   // const [revenuePercentage, setRevenuePercentage] = useState<number>()
   const [isProcessing, setIsProcessing] = useState(false)
   const [batchData, setBatchData] = useState<any>()
@@ -41,24 +41,34 @@ export const TransactionBatchCreatePage = () => {
   // }, [])
 
   const handleSearch = QueryConstructor((data) => {
-    return TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed" } }).then(resp => {
+    reset()
+    return TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed", transaction_batch__isnull: "True", settlement_status: "unsettled" } }).then(resp => {
       if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: resp.data.summary })
       return {
         ...resp,
-        data: resp.data.list
+        data: resp.data?.list
       }
     })
   }, [TransactionQueries.getList])
 
   const handleCreateBatch = useCallback(async () => {
     setIsProcessing(true)
+    const filterParams: Record<string, any> = {
+      course_provider: searchData?.searchParams.cart__cart_items__product__store_course_section__section__course__course_provider,
+      end_date: searchData?.searchParams.payment_transactions__transaction_time__lt,
+      store: searchData?.searchParams.cart__store,
+      payment_transactions__status: "completed",
+      settlement_status: "unsettled"
+    }
+
+    Object.keys(filterParams).forEach(key => {
+      if (filterParams[key] === undefined) delete filterParams[key]
+    })
+
     const resp = await TransactionBatchQueries.create({
       data: {
-        start_date: searchData?.searchParams.payment_transactions__transaction_time__gte,
-        end_date: searchData?.searchParams.payment_transactions__transaction_time__lt,
-        course_provider: searchData?.searchParams.cart__cart_items__product__store_course_section__section__course__course_provider,
-        store: searchData?.searchParams.cart__store,
-        settlement_status: searchData?.searchParams.settlement_status,
+        filter_params: filterParams,
+        totals: searchData?.summary
       }
     })
     setIsProcessing(false)
@@ -66,6 +76,12 @@ export const TransactionBatchCreatePage = () => {
       setBatchData(resp.data)
     }
   }, [searchData])
+
+  const reset = useCallback(() => {
+    setCurrentStep(StepNames.FilterTransactions)
+    setSearchData(undefined)
+    setBatchData(undefined)
+  }, [])
 
   // const handleMakePayment = useCallback(async (values) => {
   //   setIsProcessing(true)
@@ -101,8 +117,8 @@ export const TransactionBatchCreatePage = () => {
         <Alert
           className="my-10"
           type="success"
-          message={"Success"}
-          description={<span>Batch creation was successful (Batch reference: {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.id)})</span>}
+          message={"Settlement Batch Created"}
+          description={<span>(Batch ID: {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.id)})</span>}
         />
         : null}
       <Row gutter={20} style={{ marginTop: "10px" }}>
@@ -117,26 +133,44 @@ export const TransactionBatchCreatePage = () => {
                   searchFunc: handleSearch
                 }}
                 hideHeading
+                tableFooter={
+                  currentStep === StepNames.FilterTransactions ? (
+                    <Card bodyStyle={{ textAlign: "right" }} bordered={false}>
+                      <Button type="primary" disabled={!searchData || !searchData.data.length} children={"Next"} onClick={() => setCurrentStep(StepNames.CreateBatch)} />
+                    </Card>
+                  ) : null
+                }
+                stopProducingQueryParams
               />
-            </Col>
-            {currentStep === StepNames.FilterTransactions ?
-              <Col span={19} offset={5}>
-                <Card bodyStyle={{ textAlign: "right" }}>
-                  <Button type="primary" disabled={!searchData || !searchData.data.length} children={"Next"} onClick={() => setCurrentStep(StepNames.CreateBatch)} />
-                </Card>
-              </Col>
-              : null}
-          </Row>
+            </Col>          </Row>
           {currentStep === StepNames.CreateBatch ?
-            <Row>
+            <Row style={{ marginTop: "15px" }}>
               <Col md={24}>
-                <DetailsSummary summary={getTransactionBatchSummaryMeta({ ...searchData?.summary })} />
+                <DetailsSummary horizontal summary={getTransactionBatchSummaryMeta({
+                  gross_order_amount: 234,
+                  discount: 56,
+                  net_order_amount: 56,
+                  card_fees: 78,
+                  net_payment_received: 34, ...searchData?.summary
+                })} />
+                <DetailsSummary horizontal summary={getTransactionBatchEmphasizedSummaryMeta({
+                  gross_order_amount: 234,
+                  discount: 56,
+                  net_order_amount: 56,
+                  card_fees: 78,
+                  net_payment_received: 34, ...searchData?.summary
+                })} />
               </Col>
-              <Col span={24}>
-                <Card bodyStyle={{ textAlign: "right" }}>
-                  <Button type="primary" disabled={!searchData || !searchData.data.length || !revenuePercentage} loading={isProcessing} children={"Create Batch"} onClick={handleCreateBatch} />
-                </Card>
-              </Col>
+              {!batchData ?
+                <Col span={24}>
+                  <Card bodyStyle={{ textAlign: "right" }} bordered={false}>
+                    <Space>
+                      <Button children={"Previous"} onClick={() => setCurrentStep(StepNames.FilterTransactions)} />
+                      <Button loading={isProcessing} type="primary" children={"Create Batch"} onClick={handleCreateBatch} />
+                    </Space>
+                  </Card>
+                </Col>
+                : null}
             </Row>
             : null}
           {/* <Row>
