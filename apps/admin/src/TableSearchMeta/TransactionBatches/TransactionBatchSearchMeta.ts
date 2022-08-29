@@ -1,28 +1,18 @@
-import { DROPDOWN, DATE_PICKER, IField, TEXT } from "@packages/components/lib/Form/common"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 
 export const TransactionBatchSearchMeta: IField[] = [
   {
-    label: "Batch Name",
+    label: "Batch ID",
+    fieldName: "batch_ref",
     inputType: TEXT,
-    fieldName: "name__icontains",
-  },
-  {
-    label: "Start Date",
-    inputType: DATE_PICKER,
-    fieldName: "start_date__gte",
-  },
-  {
-    label: "End Date",
-    inputType: DATE_PICKER,
-    fieldName: "start_date__lt",
   },
   {
     label: "Status",
-    inputType: DROPDOWN,
     fieldName: "status",
+    inputType: DROPDOWN,
     options: [
       { label: "Paid", value: "paid" },
-      { label: "Unpaid", value: "unpaid" }
-    ]
+      { label: "Unpaid", value: "unpaid" },
+    ],
   },
 ]

@@ -3,25 +3,26 @@ import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { renderBoolean } from "@packages/components/lib/ResponsiveTable/tableUtils"
 
 export const transactionBatchListTableColumns: TableColumnType = [
   {
-    title: "Course Provider",
-    dataIndex: "course_provider",
-    render: (text) => renderLink(`/administration/course-provider/${text.id}`, text.name),
-    sorter: (a: any, b: any) => a.course_provider.name - b.course_provider.name
+    title: "Batch ID",
+    dataIndex: "batch_ref",
+    render: (text, record) => renderLink(`/storefront-data/settlement-batch/${record.id}`, text),
+    sorter: (a: any, b: any) => a.batch_ref - b.batch_ref
   },
   {
-    title: "Store",
-    dataIndex: "store",
-    render: (text) => renderLink(`/administration/store/${text.id}`, text.name),
-    sorter: (a: any, b: any) => a.store.name - b.store.name
+    title: "Payment Status",
+    dataIndex: "status",
+    render: (text) => renderBoolean(text === "paid", { truthyText: "Paid", falsyText: "Unpaid", uncolorize: true, tagColor: text === "paid" ? "#4B8400" : "#AAAAAA" }),
+    sorter: (a: any, b: any) => a.status - b.status
   },
   {
-    title: "End Date",
-    dataIndex: "end_date",
+    title: "Payment Date",
+    dataIndex: "payment_date",
     render: renderDateTime,
-    sorter: (a: any, b: any) => a.end_date - b.end_date
+    sorter: (a: any, b: any) => a.payment_date - b.payment_date
   },
   {
     title: "Action",
