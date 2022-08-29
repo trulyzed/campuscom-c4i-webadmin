@@ -68,13 +68,14 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
         ...(data?.data.payment_ref && {
           payment_info: {
             ref: data.data.payment_ref,
-            note: data.data.payment_note
+            note: data.data.payment_note,
+            revenue_percentage: data.data.revenue_percentage
           },
-          payment_date: data.data.payment_date
+          payment_date: data?.data.payment_date ? `${data.data.payment_date} 00:00:00.000000+00` : undefined
         }),
-        start_date: data?.data.start_date ? `${data.data.start_date} 00:00:00.000000+00` : undefined,
-        end_date: data?.data.end_date ? `${data.data.end_date} 00:00:00.000000+00` : undefined
+        status: "paid"
       }
+      delete payload["revenue_percentage"]
       const { id, ...params } = data?.params
       return adminApi({
         endpoint: `${endpoints.TRANSACTION_BATCH}/${id}`,

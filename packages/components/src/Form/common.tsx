@@ -19,6 +19,7 @@ export const BOOLEAN = "BOOLEAN"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
 export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
+export const DISPLAY_FIELD = "DISPLAY_FIELD"
 export const FILE = "FILE"
 export const EDITOR = "EDITOR"
 
@@ -38,6 +39,7 @@ export type IFieldType =
   | typeof MULTI_RADIO
   | typeof FILE
   | typeof EDITOR
+  | typeof DISPLAY_FIELD
 
 export interface IField {
   label: React.ReactNode
@@ -88,6 +90,8 @@ export interface IField {
   excludeFromSubmission?: boolean
   autoSelectDefault?: boolean
   onAutoSelectDefault?: (...args: any) => void
+  withApply?: boolean
+  onApply?: (args: { value: any, setDisplayFieldValue?: (args: any) => void }) => void
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {

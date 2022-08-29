@@ -16,7 +16,8 @@ import {
   FILE,
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
-  HIERARCHICAL_MULTIPLE_CHECKBOX
+  HIERARCHICAL_MULTIPLE_CHECKBOX,
+  DISPLAY_FIELD
 } from "~/Form/common"
 import { FormInput } from "~/Form/FormInput"
 import { FormDropDown } from "~/Form/FormDropDown"
@@ -45,6 +46,7 @@ import { FormFileUpload } from "./FormFileUpload"
 import { FormEditorInput } from "./FormEditorInput"
 import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 import { FormHiddenInput } from "./FormHiddenInput"
+import { FormDisplayField } from "./FormDisplayField"
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
@@ -83,6 +85,7 @@ export function MetaDrivenForm({
   isWizard?: boolean
   resetOnSubmit?: boolean
   bordered?: boolean
+  displayFieldValue?: Record<string, any>
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
@@ -416,6 +419,7 @@ export function MetaDrivenForm({
           dependencyValue={dependencyValue}
           updateMeta={setMeta}
           handleValuesChange={handleValuesChange}
+          displayFieldValue={props.displayFieldValue}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -479,8 +483,15 @@ const SearchFormFields = (props: {
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
   handleValuesChange?: (...args: any) => void
+  displayFieldValue?: Record<string, any>
 }) => {
+  const [displayFieldValue, setDisplayFieldValue] = useState<Record<string, any>>()
   const labelColSpan = props.isVertical ? 24 : 8
+
+  useEffect(() => {
+    setDisplayFieldValue(props.displayFieldValue)
+  }, [props.displayFieldValue])
+
   return (
     <Row gutter={16}>
       {props.meta
@@ -697,6 +708,20 @@ const SearchFormFields = (props: {
                   )
                 }
                 break
+              case DISPLAY_FIELD:
+                formField = (
+                  <FormDisplayField
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    clearTrigger={props.clearTrigger}
+                    labelColSpan={field.labelColSpan || 4}
+                    wrapperColSpan={field.wrapperColSpan || 20}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    defaultValue={displayFieldValue?.[field.fieldName]}
+                  />
+                )
+                break
               default:
                 break
             }
@@ -715,8 +740,9 @@ const SearchFormFields = (props: {
             />
           )
             : formField ? (
-              <Col key={1000 + i} lg={lg} xs={xs}>
+              <Col key={1000 + i} lg={lg} xs={xs} style={field.withApply ? { display: "flex" } : undefined}>
                 {formField}
+                {field.withApply ? <Button onClick={() => field.onApply?.({ value: props.formInstance.getFieldValue(field.fieldName), setDisplayFieldValue })} children={"Apply"} /> : null}
               </Col>
             ) : undefined
         })}

@@ -37,7 +37,7 @@ export const transactionBatchListTableColumns: TableColumnType = [
         {record.status === "unpaid" ? <ContextAction
           type="delete"
           tooltip="Delete Settlement Batch"
-          queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { id: [record.id] } }), [TransactionBatchQueries.delete])}
+          queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { ids: [record.id] } }), [TransactionBatchQueries.delete])}
           refreshEventName="REFRESH_PAGE"
         /> : null}
       </>

@@ -118,7 +118,7 @@ export const TransactionBatchCreatePage = () => {
           className="my-10"
           type="success"
           message={"Settlement Batch Created"}
-          description={<span>(Batch ID: {renderLink(`/storefront-data/settlement-batch/${batchData.batch_ref}`, batchData.id)})</span>}
+          description={<span>(Batch ID: {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.batch_ref)})</span>}
         />
         : null}
       <Row gutter={20} style={{ marginTop: "10px" }}>

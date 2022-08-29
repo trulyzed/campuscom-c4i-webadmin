@@ -18,6 +18,7 @@ export const MetaDrivenFormModal = (props: {
   isVertical?: boolean
   initialFormValue?: { [key: string]: any }
   initialFormValueApi?: IQuery
+  displayFieldValue?: Record<string, any>
   defaultFormValue?: { [key: string]: any }
   formSubmitApi: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
@@ -87,6 +88,7 @@ export const MetaDrivenFormModal = (props: {
         isModal={true}
         closeModal={props.closeModal}
         initialFormValue={initialFormValue}
+        displayFieldValue={props.displayFieldValue}
         defaultFormValue={props.defaultFormValue}
         applyButtonLabel="Submit"
         stopProducingQueryParams={true}
