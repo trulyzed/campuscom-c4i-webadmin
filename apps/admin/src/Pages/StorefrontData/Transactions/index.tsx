@@ -5,7 +5,7 @@ import { TransactionSearchMeta } from "~/TableSearchMeta/Transaction/Transaction
 export const List = () => {
   return (
     <SearchPage
-      title={"Transactions"}
+      title={"Transaction Reports"}
       meta={TransactionSearchMeta}
       tableProps={getTransactionListTableColumns()}
     />

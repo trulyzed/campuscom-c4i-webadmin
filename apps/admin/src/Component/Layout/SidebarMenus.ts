@@ -119,21 +119,26 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/transaction",
         submenu: [
           {
+            title: "Transaction Reports",
+            url: "/storefront-data/transaction-report",
+            submenu: [],
+            permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+          },
+          {
             title: "Settlement Batches",
             url: "/storefront-data/settlement-batch",
             submenu: [],
             permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
           }
         ],
-        permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
+        permission: (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc))
       },
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getTransactionListTableColumns().searchFunc) ||
+      (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },
   {
