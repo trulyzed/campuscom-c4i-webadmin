@@ -17,7 +17,7 @@ export const transactionListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.cart.created_at - b.cart.created_at,
   },
   {
-    title: "Gross Order Value",
+    title: "Gross Order Amount",
     dataIndex: "cart",
     render: (text) => text.gross_amount,
     sorter: (a: any, b: any) => a.cart.gross_amount - b.cart.gross_amount
@@ -29,7 +29,7 @@ export const transactionListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.cart.total_discount - b.cart.total_discount
   },
   {
-    title: "Net Order Value",
+    title: "Net Order Amount",
     dataIndex: "cart",
     render: (text) => text.total_amount,
     sorter: (a: any, b: any) => a.cart.total_amount - b.cart.total_amount
