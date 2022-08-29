@@ -1,14 +1,10 @@
-import { Button, Card, Col, Row, Space } from "antd"
+import { Button, Card, Col, notification, Row, Space } from "antd"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
 import { TransactionSearchMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionSearchMeta"
 import { useCallback, useState } from "react"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
-// import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
-// import { getTransactionBatchRevenueCalculateFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/TransactionBatchRevenueCalculateFormMeta"
-// import { getDecimalValue } from "@packages/utilities/lib/util"
-// import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { Alert } from "@packages/components/lib/Alert/Alert"
@@ -16,6 +12,10 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 import { DetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsSummaryTab"
 import { getTransactionBatchEmphasizedSummaryMeta, getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
+import { getDecimalValue } from "@packages/utilities/lib/util"
+import { CREATE_SUCCESSFULLY } from "~/Constants"
 
 enum StepNames {
   FilterTransactions,
@@ -25,20 +25,8 @@ enum StepNames {
 export const TransactionBatchCreatePage = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.FilterTransactions)
   const [searchData, setSearchData] = useState<{ data: any, summary: any, searchParams: any }>()
-  // const [revenuePercentage] = useState<number>()
-  // const [revenuePercentage, setRevenuePercentage] = useState<number>()
   const [isProcessing, setIsProcessing] = useState(false)
   const [batchData, setBatchData] = useState<any>()
-  // const totalTransactionAmount = searchData?.data.reduce((a: any, c: Record<string, any>) => {
-  //   a += c.cart.total_amount
-  //   return a
-  // }, 0)
-  // const revenueAmount = revenuePercentage !== undefined ? totalTransactionAmount * (revenuePercentage / 100) : undefined
-  // const totalChequeAmount = revenueAmount !== undefined ? (totalTransactionAmount - revenueAmount) : undefined
-
-  // const handleStepChange = useCallback((current) => {
-  //   setCurrentStep(current)
-  // }, [])
 
   const handleSearch = QueryConstructor((data) => {
     reset()
@@ -83,17 +71,13 @@ export const TransactionBatchCreatePage = () => {
     setBatchData(undefined)
   }, [])
 
-  // const handleMakePayment = useCallback(async (values) => {
-  //   setIsProcessing(true)
-  //   const resp = await TransactionBatchQueries.update({ data: values, params: { id: batchData.id } })
-  //   setIsProcessing(false)
-  //   if (resp.success) {
-  //     setCurrentStep(StepNames.FilterTransactions)
-  //     setSearchData(undefined)
-  //     setRevenuePercentage(undefined)
-  //     setBatchData(undefined)
-  //   }
-  // }, [batchData])
+  const makePayment = QueryConstructor(((data) => TransactionBatchQueries.update({ ...data, params: { id: batchData.id } }).then(resp => {
+    if (resp.success) {
+      notification.success({ message: CREATE_SUCCESSFULLY })
+      reset()
+    }
+    return resp
+  })), [TransactionBatchQueries.update])
 
   return (
     <>
@@ -118,7 +102,30 @@ export const TransactionBatchCreatePage = () => {
           className="my-10"
           type="success"
           message={"Settlement Batch Created"}
-          description={<span>(Batch ID: {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.batch_ref)})</span>}
+          description={
+            <>
+              <div>
+                <span>Your settlement batch ID is {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.batch_ref)}</span>
+              </div>
+              <div>
+                <span>
+                  You can pay this batch later from the {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, 'batch details')} section, or
+                </span>
+                <MetaDrivenFormModalOpenButton
+                  formTitle={`Make Payment`}
+                  formMeta={PaymentFormMeta}
+                  formSubmitApi={makePayment}
+                  displayFieldValue={{
+                    batch_id: batchData.batch_ref,
+                    total_net_payment_received: `${getDecimalValue(batchData.totals?.net_payment_received)}`,
+                  }}
+                  buttonLabel={`Pay Now`}
+                  iconType="makePayment"
+                  textOnly
+                />.
+              </div>
+            </>
+          }
         />
         : null}
       <Row gutter={20} style={{ marginTop: "10px" }}>
@@ -173,17 +180,6 @@ export const TransactionBatchCreatePage = () => {
                 : null}
             </Row>
             : null}
-          {/* <Row>
-              <Col md={24}>
-                <MetaDrivenForm
-                  title={"Make Payment"}
-                  meta={PaymentFormMeta}
-                  onApplyChanges={handleMakePayment}
-                  applyButtonLabel="Submit"
-                  disableApplyButton={isProcessing || !batchData}
-                  stopProducingQueryParams />
-              </Col>
-            </Row> */}
         </Col>
       </Row>
     </>
