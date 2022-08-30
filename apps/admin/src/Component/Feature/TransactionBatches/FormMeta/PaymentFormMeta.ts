@@ -19,6 +19,11 @@ export const PaymentFormMeta: IField[] = [
     fieldName: "batch_id",
   },
   {
+    label: "Total Transactions",
+    inputType: DISPLAY_FIELD,
+    fieldName: "total_transactions",
+  },
+  {
     label: "Total Net Payment Received",
     inputType: DISPLAY_FIELD,
     fieldName: "total_net_payment_received",

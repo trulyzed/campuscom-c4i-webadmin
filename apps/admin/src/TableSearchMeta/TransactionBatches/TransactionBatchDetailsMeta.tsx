@@ -34,6 +34,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
         displayFieldValue={{
           batch_id: transactionBatch.batch_ref,
           total_net_payment_received: transactionBatch.totals?.net_payment_received,
+          total_transactions: transactionBatch.total_transactions,
         }}
         buttonLabel={`Make Payment`}
         iconType="makePayment"
@@ -57,6 +58,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       { label: 'Course Provider', value: transactionBatch.filter_params?.course_provider ? renderLink(`/administration/course-provider/${transactionBatch.filter_params.course_provider.id}`, transactionBatch.filter_params.course_provider.name) : undefined },
       { label: 'Store', value: transactionBatch.filter_params?.store ? renderLink(`/administration/store/${transactionBatch.filter_params.store.id}`, transactionBatch.filter_params.store.name) : undefined },
       { label: 'End Date', value: transactionBatch.filter_params?.end_date, render: renderDateTime },
+      { label: 'Total Transactions', value: transactionBatch.total_transactions },
       { label: 'Total Gross Order Amount', value: transactionBatch.totals?.gross_order_amount, render: renderAmount },
       { label: 'Total Discount', value: transactionBatch.totals?.discount, render: renderAmount },
       { label: 'Total Net Order Amount', value: transactionBatch.totals?.net_order_amount, render: renderAmount },
@@ -83,6 +85,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
           total_net_payment_received: transactionBatch.totals?.net_payment_received,
           revenue_amount: revenueAmount,
           cheque_amount: totalChequeAmount,
+          total_transactions: transactionBatch.total_transactions,
         }}
         buttonLabel={`Edit Payment`}
         iconType="edit"
@@ -94,6 +97,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       { label: 'Payment Ref', value: transactionBatch.payment_info?.ref },
       { label: 'Payment Note', value: transactionBatch.payment_info?.note },
       { label: 'Payment Date', value: transactionBatch.payment_date, render: renderDateTime },
+      { label: 'Total Transactions', value: transactionBatch.total_transactions },
       { label: 'Total Net Payment Received', value: transactionBatch.totals?.net_payment_received, render: renderAmount },
       { label: 'Revenue Percentage', value: `${transactionBatch.payment_info?.revenue_percentage}%`, },
       { label: 'Revenue Amount (Calculated)', value: revenueAmount, render: renderAmount },
