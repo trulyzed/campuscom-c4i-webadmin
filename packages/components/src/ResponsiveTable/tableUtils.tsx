@@ -25,7 +25,9 @@ const renderDetailsLink = (url: string): JSX.Element => {
 const renderLink = (url: string, text: string, isModal?: boolean, isExternal?: boolean) =>
   text ? (
     isExternal ?
-      <a href={url} target={"_blank"} rel={"noreferrer noopener"}>{text}</a>
+      <a href={url} target={"_blank"} rel={"noreferrer noopener"}>
+        {text} <span style={{ verticalAlign: "baseline" }} className="glyphicon glyphicon-new-window" />
+      </a>
       : !isModal ? (
         <Link id={url} onClick={() => setScrollPosition(url)} to={url}>
           {text}
