@@ -53,7 +53,7 @@ export const TransactionBatchCreatePage = () => {
   const handleSearch = QueryConstructor((data) => {
     reset()
     return TransactionQueries.getBatchableList({ ...data, params: { ...data?.params, payment_transactions__status: "completed", transaction_batch__isnull: "True", settlement_status: "unsettled" } }).then(resp => {
-      if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: getSummary(resp.data.list) })
+      if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: getSummary(resp.data.list.map((i: any) => i.cart)) })
       return {
         ...resp,
         data: resp.data?.list
