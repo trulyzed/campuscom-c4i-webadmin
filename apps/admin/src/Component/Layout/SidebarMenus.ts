@@ -116,7 +116,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getStudentListTableColumns().searchFunc)
       },
       {
-        title: "Transactions",
+        title: "Transaction",
         url: "/storefront-data/transaction",
         submenu: [
           {
@@ -138,8 +138,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
             permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
           },
           {
-            title: "Transaction Reports",
-            url: "/storefront-data/transaction-report",
+            title: "Detail Reports",
+            url: "/storefront-data/detail-report",
             submenu: [],
             permission: checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc)
           },
