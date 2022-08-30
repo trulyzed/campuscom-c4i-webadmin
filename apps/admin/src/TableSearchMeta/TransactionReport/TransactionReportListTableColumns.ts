@@ -3,7 +3,7 @@ import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
-export const transactionListTableColumns: TableColumnType = [
+export const transactionReportListTableColumns: TableColumnType = [
   {
     title: "Transaction Ref",
     dataIndex: "transaction_ref",
@@ -197,9 +197,9 @@ export const transactionListTableColumns: TableColumnType = [
   }
 ]
 
-export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
+export const getTransactionReportListTableColumns = (isModal = false): ITableMeta => {
   return {
-    columns: transactionListTableColumns,
+    columns: transactionReportListTableColumns,
     searchFunc: QueryConstructor(
       (params) => TransactionQueries.getTransactionReportList(params),
       [TransactionQueries.getTransactionReportList]

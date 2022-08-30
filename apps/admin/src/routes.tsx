@@ -27,7 +27,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/storefront-data/payment/:paymentID", component: React.lazy(() => import("~/Pages/StorefrontData/Payments/PaymentDetailsPage").then((x) => ({ default: x.PaymentDetailsPage }))) },
   { path: "/storefront-data/student", component: React.lazy(() => import("~/Pages/StorefrontData/Students").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/student/:studentID", component: React.lazy(() => import("~/Pages/StorefrontData/Students/StudentDetailsPage").then((x) => ({ default: x.StudentDetailsPage }))) },
-  { path: "/storefront-data/transaction-report", component: React.lazy(() => import("~/Pages/StorefrontData/Transactions").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/transaction-report", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionReports").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/settlement-batch", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionBatches").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/settlement-batch/:transactionBatchID", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionBatches/TransactionBatchDetailsPage").then((x) => ({ default: x.TransactionBatchDetailsPage }))) },
   { path: "/storefront-data/create-settlement-batch", component: React.lazy(() => import("~/Pages/StorefrontData/TransactionBatches/TransactionBatchCreatePage").then((x) => ({ default: x.TransactionBatchCreatePage }))) },

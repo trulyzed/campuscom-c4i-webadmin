@@ -1,7 +1,7 @@
 import { DROPDOWN, IField, TEXT, DATE_PICKER } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
-export const TransactionSearchMeta: IField[] = [
+export const TransactionReportSearchMeta: IField[] = [
   {
     label: "Store",
     inputType: DROPDOWN,

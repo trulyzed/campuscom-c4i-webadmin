@@ -28,7 +28,7 @@ import { getRoleListTableColumns } from "~/TableSearchMeta/Role/RoleListTableCol
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
 import { getStudentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
-import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
+import { getTransactionReportListTableColumns } from "~/TableSearchMeta/TransactionReport/TransactionReportListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
@@ -122,7 +122,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
             title: "Transaction Reports",
             url: "/storefront-data/transaction-report",
             submenu: [],
-            permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+            permission: checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc)
           },
           {
             title: "Settlement Batches",
@@ -131,14 +131,14 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
             permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
           }
         ],
-        permission: (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc))
+        permission: (checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc))
       },
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
+      (checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },
   {
