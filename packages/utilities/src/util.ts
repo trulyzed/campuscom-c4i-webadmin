@@ -43,9 +43,9 @@ export const transformToLabel = (value: string | number): string | number => {
   return value.replace(/\w/, (str) => str.toUpperCase()).replace(/\W/g, " ")
 }
 
-export const getDecimalValue = (val?: number, digit = 2) => {
+export const getLocaleDecimalValue = (val?: number, digit = 2, locale?: Intl.LocalesArgument) => {
   if (typeof val !== "number") return val
-  return val.toLocaleString(undefined, {
+  return val.toLocaleString(locale, {
     minimumFractionDigits: digit,
     maximumFractionDigits: digit
   })

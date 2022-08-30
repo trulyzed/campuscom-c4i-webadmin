@@ -1,5 +1,5 @@
 import { DATE_PICKER, IField, TEXTAREA, TEXT, NUMBER, DISPLAY_FIELD } from "@packages/components/lib/Form/common"
-import { getDecimalValue } from "@packages/utilities/lib/util"
+import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getTransactionBatchRevenueSummary = (netPaymentReceived?: number, revenuePercentage?: number) => {
@@ -22,6 +22,7 @@ export const PaymentFormMeta: IField[] = [
     label: "Total Net Payment Received",
     inputType: DISPLAY_FIELD,
     fieldName: "total_net_payment_received",
+    render: renderAmount
   },
   {
     label: "Revenue Percentage",
@@ -34,8 +35,8 @@ export const PaymentFormMeta: IField[] = [
         const { revenueAmount, totalChequeAmount } = getTransactionBatchRevenueSummary(val.total_net_payment_received, value)
         return {
           ...val,
-          revenue_amount: getDecimalValue(revenueAmount),
-          cheque_amount: getDecimalValue(totalChequeAmount)
+          revenue_amount: revenueAmount,
+          cheque_amount: totalChequeAmount
         }
       })
     }
@@ -44,11 +45,13 @@ export const PaymentFormMeta: IField[] = [
     label: "Revenue Amount (Calculated)",
     inputType: DISPLAY_FIELD,
     fieldName: "revenue_amount",
+    render: renderAmount
   },
   {
     label: "Cheque Amount",
     inputType: DISPLAY_FIELD,
     fieldName: "cheque_amount",
+    render: renderAmount
   },
   {
     label: "Payment Ref",

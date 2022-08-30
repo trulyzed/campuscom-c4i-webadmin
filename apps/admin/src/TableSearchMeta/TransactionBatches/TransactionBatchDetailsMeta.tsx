@@ -1,6 +1,6 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
-import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { renderAmount, renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { notification } from "antd"
@@ -13,7 +13,6 @@ import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/Admi
 import { getTransactionBatchRevenueSummary, PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
 import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
-import { getDecimalValue } from "@packages/utilities/lib/util"
 
 export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]: any }): IDetailsMeta => {
   const { revenueAmount, totalChequeAmount } = getTransactionBatchRevenueSummary(transactionBatch.totals?.net_payment_received, transactionBatch.payment_info?.revenue_percentage)
@@ -34,7 +33,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
         formSubmitApi={makePayment}
         displayFieldValue={{
           batch_id: transactionBatch.batch_ref,
-          total_net_payment_received: `${getDecimalValue(transactionBatch.totals?.net_payment_received)}`,
+          total_net_payment_received: transactionBatch.totals?.net_payment_received,
         }}
         buttonLabel={`Make Payment`}
         iconType="makePayment"
@@ -58,11 +57,11 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       { label: 'Course Provider', value: transactionBatch.filter_params?.course_provider ? renderLink(`/administration/course-provider/${transactionBatch.filter_params.course_provider.id}`, transactionBatch.filter_params.course_provider.name) : undefined },
       { label: 'Store', value: transactionBatch.filter_params?.store ? renderLink(`/administration/store/${transactionBatch.filter_params.store.id}`, transactionBatch.filter_params.store.name) : undefined },
       { label: 'End Date', value: transactionBatch.filter_params?.end_date, render: renderDateTime },
-      { label: 'Total Gross Order Amount', value: `${getDecimalValue(transactionBatch.totals?.gross_order_amount)}` },
-      { label: 'Total Discount', value: `${getDecimalValue(transactionBatch.totals?.discount)}` },
-      { label: 'Total Net Order Amount', value: `${getDecimalValue(transactionBatch.totals?.net_order_amount)}` },
-      { label: 'Total Card Fees', value: `${getDecimalValue(transactionBatch.totals?.card_fees)}` },
-      { label: 'Total Net Payment Received', value: `${getDecimalValue(transactionBatch.totals?.net_payment_received)}` },
+      { label: 'Total Gross Order Amount', value: transactionBatch.totals?.gross_order_amount, render: renderAmount },
+      { label: 'Total Discount', value: transactionBatch.totals?.discount, render: renderAmount },
+      { label: 'Total Net Order Amount', value: transactionBatch.totals?.net_order_amount, render: renderAmount },
+      { label: 'Total Card Fees', value: transactionBatch.totals?.card_fees, render: renderAmount },
+      { label: 'Total Net Payment Received', value: transactionBatch.totals?.net_payment_received, render: renderAmount },
     ]
   }
 
@@ -81,9 +80,9 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
         }}
         displayFieldValue={{
           batch_id: transactionBatch.batch_ref,
-          total_net_payment_received: `${getDecimalValue(transactionBatch.totals?.net_payment_received)}`,
-          revenue_amount: `${getDecimalValue(revenueAmount)}`,
-          cheque_amount: `${getDecimalValue(totalChequeAmount)}`,
+          total_net_payment_received: transactionBatch.totals?.net_payment_received,
+          revenue_amount: revenueAmount,
+          cheque_amount: totalChequeAmount,
         }}
         buttonLabel={`Edit Payment`}
         iconType="edit"
@@ -95,10 +94,10 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       { label: 'Payment Ref', value: transactionBatch.payment_info?.ref },
       { label: 'Payment Note', value: transactionBatch.payment_info?.note },
       { label: 'Payment Date', value: transactionBatch.payment_date, render: renderDateTime },
-      { label: 'Total Net Payment Received', value: `${getDecimalValue(transactionBatch.totals?.net_payment_received)}` },
-      { label: 'Revenue Percentage', value: transactionBatch.payment_info?.revenue_percentage, },
-      { label: 'Revenue Amount (Calculated)', value: `${getDecimalValue(revenueAmount)}` },
-      { label: 'Cheque Amount', value: `${getDecimalValue(totalChequeAmount)}` },
+      { label: 'Total Net Payment Received', value: transactionBatch.totals?.net_payment_received, render: renderAmount },
+      { label: 'Revenue Percentage', value: `${transactionBatch.payment_info?.revenue_percentage}%`, },
+      { label: 'Revenue Amount (Calculated)', value: revenueAmount, render: renderAmount },
+      { label: 'Cheque Amount', value: totalChequeAmount, render: renderAmount },
     ]
   } : undefined
 

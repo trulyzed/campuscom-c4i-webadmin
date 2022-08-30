@@ -6,7 +6,7 @@ import { useCallback, useEffect, useState } from "react"
 import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
-import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
+import { renderAmount, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import Title from "antd/lib/typography/Title"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
@@ -14,7 +14,6 @@ import { CheckboxValueType } from "antd/lib/checkbox/Group"
 import Text from "antd/lib/typography/Text"
 // import { FormInput } from "@packages/components/lib/Form/FormInput"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
-import { getDecimalValue } from "@packages/utilities/lib/util"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -440,24 +439,24 @@ export const Create = () => {
                                   <div key={product.id}>
                                     <Row>
                                       <Col md={8}><Text strong>{product.title}</Text></Col>
-                                      <Col md={8} style={{ textAlign: "right" }}>${getDecimalValue(product.item_price)} x {product.quantity}</Col>
+                                      <Col md={8} style={{ textAlign: "right" }}>{renderAmount(product.item_price)} x {product.quantity}</Col>
                                       <Col md={8} style={{ textAlign: "right" }}>
                                         <div>
-                                          ${getDecimalValue(product.total_amount)}
+                                          {renderAmount(product.total_amount)}
                                           {product.total_discount ?
-                                            <Popover title={<Text strong>Total Discount ${getDecimalValue(product.total_discount)}</Text>} trigger={"hover"} content={product.discounts.map((d: any) => <p key={d.code}><Text code>{d.code}</Text> ${getDecimalValue(d.amount)}</p>)}>
+                                            <Popover title={<Text strong>Total Discount {renderAmount(product.total_discount)}</Text>} trigger={"hover"} content={product.discounts.map((d: any) => <p key={d.code}><Text code>{d.code}</Text> {renderAmount(d.amount)}</p>)}>
                                               <span className="glyphicon glyphicon-info-sign ml-2 cursor-pointer" />
                                             </Popover> : null
                                           }
                                         </div>
-                                        <div>{product.total_discount ? <Text type="danger" delete>${getDecimalValue(product.price)}</Text> : null}</div>
+                                        <div>{product.total_discount ? <Text type="danger" delete>{renderAmount(product.price)}</Text> : null}</div>
                                       </Col>
                                     </Row>
                                     {product.related_products.map((relatedProduct: any) => (
                                       <Row key={relatedProduct.id}>
                                         <Col md={8}><Text>+ {relatedProduct.title}</Text></Col>
-                                        <Col md={8} style={{ textAlign: "right" }}>${getDecimalValue(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
-                                        <Col md={8} style={{ textAlign: "right" }}>${getDecimalValue(relatedProduct.price)}</Col>
+                                        <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
+                                        <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.price)}</Col>
                                       </Row>
                                     ))}
                                     <Divider />
@@ -479,9 +478,9 @@ export const Create = () => {
                                   />
                                 </Col>
                                 <Col md={16} style={{ textAlign: "right" }}>
-                                  <div>Sub-total ${getDecimalValue(invoiceData.subtotal)}</div>
-                                  <div>Total Discount (-) ${getDecimalValue(invoiceData.total_discount)}</div>
-                                  <div style={{ marginTop: "10px" }}><Text strong>Total Payable ${getDecimalValue(invoiceData.total_payable)}</Text></div>
+                                  <div>Sub-total {renderAmount(invoiceData.subtotal)}</div>
+                                  <div>Total Discount (-) {renderAmount(invoiceData.total_discount)}</div>
+                                  <div style={{ marginTop: "10px" }}><Text strong>Total Payable {renderAmount(invoiceData.total_payable)}</Text></div>
                                 </Col>
                               </Row>
                             </Col>

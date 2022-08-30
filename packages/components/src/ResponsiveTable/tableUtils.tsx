@@ -6,7 +6,7 @@ import { ReadOutlined } from "@ant-design/icons"
 import rehypeRaw from 'rehype-raw'
 import ReactJsonView from 'react-json-view'
 import { setScrollPosition } from "~/ResponsiveTable//ManageScroll"
-import { convertAmountToCSV } from "@packages/utilities/lib/util"
+import { getLocaleDecimalValue } from "@packages/utilities/lib/util"
 import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "@packages/utilities/lib/parser"
 import DownloadableLink from "./DownloadableLink"
@@ -39,7 +39,7 @@ const renderEmail = (text: any) => (!!text ? <a href={`mailto:${text}`}>{text}</
 const renderDate = (text: any) => (!!text ? moment(text).format(DATE_FORMAT) : "")
 const renderDateTime = (text: any) => (!!text ? moment(text).format(DATE_TIME_FORMAT) : "")
 const renderTime = (text: any) => (!!text ? moment(text).format(TIME_FORMAT) : "")
-const renderAmount = (text: any) => (!!text ? <div style={{ textAlign: "right" }}>{convertAmountToCSV(text)}</div> : "")
+const renderAmount = (text: any) => text !== undefined ? `$ ${getLocaleDecimalValue(text)}` : ""
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
 

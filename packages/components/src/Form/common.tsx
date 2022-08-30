@@ -92,6 +92,7 @@ export interface IField {
   onAutoSelectDefault?: (...args: any) => void
   withApply?: boolean
   onApply?: (args: { value: any, setDisplayFieldValue?: (args: any) => void }) => void
+  render?: (text: any) => React.ReactNode
 }
 
 export interface IGeneratedField extends Omit<IField, "inputType"> {

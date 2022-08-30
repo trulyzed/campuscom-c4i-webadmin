@@ -14,7 +14,6 @@ import { DetailsSummary } from "@packages/components/lib/Page/DetailsPage/Detail
 import { getTransactionBatchEmphasizedSummaryMeta, getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
-import { getDecimalValue } from "@packages/utilities/lib/util"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { useHistory } from "react-router-dom"
 
@@ -119,7 +118,7 @@ export const TransactionBatchCreatePage = () => {
                   formSubmitApi={makePayment}
                   displayFieldValue={{
                     batch_id: batchData.batch_ref,
-                    total_net_payment_received: `${getDecimalValue(batchData.totals?.net_payment_received)}`,
+                    total_net_payment_received: batchData.totals?.net_payment_received,
                   }}
                   buttonLabel={`Pay Now`}
                   buttonSize={"small"}
