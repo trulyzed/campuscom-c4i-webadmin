@@ -11,7 +11,7 @@ export const List = () => {
       meta={TransactionSearchMeta}
       tableProps={{
         ...getTransactionListTableColumns(),
-        searchFunc: QueryConstructor((data) => TransactionQueries.getList({ ...data, params: { ...data?.params, settlement_status: "settled" } }), [TransactionQueries.getList]),
+        searchFunc: QueryConstructor((data) => TransactionQueries.getList({ ...data, params: { ...data?.params, settlement_status: "settled", payment_transactions__status: "completed" } }), [TransactionQueries.getList]),
       }}
     />
   )
