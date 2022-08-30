@@ -17,6 +17,8 @@ export const PaymentFormMeta: IField[] = [
     label: "Batch ID",
     inputType: DISPLAY_FIELD,
     fieldName: "batch_id",
+    colSpan: 24,
+    labelColSpan: 4,
   },
   {
     label: "Total Transactions",
@@ -44,7 +46,9 @@ export const PaymentFormMeta: IField[] = [
           cheque_amount: totalChequeAmount
         }
       })
-    }
+    },
+    colSpan: 24,
+    labelColSpan: 10,
   },
   {
     label: "Revenue Amount (Calculated)",
@@ -59,7 +63,7 @@ export const PaymentFormMeta: IField[] = [
     render: renderAmount
   },
   {
-    label: "Payment Ref",
+    label: "Payment Reference",
     inputType: TEXT,
     fieldName: "payment_ref",
     rules: [{ required: true, message: "This field is required!" }]

@@ -685,7 +685,7 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 4}
+                    labelColSpan={field.labelColSpan || labelColSpan}
                     wrapperColSpan={field.wrapperColSpan || 20}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
@@ -715,8 +715,8 @@ const SearchFormFields = (props: {
                     key={i}
                     formInstance={props.formInstance}
                     clearTrigger={props.clearTrigger}
-                    labelColSpan={field.labelColSpan || 4}
-                    wrapperColSpan={field.wrapperColSpan || 20}
+                    labelColSpan={field.labelColSpan || 8}
+                    wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     defaultValue={displayFieldValue?.[field.fieldName]}
                   />
@@ -727,7 +727,7 @@ const SearchFormFields = (props: {
             }
           }
 
-          const lg = (props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX) || (field.inputType === CUSTOM_FIELD)) ? 24 : 12
+          const lg = field.colSpan || ((props.isVertical || (field.inputType === EDITOR) || (field.inputType === MULTI_SELECT_GROUP_CHECKBOX) || (field.inputType === CUSTOM_FIELD)) ? 24 : 12)
           const xs = 24
 
           return field.hidden ? (
@@ -741,8 +741,12 @@ const SearchFormFields = (props: {
           )
             : formField ? (
               <Col key={1000 + i} lg={lg} xs={xs} style={field.withApply ? { display: "flex" } : undefined}>
-                {formField}
-                {field.withApply ? <Button onClick={() => field.onApply?.({ value: props.formInstance.getFieldValue(field.fieldName), setDisplayFieldValue })} children={"Apply"} /> : null}
+                {field.withApply ? (
+                  <div style={{ display: "flex", flex: 1 }}>
+                    {formField}
+                    {field.withApply ? <Button onClick={() => field.onApply?.({ value: props.formInstance.getFieldValue(field.fieldName), setDisplayFieldValue })} children={"Apply"} /> : null}
+                  </div>
+                ) : formField}
               </Col>
             ) : undefined
         })}

@@ -94,7 +94,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
-      { label: 'Payment Ref', value: transactionBatch.payment_info?.ref },
+      { label: 'Payment Reference', value: transactionBatch.payment_info?.ref },
       { label: 'Payment Note', value: transactionBatch.payment_info?.note },
       { label: 'Payment Date', value: transactionBatch.payment_date, render: renderDateTime },
       { label: 'Total Transactions', value: transactionBatch.total_transactions },

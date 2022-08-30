@@ -72,6 +72,7 @@ export interface IField {
   help?: string | React.ReactNode
   labelColSpan?: number
   wrapperColSpan?: number
+  colSpan?: number
   maxLength?: number
   onSelectedItems?: (items: any) => void
   searchFieldName?: string
