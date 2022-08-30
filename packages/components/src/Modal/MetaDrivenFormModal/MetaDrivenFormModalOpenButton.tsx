@@ -1,7 +1,7 @@
 import React, { CSSProperties, useState } from "react"
 import { Button } from "antd"
 import { History } from "history"
-import { BaseButtonProps } from "antd/lib/button/button"
+import { BaseButtonProps, ButtonProps } from "antd/lib/button/button"
 import { IField } from "~/Form/common"
 import { MetaDrivenFormModal } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
@@ -26,6 +26,8 @@ interface IMetaDrivenFormModalOpenButton {
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
   helpkey?: string
   textOnly?: boolean
+  buttonType?: ButtonProps["type"]
+  buttonSize?: ButtonProps["size"]
 }
 export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenButton) => {
   const [showModal, setShowModal] = useState(false)
@@ -40,11 +42,12 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
               <ContextAction textOnly={props.textOnly} text={props.textOnly ? props.buttonLabel : undefined} tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} refreshEventName={props.refreshEventName} />
               : (
                 <Button
-                  type="primary"
+                  type={props.buttonType || "primary"}
                   {...props.buttonProps}
                   style={props.style}
                   onClick={() => setShowModal(true)}
                   children={props.buttonLabel}
+                  size={props.buttonSize}
                 />
               )
           }
