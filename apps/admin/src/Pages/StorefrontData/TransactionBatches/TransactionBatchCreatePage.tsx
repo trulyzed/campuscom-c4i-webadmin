@@ -16,6 +16,7 @@ import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/Me
 import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { getDecimalValue } from "@packages/utilities/lib/util"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
+import { useHistory } from "react-router-dom"
 
 enum StepNames {
   FilterTransactions,
@@ -23,6 +24,7 @@ enum StepNames {
 }
 
 export const TransactionBatchCreatePage = () => {
+  const { push: routerPush } = useHistory()
   const [currentStep, setCurrentStep] = useState(StepNames.FilterTransactions)
   const [searchData, setSearchData] = useState<{ data: any, summary: any, searchParams: any }>()
   const [isProcessing, setIsProcessing] = useState(false)
@@ -74,7 +76,7 @@ export const TransactionBatchCreatePage = () => {
   const makePayment = QueryConstructor(((data) => TransactionBatchQueries.update({ ...data, params: { id: batchData.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
-      reset()
+      routerPush(`/storefront-data/settlement-batch/${batchData.id}`)
     }
     return resp
   })), [TransactionBatchQueries.update])
@@ -120,9 +122,8 @@ export const TransactionBatchCreatePage = () => {
                     total_net_payment_received: `${getDecimalValue(batchData.totals?.net_payment_received)}`,
                   }}
                   buttonLabel={`Pay Now`}
-                  iconType="makePayment"
-                  textOnly
-                />.
+                  buttonSize={"small"}
+                />
               </div>
             </>
           }
@@ -153,20 +154,8 @@ export const TransactionBatchCreatePage = () => {
           {currentStep === StepNames.CreateBatch ?
             <Row style={{ marginTop: "15px" }}>
               <Col md={24}>
-                <DetailsSummary horizontal summary={getTransactionBatchSummaryMeta({
-                  gross_order_amount: 234,
-                  discount: 56,
-                  net_order_amount: 56,
-                  card_fees: 78,
-                  net_payment_received: 34, ...searchData?.summary
-                })} />
-                <DetailsSummary horizontal summary={getTransactionBatchEmphasizedSummaryMeta({
-                  gross_order_amount: 234,
-                  discount: 56,
-                  net_order_amount: 56,
-                  card_fees: 78,
-                  net_payment_received: 34, ...searchData?.summary
-                })} />
+                <DetailsSummary horizontal summary={getTransactionBatchSummaryMeta(searchData?.summary)} />
+                <DetailsSummary horizontal summary={getTransactionBatchEmphasizedSummaryMeta(searchData?.summary)} />
               </Col>
               {!batchData ?
                 <Col span={24}>
