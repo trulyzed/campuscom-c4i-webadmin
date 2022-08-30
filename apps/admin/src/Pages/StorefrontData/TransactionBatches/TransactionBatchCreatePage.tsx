@@ -1,7 +1,7 @@
 import { Button, Card, Col, notification, Row, Space } from "antd"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
-import { getTransactionListTableColumns } from "~/TableSearchMeta/TransactionBatchCreate/TransactionListTableColumns"
-import { TransactionSearchMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionSearchMeta"
+import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
+import { TransactionSearchMeta2 } from "~/TableSearchMeta/Transaction/TransactionSearchMeta"
 import { useCallback, useState } from "react"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
@@ -134,7 +134,7 @@ export const TransactionBatchCreatePage = () => {
             <Col md={24}>
               <SearchPage
                 title="Unsettled Transactions"
-                meta={TransactionSearchMeta}
+                meta={TransactionSearchMeta2}
                 tableProps={{
                   ...getTransactionListTableColumns(),
                   searchFunc: handleSearch

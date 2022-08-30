@@ -34,6 +34,7 @@ import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactLis
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
+import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -119,26 +120,38 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/transaction",
         submenu: [
           {
-            title: "Transaction Reports",
-            url: "/storefront-data/transaction-report",
+            title: "Settled Transactions",
+            url: "/storefront-data/settled-transaction",
             submenu: [],
-            permission: checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc)
+            permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
+          },
+          {
+            title: "Unsettled Transactions",
+            url: "/storefront-data/unsettled-transaction",
+            submenu: [],
+            permission: checkAdminApiPermission(getTransactionListTableColumns().searchFunc)
           },
           {
             title: "Settlement Batches",
             url: "/storefront-data/settlement-batch",
             submenu: [],
             permission: checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
-          }
+          },
+          {
+            title: "Transaction Reports",
+            url: "/storefront-data/transaction-report",
+            submenu: [],
+            permission: checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc)
+          },
         ],
-        permission: (checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc))
+        permission: (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc))
       },
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc) ||
-      (checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
+      (checkAdminApiPermission(getTransactionListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionReportListTableColumns().searchFunc) || checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getTransactionBatchListTableColumns().searchFunc)
   },
   {
