@@ -1,6 +1,6 @@
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
-import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatches/TransactionBatchListTableColumns"
-import { TransactionBatchSearchMeta } from "~/TableSearchMeta/TransactionBatches/TransactionBatchSearchMeta"
+import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
+import { TransactionBatchSearchMeta } from "~/TableSearchMeta/TransactionBatch/TransactionBatchSearchMeta"
 import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
 
 export const List = () => {
