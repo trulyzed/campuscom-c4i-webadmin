@@ -12,7 +12,6 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 import { getTransactionBatchRevenueSummary, PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
-import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Transactions"
 
 export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]: any }): IDetailsMeta => {
   const { revenueAmount, totalChequeAmount } = getTransactionBatchRevenueSummary(transactionBatch.totals?.net_payment_received, transactionBatch.payment_info?.revenue_percentage)
@@ -123,10 +122,6 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
         tableProps: {
           pagination: false,
           ...getTransactionListTableColumns(),
-          searchFunc: QueryConstructor(
-            (params) => TransactionQueries.getList(params).then(resp => resp.success ? ({ ...resp, data: resp.data.list }) : resp),
-            [TransactionQueries.getList]
-          ),
           searchParams: { transaction_batch: transactionBatch.id },
         }
       },

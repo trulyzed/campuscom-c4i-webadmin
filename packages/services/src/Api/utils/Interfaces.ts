@@ -63,5 +63,4 @@ export interface IApiResponse {
   error: any
   success: boolean
   cacheEntryTime?: number
-  extraData?: any
 }

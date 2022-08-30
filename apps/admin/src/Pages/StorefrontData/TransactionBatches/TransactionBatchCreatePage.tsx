@@ -22,6 +22,27 @@ enum StepNames {
   CreateBatch,
 }
 
+const getSummary = (data = []): Record<string, number | undefined> => {
+  console.log()
+  const summary: Record<string, number> = {
+    gross_order_amount: 0,
+    discount: 0,
+    net_order_amount: 0,
+    card_fees: 0,
+    net_payment_received: 0
+  }
+
+  data.forEach((i: any) => {
+    summary["gross_order_amount"] += (i["gross_order_amount"] || 0)
+    summary["discount"] += (i["discount"] || 0)
+    summary["net_order_amount"] += (i["net_order_amount"] || 0)
+    summary["card_fees"] += (i["card_fees"] || 0)
+    summary["net_payment_received"] += (i["net_payment_received"] || 0)
+  })
+
+  return summary
+}
+
 export const TransactionBatchCreatePage = () => {
   const { push: routerPush } = useHistory()
   const [currentStep, setCurrentStep] = useState(StepNames.FilterTransactions)
@@ -31,14 +52,14 @@ export const TransactionBatchCreatePage = () => {
 
   const handleSearch = QueryConstructor((data) => {
     reset()
-    return TransactionQueries.getList({ ...data, params: { ...data?.params, payment_transactions__status: "completed", transaction_batch__isnull: "True", settlement_status: "unsettled" } }).then(resp => {
-      if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: resp.data.summary })
+    return TransactionQueries.getBatchableList({ ...data, params: { ...data?.params, payment_transactions__status: "completed", transaction_batch__isnull: "True", settlement_status: "unsettled" } }).then(resp => {
+      if (resp.success) setSearchData({ data: resp.data.list, searchParams: resp.data.searchParams, summary: getSummary(resp.data.list) })
       return {
         ...resp,
         data: resp.data?.list
       }
     })
-  }, [TransactionQueries.getList])
+  }, [TransactionQueries.getBatchableList])
 
   const handleCreateBatch = useCallback(async () => {
     setIsProcessing(true)
@@ -57,7 +78,6 @@ export const TransactionBatchCreatePage = () => {
     const resp = await TransactionBatchQueries.create({
       data: {
         filter_params: filterParams,
-        totals: searchData?.summary
       }
     })
     setIsProcessing(false)
@@ -119,6 +139,7 @@ export const TransactionBatchCreatePage = () => {
                   displayFieldValue={{
                     batch_id: batchData.batch_ref,
                     total_net_payment_received: batchData.totals?.net_payment_received,
+                    total_transactions: searchData?.data?.length
                   }}
                   buttonLabel={`Pay Now`}
                   buttonSize={"small"}

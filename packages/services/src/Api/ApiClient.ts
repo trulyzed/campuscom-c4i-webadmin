@@ -46,8 +46,7 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
       code: response.status,
       success: true,
       data: response.data.data ? response.data.data : response.data,
-      error: response.statusText,
-      extraData: response.data.extra_data
+      error: response.statusText
     }
   } catch (error) {
     return handleError(error as AxiosError)
