@@ -23,7 +23,6 @@ enum StepNames {
 }
 
 const getSummary = (data = []): Record<string, number | undefined> => {
-  console.log()
   const summary: Record<string, number> = {
     gross_order_amount: 0,
     discount: 0,
@@ -170,7 +169,8 @@ export const TransactionBatchCreatePage = () => {
                 }
                 stopProducingQueryParams
               />
-            </Col>          </Row>
+            </Col>
+          </Row>
           {currentStep === StepNames.CreateBatch ?
             <Row style={{ marginTop: "15px" }}>
               <Col md={24}>

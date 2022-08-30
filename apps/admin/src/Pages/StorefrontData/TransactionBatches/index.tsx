@@ -2,6 +2,7 @@ import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
 import { TransactionBatchSearchMeta } from "~/TableSearchMeta/TransactionBatch/TransactionBatchSearchMeta"
 import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
+import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
 
 export const List = () => {
   return (
@@ -11,7 +12,7 @@ export const List = () => {
       tableProps={{
         ...getTransactionBatchListTableColumns(),
         actions: [
-          <NavigateTo type="create" name="Create Settlement Batch" path="/storefront-data/create-settlement-batch" />
+          <NavigateTo type="create" name="Create Settlement Batch" path="/storefront-data/create-settlement-batch" apiPermission={TransactionBatchQueries.create} />
         ]
       }}
     />
