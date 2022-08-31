@@ -14,6 +14,7 @@ interface IRequestConfig {
   data?: AxiosRequestConfig["data"]
   headers?: AxiosRequestConfig["headers"]
   responseType?: AxiosRequestConfig["responseType"]
+  filename?: string
 }
 
 export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiResponse> => {
@@ -32,14 +33,13 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
         ...(token && { Authorization: `Bearer ${token}` })
       }
     })
+    const contentType = response.headers?.["content-type"]
 
-    switch (response.headers?.["content-type"]) {
-      case "text/csv":
-        saveAs(response.data, `report-${new Date().toISOString()}.csv`)
-        return { data: response, success: true, code: 200, error: null }
-      case "application/vnd.ms-excel":
-        saveAs(response.data, `report-${new Date().toISOString()}.xls`)
-        return { data: response, success: true, code: 200, error: null }
+    if (contentType === "text/csv" || contentType === "application/vnd.ms-excel") {
+      const filename = `${requestConfig.filename || "report"}-${new Date().toISOString()}`
+      const extension = contentType === "text/csv" ? ".csv" : ".xls"
+      saveAs(response.data, `${filename}${extension}`)
+      return { data: response, success: true, code: 200, error: null }
     }
 
     return {

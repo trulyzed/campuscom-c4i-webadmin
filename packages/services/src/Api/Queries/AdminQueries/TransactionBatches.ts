@@ -101,10 +101,13 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
 
   download: PermissionWrapper(
     (data) => {
+      const { batch_ref, ...params } = data?.params
       return adminApi({
         endpoint: endpoints.DOWNLOAD_TRANSACTION_BATCH,
         method: "GET",
-        ...data
+        filename: `Batch-${batch_ref}`,
+        ...data,
+        params
       })
     },
     [{ operation: ApiPermissionClass.DownloadTransactionBatch, action: ApiPermissionAction.Read }]

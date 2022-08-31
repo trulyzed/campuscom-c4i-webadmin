@@ -44,7 +44,7 @@ export const transactionBatchListTableColumns: TableColumnType = [
         <ContextAction
           type="download"
           tooltip="Download Settlement Batch"
-          queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: record.id } }), [TransactionBatchQueries.download])}
+          queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: record.id, batch_ref: record.batch_ref } }), [TransactionBatchQueries.download])}
         />
         {record.status === "unpaid" ? <ContextAction
           type="delete"

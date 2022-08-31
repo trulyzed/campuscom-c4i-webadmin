@@ -44,7 +44,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       <ContextAction
         type="download"
         tooltip="Download Settlement Batch"
-        queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
+        queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: transactionBatch.id, batch_ref: transactionBatch.batch_ref } }), [TransactionBatchQueries.download])}
       />,
       ...transactionBatch.status === "unpaid" ? [
         <ContextAction
