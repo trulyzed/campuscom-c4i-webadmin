@@ -13,6 +13,18 @@ export const transactionBatchListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.batch_ref - b.batch_ref
   },
   {
+    title: "Course Provider",
+    dataIndex: "filter_params",
+    render: (text: any) => text.course_provider ? renderLink(`/administration/course-provider/${text.course_provider.id}`, text.course_provider.name) : undefined,
+    sorter: (a: any, b: any) => a.filter_params.course_provider?.name.length - b.filter_params.course_provider?.name.length
+  },
+  {
+    title: "Store",
+    dataIndex: "filter_params",
+    render: (text: any) => text.store ? renderLink(`/administration/store/${text.store.id}`, text.store.name) : undefined,
+    sorter: (a: any, b: any) => a.filter_params.store?.name.length - b.filter_params.store?.name.length
+  },
+  {
     title: "Payment Status",
     dataIndex: "status",
     render: (text) => renderBoolean(text === "paid", { truthyText: "Paid", falsyText: "Unpaid", uncolorize: true, tagColor: text === "paid" ? "#4B8400" : "#AAAAAA" }),
