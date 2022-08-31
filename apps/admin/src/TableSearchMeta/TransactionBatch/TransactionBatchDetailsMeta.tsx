@@ -14,7 +14,7 @@ import { getTransactionBatchRevenueSummary, PaymentFormMeta } from "~/Component/
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 
 export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]: any }): IDetailsMeta => {
-  const { revenueAmount, totalChequeAmount } = getTransactionBatchRevenueSummary(transactionBatch.totals?.net_payment_received, transactionBatch.payment_info?.revenue_percentage)
+  const { revenueAmount, totalCheckAmount } = getTransactionBatchRevenueSummary(transactionBatch.totals?.net_payment_received, transactionBatch.payment_info?.revenue_percentage)
 
   const makePayment = QueryConstructor(((data) => TransactionBatchQueries.update({ ...data, params: { id: transactionBatch.id } }).then(resp => {
     if (resp.success) {
@@ -83,7 +83,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
           batch_id: transactionBatch.batch_ref,
           total_net_payment_received: transactionBatch.totals?.net_payment_received,
           revenue_amount: revenueAmount,
-          cheque_amount: totalChequeAmount,
+          check_amount: totalCheckAmount,
           total_transactions: transactionBatch.total_transactions,
         }}
         buttonLabel={`Edit Payment`}
@@ -99,8 +99,8 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       { label: 'Total Transactions', value: transactionBatch.total_transactions },
       { label: 'Total Net Payment Received', value: transactionBatch.totals?.net_payment_received, render: renderAmount },
       { label: 'Revenue Percentage', value: `${transactionBatch.payment_info?.revenue_percentage}%`, },
-      { label: 'Revenue Amount (Calculated)', value: revenueAmount, render: renderAmount },
-      { label: 'Cheque Amount', value: totalChequeAmount, render: renderAmount },
+      { label: 'Revenue Amount (Calculated)', value: transactionBatch.payment_info?.revenue_amount, render: renderAmount },
+      { label: 'Check Amount', value: transactionBatch.payment_info?.check_amount, render: renderAmount },
     ]
   } : undefined
 

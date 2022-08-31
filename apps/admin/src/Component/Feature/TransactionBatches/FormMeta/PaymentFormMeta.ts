@@ -4,11 +4,11 @@ import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 
 export const getTransactionBatchRevenueSummary = (netPaymentReceived?: number, revenuePercentage?: number) => {
   const revenueAmount = (revenuePercentage !== undefined) && (netPaymentReceived !== undefined) ? Number((netPaymentReceived * (revenuePercentage / 100)).toFixed(2)) : undefined // revenue amount is rounded
-  const totalChequeAmount = (revenueAmount !== undefined) && (netPaymentReceived !== undefined) ? (netPaymentReceived - revenueAmount) : undefined
+  const totalCheckAmount = (revenueAmount !== undefined) && (netPaymentReceived !== undefined) ? (netPaymentReceived - revenueAmount) : undefined
 
   return {
     revenueAmount,
-    totalChequeAmount
+    totalCheckAmount
   }
 }
 
@@ -39,11 +39,11 @@ export const PaymentFormMeta: IField[] = [
     withApply: true,
     onApply: ({value, setDisplayFieldValue}) => {
       setDisplayFieldValue?.((val: any) => {
-        const { revenueAmount, totalChequeAmount } = getTransactionBatchRevenueSummary(val.total_net_payment_received, value)
+        const { revenueAmount, totalCheckAmount } = getTransactionBatchRevenueSummary(val.total_net_payment_received, value)
         return {
           ...val,
           revenue_amount: revenueAmount,
-          cheque_amount: totalChequeAmount
+          check_amount: totalCheckAmount
         }
       })
     },
@@ -57,9 +57,9 @@ export const PaymentFormMeta: IField[] = [
     render: renderAmount
   },
   {
-    label: "Cheque Amount",
+    label: "Check Amount",
     inputType: DISPLAY_FIELD,
-    fieldName: "cheque_amount",
+    fieldName: "check_amount",
     render: renderAmount
   },
   {
