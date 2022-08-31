@@ -2,7 +2,6 @@ import { DROPDOWN, IField, DATE_PICKER } from "@packages/components/lib/Form/com
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
-
 export const TransactionSearchMeta: IField[] = [
   {
     label: "Course Provider",
@@ -12,6 +11,7 @@ export const TransactionSearchMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     autoSelectDefault: true,
+    rules: [{ required: true, message: "This field is required!" }],
   },
   {
     label: "Store",
@@ -23,7 +23,7 @@ export const TransactionSearchMeta: IField[] = [
     autoSelectDefault: true
   },
   {
-    label: "End Date",
+    label: "End Date (of transaction)",
     inputType: DATE_PICKER,
     fieldName: "payment_transactions__transaction_time__lt"
   },
