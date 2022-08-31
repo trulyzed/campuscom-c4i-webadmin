@@ -46,7 +46,8 @@ export const getCompanyUserFormMeta = ():IField[] => [
     fieldName: "custom_roles",
     refLookupService: RoleQueries.getCompanyCustomRoleLookupData,
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: "Organizations",
