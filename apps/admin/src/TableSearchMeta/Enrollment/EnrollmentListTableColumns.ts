@@ -25,13 +25,13 @@ export const enrollmentListTableColumns: TableColumnType = [
   {
     title: 'Course',
     dataIndex: 'course',
-    render: (text: any) => renderLink(`/institute/course/${text.id}`, text.title),
+    render: (text: any) => renderLink(`/course-provider/course/${text.id}`, text.title),
     sorter: (a: any, b: any) => a.course - b.course
   },
   {
     title: 'Section',
     dataIndex: 'section',
-    render: (text: any) => renderLink(`/institute/section/${text.id}`, text.name),
+    render: (text: any) => renderLink(`/course-provider/section/${text.id}`, text.name),
     sorter: (a: any, b: any) => a.section - b.section
   },
   {
