@@ -41,7 +41,7 @@ export const getCompanyUserDetailsMeta = (companyUser: { [key: string]: any }): 
       { label: 'Email', value: companyUser.email, },
       { label: 'Primary contact number', value: companyUser.primary_contact_number, },
       { label: 'Roles', value: companyUser.custom_roles, render: () => <List showInTags data={companyUser.custom_roles.map((i: any) => i.name)} /> },
-      //{ label: 'Companies', value: companyUser.companies, render: () => <List data={companyUser.companies.map((i: any) => i.name)} /> },
+      { label: 'Organizations', value: companyUser.companies, render: () => <List showInTags data={companyUser.companies.map((i: any) => i.name)} /> },
       { label: 'Two-factor authentication enabled', value: companyUser.mfa_enabled, render: renderBoolean },
       { label: 'Is active', value: companyUser.is_active, render: renderBoolean },
     ]
