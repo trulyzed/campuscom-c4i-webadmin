@@ -25,33 +25,37 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
 
   const summaryInfo: CardContainer = {
     title: `Settlement Batch: ${transactionBatch.batch_ref}`,
-    cardActions: transactionBatch.status === "unpaid" ? [
-      <MetaDrivenFormModalOpenButton
-        formTitle={`Make Payment`}
-        formMeta={PaymentFormMeta}
-        formSubmitApi={makePayment}
-        displayFieldValue={{
-          batch_id: transactionBatch.batch_ref,
-          total_net_payment_received: transactionBatch.totals?.net_payment_received,
-          total_transactions: transactionBatch.total_transactions,
-        }}
-        buttonLabel={`Make Payment`}
-        iconType="makePayment"
-        refreshEventName={REFRESH_PAGE}
-      />,
+    cardActions: [
+      ...transactionBatch.status === "unpaid" ? [
+        <MetaDrivenFormModalOpenButton
+          formTitle={`Make Payment`}
+          formMeta={PaymentFormMeta}
+          formSubmitApi={makePayment}
+          displayFieldValue={{
+            batch_id: transactionBatch.batch_ref,
+            total_net_payment_received: transactionBatch.totals?.net_payment_received,
+            total_transactions: transactionBatch.total_transactions,
+          }}
+          buttonLabel={`Make Payment`}
+          iconType="makePayment"
+          refreshEventName={REFRESH_PAGE}
+        />
+      ] : [],
       <ContextAction
         type="download"
         tooltip="Download Settlement Batch"
         queryService={QueryConstructor((params) => TransactionBatchQueries.download({ ...params, params: { transaction_batch: transactionBatch.id } }), [TransactionBatchQueries.download])}
       />,
-      <ContextAction
-        type="delete"
-        tooltip="Delete Settlement Batch"
-        queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { ids: [transactionBatch.id] } }), [TransactionBatchQueries.delete])}
-        redirectTo={`/storefront-data/settlement-batch?page=1`}
-      />
+      ...transactionBatch.status === "unpaid" ? [
+        <ContextAction
+          type="delete"
+          tooltip="Delete Settlement Batch"
+          queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { ids: [transactionBatch.id] } }), [TransactionBatchQueries.delete])}
+          redirectTo={`/storefront-data/settlement-batch?page=1`}
+        />
+      ] : []
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ] : [],
+    ],
     contents: [
       { label: 'Status', value: transactionBatch.status, render: (text) => renderBoolean(text === "paid", { truthyText: "Paid", falsyText: "Unpaid", uncolorize: true, tagColor: text === "paid" ? "#4B8400" : "#AAAAAA" }) },
       { label: 'Course Provider', value: transactionBatch.filter_params?.course_provider ? renderLink(`/administration/course-provider/${transactionBatch.filter_params.course_provider.id}`, transactionBatch.filter_params.course_provider.name) : undefined },
