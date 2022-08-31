@@ -5,9 +5,9 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const companyListTableColumns: TableColumnType = [
   {
-    title: "Company",
+    title: "Organization",
     dataIndex: "company_name",
-    render: (text: any, record: any) => record.id ? renderLink(`/administration/company/${record.id}`, text) : text,
+    render: (text: any, record: any) => record.id ? renderLink(`/administration/organization/${record.id}`, text) : text,
     sorter: (a: any, b: any) => a.company_name - b.company_name
   },
   {

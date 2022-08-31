@@ -12,7 +12,7 @@ export const CompanySearchMeta: IField[] = [
     autoSelectDefault: true
   },
   {
-    label: "Company",
+    label: "Organization",
     inputType: TEXT,
     fieldName: "company_name__icontains",
   },

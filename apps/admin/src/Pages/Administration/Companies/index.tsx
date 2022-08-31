@@ -16,7 +16,7 @@ export const List = () => {
   const createEntity = QueryConstructor(((data) => CompanyQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
-      setRedirectAfterCreate(`/administration/company/${resp.data.id}`)
+      setRedirectAfterCreate(`/administration/organization/${resp.data.id}`)
     }
     return resp
   })), [CompanyQueries.create])
@@ -25,16 +25,16 @@ export const List = () => {
     <>
       {redirectAfterCreate && <Redirect to={redirectAfterCreate} />}
       <SearchPage
-        title={"Companies"}
+        title={"Organizations"}
         meta={CompanySearchMeta}
         tableProps={{
           ...getCompanyListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Company`}
+              formTitle={`Add Organization`}
               formMeta={CompanyFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Company`}
+              buttonLabel={`Add Organization`}
               iconType="create"
             />
           ]

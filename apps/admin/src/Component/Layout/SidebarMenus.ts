@@ -213,8 +213,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getQuestionListTableColumns().searchFunc)
       },
       {
-        title: "Companies",
-        url: "/administration/company",
+        title: "Organizations",
+        url: "/administration/organization",
         submenu: [],
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },

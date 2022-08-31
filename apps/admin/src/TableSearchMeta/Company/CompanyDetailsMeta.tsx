@@ -21,28 +21,28 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
   })), [CompanyQueries.update])
 
   const summaryInfo: CardContainer = {
-    title: `Company: ${company.company_name}`,
+    title: `Organization: ${company.company_name}`,
     cardActions: [
       <MetaDrivenFormModalOpenButton
-        formTitle={`Update Company`}
+        formTitle={`Update Organization`}
         formMeta={CompanyFormMeta}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...company, store: company.store.id }}
-        buttonLabel={`Update Company`}
+        buttonLabel={`Update Organization`}
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
       <ContextAction
-        tooltip="Delete Company"
+        tooltip="Delete Organization"
         type="delete"
-        redirectTo="/administration/company"
+        redirectTo="/administration/organization"
         queryService={QueryConstructor(() => CompanyQueries.delete({ data: { ids: [company.id] } }), [CompanyQueries.delete])}
       />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${company.store.id}`, company.store.name) },
-      { label: 'Company', value: company.company_name },
+      { label: 'Organization', value: company.company_name },
     ]
   }
 
@@ -75,7 +75,7 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
   ]
 
   return {
-    pageTitle: `Company Title - ${company.company_name}`,
+    pageTitle: `Organization Title - ${company.company_name}`,
     tabs: tabMetas
   }
 }

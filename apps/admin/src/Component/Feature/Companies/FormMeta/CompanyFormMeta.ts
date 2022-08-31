@@ -14,7 +14,7 @@ export const CompanyFormMeta: IField[] = [
     autoSelectDefault: true
   },
   {
-    label: "Company Name",
+    label: "Organization Name",
     inputType: TEXT,
     fieldName: "company_name",
     rules: [{ required: true, message: "This field is required!" }]
