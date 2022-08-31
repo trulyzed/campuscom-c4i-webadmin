@@ -7,7 +7,7 @@ const processGroupedList = (data: any)=>{
   return data.map((element: any) => ({...element, options:element.permissions}))
 }
 
-export const RoleFormMeta: IField[] = [
+export const getRoleFormMeta = (): IField[] => [
   {
     label: "Name",
     inputType: TEXT,
