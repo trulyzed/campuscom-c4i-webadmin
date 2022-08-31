@@ -3,7 +3,7 @@ import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getTransactionBatchRevenueSummary = (netPaymentReceived?: number, revenuePercentage?: number) => {
-  const revenueAmount = (revenuePercentage !== undefined) && (netPaymentReceived !== undefined) ? netPaymentReceived * (revenuePercentage / 100) : undefined
+  const revenueAmount = (revenuePercentage !== undefined) && (netPaymentReceived !== undefined) ? Number((netPaymentReceived * (revenuePercentage / 100)).toFixed(2)) : undefined // revenue amount is rounded
   const totalChequeAmount = (revenueAmount !== undefined) && (netPaymentReceived !== undefined) ? (netPaymentReceived - revenueAmount) : undefined
 
   return {
