@@ -3,13 +3,13 @@ import { RouteProps } from "react-router-dom"
 
 export const AppRoutes: RouteProps[] = [
   { path: "/", component: React.lazy(() => import("~/Pages/HomePage").then((x) => ({ default: x.HomePage }))) },
-  { path: "/institute/course", component: React.lazy(() => import("~/Pages/Institute/Courses").then((x) => ({ default: x.List }))) },
-  { path: "/institute/course/:courseID", component: React.lazy(() => import("~/Pages/Institute/Courses/CourseDetailsPage").then((x) => ({ default: x.CourseDetailsPage }))) },
-  { path: "/institute/section/:sectionID", component: React.lazy(() => import("~/Pages/Institute/Sections/SectionDetailsPage").then((x) => ({ default: x.SectionDetailsPage }))) },
-  { path: "/institute/instructor", component: React.lazy(() => import("~/Pages/Institute/Instructors").then((x) => ({ default: x.List }))) },
-  { path: "/institute/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
-  { path: "/institute/campus", component: React.lazy(() => import("~/Pages/Institute/Campuses").then((x) => ({ default: x.List }))) },
-  { path: "/institute/campus/:campusID", component: React.lazy(() => import("~/Pages/Institute/Campuses/CampusDetailsPage").then((x) => ({ default: x.CampusDetailsPage }))) },
+  { path: "/course-provider/course", component: React.lazy(() => import("~/Pages/Institute/Courses").then((x) => ({ default: x.List }))) },
+  { path: "/course-provider/course/:courseID", component: React.lazy(() => import("~/Pages/Institute/Courses/CourseDetailsPage").then((x) => ({ default: x.CourseDetailsPage }))) },
+  { path: "/course-provider/section/:sectionID", component: React.lazy(() => import("~/Pages/Institute/Sections/SectionDetailsPage").then((x) => ({ default: x.SectionDetailsPage }))) },
+  { path: "/course-provider/instructor", component: React.lazy(() => import("~/Pages/Institute/Instructors").then((x) => ({ default: x.List }))) },
+  { path: "/course-provider/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
+  { path: "/course-provider/campus", component: React.lazy(() => import("~/Pages/Institute/Campuses").then((x) => ({ default: x.List }))) },
+  { path: "/course-provider/campus/:campusID", component: React.lazy(() => import("~/Pages/Institute/Campuses/CampusDetailsPage").then((x) => ({ default: x.CampusDetailsPage }))) },
 
   { path: "/store/subject", component: React.lazy(() => import("~/Pages/Store/Subjects").then((x) => ({ default: x.List }))) },
   { path: "/store/subject/:subjectID", component: React.lazy(() => import("~/Pages/Store/Subjects/SubjectDetailsPage").then((x) => ({ default: x.SubjectDetailsPage }))) },

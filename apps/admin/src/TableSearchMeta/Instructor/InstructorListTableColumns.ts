@@ -7,7 +7,7 @@ export const instructorListTableColumns: TableColumnType = [
   {
     title: "Name",
     dataIndex: "name",
-    render: (text: any, record: any) => renderLink(`/institute/instructor/${record.id}`, text),
+    render: (text: any, record: any) => renderLink(`/course-provider/instructor/${record.id}`, text),
     sorter: (a: any, b: any) => a.name - b.name
   },
   {

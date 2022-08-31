@@ -47,7 +47,7 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
-      { label: 'Course', value: renderLink(`/institute/course/${section.course.id}`, section.course.title), },
+      { label: 'Course', value: renderLink(`/course-provider/course/${section.course.id}`, section.course.title), },
       { label: 'Section Name', value: section.name, },
       { label: 'Fee', value: section.fee, },
       { label: 'Number of Seat', value: section.seat_capacity, },

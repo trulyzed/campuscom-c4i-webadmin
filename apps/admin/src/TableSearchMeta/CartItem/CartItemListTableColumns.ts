@@ -7,7 +7,7 @@ export const cartItemListTableColumns: TableColumnType = [
   {
     title: "Product Name",
     dataIndex: "product_name",
-    //render: (text: any, record: any) => renderLink(`/institute/course/${record.id}`, text, isModal),
+    //render: (text: any, record: any) => renderLink(`/course-provider/course/${record.id}`, text, isModal),
     sorter: (a: any, b: any) => a.product_name - b.product_name
   },
   {

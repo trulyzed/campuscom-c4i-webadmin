@@ -205,7 +205,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
             {
               title: "Section Name",
               dataIndex: "section_name",
-              render: (text: any, record: any) => record.section_id ? renderLink(`/institute/section/${record.section_id}`, text) : text,
+              render: (text: any, record: any) => record.section_id ? renderLink(`/course-provider/section/${record.section_id}`, text) : text,
               sorter: (a: any, b: any) => a.section_name - b.section_name
             },
             {

@@ -38,25 +38,25 @@ import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/Tr
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
-    title: "Institute",
+    title: "Course Provider",
     url: "",
     submenu: [
       {
         title: "Courses",
         submenu: [],
-        url: "/institute/course",
+        url: "/course-provider/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
       },
       {
         title: "Instructors",
         submenu: [],
-        url: "/institute/instructor",
+        url: "/course-provider/instructor",
         permission: checkAdminApiPermission(getInstructorListTableColumns().searchFunc)
       },
       {
         title: "Campuses",
         submenu: [],
-        url: "/institute/campus",
+        url: "/course-provider/campus",
         permission: checkAdminApiPermission(getCampusListTableColumns().searchFunc)
       }
     ],
