@@ -175,6 +175,7 @@ export const ResponsiveTable = (props: IDataTableProps & {
           paginatedData={paginatedData}
           paginationChange={paginationChange}
           currentPageSize={currentPageSize}
+          showTableSettings={() => setShowTableSettings(true)}
         />
       )}
       {props.tableName && !props.hideSettings && (

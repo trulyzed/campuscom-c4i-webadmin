@@ -46,12 +46,12 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
         <>
           {(!props.hideHeading && props.title) ?
             <Row>
-              <Col md={24} className={'mt-15'}>
+              <Col md={24} xs={24} className={'mt-15'}>
                 <Title level={3}>
                   Manage {props.title}
                 </Title>
               </Col>
-              <Col md={24} className={'mb-10'}>
+              <Col md={24} xs={24} className={'mb-10'}>
                 <Text style={{ textTransform: 'lowercase' }} type="secondary" className="ml-10">{pagination.total} {props.title} displayed</Text>
               </Col>
             </Row>
@@ -84,7 +84,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
           )}
           <Row gutter={25}>
             {props.meta &&
-              <Col lg={6} xl={5}>
+              <Col lg={6} xl={5} xs={24}>
                 <MetaDrivenForm
                   title={props.title ? `${props.title} Filter` : undefined}
                   blocks={props.blocks}
@@ -114,7 +114,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 />
               </Col>
             }
-            <Col lg={18} xl={19}>
+            <Col lg={18} xl={19} xs={24}>
               <ResponsiveTable
                 currentPagination={currentPagination}
                 setCurrentPagination={setCurrentPagination}

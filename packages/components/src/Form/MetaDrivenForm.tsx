@@ -310,13 +310,13 @@ export function MetaDrivenForm({
       title={
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>
-            <Col md={24}>
+            <Col md={24} xs={24}>
               <SidebarMenuTargetHeading level={props.isModal ? 2 : 3} targetID="navigation">
                 {props.title}
               </SidebarMenuTargetHeading>
             </Col>
             {showClearbutton && props.isAside && (
-              <Col>
+              <Col md={24} xs={24}>
                 <Button size="small" onClick={clearParams}>
                   {clearButtonLabel}
                 </Button>

@@ -4,6 +4,7 @@ import { TableProps } from "antd/lib/table"
 import { IDataTableProps } from "~/ResponsiveTable"
 import { DownloadButton } from "~/ResponsiveTable/DownloadButton"
 import { Pagination } from "~/ResponsiveTable/Pagination"
+import { DropdownActions } from "~/Actions/DropdownActions"
 
 export const ListViewforMobile = (
   props: IDataTableProps & {
@@ -13,6 +14,7 @@ export const ListViewforMobile = (
     setConditionalProps: (props: TableProps<{ [key: string]: string }> & { currentPagination?: number }) => void
     paginatedData: any[]
     currentPageSize: number
+    showTableSettings: () => void
   }
 ) => {
   return (
@@ -24,16 +26,7 @@ export const ListViewforMobile = (
       ) : (
         <Row style={{ backgroundColor: "#fafafa", ...props.style }}>
           {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (
-            <Col
-              flex={"auto"}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                paddingTop: "10px",
-                paddingRight: "10px",
-                paddingBottom: "10px"
-              }}
-            >
+            <Col>
               {!props.loading && props.conditionalProps.dataSource.length ? (
                 <Pagination
                   current={props.currentPagination || 0}
@@ -53,15 +46,14 @@ export const ListViewforMobile = (
                 marginRight: "10px",
                 marginBottom: "10px"
               }}
+              className="table-actions"
             >
               <Col flex="auto"></Col>
-              {props.actions &&
-                props.actions?.length > 0 &&
-                props.actions.map((action, i) => (
-                  <Col key={i} flex="none">
-                    {action}
-                  </Col>
-                ))}
+              {props.actions?.length ?
+                <Col flex="none" className="create-entity-container">
+                  {props.actions[0]}
+                </Col>
+                : null}
               {props.searchFunc &&
                 props.searchParams &&
                 !props.isModal &&
@@ -86,6 +78,15 @@ export const ListViewforMobile = (
                     </Col>
                   </>
                 )}
+              {props.tableName && !props.hideSettings ?
+                <DropdownActions title="More" actions={[
+                  {
+                    title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
+                    key: 'setting',
+                    onClick: () => props.showTableSettings()
+                  }
+                ]} />
+                : null}
             </Row>
           </Col>
           <Col span={24}>
@@ -106,14 +107,12 @@ export const ListViewforMobile = (
                               toRender = column.render(x, x)
                             }
                             return (
-                              <>
-                                {toRender && !column.hidden && (
-                                  <div key={j + 1000}>
-                                    {column.title && <span>{column.title}: </span>}
-                                    <span>{toRender}</span>
-                                  </div>
-                                )}
-                              </>
+                              (toRender && !column.hidden) ? (
+                                <div key={j + 1000}>
+                                  {column.title && <span>{column.title}: </span>}
+                                  <span>{toRender}</span>
+                                </div>
+                              ) : null
                             )
                           })}
                         </Card>
