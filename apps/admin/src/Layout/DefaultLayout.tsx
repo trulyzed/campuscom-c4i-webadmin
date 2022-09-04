@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react"
-import { Card, Col, Layout, Row, Spin } from "antd"
+import { Card, Col, Layout, Row, Spin, Grid } from "antd"
 import { Link } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
@@ -19,6 +19,7 @@ interface ILayoutProps {
 export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(getSidebarMenus())
+  const breakpoint = Grid.useBreakpoint()
 
   useEffect(() => {
     eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(getSidebarMenus()))
@@ -47,7 +48,7 @@ export function DefaultLayout(props: ILayoutProps) {
                   to="/"
                   className="logo"
                 >
-                  Campus Marketplace Webadmin
+                  {breakpoint.sm ? "Campus Marketplace Webadmin" : "Webadmin"}
                 </Link>
               </h2>
             </Col>
