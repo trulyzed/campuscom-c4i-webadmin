@@ -50,7 +50,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
     contents: [
       { label: 'Active Status', value: publishing.active_status, render: renderActiveStatus },
       { label: 'Store', value: publishing.store ? renderLink(`/administration/store/${publishing.store.id}`, publishing.store.name) : undefined },
-      { label: 'Course', value: renderLink(`/institute/course/${publishing.course.id}`, publishing.course.title) },
+      { label: 'Course', value: renderLink(`/course-provider/course/${publishing.course.id}`, publishing.course.title) },
       { label: 'Enrollment Ready', value: publishing.enrollment_ready, render: renderBoolean },
       { label: 'Is Published', value: publishing.is_published, render: renderBoolean },
       { label: 'Is Featured', value: publishing.is_featured, render: renderBoolean },
@@ -78,7 +78,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
             {
               title: "Name",
               dataIndex: "name",
-              render: (text: any, record: any) => renderLink(`/institute/section/${record.id}`, text),
+              render: (text: any, record: any) => renderLink(`/course-provider/section/${record.id}`, text),
               sorter: (a: any, b: any) => a.name - b.name
             },
             {
