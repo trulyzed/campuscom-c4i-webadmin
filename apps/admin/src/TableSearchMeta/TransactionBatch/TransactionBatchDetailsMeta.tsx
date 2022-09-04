@@ -97,14 +97,14 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
-      { label: 'Payment Reference', value: transactionBatch.payment_info?.ref },
-      { label: 'Payment Note', value: transactionBatch.payment_info?.note },
-      { label: 'Payment Date', value: transactionBatch.payment_date, render: renderDateTime },
+      { label: 'Check/Ref', value: transactionBatch.payment_info?.ref },
+      { label: 'Settlement Note', value: transactionBatch.payment_info?.note },
+      { label: 'Settlement Date', value: transactionBatch.payment_date, render: renderDateTime },
       { label: 'Total Transactions', value: transactionBatch.total_transactions },
       { label: 'Total Net Payment Received', value: transactionBatch.totals?.net_payment_received, render: renderAmount },
       { label: 'Revenue Percentage', value: `${transactionBatch.payment_info?.revenue_percentage}%`, },
       { label: 'Revenue Amount (Calculated)', value: transactionBatch.payment_info?.revenue_amount, render: renderAmount },
-      { label: 'Check Amount', value: transactionBatch.payment_info?.check_amount, render: renderAmount },
+      { label: 'Settlement Amount', value: transactionBatch.payment_info?.check_amount, render: renderAmount },
     ]
   } : undefined
 
