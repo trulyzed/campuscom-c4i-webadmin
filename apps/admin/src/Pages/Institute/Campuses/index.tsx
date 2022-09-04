@@ -16,7 +16,7 @@ export const List = () => {
   const createEntity = QueryConstructor(((data) => CampusQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/institute/campus/${resp.data.id}`)
+      setRedirectAfterCreate(`/course-provider/campus/${resp.data.id}`)
     }
     return resp
   })), [CampusQueries.create])

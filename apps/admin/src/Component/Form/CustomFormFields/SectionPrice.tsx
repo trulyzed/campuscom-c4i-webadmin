@@ -10,7 +10,7 @@ export const SectionPrice = (props: IGeneratedField) => {
     {
       title: 'Section',
       dataIndex: 'name',
-      render: (value, record) => renderLink(`/institute/section/${record.id}`, value)
+      render: (value, record) => renderLink(`/course-provider/section/${record.id}`, value)
     },
     {
       title: 'Course Provider Fee',
