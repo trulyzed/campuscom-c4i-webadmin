@@ -25,68 +25,73 @@ export const ListViewforMobile = (
         </Row>
       ) : (
         <Row style={{ backgroundColor: "#fafafa", ...props.style }}>
-          {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (
-            <Col>
-              {!props.loading && props.conditionalProps.dataSource.length ? (
-                <Pagination
-                  current={props.currentPagination || 0}
-                  onChange={props.paginationChange}
-                  defaultPageSize={props.currentPageSize}
-                  total={props.conditionalProps.dataSource.length}
-                />
-              ) : null}
-            </Col>
-          )}
           <Col flex={"auto"}>
-            <Row
-              gutter={4}
-              justify="end"
-              style={{
-                marginTop: "10px",
-                marginRight: "10px",
-                marginBottom: "10px"
-              }}
-              className="table-actions"
-            >
-              <Col flex="auto"></Col>
-              {props.actions?.length ?
-                <Col flex="none" className="create-entity-container">
-                  {props.actions[0]}
+            <Row style={{ flexWrap: "wrap-reverse" }}>
+              {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (
+                <Col>
+                  {!props.loading && props.conditionalProps.dataSource.length ? (
+                    <Pagination
+                      current={props.currentPagination || 0}
+                      onChange={props.paginationChange}
+                      defaultPageSize={props.currentPageSize}
+                      total={props.conditionalProps.dataSource.length}
+                      containerStyle={{ marginTop: "10px", marginRight: "25px" }}
+                    />
+                  ) : null}
                 </Col>
-                : null}
-              {props.searchFunc &&
-                props.searchParams &&
-                !props.isModal &&
-                props.conditionalProps &&
-                props.conditionalProps.dataSource &&
-                props.conditionalProps.dataSource.length > 0 &&
-                props.showDownload && (
-                  <>
-                    <Col flex="none">
-                      <DownloadButton
-                        searchFunc={props.searchFunc}
-                        searchParams={props.searchParams}
-                        fileType={"CSV"}
-                      />
+              )}
+              <Col flex={"auto"}>
+                <Row
+                  gutter={4}
+                  justify="end"
+                  style={{
+                    marginTop: "10px",
+                    marginRight: "10px",
+                    marginBottom: "10px"
+                  }}
+                  className="table-actions"
+                >
+                  <Col flex="auto"></Col>
+                  {props.actions?.length ?
+                    <Col flex="none" className="create-entity-container">
+                      {props.actions[0]}
                     </Col>
-                    <Col flex="none">
-                      <DownloadButton
-                        searchFunc={props.searchFunc}
-                        searchParams={props.searchParams}
-                        fileType={"EXCEL"}
-                      />
-                    </Col>
-                  </>
-                )}
-              {props.tableName && !props.hideSettings ?
-                <DropdownActions title="More" actions={[
-                  {
-                    title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
-                    key: 'setting',
-                    onClick: () => props.showTableSettings()
-                  }
-                ]} />
-                : null}
+                    : null}
+                  {props.searchFunc &&
+                    props.searchParams &&
+                    !props.isModal &&
+                    props.conditionalProps &&
+                    props.conditionalProps.dataSource &&
+                    props.conditionalProps.dataSource.length > 0 &&
+                    props.showDownload && (
+                      <>
+                        <Col flex="none">
+                          <DownloadButton
+                            searchFunc={props.searchFunc}
+                            searchParams={props.searchParams}
+                            fileType={"CSV"}
+                          />
+                        </Col>
+                        <Col flex="none">
+                          <DownloadButton
+                            searchFunc={props.searchFunc}
+                            searchParams={props.searchParams}
+                            fileType={"EXCEL"}
+                          />
+                        </Col>
+                      </>
+                    )}
+                  {props.tableName && !props.hideSettings ?
+                    <DropdownActions title="More" actions={[
+                      {
+                        title: <><span className="glyphicon glyphicon-setting mr-5" />Table Settings</>,
+                        key: 'setting',
+                        onClick: () => props.showTableSettings()
+                      }
+                    ]} />
+                    : null}
+                </Row>
+              </Col>
             </Row>
           </Col>
           <Col span={24}>

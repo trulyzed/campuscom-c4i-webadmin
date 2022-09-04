@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { Button, PaginationProps, Pagination as AntdPagination } from "antd"
+import { Button, PaginationProps, Pagination as AntdPagination, Space } from "antd"
 import { DEFAULT_PAGE_SIZE } from "./Responsive"
 
 export const Pagination = (props: {
@@ -8,6 +8,7 @@ export const Pagination = (props: {
   onChange: (page: number, pageSize?: number) => void
   defaultPageSize: number
   showSummary?: boolean
+  containerStyle?: React.CSSProperties
 }) => {
   const startPos = ((props.current - 1) * props.defaultPageSize) + 1
   let endPos = props.current * props.defaultPageSize
@@ -30,15 +31,13 @@ export const Pagination = (props: {
   }, [])
 
   return (
-    <div className="mt-5 ml-10 mb-15">
+    <div className="mt-5 ml-10 mb-15" style={props.containerStyle}>
       {props.showSummary ?
         <p>
           Viewing {startPos} to {endPos} of {props.total}
         </p>
         : null}
-      <div style={{
-        display: "flex"
-      }}>
+      <Space wrap>
         <AntdPagination
           total={props.total || 0}
           pageSize={props.defaultPageSize}
@@ -50,10 +49,10 @@ export const Pagination = (props: {
         />
         {(props.total || 0) <= DEFAULT_PAGE_SIZE ? null
           : showingAll ?
-            <Button className="ml-12" title="Reset" children={"Reset"} onClick={() => handleShowAll(true)} />
-            : <Button className="ml-12" title="Show All" children={"Show All"} onClick={() => handleShowAll()} />
+            <Button title="Reset" children={"Reset"} onClick={() => handleShowAll(true)} />
+            : <Button title="Show All" children={"Show All"} onClick={() => handleShowAll()} />
         }
-      </div>
+      </Space>
     </div>
   )
 }
