@@ -10,6 +10,12 @@ export const transactionListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.cart.order_ref - b.cart.order_ref
   },
   {
+    title: "Store",
+    dataIndex: "cart",
+    render: (text) => renderLink(`/administration/store/${text.store.id}`, text.store.name),
+    sorter: (a: any, b: any) => a.cart.store.name - b.cart.store.name,
+  },
+  {
     title: "Order Date",
     dataIndex: "cart",
     render: (text) => renderDate(text.created_at),

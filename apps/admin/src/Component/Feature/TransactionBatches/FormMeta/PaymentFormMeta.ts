@@ -57,25 +57,25 @@ export const PaymentFormMeta: IField[] = [
     render: renderAmount
   },
   {
-    label: "Check Amount",
+    label: "Settlement Amount",
     inputType: DISPLAY_FIELD,
     fieldName: "check_amount",
     render: renderAmount
   },
   {
-    label: "Payment Reference",
+    label: "Check/Ref",
     inputType: TEXT,
     fieldName: "payment_ref",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: "Payment Date",
+    label: "Settlement Date",
     inputType: DATE_PICKER,
     fieldName: "payment_date",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: "Payment Note",
+    label: "Settlement Note",
     inputType: TEXTAREA,
     fieldName: "payment_note",
   },

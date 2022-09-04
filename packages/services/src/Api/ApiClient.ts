@@ -4,6 +4,7 @@ import { IApiResponse } from "~/Api/utils/Interfaces"
 import { handleTrailingSlashAppend } from "~/Api/utils/TrailingSlash"
 import { handleError } from "~/Api/utils/HandleResponse"
 import { saveAs } from "file-saver"
+import moment from "moment"
 
 //type ResponseType = "list" | "retrieve" | "create" | "update" | "delete" | "other"
 
@@ -36,7 +37,7 @@ export const adminApi = async (requestConfig: IRequestConfig): Promise<IApiRespo
     const contentType = response.headers?.["content-type"]
 
     if (contentType === "text/csv" || contentType === "application/vnd.ms-excel") {
-      const filename = `${requestConfig.filename || "report"}-${new Date().toISOString()}`
+      const filename = `${requestConfig.filename || "report"}-${moment().format("YYYY-MM-DD")}`
       const extension = contentType === "text/csv" ? ".csv" : ".xls"
       saveAs(response.data, `${filename}${extension}`)
       return { data: response, success: true, code: 200, error: null }
