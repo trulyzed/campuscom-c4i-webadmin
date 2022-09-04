@@ -50,7 +50,7 @@ export function DefaultLayout(props: ILayoutProps) {
                   }}
                   to="/"
                 >
-                  C4I Webadmin
+                  Campus Marketplace Webadmin
                 </Link>
               </h2>
             </Col>
