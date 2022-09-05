@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Layout, Typography } from "antd"
+import { Button, Grid, Layout, Typography } from "antd"
 import { Link } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 
@@ -79,8 +79,9 @@ const RenderMenu = (props: {
     </>
   )
 }
-export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[]; logout: () => void }) {
+export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[]; logout: () => void; onClose: () => void }) {
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>([])
+  const breakpoint = Grid.useBreakpoint()
 
   useEffect(() => {
     eventBus.subscribe("REFRESH_SIDEBAR", () =>
@@ -100,6 +101,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       role="complementary"
       aria-roledescription="sidebar navigation"
       width={270}
+      style={{ overflowY: "auto", position: breakpoint.sm ? undefined : "fixed", top: 0, left: 0, bottom: 0, zIndex: 99 }}
       breakpoint="xs"
       collapsedWidth={0}
       trigger={null}
@@ -107,17 +109,23 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       collapsed={props.collapsed}
       className={`sidebar${props.collapsed ? " sidebar--borderless" : ""}`}
     >
-      <div style={{ overflowY: "auto", height: "100vh", }}>
-        <div style={{ padding: "20px 14px", borderBottomWidth: "1px" }} className={"border-styles"}>
-          <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
-        </div>
-        <div style={{ marginTop: "-10px" }}>
-          <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder />
-        </div>
-        <button style={buttonStyle} onClick={props.logout}>
-          <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
-        </button>
+      <div style={{
+        padding: "20px 14px",
+        paddingRight: "8px",
+        borderBottomWidth: "1px",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }} className={"border-styles"}>
+        <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
+        <Button type="link" onClick={props.onClose} title={"Close Menu"} icon={<span className="glyphicon glyphicon--primary glyphicon-remove" />} />
       </div>
+      <div style={{ marginTop: "-5px" }}>
+        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder />
+      </div>
+      <button style={{ ...buttonStyle, width: "auto" }} onClick={props.logout}>
+        <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
+      </button>
     </Layout.Sider>
   )
 }

@@ -1,6 +1,6 @@
 import React, { Suspense, useState, useEffect } from "react"
 import { Card, Col, Layout, Row, Spin, Grid } from "antd"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
@@ -20,6 +20,7 @@ export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(getSidebarMenus())
   const breakpoint = Grid.useBreakpoint()
+  const { pathname } = useLocation()
 
   useEffect(() => {
     eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(getSidebarMenus()))
@@ -28,11 +29,16 @@ export function DefaultLayout(props: ILayoutProps) {
     }
   }, [])
 
+  useEffect(() => {
+    if (breakpoint.sm) return
+    setCollapsed(true)
+  }, [pathname, breakpoint.sm, setCollapsed])
+
   return (
     <Layout>
-      <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
+      <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} onClose={() => setCollapsed(true)} />
       <Layout className="site-layout" style={collapsed ? undefined : { overflow: "hidden", }}>
-        <Header role="none" className="site-layout-background">
+        <Header role="none" className="site-layout-background" style={{ width: breakpoint.sm ? undefined : "100vw" }}>
           <Row style={{ height: "100%", overflow: "hidden" }}>
             <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
@@ -57,7 +63,7 @@ export function DefaultLayout(props: ILayoutProps) {
             <HeaderFunctionalities />
           </Row>
         </Header>
-        <Content role="main" style={{ padding: "0 20px" }}>
+        <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
           <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
             <Breadcrumb />
           </Card>
