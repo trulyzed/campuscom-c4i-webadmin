@@ -19,7 +19,6 @@ export const CourseProviderFormMeta: IField[] = [
     label: 'Summary',
     fieldName: 'summary',
     inputType: EDITOR,
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Website',
@@ -30,7 +29,6 @@ export const CourseProviderFormMeta: IField[] = [
     label: 'Description',
     fieldName: 'description',
     inputType: EDITOR,
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Logo',
