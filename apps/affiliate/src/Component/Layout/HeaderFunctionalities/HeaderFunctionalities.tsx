@@ -5,9 +5,8 @@ import { MasterLookupComponent } from "~/Component/Layout/HeaderFunctionalities/
 import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
 import { DownOutlined } from "@ant-design/icons"
 import { GoToUserProfileButton } from "~/Component/Layout/HeaderFunctionalities/GoToUserProfileButton"
-import { RouteProps } from "react-router-dom"
 
-export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
+export const HeaderFunctionalities = () => {
   const [desktopView, setDesktopView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
     setDesktopView(deviceViews.desktop)
@@ -16,7 +15,7 @@ export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <MasterLookupComponent routes={props.routes} />
+        <MasterLookupComponent />
       </Menu.Item>
       <Menu.Item key="1" role="navigation" aria-label="history log">
         <HistoryLogButton />
@@ -32,7 +31,7 @@ export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
       {desktopView && (
         <>
           <Col className="site-header__item" style={{ height: "100%" }} flex="300px">
-            <MasterLookupComponent routes={props.routes} />
+            <MasterLookupComponent />
           </Col>
           <Col className="site-header__item" style={{ height: "100%" }} flex="40px" role="navigation" aria-label="History Log">
             <HistoryLogButton />

@@ -31,26 +31,28 @@ export function DefaultLayout(props: ILayoutProps) {
   return (
     <Layout>
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
-      <Layout className="site-layout">
+      <Layout className="site-layout" style={collapsed ? undefined : { overflow: "hidden", }}>
         <Header role="none" className="site-layout-background">
-          <Row style={{ height: "100%" }}>
+          <Row style={{ height: "100%", overflow: "hidden" }}>
             <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
-            <Col className="site-header__item" style={{ height: "100%", }} flex="auto" role="navigation" aria-label="Go to home page">
-              <h2 aria-label="School Name" className="site-title">
-                <Link
-                  id="main-title"
-                  style={{
-                    fontSize: "24px",
-                    marginLeft: "20px"
-                  }}
-                  to="/"
-                  className="logo"
-                >
-                  {breakpoint.sm ? "Campus Marketplace Webadmin" : "Webadmin"}
-                </Link>
-              </h2>
+            <Col className="site-header__item" style={{ height: "100%", display: "flex", alignItems: "center" }} flex={"1"} role="navigation" aria-label="Go to home page">
+              <Link
+                id="main-title"
+                to="/"
+                className="logo"
+              >
+                <h2 style={{
+                  height: "100%",
+                  fontSize: breakpoint.md ? "24px" : breakpoint.xs ? "18px" : "24px",
+                  lineHeight: "24px",
+                  marginLeft: breakpoint.md ? "20px" : breakpoint.sm ? "15px" : breakpoint.xs ? "10px" : "20px",
+                  marginBottom: 0
+                }} aria-label="School Name" className="site-title">
+                  Campus Marketplace Webadmin
+                </h2>
+              </Link>
             </Col>
             <HeaderFunctionalities />
           </Row>

@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react"
-import { Card, Col, Layout, Row, Spin } from "antd"
+import { Card, Col, Layout, Row, Spin, Grid } from "antd"
 import { Link } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
@@ -9,7 +9,6 @@ import { logout } from "~/Services/AuthService"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
-import { AppRoutes } from "~/routes"
 
 const { Header, Content } = Layout
 
@@ -20,6 +19,7 @@ interface ILayoutProps {
 export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
   const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(getSidebarMenus())
+  const breakpoint = Grid.useBreakpoint()
 
   useEffect(() => {
     eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(getSidebarMenus()))
@@ -31,28 +31,30 @@ export function DefaultLayout(props: ILayoutProps) {
   return (
     <Layout>
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} />
-      <Layout className="site-layout">
+      <Layout className="site-layout" style={collapsed ? undefined : { overflow: "hidden", }}>
         <Header role="none" className="site-layout-background">
-          <Row style={{ height: "100%" }}>
+          <Row style={{ height: "100%", overflow: "hidden" }}>
             <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
-            <Col className="site-header__item" style={{ height: "100%", }} flex="auto" role="navigation" aria-label="Go to home page">
-              <h2 aria-label="School Name" className="site-title">
-                <Link
-                  id="main-title"
-                  style={{
-                    fontSize: "24px",
-                    marginLeft: "20px"
-                  }}
-                  to="/"
-                  className="logo"
-                >
+            <Col className="site-header__item" style={{ height: "100%", display: "flex", alignItems: "center" }} flex={"1"} role="navigation" aria-label="Go to home page">
+              <Link
+                id="main-title"
+                to="/"
+                className="logo"
+              >
+                <h2 style={{
+                  height: "100%",
+                  fontSize: breakpoint.md ? "24px" : breakpoint.xs ? "18px" : "24px",
+                  lineHeight: "24px",
+                  marginLeft: breakpoint.md ? "20px" : breakpoint.sm ? "15px" : breakpoint.xs ? "10px" : "20px",
+                  marginBottom: 0
+                }} aria-label="School Name" className="site-title">
                   C4I Affiliate
-                </Link>
-              </h2>
+                </h2>
+              </Link>
             </Col>
-            <HeaderFunctionalities routes={AppRoutes} />
+            <HeaderFunctionalities />
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px" }}>
