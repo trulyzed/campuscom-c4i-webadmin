@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row } from "antd"
+import { Button, Card, Col, Form, Grid, Row } from "antd"
 import React, { useCallback, useEffect, useState } from "react"
 import {
   IField,
@@ -485,6 +485,7 @@ const SearchFormFields = (props: {
   handleValuesChange?: (...args: any) => void
   displayFieldValue?: Record<string, any>
 }) => {
+  const breakpoint = Grid.useBreakpoint()
   const [displayFieldValue, setDisplayFieldValue] = useState<Record<string, any>>()
   const labelColSpan = props.isVertical ? 24 : 8
 
@@ -742,7 +743,7 @@ const SearchFormFields = (props: {
             : formField ? (
               <Col key={1000 + i} lg={lg} xs={xs} style={field.withApply ? { display: "flex" } : undefined}>
                 {field.withApply ? (
-                  <div style={{ display: "flex", flex: 1 }}>
+                  <div style={{ display: "flex", flex: 1, ...breakpoint.md ? undefined : { alignItems: "flex-end" }, marginBottom: "24px" }}>
                     {formField}
                     {field.withApply ? <Button onClick={() => field.onApply?.({ value: props.formInstance.getFieldValue(field.fieldName), setDisplayFieldValue })} children={"Apply"} /> : null}
                   </div>

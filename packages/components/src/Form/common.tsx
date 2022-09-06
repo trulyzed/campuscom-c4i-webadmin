@@ -124,7 +124,7 @@ export function SearchFieldWrapper(props: IGeneratedField & { children?: React.R
       rules={props.rules}
       validateStatus={props.validateStatus}
       help={props.help}
-      style={props.formItemStyle}
+      style={{ ...props.formItemStyle, ...props.withApply && { marginBottom: 0 } }}
       getValueFromEvent={props.getValueFromEvent}
       initialValue={props.initialValue}
     >
