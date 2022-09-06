@@ -49,7 +49,7 @@ export const DetailsCardContainer = (props: { card: CardContainer, horizontal?: 
             {Array.isArray(props.card.contents) && props.card.contents.length > 0 ? (
               props.card.contents.map((y: CardContents, j: number) =>
                 mobileView ? (
-                  <tr>
+                  <tr key={j}>
                     <td>
                       {y.label !== "" && <div> {y.label}: </div>}
                       <div>{renderValue(y)}</div>
