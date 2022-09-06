@@ -2,8 +2,6 @@ import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
-import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
-import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Users"
@@ -14,9 +12,6 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
-import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGateways"
-import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { convertToString } from "@packages/utilities/lib/mapper"
@@ -33,6 +28,7 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
+import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
 
 const hasEditPermission = checkAdminApiPermission(StoreQueries.update.__permissions)
 
@@ -43,20 +39,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [hasEditPermission ? StoreQueries.update : StoreQueries.updateWithoutSlug])
-
-  const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: CREATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [StoreQueries.tagIdentityProvider])
-
-  const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: CREATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [StoreQueries.tagPaymentGateway])
 
   const addCourseSharingContract = QueryConstructor(((data) => CourseSharingContractQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
@@ -136,99 +118,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       helpKey: "storeSummaryTab"
     },
     {
-      tabTitle: "Identity Providers",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          columns: [
-            ...getIdentityProviderListTableColumns().columns,
-            {
-              title: "Action",
-              dataIndex: "store_identity_provider_id",
-              render: (text) => (
-                <ContextAction
-                  type="delete"
-                  tooltip="Remove"
-                  queryService={QueryConstructor(() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } }), [StoreQueries.untagIdentityProvider])}
-                  refreshEventName="REFRESH_STORE_IDENTITY_PROVIDER_TAB"
-                />
-              )
-            },
-          ],
-          searchFunc: IdentityProviderQueries.getListByStore,
-          searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_STORE_IDENTITY_PROVIDER_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Identity Provider`}
-              formMeta={IdentityProviderTaggingFormMeta}
-              formSubmitApi={addIdentityProvider}
-              buttonLabel={`Add Identity Provider`}
-              iconType="create"
-              refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            />
-          ]
-        }
-      },
-      helpKey: "identityProviderTab"
-    },
-    {
-      tabTitle: "Payment Gateways",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          columns: [
-            {
-              title: "Name",
-              dataIndex: "name",
-              render: (text: any, record: any) => record.id ? renderLink(`/store/payment-gateway/${record.id}`, text) : text,
-              sorter: (a: any, b: any) => a.name - b.name
-            },
-            {
-              title: "Payment Gateway",
-              dataIndex: "payment_gateway",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${text.id}`, text.name) : text.name,
-              sorter: (a: any, b: any) => a.payment_gateway.name - b.payment_gateway.name
-            },
-            {
-              title: "Payment Gateway Config",
-              dataIndex: "payment_gateway_config",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${text.id}`, text.name) : text.name,
-              sorter: (a: any, b: any) => a.name - b.name
-            },
-            {
-              title: "Action",
-              dataIndex: "id",
-              render: (text) => (
-                <ContextAction
-                  type="delete"
-                  tooltip="Remove"
-                  queryService={QueryConstructor(() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } }), [StoreQueries.untagPaymentGateway])}
-                  refreshEventName="REFRESH_STORE_PAYMENT_GATEWAY_TAB"
-                />
-              )
-            },
-          ],
-          searchFunc: PaymentGatewayQueries.getListByStore,
-          searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_STORE_PAYMENT_GATEWAY_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Payment Gateway`}
-              formMeta={PaymentGatewayTaggingFormMeta}
-              formSubmitApi={addPaymentGateway}
-              buttonLabel={`Add Payment Gateway`}
-              iconType="create"
-              refreshEventName={'REFRESH_STORE_PAYMENT_GATEWAY_TAB'}
-            />
-          ]
-        }
-      },
-      helpKey: "identityProviderTab"
-    },
-    {
       tabTitle: "Course Sharing Contracts",
       tabType: "table",
       tabMeta: {
@@ -278,7 +167,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { store_id: store.id },
           searchFunc: UserQueries.getListByStore,
           refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
-        }
+          actions: [
+            <NavigateTo type="create" name="Add User" path="/administration/user" apiPermission={UserQueries.create} />
+          ]
+        },
       },
       helpKey: "storeUserTab"
     },
