@@ -13,7 +13,7 @@ import { CREATE_SUCCESSFULLY } from "~/Constants"
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
 
-  const createEntity = QueryConstructor(((data) => StoreQueries.create({ ...data }).then(resp => {
+  const createEntity = QueryConstructor(((data) => StoreQueries.create({ ...data, data: { ...data?.data, default_payment_gateway: true }, }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/administration/store/${resp.data.id}`)
