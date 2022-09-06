@@ -31,7 +31,7 @@ export const FormEditorInput = (props: IFormEditorInputProps) => {
         modules={{
           toolbar: toolbarConfig
         }}
-        style={{ height: '25rem', marginBottom: '3rem' }}
+        style={{ height: "25rem", display: "flex", flexDirection: "column" }}
       />
     </SearchFieldWrapper>
   )
