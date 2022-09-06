@@ -12,8 +12,6 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGateways"
-import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { convertToString } from "@packages/utilities/lib/mapper"
@@ -41,13 +39,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [hasEditPermission ? StoreQueries.update : StoreQueries.updateWithoutSlug])
-
-  const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: CREATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [StoreQueries.tagPaymentGateway])
 
   const addCourseSharingContract = QueryConstructor(((data) => CourseSharingContractQueries.create({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
@@ -125,61 +116,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeSummaryTab"
-    },
-    {
-      tabTitle: "Payment Gateways",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          columns: [
-            {
-              title: "Name",
-              dataIndex: "name",
-              render: (text: any, record: any) => record.id ? renderLink(`/store/payment-gateway/${record.id}`, text) : text,
-              sorter: (a: any, b: any) => a.name - b.name
-            },
-            {
-              title: "Payment Gateway",
-              dataIndex: "payment_gateway",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway/${text.id}`, text.name) : text.name,
-              sorter: (a: any, b: any) => a.payment_gateway.name - b.payment_gateway.name
-            },
-            {
-              title: "Payment Gateway Config",
-              dataIndex: "payment_gateway_config",
-              render: (text: any, record: any) => record.id ? renderLink(`/configuration/payment-gateway-config/${text.id}`, text.name) : text.name,
-              sorter: (a: any, b: any) => a.name - b.name
-            },
-            {
-              title: "Action",
-              dataIndex: "id",
-              render: (text) => (
-                <ContextAction
-                  type="delete"
-                  tooltip="Remove"
-                  queryService={QueryConstructor(() => StoreQueries.untagPaymentGateway({ data: { ids: [text] } }), [StoreQueries.untagPaymentGateway])}
-                  refreshEventName="REFRESH_STORE_PAYMENT_GATEWAY_TAB"
-                />
-              )
-            },
-          ],
-          searchFunc: PaymentGatewayQueries.getListByStore,
-          searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_STORE_PAYMENT_GATEWAY_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Payment Gateway`}
-              formMeta={PaymentGatewayTaggingFormMeta}
-              formSubmitApi={addPaymentGateway}
-              buttonLabel={`Add Payment Gateway`}
-              iconType="create"
-              refreshEventName={'REFRESH_STORE_PAYMENT_GATEWAY_TAB'}
-            />
-          ]
-        }
-      },
-      helpKey: "identityProviderTab"
     },
     {
       tabTitle: "Course Sharing Contracts",
