@@ -2,8 +2,6 @@ import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
-import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
-import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 import { getCourseSharingContractListTableColumns } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractListTableColumns"
 import { getUserListTableColumns } from "~/TableSearchMeta/User/UserListTableColumns"
 import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Users"
@@ -14,7 +12,6 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { IdentityProviderTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/IdentityProviderTaggingFormMeta"
 import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGateways"
 import { PaymentGatewayTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/PaymentGatewayTaggingFormMeta"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
@@ -43,13 +40,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
     }
     return resp
   })), [hasEditPermission ? StoreQueries.update : StoreQueries.updateWithoutSlug])
-
-  const addIdentityProvider = QueryConstructor(((data) => StoreQueries.tagIdentityProvider({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: CREATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [StoreQueries.tagIdentityProvider])
 
   const addPaymentGateway = QueryConstructor(((data) => StoreQueries.tagPaymentGateway({ ...data, data: { ...data?.data, store: store.id } }).then(resp => {
     if (resp.success) {
@@ -134,44 +124,6 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "storeSummaryTab"
-    },
-    {
-      tabTitle: "Identity Providers",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          columns: [
-            ...getIdentityProviderListTableColumns().columns,
-            {
-              title: "Action",
-              dataIndex: "store_identity_provider_id",
-              render: (text) => (
-                <ContextAction
-                  type="delete"
-                  tooltip="Remove"
-                  queryService={QueryConstructor(() => StoreQueries.untagIdentityProvider({ data: { ids: [text] } }), [StoreQueries.untagIdentityProvider])}
-                  refreshEventName="REFRESH_STORE_IDENTITY_PROVIDER_TAB"
-                />
-              )
-            },
-          ],
-          searchFunc: IdentityProviderQueries.getListByStore,
-          searchParams: { store__id: store.id },
-          refreshEventName: "REFRESH_STORE_IDENTITY_PROVIDER_TAB",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Identity Provider`}
-              formMeta={IdentityProviderTaggingFormMeta}
-              formSubmitApi={addIdentityProvider}
-              buttonLabel={`Add Identity Provider`}
-              iconType="create"
-              refreshEventName={'REFRESH_STORE_IDENTITY_PROVIDER_TAB'}
-            />
-          ]
-        }
-      },
-      helpKey: "identityProviderTab"
     },
     {
       tabTitle: "Payment Gateways",
