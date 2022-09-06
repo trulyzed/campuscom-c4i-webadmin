@@ -242,7 +242,7 @@ export const Create = () => {
         bodyStyle={{ padding: "0" }}
       />
       <Row>
-        <Col md={4}>
+        <Col md={6} lg={4} xs={24}>
           <Card style={{ marginTop: "10px" }}>
             <Steps direction="vertical" size="small" current={currentStep} onChange={handleStepChange}>
               <Step title="Product" />
@@ -255,11 +255,11 @@ export const Create = () => {
             </Steps>
           </Card>
         </Col>
-        <Col md={20}>
+        <Col md={18} lg={20} xs={24}>
           {currentStep === StepNames.ProductInformation ?
             <Card style={{ margin: "10px 0 0 10px" }} title={"Product Summary"}>
               <Row>
-                <Col md={24}>
+                <Col xs={24}>
                   <MetaDrivenForm
                     meta={meta1}
                     onApplyChanges={async (values) => {
@@ -275,7 +275,7 @@ export const Create = () => {
                     resetOnSubmit
                   />
                 </Col>
-                <Col md={24}>
+                <Col xs={24}>
                   <ResponsiveTable
                     title={() => <Title level={5}>Selected Products</Title>}
                     columns={[
@@ -308,7 +308,7 @@ export const Create = () => {
                     hideSettings
                   />
                 </Col>
-                <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
                   <Button style={{ marginTop: "20px", }} disabled={!productData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.YourInformation)} />
                 </Col>
               </Row>
@@ -329,7 +329,7 @@ export const Create = () => {
               : currentStep === StepNames.StudentInformation ?
                 <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
                   <Row>
-                    <Col md={24}>
+                    <Col xs={24}>
                       <MetaDrivenForm
                         meta={[
                           {
@@ -354,7 +354,7 @@ export const Create = () => {
                         resetOnSubmit
                       />
                     </Col>
-                    <Col md={24}>
+                    <Col xs={24}>
                       <ResponsiveTable
                         title={() => <Title level={5}>Selected Students</Title>}
                         columns={[
@@ -381,7 +381,7 @@ export const Create = () => {
                         hideSettings
                       />
                     </Col>
-                    <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                    <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
                       <Button style={{ marginTop: "20px", }} disabled={!studentData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
                     </Col>
                   </Row>
@@ -398,7 +398,7 @@ export const Create = () => {
                           </div>
                         ))}
                       </Col>
-                      <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                      <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
                         <Button style={{ marginTop: "20px", }} disabled={!registrationData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.AdditionalRegistrationInformation)} />
                       </Col>
                     </Row>
@@ -424,7 +424,7 @@ export const Create = () => {
                             </div>
                           ))}
                         </Col>
-                        <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                        <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
                           <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.Invoice)} />
                         </Col>
                       </Row>
@@ -433,14 +433,14 @@ export const Create = () => {
                       <Card style={{ margin: "10px 0 0 10px" }} title={"Invoice"}>
                         <Row>
                           {invoiceData ?
-                            <Col flex={"auto"}>
-                              {
-                                invoiceData.products.map((product: any) => (
-                                  <div key={product.id}>
-                                    <Row>
-                                      <Col md={8}><Text strong>{product.title}</Text></Col>
-                                      <Col md={8} style={{ textAlign: "right" }}>{renderAmount(product.item_price)} x {product.quantity}</Col>
-                                      <Col md={8} style={{ textAlign: "right" }}>
+                            <Col xs={24}>
+                              <Row>
+                                {invoiceData.products.map((product: any) => (
+                                  <Col xs={24} key={product.id}>
+                                    <Row gutter={10}>
+                                      <Col xs={24} md={8}><Text strong>{product.title}</Text></Col>
+                                      <Col xs={24} md={8} style={{ textAlign: "right" }}>{renderAmount(product.item_price)} x {product.quantity}</Col>
+                                      <Col xs={24} md={8} style={{ textAlign: "right" }}>
                                         <div>
                                           {renderAmount(product.total_amount)}
                                           {product.total_discount ?
@@ -460,11 +460,11 @@ export const Create = () => {
                                       </Row>
                                     ))}
                                     <Divider />
-                                  </div>
-                                ))
-                              }
-                              <Row>
-                                <Col md={8} style={{ textAlign: "right" }}>
+                                  </Col>
+                                ))}
+                              </Row>
+                              <Row gutter={[0, 20]}>
+                                <Col xs={{ span: 24, order: 2 }} md={{ span: 10, order: 0 }} style={{ textAlign: "right" }}>
                                   <MetaDrivenForm
                                     meta={meta6}
                                     onApplyChanges={(values) => setCouponCode(values.coupon)}
@@ -477,7 +477,7 @@ export const Create = () => {
                                     initialFormValue={{ coupon: couponCode }}
                                   />
                                 </Col>
-                                <Col md={16} style={{ textAlign: "right" }}>
+                                <Col xs={24} md={14} style={{ textAlign: "right" }}>
                                   <div>Sub-total {renderAmount(invoiceData.subtotal)}</div>
                                   <div>Total Discount (-) {renderAmount(invoiceData.total_discount)}</div>
                                   <div style={{ marginTop: "10px" }}><Text strong>Total Payable {renderAmount(invoiceData.total_payable)}</Text></div>
@@ -485,7 +485,7 @@ export const Create = () => {
                               </Row>
                             </Col>
                             : null}
-                          <Col span={6} offset={18} style={{ textAlign: "right" }}>
+                          <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
                             <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.PaymentInformation)} />
                           </Col>
                         </Row>
