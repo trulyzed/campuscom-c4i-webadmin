@@ -30,6 +30,7 @@ import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/Aud
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
+import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
 
 const hasEditPermission = checkAdminApiPermission(StoreQueries.update.__permissions)
 
@@ -230,7 +231,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           searchParams: { store_id: store.id },
           searchFunc: UserQueries.getListByStore,
           refreshEventName: "REFRESH_COURSE_STORE_USER_TAB",
-        }
+          actions: [
+            <NavigateTo type="create" name="Add User" path="/administration/user" apiPermission={UserQueries.create} />
+          ]
+        },
       },
       helpKey: "storeUserTab"
     },
