@@ -1,4 +1,4 @@
-import { DATE_PICKER, IField, FILE, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { DATE_PICKER, IField, FILE, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getStoreDomainConfigurationFormMeta = (record?: {[key: string]: any}): IField[] => [

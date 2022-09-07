@@ -1,8 +1,8 @@
 import { BATCH_FILE_INPUT_FORMAT, INPUT_OPTIONS } from "~/Configs/input"
-import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { GlobalConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/GlobalConfigurations"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/GlobalConfigurations"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const QuestionFormMeta: IField[] = [
@@ -23,25 +23,31 @@ export const QuestionFormMeta: IField[] = [
   },
   {
     label: 'Course Provider',
-    fieldName: 'provider_ref',
+    fieldName: 'course_provider',
     inputType: DROPDOWN,
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['provider_type'],
-    onDependencyChange: (value) => value?.provider_type === 'course_provider',
+    dependencies: ['provider_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.provider_type === 'course_provider')
+    },
+    autoSelectDefault: true
   },
   {
     label: 'Store',
-    fieldName: 'provider_ref',
+    fieldName: 'store',
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['provider_type'],
-    onDependencyChange: (value) => value?.provider_type === 'store',
+    dependencies: ['provider_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.provider_type === 'store')
+    },
+    autoSelectDefault: true
   },
   {
     label: 'External ID',
@@ -66,38 +72,48 @@ export const QuestionFormMeta: IField[] = [
     label: 'Is Autocomplete',
     fieldName: 'autocomplete',
     inputType: BOOLEAN,
-    renderDependencies: ['question_type'],
-    onDependencyChange: (value) => value?.question_type === 'select',
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type === 'select')
+    },
   },
   {
     label: 'Options',
     fieldName: 'options',
     inputType: TEXTAREA,
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['question_type', 'autocomplete'],
-    onDependencyChange: (value) => value?.question_type === 'select' && !value?.autocomplete,
+    dependencies: ['question_type', 'autocomplete'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type === 'select' && !value?.autocomplete)
+    },
   },
   {
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
     accept: BATCH_FILE_INPUT_FORMAT,
-    renderDependencies: ['autocomplete'],
-    onDependencyChange: (value) => value?.autocomplete,
+    dependencies: ['autocomplete'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.autocomplete)
+    },
   },
   {
     label: 'Is Multiple',
     fieldName: 'multiple',
     inputType: BOOLEAN,
-    renderDependencies: ['question_type'],
-    onDependencyChange: (value) => value?.question_type === 'attachment',
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type === 'attachment')
+    },
   },
   {
     label: 'Max File Size',
     fieldName: 'max_file_size',
     inputType: NUMBER,
-    renderDependencies: ['question_type'],
-    onDependencyChange: (value) => value?.question_type === 'attachment',
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type === 'attachment')
+    },
   },
   {
     label: 'Accepted File Types',
@@ -106,8 +122,10 @@ export const QuestionFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     inputType: MULTI_SELECT_DROPDOWN,
-    renderDependencies: ['question_type'],
-    onDependencyChange: (value) => value?.question_type === 'attachment',
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type === 'attachment')
+    },
   },
   {
     label: 'Is Required',

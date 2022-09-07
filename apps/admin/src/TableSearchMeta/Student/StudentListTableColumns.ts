@@ -1,7 +1,7 @@
-import { renderDate, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderDate, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const studentListTableColumns: TableColumnType = [
   {
@@ -26,7 +26,7 @@ export const studentListTableColumns: TableColumnType = [
 export const getStudentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: studentListTableColumns,
-    searchFunc: QueryConstructor((params) => StudentQueries.getPaginatedList(params), [StudentQueries.getList]),
+    searchFunc: QueryConstructor((params) => StudentQueries.getPaginatedList(params), [StudentQueries.getPaginatedList]),
     tableName: 'Student'
   }
 }

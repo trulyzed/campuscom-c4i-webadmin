@@ -1,15 +1,15 @@
-// import { message } from "antd"
-import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-// import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+// import { notification } from "antd"
+import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { ScheduleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Schedules"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+// import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 // import { ScheduleFormMeta } from "~/Component/Feature/Schedule/FormMeta/ScheduleFormMeta"
 // import { UPDATE_SUCCESSFULLY } from "~/Constants"
 
 // const updateSchedule = QueryConstructor(((data) => ScheduleQueries.update({ ...data }).then(resp => {
 //   if (resp.success) {
-//     message.success(UPDATE_SUCCESSFULLY)
+//     notification.success({message: UPDATE_SUCCESSFULLY})
 //   }
 //   return resp
 // })), [ScheduleQueries.update])

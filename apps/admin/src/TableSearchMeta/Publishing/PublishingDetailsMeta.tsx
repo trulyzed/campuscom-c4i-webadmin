@@ -1,32 +1,32 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/Publishings"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { PublishingQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Publishings"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { message } from "antd"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { notification } from "antd"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
-import { renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
+import { renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [PublishingQueries.update])
 
   const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.create])
@@ -52,7 +52,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
     contents: [
       { label: 'Active Status', value: publishing.active_status, render: renderActiveStatus },
       { label: 'Store', value: publishing.store ? renderLink(`/administration/store/${publishing.store.id}`, publishing.store.name) : undefined },
-      { label: 'Course', value: renderLink(`/institute/course/${publishing.course.id}`, publishing.course.title) },
+      { label: 'Course', value: renderLink(`/course-provider/course/${publishing.course.id}`, publishing.course.title) },
       { label: 'Enrollment Ready', value: publishing.enrollment_ready, render: renderBoolean },
       { label: 'Is Published', value: publishing.is_published, render: renderBoolean },
       { label: 'Is Featured', value: publishing.is_featured, render: renderBoolean },
@@ -80,7 +80,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
             {
               title: "Name",
               dataIndex: "name",
-              render: (text: any, record: any) => renderLink(`/institute/section/${record.id}`, text),
+              render: (text: any, record: any) => renderLink(`/course-provider/section/${record.id}`, text),
               sorter: (a: any, b: any) => a.name - b.name
             },
             {

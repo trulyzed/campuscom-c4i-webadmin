@@ -1,21 +1,21 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => IdentityProviderQueries.update({ ...data, params: { id: identityProvider.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [IdentityProviderQueries.update])

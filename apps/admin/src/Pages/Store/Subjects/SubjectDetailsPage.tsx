@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router-dom"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getSubjectDetailsMeta } from "~/TableSearchMeta/Subject/SubjectDetailsMeta"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
 
 export function SubjectDetailsPage(props: RouteComponentProps<{ subjectID?: string }>) {
   const SubjectID = props?.match?.params?.subjectID

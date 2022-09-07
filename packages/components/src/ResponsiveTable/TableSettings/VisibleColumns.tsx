@@ -45,7 +45,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
           </div>
           <div style={{ width: "200px" }}>
             <Form.Item colon={false} style={{ marginBottom: "0px" }} name={props.value.dataIndex + "__input"}>
-              <Input value={props.value.title as string} onChange={(e) => console.log(e)} />
+              <Input />
             </Form.Item>
           </div>
         </div>
@@ -71,7 +71,10 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
         }}
         useDragHandle={true}
       >
-        <Form form={props.formInstance}>
+        <Form form={props.formInstance} initialValues={props.visibleColumns.reduce((a, c) => {
+          a[`${c.dataIndex}__input`] = c.title
+          return a
+        }, {})}>
           {props.visibleColumns
             .filter((x) => !!x.dataIndex)
             .map((item: any, index: number) => {

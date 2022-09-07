@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { Modal } from "~/Modal/Modal"
-import { IconButton } from "~/Form/Buttons/IconButton"
 import { Button, Card, Col, Form, Row } from "antd"
 import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
 import { VisibleColumns } from "~/ResponsiveTable/TableSettings/VisibleColumns"
 import { HiddenColumns } from "~/ResponsiveTable/TableSettings/HiddenColumns"
 import { IUserTableMetaConfig } from "~/ResponsiveTable/TableMetaShadowingProcessor"
-import { deletePreferences, saveOrUpdatePreferences } from "@packages/api/lib/ApiService/PreferenceService"
+import { PreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Preferences";
 import { SettingsActionButtons } from "~/ResponsiveTable/TableSettings/SettingsActionButtons"
 
 export const TableSettings = (props: {
@@ -14,8 +13,10 @@ export const TableSettings = (props: {
   activeColumns: any[]
   allColumns: any[]
   reload: () => void
+  show: boolean
+  onToggle: (status: boolean) => void
+  hideIcon?: boolean
 }) => {
-  const [showModal, setShowModal] = useState(false)
   const [visibleListFormInstance] = Form.useForm()
   const [hiddenListFormInstance] = Form.useForm()
   const [visibleColumns, setVisibleColumns] = useState<any[]>([])
@@ -69,7 +70,7 @@ export const TableSettings = (props: {
   }
 
   const reload = () => {
-    deletePreferences({ PreferenceKey: props.tableName }).finally(() => props.reload())
+    PreferenceQueries.deletePreferences({ params: { table_name: props.tableName } }).finally(() => props.reload())
   }
 
   const apply = () => {
@@ -98,62 +99,58 @@ export const TableSettings = (props: {
     })
     if (props.tableName) {
       setLoading(true)
-      saveOrUpdatePreferences({
-        PreferenceKey: props.tableName,
-        PreferenceValue: tableMetaConfig
+      PreferenceQueries.saveOrUpdatePreferences({
+        data: {
+          table_name: props.tableName,
+          value: tableMetaConfig
+        }
       }).then((response) => {
         if (response.success) {
           setLoading(false)
-          setShowModal(false)
+          props.onToggle(false)
           props.reload()
         }
       })
     }
   }
 
-  return (
-    <>
-      <IconButton toolTip="Settings" onClick={() => setShowModal(true)} iconType="settings" />
-      {showModal && (
-        <Modal
-          closeModal={() => setShowModal(false)}
-          loading={loading}
-          loadingTip="Saving Table Configuration"
-          width="1000px"
-        >
-          <Card
-            title={`Settings For ${
-              props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
-            }`}
-            actions={[
-              <Button onClick={() => setShowModal(false)}>Close</Button>,
-              <Button type="primary" onClick={apply}>
-                Apply
-              </Button>
-            ]}
-          >
-            <Row gutter={4} justify="space-between" style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-              <Col xs={24} sm={24} md={8}>
-                <VisibleColumns
-                  visibleColumns={visibleColumns}
-                  setVisibleColumns={setVisibleColumns}
-                  formInstance={visibleListFormInstance}
-                />
-              </Col>
-              <Col xs={24} sm={24} md={2}>
-                <SettingsActionButtons
-                  updateVisibleColumns={updateVisibleColumns}
-                  updateHiddenColumns={updateHiddenColumns}
-                  reload={reload}
-                />
-              </Col>
-              <Col xs={24} sm={24} md={14}>
-                <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} />
-              </Col>
-            </Row>
-          </Card>
-        </Modal>
-      )}
-    </>
-  )
+  return props.show ? (
+    <Modal
+      closeModal={() => props.onToggle(false)}
+      loading={loading}
+      loadingTip="Saving Table Configuration"
+      width="1000px"
+    >
+      <Card
+        title={`Settings For ${props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
+          }`}
+        actions={[
+          <Button onClick={() => props.onToggle(false)}>Close</Button>,
+          <Button type="primary" onClick={apply}>
+            Apply
+          </Button>
+        ]}
+      >
+        <Row gutter={4} justify="space-between" style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+          <Col xs={24} sm={24} md={8}>
+            <VisibleColumns
+              visibleColumns={visibleColumns}
+              setVisibleColumns={setVisibleColumns}
+              formInstance={visibleListFormInstance}
+            />
+          </Col>
+          <Col xs={24} sm={24} md={2}>
+            <SettingsActionButtons
+              updateVisibleColumns={updateVisibleColumns}
+              updateHiddenColumns={updateHiddenColumns}
+              reload={reload}
+            />
+          </Col>
+          <Col xs={24} sm={24} md={14}>
+            <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} />
+          </Col>
+        </Row>
+      </Card>
+    </Modal>
+  ) : null
 }

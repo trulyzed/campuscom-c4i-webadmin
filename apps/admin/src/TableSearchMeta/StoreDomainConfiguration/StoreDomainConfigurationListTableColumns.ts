@@ -1,7 +1,7 @@
-import { renderDateTime, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { StoreDomainConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreDomainConfigurations"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { StoreDomainConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/StoreDomainConfigurations"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { renderStoreDomainConfigurationStatus } from "./StoreDomainConfigurationDetailsMeta"
 
 export const storeDomainConfigurationListTableColumns: TableColumnType = [

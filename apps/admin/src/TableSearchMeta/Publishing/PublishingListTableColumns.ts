@@ -1,7 +1,7 @@
-import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/Publishings"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { PublishingQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Publishings"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const publishingListTableColumns: TableColumnType = [
   {

@@ -1,20 +1,20 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseSharingContractQueries.update])

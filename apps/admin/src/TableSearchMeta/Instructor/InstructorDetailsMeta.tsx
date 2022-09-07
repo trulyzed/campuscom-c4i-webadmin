@@ -1,21 +1,21 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { InstructorQueries } from "~/packages/services/Api/Queries/AdminQueries/Instructors"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { InstructorQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Instructors"
 import { InstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderHtml, renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getInstructorDetailsMeta = (instructor: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => InstructorQueries.update({ ...data, params: { id: instructor.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [InstructorQueries.update])

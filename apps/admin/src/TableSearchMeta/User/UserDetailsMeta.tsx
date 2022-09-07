@@ -1,13 +1,13 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean } from "~/packages/components/ResponsiveTable"
-import { renderJson } from "~/packages/components/ResponsiveTable/tableUtils"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean } from "@packages/components/lib/ResponsiveTable"
+import { renderJson } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Users"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
@@ -15,7 +15,7 @@ import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSe
 export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [UserQueries.update])

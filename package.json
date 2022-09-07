@@ -2,7 +2,7 @@
   "private": true,
   "workspaces": [
     "packages/utilities",
-    "packages/api",
+    "packages/services",
     "packages/components",
     "apps/*"
   ],
@@ -11,15 +11,17 @@
     "husky": "^7.0.0"
   },
   "scripts": {
-    "start:admin": "yarn workspace admin start",
+    "start:admin": "yarn build:packages && yarn workspace admin start",
+    "start:affiliate": "yarn build:packages && yarn workspace affiliate start",
     "clean": "yarn workspace run clean",
     "clean:node_modules": "yarn workspace run clean:node_modules",
     "build": "yarn workspaces run build",
-    "build:packages": "yarn build:utils && yarn build:api && yarn build:components",
-    "build:utils": "yarn workspace @packages/utilities build",
-    "build:api": "yarn workspace @packages/api build",
+    "build:utilities": "yarn workspace @packages/utilities build",
+    "build:services": "yarn workspace @packages/services build",
     "build:components": "yarn workspace @packages/components build",
-    "build:admin": "yarn workspace admin build",
+    "build:packages": "yarn build:utilities && yarn build:services && yarn build:components",
+    "build:admin": "yarn build:utilities && yarn build:services && yarn build:components && yarn workspace admin build",
+    "build:affiliate": "yarn build:utilities && yarn build:services && yarn build:components && yarn workspace affiliate build",
     "lint": "yarn workspaces run lint",
     "lint:ts": "yarn workspaces run lint:ts",
     "prepare": "husky install",
@@ -30,6 +32,7 @@
   "dependencies": {},
   "resolutions": {
     "@types/react": "^17.0.2",
-    "@types/react-dom": "^17.0.2"
+    "@types/react-dom": "^17.0.2",
+    "react-error-overlay": "6.0.9"
   }
 }

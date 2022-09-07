@@ -1,7 +1,7 @@
-import { BOOLEAN, IField, TEXT, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { BOOLEAN, IField, TEXT, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Roles"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const UserFormMeta: IField[] = [
@@ -70,7 +70,8 @@ export const UserFormMeta: IField[] = [
     fieldName: "course_providers",
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Stores",
@@ -78,6 +79,7 @@ export const UserFormMeta: IField[] = [
     fieldName: "stores",
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   }
 ]

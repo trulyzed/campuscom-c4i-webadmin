@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { IField, TEXT, FILE, EDITOR, DROPDOWN } from "~/packages/components/Form/common"
+import { IField, TEXT, FILE, EDITOR, DROPDOWN } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const CourseProviderFormMeta: IField[] = [
@@ -19,7 +19,6 @@ export const CourseProviderFormMeta: IField[] = [
     label: 'Summary',
     fieldName: 'summary',
     inputType: EDITOR,
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Website',
@@ -30,7 +29,6 @@ export const CourseProviderFormMeta: IField[] = [
     label: 'Description',
     fieldName: 'description',
     inputType: EDITOR,
-    rules: [{ required: true, message: "This field is required!" }]
   },
   {
     label: 'Logo',

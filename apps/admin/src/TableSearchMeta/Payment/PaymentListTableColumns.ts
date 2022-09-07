@@ -1,6 +1,6 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { PaymentQueries } from "~/packages/services/Api/Queries/AdminQueries/Payments"
+import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { PaymentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Payments"
 
 export const getPaymentListTableColumns = (isModal = false, OrderID?: number): ITableMeta => {
   const columns: TableColumnType = [
@@ -43,6 +43,7 @@ export const getPaymentListTableColumns = (isModal = false, OrderID?: number): I
   return {
     columns,
     searchFunc: PaymentQueries.getPaginatedList,
-    tableName: 'Payment'
+    tableName: 'Payment',
+    showDownload: true,
   }
 }

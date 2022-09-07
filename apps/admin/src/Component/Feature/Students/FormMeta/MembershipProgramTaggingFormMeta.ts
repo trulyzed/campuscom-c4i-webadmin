@@ -1,5 +1,5 @@
-import { IField, DROPDOWN } from "~/packages/components/Form/common"
-import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
+import { IField, DROPDOWN } from "@packages/components/lib/Form/common"
+import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const MembershipProgramTaggingFormMeta: IField[] = [

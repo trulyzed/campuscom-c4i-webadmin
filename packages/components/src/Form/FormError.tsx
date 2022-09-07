@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import { Typography } from "antd"
-import { red } from "@ant-design/colors"
-import { ISimplifiedApiErrorMessage } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
+import { Alert, Typography } from "antd"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
 interface IFormError {
   errorMessages?: Array<ISimplifiedApiErrorMessage>
@@ -19,28 +18,23 @@ export function FormError(props: IFormError) {
     <>
       {props.genericInstructions}
       {Array.isArray(props.errorMessages) && props.errorMessages.length > 0 && (
-        <div
-          id="errorMessages"
-          role="alert"
-          style={{
-            backgroundColor: "#ffecec",
-            color: red.primary,
-            padding: "10px 30px",
-            width: "100%",
-            marginBottom: "15px"
-          }}
-        >
-          <h1>Error</h1>
-          <ol>
-            {props.errorMessages.map((error, index) => {
+        <Alert
+          className="mb-20"
+          type="error"
+          showIcon
+          closable
+          closeIcon={<span className="glyphicon glyphicon--primary glyphicon-remove" />}
+          icon={<span className="glyphicon glyphicon--primary glyphicon-exclamation-sign" />}
+          message={<Typography.Title type="danger" level={3}>Error</Typography.Title>}
+          description={<ul>
+            {props.errorMessages?.map((error, index) => {
               return (
                 <li key={index + 1000}>
                   <Typography.Text type="danger">{error.message}</Typography.Text>
                 </li>
               )
             })}
-          </ol>
-        </div>
+          </ul>} />
       )}
     </>
   )
