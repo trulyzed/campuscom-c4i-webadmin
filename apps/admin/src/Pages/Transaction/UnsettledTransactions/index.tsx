@@ -15,7 +15,7 @@ export const List = () => {
         ...getTransactionListTableColumns(),
         searchFunc: QueryConstructor((data) => TransactionQueries.getList({ ...data, params: { ...data?.params, settlement_status: "unsettled", payment_transactions__status: "completed" } }), [TransactionQueries.getList]),
         actions: [
-          <NavigateTo type="create" name="Create Settlement Batch" path="/storefront-data/create-settlement-batch" apiPermission={TransactionBatchQueries.create} />
+          <NavigateTo type="create" name="Create Settlement Batch" path="/transaction/create-settlement-batch" apiPermission={TransactionBatchQueries.create} />
         ]
       }}
     />

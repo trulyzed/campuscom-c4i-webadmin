@@ -51,7 +51,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
           type="delete"
           tooltip="Delete Settlement Batch"
           queryService={QueryConstructor(() => TransactionBatchQueries.delete({ data: { ids: [transactionBatch.id] } }), [TransactionBatchQueries.delete])}
-          redirectTo={`/storefront-data/settlement-batch?page=1`}
+          redirectTo={`/transaction/settlement-batch?page=1`}
         />
       ] : []
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
