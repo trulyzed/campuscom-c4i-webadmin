@@ -38,11 +38,6 @@ export const CourseProviderFormMeta: IField[] = [
     accept: IMAGE_INPUT_FORMAT,
   },
   {
-    label: 'Refund Email',
-    fieldName: 'refund_email',
-    inputType: TEXT,
-  },
-  {
     label: 'ERP',
     fieldName: 'configuration__erp',
     inputType: DROPDOWN,
@@ -54,16 +49,6 @@ export const CourseProviderFormMeta: IField[] = [
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Password',
-    fieldName: 'configuration__password',
-    inputType: TEXT,
-  },
-  {
-    label: 'Username',
-    fieldName: 'configuration__username',
-    inputType: TEXT,
-  },
-  {
     label: 'Auth Type',
     fieldName: 'configuration__auth_type',
     inputType: DROPDOWN,
@@ -71,6 +56,16 @@ export const CourseProviderFormMeta: IField[] = [
       {label: 'Basic', value: 'basic'},
       {label: 'No Auth', value: 'no_auth'},
     ],
+  },
+  {
+    label: 'Username',
+    fieldName: 'configuration__username',
+    inputType: TEXT,
+  },
+  {
+    label: 'Password',
+    fieldName: 'configuration__password',
+    inputType: TEXT,
   },
   {
     label: 'Enrollment URL',
