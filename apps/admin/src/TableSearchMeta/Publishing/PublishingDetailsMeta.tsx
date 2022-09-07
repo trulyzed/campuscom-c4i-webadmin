@@ -141,7 +141,6 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
               initialFormValue={{ subjects: publishing.subjects }}
               formSubmitApi={tagSubjects}
               buttonLabel={`Tag Subjects`}
-              iconType="create"
               refreshEventName={REFRESH_PAGE}
             />
           ]

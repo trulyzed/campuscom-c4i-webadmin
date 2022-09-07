@@ -153,7 +153,6 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               formMeta={getCareerTaggingFormMeta()}
               formSubmitApi={tagCareer}
               buttonLabel={`Tag Career`}
-              iconType="create"
               refreshEventName={'REFRESH_CAREER_LIST'}
               initialFormValueApi={taggedCareersAndSkillQuery}
             />
