@@ -37,10 +37,10 @@ export const List = () => {
           ...getRoleListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Role`}
+              formTitle={`Create Role`}
               formMeta={getRoleFormMeta()}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Role`}
+              buttonLabel={`Create Role`}
               iconType="create"
             />
           ]

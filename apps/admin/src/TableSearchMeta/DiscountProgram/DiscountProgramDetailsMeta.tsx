@@ -105,10 +105,10 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
           refreshEventName: "REFRESH_PRODUCT_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Product`}
+              formTitle={`Create Product`}
               formMeta={getProductTaggingFormMeta(discountProgram.id)}
               formSubmitApi={addProduct}
-              buttonLabel={`Add Product`}
+              buttonLabel={`Create Product`}
               iconType="create"
               refreshEventName={'REFRESH_PRODUCT_TAB'}
             />

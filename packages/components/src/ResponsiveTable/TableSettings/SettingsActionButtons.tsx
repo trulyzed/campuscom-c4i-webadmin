@@ -14,12 +14,10 @@ export const SettingsActionButtons = (props: {
 	});
 
 	return (
-		<Row gutter={8} justify="space-around">
+		<Row gutter={[8, 8]}>
 			<Col
-				xs={8}
-				sm={8}
 				md={24}
-				style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
+				style={{ textAlign: "center" }}
 			>
 				<IconButton
 					toolTip="Deactivate"
@@ -28,10 +26,8 @@ export const SettingsActionButtons = (props: {
 				/>
 			</Col>
 			<Col
-				xs={8}
-				sm={8}
 				md={24}
-				style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
+				style={{ textAlign: "center" }}
 			>
 				<IconButton
 					toolTip="Activate"
@@ -40,10 +36,8 @@ export const SettingsActionButtons = (props: {
 				/>
 			</Col>
 			<Col
-				xs={8}
-				sm={8}
 				md={24}
-				style={{ textAlign: "center", marginTop: "10px", marginBottom: "10px" }}
+				style={{ textAlign: "center" }}
 			>
 				<IconButton
 					toolTip="Default"

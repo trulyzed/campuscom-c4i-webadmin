@@ -125,10 +125,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_COURSE_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Section`}
+              formTitle={`Create Section`}
               formMeta={SectionFormMeta}
               formSubmitApi={createSection}
-              buttonLabel={`Add Section`}
+              buttonLabel={`Create Section`}
               iconType="create"
               refreshEventName={'REFRESH_COURSE_LIST'}
             />
@@ -153,7 +153,6 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               formMeta={getCareerTaggingFormMeta()}
               formSubmitApi={tagCareer}
               buttonLabel={`Tag Career`}
-              iconType="create"
               refreshEventName={'REFRESH_CAREER_LIST'}
               initialFormValueApi={taggedCareersAndSkillQuery}
             />
@@ -263,10 +262,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Registration Question`}
+              formTitle={`Create Registration Question`}
               formMeta={getRegistrationQuestionTaggingFormMeta(course.id)}
               formSubmitApi={tagRegistrationQuestion}
-              buttonLabel={`Add Registration Question`}
+              buttonLabel={`Create Registration Question`}
               iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_QUESTION_TAB'}
             />

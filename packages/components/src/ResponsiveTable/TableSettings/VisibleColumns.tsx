@@ -25,7 +25,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
     // eslint-disable-next-line
   }, [props.visibleColumns])
 
-  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer" }}>::</div>)
+  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer", textAlign: "center" }}>::</div>)
   const SortableItem = sortableElement((props: any) => {
     return (
       <li>
@@ -34,7 +34,8 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
             margin: "5px",
             display: "flex",
             flexFlow: "row",
-            padding: "10px"
+            padding: "10px",
+            gap: "10px"
           }}
         >
           <DragHandle />
@@ -53,12 +54,12 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
     )
   })
   const SortableContainer = sortableContainer((props: { children: React.ReactNode }) => {
-    return <ol>{props.children}</ol>
+    return <ol style={{ paddingLeft: 0 }}>{props.children}</ol>
   })
   return (
     <div
       {...(!mobileView && {
-        style: { overflowY: "scroll", maxHeight: "60vh" }
+        style: { overflowY: "scroll", maxHeight: "65vh" }
       })}
     >
       <Typography.Title level={3}>Active Columns</Typography.Title>

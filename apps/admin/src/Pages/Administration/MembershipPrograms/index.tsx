@@ -31,7 +31,7 @@ export const List = () => {
           ...getMembershipProgramListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Membership Program`}
+              formTitle={`Create Membership Program`}
               formMeta={MembershipProgramFormMeta}
               formSubmitApi={createEntity}
               buttonLabel={`Create`}

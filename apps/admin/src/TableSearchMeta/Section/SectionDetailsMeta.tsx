@@ -88,10 +88,10 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_SCHEDULE_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Schedule`}
+              formTitle={`Create Schedule`}
               formMeta={ScheduleFormMeta}
               formSubmitApi={createSchedule}
-              buttonLabel={`Add Schedule`}
+              buttonLabel={`Create Schedule`}
               iconType="create"
               refreshEventName={'REFRESH_SCHEDULE_TAB'}
             />

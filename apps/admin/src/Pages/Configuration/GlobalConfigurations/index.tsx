@@ -31,10 +31,10 @@ export const List = () => {
           ...getGlobalConfigurationListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Global Configuration`}
+              formTitle={`Create Global Configuration`}
               formMeta={GlobalConfigurationFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Global Configuration`}
+              buttonLabel={`Create Global Configuration`}
               iconType="create"
             />
           ]

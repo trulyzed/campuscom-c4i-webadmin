@@ -31,10 +31,10 @@ export const List = () => {
           ...getIdentityProviderListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Identity Provider`}
+              formTitle={`Create Identity Provider`}
               formMeta={IdentityProviderFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Identity Provider`}
+              buttonLabel={`Create Identity Provider`}
               iconType="create"
             />
           ]

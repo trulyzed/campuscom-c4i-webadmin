@@ -130,10 +130,10 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_MEMBERSHIP_PROGRAM_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Membership Program`}
+              formTitle={`Create Membership Program`}
               formMeta={MembershipProgramTaggingFormMeta}
               formSubmitApi={addMembershipProgram}
-              buttonLabel={`Add Membership Program`}
+              buttonLabel={`Create Membership Program`}
               iconType="create"
               refreshEventName={'REFRESH_MEMBERSHIP_PROGRAM_TAB'}
             />

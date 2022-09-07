@@ -131,7 +131,7 @@ export const TableSettings = (props: {
           </Button>
         ]}
       >
-        <Row gutter={4} justify="space-between" style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+        <Row gutter={[4, 20]} justify="space-between" style={{ overflowY: "scroll", maxHeight: "65vh" }}>
           <Col xs={24} sm={24} md={8}>
             <VisibleColumns
               visibleColumns={visibleColumns}
