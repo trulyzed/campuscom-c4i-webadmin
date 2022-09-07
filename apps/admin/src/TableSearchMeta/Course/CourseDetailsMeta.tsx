@@ -149,10 +149,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_CAREER_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Tag Career`}
+              formTitle={`Add Career`}
               formMeta={getCareerTaggingFormMeta()}
               formSubmitApi={tagCareer}
-              buttonLabel={`Tag Career`}
+              buttonLabel={`Add Career`}
               refreshEventName={'REFRESH_CAREER_LIST'}
               initialFormValueApi={taggedCareersAndSkillQuery}
             />
