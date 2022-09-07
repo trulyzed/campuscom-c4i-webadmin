@@ -97,10 +97,10 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
           refreshEventName: "REFRESH_PROFILE_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Profile`}
+              formTitle={`Create Profile`}
               formMeta={getProfileTaggingFormMeta(contactGroup.id)}
               formSubmitApi={createProfile}
-              buttonLabel={`Add Profile`}
+              buttonLabel={`Create Profile`}
               iconType="create"
               refreshEventName={'REFRESH_PROFILE_LIST'}
             />

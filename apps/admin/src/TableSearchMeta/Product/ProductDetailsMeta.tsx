@@ -119,10 +119,10 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_STANDALONE_PRODUCT_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Standalone Products`}
+              formTitle={`Create Standalone Products`}
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'standalone')}
               formSubmitApi={addRelatedProducts('standalone')}
-              buttonLabel={`Add Standalone Product`}
+              buttonLabel={`Create Standalone Product`}
               iconType="create"
               refreshEventName={'REFRESH_STANDALONE_PRODUCT_TAB'}
             />
@@ -162,10 +162,10 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_REGISTRATION_PRODUCT_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Registration Products`}
+              formTitle={`Create Registration Products`}
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
               formSubmitApi={addRelatedProducts('registration')}
-              buttonLabel={`Add Registration Product`}
+              buttonLabel={`Create Registration Product`}
               iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
             />

@@ -31,10 +31,10 @@ export const List = () => {
           ...getDiscountProgramListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Discount Program`}
+              formTitle={`Create Discount Program`}
               formMeta={DiscountProgramFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Discount Program`}
+              buttonLabel={`Create Discount Program`}
               iconType="create"
             />
           ]

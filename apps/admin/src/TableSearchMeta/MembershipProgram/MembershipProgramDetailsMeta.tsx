@@ -106,10 +106,10 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
           refreshEventName: "REFRESH_DISCOUNTS_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Identity Provider`}
+              formTitle={`Create Identity Provider`}
               formMeta={getDiscountTaggingFormMeta(membershipProgram.id)}
               formSubmitApi={addMembershipDiscount}
-              buttonLabel={`Add Discount`}
+              buttonLabel={`Create Discount`}
               iconType="create"
               refreshEventName={'REFRESH_DISCOUNTS_TAB'}
             />
