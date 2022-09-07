@@ -136,11 +136,11 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
           refreshEventName: "REFRESH_SUBJECT_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Tag Subjects`}
+              formTitle={`Add Subjects`}
               formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
               initialFormValue={{ subjects: publishing.subjects }}
               formSubmitApi={tagSubjects}
-              buttonLabel={`Tag Subjects`}
+              buttonLabel={`Add Subjects`}
               refreshEventName={REFRESH_PAGE}
             />
           ]
