@@ -19,13 +19,13 @@ export const transactionBatchListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.filter_params.course_provider?.name.length - b.filter_params.course_provider?.name.length
   },
   {
-    title: "Payment Status",
+    title: "Status",
     dataIndex: "status",
     render: (text) => renderBoolean(text === "paid", { truthyText: "Paid", falsyText: "Unpaid", uncolorize: true, tagColor: text === "paid" ? "#4B8400" : "#AAAAAA" }),
     sorter: (a: any, b: any) => a.status - b.status
   },
   {
-    title: "Payment Date",
+    title: "Settlement Date",
     dataIndex: "payment_date",
     render: renderDateTime,
     sorter: (a: any, b: any) => a.payment_date - b.payment_date
