@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useRef } from "react"
 import ReactDOM from "react-dom"
-import { Row, Col, Spin, Card } from "antd"
+import { Row, Col, Spin, Card, Grid } from "antd"
 import { zIndexLevel } from "~/zIndexLevel"
 import FocusTrap from "focus-trap-react"
 import { Options as FocusTrapOptions } from "focus-trap"
@@ -56,10 +56,12 @@ export function Modal({
   apiCallInProgress = false,
   closeModal
 }: IModalProp) {
+  const breakpoint = Grid.useBreakpoint()
   const modalID = generateUUID("modalContainer")
   const focusTrapOption = {
     allowOutsideClick: () => true,
-    fallbackFocus: () => document.getElementById(modalID)
+    fallbackFocus: () => document.getElementById(modalID),
+    initialFocus: false
   } as FocusTrapOptions
   const modalRef = useRef(null)
 
@@ -112,7 +114,7 @@ export function Modal({
               <Col flex="auto"></Col>
               {loading && <ModalLoading {...{ width, loadingTip }} />}
               {!loading && (
-                <Col flex={width}>
+                <Col flex={width} style={breakpoint.md ? { top: "3rem" } : undefined}>
                   {children}
                   {apiCallInProgress && (
                     <div style={apiInProgressStyle}>

@@ -31,10 +31,10 @@ export const List = () => {
           ...getStoreListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Store`}
+              formTitle={`Create Store`}
               formMeta={getStoreFormMeta()}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Store`}
+              buttonLabel={`Create Store`}
               iconType="create"
             />
           ]

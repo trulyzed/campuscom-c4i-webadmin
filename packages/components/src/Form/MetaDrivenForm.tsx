@@ -47,10 +47,12 @@ import { FormEditorInput } from "./FormEditorInput"
 import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 import { FormHiddenInput } from "./FormHiddenInput"
 import { FormDisplayField } from "./FormDisplayField"
+import { ContextAction } from "~/Actions/ContextAction"
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
 export function MetaDrivenForm({
+  showCloseButton,
   showClearbutton = true,
   applyButtonLabel = "Apply",
   actionContainerStyle,
@@ -68,6 +70,7 @@ export function MetaDrivenForm({
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   currentPagination?: number
+  showCloseButton?: boolean
   showClearbutton?: boolean
   applyButtonLabel?: string
   disableApplyButton?: boolean
@@ -310,32 +313,41 @@ export function MetaDrivenForm({
       title={
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>
-            <Col md={24} xs={24}>
-              <SidebarMenuTargetHeading level={props.isModal ? 2 : 3} targetID="navigation">
-                {props.title}
-              </SidebarMenuTargetHeading>
+            <Col md={{ span: 22, order: 0 }} xs={{ span: 24, order: 1 }}>
+              <Row>
+                <Col flex={"auto"}>
+                  <SidebarMenuTargetHeading level={props.isModal ? 2 : 3} targetID="navigation">
+                    {props.title}
+                  </SidebarMenuTargetHeading>
+                </Col>
+                {showClearbutton && props.isAside && (
+                  <Col md={24} xs={24}>
+                    <Button size="small" onClick={clearParams}>
+                      {clearButtonLabel}
+                    </Button>
+                  </Col>
+                )}
+                {props.blocks &&
+                  props.blocks.map((x, i) => (
+                    <Col flex="none" key={i}>
+                      {x}
+                    </Col>
+                  ))}
+                <Col flex="none">
+                  <HelpButton helpKey={props.helpKey} />
+                </Col>
+                {/* {props.metaName && (
+                  <Col flex="none">
+                    <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
+                  </Col>
+                )} */}
+              </Row>
             </Col>
-            {showClearbutton && props.isAside && (
-              <Col md={24} xs={24}>
-                <Button size="small" onClick={clearParams}>
-                  {clearButtonLabel}
-                </Button>
+            {showCloseButton && (
+              <Col xs={{ span: 2, offset: 22, }} md={{ offset: 0 }} className={"text-right"}>
+                <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={props.closeModal} />
               </Col>
             )}
-            {props.blocks &&
-              props.blocks.map((x, i) => (
-                <Col flex="none" key={i}>
-                  {x}
-                </Col>
-              ))}
-            <Col flex="none">
-              <HelpButton helpKey={props.helpKey} />
-            </Col>
-            {/* {props.metaName && (
-              <Col flex="none">
-                <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
-              </Col>
-            )} */}
           </Row>
           : null
       }

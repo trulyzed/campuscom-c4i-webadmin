@@ -25,10 +25,10 @@ export const List = () => {
         ...getImportTaskListTableColumns(),
         actions: [
           <MetaDrivenFormModalOpenButton
-            formTitle={`Add Task`}
+            formTitle={`Create Task`}
             formMeta={ImportTaskFormMeta}
             formSubmitApi={createEntity}
-            buttonLabel={`Add Task`}
+            buttonLabel={`Create Task`}
             iconType="create"
             refreshEventName={"REFRESH_IMPORT_TASK"}
           />

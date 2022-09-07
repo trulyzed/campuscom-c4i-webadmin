@@ -31,10 +31,10 @@ export const List = () => {
           ...getContactGroupListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Contact Group`}
+              formTitle={`Create Contact Group`}
               formMeta={ContactGroupFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Contact Group`}
+              buttonLabel={`Create Contact Group`}
               iconType="create"
             />
           ]

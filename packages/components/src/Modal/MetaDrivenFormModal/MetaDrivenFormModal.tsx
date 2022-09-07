@@ -94,6 +94,7 @@ export const MetaDrivenFormModal = (props: {
         stopProducingQueryParams={true}
         errorMessages={error}
         onApplyChanges={submit}
+        showCloseButton
       />
     </Modal>
   )
