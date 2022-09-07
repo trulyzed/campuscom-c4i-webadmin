@@ -60,7 +60,8 @@ export function Modal({
   const modalID = generateUUID("modalContainer")
   const focusTrapOption = {
     allowOutsideClick: () => true,
-    fallbackFocus: () => document.getElementById(modalID)
+    fallbackFocus: () => document.getElementById(modalID),
+    initialFocus: false
   } as FocusTrapOptions
   const modalRef = useRef(null)
 
