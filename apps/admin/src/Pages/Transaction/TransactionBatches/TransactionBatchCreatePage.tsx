@@ -94,7 +94,7 @@ export const TransactionBatchCreatePage = () => {
   const makePayment = QueryConstructor(((data) => TransactionBatchQueries.update({ ...data, params: { id: batchData.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
-      routerPush(`/storefront-data/settlement-batch/${batchData.id}`)
+      routerPush(`/transaction/settlement-batch/${batchData.id}`)
     }
     return resp
   })), [TransactionBatchQueries.update])
@@ -125,11 +125,11 @@ export const TransactionBatchCreatePage = () => {
           description={
             <>
               <div>
-                <span>Your settlement batch ID is {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, batchData.batch_ref)}</span>
+                <span>Your settlement batch ID is {renderLink(`/transaction/settlement-batch/${batchData.id}`, batchData.batch_ref)}</span>
               </div>
               <div>
                 <span>
-                  You can pay this batch later from the {renderLink(`/storefront-data/settlement-batch/${batchData.id}`, 'batch details')} section, or
+                  You can pay this batch later from the {renderLink(`/transaction/settlement-batch/${batchData.id}`, 'batch details')} section, or
                 </span>
                 <MetaDrivenFormModalOpenButton
                   formTitle={`Make Payment`}

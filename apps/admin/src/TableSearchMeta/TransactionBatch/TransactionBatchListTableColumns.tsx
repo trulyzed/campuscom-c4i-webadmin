@@ -9,7 +9,7 @@ export const transactionBatchListTableColumns: TableColumnType = [
   {
     title: "Batch ID",
     dataIndex: "batch_ref",
-    render: (text, record) => renderLink(`/storefront-data/settlement-batch/${record.id}`, text),
+    render: (text, record) => renderLink(`/transaction/settlement-batch/${record.id}`, text),
     sorter: (a: any, b: any) => a.batch_ref - b.batch_ref
   },
   {
