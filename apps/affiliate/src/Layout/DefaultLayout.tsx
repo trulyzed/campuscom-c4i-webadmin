@@ -39,7 +39,7 @@ export function DefaultLayout(props: ILayoutProps) {
       <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} onClose={() => setCollapsed(true)} />
       <Layout className="site-layout" style={collapsed ? undefined : { overflow: "hidden", }}>
         <Header role="none" className="site-layout-background" style={{ width: breakpoint.sm ? undefined : "100vw" }}>
-          <Row style={{ height: "100%", overflow: "hidden" }}>
+          <Row style={{ height: "100%" }}>
             <Col style={{ height: "100%" }} className="sidebar-toggle flex-center" flex="50px" role="navigation" aria-label="Sidebar Toggle">
               <MenuToggle collapsed={collapsed} setCollapsed={setCollapsed} />
             </Col>
