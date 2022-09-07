@@ -1,32 +1,32 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { getDiscountTaggingFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/DiscountTaggingFormMeta"
 import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
-import { renderHtml } from "~/packages/components/ResponsiveTable/tableUtils"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { DiscountProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/DiscountPrograms"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { renderHtml } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => MembershipProgramQueries.update({ ...data, params: { id: membershipProgram.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [MembershipProgramQueries.update])
 
   const addMembershipDiscount = QueryConstructor(((data) => MembershipProgramQueries.tagDiscountProgram({ ...data, data: { ...data?.data, membership_program: membershipProgram.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [MembershipProgramQueries.tagDiscountProgram])
@@ -44,11 +44,11 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Membership Program"
-        iconType="remove"
-        redirectTo="/administration/discount-program"
-        onClickRemove={() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } })}
+      <ContextAction
+        tooltip="Delete Membership Program"
+        type="delete"
+        queryService={QueryConstructor(() => MembershipProgramQueries.delete({ data: { ids: [membershipProgram.id] } }), [MembershipProgramQueries.delete])}
+        redirectTo={'/administration/membership-program?pagination=1'}
       />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
@@ -92,11 +92,11 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_DISCOUNTS_TAB"
-                  onClickRemove={() => MembershipProgramQueries.untagDiscountProgram({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => MembershipProgramQueries.untagDiscountProgram({ data: { ids: [text] } }), [MembershipProgramQueries.untagDiscountProgram])}
                 />
               )
             },

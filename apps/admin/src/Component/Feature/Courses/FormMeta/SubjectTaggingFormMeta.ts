@@ -1,6 +1,6 @@
-import { IField, MULTI_SELECT_GROUP_CHECKBOX, } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
+import { IField, MULTI_SELECT_GROUP_CHECKBOX, } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
 
 export const getSubjectTaggingFormMeta = (storeId: string): IField[] => {
   return [

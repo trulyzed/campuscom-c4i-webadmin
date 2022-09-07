@@ -1,5 +1,5 @@
-import { IField, MULTI_SELECT_DROPDOWN, MULTI_SELECT_GROUP_CHECKBOX, NUMBER, } from "~/packages/components/Form/common"
-import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
+import { IField, MULTI_SELECT_DROPDOWN, MULTI_SELECT_GROUP_CHECKBOX, NUMBER, } from "@packages/components/lib/Form/common"
+import { CareerQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Careers"
 
 export const getCareerTaggingFormMeta = (): IField[] => {
   return [

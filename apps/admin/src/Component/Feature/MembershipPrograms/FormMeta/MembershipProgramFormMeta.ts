@@ -1,6 +1,6 @@
 import { INPUT_OPTIONS } from "~/Configs/input"
-import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const MembershipProgramFormMeta: IField[] = [
@@ -11,7 +11,8 @@ export const MembershipProgramFormMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'Title',

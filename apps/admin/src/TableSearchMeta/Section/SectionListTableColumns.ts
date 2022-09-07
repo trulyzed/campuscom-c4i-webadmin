@@ -1,20 +1,20 @@
-import { renderDate, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderDate, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const sectionListTableColumns: TableColumnType = [
   {
     title: 'Name',
     dataIndex: 'name',
-    render: (text: any, record: any) => record.id ? renderLink(`/institute/section/${record.id}`, text) : text,
+    render: (text: any, record: any) => record.id ? renderLink(`/course-provider/section/${record.id}`, text) : text,
     sorter: (a: any, b: any) => a.name - b.name
   },
   {
     title: 'Course',
     dataIndex: 'course',
     sorter: (a: any, b: any) => a.course - b.course,
-    render: (text: any, record: any) => renderLink(`/institute/course/${text.id}`, text.title),
+    render: (text: any, record: any) => renderLink(`/course-provider/course/${text.id}`, text.title),
   },
   {
     title: 'Final Enrollment Date',

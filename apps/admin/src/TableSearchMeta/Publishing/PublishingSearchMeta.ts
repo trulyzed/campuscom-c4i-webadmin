@@ -1,7 +1,7 @@
 import { INPUT_OPTIONS } from "~/Configs/input"
-import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 export const PublishingSearchMeta: IField[] = [
   {
@@ -10,7 +10,8 @@ export const PublishingSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Title",
@@ -23,7 +24,8 @@ export const PublishingSearchMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "course_provider",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Status",

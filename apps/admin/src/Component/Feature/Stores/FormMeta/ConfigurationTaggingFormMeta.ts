@@ -1,5 +1,5 @@
-import { IField, DROPDOWN, TEXTAREA, BOOLEAN, TEXT } from "~/packages/components/Form/common"
-import { ExternalEntityQueries } from "~/packages/services/Api/Queries/AdminQueries/ExternalEntities"
+import { IField, DROPDOWN, TEXTAREA, BOOLEAN, TEXT } from "@packages/components/lib/Form/common"
+import { ExternalEntityQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ExternalEntities"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 const COMMON_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {

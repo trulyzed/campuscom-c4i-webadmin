@@ -1,13 +1,13 @@
-import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 
 export const getCourseListTableColumns = (isModal = false, CourseID?: number): ITableMeta => {
   const columns: TableColumnType = [
     {
       title: "Title",
       dataIndex: "title",
-      render: (text: any, record: any) => renderLink(`/institute/course/${record.id}`, text, isModal),
+      render: (text: any, record: any) => renderLink(`/course-provider/course/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.title - b.title
     },
     {

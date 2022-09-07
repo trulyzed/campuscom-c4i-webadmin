@@ -1,6 +1,6 @@
-import { IField, MULTI_SELECT_GROUP_CHECKBOX, } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
+import { IField, MULTI_SELECT_GROUP_CHECKBOX, } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 
 export const getProductTaggingFormMeta = (discountProgramId: string): IField[] => {
   return [

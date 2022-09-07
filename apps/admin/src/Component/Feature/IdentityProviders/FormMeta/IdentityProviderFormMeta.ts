@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { BOOLEAN, DROPDOWN, IField, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const IdentityProviderFormMeta: IField[] = [

@@ -1,43 +1,30 @@
-import { DROPDOWN, IField, TEXT, DATE_PICKER } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DROPDOWN, IField, DATE_PICKER } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+
 
 export const TransactionSearchMeta: IField[] = [
+  {
+    label: "Course Provider",
+    inputType: DROPDOWN,
+    refLookupService: CourseProviderQueries.getLookupData,
+    fieldName: "cart__cart_items__product__store_course_section__section__course__course_provider",
+    displayKey: "name",
+    valueKey: "id",
+    autoSelectDefault: true,
+  },
   {
     label: "Store",
     inputType: DROPDOWN,
     refLookupService: StoreQueries.getLookupData,
-    fieldName: "store__id",
+    fieldName: "cart__store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
-    label: "Transaction Ref.",
-    inputType: TEXT,
-    fieldName: "transaction_ref"
-  },
-  {
-    label: "Order Id",
-    inputType: TEXT,
-    fieldName: "order_ref"
-  },
-  {
-    label: "Transaction Date From",
+    label: "End Date",
     inputType: DATE_PICKER,
-    fieldName: "transaction_date__gte"
+    fieldName: "payment_transactions__transaction_time__lt"
   },
-  {
-    label: "Transaction Date To",
-    inputType: DATE_PICKER,
-    fieldName: "transaction_date__lte"
-  },
-  {
-    label: "Purchaser Name",
-    inputType: TEXT,
-    fieldName: "profile__first_name"
-  },
-  {
-    label: "Purchaser Email",
-    inputType: TEXT,
-    fieldName: "profile__primary_email"
-  }
 ]

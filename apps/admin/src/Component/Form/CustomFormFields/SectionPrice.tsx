@@ -1,7 +1,7 @@
 import { Input, Table } from "antd"
 import { ColumnsType } from "antd/lib/table"
-import { IGeneratedField, SearchFieldWrapper } from "~/packages/components/Form/common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
+import { IGeneratedField, SearchFieldWrapper } from "@packages/components/lib/Form/common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
 
 
 export const SectionPrice = (props: IGeneratedField) => {
@@ -10,7 +10,7 @@ export const SectionPrice = (props: IGeneratedField) => {
     {
       title: 'Section',
       dataIndex: 'name',
-      render: (value, record) => renderLink(`/institute/section/${record.id}`, value)
+      render: (value, record) => renderLink(`/course-provider/section/${record.id}`, value)
     },
     {
       title: 'Course Provider Fee',

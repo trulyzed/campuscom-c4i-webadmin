@@ -1,22 +1,22 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderHtml, renderJson, renderLink, renderBoolean } from "~/packages/components/ResponsiveTable/tableUtils"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderHtml, renderJson, renderLink, renderBoolean } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { convertToString } from "~/packages/utils/mapper"
+import { convertToString } from "@packages/utilities/lib/mapper"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => QuestionQueries.update({ ...data, params: { id: question.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [QuestionQueries.update])
@@ -48,11 +48,11 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Delete Question"
-        iconType="remove"
+      <ContextAction
+        tooltip="Delete Question"
+        type="delete"
         redirectTo="/administration/question"
-        onClickRemove={() => QuestionQueries.delete({ data: { ids: [question.id] } })}
+        queryService={QueryConstructor(() => QuestionQueries.delete({ data: { ids: [question.id] } }), [QuestionQueries.delete])}
       />
     ],
     contents: [

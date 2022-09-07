@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Button, Col, Form, Row, Tooltip } from "antd"
 import { EditOutlined, CloseOutlined, CheckOutlined } from "@ant-design/icons"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IField } from "~/Form/common"
 import { FormInput } from "~/Form/FormInput"

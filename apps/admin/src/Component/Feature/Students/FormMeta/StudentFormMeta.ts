@@ -1,5 +1,5 @@
 import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { BOOLEAN, DATE_PICKER, FILE, IField, TEXT } from "~/packages/components/Form/common"
+import { BOOLEAN, DATE_PICKER, FILE, IField, TEXT } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const StudentFormMeta: IField[] = [

@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { CampusQueries } from "~/packages/services/Api/Queries/AdminQueries/Campuses"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { CampusQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Campuses"
 import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTableColumns"
 import { CampusSearchMeta } from "~/TableSearchMeta/Campus/CampusSearchMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { CampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
 
 export const List = () => {
@@ -15,8 +15,8 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => CampusQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
-      setRedirectAfterCreate(`/institute/campus/${resp.data.id}`)
+      notification.success({ message: CREATE_SUCCESSFULLY })
+      setRedirectAfterCreate(`/course-provider/campus/${resp.data.id}`)
     }
     return resp
   })), [CampusQueries.create])

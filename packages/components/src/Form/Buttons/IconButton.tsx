@@ -1,8 +1,7 @@
 import React, { CSSProperties, useState } from "react"
 import {
   ShoppingCartOutlined,
-  PlusOutlined,
-  EditOutlined,
+  //PlusOutlined,
   DeleteOutlined,
   CloseOutlined,
   CopyOutlined,
@@ -10,12 +9,9 @@ import {
   UndoOutlined,
   InfoOutlined,
   RightOutlined,
-  FilterTwoTone,
   LeftOutlined,
   CreditCardOutlined,
   ExclamationOutlined,
-  HistoryOutlined,
-  SearchOutlined,
   SettingOutlined,
   ReloadOutlined,
   DownOutlined,
@@ -29,16 +25,17 @@ import {
   HourglassOutlined,
   MoreOutlined,
   EllipsisOutlined,
-  MergeCellsOutlined
+  MergeCellsOutlined,
+  KeyOutlined
 } from "@ant-design/icons"
 import { Button, Tooltip } from "antd"
 import { showDeleteConfirm } from "~/Modal/Confirmation"
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 import { Redirect } from "react-router"
 import { ButtonType } from "antd/lib/button"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { ProfileIcon } from "~/Svg/ProfileIcon"
 import { BulkOrderIcon } from "~/Svg/BulkOrderIcon"
+import { BaseButtonProps } from "antd/lib/button/button"
 
 export type iconType =
   | "cart"
@@ -54,6 +51,7 @@ export type iconType =
   | "filter"
   | "right"
   | "leftCircle"
+  | "back"
   | "up"
   | "down"
   | "payment"
@@ -75,11 +73,13 @@ export type iconType =
   | "bulkOrder"
   | "actions"
   | "merge"
+  | "key"
 
 export const IconButton = (props: {
   onClick?: () => void
   onClickRemove?: () => Promise<IApiResponse>
   redirectTo?: string
+  title?: string
   iconType: iconType
   inProgress?: boolean
   toolTip: string
@@ -88,6 +88,8 @@ export const IconButton = (props: {
   style?: CSSProperties
   buttonType?: ButtonType
   refreshEventName?: string
+  shape?: BaseButtonProps['shape']
+  text?: string | JSX.Element
 }) => {
   const [localLoading, setLocalLoading] = useState(false)
   const [redirectTo, setRedirectTo] = useState<string>()
@@ -135,8 +137,8 @@ export const IconButton = (props: {
   } else {
     const icons: { [key: string]: JSX.Element } = {
       cart: <ShoppingCartOutlined alt="" />,
-      create: <PlusOutlined alt="" />,
-      edit: <EditOutlined alt="" />,
+      create: <span className={`glyphicon glyphicon-plus-sign${props.title ? " mr-5" : ""}`} aria-label="create" />,
+      edit: <span className={`glyphicon glyphicon-edit${props.title ? " mr-5" : ""}`} aria-label="edit" />,
       close: <CloseOutlined alt="" />,
       copy: <CopyOutlined alt="" />,
       email: <MailOutlined alt="" />,
@@ -144,15 +146,16 @@ export const IconButton = (props: {
       info: <InfoOutlined alt="" />,
       right: <RightOutlined alt="" />,
       leftCircle: <LeftOutlined alt="" />,
+      back: <span className="glyphicon glyphicon-chevron-left" aria-label="back" />,
       down: <DownOutlined alt="" />,
       up: <UpOutlined alt="" />,
-      danger: <DeleteOutlined alt="" />,
-      filter: <FilterTwoTone alt="" />,
+      danger: <span className="glyphicon glyphicon-trash" aria-label="danger" />,
+      filter: <span className="glyphicon glyphicon-filter" aria-label="filter" />,
       payment: <CreditCardOutlined alt="" />,
       error: <ExclamationOutlined alt="" />,
       update: <SyncOutlined alt="" />,
-      history: <HistoryOutlined alt="" />,
-      search: <SearchOutlined alt="" />,
+      history: <span className="glyphicon glyphicon-time" aria-label="history" />,
+      search: <span className="glyphicon glyphicon-search" aria-label="search" />,
       settings: <SettingOutlined alt="" />,
       reload: <ReloadOutlined alt="" />,
       download: <CloudDownloadOutlined alt="" />,
@@ -163,17 +166,19 @@ export const IconButton = (props: {
       check: <CheckCircleOutlined alt="" />,
       process: <HourglassOutlined alt="" />,
       more: <MoreOutlined alt="" />,
-      profile: <ProfileIcon alt="" />,
+      profile: <span className="glyphicon glyphicon-user" aria-label="profile" />,
       bulkOrder: <BulkOrderIcon alt="" />,
       actions: <EllipsisOutlined alt="" />,
-      merge: <MergeCellsOutlined alt="" />
+      merge: <MergeCellsOutlined alt="" />,
+      key: <KeyOutlined alt="" />,
     }
     _button = (
       <Button
-        style={{ marginRight: "5px", ...props.style }}
+        className={`${props.iconType === "create" ? "create-entity" : ""}`}
+        style={{ ...props.style }}
         aria-label={props.toolTip}
         icon={icons[props.iconType]}
-        shape="circle"
+        shape={props.shape}
         danger={props.iconType === "danger" || props.iconType === "error"}
         onClick={() => {
           props.onClick && props.onClick()
@@ -182,13 +187,13 @@ export const IconButton = (props: {
         type={props.buttonType || "primary"}
         loading={props.loading}
         disabled={props.disabled}
-      />
+      >{props.title}</Button>
     )
   }
   return (
     <>
       {redirectTo && <Redirect to={redirectTo} />}
-      <Tooltip title={props.toolTip}>{_button}</Tooltip>
+      {props.text} <Tooltip title={props.toolTip}>{_button}</Tooltip>
     </>
   )
 }

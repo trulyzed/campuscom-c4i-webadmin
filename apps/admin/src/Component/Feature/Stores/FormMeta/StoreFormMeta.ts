@@ -1,8 +1,8 @@
 import { FILE_INPUT_FORMAT, IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { IField, TEXT, FILE } from "~/packages/components/Form/common"
+import { IField, TEXT, FILE } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const StoreFormMeta: IField[] = [
+export const getStoreFormMeta = (disableUrlSlug?:boolean): IField[] => [
   {
     label: 'Name',
     fieldName: 'name',
@@ -13,6 +13,7 @@ export const StoreFormMeta: IField[] = [
     label: 'URL slug',
     fieldName: 'url_slug',
     inputType: TEXT,
+    disabled: disableUrlSlug,
     rules: [{ required: true, message: "This field is required!" }]
   },
   {

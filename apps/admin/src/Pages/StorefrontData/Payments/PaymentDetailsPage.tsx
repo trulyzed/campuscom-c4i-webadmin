@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router-dom"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getPaymentDetailsMeta } from "~/TableSearchMeta/Payment/PaymentDetailsMeta"
-import { PaymentQueries } from "~/packages/services/Api/Queries/AdminQueries/Payments"
+import { PaymentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Payments"
 
 export function PaymentDetailsPage(props: RouteComponentProps<{ paymentID?: string }>) {
   const PaymentID = props?.match?.params?.paymentID

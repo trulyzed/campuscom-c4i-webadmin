@@ -1,9 +1,9 @@
-import { message } from "antd"
+import { notification } from "antd"
 import { ImportTaskFormMeta } from "~/Component/Feature/ImportTasks/FormMeta/ImportTaskFormMeta"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { ImportTaskQueries } from "~/packages/services/Api/Queries/AdminQueries/ImportTasks"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { ImportTaskQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ImportTasks"
 import { getImportTaskListTableColumns } from "~/TableSearchMeta/ImportTasks/ImportTaskListTableColumns"
 import { ImportTaskSearchMeta } from "~/TableSearchMeta/ImportTasks/ImportTaskSearchMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
@@ -11,7 +11,7 @@ import { CREATE_SUCCESSFULLY } from "~/Constants"
 export const List = () => {
   const createEntity = QueryConstructor(((data) => ImportTaskQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       window.location.href = "?pagination=1"
     }
     return resp
@@ -25,10 +25,10 @@ export const List = () => {
         ...getImportTaskListTableColumns(),
         actions: [
           <MetaDrivenFormModalOpenButton
-            formTitle={`Add Import Task`}
+            formTitle={`Add Task`}
             formMeta={ImportTaskFormMeta}
             formSubmitApi={createEntity}
-            buttonLabel={`Add Import Task`}
+            buttonLabel={`Add Task`}
             iconType="create"
             refreshEventName={"REFRESH_IMPORT_TASK"}
           />

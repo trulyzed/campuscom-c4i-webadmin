@@ -1,13 +1,13 @@
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { CartItemQueries } from "~/packages/services/Api/Queries/AdminQueries/CartItems"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { CartItemQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CartItems"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const cartItemListTableColumns: TableColumnType = [
   {
     title: "Product Name",
     dataIndex: "product_name",
-    //render: (text: any, record: any) => renderLink(`/institute/course/${record.id}`, text, isModal),
+    //render: (text: any, record: any) => renderLink(`/course-provider/course/${record.id}`, text, isModal),
     sorter: (a: any, b: any) => a.product_name - b.product_name
   },
   {

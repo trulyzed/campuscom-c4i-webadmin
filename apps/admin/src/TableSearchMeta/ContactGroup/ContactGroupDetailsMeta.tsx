@@ -1,28 +1,28 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { getProfileTaggingFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ProfileTaggingFormMeta"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { ContactGroupQueries } from "~/packages/services/Api/Queries/AdminQueries/ContactGroups"
+import { ContactGroupQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ContactGroups"
 import { ContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any }): IDetailsMeta => {
   const createProfile = QueryConstructor(((data) => ContactGroupQueries.tagProfile({ ...data, data: { ...data?.data, contact_group: contactGroup.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [ContactGroupQueries.tagProfile])
 
   const updateEntity = QueryConstructor(((data) => ContactGroupQueries.update({ ...data, params: { id: contactGroup.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [ContactGroupQueries.update])
@@ -82,11 +82,11 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_PROFILE_LIST"
-                  onClickRemove={() => ContactGroupQueries.untagProfile({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ContactGroupQueries.untagProfile({ data: { ids: [text] } }), [ContactGroupQueries.untagProfile])}
                 />
               )
             },

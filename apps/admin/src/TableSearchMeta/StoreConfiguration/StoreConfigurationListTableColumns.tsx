@@ -1,17 +1,17 @@
-import { message } from "antd"
-import { renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { StoreConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/StoreConfigs"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { notification } from "antd"
+import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { StoreConfigQueries } from "@packages/services/lib/Api/Queries/AdminQueries/StoreConfigs"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 const updateStoreConfiguration = QueryConstructor(((data) => StoreQueries.updateConfiguration({ ...data }).then(resp => {
   if (resp.success) {
-    message.success(UPDATE_SUCCESSFULLY)
+    notification.success({ message: UPDATE_SUCCESSFULLY })
   }
   return resp
 })), [StoreQueries.updateConfiguration])
@@ -42,10 +42,10 @@ export const storeConfigurationListTableColumns: TableColumnType = [
           iconType="edit"
           refreshEventName={'REFRESH_PAGE'}
         />
-        <IconButton
-          toolTip="Delete Store Configuration"
-          iconType="remove"
-          onClickRemove={() => StoreConfigQueries.delete({ data: { id: [record.id] } })}
+        <ContextAction
+          type="delete"
+          tooltip="Delete Store Configuration"
+          queryService={QueryConstructor(() => StoreConfigQueries.delete({ data: { id: [record.id] } }), [StoreConfigQueries.delete])}
           refreshEventName="REFRESH_PAGE"
         />
       </>

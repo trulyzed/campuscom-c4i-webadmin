@@ -1,5 +1,5 @@
-import { DATE_PICKER, DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DATE_PICKER, DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 export const DiscountProgramSearchMeta: IField[] = [
   {
@@ -8,7 +8,8 @@ export const DiscountProgramSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: 'Title',

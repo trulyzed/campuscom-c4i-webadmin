@@ -23,22 +23,22 @@ export const CustomFormStructure = ({ applyButtonLabel = "Submit", ...props }: I
           )}
         </Row>
       }
-      // actions={[
-      //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
-      //     {props.extraButtons && props.extraButtons.map((x, i) => <Col key={i}>{x}</Col>)}
+    // actions={[
+    //   <Row justify="end" gutter={[8, 8]} style={{ marginRight: "10px" }}>
+    //     {props.extraButtons && props.extraButtons.map((x, i) => <Col key={i}>{x}</Col>)}
 
-      //     <Col>
-      //       <Button type="primary" danger onClick={props.closeModal}>
-      //         Cancel
-      //       </Button>
-      //     </Col>
-      //     <Col>
-      //       <Button type="primary" onClick={formSubmit} form={formId}>
-      //         {applyButtonLabel}
-      //       </Button>
-      //     </Col>
-      //   </Row>
-      // ]}
+    //     <Col>
+    //       <Button type="primary" danger onClick={props.closeModal}>
+    //         Cancel
+    //       </Button>
+    //     </Col>
+    //     <Col>
+    //       <Button type="primary" onClick={formSubmit} form={formId}>
+    //         {applyButtonLabel}
+    //       </Button>
+    //     </Col>
+    //   </Row>
+    // ]}
     >
       <Form
         id={formId}

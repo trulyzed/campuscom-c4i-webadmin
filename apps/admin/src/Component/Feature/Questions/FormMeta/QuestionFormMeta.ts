@@ -1,8 +1,8 @@
 import { BATCH_FILE_INPUT_FORMAT, INPUT_OPTIONS } from "~/Configs/input"
-import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { GlobalConfigurationQueries } from "~/packages/services/Api/Queries/AdminQueries/GlobalConfigurations"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/GlobalConfigurations"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const QuestionFormMeta: IField[] = [
@@ -33,6 +33,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'course_provider')
     },
+    autoSelectDefault: true
   },
   {
     label: 'Store',
@@ -46,6 +47,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'store')
     },
+    autoSelectDefault: true
   },
   {
     label: 'External ID',
