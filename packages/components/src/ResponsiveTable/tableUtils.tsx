@@ -47,7 +47,7 @@ const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordB
 
 const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, uncolorize?: boolean, tagColor?: TagProps['color'] }) => {
   const formattedText = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
-  const data = options?.uncolorize ? formattedText : <Text type={text ? 'success' : 'danger'}>{formattedText}</Text>
+  const data = options?.uncolorize ? formattedText : <Text type={text ? 'success' : 'warning'}>{formattedText}</Text>
   if (typeof text === "boolean") {
     return options?.tagColor ? <Tag color={options?.tagColor}>{data}</Tag> : data
   } else return ""
