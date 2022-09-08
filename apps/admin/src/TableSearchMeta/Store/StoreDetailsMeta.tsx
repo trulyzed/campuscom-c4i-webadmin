@@ -128,11 +128,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           refreshEventName: "REFRESH_COURSE_SHARING_CONTRACT_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Course Sharing Contract`}
+              formTitle={`Add Course Sharing Contract`}
               formMeta={CourseSharingContractFormMeta}
               formSubmitApi={addCourseSharingContract}
-              buttonLabel={`Create Course Sharing Contract`}
-              iconType="create"
+              buttonLabel={`Add Course Sharing Contract`}
               refreshEventName={'REFRESH_COURSE_SHARING_CONTRACT_TAB'}
             />
           ],
@@ -185,11 +184,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           refreshEventName: "REFRESH_CONFIGURATION_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Store Configuration`}
+              formTitle={`Add Store Configuration`}
               formMeta={getConfigurationTaggingFormMeta()}
               formSubmitApi={addStoreConfiguration}
-              buttonLabel={`Create Store Configuration`}
-              iconType="create"
+              buttonLabel={`Add Store Configuration`}
               refreshEventName={'REFRESH_CONFIGURATION_TAB'}
             />
           ]
@@ -261,11 +259,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           refreshEventName: "REFRESH_PROFILE_QUESTION_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Profile Question`}
+              formTitle={`Add Profile Question`}
               formMeta={getProfileQuestionTaggingFormMeta(store.id)}
               formSubmitApi={addProfileQuestion}
-              buttonLabel={`Create Profile Question`}
-              iconType="create"
+              buttonLabel={`Add Profile Question`}
               refreshEventName={'REFRESH_PROFILE_QUESTION_TAB'}
             />
           ]
@@ -309,11 +306,10 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           refreshEventName: "REFRESH_PAYMENT_QUESTION_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Payment Question`}
+              formTitle={`Add Payment Question`}
               formMeta={getPaymentQuestionTaggingFormMeta(store.id)}
               formSubmitApi={addPaymentQuestion}
-              buttonLabel={`Create Payment Question`}
-              iconType="create"
+              buttonLabel={`Add Payment Question`}
               refreshEventName={'REFRESH_PAYMENT_QUESTION_TAB'}
             />
           ]

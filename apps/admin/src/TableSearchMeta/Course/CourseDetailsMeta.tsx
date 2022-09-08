@@ -262,11 +262,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_REGISTRATION_QUESTION_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Registration Question`}
+              formTitle={`Add Registration Question`}
               formMeta={getRegistrationQuestionTaggingFormMeta(course.id)}
               formSubmitApi={tagRegistrationQuestion}
-              buttonLabel={`Create Registration Question`}
-              iconType="create"
+              buttonLabel={`Add Registration Question`}
               refreshEventName={'REFRESH_REGISTRATION_QUESTION_TAB'}
             />
           ]

@@ -140,11 +140,10 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
           refreshEventName: "REFRESH_PROFILE_QUESTION_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Profile Question`}
+              formTitle={`Add Profile Question`}
               formMeta={getProfileQuestionTaggingFormMeta(courseProvider.id)}
               formSubmitApi={addProfileQuestion}
-              buttonLabel={`Create Profile Question`}
-              iconType="create"
+              buttonLabel={`Add Profile Question`}
               refreshEventName={'REFRESH_PROFILE_QUESTION_LIST'}
             />
           ]
