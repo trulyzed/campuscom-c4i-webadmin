@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Breadcrumb as AntdBreadcrumb } from "antd"
-import { Link, useLocation } from "react-router-dom"
+import { Link, RouteProps, useLocation } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { transformToLabel } from "@packages/utilities/lib/util"
-import { AppRoutes } from "~/routes"
 
 export const REFRESH_BREADCRUMB = "REFRESH_BREADCRUMB"
 
@@ -12,38 +11,42 @@ interface IBreadcrumbPath {
   path?: string
 }
 
-const generateBreadcrumbPath = (path: string): IBreadcrumbPath[] => {
-  const breadcrumbPaths: Array<IBreadcrumbPath> = [{ path: "/", label: "Home" }]
-  if (path === "/") return breadcrumbPaths
-
-  const routesFollowingHome = path.split("/").slice(1)
-  routesFollowingHome.reduce((path, route) => {
-    let convertedRoute: string | number = route
-    if (!isNaN(Number(route))) {
-      convertedRoute = Number(route)
-    }
-    if (path === breadcrumbPaths[0].path) {
-      path += route
-    } else {
-      path = `${path}/${route}`
-    }
-
-    breadcrumbPaths.push({ path: AppRoutes.some(i => i.path === path) ? path : undefined, label: transformToLabel(convertedRoute) })
-    return path
-  }, breadcrumbPaths[0].path)
-
-  return breadcrumbPaths
+interface IBreadcrumbProps {
+  routes: RouteProps[]
 }
 
-export function Breadcrumb() {
+export function Breadcrumb({ routes }: IBreadcrumbProps) {
   const location = useLocation()
-
   const [breadcrumbPaths, setBreadcrumbPaths] = useState<Array<IBreadcrumbPath>>([])
+
+  const generateBreadcrumbPath = useCallback((path: string): IBreadcrumbPath[] => {
+    const breadcrumbPaths: Array<IBreadcrumbPath> = [{ path: "/", label: "Home" }]
+    if (path === "/") return breadcrumbPaths
+
+    const routesFollowingHome = path.split("/").slice(1)
+    routesFollowingHome.reduce((path, route) => {
+      let convertedRoute: string | number = route
+      if (!isNaN(Number(route))) {
+        convertedRoute = Number(route)
+      }
+      if (path === breadcrumbPaths[0].path) {
+        path += route
+      } else {
+        path = `${path}/${route}`
+      }
+
+      breadcrumbPaths.push({ path: routes.some(i => i.path === path) ? path : undefined, label: transformToLabel(convertedRoute) })
+      return path
+    }, breadcrumbPaths[0].path)
+
+    return breadcrumbPaths
+  }, [routes])
 
   const callNeccessaryApis = async () => {
     const tempBreadcrumbPaths = generateBreadcrumbPath(location.pathname)
     setBreadcrumbPaths(tempBreadcrumbPaths)
   }
+
   useEffect(() => {
     eventBus.subscribe(REFRESH_BREADCRUMB, callNeccessaryApis)
     eventBus.publish(REFRESH_BREADCRUMB)
