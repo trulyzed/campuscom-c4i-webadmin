@@ -12,7 +12,6 @@ import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryString
 import { DetailsSummary } from "~/Page/DetailsPage/DetailsSummaryTab"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
-import { GoToSearchResultPageButton } from "~/Page/DetailsPage/GoToSearchResultPageButton"
 import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
@@ -165,9 +164,6 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
           <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
-            <Col>
-              <GoToSearchResultPageButton />
-            </Col>
             {title && (
               <Col>
                 <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>
