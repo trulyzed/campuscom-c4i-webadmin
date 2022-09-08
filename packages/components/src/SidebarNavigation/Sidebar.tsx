@@ -101,7 +101,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       role="complementary"
       aria-roledescription="sidebar navigation"
       width={270}
-      style={{ overflowY: "auto", position: breakpoint.sm ? undefined : "fixed", top: 0, left: 0, bottom: 0, zIndex: 99 }}
+      style={{ overflowY: "auto", overflowX: "hidden", position: breakpoint.sm ? undefined : "fixed", top: 0, left: 0, bottom: 0, zIndex: 99 }}
       breakpoint="xs"
       collapsedWidth={0}
       trigger={null}
