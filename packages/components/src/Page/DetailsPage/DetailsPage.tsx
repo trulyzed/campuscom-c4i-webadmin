@@ -15,8 +15,10 @@ import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/A
 import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
+import { useHistory } from "react-router-dom"
 
 export function DetailsPage(props: IDetailsPage) {
+  const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
   const [error, setError] = useState<IApiErrorProcessor>()
@@ -40,7 +42,7 @@ export function DetailsPage(props: IDetailsPage) {
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -48,7 +50,9 @@ export function DetailsPage(props: IDetailsPage) {
       activeTabKey: `${key}-1`
     })
     updateHelpKey(`${key}-1`)
-    window.history && window.history.pushState({}, "", _queryString)
+    history[canBackTrack ? "push" : "replace"]({
+      search: _queryString
+    })
   }
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export function DetailsPage(props: IDetailsPage) {
       const key = __defaultTabKey["activeTabKey"].toString().split("-")[0]
       setActiveTabKey(key)
     } else {
-      changeActiveTabkey("1")
+      changeActiveTabkey("1", false)
     }
     // eslint-disable-next-line
   }, [])
