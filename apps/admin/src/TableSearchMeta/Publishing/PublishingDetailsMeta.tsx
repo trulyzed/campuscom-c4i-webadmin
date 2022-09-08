@@ -106,6 +106,32 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       },
       helpKey: "sectionsTab"
     },
+    ...publishing.store ? [
+      {
+        tabTitle: "Subjects",
+        tabType: "table",
+        tabMeta: {
+          tableProps: {
+            pagination: false,
+            ...getSubjectListTableColumns(),
+            searchFunc: SubjectQueries.getListByCourse,
+            searchParams: { store_course: publishing.id },
+            refreshEventName: "REFRESH_SUBJECT_LIST",
+            actions: [
+              <MetaDrivenFormModalOpenButton
+                formTitle={`Add Subjects`}
+                formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
+                initialFormValue={{ subjects: publishing.subjects }}
+                formSubmitApi={tagSubjects}
+                buttonLabel={`Add Subjects`}
+                refreshEventName={REFRESH_PAGE}
+              />
+            ]
+          }
+        },
+        helpKey: "sectionsTab"
+      }
+    ] as IDetailsTabMeta[] : [],
     {
       tabTitle: "Activities",
       tabType: "searchtable",
@@ -122,33 +148,6 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       helpKey: "activitiesTab"
     },
   ]
-
-  if (publishing.store) {
-    tabMetas.push({
-      tabTitle: "Subjects",
-      tabType: "table",
-      tabMeta: {
-        tableProps: {
-          pagination: false,
-          ...getSubjectListTableColumns(),
-          searchFunc: SubjectQueries.getListByCourse,
-          searchParams: { store_course: publishing.id },
-          refreshEventName: "REFRESH_SUBJECT_LIST",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Add Subjects`}
-              formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
-              initialFormValue={{ subjects: publishing.subjects }}
-              formSubmitApi={tagSubjects}
-              buttonLabel={`Add Subjects`}
-              refreshEventName={REFRESH_PAGE}
-            />
-          ]
-        }
-      },
-      helpKey: "sectionsTab"
-    })
-  }
 
   return {
     pageTitle: `Publishing Title - ${publishing.course.title}`,
