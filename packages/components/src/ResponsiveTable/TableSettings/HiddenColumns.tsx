@@ -1,6 +1,6 @@
 import React from "react"
 import Form, { FormInstance } from "antd/lib/form"
-import { Checkbox, Col, Row, Typography, Card, Grid } from "antd"
+import { Checkbox, Col, Row, Typography, Card, Grid, Input } from "antd"
 import { IconButton } from "~/Form/Buttons/IconButton";
 
 export const HiddenColumns = (props: { hiddenColumns: any[]; formInstance: FormInstance; updateHiddenColumns: () => void; }) => {
@@ -18,6 +18,7 @@ export const HiddenColumns = (props: { hiddenColumns: any[]; formInstance: FormI
                 toolTip="Activate selected columns"
                 iconType={breakpoint.md ? "leftCircle" : "up"}
                 onClick={props.updateHiddenColumns}
+                buttonType={"default"}
               />
             </Col>
             : null}
@@ -25,15 +26,24 @@ export const HiddenColumns = (props: { hiddenColumns: any[]; formInstance: FormI
       }
     >
       <Form form={props.formInstance}>
-        <Row>
-          {props.hiddenColumns.map((col, index) => (
-            <Col xs={12} sm={12} md={8} key={index}>
+        {props.hiddenColumns.map((col, index) => (
+          <div key={index} style={{
+            margin: "5px",
+            display: "flex",
+            flexFlow: "row",
+            padding: "10px",
+            gap: "10px"
+          }}>
+            <div style={{ width: "20px" }}>
               <Form.Item colon={false} style={{ marginBottom: "0px" }} name={col.dataIndex + "__checkbox"} valuePropName="checked">
-                <Checkbox>{col.title}</Checkbox>
+                <Checkbox />
               </Form.Item>
-            </Col>
-          ))}
-        </Row>
+            </div>
+            <div style={{ width: "200px" }}>
+              <Input readOnly disabled defaultValue={col.title} />
+            </div>
+          </div>
+        ))}
       </Form>
       {!props.hiddenColumns.length ?
         <Typography.Text type="secondary" children={"No inactive columns"} />

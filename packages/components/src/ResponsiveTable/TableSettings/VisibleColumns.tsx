@@ -22,7 +22,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
     // eslint-disable-next-line
   }, [props.visibleColumns])
 
-  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer", textAlign: "center" }} title={"Drag up or down to change order"}>::</div>)
+  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer", textAlign: "center" }} title={"Drag up or down to change the display order"}>::</div>)
   const SortableItem = sortableElement((props: any) => {
     return (
       <li>
@@ -67,6 +67,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
                 toolTip="Deactivate selected columns"
                 iconType={breakpoint.md ? "right" : "down"}
                 onClick={props.updateVisibleColumns}
+                buttonType={"default"}
               />
             </Col>
             : null}

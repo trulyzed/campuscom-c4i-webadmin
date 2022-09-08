@@ -133,8 +133,8 @@ export const TableSettings = (props: {
           </Col>
         </Row>
       }>
-        <Row gutter={[4, 20]} justify="space-between" style={{ overflowY: "auto", maxHeight: "65vh" }}>
-          <Col xs={24} sm={24} md={9}>
+        <Row gutter={[20, 20]} justify="space-between" style={{ overflowY: "auto", maxHeight: "65vh" }}>
+          <Col xs={24} sm={24} md={12}>
             <VisibleColumns
               visibleColumns={visibleColumns}
               setVisibleColumns={setVisibleColumns}
@@ -142,13 +142,14 @@ export const TableSettings = (props: {
               updateVisibleColumns={updateVisibleColumns}
             />
           </Col>
-          <Col xs={24} sm={24} md={14}>
+          <Col xs={24} sm={24} md={12}>
             <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} updateHiddenColumns={updateHiddenColumns} />
           </Col>
         </Row>
         <Row justify="end" gutter={[8, 8]} style={{
           paddingTop: "25px",
           borderTop: "1px solid #f0f2f5",
+          marginTop: "30px"
         }}>
           <Col>
             <Button onClick={reload}>Reset</Button>
