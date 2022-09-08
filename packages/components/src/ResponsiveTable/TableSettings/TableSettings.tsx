@@ -6,7 +6,7 @@ import { VisibleColumns } from "~/ResponsiveTable/TableSettings/VisibleColumns"
 import { HiddenColumns } from "~/ResponsiveTable/TableSettings/HiddenColumns"
 import { IUserTableMetaConfig } from "~/ResponsiveTable/TableMetaShadowingProcessor"
 import { PreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Preferences";
-import { SettingsActionButtons } from "~/ResponsiveTable/TableSettings/SettingsActionButtons"
+import { ContextAction } from "~/Actions/ContextAction"
 
 export const TableSettings = (props: {
   tableName?: string
@@ -121,33 +121,45 @@ export const TableSettings = (props: {
       loadingTip="Saving Table Configuration"
       width="1000px"
     >
-      <Card
-        title={`Settings For ${props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"
-          }`}
-        actions={[
-          <Button onClick={() => props.onToggle(false)}>Close</Button>,
-          <Button type="primary" onClick={apply}>
-            Apply
-          </Button>
-        ]}
-      >
-        <Row gutter={[4, 20]} justify="space-between" style={{ overflowY: "scroll", maxHeight: "65vh" }}>
-          <Col xs={24} sm={24} md={8}>
+      <Card title={
+        <Row>
+          <Col md={{ span: 22, order: 0 }} xs={{ span: 24, order: 1 }}>
+            <h2>
+              Table Settings for {props.tableName ? putSpaceBetweenCapitalLetters(props.tableName.replace("Columns", "")) : "This Table"}
+            </h2>
+          </Col>
+          <Col xs={{ span: 2, offset: 22, }} md={{ offset: 0 }} className={"text-right"}>
+            <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={() => props.onToggle(false)} />
+          </Col>
+        </Row>
+      }>
+        <Row gutter={[4, 20]} justify="space-between" style={{ overflowY: "auto", maxHeight: "65vh" }}>
+          <Col xs={24} sm={24} md={9}>
             <VisibleColumns
               visibleColumns={visibleColumns}
               setVisibleColumns={setVisibleColumns}
               formInstance={visibleListFormInstance}
-            />
-          </Col>
-          <Col xs={24} sm={24} md={2}>
-            <SettingsActionButtons
               updateVisibleColumns={updateVisibleColumns}
-              updateHiddenColumns={updateHiddenColumns}
-              reload={reload}
             />
           </Col>
           <Col xs={24} sm={24} md={14}>
-            <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} />
+            <HiddenColumns hiddenColumns={hiddenColumns} formInstance={hiddenListFormInstance} updateHiddenColumns={updateHiddenColumns} />
+          </Col>
+        </Row>
+        <Row justify="end" gutter={[8, 8]} style={{
+          paddingTop: "25px",
+          borderTop: "1px solid #f0f2f5",
+        }}>
+          <Col>
+            <Button onClick={reload}>Reset</Button>
+          </Col>
+          <Col>
+            <Button onClick={() => props.onToggle(false)}>Close</Button>
+          </Col>
+          <Col>
+            <Button type="primary" onClick={apply}>
+              Apply
+            </Button>
           </Col>
         </Row>
       </Card>
