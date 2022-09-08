@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { SortableContainer as sortableContainer, SortableElement as sortableElement, SortableHandle as sortableHandle, SortEnd } from "react-sortable-hoc"
 import { arrayMoveImmutable as arrayMove } from "array-move"
-import { Checkbox, Form, Input, Typography } from "antd"
+import { Card, Checkbox, Col, Form, Input, Row, Typography, Grid } from "antd"
 import { FormInstance } from "antd/lib/form"
-import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
+import { IconButton } from "~/Form/Buttons/IconButton"
 
-export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns: (items: any[]) => void; formInstance: FormInstance }) => {
+export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns: (items: any[]) => void; formInstance: FormInstance; updateVisibleColumns: () => void; }) => {
   // const [initialValues, setInitialValues] = useState<{ [key: string]: any }>({})
-  const [mobileView, setMobileView] = useState(false)
-  useDeviceViews((deviceViews: IDeviceView) => {
-    setMobileView(deviceViews.mobile)
-  })
+  const breakpoint = Grid.useBreakpoint()
 
   useEffect(() => {
     let _initialValues: { [key: string]: any } = {}
@@ -25,7 +22,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
     // eslint-disable-next-line
   }, [props.visibleColumns])
 
-  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer", textAlign: "center" }}>::</div>)
+  const DragHandle = sortableHandle(() => <div style={{ width: "20px", cursor: "pointer", textAlign: "center" }} title={"Drag up or down to change the display order"}>::</div>)
   const SortableItem = sortableElement((props: any) => {
     return (
       <li>
@@ -54,37 +51,60 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
     )
   })
   const SortableContainer = sortableContainer((props: { children: React.ReactNode }) => {
-    return <ol style={{ paddingLeft: 0 }}>{props.children}</ol>
+    return <ol style={{ paddingLeft: 0, marginBottom: 0 }}>{props.children}</ol>
   })
   return (
-    <div
-      {...(!mobileView && {
-        style: { overflowY: "scroll", maxHeight: "65vh" }
-      })}
+    <Card
+      bordered
+      title={
+        <Row>
+          <Col flex={"auto"}>
+            <Typography.Title level={3} type={"success"} style={{ fontSize: "20px" }}>Active Columns</Typography.Title>
+          </Col>
+          {props.visibleColumns.length ?
+            <Col xs={4} style={{ textAlign: "right" }}>
+              <IconButton
+                toolTip="Deactivate selected columns"
+                iconType={breakpoint.md ? "right" : "down"}
+                onClick={props.updateVisibleColumns}
+                buttonType={"default"}
+              />
+            </Col>
+            : null}
+        </Row>
+      }
     >
-      <Typography.Title level={3}>Active Columns</Typography.Title>
-      <SortableContainer
-        axis="y"
-        onSortEnd={(sort: SortEnd) => {
-          if (sort.oldIndex !== sort.newIndex) {
-            props.setVisibleColumns(arrayMove([...props.visibleColumns], sort.oldIndex, sort.newIndex))
-          }
-        }}
-        useDragHandle={true}
+      <div
+        {...(breakpoint.md && {
+          style: { overflowY: "auto", maxHeight: "65vh" }
+        })}
       >
-        <Form form={props.formInstance} initialValues={props.visibleColumns.reduce((a, c) => {
-          a[`${c.dataIndex}__input`] = c.title
-          return a
-        }, {})}>
-          {props.visibleColumns
-            .filter((x) => !!x.dataIndex)
-            .map((item: any, index: number) => {
-              item.hidden = item.hidden !== undefined ? item.hidden : false
-              item.index = index
-              return <SortableItem key={`item-${index}`} index={index} value={item} />
-            })}
-        </Form>
-      </SortableContainer>
-    </div>
+        <SortableContainer
+          axis="y"
+          onSortEnd={(sort: SortEnd) => {
+            if (sort.oldIndex !== sort.newIndex) {
+              props.setVisibleColumns(arrayMove([...props.visibleColumns], sort.oldIndex, sort.newIndex))
+            }
+          }}
+          useDragHandle={true}
+        >
+          <Form form={props.formInstance} initialValues={props.visibleColumns.reduce((a, c) => {
+            a[`${c.dataIndex}__input`] = c.title
+            return a
+          }, {})}>
+            {props.visibleColumns
+              .filter((x) => !!x.dataIndex)
+              .map((item: any, index: number) => {
+                item.hidden = item.hidden !== undefined ? item.hidden : false
+                item.index = index
+                return <SortableItem key={`item-${index}`} index={index} value={item} />
+              })}
+          </Form>
+        </SortableContainer>
+        {!props.visibleColumns.length ?
+          <Typography.Text type="secondary" children="No active columns" />
+          : null}
+      </div>
+    </Card>
   )
 }

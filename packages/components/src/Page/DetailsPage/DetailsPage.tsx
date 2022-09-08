@@ -12,12 +12,13 @@ import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryString
 import { DetailsSummary } from "~/Page/DetailsPage/DetailsSummaryTab"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
-import { GoToSearchResultPageButton } from "~/Page/DetailsPage/GoToSearchResultPageButton"
 import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
+import { useHistory } from "react-router-dom"
 
 export function DetailsPage(props: IDetailsPage) {
+  const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
   const [error, setError] = useState<IApiErrorProcessor>()
@@ -41,7 +42,7 @@ export function DetailsPage(props: IDetailsPage) {
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -49,7 +50,9 @@ export function DetailsPage(props: IDetailsPage) {
       activeTabKey: `${key}-1`
     })
     updateHelpKey(`${key}-1`)
-    window.history && window.history.pushState({}, "", _queryString)
+    history[canBackTrack ? "push" : "replace"]({
+      search: _queryString
+    })
   }
 
   useEffect(() => {
@@ -59,7 +62,7 @@ export function DetailsPage(props: IDetailsPage) {
       const key = __defaultTabKey["activeTabKey"].toString().split("-")[0]
       setActiveTabKey(key)
     } else {
-      changeActiveTabkey("1")
+      changeActiveTabkey("1", false)
     }
     // eslint-disable-next-line
   }, [])
@@ -165,9 +168,6 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
           <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
-            <Col>
-              <GoToSearchResultPageButton />
-            </Col>
             {title && (
               <Col>
                 <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>

@@ -17,7 +17,7 @@ export const CampusFormMeta: IField[] = [
     label: "Name",
     inputType: TEXT,
     fieldName: "name",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }, {max: 128}]
   },
   {
     label: "Code",
