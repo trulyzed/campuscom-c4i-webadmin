@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { LoginPage } from "~/Pages/Login/LoginPage"
-import { DefaultLayout } from "~/Layout/DefaultLayout"
+import { DefaultLayout } from "~/Component/Layout/DefaultLayout"
 import { NotFoundPage } from "~/Pages/NotFoundPage"
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "~/routes"

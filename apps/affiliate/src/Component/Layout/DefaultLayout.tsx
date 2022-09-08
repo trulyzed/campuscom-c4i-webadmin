@@ -4,11 +4,12 @@ import { Link, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
 import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
-import { Breadcrumb } from "~/Layout/Breadcrumb"
+import { Breadcrumb } from "@packages/components/lib/Layout/Breadcrumb"
 import { logout } from "~/Services/AuthService"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
+import { AppRoutes } from "~/routes"
 
 const { Header, Content } = Layout
 
@@ -65,7 +66,7 @@ export function DefaultLayout(props: ILayoutProps) {
         </Header>
         <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
           <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
-            <Breadcrumb />
+            <Breadcrumb routes={AppRoutes} />
           </Card>
           <Suspense
             fallback={
