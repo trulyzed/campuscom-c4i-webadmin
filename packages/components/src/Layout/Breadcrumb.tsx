@@ -1,8 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { Breadcrumb as AntdBreadcrumb } from "antd"
+import { Breadcrumb as AntdBreadcrumb, Spin } from "antd"
+import { LoadingOutlined } from '@ant-design/icons';
 import { Link, RouteProps, useLocation } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { transformToLabel } from "@packages/utilities/lib/util"
+import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
 
 export const REFRESH_BREADCRUMB = "REFRESH_BREADCRUMB"
 
@@ -15,9 +17,26 @@ interface IBreadcrumbProps {
   routes: RouteProps[]
 }
 
-export function Breadcrumb({ routes }: IBreadcrumbProps) {
+export interface IBreadcrumbHandle {
+  setLastItem: (value: any) => void
+}
+
+export const Breadcrumb = ({ routes }: IBreadcrumbProps) => {
   const location = useLocation()
   const [breadcrumbPaths, setBreadcrumbPaths] = useState<Array<IBreadcrumbPath>>([])
+  const [lastItem, setLastItem] = useState<string>()
+  const [isLoadingLastItem, setIsLoadingLastItem] = useState(false)
+
+  useEffect(() => {
+    eventBus.subscribe(SET_LAST_BREADCRUMB, ({ data, isLoading }) => {
+      setLastItem(data)
+      setIsLoadingLastItem(isLoading)
+    })
+
+    return () => {
+      eventBus.unsubscribe(SET_LAST_BREADCRUMB)
+    }
+  }, [])
 
   const generateBreadcrumbPath = useCallback((path: string): IBreadcrumbPath[] => {
     const breadcrumbPaths: Array<IBreadcrumbPath> = [{ path: "/", label: "Home" }]
@@ -58,7 +77,9 @@ export function Breadcrumb({ routes }: IBreadcrumbProps) {
     <AntdBreadcrumb style={{ margin: "16px 0" }} separator={<span className="glyphicon glyphicon-triangle-right" />}>
       {breadcrumbPaths.map((item, i) => (
         <AntdBreadcrumb.Item key={i}>
-          {(item.path && i !== (breadcrumbPaths.length - 1)) ? <Link to={item.path}>{item.label}</Link> : item.label}
+          {((i === (breadcrumbPaths.length - 1)) && (isLoadingLastItem || (lastItem !== undefined))) ?
+            <>{isLoadingLastItem ? <Spin indicator={<LoadingOutlined />} /> : lastItem}</>
+            : (item.path && i !== (breadcrumbPaths.length - 1)) ? <Link to={item.path}>{item.label}</Link> : item.label}
         </AntdBreadcrumb.Item>
       ))}
     </AntdBreadcrumb>

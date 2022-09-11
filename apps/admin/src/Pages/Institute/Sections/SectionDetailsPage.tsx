@@ -6,5 +6,5 @@ import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export function SectionDetailsPage(props: RouteComponentProps<{ sectionID?: string }>) {
   const SectionID = props?.match?.params?.sectionID
 
-  return <DetailsPage getMeta={getSectionDetailsMeta} getDetailsPageContent={SectionQueries.getSingle} entityType="section" entityID={SectionID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="code" getMeta={getSectionDetailsMeta} getDetailsPageContent={SectionQueries.getSingle} entityType="section" entityID={SectionID} titleKey="transaction_request_id" />
 }

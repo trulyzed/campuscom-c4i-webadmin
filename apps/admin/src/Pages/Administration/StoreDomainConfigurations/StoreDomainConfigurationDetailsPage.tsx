@@ -6,5 +6,5 @@ import { StoreDomainConfigurationQueries } from "@packages/services/lib/Api/Quer
 export function StoreDomainConfigurationDetailsPage(props: RouteComponentProps<{ storeDomainConfigurationID?: string }>) {
   const StoreDomainConfigurationID = props?.match?.params?.storeDomainConfigurationID
 
-  return <DetailsPage getMeta={getStoreDomainConfigurationDetailsMeta} getDetailsPageContent={StoreDomainConfigurationQueries.getSingle} entityType="storeDomainConfiguration" entityID={StoreDomainConfigurationID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="domain" getMeta={getStoreDomainConfigurationDetailsMeta} getDetailsPageContent={StoreDomainConfigurationQueries.getSingle} entityType="storeDomainConfiguration" entityID={StoreDomainConfigurationID} titleKey="transaction_request_id" />
 }

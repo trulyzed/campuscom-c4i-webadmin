@@ -6,5 +6,5 @@ import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/Admi
 export function TransactionBatchDetailsPage(props: RouteComponentProps<{ transactionBatchID?: string }>) {
   const TransactionBatchID = props?.match?.params?.transactionBatchID
 
-  return <DetailsPage getMeta={getTransactionBatchDetailsMeta} getDetailsPageContent={TransactionBatchQueries.getSingle} entityType="transactionBatch" entityID={TransactionBatchID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="batch_ref" getMeta={getTransactionBatchDetailsMeta} getDetailsPageContent={TransactionBatchQueries.getSingle} entityType="transactionBatch" entityID={TransactionBatchID} titleKey="transaction_request_id" />
 }

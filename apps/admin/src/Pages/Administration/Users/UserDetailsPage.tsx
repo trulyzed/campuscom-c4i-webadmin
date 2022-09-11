@@ -6,5 +6,5 @@ import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Use
 export function UserDetailsPage(props: RouteComponentProps<{ userID?: string }>) {
   const UserID = props?.match?.params?.userID
 
-  return <DetailsPage getMeta={getUserDetailsMeta} getDetailsPageContent={UserQueries.getSingle} entityType="user" entityID={UserID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="username" getMeta={getUserDetailsMeta} getDetailsPageContent={UserQueries.getSingle} entityType="user" entityID={UserID} titleKey="transaction_request_id" />
 }

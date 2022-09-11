@@ -6,5 +6,5 @@ import { CartItemQueries } from "@packages/services/lib/Api/Queries/AdminQueries
 export function CartItemDetailsPage(props: RouteComponentProps<{ cartItemID?: string }>) {
   const CartItemID = props?.match?.params?.cartItemID
 
-  return <DetailsPage getMeta={getCartItemDetailsMeta} getDetailsPageContent={CartItemQueries.getSingle} entityType="cartItem" entityID={CartItemID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="product.title" getMeta={getCartItemDetailsMeta} getDetailsPageContent={CartItemQueries.getSingle} entityType="cartItem" entityID={CartItemID} titleKey="transaction_request_id" />
 }

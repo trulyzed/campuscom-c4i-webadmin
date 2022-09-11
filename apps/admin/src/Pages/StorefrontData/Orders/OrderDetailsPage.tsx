@@ -22,5 +22,5 @@ export function OrderDetailsPage(props: RouteComponentProps<{ orderID?: string }
     })
   }, [OrderQueries.getSingle, PaymentQueries.getListByOrder])
 
-  return <DetailsPage getMeta={getOrderDetailsMeta} getDetailsPageContent={orderDetailsQuery} entityType="order" entityID={OrderID} titleKey="order_ref" />
+  return <DetailsPage breadcrumbDataIndex="order_ref" getMeta={getOrderDetailsMeta} getDetailsPageContent={orderDetailsQuery} entityType="order" entityID={OrderID} titleKey="order_ref" />
 }

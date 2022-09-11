@@ -6,5 +6,5 @@ import { ContactGroupQueries } from "@packages/services/lib/Api/Queries/AdminQue
 export function ContactGroupDetailsPage(props: RouteComponentProps<{ contactGroupID?: string }>) {
   const ContactGroupID = props?.match?.params?.contactGroupID
 
-  return <DetailsPage getMeta={getContactGroupDetailsMeta} getDetailsPageContent={ContactGroupQueries.getSingle} entityType="contactGroup" entityID={ContactGroupID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getContactGroupDetailsMeta} getDetailsPageContent={ContactGroupQueries.getSingle} entityType="contactGroup" entityID={ContactGroupID} titleKey="transaction_request_id" />
 }

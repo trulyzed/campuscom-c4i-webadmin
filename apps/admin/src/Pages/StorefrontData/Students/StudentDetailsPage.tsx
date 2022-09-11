@@ -6,5 +6,5 @@ import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export function StudentDetailsPage(props: RouteComponentProps<{ studentID?: string }>) {
   const StudentID = props?.match?.params?.studentID
 
-  return <DetailsPage getMeta={getStudentDetailsMeta} getDetailsPageContent={StudentQueries.getSingle} entityType="student" entityID={StudentID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getStudentDetailsMeta} getDetailsPageContent={StudentQueries.getSingle} entityType="student" entityID={StudentID} titleKey="transaction_request_id" />
 }
