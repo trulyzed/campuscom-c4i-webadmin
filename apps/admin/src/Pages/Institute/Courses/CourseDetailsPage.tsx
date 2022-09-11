@@ -7,5 +7,5 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 export function CourseDetailsPage(props: RouteComponentProps<{ courseID?: string }>) {
   const CourseID = props?.match?.params?.courseID
 
-  return <DetailsPage getMeta={getCourseDetailsMeta} getDetailsPageContent={QueryConstructor(() => CourseQueries.getSingle({ params: { id: CourseID } }), [CourseQueries.getSingle])} entityType="course" entityID={CourseID} titleKey="name" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getCourseDetailsMeta} getDetailsPageContent={QueryConstructor(() => CourseQueries.getSingle({ params: { id: CourseID } }), [CourseQueries.getSingle])} entityType="course" entityID={CourseID} titleKey="name" />
 }

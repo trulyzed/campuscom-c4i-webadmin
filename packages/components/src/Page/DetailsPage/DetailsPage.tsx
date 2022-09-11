@@ -16,8 +16,9 @@ import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 import { useHistory } from "react-router-dom"
+import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
 
-export function DetailsPage(props: IDetailsPage) {
+export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
@@ -26,6 +27,12 @@ export function DetailsPage(props: IDetailsPage) {
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
+
+  useEffect(() => {
+    return () => {
+      eventBus.publish(SET_LAST_BREADCRUMB)
+    }
+  }, [])
 
   const updateHelpKey = (tabKey: string) => {
     const tabIndexes: number[] = tabKey.split("-").map((x) => {
@@ -108,6 +115,8 @@ export function DetailsPage(props: IDetailsPage) {
 
           setMeta(tabs)
           setTitle(pageTitle)
+
+          if (props.breadcrumbDataIndex) eventBus.publish(SET_LAST_BREADCRUMB, x.data[props.breadcrumbDataIndex])
 
           props.onDataLoad && props.onDataLoad(x.data)
         } else setError(x.error)
