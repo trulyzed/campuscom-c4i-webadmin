@@ -316,6 +316,17 @@ h2, h3, h5 {
 }
 
 // antd breadcrumb
+.ant-breadcrumb {
+  ol {
+    li {
+      &:last-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
 .ant-breadcrumb-separator {
   .glyphicon {
     font-size: 10px;

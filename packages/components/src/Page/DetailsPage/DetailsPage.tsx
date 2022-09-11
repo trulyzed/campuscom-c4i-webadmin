@@ -17,6 +17,7 @@ import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 import { useHistory } from "react-router-dom"
 import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
+import { extractObjectValue } from "@packages/utilities/lib/util"
 
 export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
@@ -126,7 +127,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
           setMeta(tabs)
           setTitle(pageTitle)
 
-          if (props.breadcrumbDataIndex) setBreadcrumb(false, x.data[props.breadcrumbDataIndex])
+          if (props.breadcrumbDataIndex) setBreadcrumb(false, extractObjectValue(x.data, props.breadcrumbDataIndex))
 
           props.onDataLoad && props.onDataLoad(x.data)
         } else setError(x.error)

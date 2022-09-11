@@ -6,5 +6,5 @@ import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Or
 export function OrderDetailsPage(props: RouteComponentProps<{ orderID?: string }>) {
   const OrderID = props?.match?.params?.orderID
 
-  return <DetailsPage getMeta={getOrderDetailsMeta} getDetailsPageContent={OrderQueries.getSingle} entityType="order" entityID={OrderID} titleKey="order_ref" />
+  return <DetailsPage breadcrumbDataIndex="order_ref" getMeta={getOrderDetailsMeta} getDetailsPageContent={OrderQueries.getSingle} entityType="order" entityID={OrderID} titleKey="order_ref" />
 }

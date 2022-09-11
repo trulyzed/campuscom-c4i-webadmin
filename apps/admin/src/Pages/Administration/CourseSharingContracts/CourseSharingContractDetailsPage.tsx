@@ -6,5 +6,5 @@ import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries
 export function CourseSharingContractDetailsPage(props: RouteComponentProps<{ courseSharingContractID?: string }>) {
   const CourseSharingContractID = props?.match?.params?.courseSharingContractID
 
-  return <DetailsPage getMeta={getCourseSharingContractDetailsMeta} getDetailsPageContent={CourseSharingContractQueries.getSingle} entityType="courseSharingContract" entityID={CourseSharingContractID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="course_provider.name" getMeta={getCourseSharingContractDetailsMeta} getDetailsPageContent={CourseSharingContractQueries.getSingle} entityType="courseSharingContract" entityID={CourseSharingContractID} titleKey="transaction_request_id" />
 }

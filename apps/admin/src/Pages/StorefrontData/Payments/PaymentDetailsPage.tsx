@@ -6,5 +6,5 @@ import { PaymentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export function PaymentDetailsPage(props: RouteComponentProps<{ paymentID?: string }>) {
   const PaymentID = props?.match?.params?.paymentID
 
-  return <DetailsPage getMeta={getPaymentDetailsMeta} getDetailsPageContent={PaymentQueries.getSingle} entityType="payment" entityID={PaymentID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="transaction_request_id" getMeta={getPaymentDetailsMeta} getDetailsPageContent={PaymentQueries.getSingle} entityType="payment" entityID={PaymentID} titleKey="transaction_request_id" />
 }

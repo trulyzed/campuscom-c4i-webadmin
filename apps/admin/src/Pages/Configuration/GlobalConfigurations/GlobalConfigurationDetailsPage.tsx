@@ -6,5 +6,5 @@ import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/A
 export function GlobalConfigurationDetailsPage(props: RouteComponentProps<{ globalConfigurationID?: string }>) {
   const GlobalConfigurationID = props?.match?.params?.globalConfigurationID
 
-  return <DetailsPage getMeta={getGlobalConfigurationDetailsMeta} getDetailsPageContent={GlobalConfigurationQueries.getSingle} entityType="globalConfiguration" entityID={GlobalConfigurationID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="label" getMeta={getGlobalConfigurationDetailsMeta} getDetailsPageContent={GlobalConfigurationQueries.getSingle} entityType="globalConfiguration" entityID={GlobalConfigurationID} titleKey="transaction_request_id" />
 }

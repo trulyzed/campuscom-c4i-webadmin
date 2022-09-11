@@ -6,5 +6,5 @@ import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export function CompanyDetailsPage(props: RouteComponentProps<{ companyID?: string }>) {
   const CompanyID = props?.match?.params?.companyID
 
-  return <DetailsPage getMeta={getCompanyDetailsMeta} getDetailsPageContent={CompanyQueries.getSingle} entityType="company" entityID={CompanyID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="company_name" getMeta={getCompanyDetailsMeta} getDetailsPageContent={CompanyQueries.getSingle} entityType="company" entityID={CompanyID} titleKey="transaction_request_id" />
 }

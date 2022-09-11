@@ -6,5 +6,5 @@ import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/Admi
 export function IdentityProviderDetailsPage(props: RouteComponentProps<{ identityProviderID?: string }>) {
   const IdentityProviderID = props?.match?.params?.identityProviderID
 
-  return <DetailsPage getMeta={getIdentityProviderDetailsMeta} getDetailsPageContent={IdentityProviderQueries.getSingle} entityType="identityProvider" entityID={IdentityProviderID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getIdentityProviderDetailsMeta} getDetailsPageContent={IdentityProviderQueries.getSingle} entityType="identityProvider" entityID={IdentityProviderID} titleKey="transaction_request_id" />
 }

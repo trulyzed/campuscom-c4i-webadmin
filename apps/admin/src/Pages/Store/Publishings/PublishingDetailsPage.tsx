@@ -6,5 +6,5 @@ import { PublishingQueries } from "@packages/services/lib/Api/Queries/AdminQueri
 export function PublishingDetailsPage(props: RouteComponentProps<{ publishingID?: string }>) {
   const PublishingID = props?.match?.params?.publishingID
 
-  return <DetailsPage getMeta={getPublishingDetailsMeta} getDetailsPageContent={PublishingQueries.getSingleWithTaggedSubjects} entityType="publishing" entityID={PublishingID} titleKey="name" />
+  return <DetailsPage breadcrumbDataIndex="course.title" getMeta={getPublishingDetailsMeta} getDetailsPageContent={PublishingQueries.getSingleWithTaggedSubjects} entityType="publishing" entityID={PublishingID} titleKey="name" />
 }

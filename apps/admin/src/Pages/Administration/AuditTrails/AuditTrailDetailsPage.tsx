@@ -6,5 +6,5 @@ import { AuditTrailQueries } from "@packages/services/lib/Api/Queries/AdminQueri
 export function AuditTrailDetailsPage(props: RouteComponentProps<{ auditTrailID?: string }>) {
   const AuditTrailID = props?.match?.params?.auditTrailID
 
-  return <DetailsPage getMeta={getAuditTrailDetailsMeta} getDetailsPageContent={AuditTrailQueries.getSingle} entityType="auditTrail" entityID={AuditTrailID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="ref_id" getMeta={getAuditTrailDetailsMeta} getDetailsPageContent={AuditTrailQueries.getSingle} entityType="auditTrail" entityID={AuditTrailID} titleKey="transaction_request_id" />
 }
