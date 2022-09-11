@@ -3,7 +3,7 @@ import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/De
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderJson } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { GlobalConfigurationFormMeta } from "~/Component/Feature/GlobalConfigurations/FormMeta/GlobalConfigurationFormMeta"
+import { getGlobalConfigurationFormMeta } from "~/Component/Feature/GlobalConfigurations/FormMeta/GlobalConfigurationFormMeta"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/GlobalConfigurations"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
@@ -24,7 +24,7 @@ export const getGlobalConfigurationDetailsMeta = (globalConfiguration: { [key: s
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Global Configuration`}
-        formMeta={GlobalConfigurationFormMeta}
+        formMeta={getGlobalConfigurationFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...globalConfiguration, configuration: JSON.stringify(globalConfiguration.configuration) }}
         defaultFormValue={{ globalConfigurationId: globalConfiguration.id }}

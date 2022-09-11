@@ -5,7 +5,7 @@ import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/A
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const QuestionFormMeta: IField[] = [
+export const getQuestionFormMeta = (): IField[] => [
   {
     label: 'Provider Type',
     fieldName: 'provider_type',

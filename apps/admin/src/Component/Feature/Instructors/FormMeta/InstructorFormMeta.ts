@@ -3,7 +3,7 @@ import { DROPDOWN, EDITOR, FILE, IField, TEXT } from "@packages/components/lib/F
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const InstructorFormMeta: IField[] = [
+export const getInstructorFormMeta =(): IField[] => [
   {
     label: "Name",
     inputType: TEXT,

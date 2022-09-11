@@ -3,7 +3,7 @@ import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "@p
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const MembershipProgramFormMeta: IField[] = [
+export const getMembershipProgramFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,

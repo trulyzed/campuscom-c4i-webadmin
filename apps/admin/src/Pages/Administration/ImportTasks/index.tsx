@@ -1,5 +1,5 @@
 import { notification } from "antd"
-import { ImportTaskFormMeta } from "~/Component/Feature/ImportTasks/FormMeta/ImportTaskFormMeta"
+import { getImportTaskFormMeta } from "~/Component/Feature/ImportTasks/FormMeta/ImportTaskFormMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -26,7 +26,7 @@ export const List = () => {
         actions: [
           <MetaDrivenFormModalOpenButton
             formTitle={`Create Task`}
-            formMeta={ImportTaskFormMeta}
+            formMeta={getImportTaskFormMeta()}
             formSubmitApi={createEntity}
             buttonLabel={`Create Task`}
             iconType="create"

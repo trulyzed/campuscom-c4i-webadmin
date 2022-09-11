@@ -2,7 +2,7 @@ import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/De
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { CampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
+import { getCampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { notification } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
@@ -24,7 +24,7 @@ export const getCampusDetailsMeta = (campus: { [key: string]: any }): IDetailsMe
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Campus`}
-        formMeta={CampusFormMeta}
+        formMeta={getCampusFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...campus, provider: campus.provider.id }}
         defaultFormValue={{ campusId: campus.id }}

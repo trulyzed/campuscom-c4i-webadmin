@@ -3,7 +3,7 @@ import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
-export const PublishingSearchMeta: IField[] = [
+export const getPublishingSearchMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,

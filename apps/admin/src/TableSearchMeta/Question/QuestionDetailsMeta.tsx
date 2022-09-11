@@ -4,7 +4,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderHtml, renderJson, renderLink, renderBoolean } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
+import { getQuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
@@ -26,7 +26,7 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Question`}
-        formMeta={QuestionFormMeta}
+        formMeta={getQuestionFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{
           ...question,

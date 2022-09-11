@@ -2,7 +2,7 @@ import { IField, DROPDOWN } from "@packages/components/lib/Form/common"
 import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const MembershipProgramTaggingFormMeta: IField[] = [
+export const getMembershipProgramTaggingFormMeta = (): IField[] => [
   {
     label: 'Membership Program',
     fieldName: 'membership_program',

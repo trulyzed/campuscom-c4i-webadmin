@@ -9,7 +9,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
+import { getSubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
 import { renderHtml, renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -27,7 +27,7 @@ export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetails
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Subject`}
-        formMeta={SubjectFormMeta}
+        formMeta={getSubjectFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...subject, store: subject.store.id }}
         defaultFormValue={{ subjectId: subject.id }}

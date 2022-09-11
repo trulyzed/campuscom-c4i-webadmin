@@ -2,7 +2,7 @@ import { FILE_INPUT_FORMAT, IMAGE_INPUT_FORMAT } from "~/Configs/input"
 import { IField, TEXT, FILE } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const RefundFormMeta: IField[] = [
+export const getRefundFormMeta = (): IField[] => [
   {
     label: 'Name',
     fieldName: 'name',

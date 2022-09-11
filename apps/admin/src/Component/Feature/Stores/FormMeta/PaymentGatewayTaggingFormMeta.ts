@@ -3,7 +3,7 @@ import { PaymentGatewayConfigQueries } from "@packages/services/lib/Api/Queries/
 import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGateways"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const PaymentGatewayTaggingFormMeta: IField[] = [
+export const getPaymentGatewayTaggingFormMeta = (): IField[] => [
   {
     label: 'Name',
     fieldName: 'name',
