@@ -61,11 +61,21 @@ export const getCourseProviderFormMeta = ():IField[] => [
     label: 'Username',
     fieldName: 'configuration__username',
     inputType: TEXT,
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['configuration__auth_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.configuration__auth_type === 'basic')
+    },
   },
   {
     label: 'Password',
     fieldName: 'configuration__password',
     inputType: TEXT,
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['configuration__auth_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.configuration__auth_type === 'basic')
+    },
   },
   {
     label: 'Enrollment URL',
