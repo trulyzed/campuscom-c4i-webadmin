@@ -2,7 +2,7 @@ import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const CompanyFormMeta: IField[] = [
+export const getCompanyFormMeta = ():IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,

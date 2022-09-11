@@ -7,7 +7,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { notification } from "antd"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
+import { getPublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
@@ -36,7 +36,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Publishing`}
-        formMeta={PublishingFormMeta}
+        formMeta={getPublishingFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...publishing, store: publishing.store?.id }}
         defaultFormValue={{ publishingId: publishing.id }}

@@ -4,14 +4,14 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderLink, renderDate, renderDateTime } from "@packages/components/lib/ResponsiveTable"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { StudentFormMeta } from "~/Component/Feature/Students/FormMeta/StudentFormMeta"
+import { getStudentFormMeta } from "~/Component/Feature/Students/FormMeta/StudentFormMeta"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
-import { MembershipProgramTaggingFormMeta } from "~/Component/Feature/Students/FormMeta/MembershipProgramTaggingFormMeta"
+import { getMembershipProgramTaggingFormMeta } from "~/Component/Feature/Students/FormMeta/MembershipProgramTaggingFormMeta"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -36,7 +36,7 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Course`}
-        formMeta={StudentFormMeta}
+        formMeta={getStudentFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...student }}
         defaultFormValue={{ studentId: student.id }}
@@ -131,7 +131,7 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Membership Program`}
-              formMeta={MembershipProgramTaggingFormMeta}
+              formMeta={getMembershipProgramTaggingFormMeta()}
               formSubmitApi={addMembershipProgram}
               buttonLabel={`Add Membership Program`}
               refreshEventName={'REFRESH_MEMBERSHIP_PROGRAM_TAB'}

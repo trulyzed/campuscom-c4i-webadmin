@@ -3,7 +3,7 @@ import { DROPDOWN, FILE, IField, NUMBER, TEXT } from "@packages/components/lib/F
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const ProductFormMeta: IField[] = [
+export const getProductFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,

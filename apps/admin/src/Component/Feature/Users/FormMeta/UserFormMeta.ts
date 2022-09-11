@@ -4,7 +4,7 @@ import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Rol
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const UserFormMeta: IField[] = [
+export const getUserFormMeta = (): IField[] => [
   {
     label: "First name",
     inputType: TEXT,

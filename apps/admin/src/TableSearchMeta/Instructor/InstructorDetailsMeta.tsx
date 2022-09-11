@@ -4,7 +4,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { InstructorQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Instructors"
-import { InstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
+import { getInstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
@@ -25,7 +25,7 @@ export const getInstructorDetailsMeta = (instructor: { [key: string]: any }): ID
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Instructor`}
-        formMeta={InstructorFormMeta}
+        formMeta={getInstructorFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...instructor, provider: instructor.provider.id }}
         defaultFormValue={{ instructorId: instructor.id }}

@@ -4,7 +4,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderBoolean } from "@packages/components/lib/ResponsiveTable"
 import { renderJson } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
+import { getUserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Users"
@@ -25,7 +25,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update User`}
-        formMeta={UserFormMeta.filter(i => i.fieldName !== "password")}
+        formMeta={getUserFormMeta().filter(i => i.fieldName !== "password")}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...user, custom_roles: user.custom_roles.map((i: any) => i.id), }}
         defaultFormValue={{ userId: user.id }}

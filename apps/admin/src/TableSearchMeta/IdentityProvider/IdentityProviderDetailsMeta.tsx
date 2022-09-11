@@ -6,7 +6,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
+import { getIdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
@@ -25,7 +25,7 @@ export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Identity Provider`}
-        formMeta={IdentityProviderFormMeta}
+        formMeta={getIdentityProviderFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...identityProvider, configuration: JSON.stringify(identityProvider.configuration) }}
         defaultFormValue={{ identityProviderId: identityProvider.id }}

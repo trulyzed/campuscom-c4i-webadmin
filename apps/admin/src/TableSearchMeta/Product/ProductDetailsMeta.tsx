@@ -6,7 +6,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { UPDATE_SUCCESSFULLY, CREATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
+import { getProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
@@ -37,7 +37,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
     cardActions: product.product_type === 'miscellaneous' ? [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Product`}
-        formMeta={ProductFormMeta}
+        formMeta={getProductFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...product, store: product.store.id, content: JSON.stringify(product.content) }}
         defaultFormValue={{ productId: product.id }}

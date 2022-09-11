@@ -4,7 +4,7 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderHtml, renderThumb, renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
+import { getCourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
@@ -55,7 +55,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Course Provider`}
-        formMeta={CourseProviderFormMeta}
+        formMeta={getCourseProviderFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...courseProvider, configuration: JSON.stringify(courseProvider.configuration) }}
         defaultFormValue={{ courseProviderId: courseProvider.id }}

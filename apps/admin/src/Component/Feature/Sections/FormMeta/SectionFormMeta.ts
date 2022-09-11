@@ -2,7 +2,7 @@ import { DROPDOWN, IField, TEXT, NUMBER, DATE_PICKER, MULTI_SELECT_DROPDOWN } fr
 import { InstructorQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Instructors"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const SectionFormMeta: IField[] = [
+export const getSectionFormMeta = (): IField[] => [
   {
     label: 'Section Name',
     fieldName: 'name',

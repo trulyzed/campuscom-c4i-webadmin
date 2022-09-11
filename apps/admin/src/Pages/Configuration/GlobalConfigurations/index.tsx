@@ -8,7 +8,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getGlobalConfigurationListTableColumns } from "~/TableSearchMeta/GlobalConfiguration/GlobalConfigurationListTableColumns"
 import { GlobalConfigurationSearchMeta } from "~/TableSearchMeta/GlobalConfiguration/GlobalConfigurationSearchMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { GlobalConfigurationFormMeta } from "~/Component/Feature/GlobalConfigurations/FormMeta/GlobalConfigurationFormMeta"
+import { getGlobalConfigurationFormMeta } from "~/Component/Feature/GlobalConfigurations/FormMeta/GlobalConfigurationFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Global Configuration`}
-              formMeta={GlobalConfigurationFormMeta}
+              formMeta={getGlobalConfigurationFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Global Configuration`}
               iconType="create"

@@ -4,7 +4,7 @@ import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQ
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const ImportTaskFormMeta: IField[] = [
+export const getImportTaskFormMeta = (): IField[] => [
   {
     label: 'Import Type',
     fieldName: 'import_type',

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { notification } from "antd"
-import { CompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
+import { getCompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Organization`}
-              formMeta={CompanyFormMeta}
+              formMeta={getCompanyFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Organization`}
               iconType="create"

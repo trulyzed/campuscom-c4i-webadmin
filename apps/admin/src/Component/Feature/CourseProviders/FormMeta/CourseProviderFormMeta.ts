@@ -2,7 +2,7 @@ import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
 import { IField, TEXT, FILE, EDITOR, DROPDOWN } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const CourseProviderFormMeta: IField[] = [
+export const getCourseProviderFormMeta = ():IField[] => [
   {
     label: 'Name',
     fieldName: 'name',

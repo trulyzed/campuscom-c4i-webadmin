@@ -6,7 +6,7 @@ import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/Adm
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { getDiscountTaggingFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/DiscountTaggingFormMeta"
-import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
+import { getMembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { DiscountProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/DiscountPrograms"
@@ -36,7 +36,7 @@ export const getMembershipProgramDetailsMeta = (membershipProgram: { [key: strin
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Membership Program`}
-        formMeta={MembershipProgramFormMeta}
+        formMeta={getMembershipProgramFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...membershipProgram, store: membershipProgram.store.id }}
         defaultFormValue={{ membershipProgramId: membershipProgram.id }}

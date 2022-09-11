@@ -10,7 +10,7 @@ import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSe
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { TransactionBatchQueries } from "@packages/services/lib/Api/Queries/AdminQueries/TransactionBatches"
-import { getTransactionBatchRevenueSummary, PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
+import { getTransactionBatchRevenueSummary, getPaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 
 export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]: any }): IDetailsMeta => {
@@ -29,7 +29,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
       ...transactionBatch.status === "unpaid" ? [
         <MetaDrivenFormModalOpenButton
           formTitle={`Make Payment`}
-          formMeta={PaymentFormMeta}
+          formMeta={getPaymentFormMeta()}
           formSubmitApi={makePayment}
           displayFieldValue={{
             batch_id: transactionBatch.batch_ref,
@@ -75,7 +75,7 @@ export const getTransactionBatchDetailsMeta = (transactionBatch: { [key: string]
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Edit Payment`}
-        formMeta={PaymentFormMeta}
+        formMeta={getPaymentFormMeta()}
         formSubmitApi={makePayment}
         initialFormValue={{
           payment_ref: transactionBatch.payment_info?.ref,

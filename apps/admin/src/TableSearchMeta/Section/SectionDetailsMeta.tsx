@@ -6,13 +6,13 @@ import { getScheduleListTableColumns } from "~/TableSearchMeta/Schedule/Schedule
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
+import { getSectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ScheduleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Schedules"
-import { ScheduleFormMeta } from "~/Component/Feature/Schedules/FormMeta/ScheduleFormMeta"
+import { getScheduleFormMeta } from "~/Component/Feature/Schedules/FormMeta/ScheduleFormMeta"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
@@ -36,7 +36,7 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Section`}
-        formMeta={SectionFormMeta}
+        formMeta={getSectionFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...section, course: section.course.id, course_fee: section.amount, instructors: section.instructors.map((i: any) => i.id), }}
         defaultFormValue={{ sectionId: section.id }}
@@ -89,7 +89,7 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Schedule`}
-              formMeta={ScheduleFormMeta}
+              formMeta={getScheduleFormMeta()}
               formSubmitApi={createSchedule}
               buttonLabel={`Create Schedule`}
               iconType="create"

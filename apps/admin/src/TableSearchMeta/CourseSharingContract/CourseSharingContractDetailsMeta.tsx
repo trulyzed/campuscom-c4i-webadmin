@@ -6,7 +6,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { getCourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -26,10 +26,10 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
         formTitle={`Update Course Sharing Contract`}
         formMeta={[
           {
-            ...CourseSharingContractFormMeta[0],
+            ...getCourseSharingContractFormMeta()[0],
             disabled: true
           },
-          CourseSharingContractFormMeta[1],
+          getCourseSharingContractFormMeta()[1],
         ]}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
