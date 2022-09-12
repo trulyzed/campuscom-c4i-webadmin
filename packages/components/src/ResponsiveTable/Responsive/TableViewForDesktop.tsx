@@ -5,6 +5,7 @@ import { IDataTableProps } from "~/ResponsiveTable"
 import { DownloadButton } from "~/ResponsiveTable/DownloadButton"
 import { Pagination } from "~/ResponsiveTable/Pagination"
 import { DropdownActions } from "~/Actions/DropdownActions"
+import { EmptyState } from "~/Layout/EmptyState"
 
 export function TableViewForDesktop(
   props: IDataTableProps & {
@@ -96,6 +97,7 @@ export function TableViewForDesktop(
           pagination={false}
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}
+          locale={{ emptyText: <EmptyState /> }}
         />
       </Col>
       {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (

@@ -1,7 +1,7 @@
 @import "~/Sass/variables.scss";
 
 .glyphicon {
-  font-family: 'Glyphicons Halflings';
+  font-family: 'Glyphicons Halflings', 'Jenzabar Halflings';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   vertical-align: middle;
@@ -95,4 +95,16 @@
 }
 .glyphicon-random:before {
   content: "\E110";
+}
+.glyphicon-payment:before {
+  content: "\E626";
+}
+.glyphicon-floppy-save:before {
+  content: "\E175";
+}
+.glyphicon-new-window:before {
+  content: "\E164";
+}
+.glyphicon-inbox:before {
+  content: "\E028";
 }
