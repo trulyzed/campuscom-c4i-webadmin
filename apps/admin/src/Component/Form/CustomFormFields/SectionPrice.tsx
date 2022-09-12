@@ -25,7 +25,7 @@ export const SectionPrice = (props: IGeneratedField) => {
             type={"number"}
             disabled={props.disabled}
             placeholder={props.placeholder}
-            autoComplete="off"
+            autoComplete={props.autoComplete}
           />
         </SearchFieldWrapper>
       )
