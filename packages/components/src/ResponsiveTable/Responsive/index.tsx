@@ -118,7 +118,7 @@ export const ResponsiveTable = (props: IDataTableProps & {
       props.hidePagination && setPaginatedData(_conditionalProps.dataSource)
     }
 
-    _conditionalProps.scroll = props.scroll || { x: props.columns.length }
+    _conditionalProps.scroll = props.scroll || { x: "max-content" }
     _conditionalProps.rowSelection = props.rowSelection
     // _conditionalProps.rowKey = props.rowKey ? props.rowKey : "rowKey"
     setConditionalProps(_conditionalProps)
