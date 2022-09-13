@@ -204,8 +204,7 @@ export const getTransactionReportListTableColumns = (isModal = false): ITableMet
       (params) => TransactionQueries.getTransactionReportList(params),
       [TransactionQueries.getTransactionReportList]
     ),
-    tableName: "Transaction",
-    showDownload: true,
-    scroll: { x: 6000, y: 600 }
+    tableName: "DetailReport",
+    showDownload: true
   }
 }
