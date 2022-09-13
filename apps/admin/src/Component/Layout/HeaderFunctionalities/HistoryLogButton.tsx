@@ -11,21 +11,21 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 const History = (props: {
   Urls: ILastVisited[]
-  mobileView: boolean
+  tabView: boolean
   showModal: boolean
   setShowModal: (flag: boolean) => void
 }) => {
   return (
     <>
       <div
-        {...(props.mobileView && { style: { maxHeight: "50vh", overflowY: "scroll" } })}
-        {...(!props.mobileView && {
+        {...(props.tabView && { style: { maxHeight: "50vh", overflowY: "scroll" } })}
+        {...(!props.tabView && {
           style: {
             position: "absolute",
             right: "0px",
             zIndex: 100,
             backgroundColor: "white",
-            width: props.mobileView ? "350px" : "500px",
+            width: props.tabView ? "350px" : "500px",
             maxHeight: "50vh",
             overflowY: "auto",
             borderBottom: "1px solid lightgray"
@@ -84,41 +84,38 @@ export const HistoryLogButton = () => {
     }
   }, [])
 
-  const [mobileView, setMobileView] = useState(false)
+  const [tabView, setTabView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
-    setMobileView(deviceViews.mobile)
+    setTabView(deviceViews.tab)
   })
 
   return (
-    <>
-      {!mobileView && (
-        <div onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
-          <ContextAction
-            type="showHistory"
-            tooltip="Last Visited Pages"
-            onClick={() => setShowModal(true)}
-          />
-          {showModal && (
-            <History Urls={Urls} mobileView={mobileView} showModal={showModal} setShowModal={setShowModal} />
-          )}
-        </div>
-      )}
-      {mobileView && (
-        <>
-          <ContextAction
-            type="showHistory"
-            tooltip="Last Visited Pages"
-            onClick={() => setShowModal(true)}
-          />
-          {showModal && (
-            <Modal width="1000px">
-              <Card actions={[<Button onClick={() => setShowModal(false)}>Close</Button>]}>
-                <History Urls={Urls} mobileView={mobileView} showModal={showModal} setShowModal={setShowModal} />
-              </Card>
-            </Modal>
-          )}
-        </>
-      )}
-    </>
+    !tabView ? (
+      <div onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
+        <ContextAction
+          type="showHistory"
+          tooltip="Last Visited Pages"
+          onClick={() => setShowModal(true)}
+        />
+        {showModal && (
+          <History Urls={Urls} tabView={tabView} showModal={showModal} setShowModal={setShowModal} />
+        )}
+      </div>
+    ) : (
+      <>
+        <ContextAction
+          type="showHistory"
+          tooltip="Last Visited Pages"
+          onClick={() => setShowModal(true)}
+        />
+        {showModal && (
+          <Modal width="1000px">
+            <Card actions={[<Button onClick={() => setShowModal(false)}>Close</Button>]}>
+              <History Urls={Urls} tabView={tabView} showModal={showModal} setShowModal={setShowModal} />
+            </Card>
+          </Modal>
+        )}
+      </>
+    )
   )
 }
