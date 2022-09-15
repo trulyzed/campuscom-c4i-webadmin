@@ -26,7 +26,7 @@ export function Login(props: {
     handleResponse(response, { username, password })
   }
 
-  const validate2FA = async ({ otp }: Record<string, any>) => {
+  const validateMfa = async ({ otp }: Record<string, any>) => {
     if (!mfaDetails) return
     setLoading(true)
     const response = await login({ username: mfaDetails.username, password: mfaDetails.password, otp })
@@ -89,7 +89,7 @@ export function Login(props: {
             otpLength: 6
           },
         ]}
-        onApplyChanges={!mfaDetails?.mfaEnabled ? ({ username, password }) => handleLogin({ username, password }) : validate2FA}
+        onApplyChanges={!mfaDetails?.mfaEnabled ? ({ username, password }) => handleLogin({ username, password }) : validateMfa}
         applyButtonLabel="Login"
         loading={loading}
         errorMessages={error}

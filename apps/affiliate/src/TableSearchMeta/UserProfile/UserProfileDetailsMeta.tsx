@@ -24,7 +24,7 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
 
   const enableMFA = QueryConstructor(((data) => AuthQueries.enableMFA({ ...data }).then(resp => {
     if (resp.success) {
-      notification.success({ message: "2FA enabled" })
+      notification.success({ message: "Two-factor authentication enabled" })
       setLoginInfo({ user: { ...getUser() as IUser, mfa_enabled: true } })
     }
     return resp
@@ -37,7 +37,7 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
 
   const disableMFA = QueryConstructor(((data) => AuthQueries.disableMFA({ ...data }).then(resp => {
     if (resp.success) {
-      notification.warning({ message: "2FA disabled" })
+      notification.warning({ message: "Two-factor authentication disabled" })
       setLoginInfo({ user: { ...getUser() as IUser, mfa_enabled: false } })
     }
     return resp
@@ -57,18 +57,18 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
         refreshEventName={REFRESH_PAGE}
       />,
       ...!userInfo.mfa_enabled ? [<MetaDrivenFormModalOpenButton
-        formTitle={`Enable 2FA`}
+        formTitle={`Enable Two-factor authentication`}
         formMeta={getEnableMFAFormMeta()}
         dataQueryApi={getMFAQueryData}
         formSubmitApi={enableMFA}
-        buttonLabel={`Enable 2FA`}
+        buttonLabel={`Enable Two-factor authentication`}
         iconType="mfa"
         refreshEventName={REFRESH_PAGE}
         isVertical
       />] : [],
       ...userInfo.mfa_enabled ? [
         <ContextAction
-          tooltip="Disable 2FA"
+          tooltip="Disable Two-factor authentication"
           iconColor="warning"
           type="mfa"
           queryService={disableMFA}
@@ -79,7 +79,7 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
       { label: "First Name", value: userInfo.first_name, },
       { label: "Last Name", value: userInfo.last_name, },
       { label: "Email", value: userInfo.email, },
-      { label: "2FA Enabled", value: userInfo.mfa_enabled, render: renderBoolean },
+      { label: "Two-factor Authentication Enabled", value: userInfo.mfa_enabled, render: renderBoolean },
     ]
   }
 
