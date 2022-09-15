@@ -11,21 +11,21 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 const History = (props: {
   Urls: ILastVisited[]
-  tabView: boolean
+  nonDesktop: boolean
   showModal: boolean
   setShowModal: (flag: boolean) => void
 }) => {
   return (
     <>
       <div
-        {...(props.tabView && { style: { maxHeight: "50vh", overflowY: "scroll" } })}
-        {...(!props.tabView && {
+        {...(props.nonDesktop && { style: { maxHeight: "50vh", overflowY: "scroll" } })}
+        {...(!props.nonDesktop && {
           style: {
             position: "absolute",
             right: "0px",
             zIndex: 100,
             backgroundColor: "white",
-            width: props.tabView ? "350px" : "500px",
+            width: props.nonDesktop ? "350px" : "500px",
             maxHeight: "50vh",
             overflowY: "auto",
             borderBottom: "1px solid lightgray"
@@ -84,13 +84,13 @@ export const HistoryLogButton = () => {
     }
   }, [])
 
-  const [tabView, setTabView] = useState(false)
+  const [nonDesktop, setNonDesktop] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
-    setTabView(deviceViews.tab)
+    setNonDesktop(deviceViews.mobile || deviceViews.tab)
   })
 
   return (
-    !tabView ? (
+    !nonDesktop ? (
       <div onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
         <ContextAction
           type="showHistory"
@@ -98,7 +98,7 @@ export const HistoryLogButton = () => {
           onClick={() => setShowModal(true)}
         />
         {showModal && (
-          <History Urls={Urls} tabView={tabView} showModal={showModal} setShowModal={setShowModal} />
+          <History Urls={Urls} nonDesktop={nonDesktop} showModal={showModal} setShowModal={setShowModal} />
         )}
       </div>
     ) : (
@@ -111,7 +111,7 @@ export const HistoryLogButton = () => {
         {showModal && (
           <Modal width="1000px">
             <Card actions={[<Button onClick={() => setShowModal(false)}>Close</Button>]}>
-              <History Urls={Urls} tabView={tabView} showModal={showModal} setShowModal={setShowModal} />
+              <History Urls={Urls} nonDesktop={nonDesktop} showModal={showModal} setShowModal={setShowModal} />
             </Card>
           </Modal>
         )}
