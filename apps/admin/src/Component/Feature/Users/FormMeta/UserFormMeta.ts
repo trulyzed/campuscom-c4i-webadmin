@@ -55,11 +55,6 @@ export const getUserFormMeta = (): IField[] => [
     fieldName: "is_scope_disabled"
   },
   {
-    label: "Two-factor authentication enabled",
-    inputType: BOOLEAN,
-    fieldName: "mfa_enabled"
-  },
-  {
     label: "Is active",
     inputType: BOOLEAN,
     fieldName: "is_active"
