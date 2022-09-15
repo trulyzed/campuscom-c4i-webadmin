@@ -21,6 +21,7 @@ export const MetaDrivenFormModal = (props: {
   displayFieldValue?: Record<string, any>
   defaultFormValue?: { [key: string]: any }
   formSubmitApi: IQuery
+  dataQueryApi?: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   closeModal: () => void
   refreshEventAfterFormSubmission?: string | symbol | symbol[] | string[] | Array<string | symbol>
@@ -94,6 +95,7 @@ export const MetaDrivenFormModal = (props: {
         stopProducingQueryParams={true}
         errorMessages={error}
         onApplyChanges={submit}
+        dataQueryApi={props.dataQueryApi}
         showCloseButton
       />
     </Modal>

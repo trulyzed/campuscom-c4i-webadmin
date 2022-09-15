@@ -57,7 +57,7 @@ export function DefaultLayout(props: ILayoutProps) {
                   marginLeft: breakpoint.md ? "20px" : breakpoint.sm ? "15px" : breakpoint.xs ? "10px" : "20px",
                   marginBottom: 0
                 }} aria-label="School Name" className="site-title">
-                  C4I Webadmin
+                  Campus Marketplace Affiliate
                 </h2>
               </Link>
             </Col>

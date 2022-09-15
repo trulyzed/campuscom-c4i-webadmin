@@ -18,6 +18,7 @@ interface IMetaDrivenFormModalOpenButton {
   formMetaName?: string
   isVertical?: boolean
   formSubmitApi: IQuery
+  dataQueryApi?: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
   initialFormValueApi?: IQuery
@@ -61,6 +62,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           meta={props.formMeta}
           metaName={props.formMetaName}
           formSubmitApi={props.formSubmitApi}
+          dataQueryApi={props.dataQueryApi}
           onFormSubmit={props.onFormSubmit}
           initialFormValue={props.initialFormValue}
           initialFormValueApi={props.initialFormValueApi}

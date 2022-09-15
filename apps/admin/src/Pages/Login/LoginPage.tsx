@@ -19,7 +19,7 @@ export function LoginPage() {
     <Layout style={{ height: "100vh" }}>
       <Layout.Content style={ContentStyle}>
         <h1>Campus Marketplace Webadmin</h1>
-        <Login page={true} />
+        <Login />
         <p className="footer" style={Footer_note}>{`2011-${new Date().getFullYear()} Jenzabar, Inc.`}</p>
       </Layout.Content>
     </Layout>

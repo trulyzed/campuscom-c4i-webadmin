@@ -8,9 +8,9 @@ const access_token = `${prefix}_access_token`
 const user = `${prefix}_user`
 const history = `${prefix}_history`
 
-export function setLoginInfo(params: { token: string; user: IUser }): void {
-  localStorage.setItem(access_token, params.token)
-  localStorage.setItem(user, JSON.stringify(params.user))
+export function setLoginInfo(params: { token?: string; user?: IUser }): void {
+  if (params.token) localStorage.setItem(access_token, params.token)
+  if (params.user) localStorage.setItem(user, JSON.stringify(params.user))
 }
 
 export function setUser(currentUser: IUser) {

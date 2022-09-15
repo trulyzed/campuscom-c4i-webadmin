@@ -1,70 +1,62 @@
 import { useState } from "react"
-import { Form, Button, Card, Typography, Input } from "antd"
-import { Error } from "~/Component/Error"
-import { Store } from "antd/lib/form/interface"
-import { Redirect } from "react-router"
+import { Card, Typography } from "antd"
+import { useHistory } from "react-router"
 import { setLoginInfo } from "@packages/services/lib/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY, REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
-import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { IApiResponse, IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { login } from "~/Services/AuthService"
-
-interface IFormState {
-  username: string
-  password: string
-}
-
-const INITIAL_FORM_VALUES: IFormState = {
-  username: "",
-  password: ""
-}
-
-enum EnumLoading {
-  PENDING,
-  INPROGRESS
-}
+import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
+import { OTP, PASSWORD, TEXT } from "@packages/components/lib/Form/common"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
 export function Login(props: {
-  globalErrorMessage?: null | string
   modal?: boolean
-  page?: boolean
   redirect?: (url: string) => void
 }) {
-  const [loading, setloading] = useState(EnumLoading.PENDING)
-  const [redirect, setRedirect] = useState<string>()
-  const [error, setError] = useState<string>()
-  const onFinish = async (values: Store) => {
-    const { username, password } = values as IFormState
-    setloading(EnumLoading.INPROGRESS)
-    setError(undefined)
+  const history = useHistory()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
+  const [mfaDetails, setMfaDetails] = useState<{ username: string; password: string; mfaEnabled: boolean }>()
+
+  const handleLogin = async ({ username, password }: { username: string; password: string; }) => {
+    setLoading(true)
     const response = await login({ username, password })
+    setLoading(false)
+    handleResponse(response, { username, password })
+  }
 
-    setloading(EnumLoading.PENDING)
-    if (props.page) {
-      if (response && response.success) {
-        eventBus.publishSimilarEvents(/REFRESH.*/i)
-        eventBus.publish(SHOW_LOGIN_MODAL, false)
-        eventBus.publish(REDIRECT_TO_LOGIN, false)
+  const validate2FA = async ({ otp }: Record<string, any>) => {
+    if (!mfaDetails) return
+    setLoading(true)
+    const response = await login({ username: mfaDetails.username, password: mfaDetails.password, otp })
+    setLoading(false)
+    handleResponse(response)
+  }
 
-        if (props.redirect) setRedirect("/")
-      }
-    }
-    if (response.success) {
+  const handleResponse = (response: IApiResponse, payload?: { username: string; password: string }) => {
+    setError(undefined)
+    if (!response.data?.access && response.data?.userData?.mfa_enabled && payload) {
+      setMfaDetails({ mfaEnabled: true, ...payload })
+      return
+    } else if (response.success) {
       setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
       eventBus.publish(LOGGED_IN_SUCCESSFULLY, response.data.userData)
-    }
-    else if (Array.isArray(response.error) && response.error.length > 0) {
-      setError(response.error[0].message)
+      eventBus.publish(SHOW_LOGIN_MODAL, false)
+      eventBus.publishSimilarEvents(/REFRESH.*/i)
+      eventBus.publish(REDIRECT_TO_LOGIN, false)
+      if (props.redirect) history.push("/")
+    } else if (Array.isArray(response.error) && response.error.length > 0) {
+      setError(response.error)
     }
   }
 
-  const { globalErrorMessage } = props
   const modalProps = {
     title: "Login required",
     description: "Your session has been timed out, please login again"
   }
   return (
-    <Card style={{ minWidth: "300px" }}>
+    <Card style={{ maxWidth: "350px" }}>
       {props.modal && (
         <>
           <Card.Meta title={modalProps.title} />
@@ -73,43 +65,39 @@ export function Login(props: {
           </Typography.Title>
         </>
       )}
-      {Boolean(globalErrorMessage) && <Error>{globalErrorMessage}</Error>}
-      {redirect && <Redirect to={redirect} />}
-      <Form
-        layout="vertical"
-        name="basic"
-        hideRequiredMark
-        className="login-form"
-        initialValues={INITIAL_FORM_VALUES}
-        onFinish={onFinish}
-      >
-        <Form.Item
-          {...{
+      <MetaDrivenForm
+        meta={!mfaDetails?.mfaEnabled ? [
+          {
             label: "Username",
-            name: "username",
-            rules: [{ required: true, message: "Please input your username!" }]
-          }}
-        >
-          <Input aria-label="User Name" />
-        </Form.Item>
-
-        <Form.Item
-          {...{
+            fieldName: "username",
+            inputType: TEXT,
+            rules: [{ required: true, message: "This field is required!" }],
+          },
+          {
             label: "Password",
-            name: "password",
-            rules: [{ required: true, message: "Please input your password!" }]
-          }}
-        >
-          <Input aria-label="password" type="password" />
-        </Form.Item>
-
-        {error && <p style={{ color: "darkred", textAlign: "center" }}>{error}</p>}
-        <Form.Item style={{ textAlign: "center" }}>
-          <Button type="primary" htmlType="submit" loading={loading === EnumLoading.INPROGRESS}>
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
+            fieldName: "password",
+            inputType: PASSWORD,
+            rules: [{ required: true, message: "This field is required!" }],
+          }
+        ] : [
+          {
+            label: "Enter Code",
+            fieldName: "otp",
+            inputType: OTP,
+            helperText: "Open Google Authenticator app in your phone. Find the verification code of this application. Then enter the verification code below.",
+            rules: [{ required: true, message: "This field is required!" }],
+            otpLength: 6
+          },
+        ]}
+        onApplyChanges={!mfaDetails?.mfaEnabled ? ({ username, password }) => handleLogin({ username, password }) : validate2FA}
+        applyButtonLabel="Login"
+        loading={loading}
+        errorMessages={error}
+        bordered={false}
+        disableContainerLoader
+        isVertical
+        stopProducingQueryParams
+      />
     </Card>
   )
 }
