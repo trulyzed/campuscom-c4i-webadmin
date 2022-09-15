@@ -438,7 +438,7 @@ export function MetaDrivenForm({
           ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
           background: "white",
           borderRadius: "4px",
-          padding: "10px"
+          padding: props.isVertical ? "10px 25px" : "10px"
         }}
         onValuesChange={handleValuesChange}
       >
