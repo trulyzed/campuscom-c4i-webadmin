@@ -65,9 +65,6 @@ export function DefaultLayout(props: ILayoutProps) {
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
-          <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
-            <Breadcrumb routes={AppRoutes} />
-          </Card>
           <Suspense
             fallback={
               <Spin
@@ -82,6 +79,9 @@ export function DefaultLayout(props: ILayoutProps) {
               />
             }
           >
+            <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
+              <Breadcrumb routes={AppRoutes} />
+            </Card>
             {props.children}
           </Suspense>
         </Content>
