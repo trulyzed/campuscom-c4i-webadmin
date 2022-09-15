@@ -16,6 +16,8 @@ export const DATE_PICKERS = "DATE_PICKERS"
 export const HIERARCHICAL_MULTIPLE_CHECKBOX = "HIERARCHICAL_MULTIPLE_CHECKBOX"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
+export const PASSWORD = "PASSWORD"
+export const OTP = "OTP"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
 export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
@@ -33,6 +35,8 @@ export type IFieldType =
   | typeof HIERARCHICAL_MULTIPLE_CHECKBOX
   | typeof NUMBER
   | typeof BOOLEAN
+  | typeof PASSWORD
+  | typeof OTP
   | typeof MULTI_SELECT_CHECKBOX
   | typeof MULTI_SELECT_GROUP_CHECKBOX
   | typeof CUSTOM_FIELD
@@ -71,6 +75,7 @@ export interface IField {
   required?: boolean
   validateStatus?: ValidateStatus
   help?: string | React.ReactNode
+  helperText?: string | React.ReactNode
   labelColSpan?: number
   wrapperColSpan?: number
   colSpan?: number
@@ -80,6 +85,7 @@ export interface IField {
   formItemStyle?: React.CSSProperties
   maxValue?: number
   childrenKey?: string
+  otpLength?: number
 
   multiple?: boolean
   accept?: UploadProps['accept']

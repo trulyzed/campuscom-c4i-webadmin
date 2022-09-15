@@ -14,5 +14,5 @@ export const LoginModal = (props: ILoginModalProps) => {
     }
   }, [props])
 
-  return <Modal children={<Login modal={true} />} width="300px" zIndex={zIndexLevel.loginModal}></Modal>
+  return <Modal children={<Login modal />} width="300px" zIndex={zIndexLevel.loginModal}></Modal>
 }

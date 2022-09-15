@@ -6,8 +6,8 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button } from "antd"
 import { useHistory } from "react-router-dom"
 
-export type ActionType = 'close' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'next'
-  | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
+export type ActionType = 'changePassword' | 'close' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+  'next' | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
 
 interface IContextActionProps {
   text?: string
@@ -19,14 +19,15 @@ interface IContextActionProps {
   redirectTo?: string
   textOnly?: boolean
   downloadAs?: "EXCEL" | "CSV"
-  iconColor?: "primary" | "danger"
+  iconColor?: "primary" | "danger" | "warning"
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
   const getIconClassName = (iconType: string, iconColor?: IContextActionProps['iconColor']) => {
-    return `glyphicon ${iconType}${iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : ""}`
+    return `glyphicon ${iconType}${iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
   }
   const iconTypes = {
+    changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
     create: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
     delete: <span className={getIconClassName("glyphicon--danger glyphicon-trash", iconColor)} />,
@@ -37,6 +38,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     generateKey: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     goToProfile: <span className={getIconClassName("glyphicon-user", iconColor)} />,
     makePayment: <span className={getIconClassName("glyphicon-payment", iconColor)} />,
+    mfa: < span className={getIconClassName("glyphicon-lock", iconColor)} />,
     next: <span className={getIconClassName("glyphicon-chevron-right", iconColor)} />,
     previous: <span className={getIconClassName("glyphicon-chevron-left", iconColor)} />,
     reload: <span className={getIconClassName("glyphicon-repeat", iconColor)} />,
@@ -62,22 +64,27 @@ export const ContextAction = ({
   const [processing, setIsProcessing] = useState(false)
   const { push } = useHistory()
 
+  const refreshEvents = useCallback(() => {
+    if (Array.isArray(refreshEventName)) {
+      refreshEventName.forEach(i => {
+        eventBus.publish(i)
+      })
+    } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
+  }, [refreshEventName])
+
   const handleClick = useCallback(async () => {
     if (type === 'delete' && queryService) {
       showDeleteConfirm(queryService, { setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
-        if (Array.isArray(refreshEventName)) {
-          refreshEventName.forEach(i => {
-            eventBus.publish(i)
-          })
-        } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
+        refreshEvents()
         redirectTo && push(redirectTo)
       })
-    } else if (type === 'download' && queryService) {
+    } else if (queryService) {
       setIsProcessing(true)
-      await queryService({ headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } })
-      setIsProcessing(false)
+      queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
+        refreshEvents()
+      }).finally(() => setIsProcessing(false))
     } else if (onClick) { onClick() }
-  }, [queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs])
+  }, [queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs])
 
   return (
     (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>

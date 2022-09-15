@@ -11,6 +11,7 @@ import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Use
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
@@ -20,9 +21,24 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [UserQueries.update])
 
+  const disableMFA = QueryConstructor((() => UserQueries.update({ data: { mfa_enabled: false }, params: { id: user.id } }).then(resp => {
+    if (resp.success) {
+      notification.warning({ message: "Two-factor authentication disabled" })
+    }
+    return resp
+  })), [UserQueries.update])
+
   const summaryInfo: CardContainer = {
     title: `User: ${user.first_name} ${user.last_name}`,
     cardActions: [
+      ...user.mfa_enabled ? [
+        <ContextAction
+          tooltip="Disable Two-factor authentication"
+          iconColor="warning"
+          type="mfa"
+          queryService={disableMFA}
+          refreshEventName={REFRESH_PAGE} />
+      ] : [],
       <MetaDrivenFormModalOpenButton
         formTitle={`Update User`}
         formMeta={getUserFormMeta().filter(i => i.fieldName !== "password")}

@@ -13,6 +13,9 @@
   &--primary {
     color: $interactive;
   }
+  &--warning {
+    color: $warning;
+  }
   &--danger {
     color: $danger;
   }
@@ -53,6 +56,9 @@
 }
 .glyphicon-key:before {
   content: "\01F511";
+}
+.glyphicon-permission:before {
+  content: "\E608";
 }
 .glyphicon-play-circle:before {
   content: "\E029";
@@ -106,5 +112,11 @@
   content: "\E164";
 }
 .glyphicon-inbox:before {
+  content: "\E028";
+}
+.glyphicon-lock:before {
+  content: "\E033";
+}
+.glyphicon-qrcode:before {
   content: "\E028";
 }
