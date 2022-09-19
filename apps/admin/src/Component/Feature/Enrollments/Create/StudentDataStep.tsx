@@ -30,6 +30,7 @@ export const StudentDataStep = ({
   setCurrentStep,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
+  const canReserve = purchaserData?.purchasing_for === "company"
 
   const handleChange = useCallback(async (values) => {
     setIsProcessing(true)
@@ -40,7 +41,7 @@ export const StudentDataStep = ({
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
-      {(purchaserData?.purchasing_for === "company" && reservationData?.is_reservation !== false) ?
+      {(canReserve && reservationData?.is_reservation !== false) ?
         <Row>
           <Col xs={24}>
             <MetaDrivenForm
@@ -74,7 +75,7 @@ export const StudentDataStep = ({
           </Col>
         </Row>
         : null}
-      {(purchaserData?.purchasing_for === "others" || reservationData?.is_reservation === false) ?
+      {(!canReserve || reservationData?.is_reservation === false) ?
         <Row>
           <Col xs={24}>
             <MetaDrivenForm
@@ -128,7 +129,7 @@ export const StudentDataStep = ({
           </Col>
           <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
             <Space>
-              <Button style={{ marginTop: "20px", }} children={"Previous"} onClick={() => setReservationData(undefined)} />
+              {canReserve ? <Button style={{ marginTop: "20px", }} children={"Previous"} onClick={() => setReservationData(undefined)} /> : null}
               <Button style={{ marginTop: "20px", }} disabled={!studentData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
             </Space>
           </Col>
