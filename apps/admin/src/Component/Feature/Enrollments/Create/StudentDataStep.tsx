@@ -12,32 +12,58 @@ import { useCallback, useState } from "react"
 
 interface IStudentDataStepProps {
   store: string
+  productData: Record<string, any>[]
   purchaserData?: Record<string, any>
   reservationData?: Record<string, any>
   studentData: Record<string, any>[]
   setReservationData: (...args: any[]) => void
   setStudentData: (...args: any[]) => void
+  setRegistrationData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
 
 export const StudentDataStep = ({
   store,
+  productData,
   purchaserData,
   reservationData,
   studentData,
   setReservationData,
   setStudentData,
+  setRegistrationData,
   setCurrentStep,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
   const canReserve = purchaserData?.purchasing_for === "company"
 
-  const handleChange = useCallback(async (values) => {
+  const handleStudentDataChange = useCallback(async (value) => {
     setIsProcessing(true)
-    const { data } = await StudentQueries.getSingle({ params: { id: values.profile } })
+    const { data } = await StudentQueries.getSingle({ params: { id: value.profile } })
     setIsProcessing(false)
     setStudentData([...studentData, data])
   }, [studentData, setStudentData])
+
+  const handleReservationDataChange = useCallback((value) => {
+    setReservationData(value)
+    if (value?.is_reservation) {
+      const students = [...Array(Number(value?.number_of_seats)).keys()].map((i, idx) => ({
+        first_name: "",
+        last_name: "",
+        primary_email: "",
+        id: idx,
+        name: `Student ${idx + 1}`
+      }))
+      setStudentData(students)
+      setRegistrationData(productData.map(i => ({
+        product: i.id,
+        students: students.map(i => i.id)
+      })))
+      setCurrentStep(StepNames.Invoice)
+    } else {
+      setStudentData([])
+      setRegistrationData([])
+    }
+  }, [productData, setRegistrationData, setStudentData, setReservationData, setCurrentStep])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
@@ -48,7 +74,7 @@ export const StudentDataStep = ({
               meta={[
                 {
                   fieldName: "is_reservation",
-                  label: "I will specify student information later",
+                  label: "I want to specify seat reservations",
                   inputType: BOOLEAN
                 },
                 {
@@ -62,8 +88,11 @@ export const StudentDataStep = ({
                   }
                 }
               ]}
-              onApplyChanges={setReservationData}
-              initialFormValue={{ is_reservation: reservationData?.is_reservation !== undefined ? reservationData.is_reservation : true }}
+              onApplyChanges={handleReservationDataChange}
+              initialFormValue={{
+                is_reservation: reservationData?.is_reservation !== undefined ? reservationData.is_reservation : true,
+                number_of_seats: reservationData?.number_of_seats
+              }}
               isWizard
               applyButtonLabel={"Next"}
               showFullForm
@@ -88,7 +117,7 @@ export const StudentDataStep = ({
                 valueKey: "id",
                 rules: [{ required: true, message: "This field is required!" }]
               }]}
-              onApplyChanges={handleChange}
+              onApplyChanges={handleStudentDataChange}
               isWizard
               applyButtonLabel={"Add Student"}
               showFullForm
@@ -129,7 +158,7 @@ export const StudentDataStep = ({
           </Col>
           <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
             <Space>
-              {canReserve ? <Button style={{ marginTop: "20px", }} children={"Previous"} onClick={() => setReservationData(undefined)} /> : null}
+              {canReserve ? <Button style={{ marginTop: "20px", }} children={"Back to Reservation"} onClick={() => setReservationData(undefined)} /> : null}
               <Button style={{ marginTop: "20px", }} disabled={!studentData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
             </Space>
           </Col>

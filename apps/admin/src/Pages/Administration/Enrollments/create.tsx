@@ -147,11 +147,13 @@ export const Create = () => {
               : (currentStep === StepNames.StudentInformation && store) ?
                 <StudentDataStep
                   store={store}
+                  productData={productData}
                   purchaserData={purchaserData}
                   reservationData={reservationData}
                   studentData={studentData}
                   setReservationData={setReservationData}
                   setStudentData={setStudentData}
+                  setRegistrationData={setRegistrationData}
                   setCurrentStep={setCurrentStep}
                 />
                 : currentStep === StepNames.RegistrationInformation ?
