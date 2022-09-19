@@ -4,7 +4,7 @@ import { StepNames } from "./common"
 import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { IField, TEXT } from "@packages/components/lib/Form/common"
-import { useCallback, useEffect } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 
 interface IInvoiceDataStepProps {
@@ -28,13 +28,17 @@ export const InvoiceDataStep = ({
   setCouponCode,
   setCurrentStep,
 }: IInvoiceDataStepProps) => {
+  const [isProcessing, setIsProcessing] = useState(false)
+
   const getPaymentSummary = useCallback(async () => {
     const payload = {
       cart_details: generateCartDetailsPayload(),
       store,
       coupon_codes: couponCode ? [couponCode] : [],
     }
+    setIsProcessing(true)
     const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
+    setIsProcessing(false)
     setInvoiceData(!resp.data?.message ? resp.data : undefined)
   }, [couponCode, store, setInvoiceData, generateCartDetailsPayload])
 
@@ -43,7 +47,7 @@ export const InvoiceDataStep = ({
   }, [registrationData, couponCode, getPaymentSummary])
 
   return (
-    <Card style={{ margin: "10px 0 0 10px" }} title={"Invoice"}>
+    <Card style={{ margin: "10px 0 0 10px" }} title={"Invoice"} loading={isProcessing}>
       {invoiceData ?
         <Row>
           <Col xs={24}>

@@ -7,6 +7,7 @@ import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
 import { StepNames } from "./common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
+import { useCallback, useState } from "react"
 
 interface IProductDataStepProps {
   productData: Record<string, any>[]
@@ -21,23 +22,31 @@ export const ProductDataStep = ({
   setProductData,
   setCurrentStep,
 }: IProductDataStepProps) => {
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  const handleChange = useCallback(async (values) => {
+    setIsProcessing(true)
+    const { data } = await ProductQueries.getSingle({ params: { id: values.product } })
+    setIsProcessing(false)
+    setProductData([...productData, data])
+    setStore(values.store)
+  }, [productData, setProductData, setStore])
+
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Product Summary"}>
       <Row>
         <Col xs={24}>
           <MetaDrivenForm
             meta={meta}
-            onApplyChanges={async (values) => {
-              const { data } = await ProductQueries.getSingle({ params: { id: values.product } })
-              setProductData([...productData, data])
-              setStore(values.store)
-            }}
+            onApplyChanges={handleChange}
             isWizard
             applyButtonLabel="Add Product"
-            showFullForm
+            loading={isProcessing}
             showClearbutton={false}
+            showFullForm
             stopProducingQueryParams
             resetOnSubmit
+            disableContainerLoader
           />
         </Col>
         <Col xs={24}>

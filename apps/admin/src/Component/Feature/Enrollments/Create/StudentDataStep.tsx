@@ -8,6 +8,7 @@ import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
 import { StepNames } from "./common"
+import { useCallback, useState } from "react"
 
 interface IStudentDataStepProps {
   store: string
@@ -28,6 +29,15 @@ export const StudentDataStep = ({
   setStudentData,
   setCurrentStep,
 }: IStudentDataStepProps) => {
+  const [isProcessing, setIsProcessing] = useState(false)
+
+  const handleChange = useCallback(async (values) => {
+    setIsProcessing(true)
+    const { data } = await StudentQueries.getSingle({ params: { id: values.profile } })
+    setIsProcessing(false)
+    setStudentData([...studentData, data])
+  }, [studentData, setStudentData])
+
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
       {(purchaserData?.purchasing_for === "company" && reservationData?.is_reservation !== false) ?
@@ -77,14 +87,13 @@ export const StudentDataStep = ({
                 valueKey: "id",
                 rules: [{ required: true, message: "This field is required!" }]
               }]}
-              onApplyChanges={async (values) => {
-                const { data } = await StudentQueries.getSingle({ params: { id: values.profile } })
-                setStudentData([...studentData, data])
-              }}
+              onApplyChanges={handleChange}
               isWizard
               applyButtonLabel={"Add Student"}
               showFullForm
+              loading={isProcessing}
               showClearbutton={false}
+              disableContainerLoader
               stopProducingQueryParams
               resetOnSubmit
               isVertical
