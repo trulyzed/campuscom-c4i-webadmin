@@ -3,13 +3,14 @@ import { Modal, notification } from "antd"
 import { ExclamationCircleOutlined } from "@ant-design/icons"
 import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
-export const showDeleteConfirm = async (
+export const promptConfirmation = async (
   remove: () => Promise<IApiResponse>,
-  { success, error, title, warningText, setIsProcessing }: { success?: string; error?: string; title?: string; warningText?: string; setIsProcessing?: (status: boolean) => void } = {}
+  { actionType, success, error, title, warningText, setIsProcessing }: { actionType?: string; success?: string; error?: string; title?: string; warningText?: string; setIsProcessing?: (status: boolean) => void } = {}
 ) => {
-  success = success || "Delete Successfull"
-  error = error || "Delete Unsuccessfull"
-  title = title || "Are you sure to delete this?"
+  actionType = actionType || 'Delete'
+  success = success || `${actionType} Successfull`
+  error = error || `${actionType} Unsuccessfull`
+  title = title || `Are you sure to ${actionType.toLowerCase()} this?`
   warningText = warningText || ""
 
   return new Promise<boolean>((resolve, reject) => {
@@ -45,31 +46,5 @@ export const showDeleteConfirm = async (
         reject(false)
       }
     })
-  })
-}
-
-export const showConfirm = (
-  confirm: () => Promise<IApiResponse>,
-  success = "Successfull",
-  error = "Unsuccessfull",
-  title = "A person with this information already exists.  Do you really want to create a new person with this information?",
-  warningText = ""
-) => {
-  Modal.confirm({
-    title: title,
-    icon: <ExclamationCircleOutlined />,
-    content: warningText,
-    okText: "Yes",
-    okType: "danger",
-    cancelText: "No",
-    onOk() {
-      confirm().then((result: any) => {
-        if (result.success) notification.success({ message: success })
-        else notification.error({ message: error })
-      })
-    },
-    onCancel() {
-      console.log("Cancel")
-    }
   })
 }
