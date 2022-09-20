@@ -259,7 +259,13 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/administration/create-enrollment",
         submenu: [],
         permission: checkAdminApiPermission(EnrollmentQueries.create)
-      }
+      },
+      {
+        title: "Seat Reservations",
+        url: "/administration/seat-reservation",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      },
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -278,7 +284,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
       checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(EnrollmentQueries.create)
+      checkAdminApiPermission(EnrollmentQueries.create) ||
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
