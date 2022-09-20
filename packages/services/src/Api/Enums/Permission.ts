@@ -109,6 +109,7 @@ export enum ApiPermissionClass {
   Refund = "RefundViewSet",
   RegistrationQuestion = "RegistrationQuestionViewSet",
   RelatedProduct = "RelatedProductViewSet",
+  ResetPassword = "ResetPasswordView",
   RetrieveStoreCourse = "GetStoreCourseView",
   RetrieveStoreCertificate = "GetStoreCertificateView",
   Role = "RoleViewSet",

@@ -11,7 +11,6 @@ export const DATE_TIME_FORMAT_NEW = "MM/DD/YYYY HH:mm"
 export const REQUEST_DATE_TIME_FORMAT = "YYYY-MM-DD hh:mm A"
 export const DATE_TIME = ""
 
-
 export const MERGE_SUCCESSFULLY = "Successfully merged!"
 export const SAVE_SUCCESSFULLY = "Successfully saved!"
 export const UPDATE_SUCCESSFULLY = "Successfully updated!"
