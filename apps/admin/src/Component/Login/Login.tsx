@@ -56,7 +56,7 @@ export function Login(props: {
     description: "Your session has been timed out, please login again"
   }
   return (
-    <Card style={{ maxWidth: "350px" }}>
+    <Card style={{ maxWidth: mfaDetails?.mfaEnabled ? "min-content" : "350px" }}>
       {props.modal && (
         <>
           <Card.Meta title={modalProps.title} />
