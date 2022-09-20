@@ -11,10 +11,10 @@ export const DATE_TIME_FORMAT_NEW = "MM/DD/YYYY HH:mm"
 export const REQUEST_DATE_TIME_FORMAT = "YYYY-MM-DD hh:mm A"
 export const DATE_TIME = ""
 
-
 export const MERGE_SUCCESSFULLY = "Successfully merged!"
 export const SAVE_SUCCESSFULLY = "Successfully saved!"
 export const UPDATE_SUCCESSFULLY = "Successfully updated!"
+export const PASSWORD_RESET_SUCCESSFULLY = "Reset password successfully"
 export const ASSIGN_SUCCESSFULLY = "Successfully assigned!"
 export const DELETE_SUCCESSFULLY = "Successfully deleted!"
 export const REQUEST_SUCCESSFULLY = "Successfully requested!"

@@ -91,6 +91,7 @@ export const endpoints = {
   RELATED_PRODUCT: "related-products",
   REQUEUE_IMPORT: "import-requeue",
   REQUEUE_FAILED_MQ: "message-requeue",
+  RESET_PASSWORD: "password/reset-by-admin",
   RETRY_REFUND: "retry-refund",
   ROLE: "roles",
   SECTION: "sections",
