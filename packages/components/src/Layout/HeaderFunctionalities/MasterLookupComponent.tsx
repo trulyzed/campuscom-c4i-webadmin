@@ -1,14 +1,13 @@
 import React, { useState } from "react"
 import { Button, Card, Form } from "antd"
-import { Redirect } from "react-router-dom"
-import { AppRoutes } from "~/routes"
-import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
-import { IconButton } from "@packages/components/lib/Form/Buttons/IconButton"
-import { zIndexLevel } from "@packages/components/lib/zIndexLevel"
-import { Modal } from "@packages/components/lib/Modal/Modal"
-import { FormDropDown } from "@packages/components/lib/Form/FormDropDown"
+import { Redirect, RouteProps } from "react-router-dom"
+import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
+import { IconButton } from "~/Form/Buttons/IconButton"
+import { zIndexLevel } from "~/zIndexLevel"
+import { Modal } from "~/Modal/Modal"
+import { FormDropDown } from "~/Form/FormDropDown"
 
-const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; desktop: boolean }) => {
+const MasterlookupComponentFunctionality = (props: { routes: RouteProps[]; closeModal?: () => void; desktop: boolean }) => {
   const [formInstance] = Form.useForm()
   const [redirectTo, setRedirectTo] = useState<string>()
   // const [isOpen, setIsOpen] = useState(false)
@@ -32,10 +31,10 @@ const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; de
           labelColSpan={0}
           wrapperColSpan={24}
           onSelectedItems={goToPage}
-          options={AppRoutes.filter((x) => x && x.path !== undefined)
+          options={props.routes.filter((x) => x && x.path !== undefined)
             .filter((x) => !x.path?.includes(":"))
             .map((x) => ({ ...x, name: (x.path as string).split("/").join(" ") } as any))
-            .map((x, i) => ({ label: x.name, value: x.path }))}
+            .map((x) => ({ label: x.name, value: x.path }))}
           formInstance={formInstance}
         />
         {/* <Form.Item
@@ -66,7 +65,7 @@ const MasterlookupComponentFunctionality = (props: { closeModal?: () => void; de
   )
 }
 
-export const MasterLookupComponent = () => {
+export const MasterLookupComponent = (props: { routes: RouteProps[] }) => {
   const [showModal, setShowModal] = useState(false)
 
   const [desktop, setDesktop] = useState(false)
@@ -95,13 +94,13 @@ export const MasterLookupComponent = () => {
           {showModal && (
             <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.loginModal}>
               <Card title="Quick Search" actions={[<Button onClick={closeModal}>Close</Button>]}>
-                <MasterlookupComponentFunctionality closeModal={closeModal} desktop={desktop} />
+                <MasterlookupComponentFunctionality routes={props.routes} closeModal={closeModal} desktop={desktop} />
               </Card>
             </Modal>
           )}
         </>
       )}
-      {desktop && <MasterlookupComponentFunctionality desktop={desktop} />}
+      {desktop && <MasterlookupComponentFunctionality routes={props.routes} desktop={desktop} />}
     </>
   )
 }

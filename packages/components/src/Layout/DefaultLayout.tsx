@@ -1,34 +1,35 @@
 import React, { Suspense, useState, useEffect } from "react"
 import { Card, Col, Layout, Row, Spin, Grid } from "antd"
-import { Link, useLocation } from "react-router-dom"
-import { Sidebar, ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
-import { useSidebarCollapsed } from "@packages/components/lib/Hooks/useSidebarCollapsed"
-import { HeaderFunctionalities } from "~/Component/Layout/HeaderFunctionalities/HeaderFunctionalities"
-import { Breadcrumb } from "@packages/components/lib/Layout/Breadcrumb"
-import { logout } from "~/Services/AuthService"
+import { Link, RouteProps, useLocation } from "react-router-dom"
+import { Sidebar, ISidebarMenu } from "~/SidebarNavigation/Sidebar"
+import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
+import { HeaderFunctionalities } from "~/Layout/HeaderFunctionalities/HeaderFunctionalities"
+import { Breadcrumb } from "~/Layout/Breadcrumb"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
-import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
-import { AppRoutes } from "~/routes"
 
 const { Header, Content } = Layout
 
 interface ILayoutProps {
   children: React.ReactNode
+  title: string
+  menus: ISidebarMenu[]
+  routes: RouteProps[]
+  onLogout: () => void
 }
 
 export function DefaultLayout(props: ILayoutProps) {
   const [collapsed, setCollapsed] = useSidebarCollapsed()
-  const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(getSidebarMenus())
+  const [sidebarMenus, setSidebarMenus] = useState<ISidebarMenu[]>(props.menus)
   const breakpoint = Grid.useBreakpoint()
   const { pathname } = useLocation()
 
   useEffect(() => {
-    eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(getSidebarMenus()))
+    eventBus.subscribe(LOGGED_IN_SUCCESSFULLY, () => setSidebarMenus(props.menus))
     return () => {
       eventBus.unsubscribe(LOGGED_IN_SUCCESSFULLY)
     }
-  }, [])
+  }, [props.menus])
 
   useEffect(() => {
     if (breakpoint.sm) return
@@ -37,7 +38,7 @@ export function DefaultLayout(props: ILayoutProps) {
 
   return (
     <Layout>
-      <Sidebar collapsed={collapsed} logout={logout} sidebarMenus={sidebarMenus} onClose={() => setCollapsed(true)} />
+      <Sidebar collapsed={collapsed} logout={props.onLogout} sidebarMenus={sidebarMenus} onClose={() => setCollapsed(true)} />
       <Layout className="site-layout" style={collapsed ? undefined : { overflow: "hidden", }}>
         <Header role="none" className="site-layout-background" style={{ width: breakpoint.sm ? undefined : "100vw" }}>
           <Row style={{ height: "100%" }}>
@@ -57,11 +58,11 @@ export function DefaultLayout(props: ILayoutProps) {
                   marginLeft: breakpoint.md ? "20px" : breakpoint.sm ? "15px" : breakpoint.xs ? "10px" : "20px",
                   marginBottom: 0
                 }} aria-label="School Name" className="site-title">
-                  Campus Marketplace Webadmin
+                  {props.title}
                 </h2>
               </Link>
             </Col>
-            <HeaderFunctionalities />
+            <HeaderFunctionalities routes={props.routes} />
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
@@ -80,7 +81,7 @@ export function DefaultLayout(props: ILayoutProps) {
             }
           >
             <Card className="mxn-20" bodyStyle={{ padding: '0 10px' }}>
-              <Breadcrumb routes={AppRoutes} />
+              <Breadcrumb routes={props.routes} />
             </Card>
             {props.children}
           </Suspense>

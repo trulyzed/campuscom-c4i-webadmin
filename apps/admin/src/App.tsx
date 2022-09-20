@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { LoginPage } from "~/Pages/Login/LoginPage"
-import { DefaultLayout } from "~/Component/Layout/DefaultLayout"
+import { DefaultLayout } from "@packages/components/lib/Layout/DefaultLayout"
 import { NotFoundPage } from "~/Pages/NotFoundPage"
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "~/routes"
@@ -10,6 +10,8 @@ import { getToken } from "@packages/services/lib/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { useGlobalErrorHandler } from "@packages/services/lib/Api/Hooks/useGlobalErrorHandler"
 import { notification } from "antd"
+import { getSidebarMenus } from "./Component/Layout/SidebarMenus"
+import { logout } from "./Services/AuthService"
 
 notification.config({
   closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
@@ -50,7 +52,7 @@ export function App(): JSX.Element {
           <Redirect to="/login" />
         </Switch>
       ) : (
-        <DefaultLayout>
+        <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={"Campus Marketplace Webadmin"} onLogout={logout}>
           <Switch>
             {AppRoutes.map((route, i) => {
               return <Route key={i} {...route} exact />
