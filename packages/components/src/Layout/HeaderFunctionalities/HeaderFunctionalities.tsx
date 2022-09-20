@@ -1,12 +1,13 @@
 import React, { useState } from "react"
+import { RouteProps } from "react-router-dom"
 import { Button, Col, Dropdown, Menu } from "antd"
-import { HistoryLogButton } from "~/Component/Layout/HeaderFunctionalities/HistoryLogButton"
-import { MasterLookupComponent } from "~/Component/Layout/HeaderFunctionalities/MasterLookupComponent"
-import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
+import { HistoryLogButton } from "~/Layout/HeaderFunctionalities/HistoryLogButton"
+import { MasterLookupComponent } from "~/Layout/HeaderFunctionalities/MasterLookupComponent"
+import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 import { DownOutlined } from "@ant-design/icons"
-import { GoToUserProfileButton } from "~/Component/Layout/HeaderFunctionalities/GoToUserProfileButton"
+import { GoToUserProfileButton } from "~/Layout/HeaderFunctionalities/GoToUserProfileButton"
 
-export const HeaderFunctionalities = () => {
+export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
   const [desktopView, setDesktopView] = useState(false)
   useDeviceViews((deviceViews: IDeviceView) => {
     setDesktopView(deviceViews.desktop)
@@ -15,7 +16,7 @@ export const HeaderFunctionalities = () => {
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <MasterLookupComponent />
+        <MasterLookupComponent routes={props.routes} />
       </Menu.Item>
       <Menu.Item key="1" role="navigation" aria-label="history log">
         <HistoryLogButton />
@@ -31,7 +32,7 @@ export const HeaderFunctionalities = () => {
       {desktopView && (
         <>
           <Col className="site-header__item" style={{ height: "100%" }} flex="300px">
-            <MasterLookupComponent />
+            <MasterLookupComponent routes={props.routes} />
           </Col>
           <Col className="site-header__item" style={{ height: "100%" }} flex="40px" role="navigation" aria-label="History Log">
             <HistoryLogButton />
