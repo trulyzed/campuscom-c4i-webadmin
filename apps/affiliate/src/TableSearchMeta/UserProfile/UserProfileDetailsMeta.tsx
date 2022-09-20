@@ -37,7 +37,6 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
 
   const disableMFA = QueryConstructor(((data) => AuthQueries.disableMFA({ ...data }).then(resp => {
     if (resp.success) {
-      notification.warning({ message: "Two-factor authentication disabled" })
       setLoginInfo({ user: { ...getUser() as IUser, mfa_enabled: false } })
     }
     return resp
@@ -71,6 +70,7 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
           tooltip="Disable Two-factor authentication"
           iconColor="warning"
           type="mfa"
+          confirmationType="Disable"
           queryService={disableMFA}
           refreshEventName={REFRESH_PAGE} />
       ] : []

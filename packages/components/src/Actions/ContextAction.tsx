@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react"
 import Text from "antd/lib/typography/Text"
-import { showDeleteConfirm } from "~/Modal/Confirmation"
+import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button } from "antd"
@@ -20,6 +20,7 @@ interface IContextActionProps {
   textOnly?: boolean
   downloadAs?: "EXCEL" | "CSV"
   iconColor?: "primary" | "danger" | "warning"
+  confirmationType?: string
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -55,6 +56,7 @@ export const ContextAction = ({
   queryService,
   onClick,
   type = 'edit',
+  confirmationType,
   refreshEventName,
   textOnly,
   redirectTo,
@@ -73,8 +75,8 @@ export const ContextAction = ({
   }, [refreshEventName])
 
   const handleClick = useCallback(async () => {
-    if (type === 'delete' && queryService) {
-      showDeleteConfirm(queryService, { setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
+    if ((confirmationType || type === 'delete') && queryService) {
+      promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
         refreshEvents()
         redirectTo && push(redirectTo)
       })
@@ -84,7 +86,7 @@ export const ContextAction = ({
         refreshEvents()
       }).finally(() => setIsProcessing(false))
     } else if (onClick) { onClick() }
-  }, [queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs])
+  }, [confirmationType, queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs])
 
   return (
     (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
