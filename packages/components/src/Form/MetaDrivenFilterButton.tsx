@@ -16,7 +16,7 @@ export const MetaDrivenFilterButton = (props: {
 			<MetaDrivenFormModalOpenButton
 				iconType="filter"
 				buttonLabel="Apply Filters"
-				formTitle={props.searchTitle}
+				formTitle={props.searchTitle || "Choose Filters"}
 				formMeta={props.searchMeta}
 				formMetaName={props.searchMetaName}
 				defaultFormValue={props.defaultFormValue}

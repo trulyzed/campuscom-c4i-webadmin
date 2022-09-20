@@ -59,7 +59,7 @@ export const VisibleColumns = (props: { visibleColumns: any[]; setVisibleColumns
       title={
         <Row>
           <Col flex={"auto"}>
-            <Typography.Title level={3} type={"success"} style={{ fontSize: "20px" }}>Active Columns</Typography.Title>
+            <Typography.Title level={3} style={{ fontSize: "20px" }}>Active Columns</Typography.Title>
           </Col>
           {props.visibleColumns.length ?
             <Col xs={4} style={{ textAlign: "right" }}>

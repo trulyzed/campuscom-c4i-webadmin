@@ -64,7 +64,7 @@ const RenderMenu = (props: {
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
                     className={'submenu'}
-                    style={{ textDecoration: "none", }}
+                    style={{ textDecoration: "none", display: "block" }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", whiteSpace: "nowrap" }}>
                       {x.title}
