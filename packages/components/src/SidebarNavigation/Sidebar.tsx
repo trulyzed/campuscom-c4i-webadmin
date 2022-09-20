@@ -64,7 +64,7 @@ const RenderMenu = (props: {
                     id={x.url.split("/").join("-")}
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
                     className={'submenu'}
-                    style={{ textDecoration: "none", }}
+                    style={{ textDecoration: "none", display: "block" }}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", whiteSpace: "nowrap" }}>
                       {x.title}
@@ -101,7 +101,7 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
       role="complementary"
       aria-roledescription="sidebar navigation"
       width={270}
-      style={{ overflowY: "auto", overflowX: "hidden", position: breakpoint.sm ? undefined : "fixed", top: 0, left: 0, bottom: 0, zIndex: 99 }}
+      style={{ height: "100vh", overflowY: "auto", overflowX: "hidden", position: breakpoint.sm ? undefined : "fixed", top: 0, left: 0, bottom: 0, zIndex: 99 }}
       breakpoint="xs"
       collapsedWidth={0}
       trigger={null}

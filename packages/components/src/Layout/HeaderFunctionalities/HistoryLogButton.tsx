@@ -3,10 +3,10 @@ import { Button, Card, Col, List, Row, Typography } from "antd"
 import moment from "moment"
 import { Link } from "react-router-dom"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { lastVisitedProcessor, ILastVisited, UPDATE_HISTORY } from "@packages/components/lib/HistoryProcessor"
-import { IDeviceView, useDeviceViews } from "@packages/components/lib/Hooks/useDeviceViews"
-import { Modal } from "@packages/components/lib/Modal/Modal"
-import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { lastVisitedProcessor, ILastVisited, UPDATE_HISTORY } from "~/HistoryProcessor"
+import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
+import { Modal } from "~/Modal/Modal"
+import { ContextAction } from "~/Actions/ContextAction"
 
 
 const History = (props: {
