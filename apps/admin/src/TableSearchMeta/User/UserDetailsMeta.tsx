@@ -29,12 +29,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [UserQueries.resetPassword])
 
-  const disableMFA = QueryConstructor((() => UserQueries.update({ data: { mfa_enabled: false }, params: { id: user.id } }).then(resp => {
-    if (resp.success) {
-      notification.warning({ message: "Two-factor authentication disabled" })
-    }
-    return resp
-  })), [UserQueries.update])
+  const disableMFA = QueryConstructor((() => UserQueries.update({ data: { mfa_enabled: false }, params: { id: user.id } })), [UserQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `User: ${user.first_name} ${user.last_name}`,
