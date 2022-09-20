@@ -7,4 +7,5 @@ export interface IUserQueries {
   getListByStore: IQuery
   create: IQuery
   update: IQuery
+  resetPassword: IQuery
 }

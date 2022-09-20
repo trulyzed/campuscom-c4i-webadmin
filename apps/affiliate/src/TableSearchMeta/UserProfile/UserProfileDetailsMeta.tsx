@@ -71,6 +71,7 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
           tooltip="Disable Two-factor authentication"
           iconColor="warning"
           type="mfa"
+          confirmationType="Disable"
           queryService={disableMFA}
           refreshEventName={REFRESH_PAGE} />
       ] : []

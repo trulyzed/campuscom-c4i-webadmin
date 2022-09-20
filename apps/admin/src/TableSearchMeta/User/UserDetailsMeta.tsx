@@ -12,6 +12,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { getResetPasswordFormMeta } from "~/Component/Feature/Users/FormMeta/ResetPasswordFormMeta"
 
 export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => UserQueries.update({ ...data, params: { id: user.id } }).then(resp => {
@@ -20,6 +21,13 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     }
     return resp
   })), [UserQueries.update])
+
+  const resetPassword = QueryConstructor(((data) => UserQueries.resetPassword({ ...data, data: { ...data?.data, user: user.id } }).then(resp => {
+    if (resp.success) {
+      notification.success({ message: "Password Reset Successfully" })
+    }
+    return resp
+  })), [UserQueries.resetPassword])
 
   const disableMFA = QueryConstructor((() => UserQueries.update({ data: { mfa_enabled: false }, params: { id: user.id } }).then(resp => {
     if (resp.success) {
@@ -36,9 +44,18 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
           tooltip="Disable Two-factor authentication"
           iconColor="warning"
           type="mfa"
+          confirmationType="Disable"
           queryService={disableMFA}
           refreshEventName={REFRESH_PAGE} />
       ] : [],
+      <MetaDrivenFormModalOpenButton
+        formTitle={`Reset Password`}
+        formMeta={getResetPasswordFormMeta()}
+        formSubmitApi={resetPassword}
+        buttonLabel={`Reset Password`}
+        iconType="changePassword"
+        refreshEventName={REFRESH_PAGE}
+      />,
       <MetaDrivenFormModalOpenButton
         formTitle={`Update User`}
         formMeta={getUserFormMeta().filter(i => i.fieldName !== "password")}
