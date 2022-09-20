@@ -94,6 +94,7 @@ export function Login(props: {
         loading={loading}
         errorMessages={error}
         bordered={false}
+        noPadding={props.modal}
         disableContainerLoader
         isVertical
         stopProducingQueryParams

@@ -97,6 +97,7 @@ export function MetaDrivenForm({
   bordered?: boolean
   displayFieldValue?: Record<string, any>
   disableContainerLoader?: boolean
+  noPadding?: boolean
 }) {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
@@ -438,7 +439,7 @@ export function MetaDrivenForm({
           ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
           background: "white",
           borderRadius: "4px",
-          padding: props.isVertical ? "10px 25px" : "10px"
+          padding: props.noPadding ? undefined : props.isVertical ? "10px 25px" : "10px"
         }}
         onValuesChange={handleValuesChange}
       >

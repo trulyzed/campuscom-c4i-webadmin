@@ -10,7 +10,7 @@ export const HiddenColumns = (props: { hiddenColumns: any[]; formInstance: FormI
       title={
         <Row>
           <Col flex={"auto"}>
-            <Typography.Title level={3} type={"warning"} style={{ fontSize: "20px" }}>Inactive Columns</Typography.Title>
+            <Typography.Title level={3} style={{ fontSize: "20px" }}>Inactive Columns</Typography.Title>
           </Col>
           {props.hiddenColumns.length ?
             <Col xs={4} style={{ textAlign: "right" }}>

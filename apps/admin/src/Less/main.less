@@ -162,10 +162,16 @@
   &__input {
     border-radius: 2px;
     border: 1px solid @border-light;
-    width: 2rem !important;
+    width: 2.5rem !important;
+    font-size: 20px;
 
     &:last-child {
       margin-right: 10px;
+    }
+
+    @media (min-width: 460px) {
+      width: 4rem !important;
+      font-size: 24px;
     }
   }
 }
