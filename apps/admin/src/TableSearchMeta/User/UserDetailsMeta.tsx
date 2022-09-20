@@ -22,7 +22,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
     return resp
   })), [UserQueries.update])
 
-  const resetPassword = QueryConstructor(((data) => UserQueries.resetPassword( {...data, data: { ...data?.data, user: user.id } }).then(resp => {
+  const resetPassword = QueryConstructor(((data) => UserQueries.resetPassword({ ...data, data: { ...data?.data, user: user.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: "Password Reset Successfully" })
     }
@@ -44,6 +44,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
           tooltip="Disable Two-factor authentication"
           iconColor="warning"
           type="mfa"
+          confirmationType="Disable"
           queryService={disableMFA}
           refreshEventName={REFRESH_PAGE} />
       ] : [],
