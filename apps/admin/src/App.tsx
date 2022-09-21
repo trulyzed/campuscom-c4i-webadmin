@@ -9,7 +9,8 @@ import { LoginModal } from "~/Component/Login/LoginModal"
 import { getToken } from "@packages/services/lib/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { useGlobalErrorHandler } from "@packages/services/lib/Api/Hooks/useGlobalErrorHandler"
-import { notification } from "antd"
+import { EmptyState } from "@packages/components/lib/Layout/EmptyState"
+import { ConfigProvider, notification } from "antd"
 import { getSidebarMenus } from "./Component/Layout/SidebarMenus"
 import { logout } from "./Services/AuthService"
 
@@ -52,15 +53,17 @@ export function App(): JSX.Element {
           <Redirect to="/login" />
         </Switch>
       ) : (
-        <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={"Campus Marketplace Webadmin"} onLogout={logout}>
-          <Switch>
-            {AppRoutes.map((route, i) => {
-              return <Route key={i} {...route} exact />
-            })}
-            <Route path="*" component={NotFoundPage} />
-          </Switch>
-          {window.location.pathname.includes(`/login`) && <Redirect to="/" />}
-        </DefaultLayout>
+        <ConfigProvider renderEmpty={() => <EmptyState />}>
+          <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={"Campus Marketplace Webadmin"} onLogout={logout}>
+            <Switch>
+              {AppRoutes.map((route, i) => {
+                return <Route key={i} {...route} exact />
+              })}
+              <Route path="*" component={NotFoundPage} />
+            </Switch>
+            {window.location.pathname.includes(`/login`) && <Redirect to="/" />}
+          </DefaultLayout>
+        </ConfigProvider>
       )}
     </BrowserRouter>
   )
