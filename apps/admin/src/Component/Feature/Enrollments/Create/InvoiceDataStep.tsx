@@ -8,9 +8,8 @@ import { useCallback, useEffect, useState } from "react"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 
 interface IInvoiceDataStepProps {
-  store: string
+  storeData: Record<string, any>
   invoiceData?: Record<string, any>
-  registrationData: Record<string, any>[]
   couponCode?: string
   setInvoiceData: (...args: any[]) => void
   setCouponCode: (...args: any[]) => void
@@ -19,32 +18,31 @@ interface IInvoiceDataStepProps {
 }
 
 export const InvoiceDataStep = ({
-  store,
+  storeData,
   invoiceData,
   setInvoiceData,
-  registrationData,
   couponCode,
-  generateCartDetailsPayload,
   setCouponCode,
   setCurrentStep,
+  generateCartDetailsPayload,
 }: IInvoiceDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
   const getPaymentSummary = useCallback(async () => {
     const payload = {
       cart_details: generateCartDetailsPayload(),
-      store,
+      store: storeData.store,
       coupon_codes: couponCode ? [couponCode] : [],
     }
     setIsProcessing(true)
     const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
     setIsProcessing(false)
     setInvoiceData(!resp.data?.message ? resp.data : undefined)
-  }, [couponCode, store, setInvoiceData, generateCartDetailsPayload])
+  }, [couponCode, storeData, setInvoiceData, generateCartDetailsPayload])
 
   useEffect(() => {
     getPaymentSummary()
-  }, [registrationData, couponCode, getPaymentSummary])
+  }, [couponCode, getPaymentSummary])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Invoice"} loading={isProcessing}>

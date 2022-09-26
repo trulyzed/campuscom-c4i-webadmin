@@ -15,12 +15,12 @@ export const PurchaserDataStep = ({
   setCurrentStep,
 }: IPurchaserDataStepProps) => {
   return (
-    <Card style={{ margin: "10px 0 0 10px" }} title={"Your Information"}>
+    <Card style={{ margin: "10px 0 0 10px" }} title={"Purchaser Information"}>
       <MetaDrivenForm
         meta={meta}
         onApplyChanges={(values) => {
           setPurchaserData(values)
-          setCurrentStep(StepNames.StudentInformation)
+          setCurrentStep(StepNames.ProductInformation)
         }}
         isWizard
         applyButtonLabel="Continue"

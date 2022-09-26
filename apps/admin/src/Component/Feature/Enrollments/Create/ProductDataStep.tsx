@@ -1,57 +1,53 @@
 import { Button, Card, Col, Row } from "antd"
-import Title from "antd/lib/typography/Title"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
-import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
-import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
+import { DROPDOWN, IField, MULTI_RADIO, NUMBER } from "@packages/components/lib/Form/common"
 import { StepNames } from "./common"
-import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
-import { useCallback, useState } from "react"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { INPUT_OPTIONS } from "~/Configs/input"
 
 interface IProductDataStepProps {
   productData: Record<string, any>[]
-  setStore: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
+  hasRegistrationProduct: boolean
 }
 
 export const ProductDataStep = ({
   productData,
-  setStore,
   setProductData,
   setCurrentStep,
+  hasRegistrationProduct,
 }: IProductDataStepProps) => {
-  const [isProcessing, setIsProcessing] = useState(false)
-
-  const handleChange = useCallback(async (values) => {
-    setIsProcessing(true)
-    const { data } = await ProductQueries.getSingle({ params: { id: values.product } })
-    setIsProcessing(false)
-    setProductData([...productData, data])
-    setStore(values.store)
-  }, [productData, setProductData, setStore])
+  const addProduct = QueryConstructor((data) => {
+    return new Promise((resolve) => {
+      ProductQueries.getSingle({ params: { id: data?.data.product } }).then(resp => {
+        resolve({
+          code: 200,
+          data: [],
+          error: undefined,
+          success: true
+        })
+        setProductData([
+          ...productData,
+          {
+            title: resp.data.title,
+            id: resp.data.id,
+            number_of_seats: data?.data.number_of_seats,
+            order_type: data?.data.order_type || "registration",
+          }
+        ])
+      })
+    })
+  }, [])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Product Summary"}>
       <Row>
         <Col xs={24}>
-          <MetaDrivenForm
-            meta={meta}
-            onApplyChanges={handleChange}
-            isWizard
-            applyButtonLabel="Add Product"
-            loading={isProcessing}
-            showClearbutton={false}
-            showFullForm
-            stopProducingQueryParams
-            resetOnSubmit
-            disableContainerLoader
-          />
-        </Col>
-        <Col xs={24}>
           <ResponsiveTable
-            title={() => <Title level={5}>Selected Products</Title>}
             columns={[
               {
                 title: 'Product',
@@ -59,10 +55,14 @@ export const ProductDataStep = ({
                 sorter: (a: any, b: any) => a.title - b.title
               },
               {
-                title: 'Store',
-                dataIndex: 'store',
-                render: (text) => text?.name,
-                sorter: (a: any, b: any) => a.store?.name - b.store?.name
+                title: 'Order Type',
+                dataIndex: 'order_type',
+                sorter: (a: any, b: any) => a.order_type - b.order_type
+              },
+              {
+                title: 'Number of Seats',
+                dataIndex: 'number_of_seats',
+                sorter: (a: any, b: any) => a.number_of_seats - b.number_of_seats
               },
               {
                 title: 'Action',
@@ -76,6 +76,14 @@ export const ProductDataStep = ({
                 )
               },
             ]}
+            actions={[
+              <MetaDrivenFormModalOpenButton
+                formTitle={`Add Product`}
+                formMeta={meta}
+                formSubmitApi={addProduct}
+                buttonLabel={`Add Product`}
+              />
+            ]}
             dataSource={productData}
             rowKey={"id"}
             hidePagination
@@ -83,7 +91,7 @@ export const ProductDataStep = ({
           />
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-          <Button style={{ marginTop: "20px", }} disabled={!productData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.YourInformation)} />
+          <Button style={{ marginTop: "20px", }} disabled={!productData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(hasRegistrationProduct ? StepNames.StudentInformation : StepNames.Invoice)} />
         </Col>
       </Row>
     </Card>
@@ -92,14 +100,10 @@ export const ProductDataStep = ({
 
 const meta: IField[] = [
   {
-    fieldName: "store",
-    label: "Store",
+    fieldName: "product_type",
+    label: "Product Type",
     inputType: DROPDOWN,
-    refLookupService: StoreQueries.getLookupData,
-    displayKey: "name",
-    valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    options: INPUT_OPTIONS.PRODUCT_TYPE
   },
   {
     fieldName: "product",
@@ -109,9 +113,33 @@ const meta: IField[] = [
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    dependencies: ['store'],
+    dependencies: ['product_type'],
     onDependencyChange: (value, { loadOptions }) => {
-      loadOptions?.({ params: { store: value?.store } })
+      loadOptions?.({ params: { product_type: value?.product_type } })
     },
   },
+  {
+    fieldName: "order_type",
+    label: "Order Type",
+    inputType: MULTI_RADIO,
+    options: [
+      { label: "Registration", value: "registration" },
+      { label: "Seat", value: "seat" }
+    ],
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['product_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.product_type === "section")
+    },
+  },
+  {
+    fieldName: "number_of_seats",
+    label: "Number Of Seats",
+    inputType: NUMBER,
+    dependencies: ['order_type', 'product_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.((value?.product_type === "section") && (value?.order_type === "seat"))
+    },
+    rules: [{ required: true, message: "This field is required!" }]
+  }
 ]
