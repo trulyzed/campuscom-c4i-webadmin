@@ -9,7 +9,7 @@ interface IEmptyStateProps {
 export const EmptyState = ({ message = "No Data", size = "default", wrapInCard }: IEmptyStateProps) => {
   const content = (
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", color: "#696969", ...size === "default" && { margin: "20px 0" } }}>
-      <span style={{ fontSize: size === "small" ? "18px" : "40px" }} className="glyphicon glyphicon-inbox" />
+      <span style={{ fontSize: size === "small" ? "18px" : "40px", lineHeight: size === "small" ? "22px" : "55px" }} className="glyphicon glyphicon-inbox" />
       <p style={{ margin: 0 }}>{message}</p>
     </div>
   )

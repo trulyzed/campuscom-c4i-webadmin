@@ -1,6 +1,7 @@
 export enum StepNames {
+  StoreInformation,
+  PurchaserInformation,
   ProductInformation,
-  YourInformation,
   StudentInformation,
   RegistrationInformation,
   AdditionalRegistrationInformation,
