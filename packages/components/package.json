@@ -47,6 +47,8 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@packages/services": "1.0.0",
+    "@salesforce-ux/design-system": "^2.19.0",
+    "@salesforce/design-system-react": "^0.10.48",
     "@types/node": "^16.11.7",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.2",
