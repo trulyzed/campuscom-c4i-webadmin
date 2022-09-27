@@ -104,5 +104,16 @@ export const EnrollmentQueries: IEnrollmentQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CreateEnrollmentPaymentSummary, action: ApiPermissionAction.Write }]
+  ),
+
+  getRelatedProductList: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.CREATE_ENROLLMEMT_PRODUCT_DETAILS,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.CreateEnrollmentProductDetails, action: ApiPermissionAction.Write }]
   )
 }

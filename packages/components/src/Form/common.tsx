@@ -53,7 +53,6 @@ export interface IField {
   placeholder?: string
   disabled?: boolean
   helpkey?: string
-
   fieldName: string
   initialValue?: any
   defaultValue?: any
@@ -86,7 +85,6 @@ export interface IField {
   maxValue?: number
   childrenKey?: string
   otpLength?: number
-
   multiple?: boolean
   accept?: UploadProps['accept']
   dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
