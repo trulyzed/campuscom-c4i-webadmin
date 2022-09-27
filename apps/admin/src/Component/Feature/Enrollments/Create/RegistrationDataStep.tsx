@@ -25,7 +25,7 @@ export const RegistrationDataStep = ({
       const matchedProduct = adjustedData.find(a => a.product === product)
       if (matchedProduct) matchedProduct.students = values
       else adjustedData.push({ product, students: values })
-      return adjustedData
+      return adjustedData.filter(i => i.students?.length)
     })
   }, [setRegistrationData])
 
@@ -33,7 +33,7 @@ export const RegistrationDataStep = ({
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
       <Row>
         <Col flex={"auto"}>
-          {productData.filter(i => i.order_type === "registration").map(product => (
+          {productData.filter(i => i.unit_type === "registration").map(product => (
             <div key={product.id} style={{ marginBottom: '15px' }}>
               <Title level={4}>"{product.title}" registration information</Title>
               <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.name, value: student.id }))} />

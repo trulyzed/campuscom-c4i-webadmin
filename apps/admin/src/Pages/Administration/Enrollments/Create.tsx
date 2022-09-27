@@ -25,7 +25,7 @@ export const Create = () => {
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-  const hasRegistrationProduct = productData.some(i => i.order_type === "registration")
+  const hasRegistrationProduct = productData.some(i => i.unit_type === "registration")
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -44,20 +44,37 @@ export const Create = () => {
   }, [])
 
   const generateCartDetailsPayload = useCallback(() => {
-    const reservationData = productData.filter(i => i.order_type === "seat")
-    const payload = [...registrationData.map(registration => ({
+    const payload = [...productData.reduce((a, c) => {
+      for (const i of (c.related_products || [])) {
+        a.push({
+          product_id: i.product_id,
+          quantity: i.quantity,
+          is_related: true,
+          related_to: c.id,
+          student_email: "",
+          is_reservation: false
+        })
+      }
+      if (c.order_type === "seat") {
+        a.push({
+          product_id: c.id,
+          quantity: c.number_of_seats,
+          is_related: false,
+          related_to: "",
+          student_email: "",
+          is_reservation: true
+        })
+      }
+      return a
+    }, []) as Record<string, any>[], ...registrationData.map(registration => ({
       product_id: registration.product,
       quantity: registration.students.length,
       is_related: false,
       related_to: "",
-      student_email: ""
-    })), ...reservationData.map(i => ({
-      product_id: i.id,
-      quantity: i.number_of_seats,
-      is_related: false,
-      related_to: "",
-      student_email: ""
+      student_email: "",
+      is_reservation: false
     }))]
+
     return payload
   }, [registrationData, productData])
 
@@ -74,8 +91,9 @@ export const Create = () => {
   }, [registrationData])
 
   const reset = useCallback(() => {
-    setCurrentStep(StepNames.ProductInformation)
+    setCurrentStep(StepNames.StoreInformation)
     setStoreData(undefined)
+    setPurchaserData(undefined)
     setProductData([])
     setStudentData([])
     setRegistrationData([])
@@ -85,13 +103,16 @@ export const Create = () => {
 
   const handleSubmit = useCallback(async (values) => {
     const payload = {
-      store: storeData,
+      store: storeData?.store,
       product_ids: productData.map(p => p.id),
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
-      purchaser: purchaserData
+      purchaser: {
+        purchasing_for: purchaserData?.purchasing_for,
+        ref: purchaserData?.company
+      }
     }
     const resp = await EnrollmentQueries.create({ data: payload })
     if (resp.success && resp.data.order_ref) {
@@ -136,8 +157,9 @@ export const Create = () => {
               setStoreData={setStoreData}
               setCurrentStep={setCurrentStep}
             />
-            : currentStep === StepNames.ProductInformation ?
+            : (currentStep === StepNames.ProductInformation && storeData) ?
               <ProductDataStep
+                storeData={storeData}
                 productData={productData}
                 setProductData={setProductData}
                 setCurrentStep={setCurrentStep}

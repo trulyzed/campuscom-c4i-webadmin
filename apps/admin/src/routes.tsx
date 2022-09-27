@@ -71,7 +71,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
-  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/create").then((x) => ({ default: x.Create }))) },
+  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/Create").then((x) => ({ default: x.Create }))) },
   { path: "/administration/seat-reservation", component: React.lazy(() => import("~/Pages/Administration/Reservations/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/seat-reservation/:reservationID", component: React.lazy(() => import("~/Pages/Administration/Reservations/ReservationDetailsPage").then((x) => ({ default: x.ReservationDetailsPage }))) },
 
