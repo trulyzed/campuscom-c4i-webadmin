@@ -9,4 +9,5 @@ export interface IEnrollmentQueries {
   create: IQuery
   createWithPurchaserInfo: IQuery
   getPaymentSummary: IQuery
+  getRelatedProductList: IQuery
 }

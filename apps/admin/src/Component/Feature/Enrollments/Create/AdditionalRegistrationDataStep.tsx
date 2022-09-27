@@ -20,7 +20,7 @@ export const AdditionalRegistrationDataStep = ({
     <Card style={{ margin: "10px 0 0 10px" }} title={"Additional Registration Information"}>
       <Row>
         <Col flex={"auto"}>
-          {registrationData.map(registration => (
+          {registrationData.map(registration => registration.students.length ? (
             <div key={registration.product} style={{ marginBottom: '20px' }}>
               <Title level={4}>"{productData.find(product => product.id === registration.product)?.title}" registration information</Title>
               <div>
@@ -32,7 +32,7 @@ export const AdditionalRegistrationDataStep = ({
               </div>
               <Divider />
             </div>
-          ))}
+          ) : null)}
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.Invoice)} />

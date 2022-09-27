@@ -1,14 +1,17 @@
 import { Button, Card, Col, Row } from "antd"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
-import { DROPDOWN, IField, MULTI_RADIO, NUMBER } from "@packages/components/lib/Form/common"
+import { CUSTOM_FIELD, DROPDOWN, IField, MULTI_RADIO, NUMBER } from "@packages/components/lib/Form/common"
 import { StepNames } from "./common"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { INPUT_OPTIONS } from "~/Configs/input"
+import { RelatedProductInput } from "./RelatedProductInput"
+
 
 interface IProductDataStepProps {
+  storeData: Record<string, any>
   productData: Record<string, any>[]
   setProductData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
@@ -16,30 +19,39 @@ interface IProductDataStepProps {
 }
 
 export const ProductDataStep = ({
+  storeData,
   productData,
   setProductData,
   setCurrentStep,
   hasRegistrationProduct,
 }: IProductDataStepProps) => {
   const addProduct = QueryConstructor((data) => {
-    return new Promise((resolve) => {
-      ProductQueries.getSingle({ params: { id: data?.data.product } }).then(resp => {
-        resolve({
-          code: 200,
-          data: [],
-          error: undefined,
-          success: true
-        })
+    const relatedProducts = Object.keys(data?.data || {}).reduce((a, c) => {
+      const relatedProductId = c.split('related_product_quantity__')[1]
+      if (relatedProductId && data?.data[c]) a.push({
+        product_id: relatedProductId,
+        quantity: data?.data[c],
+      })
+      return a
+    }, [] as any[])
+    return ProductQueries.getSingle({ params: { id: data?.data.product } }).then(resp => {
+      if (resp.success) {
+        const orderType = data?.data.order_type || "registration"
+        const unitType = resp.data.product_type !== "section" ? "unit" : orderType
         setProductData([
           ...productData,
           {
             title: resp.data.title,
             id: resp.data.id,
             number_of_seats: data?.data.number_of_seats,
-            order_type: data?.data.order_type || "registration",
+            order_type: orderType,
+            product_type: resp.data.product_type,
+            unit_type: unitType,
+            ...resp.data.product_type === "section" && { related_products: relatedProducts, }
           }
         ])
-      })
+      }
+      return resp
     })
   }, [])
 
@@ -55,14 +67,19 @@ export const ProductDataStep = ({
                 sorter: (a: any, b: any) => a.title - b.title
               },
               {
-                title: 'Order Type',
-                dataIndex: 'order_type',
-                sorter: (a: any, b: any) => a.order_type - b.order_type
+                title: 'Product Type',
+                dataIndex: 'product_type',
+                sorter: (a: any, b: any) => a.product_type - b.product_type
               },
               {
-                title: 'Number of Seats',
+                title: 'Quantity',
                 dataIndex: 'number_of_seats',
                 sorter: (a: any, b: any) => a.number_of_seats - b.number_of_seats
+              },
+              {
+                title: 'Unit',
+                dataIndex: 'unit_type',
+                sorter: (a: any, b: any) => a.unit_type - b.unit_type
               },
               {
                 title: 'Action',
@@ -79,7 +96,7 @@ export const ProductDataStep = ({
             actions={[
               <MetaDrivenFormModalOpenButton
                 formTitle={`Add Product`}
-                formMeta={meta}
+                formMeta={getMeta(storeData?.store)}
                 formSubmitApi={addProduct}
                 buttonLabel={`Add Product`}
               />
@@ -98,7 +115,7 @@ export const ProductDataStep = ({
   )
 }
 
-const meta: IField[] = [
+const getMeta = (storeId: string): IField[] => [
   {
     fieldName: "product_type",
     label: "Product Type",
@@ -109,13 +126,23 @@ const meta: IField[] = [
     fieldName: "product",
     label: "Product",
     inputType: DROPDOWN,
-    refLookupService: ProductQueries.getList,
+    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId } }), [ProductQueries.getList]),
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
     dependencies: ['product_type'],
     onDependencyChange: (value, { loadOptions }) => {
       loadOptions?.({ params: { product_type: value?.product_type } })
+    },
+  },
+  {
+    fieldName: "related_product",
+    label: "Related Product",
+    inputType: CUSTOM_FIELD,
+    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
+    dependencies: ['product', 'product_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.product_type === "section" && !!value?.product)
     },
   },
   {

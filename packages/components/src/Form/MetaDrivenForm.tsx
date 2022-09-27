@@ -768,7 +768,12 @@ const SearchFormFields = (props: {
                           ...field,
                           key: i,
                           formInstance: props.formInstance,
-                          clearTrigger: props.clearTrigger
+                          clearTrigger: props.clearTrigger,
+                          labelColSpan: field.labelColSpan || 8,
+                          wrapperColSpan: field.wrapperColSpan || 24,
+                          dependencyValue: props.dependencyValue[field.fieldName],
+                          updateMeta: props.updateMeta,
+                          loading: props.isFetchingQueryData
                         }}
                       />
                     </Form.Item>
