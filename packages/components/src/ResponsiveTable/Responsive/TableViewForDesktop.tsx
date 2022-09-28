@@ -19,6 +19,19 @@ export function TableViewForDesktop(
     showTableSettings: () => void
   }
 ) {
+  const expandedRowRender = (record) => {
+    return (
+      <Table
+        columns={props.expandedRowColumns}
+        dataSource={props.expandedRowDataIndex ? record[props.expandedRowDataIndex] : undefined}
+        pagination={false}
+        size='small'
+        rowKey={"id"}
+        bordered
+      />
+    )
+  }
+
   return (
     <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
       {props.tableTitle ?
@@ -98,6 +111,9 @@ export function TableViewForDesktop(
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}
           locale={{ emptyText: <EmptyState /> }}
+          expandable={props.expandedRowColumns?.length ? {
+            expandedRowRender,
+          } : undefined}
         />
       </Col>
       {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (

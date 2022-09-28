@@ -44,4 +44,6 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   currentPagination?: number
   setCurrentPagination?: (page: number) => void
   actions?: React.ReactNode[]
+  expandedRowColumns?: TableColumnType
+  expandedRowDataIndex?: string
 }

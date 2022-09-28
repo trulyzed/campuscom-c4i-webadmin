@@ -5,6 +5,7 @@ import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueri
 import { IGeneratedField } from "@packages/components/lib/Form/common"
 import { renderAmount, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { FormInputNumber } from "@packages/components/lib/Form/FormInputNumber"
+import { FormInput } from "@packages/components/lib/Form/FormInput"
 
 export const RelatedProductInput = (props: IGeneratedField & { store: string }) => {
   const { store, dependencyValue } = props
@@ -32,6 +33,19 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string }) 
           {
             title: "Title",
             dataIndex: "title",
+            render: (text, record) => (
+              <>
+                <span>{text}</span>
+                <FormInput
+                  fieldName={`related_product_title__${record.id}`}
+                  formInstance={props.formInstance}
+                  label={""}
+                  initialValue={record.title}
+                  disabled
+                  hidden
+                />
+              </>
+            )
           },
           {
             title: "Price",

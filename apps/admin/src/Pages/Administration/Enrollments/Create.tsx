@@ -47,7 +47,7 @@ export const Create = () => {
     return [...productData.reduce((a, c) => {
       for (const i of (c.related_products || [])) {
         a.push({
-          product_id: i.product_id,
+          product_id: i.id,
           quantity: i.quantity,
           is_related: true,
           related_to: c.id,

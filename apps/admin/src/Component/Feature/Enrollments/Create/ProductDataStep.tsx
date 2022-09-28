@@ -29,8 +29,10 @@ export const ProductDataStep = ({
   const addProduct = QueryConstructor((data) => {
     const relatedProducts = Object.keys(data?.data || {}).reduce((a, c) => {
       const relatedProductId = c.split('related_product_quantity__')[1]
+      const relatedProductTitle = data?.data[`related_product_title__${relatedProductId}`]
       if (relatedProductId && data?.data[c]) a.push({
-        product_id: relatedProductId,
+        id: relatedProductId,
+        title: relatedProductTitle,
         quantity: data?.data[c],
       })
       return a
@@ -104,6 +106,17 @@ export const ProductDataStep = ({
             ]}
             dataSource={productData}
             rowKey={"id"}
+            expandedRowColumns={[
+              {
+                title: 'Related Product',
+                dataIndex: "title",
+              },
+              {
+                title: 'Quantity',
+                dataIndex: "quantity",
+              }
+            ]}
+            expandedRowDataIndex={'related_products'}
             hidePagination
             hideSettings
           />
