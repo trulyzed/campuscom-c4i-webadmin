@@ -1,4 +1,4 @@
-import { Card, Col, Row } from "antd"
+import { Card, Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
 import { useCallback, useEffect, useState } from "react"
@@ -17,6 +17,7 @@ import { StoreDataStep } from "~/Component/Feature/Enrollments/Create/StoreDataS
 
 export const Create = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
+  const [isProcessing, setIsProcessing] = useState(false)
   const [storeData, setStoreData] = useState<Record<string, any>>()
   const [productData, setProductData] = useState<Record<string, any>[]>([])
   const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
@@ -112,10 +113,14 @@ export const Create = () => {
         ref: purchaserData?.company
       }
     }
+    setIsProcessing(true)
     const resp = await EnrollmentQueries.create({ data: payload })
+    setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       reset()
+    } else {
+      notification.error({ message: "Something went wrong!" })
     }
   }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, storeData, purchaserData, reset])
 
@@ -203,6 +208,7 @@ export const Create = () => {
                         : currentStep === StepNames.PaymentInformation ?
                           <PaymentDataStep
                             onSubmit={handleSubmit}
+                            loading={isProcessing}
                           />
                           : null}
         </Col>

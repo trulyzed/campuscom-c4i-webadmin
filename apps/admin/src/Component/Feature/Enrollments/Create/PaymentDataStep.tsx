@@ -4,20 +4,24 @@ import { IField, TEXT } from "@packages/components/lib/Form/common"
 
 interface IPaymentDataStepProps {
   onSubmit: (values: { [key: string]: any }) => void
+  loading: boolean
 }
 
 export const PaymentDataStep = ({
-  onSubmit
+  onSubmit,
+  loading,
 }: IPaymentDataStepProps) => {
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Payment Details"}>
       <MetaDrivenForm
         meta={meta}
         onApplyChanges={onSubmit}
+        loading={loading}
         isWizard
         applyButtonLabel="Submit"
         showFullForm
         showClearbutton={false}
+        disableContainerLoader
         stopProducingQueryParams
       />
     </Card>
