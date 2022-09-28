@@ -444,7 +444,7 @@ export function MetaDrivenForm({
         onValuesChange={handleValuesChange}
       >
         <FormError errorMessages={props.errorMessages} />
-        <SearchFormFields
+        <FormFields
           meta={meta}
           isVertical={props.isVertical}
           formInstance={formInstance}
@@ -511,11 +511,11 @@ export function MetaDrivenForm({
   )
 }
 
-const SearchFormFields = (props: {
+export const FormFields = (props: {
   meta: IField[]
   formInstance: FormInstance
   clearTrigger?: boolean
-  showLess: boolean
+  showLess?: boolean
   isVertical?: boolean
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>

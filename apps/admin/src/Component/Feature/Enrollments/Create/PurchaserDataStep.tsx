@@ -76,4 +76,14 @@ const meta: IField[] = [
     },
     rules: [{ required: true, message: "This field is required!" }]
   },
+  {
+    fieldName: "gender",
+    label: "What is your gender?",
+    inputType: DROPDOWN,
+    options: [
+      { label: "Male", value: "male" },
+      { label: "Female", value: "female" },
+      { label: "Others", value: "others" },
+    ],
+  },
 ]
