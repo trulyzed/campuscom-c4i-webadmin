@@ -44,10 +44,10 @@ export const ProductDataStep = ({
           {
             title: resp.data.title,
             id: resp.data.id,
-            number_of_seats: data?.data.number_of_seats,
+            quantity: data?.data.quantity,
             order_type: orderType,
             product_type: resp.data.product_type,
-            unit_type: unitType,
+            unit: unitType,
             ...resp.data.product_type === "section" && { related_products: relatedProducts, }
           }
         ])
@@ -74,13 +74,13 @@ export const ProductDataStep = ({
               },
               {
                 title: 'Quantity',
-                dataIndex: 'number_of_seats',
-                sorter: (a: any, b: any) => a.number_of_seats - b.number_of_seats
+                dataIndex: 'quantity',
+                sorter: (a: any, b: any) => a.quantity - b.quantity
               },
               {
                 title: 'Unit',
-                dataIndex: 'unit_type',
-                sorter: (a: any, b: any) => a.unit_type - b.unit_type
+                dataIndex: 'unit',
+                sorter: (a: any, b: any) => a.unit - b.unit
               },
               {
                 title: 'Action',
@@ -161,13 +161,9 @@ const getMeta = (storeId: string): IField[] => [
     },
   },
   {
-    fieldName: "number_of_seats",
-    label: "Number Of Seats",
+    fieldName: "quantity",
+    label: "Quantity",
     inputType: NUMBER,
-    dependencies: ['order_type', 'product_type'],
-    onDependencyChange: (value, { toggleField }) => {
-      toggleField?.((value?.product_type === "section") && (value?.order_type === "seat"))
-    },
     rules: [{ required: true, message: "This field is required!" }]
   }
 ]

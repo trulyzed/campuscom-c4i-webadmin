@@ -25,7 +25,7 @@ export const Create = () => {
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-  const hasRegistrationProduct = productData.some(i => i.unit_type === "registration")
+  const hasRegistrationProduct = productData.some(i => i.unit === "registration")
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -44,7 +44,7 @@ export const Create = () => {
   }, [])
 
   const generateCartDetailsPayload = useCallback(() => {
-    const payload = [...productData.reduce((a, c) => {
+    return [...productData.reduce((a, c) => {
       for (const i of (c.related_products || [])) {
         a.push({
           product_id: i.product_id,
@@ -55,14 +55,14 @@ export const Create = () => {
           is_reservation: false
         })
       }
-      if (c.order_type === "seat") {
+      if (c.unit === "seat" || c.unit === "unit") {
         a.push({
           product_id: c.id,
-          quantity: c.number_of_seats,
+          quantity: c.quantity,
           is_related: false,
           related_to: "",
           student_email: "",
-          is_reservation: true
+          is_reservation: c.unit === "seat"
         })
       }
       return a
@@ -74,8 +74,6 @@ export const Create = () => {
       student_email: "",
       is_reservation: false
     }))]
-
-    return payload
   }, [registrationData, productData])
 
   const generateStudentDetailsPayload = useCallback(() => {

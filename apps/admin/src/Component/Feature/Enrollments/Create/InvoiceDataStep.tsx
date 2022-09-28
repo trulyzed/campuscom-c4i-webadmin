@@ -68,7 +68,7 @@ export const InvoiceDataStep = ({
                     </Col>
                   </Row>
                   {product.related_products.map((relatedProduct: any) => (
-                    <Row key={relatedProduct.id}>
+                    <Row gutter={10} key={relatedProduct.id}>
                       <Col md={8}><Text>+ {relatedProduct.title}</Text></Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.price)}</Col>
