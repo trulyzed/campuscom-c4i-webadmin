@@ -40,7 +40,19 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
           }}
           formattedValue = {getFormattedValue(props.defaultValue)}
         />
-    </SearchFieldWrapper>
+        {/* )}
+        {!value && (
+          <DatePicker
+            allowClear
+            disabled={props.disabled}
+            onChange={(date, dateString) => {
+              dateString && props.formInstance.setFieldsValue({ [props.fieldName]: dateString })
+              setValue(date)
+            }}
+            format={dateFormat}
+          />
+        )} */}
+      </SearchFieldWrapper>
     </>
   )
 }
