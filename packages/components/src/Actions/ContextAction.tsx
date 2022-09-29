@@ -68,6 +68,7 @@ export const ContextAction = ({
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
   const { push } = useHistory()
+  const icon = getIcon(type, iconColor)
 
   const refreshEvents = useCallback(() => {
     if (Array.isArray(refreshEventName)) {
@@ -93,6 +94,6 @@ export const ContextAction = ({
 
   return (
     (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-      : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={getIcon(type, iconColor)} title={tooltip} children={text ? <span className="ml-5">{text}</span> : undefined} />
+      : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
   )
 }

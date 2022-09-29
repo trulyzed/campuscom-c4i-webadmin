@@ -109,7 +109,7 @@ export const Create = () => {
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
       purchaser: {
-        purchasing_for: purchaserData?.purchasing_for,
+        type: purchaserData?.purchasing_for,
         ref: purchaserData?.company
       }
     }

@@ -21,11 +21,11 @@ export const AppRoutes: RouteProps[] = [
   { path: "/store/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Store/PaymentGateways/StorePaymentGatewayDetailsPage").then((x) => ({ default: x.StorePaymentGatewayDetailsPage }))) },
   { path: "/store/configuration/:storeConfigurationID", component: React.lazy(() => import("~/Pages/Store/StoreConfigurations/StoreConfigurationDetailsPage").then((x) => ({ default: x.StoreConfigurationDetailsPage }))) },
   { path: "/store/create-order", component: React.lazy(() => import("~/Pages/Administration/Enrollments/Create").then((x) => ({ default: x.Create }))) },
-  { path: "/store/seat-block", component: React.lazy(() => import("~/Pages/Administration/Reservations/index").then((x) => ({ default: x.List }))) },
-  { path: "/store/seat-block/:reservationID", component: React.lazy(() => import("~/Pages/Administration/Reservations/ReservationDetailsPage").then((x) => ({ default: x.ReservationDetailsPage }))) },
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },
+  { path: "/storefront-data/seat-block", component: React.lazy(() => import("~/Pages/Store/SeatBlocks").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/seat-block/:seatBlockID", component: React.lazy(() => import("~/Pages/Store/SeatBlocks/SeatBlockDetailsPage").then((x) => ({ default: x.SeatBlockDetailsPage }))) },
   { path: "/storefront-data/payment", component: React.lazy(() => import("~/Pages/StorefrontData/Payments").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/payment/:paymentID", component: React.lazy(() => import("~/Pages/StorefrontData/Payments/PaymentDetailsPage").then((x) => ({ default: x.PaymentDetailsPage }))) },
   { path: "/storefront-data/student", component: React.lazy(() => import("~/Pages/StorefrontData/Students").then((x) => ({ default: x.List }))) },

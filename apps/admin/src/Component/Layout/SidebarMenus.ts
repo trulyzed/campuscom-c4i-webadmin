@@ -35,6 +35,7 @@ import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/Enro
 import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
+import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -93,19 +94,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(EnrollmentQueries.create)
       },
-      {
-        title: "Seat Blocks",
-        url: "/store/seat-block",
-        submenu: [],
-        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
-      },
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
       checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
-      checkAdminApiPermission(EnrollmentQueries.create) ||
-      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      checkAdminApiPermission(EnrollmentQueries.create)
   },
   {
     title: "Storefront Data",
@@ -116,6 +110,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/order",
         submenu: [],
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
+      },
+      {
+        title: "Seat Blocks",
+        url: "/storefront-data/seat-block",
+        submenu: [],
+        permission: checkAdminApiPermission(getSeatBlockListTableColumns().searchFunc)
       },
       {
         title: "Payments",
@@ -132,6 +132,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getSeatBlockListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc)
   },
