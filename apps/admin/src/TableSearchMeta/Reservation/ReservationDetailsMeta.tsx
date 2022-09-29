@@ -11,9 +11,17 @@ import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/Me
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { getReservationFormMeta } from "~/Component/Feature/Reservations/FormMeta/ReservationFormMeta"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getReservationDetailsMeta = (reservation: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CompanyQueries.update({ ...data, params: { id: reservation.id } }).then(resp => {
+    if (resp.success) {
+      notification.success({ message: UPDATE_SUCCESSFULLY })
+    }
+    return resp
+  })), [CompanyQueries.update])
+
+  const convertToken = QueryConstructor(((data) => CompanyQueries.update({ ...data, params: { id: reservation.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: UPDATE_SUCCESSFULLY })
     }
@@ -30,6 +38,13 @@ export const getReservationDetailsMeta = (reservation: { [key: string]: any }): 
         buttonLabel={`Add Student`}
         refreshEventName={REFRESH_PAGE}
       />,
+      <ContextAction
+        tooltip="Convert Token"
+        confirmationType="convert"
+        queryService={convertToken}
+        text={"Convert Token"}
+        buttonType={"primary"}
+      />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
