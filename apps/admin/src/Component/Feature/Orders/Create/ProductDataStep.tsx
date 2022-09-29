@@ -140,7 +140,7 @@ const getMeta = (storeId: string): IField[] => [
     fieldName: "product",
     label: "Product",
     inputType: DROPDOWN,
-    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId } }), [ProductQueries.getList]),
+    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId, active_status: "True" } }), [ProductQueries.getList]),
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
