@@ -150,16 +150,6 @@ const getMeta = (storeId: string): IField[] => [
     },
   },
   {
-    fieldName: "related_product",
-    label: "Related Product",
-    inputType: CUSTOM_FIELD,
-    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
-    dependencies: ['product', 'product_type'],
-    onDependencyChange: (value, { toggleField }) => {
-      toggleField?.(value?.product_type === "section" && !!value?.product)
-    },
-  },
-  {
     fieldName: "order_type",
     label: "Order Type",
     inputType: MULTI_RADIO,
@@ -178,5 +168,15 @@ const getMeta = (storeId: string): IField[] => [
     label: "Quantity",
     inputType: NUMBER,
     rules: [{ required: true, message: "This field is required!" }]
-  }
+  },
+  {
+    fieldName: "related_product",
+    label: "Related Product",
+    inputType: CUSTOM_FIELD,
+    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
+    dependencies: ['product', 'product_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.product_type === "section" && !!value?.product)
+    },
+  },
 ]
