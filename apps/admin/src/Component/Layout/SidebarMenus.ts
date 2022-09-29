@@ -86,12 +86,26 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/store/product",
         submenu: [],
         permission: checkAdminApiPermission(getProductListTableColumns().searchFunc)
-      }
+      },
+      {
+        title: "Create Order",
+        url: "/store/create-order",
+        submenu: [],
+        permission: checkAdminApiPermission(EnrollmentQueries.create)
+      },
+      {
+        title: "Seat Blocks",
+        url: "/store/seat-block",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      },
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getProductListTableColumns().searchFunc)
+      checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
+      checkAdminApiPermission(EnrollmentQueries.create) ||
+      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
   },
   {
     title: "Storefront Data",
@@ -254,18 +268,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
       },
-      {
-        title: "Create Enrollment",
-        url: "/administration/create-enrollment",
-        submenu: [],
-        permission: checkAdminApiPermission(EnrollmentQueries.create)
-      },
-      {
-        title: "Seat Reservations",
-        url: "/administration/seat-reservation",
-        submenu: [],
-        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
-      },
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -283,9 +285,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(EnrollmentQueries.create) ||
-      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
   },
   {
     title: "Configuration",

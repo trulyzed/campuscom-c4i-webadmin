@@ -20,6 +20,9 @@ export const AppRoutes: RouteProps[] = [
   { path: "/store/product/:productID", component: React.lazy(() => import("~/Pages/Store/Products/ProductDetailsPage").then((x) => ({ default: x.ProductDetailsPage }))) },
   { path: "/store/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Store/PaymentGateways/StorePaymentGatewayDetailsPage").then((x) => ({ default: x.StorePaymentGatewayDetailsPage }))) },
   { path: "/store/configuration/:storeConfigurationID", component: React.lazy(() => import("~/Pages/Store/StoreConfigurations/StoreConfigurationDetailsPage").then((x) => ({ default: x.StoreConfigurationDetailsPage }))) },
+  { path: "/store/create-order", component: React.lazy(() => import("~/Pages/Administration/Enrollments/Create").then((x) => ({ default: x.Create }))) },
+  { path: "/store/seat-block", component: React.lazy(() => import("~/Pages/Administration/Reservations/index").then((x) => ({ default: x.List }))) },
+  { path: "/store/seat-block/:reservationID", component: React.lazy(() => import("~/Pages/Administration/Reservations/ReservationDetailsPage").then((x) => ({ default: x.ReservationDetailsPage }))) },
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },
@@ -71,9 +74,6 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
-  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/Create").then((x) => ({ default: x.Create }))) },
-  { path: "/administration/seat-reservation", component: React.lazy(() => import("~/Pages/Administration/Reservations/index").then((x) => ({ default: x.List }))) },
-  { path: "/administration/seat-reservation/:reservationID", component: React.lazy(() => import("~/Pages/Administration/Reservations/ReservationDetailsPage").then((x) => ({ default: x.ReservationDetailsPage }))) },
 
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
   { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Administration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },

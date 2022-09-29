@@ -29,7 +29,7 @@ export const getReservationDetailsMeta = (reservation: { [key: string]: any }): 
   })), [CompanyQueries.update])
 
   const summaryInfo: CardContainer = {
-    title: `Seat Reservation: ${reservation.ref_id}`,
+    title: `Seat Block: ${reservation.ref_id}`,
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Add Student`}
@@ -108,7 +108,7 @@ export const getReservationDetailsMeta = (reservation: { [key: string]: any }): 
   ]
 
   return {
-    pageTitle: `Seat Reservation Title - ${reservation.ref_id}`,
+    pageTitle: `Seat Block Title - ${reservation.ref_id}`,
     tabs: tabMetas
   }
 }

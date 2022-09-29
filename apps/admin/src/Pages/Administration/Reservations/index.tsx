@@ -5,7 +5,7 @@ import { ReservationSearchMeta } from "~/TableSearchMeta/Reservation/Reservation
 export const List = () => {
   return (
     <SearchPage
-      title={"Seat Reservations"}
+      title={"Seat Blocks"}
       meta={ReservationSearchMeta}
       tableProps={{
         ...getReservationListTableColumns(),

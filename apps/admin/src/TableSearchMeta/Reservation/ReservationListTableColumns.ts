@@ -7,7 +7,7 @@ export const reservationListTableColumns: TableColumnType = [
   {
     title: "Ref ID",
     dataIndex: "ref_id",
-    render: (text: any, record: any) => renderLink(`/administration/seat-reservation/${record.id}`, text),
+    render: (text: any, record: any) => renderLink(`/store/seat-block/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },
   {

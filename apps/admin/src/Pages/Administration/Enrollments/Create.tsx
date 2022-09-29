@@ -140,7 +140,7 @@ export const Create = () => {
           <Row>
             <Col flex="auto">
               <SidebarMenuTargetHeading level={1} targetID="navigation">
-                Create an Enrollment
+                Create an Order
               </SidebarMenuTargetHeading>
             </Col>
             <Col flex="none">
