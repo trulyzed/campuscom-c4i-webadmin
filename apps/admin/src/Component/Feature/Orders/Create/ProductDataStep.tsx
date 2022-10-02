@@ -134,7 +134,7 @@ const getMeta = (storeId: string): IField[] => [
     fieldName: "product_type",
     label: "Product Type",
     inputType: DROPDOWN,
-    options: INPUT_OPTIONS.PRODUCT_TYPE
+    options: INPUT_OPTIONS.PRODUCT_TYPE?.filter(i => i.value !== "certificate" && i.value !== "membership")
   },
   {
     fieldName: "product",
