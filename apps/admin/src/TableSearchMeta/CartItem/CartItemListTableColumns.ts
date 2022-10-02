@@ -42,7 +42,7 @@ export const cartItemListTableColumns: TableColumnType = [
   },
   {
     title: 'Action',
-    render: (text, record) => renderLink(`/storefront-data/cart-item/${record.id}`, 'View More')
+    render: (text, record) => renderLink(`/storefront-data/order-item/${record.id}`, 'View More')
   },
 ]
 

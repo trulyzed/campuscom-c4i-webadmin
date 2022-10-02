@@ -16,7 +16,7 @@ export const seatBlockListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.store.name - b.store.name
   },
   {
-    title: "Order Ref",
+    title: "Order ID",
     dataIndex: "cart",
     render: (text: any) => renderLink(`/storefront-data/order/${text.id}`, text.order_ref),
     sorter: (a: any, b: any) => a.cart.order_ref - b.cart.order_ref

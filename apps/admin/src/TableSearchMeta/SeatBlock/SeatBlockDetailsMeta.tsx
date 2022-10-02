@@ -41,7 +41,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
     ],
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${seatBlock.store.id}`, seatBlock.store.name) },
-      { label: 'Order Ref', value: renderLink(`/storefront-data/order/${seatBlock.cart.id}`, seatBlock.cart.order_ref) },
+      { label: 'Order ID', value: renderLink(`/storefront-data/order/${seatBlock.cart.id}`, seatBlock.cart.order_ref) },
       { label: 'Purchaser', value: seatBlock.purchaser.name },
       { label: 'Product', value: renderLink(`/store/product/${seatBlock.product.id}`, seatBlock.product.name) },
       { label: 'Order Date', value: seatBlock.reservation_date, render: renderDateTime },
