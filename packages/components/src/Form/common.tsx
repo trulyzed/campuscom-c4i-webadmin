@@ -5,6 +5,7 @@ import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery, IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { DefaultOptionType } from "antd/lib/select"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -79,7 +80,7 @@ export interface IField {
   wrapperColSpan?: number
   colSpan?: number
   maxLength?: number
-  onSelectedItems?: (items: any) => void
+  onSelectedItems?: (value: any, option?: DefaultOptionType | DefaultOptionType[], lookupData?: any[]) => void
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number

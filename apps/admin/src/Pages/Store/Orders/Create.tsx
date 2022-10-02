@@ -168,8 +168,9 @@ export const Create = () => {
                 setCurrentStep={setCurrentStep}
                 hasRegistrationProduct={hasRegistrationProduct}
               />
-              : currentStep === StepNames.PurchaserInformation ?
+              : (currentStep === StepNames.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
+                  storeData={storeData}
                   setPurchaserData={setPurchaserData}
                   setCurrentStep={setCurrentStep}
                 />
