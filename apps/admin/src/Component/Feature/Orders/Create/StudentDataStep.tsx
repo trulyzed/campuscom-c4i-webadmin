@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space } from "antd"
+import { Button, Card, Col, notification, Row, Space } from "antd"
 import Title from "antd/lib/typography/Title"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
@@ -28,10 +28,14 @@ export const StudentDataStep = ({
   const [isProcessing, setIsProcessing] = useState(false)
 
   const handleStudentDataChange = useCallback(async (value) => {
+    if (studentData.some(i => i.id === value.profile)) {
+      notification.warning({ message: "Student already chosen" })
+      return
+    }
     setIsProcessing(true)
-    const { data } = await StudentQueries.getSingle({ params: { id: value.profile } })
+    const resp = await StudentQueries.getSingle({ params: { id: value.profile } })
     setIsProcessing(false)
-    setStudentData([...studentData, data])
+    if (resp.success) setStudentData([...studentData, resp.data])
   }, [studentData, setStudentData])
 
   return (

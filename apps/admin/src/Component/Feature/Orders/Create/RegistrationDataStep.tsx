@@ -6,7 +6,7 @@ import { useCallback } from "react"
 import pluralize from "pluralize"
 
 interface IRegistrationDataStepProps {
-  productData: Record<string, any>[]
+  registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
   setRegistrationData: (...args: any[]) => void
@@ -15,7 +15,7 @@ interface IRegistrationDataStepProps {
 }
 
 export const RegistrationDataStep = ({
-  productData,
+  registrationProductData,
   studentData,
   registrationData,
   setRegistrationData,
@@ -36,7 +36,7 @@ export const RegistrationDataStep = ({
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
       <Row>
         <Col flex={"auto"}>
-          {productData.filter(i => i.unit === "registration").map(product => (
+          {registrationProductData.map(product => (
             <div key={product.id} style={{ marginBottom: '15px' }}>
               <Title level={4} style={{ fontFamily: "AvertaLight", marginBottom: "10px" }}>"{product.title}" registration information</Title>
               <div style={{ marginTop: 0, marginLeft: "5px" }}>

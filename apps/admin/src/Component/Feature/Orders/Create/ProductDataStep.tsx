@@ -9,6 +9,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { INPUT_OPTIONS } from "~/Configs/input"
 import { RelatedProductInput } from "./RelatedProductInput"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 
 interface IProductDataStepProps {
@@ -27,6 +28,14 @@ export const ProductDataStep = ({
   hasRegistrationProduct,
 }: IProductDataStepProps) => {
   const addProduct = QueryConstructor((data) => {
+    if (productData.some(i => (i.id === data?.data.product) && (i.order_type === data?.data.order_type))) {
+      return Promise.resolve({
+        code: 404,
+        data: null,
+        error: [{ message: "Product combination already chosen" }],
+        success: false
+      } as IApiResponse)
+    }
     const relatedProducts = Object.keys(data?.data || {}).reduce((a, c) => {
       const relatedProductId = c.split('related_product_quantity__')[1]
       const relatedProductTitle = data?.data[`related_product_title__${relatedProductId}`]
@@ -91,7 +100,7 @@ export const ProductDataStep = ({
                   <ContextAction
                     type="delete"
                     tooltip="Delete Product"
-                    onClick={() => setProductData(productData.filter(i => i.id !== record.id))}
+                    onClick={() => setProductData(productData.filter(i => !(i.id === record.id && i.order_type === record.order_type)))}
                   />
                 )
               },
@@ -105,7 +114,7 @@ export const ProductDataStep = ({
               />
             ]}
             dataSource={productData}
-            rowKey={"id"}
+            rowKey={record => `${record.id}__${record.order_type}`}
             expandedRowColumns={[
               {
                 title: 'Related Product',

@@ -1,7 +1,7 @@
 import { Card, Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
@@ -20,6 +20,7 @@ export const Create = () => {
   const [isProcessing, setIsProcessing] = useState(false)
   const [storeData, setStoreData] = useState<Record<string, any>>()
   const [productData, setProductData] = useState<Record<string, any>[]>([])
+  const registrationProductData = useMemo(() => productData.filter(i => i.unit === "registration"), [productData])
   const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
@@ -27,7 +28,6 @@ export const Create = () => {
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
 
-  const registrationProductData = productData.filter(i => i.unit === "registration")
   const hasValidStoreData = !!storeData
   const hasValidProductData = !!productData.length
   const hasValidPurchaserData = !!purchaserData
@@ -37,14 +37,14 @@ export const Create = () => {
   useEffect(() => {
     setRegistrationData(registrationData => {
       return registrationData.reduce((a, c) => {
-        if (productData.some(p => p.id === c.product)) {
+        if (registrationProductData.some(p => p.id === c.product)) {
           c.students = c.students.filter((id: any) => studentData.some(student => student.id === id))
           a.push(c)
         }
         return a
       }, []) as Record<string, any>[]
     })
-  }, [productData, studentData])
+  }, [registrationProductData, studentData])
 
   const handleStepChange = useCallback((current) => {
     setCurrentStep(current)
@@ -109,7 +109,6 @@ export const Create = () => {
   const handleSubmit = useCallback(async (values) => {
     const payload = {
       store: storeData?.store,
-      product_ids: productData.map(p => p.id),
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
@@ -128,7 +127,7 @@ export const Create = () => {
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, storeData, purchaserData, reset])
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, storeData, purchaserData, reset])
 
   return (
     <>
@@ -201,7 +200,7 @@ export const Create = () => {
                   />
                   : currentStep === StepNames.RegistrationInformation ?
                     <RegistrationDataStep
-                      productData={productData}
+                      registrationProductData={registrationProductData}
                       studentData={studentData}
                       registrationData={registrationData}
                       setRegistrationData={setRegistrationData}
@@ -210,7 +209,7 @@ export const Create = () => {
                     />
                     : currentStep === StepNames.AdditionalRegistrationInformation ?
                       <AdditionalRegistrationDataStep
-                        productData={productData}
+                        registrationProductData={registrationProductData}
                         studentData={studentData}
                         registrationData={registrationData}
                         setCurrentStep={setCurrentStep}

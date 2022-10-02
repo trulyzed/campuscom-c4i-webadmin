@@ -5,14 +5,14 @@ import Title from "antd/lib/typography/Title"
 import { StepNames } from "./common"
 
 interface IAdditionalRegistrationDataStepProps {
-  productData: Record<string, any>[]
+  registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
   setCurrentStep: (step: StepNames) => void
 }
 
 export const AdditionalRegistrationDataStep = ({
-  productData,
+  registrationProductData,
   studentData,
   registrationData,
   setCurrentStep,
@@ -32,7 +32,7 @@ export const AdditionalRegistrationDataStep = ({
           >
             {registrationData.map((registration, idx: number) => registration.students.length ? (
               <Card key={registration.product} style={{ marginBottom: "30px" }}>
-                <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} level={4}>"{productData.find(product => product.id === registration.product)?.title}" registration information</Title>
+                <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} level={4}>"{registrationProductData.find(product => product.id === registration.product)?.title}" registration information</Title>
                 {registration.students.map((student: any, idx2: number) =>
                   <div key={student} style={{ marginTop: "15px", margin: "0 5px" }}>
                     <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
