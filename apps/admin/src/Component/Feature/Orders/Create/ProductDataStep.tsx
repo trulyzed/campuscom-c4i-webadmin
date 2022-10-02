@@ -98,10 +98,10 @@ export const ProductDataStep = ({
             ]}
             actions={[
               <MetaDrivenFormModalOpenButton
-                formTitle={`Add Product`}
+                formTitle={`Add Item`}
                 formMeta={getMeta(storeData?.store)}
                 formSubmitApi={addProduct}
-                buttonLabel={`Add Product`}
+                buttonLabel={`Add Item`}
               />
             ]}
             dataSource={productData}
