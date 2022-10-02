@@ -9,16 +9,18 @@ import { useState } from "react"
 
 interface IPurchaserDataStepProps {
   storeData: Record<string, any>
+  purchaserData?: Record<string, any>
   setPurchaserData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
 
 export const PurchaserDataStep = ({
   storeData,
+  purchaserData,
   setPurchaserData,
   setCurrentStep,
 }: IPurchaserDataStepProps) => {
-  const [selectedPurchaser, setSelectedPurchaser] = useState<Record<string, any>>()
+  const [selectedPurchaser, setSelectedPurchaser] = useState<Record<string, any>>({ ...purchaserData })
 
   const meta: IField[] = [
     {
@@ -26,7 +28,16 @@ export const PurchaserDataStep = ({
       inputType: DROPDOWN,
       fieldName: "purchaser",
       refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: storeData.store } }), [ContactQueries.getLookupData]),
-      onSelectedItems: (value, _, lookupData) => setSelectedPurchaser(lookupData?.find(i => i.id === value)),
+      onSelectedItems: (value, _, lookupData) => {
+        const matchedData = lookupData?.find(i => i.id === value)
+        setSelectedPurchaser({
+          ...selectedPurchaser,
+          purchaser: value,
+          first_name: matchedData.first_name,
+          last_name: matchedData.last_name,
+          email: matchedData.primary_email,
+        })
+      },
       displayKey: "name",
       valueKey: "id",
       rules: [{ required: true, message: "This field is required!" }],
@@ -97,13 +108,7 @@ export const PurchaserDataStep = ({
         showFullForm
         showClearbutton={false}
         stopProducingQueryParams
-        initialFormValue={{
-          ...selectedPurchaser,
-          purchaser: selectedPurchaser?.id,
-          first_name: selectedPurchaser?.first_name,
-          last_name: selectedPurchaser?.last_name,
-          email: selectedPurchaser?.primary_email
-        }}
+        initialFormValue={selectedPurchaser}
       />
     </Card>
   )

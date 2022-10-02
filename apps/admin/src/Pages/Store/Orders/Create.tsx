@@ -26,7 +26,13 @@ export const Create = () => {
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-  const hasRegistrationProduct = productData.some(i => i.unit === "registration")
+
+  const registrationProductData = productData.filter(i => i.unit === "registration")
+  const hasValidStoreData = !!storeData
+  const hasValidProductData = !!productData.length
+  const hasValidPurchaserData = !!purchaserData
+  const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
+  const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -152,11 +158,21 @@ export const Create = () => {
       />
       <Row>
         <Col md={6} lg={4} xs={24}>
-          <Steppers currentStep={currentStep} onChange={handleStepChange} hasRegistrationProduct={hasRegistrationProduct} />
+          <Steppers
+            currentStep={currentStep}
+            onChange={handleStepChange}
+            hasValidStoreData={hasValidStoreData}
+            hasValidProductData={hasValidProductData}
+            hasValidPurchaserData={hasValidPurchaserData}
+            hasValidStudentData={hasValidStudentData}
+            hasRegistrationProduct={!!registrationProductData.length}
+            hasValidRegistrationData={hasValidRegistrationData}
+          />
         </Col>
         <Col md={18} lg={20} xs={24}>
           {currentStep === StepNames.StoreInformation ?
             <StoreDataStep
+              storeData={storeData}
               setStoreData={setStoreData}
               setCurrentStep={setCurrentStep}
             />
@@ -166,11 +182,12 @@ export const Create = () => {
                 productData={productData}
                 setProductData={setProductData}
                 setCurrentStep={setCurrentStep}
-                hasRegistrationProduct={hasRegistrationProduct}
+                hasRegistrationProduct={!!registrationProductData.length}
               />
               : (currentStep === StepNames.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
                   storeData={storeData}
+                  purchaserData={purchaserData}
                   setPurchaserData={setPurchaserData}
                   setCurrentStep={setCurrentStep}
                 />
@@ -180,6 +197,7 @@ export const Create = () => {
                     studentData={studentData}
                     setStudentData={setStudentData}
                     setCurrentStep={setCurrentStep}
+                    isValid={hasValidStudentData}
                   />
                   : currentStep === StepNames.RegistrationInformation ?
                     <RegistrationDataStep
@@ -188,6 +206,7 @@ export const Create = () => {
                       registrationData={registrationData}
                       setRegistrationData={setRegistrationData}
                       setCurrentStep={setCurrentStep}
+                      isValid={hasValidRegistrationData}
                     />
                     : currentStep === StepNames.AdditionalRegistrationInformation ?
                       <AdditionalRegistrationDataStep

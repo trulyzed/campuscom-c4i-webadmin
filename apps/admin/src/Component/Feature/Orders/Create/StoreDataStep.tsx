@@ -1,16 +1,17 @@
 import { Card } from "antd"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
-import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { StepNames } from "./common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 interface IStoreDataStepProps {
+  storeData?: Record<string, any>
   setStoreData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
 
 export const StoreDataStep = ({
+  storeData,
   setStoreData,
   setCurrentStep,
 }: IStoreDataStepProps) => {
@@ -27,7 +28,7 @@ export const StoreDataStep = ({
         showFullForm
         showClearbutton={false}
         stopProducingQueryParams
-        initialFormValue={getUser() as Record<string, any>}
+        initialFormValue={storeData}
       />
     </Card>
   )

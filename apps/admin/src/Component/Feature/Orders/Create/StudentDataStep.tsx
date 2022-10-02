@@ -15,6 +15,7 @@ interface IStudentDataStepProps {
   studentData: Record<string, any>[]
   setStudentData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
+  isValid: boolean
 }
 
 export const StudentDataStep = ({
@@ -22,6 +23,7 @@ export const StudentDataStep = ({
   studentData,
   setStudentData,
   setCurrentStep,
+  isValid,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -80,7 +82,7 @@ export const StudentDataStep = ({
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Space>
-            <Button style={{ marginTop: "20px", }} disabled={!studentData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
+            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
           </Space>
         </Col>
       </Row>
@@ -89,12 +91,12 @@ export const StudentDataStep = ({
 }
 
 
-const getMeta = (storeData: string): IField[] => [
+const getMeta = (store: string): IField[] => [
   {
     fieldName: "profile",
     label: "Student",
     inputType: DROPDOWN,
-    refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: storeData } }), [ContactQueries.getLookupData]),
+    refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],

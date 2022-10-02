@@ -1,6 +1,6 @@
 import { DROPDOWN, IField, MULTI_RADIO, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
 import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
-import { Button, Card, Col, Form, Row } from "antd"
+import { Button, Card, Col, Divider, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
 import { StepNames } from "./common"
 
@@ -28,16 +28,15 @@ export const AdditionalRegistrationDataStep = ({
             style={{
               background: "white",
               borderRadius: "4px",
-              padding: "10px"
             }}
           >
             {registrationData.map((registration, idx: number) => registration.students.length ? (
-              <div key={registration.product} style={{ marginBottom: "30px" }}>
+              <Card key={registration.product} style={{ marginBottom: "30px" }}>
                 <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} level={4}>"{productData.find(product => product.id === registration.product)?.title}" registration information</Title>
                 {registration.students.map((student: any, idx2: number) =>
-                  <Card key={student} style={{ marginTop: "15px", margin: "0 5px" }}>
+                  <div key={student} style={{ marginTop: "15px", margin: "0 5px" }}>
                     <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
-                    <div style={{ marginTop: "15px" }}>
+                    <div style={{ marginTop: "20px" }}>
                       <FormFields
                         formInstance={formInstance}
                         meta={[
@@ -75,9 +74,10 @@ export const AdditionalRegistrationDataStep = ({
                         dependencyValue={{}}
                       />
                     </div>
-                  </Card>
+                    {idx2 !== (registration.students.length - 1) ? <Divider /> : null}
+                  </div>
                 )}
-              </div>
+              </Card>
             ) : null)}
           </Form>
         </Col>
