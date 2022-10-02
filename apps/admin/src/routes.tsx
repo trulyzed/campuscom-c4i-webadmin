@@ -24,7 +24,6 @@ export const AppRoutes: RouteProps[] = [
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },
-  { path: "/storefront-data/seat-block", component: React.lazy(() => import("~/Pages/Store/SeatBlocks").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/seat-block/:seatBlockID", component: React.lazy(() => import("~/Pages/Store/SeatBlocks/SeatBlockDetailsPage").then((x) => ({ default: x.SeatBlockDetailsPage }))) },
   { path: "/storefront-data/payment", component: React.lazy(() => import("~/Pages/StorefrontData/Payments").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/payment/:paymentID", component: React.lazy(() => import("~/Pages/StorefrontData/Payments/PaymentDetailsPage").then((x) => ({ default: x.PaymentDetailsPage }))) },

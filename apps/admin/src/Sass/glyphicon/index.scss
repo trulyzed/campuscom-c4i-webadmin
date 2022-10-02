@@ -10,6 +10,9 @@
     position: relative;
   }
 
+  &--success {
+    color: $success;
+  }
   &--primary {
     color: $interactive;
   }
@@ -119,4 +122,7 @@
 }
 .glyphicon-qrcode:before {
   content: "\E028";
+}
+.glyphicon-copy:before {
+  content: "\E205";
 }

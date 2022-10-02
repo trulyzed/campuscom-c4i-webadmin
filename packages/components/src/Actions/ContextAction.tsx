@@ -6,7 +6,7 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button, ButtonProps } from "antd"
 import { useHistory } from "react-router-dom"
 
-export type ActionType = 'changePassword' | 'close' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+export type ActionType = 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
 
 interface IContextActionProps {
@@ -19,7 +19,7 @@ interface IContextActionProps {
   redirectTo?: string
   textOnly?: boolean
   downloadAs?: "EXCEL" | "CSV"
-  iconColor?: "primary" | "danger" | "warning"
+  iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
   buttonType?: ButtonProps["type"]
 }
@@ -27,11 +27,12 @@ interface IContextActionProps {
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
   if (!type) return
   const getIconClassName = (iconType: string, iconColor?: IContextActionProps['iconColor']) => {
-    return `glyphicon ${iconType}${iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
+    return `glyphicon ${iconType}${iconColor === "success" ? " glyphicon--success" : iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
   }
   const iconTypes = {
     changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
+    copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
     create: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
     delete: <span className={getIconClassName("glyphicon--danger glyphicon-trash", iconColor)} />,
     download: <span className={getIconClassName("glyphicon-floppy-save", iconColor)} />,

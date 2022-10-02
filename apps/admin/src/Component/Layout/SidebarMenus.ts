@@ -112,12 +112,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getOrderListTableColumns().searchFunc)
       },
       {
-        title: "Seat Blocks",
-        url: "/storefront-data/seat-block",
-        submenu: [],
-        permission: checkAdminApiPermission(getSeatBlockListTableColumns().searchFunc)
-      },
-      {
         title: "Payments",
         url: "/storefront-data/payment",
         submenu: [],

@@ -11,6 +11,7 @@ import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTab
 import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -179,6 +180,20 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "studentTab"
+    },
+    {
+      tabTitle: "Seat Blocks",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          ...getSeatBlockListTableColumns(),
+          pagination: false,
+          searchParams: { cart_item__cart: order.id },
+          rowKey: 'id',
+          refreshEventName: "REFRESH_SEAT_BLOCK_TAB",
+        }
+      },
+      helpKey: "seatBlockTab"
     },
     {
       tabTitle: "Log",
