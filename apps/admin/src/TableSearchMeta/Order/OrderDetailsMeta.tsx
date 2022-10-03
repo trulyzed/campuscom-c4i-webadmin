@@ -86,7 +86,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       helpKey: "orderSummaryTab"
     },
     {
-      tabTitle: "Invoice",
+      tabTitle: "Order Items",
       tabType: "table",
       tabMeta: {
         tableProps: {
@@ -94,10 +94,10 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           columns: cartItemListTableColumns,
           dataSource: order.cart_details,
           rowKey: 'id',
-          refreshEventName: "REFRESH_INVOICE_TAB",
+          refreshEventName: "REFRESH_ORDER_ITEM_TAB",
         }
       },
-      helpKey: "invoiceTab"
+      helpKey: "orderItemTab"
     },
     {
       tabTitle: "Payment",
