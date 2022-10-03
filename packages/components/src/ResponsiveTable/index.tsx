@@ -11,9 +11,15 @@ export {
   renderDate,
   renderDateTime,
   renderTime,
-  renderAmount,
   renderBoolean,
+  renderActiveStatus,
+  renderAmount,
   renderWeek,
+  renderThumb,
+  renderHtml,
+  renderJson,
+  renderAnswer,
+  renderCopyToClipboard,
   sortByBoolean,
   sortByString,
   sortByTime,
@@ -36,7 +42,6 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   breakpoints?: Breakpoint[]
   isModal?: boolean
   refreshEventName?: string
-  rowKey?: string
   hidePagination?: boolean
   hideSettings?: boolean
   showDownload?: boolean

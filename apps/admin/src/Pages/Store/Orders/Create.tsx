@@ -1,44 +1,50 @@
 import { Card, Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { Alert } from "@packages/components/lib/Alert/Alert"
-import { Steppers } from "~/Component/Feature/Enrollments/Create/Steppers"
-import { StudentDataStep } from "~/Component/Feature/Enrollments/Create/StudentDataStep"
-import { PurchaserDataStep } from "~/Component/Feature/Enrollments/Create/PurchaserDataStep"
-import { ProductDataStep } from "~/Component/Feature/Enrollments/Create/ProductDataStep"
-import { RegistrationDataStep } from "~/Component/Feature/Enrollments/Create/RegistrationDataStep"
-import { AdditionalRegistrationDataStep } from "~/Component/Feature/Enrollments/Create/AdditionalRegistrationDataStep"
-import { InvoiceDataStep } from "~/Component/Feature/Enrollments/Create/InvoiceDataStep"
-import { PaymentDataStep } from "~/Component/Feature/Enrollments/Create/PaymentDataStep"
-import { StepNames } from "~/Component/Feature/Enrollments/Create/common"
-import { StoreDataStep } from "~/Component/Feature/Enrollments/Create/StoreDataStep"
+import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
+import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
+import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
+import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
+import { RegistrationDataStep } from "~/Component/Feature/Orders/Create/RegistrationDataStep"
+import { AdditionalRegistrationDataStep } from "~/Component/Feature/Orders/Create/AdditionalRegistrationDataStep"
+import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataStep"
+import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
+import { StepNames } from "~/Component/Feature/Orders/Create/common"
+import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 
 export const Create = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
   const [isProcessing, setIsProcessing] = useState(false)
   const [storeData, setStoreData] = useState<Record<string, any>>()
   const [productData, setProductData] = useState<Record<string, any>[]>([])
+  const registrationProductData = useMemo(() => productData.filter(i => i.unit === "registration"), [productData])
   const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-  const hasRegistrationProduct = productData.some(i => i.unit === "registration")
+
+  const hasValidStoreData = !!storeData
+  const hasValidProductData = !!productData.length
+  const hasValidPurchaserData = !!purchaserData
+  const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
+  const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
 
   useEffect(() => {
     setRegistrationData(registrationData => {
       return registrationData.reduce((a, c) => {
-        if (productData.some(p => p.id === c.product)) {
+        if (registrationProductData.some(p => p.id === c.product)) {
           c.students = c.students.filter((id: any) => studentData.some(student => student.id === id))
           a.push(c)
         }
         return a
       }, []) as Record<string, any>[]
     })
-  }, [productData, studentData])
+  }, [registrationProductData, studentData])
 
   const handleStepChange = useCallback((current) => {
     setCurrentStep(current)
@@ -103,13 +109,12 @@ export const Create = () => {
   const handleSubmit = useCallback(async (values) => {
     const payload = {
       store: storeData?.store,
-      product_ids: productData.map(p => p.id),
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
       purchaser: {
-        purchasing_for: purchaserData?.purchasing_for,
+        type: purchaserData?.purchasing_for,
         ref: purchaserData?.company
       }
     }
@@ -122,7 +127,7 @@ export const Create = () => {
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generateCartDetailsPayload, generateStudentDetailsPayload, productData, storeData, purchaserData, reset])
+  }, [generateCartDetailsPayload, generateStudentDetailsPayload, storeData, purchaserData, reset])
 
   return (
     <>
@@ -140,7 +145,7 @@ export const Create = () => {
           <Row>
             <Col flex="auto">
               <SidebarMenuTargetHeading level={1} targetID="navigation">
-                Create an Enrollment
+                Create an Order
               </SidebarMenuTargetHeading>
             </Col>
             <Col flex="none">
@@ -152,11 +157,21 @@ export const Create = () => {
       />
       <Row>
         <Col md={6} lg={4} xs={24}>
-          <Steppers currentStep={currentStep} onChange={handleStepChange} hasRegistrationProduct={hasRegistrationProduct} />
+          <Steppers
+            currentStep={currentStep}
+            onChange={handleStepChange}
+            hasValidStoreData={hasValidStoreData}
+            hasValidProductData={hasValidProductData}
+            hasValidPurchaserData={hasValidPurchaserData}
+            hasValidStudentData={hasValidStudentData}
+            hasRegistrationProduct={!!registrationProductData.length}
+            hasValidRegistrationData={hasValidRegistrationData}
+          />
         </Col>
         <Col md={18} lg={20} xs={24}>
           {currentStep === StepNames.StoreInformation ?
             <StoreDataStep
+              storeData={storeData}
               setStoreData={setStoreData}
               setCurrentStep={setCurrentStep}
             />
@@ -166,10 +181,12 @@ export const Create = () => {
                 productData={productData}
                 setProductData={setProductData}
                 setCurrentStep={setCurrentStep}
-                hasRegistrationProduct={hasRegistrationProduct}
+                hasRegistrationProduct={!!registrationProductData.length}
               />
-              : currentStep === StepNames.PurchaserInformation ?
+              : (currentStep === StepNames.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
+                  storeData={storeData}
+                  purchaserData={purchaserData}
                   setPurchaserData={setPurchaserData}
                   setCurrentStep={setCurrentStep}
                 />
@@ -179,18 +196,20 @@ export const Create = () => {
                     studentData={studentData}
                     setStudentData={setStudentData}
                     setCurrentStep={setCurrentStep}
+                    isValid={hasValidStudentData}
                   />
                   : currentStep === StepNames.RegistrationInformation ?
                     <RegistrationDataStep
-                      productData={productData}
+                      registrationProductData={registrationProductData}
                       studentData={studentData}
                       registrationData={registrationData}
                       setRegistrationData={setRegistrationData}
                       setCurrentStep={setCurrentStep}
+                      isValid={hasValidRegistrationData}
                     />
                     : currentStep === StepNames.AdditionalRegistrationInformation ?
                       <AdditionalRegistrationDataStep
-                        productData={productData}
+                        registrationProductData={registrationProductData}
                         studentData={studentData}
                         registrationData={registrationData}
                         setCurrentStep={setCurrentStep}

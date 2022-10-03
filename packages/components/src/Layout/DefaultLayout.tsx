@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from "react"
-import { Card, Col, Layout, Row, Spin, Grid } from "antd"
+import { Card, Col, Layout, Row, Spin, Grid, Button } from "antd"
 import { Link, RouteProps, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "~/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
@@ -98,12 +98,12 @@ interface IMenuToggle {
 
 function MenuToggle(props: IMenuToggle) {
   return (
-    <span
-      style={{ fontSize: '25px', flex: 1, textAlign: 'center' }}
+    <Button
+      title={props.collapsed ? "Show side menu" : "Hide side menu"}
       tabIndex={0}
-      role={"button"}
-      className="glyphicon glyphicon-th-large cursor-pointer"
+      style={{ backgroundColor: "transparent", border: "none", display: "flex", alignItems: "center", justifyContent: "center" }}
+      icon={<span aria-hidden style={{ fontSize: '25px', flex: 1, textAlign: 'center' }} className="glyphicon glyphicon-th-large cursor-pointer" />}
       onClick={() => props.setCollapsed(!props.collapsed)}
-      onKeyDown={() => props.setCollapsed(!props.collapsed)} />
+    />
   )
 }

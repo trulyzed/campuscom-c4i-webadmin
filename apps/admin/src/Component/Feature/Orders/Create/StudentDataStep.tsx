@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space } from "antd"
+import { Button, Card, Col, notification, Row, Space } from "antd"
 import Title from "antd/lib/typography/Title"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
@@ -15,6 +15,7 @@ interface IStudentDataStepProps {
   studentData: Record<string, any>[]
   setStudentData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
+  isValid: boolean
 }
 
 export const StudentDataStep = ({
@@ -22,14 +23,19 @@ export const StudentDataStep = ({
   studentData,
   setStudentData,
   setCurrentStep,
+  isValid,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
   const handleStudentDataChange = useCallback(async (value) => {
+    if (studentData.some(i => i.id === value.profile)) {
+      notification.warning({ message: "Student already chosen" })
+      return
+    }
     setIsProcessing(true)
-    const { data } = await StudentQueries.getSingle({ params: { id: value.profile } })
+    const resp = await StudentQueries.getSingle({ params: { id: value.profile } })
     setIsProcessing(false)
-    setStudentData([...studentData, data])
+    if (resp.success) setStudentData([...studentData, resp.data])
   }, [studentData, setStudentData])
 
   return (
@@ -80,7 +86,7 @@ export const StudentDataStep = ({
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Space>
-            <Button style={{ marginTop: "20px", }} disabled={!studentData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
+            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
           </Space>
         </Col>
       </Row>
@@ -89,12 +95,12 @@ export const StudentDataStep = ({
 }
 
 
-const getMeta = (storeData: string): IField[] => [
+const getMeta = (store: string): IField[] => [
   {
     fieldName: "profile",
     label: "Student",
     inputType: DROPDOWN,
-    refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: storeData } }), [ContactQueries.getLookupData]),
+    refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],

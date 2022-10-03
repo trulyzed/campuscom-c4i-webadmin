@@ -3,33 +3,36 @@ import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { Button } from "antd"
+import { Button, ButtonProps } from "antd"
 import { useHistory } from "react-router-dom"
 
-export type ActionType = 'changePassword' | 'close' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+export type ActionType = 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
 
 interface IContextActionProps {
   text?: string
   tooltip: string
-  type: ActionType
+  type?: ActionType
   onClick?: (...args: any[]) => void
   queryService?: IQuery
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
   redirectTo?: string
   textOnly?: boolean
   downloadAs?: "EXCEL" | "CSV"
-  iconColor?: "primary" | "danger" | "warning"
+  iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
+  buttonType?: ButtonProps["type"]
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
+  if (!type) return
   const getIconClassName = (iconType: string, iconColor?: IContextActionProps['iconColor']) => {
-    return `glyphicon ${iconType}${iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
+    return `glyphicon ${iconType}${iconColor === "success" ? " glyphicon--success" : iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
   }
   const iconTypes = {
     changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
+    copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
     create: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
     delete: <span className={getIconClassName("glyphicon--danger glyphicon-trash", iconColor)} />,
     download: <span className={getIconClassName("glyphicon-floppy-save", iconColor)} />,
@@ -55,16 +58,18 @@ export const ContextAction = ({
   tooltip,
   queryService,
   onClick,
-  type = 'edit',
+  type,
   confirmationType,
   refreshEventName,
   textOnly,
   redirectTo,
   downloadAs = 'EXCEL',
-  iconColor
+  iconColor,
+  buttonType
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
   const { push } = useHistory()
+  const icon = getIcon(type, iconColor)
 
   const refreshEvents = useCallback(() => {
     if (Array.isArray(refreshEventName)) {
@@ -90,6 +95,6 @@ export const ContextAction = ({
 
   return (
     (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-      : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={'link'} icon={getIcon(type, iconColor)} title={tooltip} children={text ? <span className="ml-5">{text}</span> : undefined} />
+      : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
   )
 }

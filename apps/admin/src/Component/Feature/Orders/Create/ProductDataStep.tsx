@@ -9,6 +9,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { INPUT_OPTIONS } from "~/Configs/input"
 import { RelatedProductInput } from "./RelatedProductInput"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
+import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 
 interface IProductDataStepProps {
@@ -27,6 +28,14 @@ export const ProductDataStep = ({
   hasRegistrationProduct,
 }: IProductDataStepProps) => {
   const addProduct = QueryConstructor((data) => {
+    if (productData.some(i => (i.id === data?.data.product) && (i.order_type === data?.data.order_type))) {
+      return Promise.resolve({
+        code: 404,
+        data: null,
+        error: [{ message: "Product combination already chosen" }],
+        success: false
+      } as IApiResponse)
+    }
     const relatedProducts = Object.keys(data?.data || {}).reduce((a, c) => {
       const relatedProductId = c.split('related_product_quantity__')[1]
       const relatedProductTitle = data?.data[`related_product_title__${relatedProductId}`]
@@ -91,21 +100,21 @@ export const ProductDataStep = ({
                   <ContextAction
                     type="delete"
                     tooltip="Delete Product"
-                    onClick={() => setProductData(productData.filter(i => i.id !== record.id))}
+                    onClick={() => setProductData(productData.filter(i => !(i.id === record.id && i.order_type === record.order_type)))}
                   />
                 )
               },
             ]}
             actions={[
               <MetaDrivenFormModalOpenButton
-                formTitle={`Add Product`}
+                formTitle={`Add Item`}
                 formMeta={getMeta(storeData?.store)}
                 formSubmitApi={addProduct}
-                buttonLabel={`Add Product`}
+                buttonLabel={`Add Item`}
               />
             ]}
             dataSource={productData}
-            rowKey={"id"}
+            rowKey={record => `${record.id}__${record.order_type}`}
             expandedRowColumns={[
               {
                 title: 'Related Product',
@@ -134,29 +143,19 @@ const getMeta = (storeId: string): IField[] => [
     fieldName: "product_type",
     label: "Product Type",
     inputType: DROPDOWN,
-    options: INPUT_OPTIONS.PRODUCT_TYPE
+    options: INPUT_OPTIONS.PRODUCT_TYPE?.filter(i => i.value !== "certificate" && i.value !== "membership")
   },
   {
     fieldName: "product",
     label: "Product",
     inputType: DROPDOWN,
-    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId } }), [ProductQueries.getList]),
+    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId, active_status: "True" } }), [ProductQueries.getList]),
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
     dependencies: ['product_type'],
     onDependencyChange: (value, { loadOptions }) => {
       loadOptions?.({ params: { product_type: value?.product_type } })
-    },
-  },
-  {
-    fieldName: "related_product",
-    label: "Related Product",
-    inputType: CUSTOM_FIELD,
-    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
-    dependencies: ['product', 'product_type'],
-    onDependencyChange: (value, { toggleField }) => {
-      toggleField?.(value?.product_type === "section" && !!value?.product)
     },
   },
   {
@@ -178,5 +177,15 @@ const getMeta = (storeId: string): IField[] => [
     label: "Quantity",
     inputType: NUMBER,
     rules: [{ required: true, message: "This field is required!" }]
-  }
+  },
+  {
+    fieldName: "related_product",
+    label: "Related Product",
+    inputType: CUSTOM_FIELD,
+    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
+    dependencies: ['product', 'product_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.product_type === "section" && !!value?.product)
+    },
+  },
 ]
