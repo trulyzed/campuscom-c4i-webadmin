@@ -17,12 +17,23 @@ import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSe
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: UPDATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [PublishingQueries.update])
+  const updateEntity = QueryConstructor((data) => {
+    const sections = (publishing.sections as any[]).map((i => ({
+      id: i.id,
+      fee: data?.data[`fee__${i.id}`],
+      token_fee: data?.data[`token_fee__${i.id}`],
+    })))
+
+    return PublishingQueries.update({
+      ...data,
+      data: { ...data?.data, course: publishing.course.id, sections },
+    }).then(resp => {
+      if (resp.success) {
+        notification.success({ message: UPDATE_SUCCESSFULLY })
+      }
+      return resp
+    })
+  }, [PublishingQueries.update])
 
   const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
     if (resp.success) {
