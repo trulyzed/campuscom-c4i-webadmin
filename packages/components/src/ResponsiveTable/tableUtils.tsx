@@ -45,7 +45,7 @@ const renderTime = (text: any) => (!!text ? moment(text).format(TIME_FORMAT) : "
 const renderAmount = (text: any) => text !== undefined ? `$ ${getLocaleDecimalValue(text)}` : ""
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
-const renderCopyToClipboard = (text: any) => <CopyToClipboard text={text} />
+const renderCopyToClipboard = (text: any, options: { successMessage?: string } | undefined) => <CopyToClipboard text={text} successMessage={options?.successMessage} />
 
 const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, uncolorize?: boolean, tagColor?: TagProps['color'] }) => {
   const formattedText = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")

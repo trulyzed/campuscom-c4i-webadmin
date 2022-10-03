@@ -1,13 +1,12 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
-import { renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { renderDateTime, renderLink, renderCopyToClipboard } from "@packages/components/lib/ResponsiveTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
-import { renderCopyToClipboard } from "@packages/components/lib/ResponsiveTable/tableUtils"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -56,14 +55,20 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
             {
               title: "Enrollment",
               dataIndex: "enrollment",
-              render: (text: any) => renderLink(`/administration/enrollment/${text?.id}`, text),
+              render: (text: any) => text ? renderLink(`/administration/enrollment/${text.id}`, text.ref_id) : undefined,
               sorter: (a: any, b: any) => a.enrollment?.ref_id - b.enrollment?.ref_id
             },
             {
               title: "Token",
               dataIndex: "token",
-              render: renderCopyToClipboard,
+              render: (text) => renderCopyToClipboard(text, { successMessage: "Token copied" }),
               sorter: (a: any, b: any) => a.token - b.token
+            },
+            {
+              title: "Student",
+              dataIndex: "profile",
+              render: (text: any) => text ? renderLink(`/storefront-data/student/${text.id}`, text.name) : undefined,
+              sorter: (a: any, b: any) => a.profile?.name - b.profile?.name
             },
           ],
           searchFunc: SeatBlockQueries.getSeatList,
