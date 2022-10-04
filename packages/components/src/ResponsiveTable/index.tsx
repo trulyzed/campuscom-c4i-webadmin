@@ -23,6 +23,7 @@ export {
 interface CustomColumnType<RecordType> extends ColumnType<RecordType> {
   columnPosition?: number
   hidden?: boolean
+  ariaLabel?: string
 }
 
 export type TableColumnType = CustomColumnType<{ [key: string]: any }>[]

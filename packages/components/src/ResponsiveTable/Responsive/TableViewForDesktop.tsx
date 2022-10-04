@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import Table, { TableProps } from "antd/lib/table"
 import { Col, Row, SpinProps } from "antd"
 import { IDataTableProps } from "~/ResponsiveTable"
@@ -19,6 +19,15 @@ export function TableViewForDesktop(
     showTableSettings: () => void
   }
 ) {
+
+  const getTableColumnWithAriaLabel = useCallback((columns: IDataTableProps["columns"]|undefined):IDataTableProps["columns"] => {
+    if(columns){
+      return (columns || []).map(column=>({ ...column, onHeaderCell: () => ({"aria-label": column.ariaLabel || column.title as string })}))
+    }
+    return []
+    // eslint-disable-next-line
+  },[props.conditionalProps.columns])
+
   return (
     <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
       {props.tableTitle ?
@@ -94,6 +103,7 @@ export function TableViewForDesktop(
         <Table
           {...props.conditionalProps}
           dataSource={props.paginatedData}
+          columns={getTableColumnWithAriaLabel(props.conditionalProps.columns)}
           pagination={false}
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}
