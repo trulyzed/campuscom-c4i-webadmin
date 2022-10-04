@@ -3,7 +3,7 @@ import { useCallback, useState } from "react"
 import { CopyToClipboard as ReactCopyToClipboard } from "react-copy-to-clipboard"
 import { ContextAction } from "./ContextAction"
 
-export const CopyToClipboard = ({ text, successMessage }: { text: string; successMessage?: string; }) => {
+export const CopyToClipboard = ({ content, title, successMessage }: { content: string; title?: string; successMessage?: string; }) => {
   const [isCopied, setIsCopied] = useState(false)
 
   const handleCopy = useCallback(() => {
@@ -13,8 +13,8 @@ export const CopyToClipboard = ({ text, successMessage }: { text: string; succes
 
   return (
     <Space size={"small"}>
-      <span>{text}</span>
-      <ReactCopyToClipboard text={text} children={<ContextAction tooltip="Copy to clipboard" type="copy" iconColor={isCopied ? "success" : undefined} />} onCopy={handleCopy} />
+      <span>{title || content}</span>
+      <ReactCopyToClipboard text={content} children={<ContextAction tooltip="Copy to clipboard" type="copy" iconColor={isCopied ? "success" : undefined} />} onCopy={handleCopy} />
     </Space>
   )
 }

@@ -30,7 +30,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
     return resp
   })), [ProductQueries.tagRelatedProducts])
 
-  const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/${product?.store?.url_slug}?product=${product?.id}&guest=true`
+  const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/checkout/${product?.store?.url_slug}?product=${product?.id}&guest=true`
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
