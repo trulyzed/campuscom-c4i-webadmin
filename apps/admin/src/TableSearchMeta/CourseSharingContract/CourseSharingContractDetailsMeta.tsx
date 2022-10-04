@@ -1,43 +1,43 @@
-import { notification } from "antd"
+// import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
-import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
-import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { getCourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
-import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+// import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+// import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
+// import { UPDATE_SUCCESSFULLY } from "~/Constants"
+// import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+// import { getCourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+// import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: UPDATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [CourseSharingContractQueries.update])
+  // const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
+  //   if (resp.success) {
+  //     notification.success({ message: UPDATE_SUCCESSFULLY })
+  //   }
+  //   return resp
+  // })), [CourseSharingContractQueries.update])
 
   const summaryInfo: CardContainer = {
     title: `Course Sharing Contract: ${courseSharingContract.course_provider.name} for (${courseSharingContract.store.name})`,
     cardActions: [
-      <MetaDrivenFormModalOpenButton
-        formTitle={`Update Course Sharing Contract`}
-        formMeta={[
-          {
-            ...getCourseSharingContractFormMeta()[0],
-            disabled: true
-          },
-          getCourseSharingContractFormMeta()[1],
-        ]}
-        formSubmitApi={updateEntity}
-        initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
-        defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
-        buttonLabel={`Update Course Sharing Contract`}
-        iconType="edit"
-        refreshEventName={REFRESH_PAGE}
-      />,
+      // <MetaDrivenFormModalOpenButton
+      //   formTitle={`Update Course Sharing Contract`}
+      //   formMeta={[
+      //     {
+      //       ...getCourseSharingContractFormMeta()[0],
+      //       disabled: true
+      //     },
+      //     getCourseSharingContractFormMeta()[1],
+      //   ]}
+      //   formSubmitApi={updateEntity}
+      //   initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
+      //   defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
+      //   buttonLabel={`Update Course Sharing Contract`}
+      //   iconType="edit"
+      //   refreshEventName={REFRESH_PAGE}
+      // />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [

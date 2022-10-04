@@ -872,14 +872,12 @@
   align-items: center;
   margin-left: 0.125rem;
   margin-right: 0.125rem;
-  width: 100% !important;
 }
 .slds-listbox_inline li,
 .slds-listbox--inline li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100% !important;
 }
 .slds-listbox_inline li + li,
 .slds-listbox--inline li + li {
@@ -895,24 +893,16 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  width: 100% !important;
 }
 .slds-listbox_horizontal li,
 .slds-listbox--horizontal li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  width: 100% !important;
 }
 .slds-listbox_horizontal li + li,
 .slds-listbox--horizontal li + li {
   padding-left: 0.125rem;
-}
-.slds-listbox__option {
-  width: 100% !important;
-}
-slds-listbox__item {
-  width: 100% !important;
 }
 .slds-listbox__option:hover {
   cursor: pointer;
@@ -1606,51 +1596,83 @@ input[readonly][role="combobox"][disabled] {
   -webkit-transform-origin: 45%;
   transform-origin: 45%;
 }
+.slds-media {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+.slds-media__figure {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+}
 
-/*! HTML5 Boilerplate v5.2.0 | MIT License | https://html5boilerplate.com/ */
-@media print {
-  *,
-  *:before,
-  *:after {
-    background: transparent !important;
-    color: #000 !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
+.slds-media__figure_fixed-width {
+  min-width: 3rem;
+}
+.slds-media__body {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  min-width: 0;
+}
+
+.slds-media__body,
+.slds-media__body > :last-child {
+  margin-bottom: 0;
+}
+
+.slds-media-body-iefix {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -ms-flex-preferred-size: auto;
+  flex-basis: auto;
+}
+.slds-media_small .slds-media__figure,
+.slds-media--small .slds-media__figure {
+  margin-right: 0.25rem;
+}
+
+.slds-media_small .slds-media__figure_reverse,
+.slds-media--small .slds-media__figure--reverse {
+  margin-left: 0.25rem;
+}
+.slds-media_large .slds-media__figure,
+.slds-media--large .slds-media__figure {
+  margin-right: 1.5rem;
+}
+
+.slds-media_large .slds-media__figure_reverse,
+.slds-media--large .slds-media__figure--reverse {
+  margin-left: 1.5rem;
+}
+.slds-media_inline .slds-media__body {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+}
+.slds-media_center,
+.slds-media--center {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+.slds-media__figure_reverse,
+.slds-media__figure--reverse {
+  margin: 0 0 0 0.75rem;
+}
+
+@media (max-width: 48em) {
+  .slds-media_responsive,
+  .slds-media--responsive {
+    display: block;
   }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]:after {
-    content: " (" attr(href) ")";
-  }
-
-  abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-
-  a[href^="#"]:after {
-    content: "";
-  }
-
-  thead {
-    display: table-header-group;
-  }
-
-  tr {
-    page-break-inside: avoid;
-  }
-
-  h2 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2 {
-    page-break-after: avoid;
+  .slds-media_responsive .slds-media__figure,
+  .slds-media--responsive .slds-media__figure {
+    margin: 0 0 0.75rem;
   }
 }
 
@@ -1693,7 +1715,6 @@ input[readonly][role="combobox"][disabled] {
 .slds-listbox__option.slds-is-selected {
   color: #3022ab;
   font-weight: 600;
-  width: 100% !important;
 }
 
 .slds-dropdown-trigger.slds-dropdown-trigger_click.ignore-react-onclickoutside {

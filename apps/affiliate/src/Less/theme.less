@@ -46,6 +46,16 @@
 @breadcrumb-separator-margin: 5px;
 @input-placeholder-color: #696969;
 
+h2, h3, h5 {
+  font-family: AvertaLight;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 // Site layout
 .site-layout-background {
   border-top: 1px solid @fill-dark;
@@ -110,10 +120,6 @@
   align-items: center;
   background-color: @accent-light;
   color: @text;
-}
-
-h2, h3, h5 {
-  font-family: AvertaLight;
 }
 
 // antd wizard
