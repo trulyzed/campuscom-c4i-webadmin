@@ -5,7 +5,7 @@ import { PaymentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export const getPaymentListTableColumns = (isModal = false, OrderID?: number): ITableMeta => {
   const columns: TableColumnType = [
     {
-      title: 'ID',
+      title: 'Payment ID',
       dataIndex: 'transaction_request_id',
       render: (text: any, record: any) => renderLink(`/storefront-data/payment/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.transaction_request_id - b.transaction_request_id

@@ -17,7 +17,7 @@ export const TransactionReportSearchMeta: IField[] = [
     fieldName: "transaction_ref"
   },
   {
-    label: "Order Id",
+    label: "Order ID",
     inputType: TEXT,
     fieldName: "order_ref"
   },

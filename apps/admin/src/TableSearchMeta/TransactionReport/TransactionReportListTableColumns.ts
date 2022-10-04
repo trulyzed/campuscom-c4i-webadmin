@@ -15,7 +15,7 @@ export const transactionReportListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.store - b.store
   },
   {
-    title: "Order Id",
+    title: "Order ID",
     dataIndex: "order_id",
     sorter: (a: any, b: any) => a.order_id - b.order_id
   },
