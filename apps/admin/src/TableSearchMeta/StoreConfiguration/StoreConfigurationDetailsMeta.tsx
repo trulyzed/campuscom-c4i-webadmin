@@ -10,7 +10,7 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderJson } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { StoreConfigQueries } from "@packages/services/lib/Api/Queries/AdminQueries/StoreConfigs"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -145,7 +145,7 @@ export const getStoreConfigurationDetailsMeta = (storeConfiguration: { [key: str
       { label: 'Entity Name', value: storeConfiguration.entity_name },
       {
         label: 'Configuration', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Configuration',
             contents: getStoreConfigurationContent()
           }} />

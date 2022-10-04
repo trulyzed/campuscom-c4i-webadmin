@@ -8,7 +8,7 @@ import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTa
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
@@ -145,10 +145,10 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               sorter: (a: any, b: any) => a.email - b.email
             },
             {
-              title: "",
+              title: "Action",
               dataIndex: "extra_info",
               render: (value) => (
-                <SummaryTablePopover card={{
+                <PopoverSummaryTable card={{
                   title: 'Profile Questions',
                   contents: (processQuestions((value || []) as any[])).map((i: any) => ({
                     label: i.question,
