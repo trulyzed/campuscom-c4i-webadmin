@@ -19,6 +19,19 @@ export function TableViewForDesktop(
     showTableSettings: () => void
   }
 ) {
+
+  const getTableColumnWithAriaLabel = (columns: IDataTableProps["columns"]|undefined):IDataTableProps["columns"] => {
+    if(columns){
+      return columns.map(column=>{
+        return ({
+          ...column,
+          onHeaderCell: () => ({"aria-label": column.ariaLabel || column.title as string })
+        })
+      })
+    }
+    return []
+  }
+
   return (
     <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
       {props.tableTitle ?
@@ -94,6 +107,7 @@ export function TableViewForDesktop(
         <Table
           {...props.conditionalProps}
           dataSource={props.paginatedData}
+          columns={getTableColumnWithAriaLabel(props.conditionalProps.columns)}
           pagination={false}
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}

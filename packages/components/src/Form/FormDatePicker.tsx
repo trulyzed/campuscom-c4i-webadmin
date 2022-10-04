@@ -30,7 +30,6 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
         <Datepicker
           className={'datepicker_component'}
           disabled={props.disabled}
-          dis
           placeholder={props.placeholder}
           formatter={(date: Date) => {
             return getFormattedValue(date)
