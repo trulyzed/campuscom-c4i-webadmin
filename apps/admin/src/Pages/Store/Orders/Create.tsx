@@ -113,9 +113,14 @@ export const Create = () => {
       student_details: generateStudentDetailsPayload(),
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
-      purchaser: {
-        type: purchaserData?.purchasing_for,
-        ref: purchaserData?.company
+      purchaser_info: {
+        first_name: purchaserData?.first_name,
+        last_name: purchaserData?.last_name,
+        primary_email: purchaserData?.email,
+        purchasing_for: {
+          type: purchaserData?.purchasing_for,
+          ref: purchaserData?.company
+        }
       }
     }
     setIsProcessing(true)
