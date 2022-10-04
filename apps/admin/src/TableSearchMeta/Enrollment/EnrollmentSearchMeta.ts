@@ -12,7 +12,7 @@ export const EnrollmentSearchMeta: IField[] = [
     autoSelectDefault: true
   },
   {
-    label: "Ref ID",
+    label: "Enrollment ID",
     inputType: TEXT,
     fieldName: "ref_id",
   },

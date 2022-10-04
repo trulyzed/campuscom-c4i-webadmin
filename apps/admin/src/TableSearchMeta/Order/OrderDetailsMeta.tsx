@@ -1,7 +1,7 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { cartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
-import { renderDate, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { renderDate, renderDateTime } from "@packages/components/lib/ResponsiveTable"
 import { questionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
@@ -18,7 +18,6 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
     title: `Order: ${order.order_ref}`,
     contents: [...[
       { label: 'Store', value: order.store, render: (text: any) => text.name },
-      { label: 'Student', value: renderLink(`/storefront-data/student/${order.profile.id}`, `${order.profile.first_name} ${order.profile.last_name}`), },
       { label: 'Enrollment Date', value: order.datetime, render: renderDate },
       { label: 'Status', value: order.cart_status },
       { label: 'Extended amount', value: order.gross_amount },

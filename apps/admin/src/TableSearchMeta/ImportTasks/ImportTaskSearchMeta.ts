@@ -4,7 +4,7 @@ import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/St
 
 export const ImportTaskSearchMeta: IField[] = [
   {
-    label: "Ref Id",
+    label: "Import Task ID",
     inputType: TEXT,
     fieldName: "ref_id",
   },

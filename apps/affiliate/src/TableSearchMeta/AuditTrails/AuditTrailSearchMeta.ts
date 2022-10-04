@@ -2,7 +2,7 @@ import { DROPDOWN, IField, TEXT, DATE_PICKER } from "@packages/components/lib/Fo
 
 export const AuditTrailSearchMeta: IField[] = [
   {
-    label: "Ref Id",
+    label: "Audit Trail ID",
     inputType: TEXT,
     fieldName: "ref_id",
   },
