@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Card } from "antd"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
@@ -5,7 +6,6 @@ import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 import { StepNames } from "./common"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
-import { useState } from "react"
 
 interface IPurchaserDataStepProps {
   storeData: Record<string, any>
@@ -74,7 +74,7 @@ export const PurchaserDataStep = ({
       fieldName: "company",
       label: "Company",
       inputType: DROPDOWN,
-      refLookupService: CompanyQueries.getLookupData,
+      refLookupService: QueryConstructor(() => CompanyQueries.getLookupData({ params: { store: storeData.store } }), [CompanyQueries.getLookupData]),
       displayKey: "name",
       valueKey: "id",
       dependencies: ["purchasing_for"],
