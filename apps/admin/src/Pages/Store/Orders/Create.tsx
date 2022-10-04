@@ -141,7 +141,7 @@ export const Create = () => {
           className="mb-20"
           type="success"
           message={"Success"}
-          description={`Order creation was successful (Order reference: ${orderRef}).`}
+          description={`Order creation was successful (Order ID: ${orderRef}).`}
           onClose={() => setOrderRef(undefined)}
         />
         : null}
