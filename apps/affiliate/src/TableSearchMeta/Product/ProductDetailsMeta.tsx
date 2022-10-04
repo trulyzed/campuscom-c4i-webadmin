@@ -4,7 +4,7 @@ import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -25,7 +25,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Image', value: renderThumb(product.image, "Product's image") },
       {
         label: 'Content', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Content',
             contents: [
               {

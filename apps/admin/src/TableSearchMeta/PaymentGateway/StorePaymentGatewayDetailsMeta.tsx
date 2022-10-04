@@ -1,7 +1,7 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 
 export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: string]: any }): IDetailsMeta => {
@@ -14,7 +14,7 @@ export const getStorePaymentGatewayDetailsMeta = (storePaymentGateway: { [key: s
       { label: 'Payment Gateway Config', value: renderLink(`/configuration/payment-gateway-config/${storePaymentGateway.payment_gateway_config.id}`, storePaymentGateway.payment_gateway_config.name), },
       {
         label: 'Branding', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Branding Configuration',
             contents: [
               {

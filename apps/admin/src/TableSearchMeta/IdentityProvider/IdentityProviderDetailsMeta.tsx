@@ -8,7 +8,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { getIdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
@@ -43,7 +43,7 @@ export const getIdentityProviderDetailsMeta = (identityProvider: { [key: string]
       { label: 'Is School Provider?', value: identityProvider.is_school_provider, render: renderBoolean },
       {
         label: 'Configuration', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Configuration',
             contents: [
               {
