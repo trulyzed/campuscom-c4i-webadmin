@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import Table, { TableProps } from "antd/lib/table"
 import { Col, Row, SpinProps } from "antd"
 import { IDataTableProps } from "~/ResponsiveTable"
@@ -20,17 +20,13 @@ export function TableViewForDesktop(
   }
 ) {
 
-  const getTableColumnWithAriaLabel = (columns: IDataTableProps["columns"]|undefined):IDataTableProps["columns"] => {
+  const getTableColumnWithAriaLabel = useCallback((columns: IDataTableProps["columns"]|undefined):IDataTableProps["columns"] => {
     if(columns){
-      return columns.map(column=>{
-        return ({
-          ...column,
-          onHeaderCell: () => ({"aria-label": column.ariaLabel || column.title as string })
-        })
-      })
+      return (columns || []).map(column=>({ ...column, onHeaderCell: () => ({"aria-label": column.ariaLabel || column.title as string })}))
     }
     return []
-  }
+    // eslint-disable-next-line
+  },[props.conditionalProps.columns])
 
   return (
     <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
