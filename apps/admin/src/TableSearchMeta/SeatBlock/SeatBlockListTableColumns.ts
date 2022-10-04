@@ -4,7 +4,7 @@ import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const seatBlockListTableColumns: TableColumnType = [
   {
-    title: "Ref ID",
+    title: "Seat Block ID",
     dataIndex: "reservation_ref",
     render: (text: any, record: any) => renderLink(`/storefront-data/seat-block/${record.id}`, text),
     sorter: (a: any, b: any) => a.reservation_ref - b.reservation_ref
