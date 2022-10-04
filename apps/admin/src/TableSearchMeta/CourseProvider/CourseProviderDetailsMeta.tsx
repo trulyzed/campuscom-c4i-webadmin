@@ -11,7 +11,7 @@ import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -75,7 +75,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
       { label: 'Refund Email', value: courseProvider.refund_email, },
       {
         label: 'Configuration', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Configuration',
             contents: [
               {

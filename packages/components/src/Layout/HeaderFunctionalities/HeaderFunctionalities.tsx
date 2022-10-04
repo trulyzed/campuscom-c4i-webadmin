@@ -31,7 +31,7 @@ export const HeaderFunctionalities = (props: { routes: RouteProps[] }) => {
     <>
       {desktopView && (
         <>
-          <Col className="site-header__item" style={{ height: "100%" }} flex="300px">
+          <Col className="site-header__item" style={{ height: "100%" }}>
             <MasterLookupComponent routes={props.routes} />
           </Col>
           <Col className="site-header__item" style={{ height: "100%" }} flex="40px" role="navigation" aria-label="History Log">

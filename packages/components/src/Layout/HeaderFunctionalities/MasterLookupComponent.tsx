@@ -25,11 +25,9 @@ const MasterlookupComponentFunctionality = (props: { routes: RouteProps[]; close
       {redirectTo && <Redirect to={redirectTo} />}
       <Form form={formInstance} style={{ marginRight: "20px", marginTop: "16px" }} className={"master-look-up"}>
         <FormDropDown
-          label={""}
-          placeholder={"Jump To Page"}
+          label={"Jump To Page"}
+          placeholder={"Select page"}
           fieldName="JumpTo"
-          labelColSpan={0}
-          wrapperColSpan={24}
           onSelectedItems={goToPage}
           options={props.routes.filter((x) => x && x.path !== undefined)
             .filter((x) => !x.path?.includes(":"))
@@ -81,26 +79,25 @@ export const MasterLookupComponent = (props: { routes: RouteProps[] }) => {
 
   return (
     <>
-      {!desktop && (
-        <>
-          <IconButton
-            iconType="search"
-            toolTip="Jump To Page"
-            onClick={() => {
-              setShowModal(true)
-            }}
-            buttonType="default"
-          />
-          {showModal && (
-            <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.loginModal}>
-              <Card title="Quick Search" actions={[<Button onClick={closeModal}>Close</Button>]}>
-                <MasterlookupComponentFunctionality routes={props.routes} closeModal={closeModal} desktop={desktop} />
-              </Card>
-            </Modal>
-          )}
-        </>
+      {desktop ?
+        <Button type="link" onClick={() => setShowModal(true)}>Jump To Page</Button>
+        :
+        <IconButton
+          iconType="search"
+          toolTip="Jump To Page"
+          onClick={() => {
+            setShowModal(true)
+          }}
+          buttonType="default"
+        />
+      }
+      {showModal && (
+        <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.loginModal}>
+          <Card title="Quick Navigation" actions={[<Button onClick={closeModal}>Close</Button>]}>
+            <MasterlookupComponentFunctionality routes={props.routes} closeModal={closeModal} desktop={desktop} />
+          </Card>
+        </Modal>
       )}
-      {desktop && <MasterlookupComponentFunctionality routes={props.routes} desktop={desktop} />}
     </>
   )
 }

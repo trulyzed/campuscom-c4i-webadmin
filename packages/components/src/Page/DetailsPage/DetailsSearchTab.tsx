@@ -5,7 +5,7 @@ import { ResponsiveTable, IDataTableProps } from "~/ResponsiveTable"
 import { HelpButton } from "~/Help/HelpButton"
 import { MetaDrivenFilterButton } from "~/Form/MetaDrivenFilterButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
-import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
+import { PermissionWrapper } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export interface IBlockComponentProp {
   component: React.FunctionComponent<any>
@@ -31,18 +31,15 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
   const [searchParams, setSearchParams] = useState<{ [key: string]: any }>(props.initialFormValue || props.defaultFormValue || {})
   const [tableSearchParams, setTableSearchParams] = useState<{ [key: string]: any } | undefined>()
 
-  const funcName = props.tableProps.searchFunc ? props.tableProps.searchFunc?.name : "generic"
-  const func = {
-    [funcName]: function (params) {
-      setSearchParams(params?.data)
-      return Promise.resolve({
-        code: 200,
-        success: true,
-        error: false,
-        data: undefined
-      })
-    } as IQuery
-  }
+  const handleFormSubmit = PermissionWrapper((data) => {
+    setSearchParams(data?.data)
+    return Promise.resolve({
+      code: 200,
+      success: true,
+      error: false,
+      data: undefined
+    })
+  }, [{ is_public: true }])
 
   const searchFilterButton: React.ReactNode = (
     <MetaDrivenFilterButton
@@ -51,7 +48,7 @@ export function DetailsSearchTab(props: IDetailsSearchTabProp) {
       searchMetaName={props.searchMetaName}
       defaultFormValue={props.defaultFormValue}
       initialFormValue={{ ...props.initialFormValue, ...searchParams }}
-      formSubmitApi={func[funcName]}
+      formSubmitApi={handleFormSubmit}
     />
   )
 
