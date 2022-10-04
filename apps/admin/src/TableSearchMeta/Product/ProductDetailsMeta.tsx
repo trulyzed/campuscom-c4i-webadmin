@@ -10,7 +10,7 @@ import { getProductFormMeta } from "~/Component/Feature/Products/FormMeta/Produc
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -58,7 +58,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Image', value: renderThumb(product.image, "Product's image") },
       {
         label: 'Content', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Content',
             contents: [
               {
