@@ -1,3 +1,492 @@
+/****************** salesforce css for datepicker component ********************/
+.slds-button {
+  position: relative;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding-top: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+  background: none;
+  background-color: transparent;
+  background-clip: border-box;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.25rem;
+  line-height: 1.875rem;
+  text-decoration: none;
+  color: #10069d;
+  -webkit-appearance: none;
+  white-space: normal;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.slds-button:hover,
+.slds-button:focus,
+.slds-button:active,
+.slds-button:visited {
+  text-decoration: none;
+}
+.slds-button:hover,
+.slds-button:focus {
+  --slds-c-button-color-border: var(--slds-c-button-color-border-hover);
+  --slds-c-button-color-background: var(--slds-c-button-color-background-hover);
+  color: #014486;
+}
+.slds-button:focus {
+  -webkit-box-shadow: 0 0 3px #10069d;
+  box-shadow: 0 0 3px #10069d;
+  outline: 0;
+}
+.slds-button:active {
+  color: #014486;
+  background-color: var(--slds-c-button-color-background-active);
+  border-color: var(--slds-c-button-color-border-active);
+}
+.slds-button:disabled {
+  background-color: transparent;
+  border-color: transparent;
+  color: #c9c9c9;
+  cursor: default;
+}
+.slds-button:disabled * {
+  pointer-events: none;
+}
+.slds-button:hover .slds-button__icon,
+.slds-button:focus .slds-button__icon,
+.slds-button:active .slds-button__icon,
+.slds-button:disabled .slds-button__icon {
+  fill: currentColor;
+  pointer-events: none;
+}
+.slds-button__icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  fill: currentColor;
+}
+.slds-button_icon,
+.slds-button_icon-container {
+  line-height: 1;
+  vertical-align: middle;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  color: #747474;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.slds-button_icon-container {
+  width: 2rem;
+  height: 2rem;
+}
+/* .slds-color-picker__custom-inputs .slds-form-element{
+  -webkit-box-flex:flex-grow;
+      -ms-flex:flex-grow;
+          flex:flex-grow;
+} */
+.slds-icon_container {
+  display: inline-block;
+  border-radius: 0.25rem;
+  line-height: 1;
+  background-color: transparent;
+}
+.slds-icon {
+  width: 2rem;
+  height: 2rem;
+  fill: white;
+}
+.slds-icon_x-small {
+  width: 1rem;
+  height: 1rem;
+  line-height: 1;
+}
+.slds-icon-text-default {
+  fill: #747474;
+}
+.slds-form-element {
+  position: relative;
+  min-width: 0;
+}
+.slds-form-element__label {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  display: inline-block;
+  color: #444444;
+  font-size: 0.75rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  margin-bottom: 0.125rem;
+}
+.slds-form-element__control {
+  clear: left;
+  position: relative;
+}
+
+.slds-input-has-icon .slds-input__icon {
+  fill: #aeaeae;
+}
+.slds-input {
+  padding-top: 0;
+  padding-right: 1rem;
+  padding-bottom: 0;
+  padding-left: 0.75rem;
+  width: 100%;
+  min-height: calc(1.875rem + (1px * 2));
+  line-height: 1.875rem;
+  border: 1px solid #c9c9c9;
+  border-radius: 0.25rem;
+  background-color: white;
+  -webkit-transition: border 0.1s linear, background-color 0.1s linear;
+  transition: border 0.1s linear, background-color 0.1s linear;
+  display: inline-block;
+}
+.slds-input:focus,
+.slds-input:active {
+  border-color: #1b96ff;
+  background-color: white;
+  box-shadow: 0 0 3px #10069d;
+  outline: 0;
+}
+.slds-input[readonly] {
+  padding-left: 0;
+  border-color: transparent;
+  background-color: transparent;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+.slds-input-has-icon {
+  position: relative;
+}
+.slds-input-has-icon .slds-input__icon {
+  width: 0.875rem;
+  height: 0.875rem;
+  position: absolute;
+  top: 50%;
+  margin-top: -0.4375rem;
+  line-height: 1;
+  border: 0;
+  z-index: 2;
+}
+.slds-input-has-icon .slds-input__icon:not(button) {
+  pointer-events: none;
+}
+.slds-input-has-icon_right .slds-input__icon {
+  right: 0.75rem;
+}
+.slds-input-has-icon_right .slds-input {
+  padding-right: 2rem;
+}
+
+.slds-dropdown-trigger .slds-dropdown {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: opacity 0.1s linear, visibility 0.1s linear;
+  transition: opacity 0.1s linear, visibility 0.1s linear;
+}
+.slds-dropdown-trigger:hover,
+.slds-dropdown-trigger:focus {
+  outline: 0;
+}
+.slds-dropdown-trigger:hover .slds-dropdown,
+.slds-dropdown-trigger:focus .slds-dropdown {
+  visibility: visible;
+  opacity: 1;
+  -webkit-transition: opacity 0.1s linear, visibility 0.1s linear;
+  transition: opacity 0.1s linear, visibility 0.1s linear;
+}
+.slds-dropdown-trigger {
+  position: relative;
+  display: inline-block;
+}
+.slds-dropdown-trigger .slds-dropdown {
+  top: 100%;
+}
+.slds-dropdown-trigger_click .slds-dropdown,
+.slds-dropdown-trigger_click:hover .slds-dropdown {
+  display: none;
+}
+.slds-dropdown-trigger_click.slds-is-open .slds-dropdown {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+.slds-dropdown {
+  position: absolute;
+  z-index: 7000;
+  left: 50%;
+  float: left;
+  min-width: 6rem;
+  max-width: 20rem;
+  margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
+  border: 1px solid #e5e5e5;
+  border-radius: 0.25rem;
+  padding: 0.25rem 0;
+  font-size: 0.75rem;
+  background: white;
+  -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  color: #181818;
+}
+.slds-combobox_container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+}
+.slds-combobox {
+  position: static;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+.slds-combobox__form-element {
+  -webkit-box-flex: 1;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+[role="combobox"] input[readonly] {
+  padding-left: 0.75rem;
+  border-color: #c9c9c9;
+  background-color: white;
+  font-size: inherit;
+  font-weight: 400;
+}
+[role="combobox"] input[readonly]:focus {
+  border-color: #1b96ff;
+  -webkit-box-shadow: 0 0 3px #10069d;
+  box-shadow: 0 0 3px #10069d;
+}
+.slds-combobox__input:focus {
+  border-color: #1b96ff;
+  -webkit-box-shadow: 0 0 3px #10069d;
+  box-shadow: 0 0 3px #10069d;
+}
+.slds-disabled-text {
+  color: #c9c9c9;
+}
+
+.slds-datepicker td:hover:not(.slds-disabled-text) > .slds-day,
+.slds-datepicker td:focus:not(.slds-disabled-text) > .slds-day,
+.slds-datepicker td.slds-is-today > .slds-day {
+  cursor: pointer;
+}
+.slds-datepicker {
+  padding: 0;
+  font-size: 0.75rem;
+}
+.slds-datepicker thead > tr > th,
+.slds-datepicker tbody > tr > td {
+  text-align: center;
+}
+.slds-datepicker thead > tr > th {
+  padding: 0.5rem;
+  font-weight: 400;
+  color: #444444;
+}
+.slds-datepicker tbody > tr > td {
+  padding: 0.25rem;
+  font-size: 0.75rem;
+}
+.slds-datepicker tbody > tr > td > .slds-day {
+  width: 2rem;
+  height: 2rem;
+  display: block;
+  position: relative;
+  min-width: 2rem;
+  line-height: 2rem;
+  border-radius: 50%;
+  margin: auto;
+}
+.slds-datepicker tbody > tr > td:hover > .slds-day,
+.slds-datepicker tbody > tr > td:focus > .slds-day,
+.slds-datepicker tbody > tr > td.slds-is-today > .slds-day {
+  cursor: pointer;
+}
+.slds-datepicker tbody > tr > td.slds-is-today > .slds-day {
+  background-color: #f3f3f3;
+}
+.slds-datepicker tbody > tr > td:focus {
+  outline: 0;
+}
+.slds-datepicker tbody > tr > td:focus > .slds-day {
+  -webkit-box-shadow: #10069d 0 0 0 1px inset;
+  box-shadow: #10069d 0 0 0 1px inset;
+}
+.slds-datepicker tbody > tr > td:hover > .slds-day {
+  background-color: #f3f3f3;
+}
+.slds-datepicker tbody > tr > td.slds-is-selected > .slds-day {
+  background: #10069d;
+  color: white;
+}
+.slds-datepicker tbody > tr > td.slds-is-selected:focus > .slds-day {
+  background: #014486;
+  -webkit-box-shadow: #014486 0 0 3px;
+  box-shadow: #014486 0 0 3px;
+  color: white;
+}
+.slds-datepicker__filter {
+  padding: 0.25rem;
+}
+.slds-datepicker__filter_month {
+  padding: 0 0.25rem 0 0;
+}
+.slds-global-header__button_icon:hover:not(:disabled),
+.slds-global-header__button--icon:hover:not(:disabled) {
+  color: #818181;
+}
+.slds-global-header__button_icon:hover:not(:disabled) .slds-icon,
+.slds-global-header__button--icon:hover:not(:disabled) .slds-icon {
+  fill: #818181;
+}
+.slds-global-actions__item-action:hover:not(:disabled) {
+  color: #818181;
+}
+.slds-global-actions__item-action:active:not(:disabled) {
+  color: #5e5e5e;
+}
+.slds-global-actions__favorites-action:hover:not(:disabled) .slds-button__icon {
+  -webkit-transform: scale(1.1, 1.1);
+  transform: scale(1.1, 1.1);
+  -webkit-transform-origin: 60% 40%;
+  transform-origin: 60% 40%;
+}
+@supports (mix-blend-mode: soft-light) {
+}
+.slds-visual-picker input:not(:disabled) ~ label:hover .slds-visual-picker__figure {
+  cursor: pointer;
+  outline: 0;
+  border: 1px solid #1b96ff;
+  -webkit-box-shadow: 0 0 0 1px #1b96ff inset;
+  box-shadow: 0 0 0 1px #1b96ff inset;
+}
+
+.slds-align-content-center {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-item-align: center;
+  align-self: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.slds-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.slds-grow {
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+}
+.slds-shrink-none {
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.slds-grid_align-spread {
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.slds-align-middle {
+  vertical-align: middle;
+  -ms-flex-item-align: center;
+  align-self: center;
+}
+
+.slds-p-bottom_x-small {
+  padding-bottom: 0.5rem;
+}
+.slds-assistive-text {
+  position: absolute !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+.slds-show_inline-block {
+  display: inline-block;
+}
+
+/*! HTML5 Boilerplate v5.2.0 | MIT License | https://html5boilerplate.com/ */
+@media print {
+  *,
+  *:before,
+  *:after {
+    background: transparent !important;
+    color: #000 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  h2 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2 {
+    page-break-after: avoid;
+  }
+}
+
 /****** Custom styles for FormDatePicker component *******/
 
 .slds-button.slds-button_icon.slds-input__icon.slds-input__icon_right {
