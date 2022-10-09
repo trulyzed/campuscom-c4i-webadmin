@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { QuestionSearchMeta } from "~/TableSearchMeta/Question/QuestionSearchMeta"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const List = () => {
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => QuestionQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/administration/question/${resp.data.id}`)
     }
     return resp
@@ -31,10 +31,10 @@ export const List = () => {
           ...getQuestionListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Question`}
+              formTitle={`Create Question`}
               formMeta={QuestionFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Question`}
+              buttonLabel={`Create Question`}
               iconType="create"
             />
           ]

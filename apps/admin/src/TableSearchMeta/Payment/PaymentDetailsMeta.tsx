@@ -1,6 +1,8 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 
 export const getPaymentDetailsMeta = (payment: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -27,6 +29,21 @@ export const getPaymentDetailsMeta = (payment: { [key: string]: any }): IDetails
       tabType: "summary",
       tabMeta: summaryMeta,
       helpKey: "paymentSummaryTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: payment.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

@@ -1,5 +1,5 @@
-import { DROPDOWN, IField, DATE_PICKER } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { DROPDOWN, IField, DATE_PICKER } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 export const RefundSearchMeta: IField[] = [
   {
@@ -8,7 +8,8 @@ export const RefundSearchMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     fieldName: "payment__store_payment_gateway__store",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "From Date",

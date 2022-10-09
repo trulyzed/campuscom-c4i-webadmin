@@ -1,5 +1,5 @@
-import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 
 export const InstructorSearchMeta: IField[] = [
   {
@@ -8,7 +8,8 @@ export const InstructorSearchMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     fieldName: "provider__id",
     displayKey: "name",
-    valueKey: "id"
+    valueKey: "id",
+    autoSelectDefault: true
   },
   {
     label: "Name",

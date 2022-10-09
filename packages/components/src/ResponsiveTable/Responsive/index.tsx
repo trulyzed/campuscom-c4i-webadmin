@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 import { TableViewForDesktop } from "~/ResponsiveTable/Responsive/TableViewForDesktop"
-import { IDataTableProps, TableColumnType } from "~/ResponsiveTable"
+import { IDataTableProps, TableColumnType, sortByNumber } from "~/ResponsiveTable"
 import { ListViewforMobile } from "./ListViewforMobile"
 import { TableProps } from "antd/lib/table"
 import { useFirstRender } from "~/Hooks/useFirstRender"
@@ -10,19 +10,25 @@ import { processTableMetaWithUserMetaConfig } from "~/ResponsiveTable/TableMetaS
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
 import { getAndScrollToPosition } from "~/ResponsiveTable/ManageScroll"
+import { TableSettings } from "~/ResponsiveTable/TableSettings/TableSettings"
 
-const DEFAULT_PAGE_SIZE = 20
-export const ResponsiveTable = (props: IDataTableProps) => {
+export const DEFAULT_PAGE_SIZE = 20
+export const ResponsiveTable = (props: IDataTableProps & {
+  tableTitle?: string
+  onPaginationChange?: (pagination: { currentPage: number, total: number, currentPageSize: number }) => void
+}) => {
   const [desktopView, setDesktopView] = useState(true)
   useDeviceViews((deviceViews: IDeviceView) => {
     setDesktopView(deviceViews.desktop)
   })
 
   const [loading, setLoading] = useState(false)
-  const [downloading, setDownloading] = useState(false)
   const [paginatedData, setPaginatedData] = useState<any[]>([])
   const [currentPagination, setCurrentPagination] = useState<number>(1)
   const firstRender = useFirstRender()
+  const [currentPageSize, setCurrentPageSize] = useState<number>(DEFAULT_PAGE_SIZE)
+  const { currentPagination: propCurrentPagination, onPaginationChange: propOnPaginationChange } = props
+  const [showTableSettings, setShowTableSettings] = useState(false)
 
   const loadDataFromSearchFunc = (refreshParams?: { [key: string]: any }) => {
     processTableMetaWithUserMetaConfig(props.columns, props.tableName).then((columnsConfigByUser: TableColumnType) => {
@@ -36,7 +42,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
           Object.keys(props.searchParams).forEach((key) => {
             if (props.searchParams[key] === "") delete props.searchParams[key]
           })
-        props.searchFunc(props.searchParams || refreshParams).then((x) => {
+        props.searchFunc({ params: props.searchParams || refreshParams }).then((x) => {
           if (x.success) {
             let tableData: Array<any> = []
             if (Array.isArray(x.data)) {
@@ -82,7 +88,7 @@ export const ResponsiveTable = (props: IDataTableProps) => {
     // eslint-disable-next-line
   }, [])
 
-  const [conditionalProps, setConditionalProps] = useState<TableProps<{ [key: string]: string }>>({})
+  const [conditionalProps, setConditionalProps] = useState<TableProps<{ [key: string]: string }> & { currentPagination?: number }>({})
   const setTableProps = (columnsConfigByUser: TableColumnType, data: any = []) => {
     const _conditionalProps: TableProps<{ [key: string]: string }> = {
       ...props,
@@ -104,19 +110,24 @@ export const ResponsiveTable = (props: IDataTableProps) => {
 
     _conditionalProps.dataSource = props.dataSource ? props.dataSource : data
     if (Array.isArray(_conditionalProps.dataSource)) {
-      !props.hidePagination && setPaginatedData(_conditionalProps.dataSource?.filter((x, i) => i < DEFAULT_PAGE_SIZE))
+      const page = props.currentPagination === undefined ? currentPagination : props.currentPagination
+      !props.hidePagination && setPaginatedData(_conditionalProps.dataSource.slice(
+        page === 1 ? 0 : page * currentPageSize - currentPageSize,
+        page * currentPageSize
+      ))
       props.hidePagination && setPaginatedData(_conditionalProps.dataSource)
     }
 
-    _conditionalProps.scroll = { x: props.columns.length }
+    _conditionalProps.scroll = props.scroll || { x: props.columns.length }
     _conditionalProps.rowSelection = props.rowSelection
     // _conditionalProps.rowKey = props.rowKey ? props.rowKey : "rowKey"
     setConditionalProps(_conditionalProps)
   }
 
-  const paginationChange = (page: number, pageSize = DEFAULT_PAGE_SIZE) => {
+  const paginationChange = (page: number, pageSize = currentPageSize) => {
     if (props.setCurrentPagination) props.setCurrentPagination(page)
     else setCurrentPagination(page)
+    setCurrentPageSize(pageSize)
 
     const quaryParams = { ...querystringToObject(), pagination: page }
     const _queryString = objectToQueryString(Object.keys(quaryParams).length > 0 ? quaryParams : null)
@@ -130,30 +141,67 @@ export const ResponsiveTable = (props: IDataTableProps) => {
       setPaginatedData(__dataSource)
     }
   }
-  return desktopView || conditionalProps.rowSelection ? (
-    <TableViewForDesktop
-      {...props}
-      title={() => props.title || props.tableName}
-      loading={props.loading || loading}
-      currentPagination={props.currentPagination || currentPagination}
-      conditionalProps={conditionalProps}
-      setConditionalProps={setConditionalProps}
-      downloading={downloading}
-      setDownloading={setDownloading}
-      paginatedData={paginatedData}
-      paginationChange={paginationChange}
-    />
-  ) : (
-    <ListViewforMobile
-      {...props}
-      loading={props.loading || loading}
-      currentPagination={props.currentPagination || currentPagination}
-      conditionalProps={conditionalProps}
-      setConditionalProps={setConditionalProps}
-      downloading={downloading}
-      setDownloading={setDownloading}
-      paginatedData={paginatedData}
-      paginationChange={paginationChange}
-    />
+
+  useEffect(() => {
+    propOnPaginationChange?.({
+      currentPage: propCurrentPagination || currentPagination,
+      total: conditionalProps.dataSource?.length || 0,
+      currentPageSize
+    })
+  }, [conditionalProps.dataSource, propOnPaginationChange, propCurrentPagination, currentPagination, currentPageSize])
+
+  return (
+    <>
+      {desktopView || conditionalProps.rowSelection ? (
+        <TableViewForDesktop
+          {...props}
+          tableTitle={props.tableTitle}
+          loading={props.loading || loading}
+          currentPagination={props.currentPagination || currentPagination}
+          conditionalProps={conditionalProps}
+          setConditionalProps={setConditionalProps}
+          paginatedData={paginatedData}
+          paginationChange={paginationChange}
+          currentPageSize={currentPageSize}
+          showTableSettings={() => setShowTableSettings(true)}
+        />
+      ) : (
+        <ListViewforMobile
+          {...props}
+          loading={props.loading || loading}
+          currentPagination={props.currentPagination || currentPagination}
+          conditionalProps={conditionalProps}
+          setConditionalProps={setConditionalProps}
+          paginatedData={paginatedData}
+          paginationChange={paginationChange}
+          currentPageSize={currentPageSize}
+          showTableSettings={() => setShowTableSettings(true)}
+        />
+      )}
+      {props.tableName && !props.hideSettings && (
+        <TableSettings
+          show={showTableSettings}
+          onToggle={setShowTableSettings}
+          tableName={props.tableName}
+          allColumns={props.columns}
+          activeColumns={
+            conditionalProps.columns
+              ? conditionalProps.columns.sort((x: any, y: any) =>
+                sortByNumber(y.columnPosition, x.columnPosition)
+              )
+              : []
+          }
+          reload={() => {
+            processTableMetaWithUserMetaConfig(props.columns, props.tableName).then((response) => {
+              setConditionalProps({
+                ...conditionalProps,
+                columns: response
+              })
+            })
+          }}
+          hideIcon
+        />
+      )}
+    </>
   )
 }

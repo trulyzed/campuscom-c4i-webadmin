@@ -1,7 +1,7 @@
-import { IField, DROPDOWN, MULTI_SELECT_GROUP_CHECKBOX } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/Proxy/Questions"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
+import { IField, DROPDOWN, MULTI_SELECT_GROUP_CHECKBOX } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 
@@ -25,7 +25,7 @@ export const getProfileQuestionTaggingFormMeta = (courseProviderId: string): IFi
       displayKey2: "question",
       valueKey2: "id",
       rules: [{ required: true, message: "This field is required!" }],
-      refLookupDependencies: ['respondent_type'],
+      dependencies: ['respondent_type'],
       onDependencyChange: (value, {loadOptions}) => {loadOptions?.({params: {exclude_from: 'profile_question', include_null: true, exclude_tagged: courseProviderId, provider_ref: courseProviderId, respondent_type: value?.respondent_type}})},
     },
   ]

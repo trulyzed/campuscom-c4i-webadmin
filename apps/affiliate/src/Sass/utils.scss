@@ -1,0 +1,36 @@
+.hidden {
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  visibility: "hidden";
+  width: 1px;
+}
+
+.show {
+  display: inline;
+}
+
+.ant-transfer {
+  height: 100% !important;
+}
+
+.ant-transfer-list {
+  height: 100% !important;
+  width: 350px !important;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.padding-top-10 {
+  padding-top: 10px;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+  .programApplicationAddNoteBtn {
+    margin-right: 10px;
+    margin-top: 10px;
+  }
+}

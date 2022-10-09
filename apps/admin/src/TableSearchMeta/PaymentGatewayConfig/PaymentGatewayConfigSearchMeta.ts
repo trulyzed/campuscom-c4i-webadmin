@@ -1,4 +1,4 @@
-import { DROPDOWN, IField, TEXT } from "~/packages/components/Form/common"
+import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 
 export const PaymentGatewayConfigSearchMeta: IField[] = [
   {

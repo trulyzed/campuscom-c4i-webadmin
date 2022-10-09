@@ -1,5 +1,6 @@
-import { IApiResponse } from "@packages/api/lib/utils/Interfaces"
+import { TableProps } from "antd"
 import { TableColumnType } from "~/ResponsiveTable"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export interface ITableMeta {
   columns: TableColumnType
@@ -7,8 +8,9 @@ export interface ITableMeta {
   refreshEventName?: string
   hidePagination?: boolean
   hideSettings?: boolean
-  hideDownload?: boolean
-  searchFunc: (Params: { [key: string]: any }) => Promise<IApiResponse>
+  showDownload?: boolean
+  searchFunc: IQuery
+  scroll?: TableProps<any>["scroll"]
 }
 
 export interface ITableMetaWithDataSource {

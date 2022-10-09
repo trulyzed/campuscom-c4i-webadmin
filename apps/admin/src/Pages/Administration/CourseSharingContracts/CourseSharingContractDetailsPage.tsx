@@ -1,7 +1,7 @@
 import { RouteComponentProps } from "react-router-dom"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getCourseSharingContractDetailsMeta } from "~/TableSearchMeta/CourseSharingContract/CourseSharingContractDetailsMeta"
-import { CourseSharingContractQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseSharingContracts"
+import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
 
 export function CourseSharingContractDetailsPage(props: RouteComponentProps<{ courseSharingContractID?: string }>) {
   const CourseSharingContractID = props?.match?.params?.courseSharingContractID

@@ -1,6 +1,7 @@
 import React from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { InputNumber } from "antd"
+import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export function FormInputNumber(
   props: IGeneratedField & {
@@ -16,17 +17,18 @@ export function FormInputNumber(
   //     object.target.value = 0
   //   }
   // }
+  useDependencyValue({ ...props })
   return (
     <SearchFieldWrapper {...props}>
       <InputNumber
         maxLength={props.maxLength}
-        style={{ width: "200px", textAlign: "right" }}
+        style={{ width: "100%", textAlign: "right" }}
         max={props.maxValue ? props.maxValue : 999999}
         min={0}
         // {...(props.formatter && { formatter: props.formatter })}
         // {...(props.parser && { parser: props.parser })}
         disabled={props.disabled}
-        // onInput={maxLengthAndNegativeCheck}
+      // onInput={maxLengthAndNegativeCheck}
       />
     </SearchFieldWrapper>
   )

@@ -1,13 +1,13 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { IdentityProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/IdentityProviders"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
 import { IdentityProviderSearchMeta } from "~/TableSearchMeta/IdentityProvider/IdentityProviderSearchMeta"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 
 export const List = () => {
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => IdentityProviderQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/configuration/identity-provider/${resp.data.id}`)
     }
     return resp
@@ -31,10 +31,10 @@ export const List = () => {
           ...getIdentityProviderListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Identity Provider`}
+              formTitle={`Create Identity Provider`}
               formMeta={IdentityProviderFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Identity Provider`}
+              buttonLabel={`Create Identity Provider`}
               iconType="create"
             />
           ]

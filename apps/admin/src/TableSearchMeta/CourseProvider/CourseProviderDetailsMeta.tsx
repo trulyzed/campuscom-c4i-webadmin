@@ -1,33 +1,32 @@
-import { message, notification } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderHtml, renderThumb, renderLink } from "~/packages/components/ResponsiveTable/tableUtils"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderHtml, renderThumb, renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-// import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-// import { getQuestionListTableColumns } from "../Question/QuestionListTableColumns"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
-import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
-// import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
+import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseProviderQueries.update({ ...data, params: { id: courseProvider.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseProviderQueries.update])
 
   const addProfileQuestion = QueryConstructor(((data) => CourseProviderQueries.tagProfileQuestion({ ...data, data: { ...data?.data, course_provider: courseProvider.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseProviderQueries.tagProfileQuestion])
@@ -51,13 +50,6 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     return resp
   }), [CourseProviderQueries.generateApiKey])
 
-  // const addProfileQuestion = QueryConstructor(((data) => QuestionQueries.create({ ...data, data: { ...data?.data, course: courseProvider.id } }).then(resp => {
-  //   if (resp.success) {
-  //     message.success(CREATE_SUCCESSFULLY)
-  //   }
-  //   return resp
-  // })), [QuestionQueries.create])
-
   const summaryInfo: CardContainer = {
     title: `Course Provider: ${courseProvider.name}`,
     cardActions: [
@@ -71,17 +63,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <IconButton
-        toolTip="Generate API key"
-        iconType="key"
-        onClick={generateApiKey}
-      />,
-      // <IconButton
-      //   toolTip="Delete Program Offering"
-      //   iconType="remove"
-      //   redirectTo="/administration/course-provider"
-      //   onClickRemove={() => CourseProviderQueries.delete({ data: { ids: [courseProvider.id] } })}
-      // />
+      <ContextAction type="generateKey" tooltip="Generate API key" onClick={generateApiKey} />
     ],
     contents: [
       { label: 'Name', value: courseProvider.name, },
@@ -144,11 +126,11 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_PROFILE_QUESTION_LIST"
-                  onClickRemove={() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => CourseProviderQueries.untagProfileQuestion({ data: { ids: [text] } }), [CourseProviderQueries.untagProfileQuestion])}
                 />
               )
             },
@@ -162,13 +144,27 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
               formMeta={getProfileQuestionTaggingFormMeta(courseProvider.id)}
               formSubmitApi={addProfileQuestion}
               buttonLabel={`Add Profile Question`}
-              iconType="create"
               refreshEventName={'REFRESH_PROFILE_QUESTION_LIST'}
             />
           ]
         }
       },
       helpKey: "profileQuestionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: courseProvider.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

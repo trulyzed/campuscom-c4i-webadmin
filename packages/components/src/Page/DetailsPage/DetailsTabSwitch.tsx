@@ -8,7 +8,7 @@ import { IDetailsTabMeta } from "~/Page/DetailsPage/Common"
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
-import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
 export interface IDetailsPageSubTab {
   meta: IDetailsTabMeta
@@ -81,7 +81,7 @@ export function DetailsPageSubTabSwitch(props: {
                 (x.tabType === "table" || x.tabType === "searchtable") &&
                 !!(x?.tabMeta as any)?.tableProps?.searchFunc
               ) {
-                console.log((x?.tabMeta as any)?.tableProps?.tableName)
+                //console.log((x?.tabMeta as any)?.tableProps?.tableName)
                 return checkAdminApiPermission((x?.tabMeta as any)?.tableProps?.searchFunc)
               }
               return true

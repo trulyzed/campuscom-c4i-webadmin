@@ -1,14 +1,16 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { cartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
-import { renderDate, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
+import { renderDate, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { questionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
-import { processQuestions } from "~/packages/services/Api/Queries/AdminQueries/Proxy/Questions"
+import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
-import { EnrollmentQueries } from "~/packages/services/Api/Queries/AdminQueries/Enrollments"
-import { renderJson, renderAnswer } from "~/packages/components/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
+import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -194,6 +196,21 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         ]
       },
       helpKey: "logTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: order.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

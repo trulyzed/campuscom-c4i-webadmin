@@ -1,78 +1,85 @@
-import { BOOLEAN, IField, TEXT, MULTI_SELECT_DROPDOWN } from "~/packages/components/Form/common"
-import { CourseProviderQueries } from "~/packages/services/Api/Queries/AdminQueries/CourseProviders"
-import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { BOOLEAN, IField, TEXT, MULTI_SELECT_DROPDOWN } from "@packages/components/lib/Form/common"
+import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
+import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Roles"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const UserFormMeta: IField[] = [
   {
-    label: 'First name',
+    label: "First name",
     inputType: TEXT,
-    fieldName: 'first_name',
+    fieldName: "first_name",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Last name',
+    label: "Last name",
     inputType: TEXT,
-    fieldName: 'last_name',
+    fieldName: "last_name",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Username',
+    label: "Username",
     inputType: TEXT,
-    fieldName: 'username',
+    fieldName: "username",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Password',
+    label: "Password",
     inputType: TEXT,
-    fieldName: 'password',
+    fieldName: "password",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Email',
+    label: "Email",
     inputType: TEXT,
-    fieldName: 'email',
+    fieldName: "email",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Primary contact number',
+    label: "Primary contact number",
     inputType: TEXT,
-    fieldName: 'primary_contact_number',
+    fieldName: "primary_contact_number",
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: 'Roles',
+    label: "Roles",
     inputType: MULTI_SELECT_DROPDOWN,
-    fieldName: 'custom_roles',
+    fieldName: "custom_roles",
     refLookupService: RoleQueries.getLookupData,
     displayKey: "name",
-    valueKey: "id",
+    valueKey: "id"
   },
   {
-    label: 'Two-factor authentication enabled',
+    label: "Is Scope Disabled",
     inputType: BOOLEAN,
-    fieldName: 'mfa_enabled',
+    fieldName: "is_scope_disabled"
   },
   {
-    label: 'Is active',
+    label: "Two-factor authentication enabled",
     inputType: BOOLEAN,
-    fieldName: 'is_active',
+    fieldName: "mfa_enabled"
   },
   {
-    label: 'Course Providers',
+    label: "Is active",
+    inputType: BOOLEAN,
+    fieldName: "is_active"
+  },
+  {
+    label: "Course Providers",
     inputType: MULTI_SELECT_DROPDOWN,
-    fieldName: 'course_providers',
+    fieldName: "course_providers",
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
+    autoSelectDefault: true
   },
   {
-    label: 'Stores',
+    label: "Stores",
     inputType: MULTI_SELECT_DROPDOWN,
-    fieldName: 'stores',
+    fieldName: "stores",
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-  },
+    autoSelectDefault: true
+  }
 ]

@@ -1,4 +1,4 @@
-import { IField, TEXT, TEXTAREA } from "~/packages/components/Form/common"
+import { IField, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const GlobalConfigurationFormMeta: IField[] = [

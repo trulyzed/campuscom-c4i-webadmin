@@ -1,17 +1,28 @@
-import { HIERARCHICAL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "~/packages/components/Form/common"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { RoleQueries } from "~/packages/services/Api/Queries/AdminQueries/Roles"
+import { HIERARCHICAL_MULTIPLE_CHECKBOX, IField, MULTI_SELECT_DROPDOWN, MULTI_SELECT_GROUP_CHECKBOX, TEXT, } from "@packages/components/lib/Form/common"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Roles"
 import { getSidebarMenus } from "~/Component/Layout/SidebarMenus"
 
 const processGroupedList = (data: any)=>{
   return data.map((element: any) => ({...element, options:element.permissions}))
 }
 
-export const RoleFormMeta: IField[] = [
+export const getRoleFormMeta = (): IField[] => [
   {
     label: "Name",
     inputType: TEXT,
     fieldName: "name",
+    rules: [{ required: true, message: "This field is required!" }]
+  },
+  {
+    label: "App Permissions",
+    inputType: MULTI_SELECT_DROPDOWN,
+    fieldName: "app_permissions",
+    options: [
+      {label: "ADMIN", value: "ADMIN"},
+      {label: "AFFILIATE", value: "AFFILIATE"},
+    ],
+    wrapperColSpan: 24,
     rules: [{ required: true, message: "This field is required!" }]
   },
   {

@@ -1,8 +1,10 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
-import { DiscountProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/DiscountPrograms"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { DiscountProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/DiscountPrograms"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
@@ -86,6 +88,21 @@ export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetai
         }
       },
       helpKey: "sectionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: cartItem.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

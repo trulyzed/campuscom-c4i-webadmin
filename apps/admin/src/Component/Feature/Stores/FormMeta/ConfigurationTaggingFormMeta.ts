@@ -1,28 +1,33 @@
-import { IField, DROPDOWN, TEXTAREA, BOOLEAN, TEXT } from "~/packages/components/Form/common"
-import { ExternalEntityQueries } from "~/packages/services/Api/Queries/AdminQueries/ExternalEntities"
+import { IField, DROPDOWN, TEXTAREA, BOOLEAN, TEXT } from "@packages/components/lib/Form/common"
+import { ExternalEntityQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ExternalEntities"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-const COMMON_CONFIGS: Pick<IField, 'renderDependencies' | 'onDependencyChange'> = {
-  renderDependencies: ['external_entity',],
-  onDependencyChange: (value, {formLookupData}) => {
-    const matchedField = (formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])
-    return matchedField?.label === 'Avatax' || matchedField?.label === 'Hubspot'
-  }
+const COMMON_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
+  dependencies: ['external_entity',],
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Avatax' || value?.external_entity === 'Hubspot')
+  },
 }
 
-const COMMON_EMAIL_RECEIPT_CONFIGS: Pick<IField, 'renderDependencies' | 'onDependencyChange'> = {
-  renderDependencies: ['external_entity',],
-  onDependencyChange: (value, {formLookupData}) => (formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Email Receipt'
+const COMMON_EMAIL_RECEIPT_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
+  dependencies: ['external_entity',],
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Email Receipt')
+  },
 }
 
-const COMMON_CHECKOUT_CONFIGS: Pick<IField, 'renderDependencies' | 'onDependencyChange'> = {
-  renderDependencies: ['external_entity',],
-  onDependencyChange: (value, {formLookupData}) => (formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Checkout Configuration'
+const COMMON_CHECKOUT_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
+  dependencies: ['external_entity',],
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Checkout Configuration')
+  },
 }
 
-const COMMON_CHECKOUT_STATUS_CONFIGS: Pick<IField, 'renderDependencies' | 'onDependencyChange'> = {
-  renderDependencies: ['external_entity',],
-  onDependencyChange: (value, {formLookupData}) => (formLookupData?.['external_entity'] as any[] || []).find(o => o.value === value?.['external_entity'])?.label === 'Checkout Status Configuration'
+const COMMON_CHECKOUT_STATUS_CONFIGS: Pick<IField, 'dependencies' | 'onDependencyChange'> = {
+  dependencies: ['external_entity',],
+  onDependencyChange: (value, {toggleField}) => {
+    toggleField?.(value?.external_entity === 'Checkout Status Configuration')
+  },
 }
 
 export const getConfigurationTaggingFormMeta = (record?: {[key: string]: any}): IField[] => [
@@ -32,7 +37,7 @@ export const getConfigurationTaggingFormMeta = (record?: {[key: string]: any}): 
     inputType: DROPDOWN,
     refLookupService: ExternalEntityQueries.getLookupData,
     displayKey: "entity_name",
-    valueKey: "id",
+    valueKey: "entity_name",
     rules: [{ required: true, message: "This field is required!" }],
   },
   {

@@ -1,30 +1,30 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
 FROM node:16.14.0-alpine as build-stage
-
 WORKDIR /app
 
-COPY ./apps/ ./apps/
-COPY ./packages/ ./packages/
-COPY package.json ./
-COPY yarn.lock ./
-COPY ./apps/admin/package.json ./apps/admin/
-COPY ./packages/utilities/package.json ./packages/utilities/
-COPY ./packages/api/package.json ./packages/api/
-COPY ./packages/components/package.json ./packages/components/
-
-RUN yarn
-
+ARG APP_MODULE
 ARG REACT_APP_API_ROOT
 ARG REACT_APP_CDN_URL
 ARG REACT_APP_STOREFRONT_URL
 ARG REACT_APP_ENROLLMENT_URL
 
-RUN yarn build
+COPY ./apps/${APP_MODULE}/ ./apps/${APP_MODULE}/
+COPY ./packages/ ./packages/
+COPY package.json ./
+COPY yarn.lock ./
+COPY ./apps/${APP_MODULE}/package.json ./apps/${APP_MODULE}/
+COPY ./packages/utilities/package.json ./packages/utilities/
+COPY ./packages/services/package.json ./packages/services/
+COPY ./packages/components/package.json ./packages/components/
 
-# Stage 1, ship built files (/app/apps/admin/build) to bucket
+RUN yarn
+RUN yarn build:${APP_MODULE}
+
+# Stage 1, ship built files (/app/apps/${APP_MODULE}/build) to bucket
 FROM python:2.7
 RUN pip install awscli --upgrade --user
 WORKDIR /root/
-COPY --from=0 /app/apps/admin/build /root/build
+ARG APP_MODULE
 ARG ADMIN_FRONTEND_S3_BUCKET
+COPY --from=0 /app/apps/${APP_MODULE}/build /root/build
 RUN /root/.local/bin/aws s3 cp /root/build s3://${ADMIN_FRONTEND_S3_BUCKET} --recursive
