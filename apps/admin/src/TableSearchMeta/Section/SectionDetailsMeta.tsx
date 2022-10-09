@@ -1,30 +1,32 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { getScheduleListTableColumns } from "~/TableSearchMeta/Schedule/ScheduleListTableColumns"
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { ScheduleQueries } from "~/packages/services/Api/Queries/AdminQueries/Schedules"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { ScheduleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Schedules"
 import { ScheduleFormMeta } from "~/Component/Feature/Schedules/FormMeta/ScheduleFormMeta"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SectionQueries.update({ ...data, params: { id: section.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [SectionQueries.update])
 
   const createSchedule = QueryConstructor(((data) => ScheduleQueries.create({ ...data, data: { ...data?.data, section: section.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [ScheduleQueries.create])
@@ -86,10 +88,10 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
           refreshEventName: "REFRESH_SCHEDULE_TAB",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Schedule`}
+              formTitle={`Create Schedule`}
               formMeta={ScheduleFormMeta}
               formSubmitApi={createSchedule}
-              buttonLabel={`Add Schedule`}
+              buttonLabel={`Create Schedule`}
               iconType="create"
               refreshEventName={'REFRESH_SCHEDULE_TAB'}
             />
@@ -123,6 +125,21 @@ export const getSectionDetailsMeta = (section: { [key: string]: any }): IDetails
         }
       },
       helpKey: "enrollmentsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: section.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

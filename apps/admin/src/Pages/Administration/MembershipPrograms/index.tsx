@@ -1,11 +1,11 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
-import { message } from "antd"
+import { notification } from "antd"
 import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
 import { getMembershipProgramListTableColumns } from "~/TableSearchMeta/MembershipProgram/MembershipProgramListTableColumns"
 import { MembershipProgramSearchMeta } from "~/TableSearchMeta/MembershipProgram/MembershipProgramSearchMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => MembershipProgramQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/administration/membership-program/${resp.data.id}`)
     }
     return resp
@@ -31,11 +31,11 @@ export const List = () => {
           ...getMembershipProgramListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Membership Program`}
+              formTitle={`Create Membership Program`}
               formMeta={MembershipProgramFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Membership Program`}
-              iconType="create"
+              buttonLabel={`Create`}
+              iconType={'create'}
             />
           ]
         }}

@@ -1,9 +1,9 @@
 import { RouteComponentProps } from "react-router-dom"
-import { DetailsPage } from "~/packages/components/Page/DetailsPage/DetailsPage"
+import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
 import { getOrderDetailsMeta } from "~/TableSearchMeta/Order/OrderDetailsMeta"
-import { OrderQueries } from "~/packages/services/Api/Queries/AdminQueries/Orders"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { PaymentQueries } from "~/packages/services/Api/Queries/AdminQueries/Payments"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { PaymentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Payments"
 
 export function OrderDetailsPage(props: RouteComponentProps<{ orderID?: string }>) {
   const OrderID = props?.match?.params?.orderID

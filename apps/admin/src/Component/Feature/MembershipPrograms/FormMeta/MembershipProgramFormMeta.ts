@@ -1,6 +1,6 @@
 import { INPUT_OPTIONS } from "~/Configs/input"
-import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "~/packages/components/Form/common"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, IField, NUMBER, TEXT } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const MembershipProgramFormMeta: IField[] = [
@@ -11,7 +11,8 @@ export const MembershipProgramFormMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    autoSelectDefault: true
   },
   {
     label: 'Title',
@@ -31,24 +32,30 @@ export const MembershipProgramFormMeta: IField[] = [
     inputType: NUMBER,
     fieldName: 'duration',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'time_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'time_based')
+    },
   },
   {
     label: 'Start Date',
     inputType: DATE_PICKER,
     fieldName: 'start_date',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'date_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'date_based')
+    },
   },
   {
     label: 'End Date',
     inputType: DATE_PICKER,
     fieldName: 'end_date',
     rules: [{ required: true, message: "This field is required!" }],
-    renderDependencies: ['membership_type'],
-    onDependencyChange: (value) => value?.membership_type === 'date_based',
+    dependencies: ['membership_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.membership_type === 'date_based')
+    },
   },
   {
     label: 'Fee',

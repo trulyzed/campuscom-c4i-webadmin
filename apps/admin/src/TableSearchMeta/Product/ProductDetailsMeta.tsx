@@ -1,29 +1,31 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { ProductQueries } from "~/packages/services/Api/Queries/AdminQueries/Products"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { UPDATE_SUCCESSFULLY, CREATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderThumb, renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { getRelatedProductTaggingFormMeta } from '~/Component/Feature/Products/FormMeta/RelatedProductTaggingFormMeta'
-import { SummaryTablePopover } from "~/packages/components/Popover/SummaryTablePopover"
+import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [ProductQueries.update])
 
   const addRelatedProducts = (relationType: string) => QueryConstructor(((data) => ProductQueries.tagRelatedProducts({ ...data, data: { ...data?.data, product: product.id, related_product_type: relationType } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [ProductQueries.tagRelatedProducts])
@@ -103,11 +105,11 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_STANDALONE_PRODUCT_TAB"
-                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } }), [ProductQueries.untagRelatedProduct])}
                 />
               )
             },
@@ -121,7 +123,6 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'standalone')}
               formSubmitApi={addRelatedProducts('standalone')}
               buttonLabel={`Add Standalone Product`}
-              iconType="create"
               refreshEventName={'REFRESH_STANDALONE_PRODUCT_TAB'}
             />
           ]
@@ -146,11 +147,11 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_REGISTRATION_PRODUCT_TAB"
-                  onClickRemove={() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => ProductQueries.untagRelatedProduct({ data: { ids: [text] } }), [ProductQueries.untagRelatedProduct])}
                 />
               )
             },
@@ -164,13 +165,27 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
               formMeta={getRelatedProductTaggingFormMeta(product.id, 'registration')}
               formSubmitApi={addRelatedProducts('registration')}
               buttonLabel={`Add Registration Product`}
-              iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_PRODUCT_TAB'}
             />
           ]
         }
       },
       helpKey: "productTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: product.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

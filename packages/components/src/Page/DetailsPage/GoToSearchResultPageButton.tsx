@@ -4,17 +4,16 @@ import { IconButton } from "~/Form/Buttons/IconButton"
 export const GoToSearchResultPageButton = () => {
   const [url, setUrl] = useState<string | undefined>(undefined)
   useEffect(() => {
-    const urlAsIDs = Object.keys(sessionStorage).filter((key) => key.startsWith("http") && key.includes("webadmin"))
+    const urlAsIDs = Object.keys(sessionStorage).filter((key) => key.startsWith("http") && key.includes(window.location.host))
     if (urlAsIDs.length) {
       for (const id of urlAsIDs) {
         const currentUrl = sessionStorage[id]
         if (window.location.href.includes(currentUrl)) {
-          const urlAsID = id
-          setUrl(urlAsID.slice(urlAsID.indexOf("webadmin") + 8))
+          setUrl((new URL(id)).pathname)
           break
         }
       }
     }
   }, [])
-  return <>{url && <IconButton buttonType="default" iconType="leftCircle" toolTip="Go to Search Results" redirectTo={url} />}</>
+  return <>{url && <IconButton buttonType="default" iconType="back" toolTip="Go to Search Results" redirectTo={url} />}</>
 }

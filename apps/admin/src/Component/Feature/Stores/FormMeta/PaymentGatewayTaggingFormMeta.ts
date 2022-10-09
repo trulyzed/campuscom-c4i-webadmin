@@ -1,6 +1,6 @@
-import { IField, DROPDOWN, TEXT } from "~/packages/components/Form/common"
-import { PaymentGatewayConfigQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGatewayConfigs"
-import { PaymentGatewayQueries } from "~/packages/services/Api/Queries/AdminQueries/PaymentGateways"
+import { IField, DROPDOWN, TEXT } from "@packages/components/lib/Form/common"
+import { PaymentGatewayConfigQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGatewayConfigs"
+import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQueries/PaymentGateways"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const PaymentGatewayTaggingFormMeta: IField[] = [

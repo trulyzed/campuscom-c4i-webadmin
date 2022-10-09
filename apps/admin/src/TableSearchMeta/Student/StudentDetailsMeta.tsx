@@ -1,30 +1,32 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderLink, renderDate, renderDateTime } from "~/packages/components/ResponsiveTable"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderLink, renderDate, renderDateTime } from "@packages/components/lib/ResponsiveTable"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { StudentFormMeta } from "~/Component/Feature/Students/FormMeta/StudentFormMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { StudentQueries } from "~/packages/services/Api/Queries/AdminQueries/Students"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
-import { MembershipProgramQueries } from "~/packages/services/Api/Queries/AdminQueries/MembershipPrograms"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/MembershipPrograms"
 import { MembershipProgramTaggingFormMeta } from "~/Component/Feature/Students/FormMeta/MembershipProgramTaggingFormMeta"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => StudentQueries.update({ ...data, params: { id: student.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [StudentQueries.update])
 
   const addMembershipProgram = QueryConstructor(((data) => StudentQueries.tagMembersipProgram({ ...data, data: { ...data?.data, profiles: [student.id] } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [StudentQueries.tagMembersipProgram])
@@ -114,11 +116,11 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  type="delete"
+                  tooltip="Remove"
+                  queryService={QueryConstructor(() => StudentQueries.untagMembersipProgram({ data: { ids: [text] } }), [StudentQueries.untagMembersipProgram])}
                   refreshEventName="REFRESH_MEMBERSHIP_PROGRAM_TAB"
-                  onClickRemove={() => StudentQueries.untagMembersipProgram({ data: { ids: [text] } })}
                 />
               )
             },
@@ -132,13 +134,27 @@ export const getStudentDetailsMeta = (student: { [key: string]: any }): IDetails
               formMeta={MembershipProgramTaggingFormMeta}
               formSubmitApi={addMembershipProgram}
               buttonLabel={`Add Membership Program`}
-              iconType="create"
               refreshEventName={'REFRESH_MEMBERSHIP_PROGRAM_TAB'}
             />
           ]
         }
       },
       helpKey: "productTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: student.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

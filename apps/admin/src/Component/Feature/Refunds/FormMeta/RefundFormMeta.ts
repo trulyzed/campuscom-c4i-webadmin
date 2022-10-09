@@ -1,5 +1,5 @@
 import { FILE_INPUT_FORMAT, IMAGE_INPUT_FORMAT } from "~/Configs/input"
-import { IField, TEXT, FILE } from "~/packages/components/Form/common"
+import { IField, TEXT, FILE } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const RefundFormMeta: IField[] = [

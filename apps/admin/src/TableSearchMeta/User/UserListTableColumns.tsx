@@ -1,7 +1,7 @@
-import { renderBoolean, renderLink, TableColumnType } from "~/packages/components/ResponsiveTable"
-import { ITableMeta } from "~/packages/components/ResponsiveTable/ITableMeta"
-import { UserQueries } from "~/packages/services/Api/Queries/AdminQueries/Users"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { renderBoolean, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
+import { UserQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Users"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const userListTableColumns: TableColumnType = [
   {

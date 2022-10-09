@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { Checkbox, Col, Row } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
+import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export function FormMultipleCheckbox(props: IGeneratedField & { columnFlex?: string }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  useDependencyValue({ ...props })
 
   const { refLookupService, displayKey, valueKey } = props
 
@@ -34,9 +36,8 @@ export function FormMultipleCheckbox(props: IGeneratedField & { columnFlex?: str
     }
   }
   useEffect(() => {
-    const eventName = `REFRESH_SEARCH_DROPDOWN_${
-      (refLookupService || new Date().getTime())?.toString() + displayKey + valueKey
-    }`
+    const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey
+      }`
     eventBus.subscribe(eventName, loadOptions)
     eventBus.publish(eventName)
     return () => {

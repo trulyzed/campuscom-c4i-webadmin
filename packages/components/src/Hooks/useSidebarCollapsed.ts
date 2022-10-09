@@ -9,7 +9,7 @@ export interface IDeviceView {
 
 export function useSidebarCollapsed(): Array<any> {
   const { useBreakpoint } = Grid
-  const [collapsed, setCollapsed] = useState<boolean>(false)
+  const [collapsed, setCollapsed] = useState<boolean>(true)
   const screens = useBreakpoint() as { [key: string]: boolean }
   useEffect(() => {
     let mobile = false
@@ -26,7 +26,7 @@ export function useSidebarCollapsed(): Array<any> {
     if (mobile || tab) {
       setCollapsed(mobile || tab)
     } else if (desktop) {
-      setCollapsed(!desktop)
+      setCollapsed(desktop)
     }
   }, [screens])
   return [collapsed, setCollapsed]

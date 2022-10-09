@@ -1,21 +1,23 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean, renderDateTime, renderLink } from "~/packages/components/ResponsiveTable"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
+import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
-import { renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderHtml, renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => SubjectQueries.update({ ...data, params: { id: subject.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [SubjectQueries.update])
@@ -70,6 +72,21 @@ export const getSubjectDetailsMeta = (subject: { [key: string]: any }): IDetails
         }
       },
       helpKey: "courseTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: subject.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 

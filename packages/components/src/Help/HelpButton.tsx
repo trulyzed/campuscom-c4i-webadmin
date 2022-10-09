@@ -1,6 +1,6 @@
 import React, { CSSProperties, useEffect, useState } from "react";
 import { Button, Tooltip } from "antd";
-import { HelpConfig } from "@packages/api/lib/HelpConfigs/HelpConfig";
+import { HelpConfig } from "@packages/services/lib/HelpConfigs/HelpConfig";
 import { IconButton } from "~/Form/Buttons/IconButton";
 
 export function HelpButton(props: {

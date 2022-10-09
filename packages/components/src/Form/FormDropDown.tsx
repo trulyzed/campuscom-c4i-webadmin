@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { Select } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
+import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
+import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export function FormDropDown(
   props: IGeneratedField & {
@@ -13,51 +15,53 @@ export function FormDropDown(
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
-  const { refLookupService, displayKey, valueKey } = props
+  const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
-  const loadOptions = () => {
-    if (props.options && props.options.length) {
-      setOptions(
-        props.options.map((x) => {
-          return {
-            label: x["label"],
-            value: x["value"]
-          }
-        })
-      )
+  const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
+    setOptions([])
+    formInstance.setFieldsValue({ [fieldName]: undefined })
+    if (optionsProp && optionsProp.length) {
+      const adjustedOptions = optionsProp.map((x) => {
+        return {
+          label: x["label"],
+          value: x["value"]
+        }
+      })
+      setOptions(adjustedOptions)
+      return adjustedOptions
     } else if (refLookupService) {
       setLoading(true)
-      refLookupService().then((x) => {
-        if (x.success && displayKey && valueKey) {
-          x.data = x.data.map((y: any) => ({
-            label: props.renderLabel ? props.renderLabel(y) : y[displayKey || "label"],
-            value: y[valueKey || "value"]
-          }))
-          setOptions(x.data)
-        } else if (x.success && Array.isArray(x.data)) {
-          x.data = x.data.map((y: any) => ({
-            label: props.renderLabel ? props.renderLabel(y) : y,
-            value: y
-          }))
-          setOptions(x.data)
-        }
-        setLoading(false)
-      })
+      const x = await refLookupService(params)
+      setLoading(false)
+      if (x.success && displayKey && valueKey) {
+        x.data = x.data.map((y: any) => ({
+          label: renderLabel ? renderLabel(y) : y[displayKey || "label"],
+          value: y[valueKey || "value"]
+        }))
+        setOptions(x.data)
+        return x.data
+      } else if (x.success && Array.isArray(x.data)) {
+        x.data = x.data.map((y: any) => ({
+          label: renderLabel ? renderLabel(y) : y,
+          value: y
+        }))
+        setOptions(x.data)
+        return x.data
+      }
     }
-  }
+    return []
+  }, [formInstance, optionsProp, renderLabel, displayKey, refLookupService, valueKey, fieldName])
+
+  useDependencyValue({ ...props, loadOptions, setOptions })
 
   useEffect(() => {
-    loadOptions()
-    // eslint-disable-next-line
-  }, [props.options])
-
-  useEffect(() => {
-    loadOptions()
+    if ((!props.dependencies || props.dependencyValue !== undefined) || props.performInitialLookup) loadOptions()
     const eventName = `REFRESH_SEARCH_DROPDOWN_${(refLookupService || new Date().getTime())?.toString() + displayKey + valueKey + props.fieldName
       }`
     eventBus.subscribe(eventName, loadOptions)
     return () => {
       eventBus.unsubscribe(eventName)
+      props.formInstance.resetFields([props.fieldName])
     }
     // eslint-disable-next-line
   }, [])
@@ -86,11 +90,19 @@ export function FormDropDown(
     // eslint-disable-next-line
   }, [props.defaultValue])
 
+  useEffect(() => {
+    if (!props.autoSelectDefault || options.length !== 1) return
+    formInstance.setFieldValue(fieldName, options[0].value)
+    props.onAutoSelectDefault?.(options[0].value)
+    // eslint-disable-next-line
+  }, [options, props.autoSelectDefault, formInstance.setFieldValue, fieldName])
+
   return (
     <SearchFieldWrapper {...props}>
       <Select
         showSearch
         aria-expanded={isOpen ? "true" : "false"}
+        placeholder={props.placeholder}
         onDropdownVisibleChange={(open: boolean) => setIsOpen(open)}
         allowClear={props.allowClear === undefined ? true : props.allowClear}
         loading={loading}

@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { Redirect } from "react-router"
-import { message } from "antd"
+import { notification } from "antd"
 import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { SearchPage } from "~/packages/components/Page/SearchPage/SearchPage"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { SubjectSearchMeta } from "~/TableSearchMeta/Subject/SubjectSearchMeta"
 
@@ -15,7 +15,7 @@ export const List = () => {
 
   const createEntity = QueryConstructor(((data) => SubjectQueries.create({ ...data }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/store/subject/${resp.data.id}`)
     }
     return resp
@@ -31,10 +31,10 @@ export const List = () => {
           ...getSubjectListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Subject`}
+              formTitle={`Create Subject`}
               formMeta={SubjectFormMeta}
               formSubmitApi={createEntity}
-              buttonLabel={`Add Subject`}
+              buttonLabel={`Create Subject`}
               iconType="create"
             />
           ]

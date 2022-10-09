@@ -1,48 +1,32 @@
-import React from "react"
-import { Button, Dropdown, Menu } from "antd"
-import { IApiResponse, RESPONSE_TYPE } from "@packages/api/lib/utils/Interfaces"
-import { IconButton } from "~/Form/Buttons/IconButton"
+import React, { useState } from "react"
+import { Button, } from "antd"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export const DownloadButton = (props: {
-  searchFunc: (Params: any, Header: any) => Promise<IApiResponse>
+  searchFunc: IQuery
   searchParams: { [key: string]: any }
-  setDownloading: (flag: boolean) => void
-  downloading: boolean
+  fileType: "EXCEL" | "CSV"
 }) => {
-  const downloadData = (fileType: string) => {
+  const [downloading, setDownloading] = useState(false)
+  const downloadData = () => {
     let header = {}
-    switch (fileType) {
-      case RESPONSE_TYPE.EXCEL:
+    switch (props.fileType) {
+      case "EXCEL":
         header = { ResponseType: "application/vnd.ms-excel" }
         break
-      case RESPONSE_TYPE.CSV:
+      case "CSV":
         header = { ResponseType: "text/csv" }
         break
     }
-
-    props.setDownloading(true)
-    props.searchFunc(props.searchParams, header).finally(() => props.setDownloading(false))
+    setDownloading(true)
+    props.searchFunc({ params: props.searchParams, headers: header }).finally(() => setDownloading(false))
   }
   return (
-    <Dropdown
-      getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
-      trigger={["click"]}
-      overlay={
-        <Menu>
-          <Menu.Item>
-            <Button type="link" onClick={() => downloadData(RESPONSE_TYPE.CSV)}>
-              CSV
-            </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button type="link" onClick={() => downloadData(RESPONSE_TYPE.EXCEL)}>
-              Excel
-            </Button>
-          </Menu.Item>
-        </Menu>
-      }
-    >
-      <IconButton iconType="download" disabled={props.downloading} toolTip="Download Table Data" />
-    </Dropdown>
+    <Button
+      aria-label={"Download Table Data"}
+      title={`Export to ${props.fileType}`}
+      onClick={() => downloadData()}
+      loading={downloading}
+    >{`Export to ${props.fileType}`}</Button>
   )
 }

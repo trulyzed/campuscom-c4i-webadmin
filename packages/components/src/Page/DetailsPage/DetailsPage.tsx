@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { IProcessedApiError } from "@packages/api/lib/utils/HandleResponse/ProcessedApiError"
+import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
 import { DetailsTableTab, IDetailsTableTabProp } from "~/Page/DetailsPage/DetailsTableTab"
@@ -11,15 +11,17 @@ import { querystringToObject } from "@packages/utilities/lib/QueryStringToObject
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { DetailsSummary } from "~/Page/DetailsPage/DetailsSummaryTab"
 import { IDetailsSummary } from "~/Page/DetailsPage/DetailsPageInterfaces"
-import { checkAdminApiPermission } from "@packages/api/lib/Permission/AdminApiPermission"
-import { GoToSearchResultPageButton } from "~/Page/DetailsPage/GoToSearchResultPageButton"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
+import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
+import { useHistory } from "react-router-dom"
 
 export function DetailsPage(props: IDetailsPage) {
+  const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
-  const [error, setError] = useState<IProcessedApiError>()
+  const [error, setError] = useState<IApiErrorProcessor>()
   const [meta, setMeta] = useState<IDetailsTabMeta[]>([])
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
@@ -40,7 +42,7 @@ export function DetailsPage(props: IDetailsPage) {
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -48,7 +50,9 @@ export function DetailsPage(props: IDetailsPage) {
       activeTabKey: `${key}-1`
     })
     updateHelpKey(`${key}-1`)
-    window.history && window.history.pushState({}, "", _queryString)
+    history[canBackTrack ? "push" : "replace"]({
+      search: _queryString
+    })
   }
 
   useEffect(() => {
@@ -58,7 +62,7 @@ export function DetailsPage(props: IDetailsPage) {
       const key = __defaultTabKey["activeTabKey"].toString().split("-")[0]
       setActiveTabKey(key)
     } else {
-      changeActiveTabkey("1")
+      changeActiveTabkey("1", false)
     }
     // eslint-disable-next-line
   }, [])
@@ -94,11 +98,13 @@ export function DetailsPage(props: IDetailsPage) {
     if (!checkAdminApiPermission(props.getDetailsPageContent)) return
     setLoading(true)
     setError(undefined)
+    eventBus.publish(UPDATE_HISTORY)
     props
-      .getDetailsPageContent()
+      .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
         if (x.success && x.data) {
           const { tabs, pageTitle } = props.getMeta(x.data, props.entityType, props.entityID)
+          lastVisitedProcessor.updateName(pageTitle)
 
           setMeta(tabs)
           setTitle(pageTitle)
@@ -161,13 +167,10 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length === 0 && <Empty description="No data found in the given url" />}
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
-          <Row>
-            <Col>
-              <GoToSearchResultPageButton />
-            </Col>
+          <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
             {title && (
               <Col>
-                <SidebarMenuTargetHeading level={1}>{title}</SidebarMenuTargetHeading>
+                <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>
               </Col>
             )}
             <Col flex="auto"></Col>

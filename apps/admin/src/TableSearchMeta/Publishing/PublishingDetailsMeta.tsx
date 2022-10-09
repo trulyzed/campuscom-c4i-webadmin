@@ -1,30 +1,32 @@
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { PublishingQueries } from "~/packages/services/Api/Queries/AdminQueries/Publishings"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { renderBoolean, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { PublishingQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Publishings"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
-import { message } from "antd"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
+import { notification } from "antd"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
-import { SubjectQueries } from "~/packages/services/Api/Queries/AdminQueries/Subjects"
-import { renderActiveStatus } from "~/packages/components/ResponsiveTable/tableUtils"
+import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Subjects"
+import { renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [PublishingQueries.update])
 
   const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.create])
@@ -104,35 +106,48 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       },
       helpKey: "sectionsTab"
     },
-  ]
-
-  if (publishing.store) {
-    tabMetas.push({
-      tabTitle: "Subjects",
-      tabType: "table",
+    ...publishing.store ? [
+      {
+        tabTitle: "Subjects",
+        tabType: "table",
+        tabMeta: {
+          tableProps: {
+            pagination: false,
+            ...getSubjectListTableColumns(),
+            searchFunc: SubjectQueries.getListByCourse,
+            searchParams: { store_course: publishing.id },
+            refreshEventName: "REFRESH_SUBJECT_LIST",
+            actions: [
+              <MetaDrivenFormModalOpenButton
+                formTitle={`Add Subjects`}
+                formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
+                initialFormValue={{ subjects: publishing.subjects }}
+                formSubmitApi={tagSubjects}
+                buttonLabel={`Add Subjects`}
+                refreshEventName={REFRESH_PAGE}
+              />
+            ]
+          }
+        },
+        helpKey: "sectionsTab"
+      }
+    ] as IDetailsTabMeta[] : [],
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
       tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
         tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: publishing.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
           pagination: false,
-          ...getSubjectListTableColumns(),
-          searchFunc: SubjectQueries.getListByCourse,
-          searchParams: { store_course: publishing.id },
-          refreshEventName: "REFRESH_SUBJECT_LIST",
-          actions: [
-            <MetaDrivenFormModalOpenButton
-              formTitle={`Tag Subjects`}
-              formMeta={getSubjectTaggingFormMeta(publishing.store.id)}
-              initialFormValue={{ subjects: publishing.subjects }}
-              formSubmitApi={tagSubjects}
-              buttonLabel={`Tag Subjects`}
-              iconType="create"
-              refreshEventName={REFRESH_PAGE}
-            />
-          ]
         }
       },
-      helpKey: "sectionsTab"
-    })
-  }
+      helpKey: "activitiesTab"
+    },
+  ]
 
   return {
     pageTitle: `Publishing Title - ${publishing.course.title}`,

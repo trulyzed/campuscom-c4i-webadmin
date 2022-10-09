@@ -1,54 +1,56 @@
-import { message } from "antd"
-import { CardContainer, IDetailsSummary } from "~/packages/components/Page/DetailsPage/DetailsPageInterfaces"
-import { IDetailsMeta, IDetailsTabMeta } from "~/packages/components/Page/DetailsPage/Common"
-import { MetaDrivenFormModalOpenButton } from "~/packages/components/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { REFRESH_PAGE } from "~/packages/utils/EventBus"
-import { CourseQueries } from "~/packages/services/Api/Queries/AdminQueries/Courses"
+import { notification } from "antd"
+import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
+import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
+import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 import { getCourseFormMeta } from "~/Component/Feature/Courses/FormMeta/CourseFormMeta"
-import { QueryConstructor } from "~/packages/services/Api/Queries/AdminQueries/Proxy"
-import { renderBoolean, renderLink } from "~/packages/components/ResponsiveTable"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { renderBoolean, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
-import { SectionQueries } from "~/packages/services/Api/Queries/AdminQueries/Sections"
-import { StoreQueries } from "~/packages/services/Api/Queries/AdminQueries/Stores"
+import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
-import { renderActiveStatus, renderHtml, renderThumb } from "~/packages/components/ResponsiveTable/tableUtils"
+import { renderActiveStatus, renderHtml, renderThumb } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
-import { QuestionQueries } from "~/packages/services/Api/Queries/AdminQueries/Questions"
-import { IconButton } from "~/packages/components/Form/Buttons/IconButton"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { getRegistrationQuestionTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/RegistrationQuestionTaggingFormMeta"
 import { getCareerListTableColumns } from "~/TableSearchMeta/Career/CareerListTableColumns"
 import { getCareerTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/CareerTaggingFormMeta"
-import { CareerQueries } from "~/packages/services/Api/Queries/AdminQueries/Careers"
+import { CareerQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Careers"
 import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTableColumns"
+import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
+import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(UPDATE_SUCCESSFULLY)
+      notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.update])
 
   const createSection = QueryConstructor(((data) => SectionQueries.create({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.create])
 
   const tagCareer = QueryConstructor(((data) => CourseQueries.tagCareer({ ...data, data: { ...data?.data }, params: { course_id: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.tagCareer, CareerQueries.getCareersAndSkillsByCourse])
 
   const tagRegistrationQuestion = QueryConstructor(((data) => CourseQueries.tagRegistrationQuestion({ ...data, data: { ...data?.data, course: course.id } }).then(resp => {
     if (resp.success) {
-      message.success(CREATE_SUCCESSFULLY)
+      notification.success({ message: CREATE_SUCCESSFULLY })
     }
     return resp
   })), [CourseQueries.tagRegistrationQuestion])
@@ -123,10 +125,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_COURSE_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Add Section`}
+              formTitle={`Create Section`}
               formMeta={SectionFormMeta}
               formSubmitApi={createSection}
-              buttonLabel={`Add Section`}
+              buttonLabel={`Create Section`}
               iconType="create"
               refreshEventName={'REFRESH_COURSE_LIST'}
             />
@@ -147,11 +149,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           refreshEventName: "REFRESH_CAREER_LIST",
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Tag Career`}
+              formTitle={`Add Career`}
               formMeta={getCareerTaggingFormMeta()}
               formSubmitApi={tagCareer}
-              buttonLabel={`Tag Career`}
-              iconType="create"
+              buttonLabel={`Add Career`}
               refreshEventName={'REFRESH_CAREER_LIST'}
               initialFormValueApi={taggedCareersAndSkillQuery}
             />
@@ -247,11 +248,11 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               title: "Action",
               dataIndex: "id",
               render: (text) => (
-                <IconButton
-                  iconType="remove"
-                  toolTip="Remove"
+                <ContextAction
+                  tooltip="Remove"
+                  type="delete"
                   refreshEventName="REFRESH_REGISTRATION_QUESTION_TAB"
-                  onClickRemove={() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } })}
+                  queryService={QueryConstructor(() => CourseQueries.untagRegistrationQuestion({ data: { ids: [text] } }), [CourseQueries.untagRegistrationQuestion])}
                 />
               )
             },
@@ -265,13 +266,27 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
               formMeta={getRegistrationQuestionTaggingFormMeta(course.id)}
               formSubmitApi={tagRegistrationQuestion}
               buttonLabel={`Add Registration Question`}
-              iconType="create"
               refreshEventName={'REFRESH_REGISTRATION_QUESTION_TAB'}
             />
           ]
         }
       },
       helpKey: "registrationQuestionsTab"
+    },
+    {
+      tabTitle: "Activities",
+      tabType: "searchtable",
+      tabMeta: {
+        searchMeta: AuditTrailSearchMeta,
+        searchMetaName: "AuditTrailSearchMeta",
+        tableProps: {
+          ...getAuditTrailListTableColumns(),
+          searchParams: { changes_in__id: course.id },
+          refreshEventName: "REFRESH_ACTIVITY_TAB",
+          pagination: false,
+        }
+      },
+      helpKey: "activitiesTab"
     },
   ]
 
