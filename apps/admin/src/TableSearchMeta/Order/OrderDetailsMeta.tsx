@@ -7,7 +7,7 @@ import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
-import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { renderJson, renderAnswer, renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
@@ -16,14 +16,18 @@ import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBl
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
     title: `Order: ${order.order_ref}`,
-    contents: [...[
-      { label: 'Store', value: order.store, render: (text: any) => text.name },
-      { label: 'Enrollment Date', value: order.datetime, render: renderDate },
-      { label: 'Status', value: order.cart_status },
-      { label: 'Extended amount', value: order.gross_amount },
-      { label: 'Discount amount', value: order.total_discount },
-      { label: 'Tax amount', value: order.tax_amount },
-    ], ...order.purchaser_info.purchasing_for?.type ? [{ label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type }] : []]
+    contents: [
+      ...[
+        { label: 'Store', value: renderLink(`/administration/store/${order.store?.id}`, order.store?.name) },
+        { label: 'Enrollment Date', value: order.datetime, render: renderDate },
+        { label: 'Status', value: order.cart_status },
+        { label: 'Extended amount', value: order.gross_amount },
+        { label: 'Discount amount', value: order.total_discount },
+        { label: 'Tax amount', value: order.tax_amount },
+      ],
+      ...order.purchaser_info.purchasing_for?.type ? [{ label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type }] : [],
+      ...order.parent_order?.id ? [{ label: 'Parent Order', value: renderLink(`/storefront-data/order/${order.parent_order.id}`, order.parent_order.order_ref) }] : []
+    ]
   }
 
   const purchaserInfo: CardContainer = {
