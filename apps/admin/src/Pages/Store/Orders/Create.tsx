@@ -14,10 +14,12 @@ import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataSt
 import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
 import { StepNames } from "~/Component/Feature/Orders/Create/common"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
+import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 
 export const Create = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
   const [isProcessing, setIsProcessing] = useState(false)
+  //const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
   const [storeData, setStoreData] = useState<Record<string, any>>()
   const [productData, setProductData] = useState<Record<string, any>[]>([])
   const registrationProductData = useMemo(() => productData.filter(i => i.unit === "registration"), [productData])
@@ -27,7 +29,6 @@ export const Create = () => {
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-
   const hasValidStoreData = !!storeData
   const hasValidProductData = !!productData.length
   const hasValidPurchaserData = !!purchaserData
@@ -49,6 +50,9 @@ export const Create = () => {
   const handleStepChange = useCallback((current) => {
     setCurrentStep(current)
   }, [])
+
+  // const getOrderDetails = useCallback(async () => {
+  // }, [])
 
   const generateCartDetailsPayload = useCallback(() => {
     return [...productData.reduce((a, c) => {
@@ -192,6 +196,22 @@ export const Create = () => {
                 <PurchaserDataStep
                   storeData={storeData}
                   purchaserData={purchaserData}
+                  profileQuestions={parseQuestionsMeta([
+                    {
+                      id: "d0b9c7a9-f144-4549-ac4f-0d14d27b8530",
+                      title: "<p>What is your gender?</p>",
+                      question_type: "select",
+                      configuration: {
+                        options: [
+                          {
+                            label: "Male",
+                            value: "M"
+                          }
+                        ],
+                        required: true
+                      },
+                    }
+                  ], "profile_question__")}
                   setPurchaserData={setPurchaserData}
                   setCurrentStep={setCurrentStep}
                 />

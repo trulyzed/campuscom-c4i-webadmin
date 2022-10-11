@@ -10,6 +10,7 @@ import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 interface IPurchaserDataStepProps {
   storeData: Record<string, any>
   purchaserData?: Record<string, any>
+  profileQuestions: any[]
   setPurchaserData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
@@ -17,6 +18,7 @@ interface IPurchaserDataStepProps {
 export const PurchaserDataStep = ({
   storeData,
   purchaserData,
+  profileQuestions,
   setPurchaserData,
   setCurrentStep,
 }: IPurchaserDataStepProps) => {
@@ -83,16 +85,7 @@ export const PurchaserDataStep = ({
       },
       rules: [{ required: true, message: "This field is required!" }]
     },
-    {
-      fieldName: "gender",
-      label: "What is your gender?",
-      inputType: DROPDOWN,
-      options: [
-        { label: "Male", value: "male" },
-        { label: "Female", value: "female" },
-        { label: "Others", value: "others" },
-      ],
-    },
+    ...profileQuestions
   ]
 
   return (
