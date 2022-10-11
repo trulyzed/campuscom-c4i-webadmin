@@ -10,7 +10,7 @@ import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 interface IPurchaserDataStepProps {
   storeData: Record<string, any>
   purchaserData?: Record<string, any>
-  profileQuestions: any[]
+  profileQuestions: IField[]
   setPurchaserData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }

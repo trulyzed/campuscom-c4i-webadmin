@@ -8,8 +8,8 @@ import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/Me
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { INPUT_OPTIONS } from "~/Configs/input"
 import { RelatedProductInput } from "./RelatedProductInput"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 
 interface IProductDataStepProps {
@@ -65,7 +65,7 @@ export const ProductDataStep = ({
       }
       return resp
     })
-  }, [EnrollmentQueries.create])
+  }, [OrderQueries.create])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Product Summary"}>

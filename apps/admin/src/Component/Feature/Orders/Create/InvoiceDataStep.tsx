@@ -5,7 +5,7 @@ import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { IField, TEXT } from "@packages/components/lib/Form/common"
 import { useCallback, useEffect, useState } from "react"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 interface IInvoiceDataStepProps {
   storeData: Record<string, any>
@@ -28,21 +28,21 @@ export const InvoiceDataStep = ({
 }: IInvoiceDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const getPaymentSummary = useCallback(async () => {
+  const getCreatableOrderPaymentSummary = useCallback(async () => {
     const payload = {
       cart_details: generateCartDetailsPayload(),
       store: storeData.store,
       coupon_codes: couponCode ? [couponCode] : [],
     }
     setIsProcessing(true)
-    const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
+    const resp = await OrderQueries.getCreatableOrderPaymentSummary({ data: payload })
     setIsProcessing(false)
     setInvoiceData(!resp.data?.message ? resp.data : undefined)
   }, [couponCode, storeData, setInvoiceData, generateCartDetailsPayload])
 
   useEffect(() => {
-    getPaymentSummary()
-  }, [couponCode, getPaymentSummary])
+    getCreatableOrderPaymentSummary()
+  }, [couponCode, getCreatableOrderPaymentSummary])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Invoice"} loading={isProcessing}>

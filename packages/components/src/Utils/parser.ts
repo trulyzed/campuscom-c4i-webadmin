@@ -13,8 +13,8 @@ enum QuestionType {
 
 export interface IQuestion {
   id: string
-  title: string
-  question_type: `${QuestionType}`
+  label: string
+  type: `${QuestionType}`
   configuration?: {
     required?: boolean
     options?: {
@@ -33,9 +33,9 @@ export interface IQuestion {
 
 export const parseQuestionsMeta = (questions: IQuestion[], fieldNamePrefix=""): IField[] => {
   return questions.map(i => {
-    const inputType = Object.keys(QuestionType)[Object.values(QuestionType).indexOf(i.question_type as QuestionType)] as IFieldType
+    const inputType = Object.keys(QuestionType)[Object.values(QuestionType).indexOf(i.type as QuestionType)] as IFieldType
     return {
-      label: parseReactElement(i.title),
+      label: parseReactElement(i.label),
       fieldName: `${fieldNamePrefix}${i.id}`,
       inputType,
       rules: [

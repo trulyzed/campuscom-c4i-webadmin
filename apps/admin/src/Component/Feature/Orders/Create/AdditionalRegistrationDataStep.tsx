@@ -8,6 +8,7 @@ interface IAdditionalRegistrationDataStepProps {
   registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
+  //registrationQuestions: { product: string; meta: IField[] }[]
   setCurrentStep: (step: StepNames) => void
 }
 
@@ -15,6 +16,7 @@ export const AdditionalRegistrationDataStep = ({
   registrationProductData,
   studentData,
   registrationData,
+  //registrationQuestions,
   setCurrentStep,
 }: IAdditionalRegistrationDataStepProps) => {
   const [formInstance] = Form.useForm()

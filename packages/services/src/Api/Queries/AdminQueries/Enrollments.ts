@@ -67,53 +67,5 @@ export const EnrollmentQueries: IEnrollmentQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read }]
-  ),
-
-  create: PermissionWrapper(
-    (data) => {
-      const payload = convertToFormData(data?.data)
-      return adminApi({
-        endpoint: endpoints.CREATE_ENROLLMENT,
-        method: "POST",
-        ...data,
-        data: payload
-      })
-    },
-    [{ operation: ApiPermissionClass.CreateEnrollment, action: ApiPermissionAction.Write }]
-  ),
-
-  createWithPurchaserInfo: PermissionWrapper(
-    (data) => {
-      const payload = convertToFormData(data?.data)
-      return adminApi({
-        endpoint: endpoints.CREATE_ENROLLMENT_WITH_PURCHASER,
-        method: "POST",
-        ...data,
-        data: payload
-      })
-    },
-    [{ operation: ApiPermissionClass.CreateEnrollmentWithPurchserInfo, action: ApiPermissionAction.Write }]
-  ),
-
-  getPaymentSummary: PermissionWrapper(
-    (data) => {
-      return adminApi({
-        endpoint: endpoints.CREATE_ENROLLMENT_PAYMENT_SUMMARY,
-        method: "POST",
-        ...data
-      })
-    },
-    [{ operation: ApiPermissionClass.CreateEnrollmentPaymentSummary, action: ApiPermissionAction.Write }]
-  ),
-
-  getRelatedProductList: PermissionWrapper(
-    (data) => {
-      return adminApi({
-        endpoint: endpoints.CREATE_ENROLLMEMT_PRODUCT_DETAILS,
-        method: "POST",
-        ...data
-      })
-    },
-    [{ operation: ApiPermissionClass.CreateEnrollmentProductDetails, action: ApiPermissionAction.Write }]
   )
 }

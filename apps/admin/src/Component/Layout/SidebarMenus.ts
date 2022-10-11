@@ -1,5 +1,4 @@
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
@@ -36,6 +35,7 @@ import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/Co
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -92,14 +92,14 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         title: "Create Order",
         url: "/store/create-order",
         submenu: [],
-        permission: checkAdminApiPermission(EnrollmentQueries.create)
+        permission: checkAdminApiPermission(OrderQueries.create)
       },
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
       checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
-      checkAdminApiPermission(EnrollmentQueries.create)
+      checkAdminApiPermission(OrderQueries.create)
   },
   {
     title: "Storefront Data",

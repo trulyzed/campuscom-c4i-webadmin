@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react"
 import { Card } from "antd"
 import { useDependencyValue } from "@packages/components/lib/Hooks/useDependencyValue"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IGeneratedField } from "@packages/components/lib/Form/common"
 import { renderAmount, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { FormInputNumber } from "@packages/components/lib/Form/FormInputNumber"
 import { FormInput } from "@packages/components/lib/Form/FormInput"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 export const RelatedProductInput = (props: IGeneratedField & { store: string }) => {
   const { store, dependencyValue } = props
@@ -17,7 +17,7 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string }) 
   const getRelatedProducts = useCallback(async () => {
     if (!store || !product) return
     setIsProcessing(true)
-    const resp = await EnrollmentQueries.getRelatedProductList({ data: { product_ids: [product], store: store } })
+    const resp = await OrderQueries.getCreatableOrderDetails({ data: { product_ids: [product], store: store } })
     setRelatedProducts(resp.success ? resp.data.products[0]?.related_products : [])
     setIsProcessing(false)
   }, [product, store])
