@@ -15,7 +15,6 @@ import { StepNames } from "~/Component/Feature/Orders/Create/common"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
-import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 
 export const Create = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
@@ -52,46 +51,21 @@ export const Create = () => {
     setCurrentStep(current)
   }, [])
 
-  // const getOrderDetails = useCallback(async () => {
-  //   if (!storeData?.store) {
-  //     setOrderDetails(undefined)
-  //     return
-  //   }
-  //   const productIds = productData.map(i => i.id)
-  //   setIsProcessing(true)
-  //   const resp = await OrderQueries.getCreatableOrderDetails({ data: { product_ids: productIds, store: storeData.store } })
-  //   setIsProcessing(false)
-  //   if (resp.success) setOrderDetails(resp.data)
-  //   else setOrderDetails(undefined)
-  // }, [storeData, productData])
-
   const getOrderDetails = useCallback(async () => {
     if (!storeData?.store) {
       setOrderDetails(undefined)
       return
     }
+    const productIds = productData.map(i => i.id)
     setIsProcessing(true)
-    const resp = await QuestionQueries.getProfileQuestionListByStore({
-      params: {
-        respondent_type: "purchaser",
-        provider_type: "store",
-        provider_ref: storeData.store
-      }
-    })
+    const resp = await OrderQueries.getCreatableOrderDetails({ data: { product_ids: productIds, store: storeData.store } })
     setIsProcessing(false)
-    if (resp.success) setOrderDetails({
-      profile_questions: (resp.data as any[]).map(i => ({
-        ...i.question_bank_details,
-        type: i.question_bank_details.question_type,
-        label: i.question_bank_details.title,
-      }))
-    })
+    if (resp.success) setOrderDetails(resp.data)
     else setOrderDetails(undefined)
-  }, [storeData])
+  }, [storeData, productData])
 
   useEffect(() => {
     getOrderDetails()
-    //setOrderDetails(dummyData)
   }, [getOrderDetails])
 
   const generatePurchaserDetailsPayload = useCallback(() => {
@@ -188,8 +162,6 @@ export const Create = () => {
     }
   }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, storeData, reset])
 
-  console.log(orderDetails)
-
   return (
     <>
       {orderRef ?
@@ -248,7 +220,7 @@ export const Create = () => {
                 <PurchaserDataStep
                   storeData={storeData}
                   purchaserData={purchaserData}
-                  profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []), "profile_question__")}
+                  profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "purchaser"), "profile_question__")}
                   setPurchaserData={setPurchaserData}
                   setCurrentStep={setCurrentStep}
                 />
@@ -274,10 +246,10 @@ export const Create = () => {
                         registrationProductData={registrationProductData}
                         studentData={studentData}
                         registrationData={registrationData}
-                        // registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
-                        //   product: i.id,
-                        //   meta: parseQuestionsMeta((i.registration_questions || []))
-                        // }))}
+                        registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
+                          product: i.id,
+                          meta: parseQuestionsMeta((i.registration_questions || []))
+                        }))}
                         setCurrentStep={setCurrentStep}
                       />
                       : (currentStep === StepNames.Invoice && storeData) ?
@@ -307,7 +279,7 @@ export const Create = () => {
 // const dummyData = {
 //   "products": [
 //     {
-//       "id": "99610883-506a-4a8d-98e5-86938d1c4c5f",
+//       "id": "e51b72c0-cfe2-4a73-a0d0-32759c5ba747",
 //       "external_id": "46575",
 //       "title": "Data Science",
 //       "slug": "BINT-3215",
@@ -325,7 +297,7 @@ export const Create = () => {
 //         "execution_mode": "self-paced",
 //         "name": "58191",
 //         "external_id": "",
-//         "product_id": "99610883-506a-4a8d-98e5-86938d1c4c5f",
+//         "product_id": "e51b72c0-cfe2-4a73-a0d0-32759c5ba747",
 //         "price": 10.0,
 //         "instructor": ""
 //       },

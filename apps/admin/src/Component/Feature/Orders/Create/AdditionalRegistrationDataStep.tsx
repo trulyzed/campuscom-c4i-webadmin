@@ -1,4 +1,4 @@
-import { DROPDOWN, IField, MULTI_RADIO, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
+import { IField } from "@packages/components/lib/Form/common"
 import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
 import { Button, Card, Col, Divider, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
@@ -8,7 +8,7 @@ interface IAdditionalRegistrationDataStepProps {
   registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
-  //registrationQuestions: { product: string; meta: IField[] }[]
+  registrationQuestions: { product: string; meta: IField[] }[]
   setCurrentStep: (step: StepNames) => void
 }
 
@@ -16,7 +16,7 @@ export const AdditionalRegistrationDataStep = ({
   registrationProductData,
   studentData,
   registrationData,
-  //registrationQuestions,
+  registrationQuestions,
   setCurrentStep,
 }: IAdditionalRegistrationDataStepProps) => {
   const [formInstance] = Form.useForm()
@@ -41,38 +41,7 @@ export const AdditionalRegistrationDataStep = ({
                     <div style={{ marginTop: "20px" }}>
                       <FormFields
                         formInstance={formInstance}
-                        meta={[
-                          ...idx === 0 ? [{
-                            fieldName: `test2__${idx2}`,
-                            label: "Can you afford This Course?",
-                            inputType: MULTI_RADIO,
-                            options: [
-                              { label: "Yes", value: "y" },
-                              { label: "No", value: "n" },
-                            ],
-                          }] as IField[] : [
-                            {
-                              fieldName: `age__${idx2}`,
-                              label: "Waht is your age?",
-                              inputType: TEXT,
-                            }
-                          ] as IField[],
-                          ...idx === 0 ? [{
-                            fieldName: `country__${idx2}`,
-                            label: "Select your country",
-                            options: [
-                              { label: "Bangladesh", value: "bd" },
-                              { label: "USA", value: "usa" },
-                            ],
-                            inputType: DROPDOWN,
-                          }] as IField[] : [
-                            {
-                              fieldName: `test__${idx2}`,
-                              label: "Type your address",
-                              inputType: TEXTAREA,
-                            }
-                          ] as IField[]
-                        ]}
+                        meta={registrationQuestions.find(i => i.product === registration.product)?.meta || []}
                         dependencyValue={{}}
                       />
                     </div>
