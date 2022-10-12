@@ -182,7 +182,7 @@ const getMeta = (storeId: string): IField[] => [
     fieldName: "related_product",
     label: "Related Product",
     inputType: CUSTOM_FIELD,
-    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} />,
+    customFilterComponent: (props) => <RelatedProductInput {...props} store={storeId} relationType={"standalone"} />,
     dependencies: ['product', 'product_type'],
     onDependencyChange: (value, { toggleField }) => {
       toggleField?.(value?.product_type === "section" && !!value?.product)

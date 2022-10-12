@@ -7,8 +7,8 @@ import { FormInputNumber } from "@packages/components/lib/Form/FormInputNumber"
 import { FormInput } from "@packages/components/lib/Form/FormInput"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
-export const RelatedProductInput = (props: IGeneratedField & { store: string }) => {
-  const { store, dependencyValue } = props
+export const RelatedProductInput = (props: IGeneratedField & { store: string; relationType: "standalone" | "registration" }) => {
+  const { store, dependencyValue, relationType } = props
   const { product } = dependencyValue || {}
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
@@ -18,9 +18,9 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string }) 
     if (!store || !product) return
     setIsProcessing(true)
     const resp = await OrderQueries.getCreatableOrderDetails({ data: { product_ids: [product], store: store } })
-    setRelatedProducts(resp.success ? resp.data.products[0]?.related_products : [])
+    setRelatedProducts(resp.success ? (resp.data.products[0]?.related_products as any[])?.filter(i => i.relation_type === relationType) : [])
     setIsProcessing(false)
-  }, [product, store])
+  }, [product, store, relationType])
 
   useEffect(() => {
     getRelatedProducts()
