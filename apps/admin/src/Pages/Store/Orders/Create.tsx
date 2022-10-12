@@ -131,9 +131,7 @@ export const Create = () => {
         }, {} as Record<string, any>)
         a.push({
           product_id: c.product,
-          first_name: student.first_name,
-          last_name: student.last_name,
-          email: student.primary_email,
+          profile_id: studentID,
           extra_info: profileQuestions
         })
       }
