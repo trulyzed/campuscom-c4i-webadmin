@@ -125,14 +125,16 @@ export const Create = () => {
       for (const studentID of c.students) {
         const student = studentData.find(i => i.id === studentID)
         if (!student) continue
+        const profileQuestions = Object.keys(student || {}).reduce((a, c) => {
+          if (c.includes("profile_question__")) a[c.split("profile_question__")[1]] = student?.[c]
+          return a
+        }, {} as Record<string, any>)
         a.push({
           product_id: c.product,
           first_name: student.first_name,
           last_name: student.last_name,
           email: student.primary_email,
-          extra_info: {
-
-          }
+          extra_info: profileQuestions
         })
       }
       return a
@@ -254,6 +256,7 @@ export const Create = () => {
                   <StudentDataStep
                     storeData={storeData}
                     studentData={studentData}
+                    profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "student"), "profile_question__")}
                     setStudentData={setStudentData}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}

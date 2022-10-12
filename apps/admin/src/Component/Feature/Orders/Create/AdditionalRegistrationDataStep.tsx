@@ -28,9 +28,7 @@ export const AdditionalRegistrationDataStep = ({
     formInstance
       .validateFields()
       .then((values) => {
-        console.log(values, registrationData)
         const getRegistrationQuestionValues = (productID: string, studentID: string) => Object.keys(values).reduce((a, c) => {
-          console.log(c, productID, studentID)
           if (c.includes("registration_question__") && c.includes(productID) && c.includes(studentID)) {
             a = {
               ...a,

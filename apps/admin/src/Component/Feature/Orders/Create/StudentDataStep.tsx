@@ -13,6 +13,7 @@ import { useCallback, useState } from "react"
 interface IStudentDataStepProps {
   storeData: Record<string, any>
   studentData: Record<string, any>[]
+  profileQuestions: IField[]
   setStudentData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
   isValid: boolean
@@ -21,6 +22,7 @@ interface IStudentDataStepProps {
 export const StudentDataStep = ({
   storeData,
   studentData,
+  profileQuestions,
   setStudentData,
   setCurrentStep,
   isValid,
@@ -28,14 +30,25 @@ export const StudentDataStep = ({
   const [isProcessing, setIsProcessing] = useState(false)
 
   const handleStudentDataChange = useCallback(async (value) => {
-    if (studentData.some(i => i.id === value.profile)) {
+    const { profile, ...formValues } = value
+    if (studentData.some(i => i.id === profile)) {
       notification.warning({ message: "Student already chosen" })
       return
     }
     setIsProcessing(true)
-    const resp = await StudentQueries.getSingle({ params: { id: value.profile } })
+    const resp = await StudentQueries.getSingle({ params: { id: profile } })
     setIsProcessing(false)
-    if (resp.success) setStudentData([...studentData, resp.data])
+    if (resp.success) setStudentData([
+      {
+        id: resp.data.id,
+        first_name: resp.data.first_name,
+        last_name: resp.data.last_name,
+        name: resp.data.name,
+        primary_email: resp.data.primary_email,
+        ...formValues
+      },
+      ...studentData,
+    ])
   }, [studentData, setStudentData])
 
   return (
@@ -43,7 +56,10 @@ export const StudentDataStep = ({
       <Row>
         <Col xs={24}>
           <MetaDrivenForm
-            meta={getMeta(storeData?.store)}
+            meta={[
+              ...getMeta(storeData?.store),
+              ...profileQuestions
+            ]}
             onApplyChanges={handleStudentDataChange}
             isWizard
             applyButtonLabel={"Add Student"}
