@@ -26,6 +26,7 @@ export const Create = () => {
   const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
+  const [additionalRegistrationData, setAdditionalRegistrationData] = useState<Record<string, any>[]>([])
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
@@ -121,15 +122,39 @@ export const Create = () => {
 
   const generateStudentDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
-      c.students.forEach((studentId: any) => {
+      for (const studentID of c.students) {
+        const student = studentData.find(i => i.id === studentID)
+        if (!student) continue
         a.push({
           product_id: c.product,
-          profile_id: studentId,
+          first_name: student.first_name,
+          last_name: student.last_name,
+          email: student.primary_email,
+          extra_info: {
+
+          }
         })
-      })
+      }
       return a
     }, [])
-  }, [registrationData])
+  }, [registrationData, studentData])
+
+  const generateRegistrationDetailsPayload = useCallback(() => {
+    return registrationData.reduce((a, c) => {
+      for (const studentID of c.students) {
+        const student = studentData.find(i => i.id === studentID)
+        if (!student) continue
+        a.push({
+          product_id: c.product,
+          student: student.primary_email,
+          data: {
+            ...((additionalRegistrationData.find(i => i.product === c.product)?.students || []) as any[]).find(i => (i.id === studentID) && i.registration_question_values)?.registration_question_values
+          }
+        })
+      }
+      return a
+    }, [])
+  }, [registrationData, additionalRegistrationData, studentData])
 
   const reset = useCallback(() => {
     setCurrentStep(StepNames.StoreInformation)
@@ -148,6 +173,7 @@ export const Create = () => {
       purchaser_info: generatePurchaserDetailsPayload(),
       cart_details: generateCartDetailsPayload(),
       student_details: generateStudentDetailsPayload(),
+      registration_details: generateRegistrationDetailsPayload(),
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
     }
@@ -160,7 +186,7 @@ export const Create = () => {
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, storeData, reset])
+  }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, storeData, reset])
 
   return (
     <>
@@ -250,6 +276,7 @@ export const Create = () => {
                           product: i.id,
                           meta: parseQuestionsMeta((i.registration_questions || []))
                         }))}
+                        setAdditionalRegistrationData={setAdditionalRegistrationData}
                         setCurrentStep={setCurrentStep}
                       />
                       : (currentStep === StepNames.Invoice && storeData) ?
@@ -273,175 +300,3 @@ export const Create = () => {
     </>
   )
 }
-
-
-
-// const dummyData = {
-//   "products": [
-//     {
-//       "id": "e51b72c0-cfe2-4a73-a0d0-32759c5ba747",
-//       "external_id": "46575",
-//       "title": "Data Science",
-//       "slug": "BINT-3215",
-//       "image_uri": null,
-//       "external_image_url": null,
-//       "provider": {
-//         "id": "61712c3c471759e39c56238b",
-//         "code": "j1"
-//       },
-//       "product_type": "store_course_section",
-//       "section": {
-//         "start_date": null,
-//         "end_date": null,
-//         "execution_site": null,
-//         "execution_mode": "self-paced",
-//         "name": "58191",
-//         "external_id": "",
-//         "product_id": "e51b72c0-cfe2-4a73-a0d0-32759c5ba747",
-//         "price": 10.0,
-//         "instructor": ""
-//       },
-//       "sections": [
-//         {
-//           "start_date": null,
-//           "end_date": null,
-//           "execution_site": null,
-//           "execution_mode": "self-paced",
-//           "name": "58191",
-//           "external_id": "",
-//           "product_id": "99610883-506a-4a8d-98e5-86938d1c4c5f",
-//           "price": 10.0,
-//           "instructor": ""
-//         }
-//       ],
-//       "price": 10.0,
-//       "registration_questions": [
-//         {
-//           id: "d0b9c7a9-f144-4549-ac4f-0d14d27b8530",
-//           label: "<p>What is your gender?</p>",
-//           type: "select",
-//           configuration: {
-//             options: [
-//               {
-//                 label: "Male",
-//                 value: "M"
-//               }
-//             ],
-//             required: true
-//           },
-//         }
-//       ],
-//       "related_products": []
-//     }
-//   ],
-//   "cart_id": "",
-//   "store": {
-//     "id": "1fbae74d-3c10-488c-ae17-70a081be1652",
-//     "created_at": "2021-10-21T06:14:23.296297Z",
-//     "updated_at": "2022-06-15T03:54:30.433381Z",
-//     "active_status": true,
-//     "name": "Jenzabar University",
-//     "url_slug": "jenzabar-university",
-//     "is_active": false,
-//     "store_logo_uri": "https://static.dev.campus4i.com/uploads/0e084222-a4ac-4d2a-910f-5f79c6f5d5a8.png",
-//     "gtm_id": null,
-//     "template": "https://static.dev.campus4i.com/uploads/templates/jenzabar-university.20220615t035430.js",
-//     "tax_enabled": false,
-//     "primary_course_provider": null,
-//     "configurations": [
-//       {
-//         "entity_name": "Email Receipt",
-//         "entity_type": "email_receipt_config",
-//         "config_value": {
-//           "footer": "For any query please contact with auth code!",
-//           "header": "Your order is placed, thank you",
-//           "email_receipt": true
-//         }
-//       },
-//       {
-//         "entity_name": "Checkout Status Configuration",
-//         "entity_type": "enrollment_config",
-//         "config_value": {
-//           "failure": {
-//             "redirect_url": "https://store.dev.campus4i.com/jenzabar-university",
-//             "redirect_text": "Back to store"
-//           },
-//           "success": {
-//             "redirect_url": "https://store.dev.campus4i.com/jenzabar-university",
-//             "redirect_text": "Back to store"
-//           }
-//         }
-//       },
-//       {
-//         "entity_name": "Avatax",
-//         "entity_type": "tax",
-//         "config_value": {
-//           "tax_code": "ST087651",
-//           "account_id": "2001578376",
-//           "license_key": "D01678E64CC08999",
-//           "request_url": "https://sandbox-rest.avatax.com/api/v2/",
-//           "company_code": "DEFAULT"
-//         }
-//       },
-//       {
-//         "entity_name": "Checkout Configuration",
-//         "entity_type": "enrollment_config",
-//         "config_value": {
-//           "enable_profile_questions": true,
-//           "enable_purchase_for_both": false,
-//           "enable_purchase_for_myself": false,
-//           "enable_purchase_for_company": false,
-//           "enable_registration_questions": false,
-//           "enable_multiple_products_checkout": false,
-//           "enable_standalone_product_checkout": false,
-//           "enable_registration_product_checkout": false,
-//           "enable_purchase_for_friends_and_family": false,
-//           "enable_enrollment_for_multiple_students": false
-//         }
-//       }
-//     ]
-//   },
-//   "profile_questions": [
-//     {
-//       "id": "cc804e6f-5df8-4772-a22e-eeaaa2b05ac6",
-//       "type": "select",
-//       "label": "<p>Select your country</p>",
-//       "display_order": 1,
-//       "configuration": {
-//         "required": false,
-//         "help_text": "Type at least 3 characters of your country name",
-//         "placeholder": "Type your country name",
-//         "autocomplete": true,
-//         "default_value": "Type your country name"
-//       },
-//       "respondent_type": "student"
-//     },
-//     {
-//       "id": "b8fdeb57-56a8-42b6-b730-5886716a526d",
-//       "type": "toggle",
-//       "label": "<p>Afford This Course?</p>",
-//       "display_order": 2,
-//       "configuration": {
-//         "required": true
-//       },
-//       "respondent_type": "student"
-//     }
-//   ],
-//   "companies": [
-//     {
-//       "id": "9db88bc6-2527-4bc4-839d-51ecc68eca98",
-//       "name": "Company A"
-//     }
-//   ],
-//   "payment_questions": [
-//     {
-//       "id": "d3844b59-413a-4f01-b87a-79e2365b942d",
-//       "type": "checkbox",
-//       "label": "<p>I accept the <a href=\"https://campus.com/privacy\">terms and conditions</a> of this store.</p>",
-//       "display_order": 1,
-//       "configuration": {
-//         "required": true
-//       }
-//     }
-//   ]
-// }
