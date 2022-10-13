@@ -30,6 +30,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
       { label: 'Number of Seats', value: seatBlock.number_of_seats },
       { label: 'Registered Students', value: seatBlock.registered_students },
       { label: 'Available Seats', value: seatBlock.available_seats },
+      { label: 'Group Token', value: seatBlock.token, render: (text) => seatBlock.token_type === "group" ? renderCopyToClipboard(`${process.env.REACT_APP_ENROLLMENT_URL}/registration/${seatBlock.store.url_slug}?token=${text}&guest=true`, { successMessage: "Token URL copied", title: text }) : "N/A" },
     ]
   }
 
