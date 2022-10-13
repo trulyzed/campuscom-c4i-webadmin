@@ -2,7 +2,7 @@ import { CUSTOM_FIELD, IField } from "@packages/components/lib/Form/common"
 import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
 import { Button, Card, Col, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
-import { useCallback } from "react"
+import { useCallback, useMemo } from "react"
 import { StepNames } from "./common"
 import { RelatedProductInput } from "./RelatedProductInput"
 
@@ -12,6 +12,7 @@ interface IAdditionalRegistrationDataStepProps {
   registrationData: Record<string, any>[]
   registrationQuestions: { product: string; meta: IField[] }[]
   registrationProducts: { parent: string; products: any[] }[]
+  additionalRegistrationData: Record<string, any>[]
   setAdditionalRegistrationData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
@@ -22,10 +23,29 @@ export const AdditionalRegistrationDataStep = ({
   registrationData,
   registrationQuestions,
   registrationProducts,
+  additionalRegistrationData,
   setAdditionalRegistrationData,
   setCurrentStep,
 }: IAdditionalRegistrationDataStepProps) => {
   const [formInstance] = Form.useForm()
+
+  const initialValues = useMemo(() => additionalRegistrationData.reduce((a, c) => {
+    for (const s of c.students) {
+      for (const key of Object.keys(s.registration_question_values || {})) {
+        a = {
+          ...a,
+          [`registration_question__${key}__${c.product}__${s.id}`]: s.registration_question_values?.[key]
+        }
+      }
+      for (const key of Object.keys(s.related_products || {})) {
+        a = {
+          ...a,
+          [`related_product_quantity__${key}__${c.product}__${s.id}`]: s.related_products?.[key]
+        }
+      }
+    }
+    return a
+  }, {}), [additionalRegistrationData])
 
   const handleSubmit = useCallback(() => {
     formInstance
@@ -62,8 +82,9 @@ export const AdditionalRegistrationDataStep = ({
     return meta.map(i => ({
       ...i,
       fieldName: `registration_question__${i.fieldName}__${productID}__${studentID}`,
+      defaultValue: initialValues?.[`registration_question__${i.fieldName}__${productID}__${studentID}`]
     }))
-  }, [registrationQuestions])
+  }, [registrationQuestions, initialValues])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Additional Registration Information"}>
@@ -76,6 +97,7 @@ export const AdditionalRegistrationDataStep = ({
               background: "white",
               borderRadius: "4px",
             }}
+            initialValues={initialValues}
           >
             {registrationData.map((registration, idx: number) => registration.students.length ? (
               <Card key={registration.product} style={{ marginBottom: "30px" }}>

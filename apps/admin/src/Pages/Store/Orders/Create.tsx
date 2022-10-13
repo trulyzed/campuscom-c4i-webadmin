@@ -310,6 +310,7 @@ export const Create = () => {
                           parent: i.id,
                           products: (i.related_products as any[]).filter(i => i.relation_type === "registration")
                         }))}
+                        additionalRegistrationData={additionalRegistrationData}
                         setAdditionalRegistrationData={setAdditionalRegistrationData}
                         setCurrentStep={setCurrentStep}
                       />
