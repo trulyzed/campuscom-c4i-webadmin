@@ -56,6 +56,7 @@ export const StudentDataStep = ({
       <Row>
         <Col xs={24}>
           <MetaDrivenForm
+            className="form--with-html-label"
             meta={[
               ...getMeta(storeData?.store),
               ...profileQuestions

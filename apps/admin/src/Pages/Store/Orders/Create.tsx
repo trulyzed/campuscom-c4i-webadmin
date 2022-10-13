@@ -123,6 +123,7 @@ export const Create = () => {
       ...additionalRegistrationData.reduce((a, c) => {
         for (const i of c.students) {
           for (const key of Object.keys(i.related_products)) {
+            if (!i.related_products[key]) continue
             a.push({
               product_id: key,
               quantity: i.related_products[key],

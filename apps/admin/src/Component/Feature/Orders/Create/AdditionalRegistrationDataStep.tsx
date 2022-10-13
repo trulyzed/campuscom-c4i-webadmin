@@ -91,7 +91,7 @@ export const AdditionalRegistrationDataStep = ({
       <Row>
         <Col flex={"auto"}>
           <Form
-            //layout={"horizontal"}
+            className="form--with-html-label"
             form={formInstance}
             style={{
               background: "white",

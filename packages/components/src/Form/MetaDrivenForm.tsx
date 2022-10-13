@@ -62,11 +62,13 @@ export function MetaDrivenForm({
   applyButtonLabel = "Apply",
   actionContainerStyle,
   clearButtonLabel = "Clear All",
+  className,
   ...props
 }: {
   meta: IField[]
   metaName?: string
   title?: React.ReactNode
+  className?: string
   loading?: boolean
   isModal?: boolean
   blocks?: React.ReactNode[]
@@ -330,7 +332,7 @@ export function MetaDrivenForm({
   return (
     <Card
       bordered={props.bordered}
-      className={props.isAside ? 'is-aside' : ''}
+      className={`${props.isAside ? 'is-aside' : ''}${className ? ` ${className}` : ""}`}
       title={
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>

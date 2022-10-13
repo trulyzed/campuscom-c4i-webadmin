@@ -91,6 +91,7 @@ export const PurchaserDataStep = ({
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Purchaser Information"}>
       <MetaDrivenForm
+        className="form--with-html-label"
         meta={meta}
         onApplyChanges={(values) => {
           setPurchaserData(values)
