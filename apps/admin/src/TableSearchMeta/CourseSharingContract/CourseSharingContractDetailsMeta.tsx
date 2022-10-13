@@ -44,6 +44,7 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
       { label: 'Store', value: renderLink(`/administration/store/${courseSharingContract.store.id}`, courseSharingContract.store.name), },
       { label: 'Course Provider', value: renderLink(`/administration/course-provider/${courseSharingContract.course_provider.id}`, courseSharingContract.course_provider.name), },
       { label: 'Contract Date', value: courseSharingContract.contract_datetime, render: renderDateTime },
+      { label: 'Is Primary', value: courseSharingContract.is_primary, render: renderBoolean },
       { label: 'Is Active', value: courseSharingContract.is_active, render: renderBoolean },
     ]
   }
