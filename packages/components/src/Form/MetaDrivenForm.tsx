@@ -823,7 +823,7 @@ export const FormFields = (props: {
                   </div>
                 ) : formField}
                 {field.helperText ?
-                  <div style={{ marginBottom: "10px" }}>
+                  <div style={{ marginBottom: "10px", ...props.isVertical ? undefined : { textAlign: "right", marginTop: "-10px" } }}>
                     {typeof field.helperText === "string" ? <span>{field.helperText}</span> : field.helperText}
                   </div>
                   : null
