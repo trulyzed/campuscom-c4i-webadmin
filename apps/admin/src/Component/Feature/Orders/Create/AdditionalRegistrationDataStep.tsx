@@ -104,24 +104,27 @@ export const AdditionalRegistrationDataStep = ({
                 <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} italic level={4}>"{registrationProductData.find(product => product.id === registration.product)?.title}" registration information</Title>
                 {registration.students.map((student: any, idx2: number) => {
                   const products = registrationProducts.find(i => i.parent === registration.product)?.products
+                  const meta = [
+                    ...getRegistrationQuestionsMeta(registration.product, student),
+                    ...products?.length ? [{
+                      fieldName: "related_product",
+                      label: "Related Product",
+                      inputType: CUSTOM_FIELD,
+                      customFilterComponent: (props) => <RelatedProductInput {...props} relationType={"registration"} defaultRelatedProducts={products} fieldNamePrefix={`${registration.product}__${student}`} />,
+                    }] as IField[] : [],
+                  ]
                   return (
-                    <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }}>
-                      <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
-                      <div style={{ marginTop: "30px" }}>
-                        <FormFields
-                          formInstance={formInstance}
-                          meta={[
-                            ...getRegistrationQuestionsMeta(registration.product, student),
-                            ...products?.length ? [{
-                              fieldName: "related_product",
-                              label: "Related Product",
-                              inputType: CUSTOM_FIELD,
-                              customFilterComponent: (props) => <RelatedProductInput {...props} relationType={"registration"} defaultRelatedProducts={products} fieldNamePrefix={`${registration.product}__${student}`} />,
-                            }] as IField[] : [],
-                          ]}
-                          dependencyValue={{}}
-                        />
-                      </div>
+                    <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }} bodyStyle={{ ...!meta.length && { paddingTop: "10px", paddingBottom: "10px" } }}>
+                      <Title level={5} style={{ ...!meta.length && { marginBottom: "0" } }}>{studentData.find(s => s.id === student)?.name}</Title>
+                      {meta.length ?
+                        <div style={{ marginTop: "30px" }}>
+                          <FormFields
+                            formInstance={formInstance}
+                            meta={meta}
+                            dependencyValue={{}}
+                          />
+                        </div>
+                        : null}
                     </Card>
                   )
                 })}
