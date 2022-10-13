@@ -122,7 +122,6 @@ export const AdditionalRegistrationDataStep = ({
                           dependencyValue={{}}
                         />
                       </div>
-                      {/* {idx2 !== (registration.students.length - 1) ? <Divider /> : null} */}
                     </Card>
                   )
                 })}

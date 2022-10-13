@@ -12,6 +12,7 @@ interface ISteppersProps {
   hasValidStudentData: boolean
   hasRegistrationProduct: boolean
   hasValidRegistrationData: boolean
+  hasValidAdditionalRegistrationData: boolean
 }
 
 export const Steppers = ({
@@ -22,14 +23,15 @@ export const Steppers = ({
   hasValidPurchaserData,
   hasValidStudentData,
   hasRegistrationProduct,
-  hasValidRegistrationData
+  hasValidRegistrationData,
+  hasValidAdditionalRegistrationData
 }: ISteppersProps) => {
   const disablePurchaserDataStep = !hasValidStoreData
   const disableProductDataStep = !hasValidPurchaserData || disablePurchaserDataStep
   const disableStudentDataStep = disableProductDataStep || !hasRegistrationProduct
   const disableRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData
   const disableAdditionalRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData || !hasValidRegistrationData
-  const disableInvoiceDataStep = !hasValidProductData || (hasRegistrationProduct && disableAdditionalRegistrationDataStep)
+  const disableInvoiceDataStep = !hasValidProductData || (hasRegistrationProduct && (disableAdditionalRegistrationDataStep || !hasValidAdditionalRegistrationData))
   const disablePaymentDataStep = disableInvoiceDataStep
 
   return (

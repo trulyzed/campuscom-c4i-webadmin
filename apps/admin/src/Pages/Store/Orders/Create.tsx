@@ -35,6 +35,7 @@ export const Create = () => {
   const hasValidPurchaserData = !!purchaserData
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
+  const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -255,6 +256,7 @@ export const Create = () => {
             hasValidStudentData={hasValidStudentData}
             hasRegistrationProduct={!!registrationProductData.length}
             hasValidRegistrationData={hasValidRegistrationData}
+            hasValidAdditionalRegistrationData={hasValidAdditionalRegistrationData}
           />
         </Col>
         <Col md={18} lg={20} xs={24}>
