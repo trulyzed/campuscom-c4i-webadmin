@@ -67,8 +67,8 @@ export const InvoiceDataStep = ({
                       <div>{product.total_discount ? <Text type="danger" delete>{renderAmount(product.price)}</Text> : null}</div>
                     </Col>
                   </Row>
-                  {product.related_products.map((relatedProduct: any) => (
-                    <Row gutter={10} key={relatedProduct.id}>
+                  {product.related_products.map((relatedProduct: any, idx: number) => (
+                    <Row gutter={10} key={`${relatedProduct.id}__${idx}`}>
                       <Col md={8}><Text>+ {relatedProduct.title}</Text></Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.price)}</Col>

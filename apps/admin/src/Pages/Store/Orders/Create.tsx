@@ -88,37 +88,55 @@ export const Create = () => {
   }, [purchaserData])
 
   const generateCartDetailsPayload = useCallback(() => {
-    return [...productData.reduce((a, c) => {
-      for (const i of (c.related_products || [])) {
-        a.push({
-          product_id: i.id,
-          quantity: i.quantity,
-          is_related: true,
-          related_to: c.id,
-          student_email: "",
-          is_reservation: false
-        })
-      }
-      if (c.unit === "seat" || c.unit === "unit") {
-        a.push({
-          product_id: c.id,
-          quantity: c.quantity,
-          is_related: false,
-          related_to: "",
-          student_email: "",
-          is_reservation: c.unit === "seat"
-        })
-      }
-      return a
-    }, []) as Record<string, any>[], ...registrationData.map(registration => ({
-      product_id: registration.product,
-      quantity: registration.students.length,
-      is_related: false,
-      related_to: "",
-      student_email: "",
-      is_reservation: false
-    }))]
-  }, [registrationData, productData])
+    return [
+      ...productData.reduce((a, c) => {
+        for (const i of (c.related_products || [])) {
+          a.push({
+            product_id: i.id,
+            quantity: i.quantity,
+            is_related: true,
+            related_to: c.id,
+            student_email: "",
+            is_reservation: false
+          })
+        }
+        if (c.unit === "seat" || c.unit === "unit") {
+          a.push({
+            product_id: c.id,
+            quantity: c.quantity,
+            is_related: false,
+            related_to: "",
+            student_email: "",
+            is_reservation: c.unit === "seat"
+          })
+        }
+        return a
+      }, []) as Record<string, any>[],
+      ...registrationData.map(i => ({
+        product_id: i.product,
+        quantity: i.students.length,
+        is_related: false,
+        related_to: "",
+        student_email: "",
+        is_reservation: false
+      })),
+      ...additionalRegistrationData.reduce((a, c) => {
+        for (const i of c.students) {
+          for (const key of Object.keys(i.related_products)) {
+            a.push({
+              product_id: key,
+              quantity: i.related_products[key],
+              is_related: true,
+              related_to: c.product,
+              student_email: studentData.find(s => s.id === i.id)?.primary_email,
+              is_reservation: false
+            })
+          }
+        }
+        return a
+      }, []) as Record<string, any>[],
+    ]
+  }, [productData, registrationData, additionalRegistrationData, studentData])
 
   const generateStudentDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
@@ -157,7 +175,6 @@ export const Create = () => {
           }
           return a
         }, {})
-        //const matchedRegistrationData = ((additionalRegistrationData.find(i => i.product === c.product)?.students || []) as any[]).find(i => (i.id === studentID))
         a.push({
           product_id: c.product,
           student: student.primary_email,
