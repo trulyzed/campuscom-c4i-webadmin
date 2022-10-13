@@ -7,8 +7,13 @@ import { FormInputNumber } from "@packages/components/lib/Form/FormInputNumber"
 import { FormInput } from "@packages/components/lib/Form/FormInput"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
-export const RelatedProductInput = (props: IGeneratedField & { store: string; relationType: "standalone" | "registration" }) => {
-  const { store, dependencyValue, relationType } = props
+export const RelatedProductInput = (props: IGeneratedField & {
+  store?: string
+  relationType: "standalone" | "registration"
+  defaultRelatedProducts?: any[]
+  fieldNamePrefix: string
+}) => {
+  const { store, dependencyValue, relationType, defaultRelatedProducts, fieldNamePrefix = "" } = props
   const { product } = dependencyValue || {}
   const [relatedProducts, setRelatedProducts] = useState<any[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
@@ -26,6 +31,10 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string; re
     getRelatedProducts()
   }, [product, store, getRelatedProducts])
 
+  useEffect(() => {
+    setRelatedProducts(defaultRelatedProducts || [])
+  }, [defaultRelatedProducts])
+
   return (
     <Card>
       <ResponsiveTable
@@ -37,7 +46,7 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string; re
               <>
                 <span>{text}</span>
                 <FormInput
-                  fieldName={`related_product_title__${record.id}`}
+                  fieldName={`related_product_title__${record.id}${fieldNamePrefix ? `__${fieldNamePrefix}` : ""}`}
                   formInstance={props.formInstance}
                   label={""}
                   initialValue={record.title}
@@ -57,7 +66,7 @@ export const RelatedProductInput = (props: IGeneratedField & { store: string; re
             dataIndex: "quantity",
             render: (_, record) => (
               <FormInputNumber
-                fieldName={`related_product_quantity__${record.id}`}
+                fieldName={`related_product_quantity__${record.id}${fieldNamePrefix ? `__${fieldNamePrefix}` : ""}`}
                 formInstance={props.formInstance}
                 label={""}
                 formItemStyle={{ margin: 0 }}

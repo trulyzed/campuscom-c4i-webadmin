@@ -1,15 +1,17 @@
-import { IField } from "@packages/components/lib/Form/common"
+import { CUSTOM_FIELD, IField } from "@packages/components/lib/Form/common"
 import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
 import { Button, Card, Col, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
 import { useCallback } from "react"
 import { StepNames } from "./common"
+import { RelatedProductInput } from "./RelatedProductInput"
 
 interface IAdditionalRegistrationDataStepProps {
   registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
   registrationQuestions: { product: string; meta: IField[] }[]
+  registrationProducts: { parent: string; products: any[] }[]
   setAdditionalRegistrationData: (...args: any[]) => void
   setCurrentStep: (step: StepNames) => void
 }
@@ -19,6 +21,7 @@ export const AdditionalRegistrationDataStep = ({
   studentData,
   registrationData,
   registrationQuestions,
+  registrationProducts,
   setAdditionalRegistrationData,
   setCurrentStep,
 }: IAdditionalRegistrationDataStepProps) => {
@@ -29,13 +32,17 @@ export const AdditionalRegistrationDataStep = ({
       .validateFields()
       .then((values) => {
         const getRegistrationQuestionValues = (productID: string, studentID: string) => Object.keys(values).reduce((a, c) => {
-          if (c.includes("registration_question__") && c.includes(productID) && c.includes(studentID)) {
+          if (c.includes(productID) && c.includes(studentID)) {
             a = {
               ...a,
               id: studentID,
               registration_question_values: {
                 ...a.registration_question_values,
-                [c.split("__")[1]]: values[c]
+                ...c.includes("registration_question__") && { [c.split("__")[1]]: values[c] }
+              },
+              related_products: {
+                ...a.related_products,
+                ...c.includes("related_product_quantity__") && { [c.split("__")[1]]: values[c] }
               }
             }
           }
@@ -73,19 +80,30 @@ export const AdditionalRegistrationDataStep = ({
             {registrationData.map((registration, idx: number) => registration.students.length ? (
               <Card key={registration.product} style={{ marginBottom: "30px" }}>
                 <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} italic level={4}>"{registrationProductData.find(product => product.id === registration.product)?.title}" registration information</Title>
-                {registration.students.map((student: any, idx2: number) =>
-                  <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }}>
-                    <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
-                    <div style={{ marginTop: "30px" }}>
-                      <FormFields
-                        formInstance={formInstance}
-                        meta={getRegistrationQuestionsMeta(registration.product, student)}
-                        dependencyValue={{}}
-                      />
-                    </div>
-                    {/* {idx2 !== (registration.students.length - 1) ? <Divider /> : null} */}
-                  </Card>
-                )}
+                {registration.students.map((student: any, idx2: number) => {
+                  const products = registrationProducts.find(i => i.parent === registration.product)?.products
+                  return (
+                    <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }}>
+                      <Title level={5}>{studentData.find(s => s.id === student)?.name}</Title>
+                      <div style={{ marginTop: "30px" }}>
+                        <FormFields
+                          formInstance={formInstance}
+                          meta={[
+                            ...getRegistrationQuestionsMeta(registration.product, student),
+                            ...products?.length ? [{
+                              fieldName: "related_product",
+                              label: "Related Product",
+                              inputType: CUSTOM_FIELD,
+                              customFilterComponent: (props) => <RelatedProductInput {...props} relationType={"registration"} defaultRelatedProducts={products} fieldNamePrefix={`${registration.product}__${student}`} />,
+                            }] as IField[] : [],
+                          ]}
+                          dependencyValue={{}}
+                        />
+                      </div>
+                      {/* {idx2 !== (registration.students.length - 1) ? <Divider /> : null} */}
+                    </Card>
+                  )
+                })}
               </Card>
             ) : null)}
           </Form>

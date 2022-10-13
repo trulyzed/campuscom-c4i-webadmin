@@ -144,12 +144,24 @@ export const Create = () => {
       for (const studentID of c.students) {
         const student = studentData.find(i => i.id === studentID)
         if (!student) continue
+        const registrationData = additionalRegistrationData.reduce((a, c2) => {
+          if (c2.product === c.product) {
+            const matchedStudent = c2.students.find((i: any) => i.id === studentID)
+            if (matchedStudent) {
+              a = {
+                ...a,
+                ...matchedStudent.registration_question_values,
+                related_products: matchedStudent.related_products,
+              }
+            }
+          }
+          return a
+        }, {})
+        //const matchedRegistrationData = ((additionalRegistrationData.find(i => i.product === c.product)?.students || []) as any[]).find(i => (i.id === studentID))
         a.push({
           product_id: c.product,
           student: student.primary_email,
-          data: {
-            ...((additionalRegistrationData.find(i => i.product === c.product)?.students || []) as any[]).find(i => (i.id === studentID) && i.registration_question_values)?.registration_question_values
-          }
+          data: registrationData
         })
       }
       return a
@@ -276,6 +288,10 @@ export const Create = () => {
                         registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
                           product: i.id,
                           meta: parseQuestionsMeta((i.registration_questions || []))
+                        }))}
+                        registrationProducts={((orderDetails?.products || []) as any[]).map(i => ({
+                          parent: i.id,
+                          products: (i.related_products as any[]).filter(i => i.relation_type === "registration")
                         }))}
                         setAdditionalRegistrationData={setAdditionalRegistrationData}
                         setCurrentStep={setCurrentStep}
