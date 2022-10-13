@@ -19,7 +19,7 @@ export interface IQuestion {
     required?: boolean
     options?: {
       label: string
-      value: string
+      key: string
     }[]
     default_value?: string
     help_text?: string
@@ -41,7 +41,7 @@ export const parseQuestionsMeta = (questions: IQuestion[], fieldNamePrefix=""): 
       rules: [
         ...i.configuration?.required ? [{ required: true, message: "This field is required!" }] : [],
       ],
-      options: i.configuration?.options,
+      options: i.configuration?.options?.map(i => ({label: i.label, value: i.key})),
       initialValue: i.configuration?.default_value,
       helperText: i.configuration?.help_text,
       placeholder: i.configuration?.placeholder,
