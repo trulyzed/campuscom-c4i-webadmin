@@ -103,6 +103,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       { label: 'GTM ID', value: store.gtm_id },
       { label: 'Logo', value: renderThumb(store.store_logo_uri, "Store's logo") },
       { label: 'Template', value: renderLink(store.template, store.template, false, true) },
+      { label: 'Primary Course Provider', value: store.primary_course_provider ? renderLink(`/administration/course-provider/${store.primary_course_provider.id}`, store.primary_course_provider.name) : undefined },
     ]
   }
 
