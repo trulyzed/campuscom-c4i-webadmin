@@ -15,6 +15,7 @@ import { StepNames } from "~/Component/Feature/Orders/Create/common"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Hooks/usePayloadGenerator"
 
 export const Create = () => {
   const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
@@ -36,6 +37,13 @@ export const Create = () => {
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
+  const { generatePurchaserDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, generateCartDetailsPayload } = usePayloadGenerator({
+    purchaserData,
+    productData,
+    studentData,
+    registrationData,
+    additionalRegistrationData
+  })
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -69,123 +77,6 @@ export const Create = () => {
   useEffect(() => {
     getOrderDetails()
   }, [getOrderDetails])
-
-  const generatePurchaserDetailsPayload = useCallback(() => {
-    const profileQuestions = Object.keys(purchaserData || {}).reduce((a, c) => {
-      if (c.includes("profile_question__")) a[c.split("profile_question__")[1]] = purchaserData?.[c]
-      return a
-    }, {} as Record<string, any>)
-
-    return {
-      first_name: purchaserData?.first_name,
-      last_name: purchaserData?.last_name,
-      primary_email: purchaserData?.email,
-      purchasing_for: {
-        type: purchaserData?.purchasing_for,
-        ref: purchaserData?.company
-      },
-      extra_info: profileQuestions
-    }
-  }, [purchaserData])
-
-  const generateCartDetailsPayload = useCallback(() => {
-    return [
-      ...productData.reduce((a, c) => {
-        for (const i of (c.related_products || [])) {
-          a.push({
-            product_id: i.id,
-            quantity: i.quantity,
-            is_related: true,
-            related_to: c.id,
-            student_email: "",
-            is_reservation: false
-          })
-        }
-        if (c.unit === "seat" || c.unit === "unit") {
-          a.push({
-            product_id: c.id,
-            quantity: c.quantity,
-            is_related: false,
-            related_to: "",
-            student_email: "",
-            is_reservation: c.unit === "seat"
-          })
-        }
-        return a
-      }, []) as Record<string, any>[],
-      ...registrationData.map(i => ({
-        product_id: i.product,
-        quantity: i.students.length,
-        is_related: false,
-        related_to: "",
-        student_email: "",
-        is_reservation: false
-      })),
-      ...additionalRegistrationData.reduce((a, c) => {
-        for (const i of c.students) {
-          for (const key of Object.keys(i.related_products || {})) {
-            if (!i.related_products[key]) continue
-            a.push({
-              product_id: key,
-              quantity: i.related_products[key],
-              is_related: true,
-              related_to: c.product,
-              student_email: studentData.find(s => s.id === i.id)?.primary_email,
-              is_reservation: false
-            })
-          }
-        }
-        return a
-      }, []) as Record<string, any>[],
-    ]
-  }, [productData, registrationData, additionalRegistrationData, studentData])
-
-  const generateStudentDetailsPayload = useCallback(() => {
-    return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
-        if (!student) continue
-        const profileQuestions = Object.keys(student || {}).reduce((a, c) => {
-          if (c.includes("profile_question__")) a[c.split("profile_question__")[1]] = student?.[c]
-          return a
-        }, {} as Record<string, any>)
-        a.push({
-          product_id: c.product,
-          profile_id: studentID,
-          extra_info: profileQuestions
-        })
-      }
-      return a
-    }, [])
-  }, [registrationData, studentData])
-
-  const generateRegistrationDetailsPayload = useCallback(() => {
-    return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
-        if (!student) continue
-        const registrationData = additionalRegistrationData.reduce((a, c2) => {
-          if (c2.product === c.product) {
-            const matchedStudent = c2.students.find((i: any) => i.id === studentID)
-            if (matchedStudent) {
-              a = {
-                ...a,
-                ...matchedStudent.registration_question_values,
-                related_products: matchedStudent.related_products,
-              }
-            }
-          }
-          return a
-        }, {})
-        a.push({
-          product_id: c.product,
-          student: student.primary_email,
-          data: registrationData
-        })
-      }
-      return a
-    }, [])
-  }, [registrationData, additionalRegistrationData, studentData])
 
   const reset = useCallback(() => {
     setCurrentStep(StepNames.StoreInformation)
