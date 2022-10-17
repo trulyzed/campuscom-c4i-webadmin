@@ -53,12 +53,6 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
           pagination: false,
           columns: [
             {
-              title: "Enrollment",
-              dataIndex: "enrollment",
-              render: (text: any) => text ? renderLink(`/administration/enrollment/${text.id}`, text.ref_id) : undefined,
-              sorter: (a: any, b: any) => a.enrollment?.ref_id - b.enrollment?.ref_id
-            },
-            {
               title: "Token",
               dataIndex: "token",
               render: (text) => renderCopyToClipboard(`${process.env.REACT_APP_ENROLLMENT_URL}/registration/${seatBlock.store.url_slug}?token=${text}&guest=true`, { successMessage: "Token URL copied", title: text }),
@@ -70,9 +64,56 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
               render: (text: any) => text ? renderLink(`/storefront-data/student/${text.id}`, text.name) : undefined,
               sorter: (a: any, b: any) => a.profile?.name - b.profile?.name
             },
+            {
+              title: "Enrollment",
+              dataIndex: "enrollment",
+              render: (text: any) => text ? renderLink(`/administration/enrollment/${text.id}`, text.ref_id) : undefined,
+              sorter: (a: any, b: any) => a.enrollment?.ref_id - b.enrollment?.ref_id
+            },
+            {
+              title: "Actions",
+              dataIndex: 'actions',
+              render: (_, record: any) => (
+                <>
+                  {!record.profile ?
+                    <ContextAction
+                      type="add"
+                      tooltip="Add"
+                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
+                      refreshEventName="REFRESH_TOKEN_LIST"
+                    />
+                    : null}
+                  {record.profile ?
+                    <ContextAction
+                      type="swap"
+                      tooltip="Swap"
+                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
+                      refreshEventName="REFRESH_TOKEN_LIST"
+                    />
+                    : null}
+                  {record.profile ?
+                    <ContextAction
+                      type="transfer"
+                      tooltip="Transfer"
+                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
+                      refreshEventName="REFRESH_TOKEN_LIST"
+                    />
+                    : null}
+                  {record.profile ?
+                    <ContextAction
+                      type="remove"
+                      tooltip="Remove"
+                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
+                      refreshEventName="REFRESH_TOKEN_LIST"
+                    />
+                    : null}
+                </>
+              )
+            }
           ],
           searchFunc: SeatBlockQueries.getSeatList,
-          searchParams: { reservation_id: seatBlock.id }
+          searchParams: { reservation_id: seatBlock.id },
+          refreshEventName: "REFRESH_TOKEN_LIST"
         }
       },
       helpKey: "reservationTab"

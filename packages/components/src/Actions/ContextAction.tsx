@@ -6,8 +6,8 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { Button, ButtonProps } from "antd"
 import { useHistory } from "react-router-dom"
 
-export type ActionType = 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
-  'next' | 'previous' | 'reload' | 'showHistory' | 'start' | 'swap'
+export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+  'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'start' | 'swap' | 'transfer'
 
 interface IContextActionProps {
   text?: string
@@ -30,6 +30,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     return `glyphicon ${iconType}${iconColor === "success" ? " glyphicon--success" : iconColor === "danger" ? " glyphicon--danger" : iconColor === "primary" ? " glyphicon--primary" : iconColor === "warning" ? " glyphicon--warning" : ""}`
   }
   const iconTypes = {
+    add: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
     changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
     copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
@@ -46,9 +47,11 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     next: <span className={getIconClassName("glyphicon-chevron-right", iconColor)} />,
     previous: <span className={getIconClassName("glyphicon-chevron-left", iconColor)} />,
     reload: <span className={getIconClassName("glyphicon-repeat", iconColor)} />,
+    remove: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
     showHistory: <span className={getIconClassName("glyphicon-time", iconColor)} />,
     start: <span className={getIconClassName("glyphicon-play-circle", iconColor)} />,
-    swap: <span className={getIconClassName("glyphicon-random", iconColor)} />,
+    swap: <span className={getIconClassName("glyphicon-swap", iconColor)} />,
+    transfer: <span className={getIconClassName("glyphicon-transfer", iconColor)} />,
   }
   return iconTypes[type]
 }
@@ -80,7 +83,7 @@ export const ContextAction = ({
   }, [refreshEventName])
 
   const handleClick = useCallback(async () => {
-    if ((confirmationType || type === 'delete') && queryService) {
+    if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
       promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
         refreshEvents()
         redirectTo && push(redirectTo)

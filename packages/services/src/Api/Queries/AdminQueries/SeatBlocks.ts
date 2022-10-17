@@ -80,5 +80,57 @@ export const SeatBlockQueries: ISeatBlockQueries = {
       })
     },
     [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+  ),
+
+  removeStudent: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.SEAT_REGISTRATION,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "POST"
+      })
+    },
+    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+  ),
+
+  addStudent: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.SEAT_REGISTRATION,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "POST"
+      })
+    },
+    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+  ),
+
+  swapStudent: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.SEAT_REGISTRATION,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "POST"
+      })
+    },
+    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+  ),
+
+  transferStudent: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.SEAT_REGISTRATION,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "POST"
+      })
+    },
+    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
   )
 }
