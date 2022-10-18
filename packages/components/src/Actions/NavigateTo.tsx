@@ -8,16 +8,17 @@ interface INavigateToProps {
   name: string
   path: string
   className?: string
-  type?: "create"
+  type?: "create" | "add"
   icon?: ReactNode
+  iconOnly?: boolean
   apiPermission: IQuery
 }
 
-export const NavigateTo = ({ name, path, type, icon, className, apiPermission }: INavigateToProps) => {
+export const NavigateTo = ({ name, path, type, icon, iconOnly, className, apiPermission }: INavigateToProps) => {
   return checkAdminApiPermission(apiPermission) ? (
     <Link to={path}>
-      <Button icon={type === "create" ? <span className="glyphicon glyphicon-plus-sign" /> : icon} type="primary" className={`${type === "create" ? "create-entity" : ''} ${className}`}>
-        <span className="ml-5">{name}</span>
+      <Button title={name} icon={(type === "create" || type === "add") ? <span className="glyphicon glyphicon-plus-sign" /> : icon} type={iconOnly ? "link" : "primary"} className={`${type === "create" ? "create-entity" : ''}${className ? ` ${className}` : ""}`}>
+        {iconOnly ? undefined : <span className="ml-5">{name}</span>}
       </Button>
     </Link>
   ) : null
