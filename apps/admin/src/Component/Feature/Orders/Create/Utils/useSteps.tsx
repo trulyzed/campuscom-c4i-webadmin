@@ -1,15 +1,15 @@
 import { Steps } from "./types"
 
-export const useSteps = (registerSingleStudent?: boolean) => {
+export const useSteps = (isTokenRegistration?: boolean) => {
   const steps: Record<keyof typeof Steps, number> = {
-    StoreInformation: registerSingleStudent ? NaN : Steps.StoreInformation,
-    PurchaserInformation: registerSingleStudent ? NaN : Steps.PurchaserInformation,
-    ProductInformation: registerSingleStudent ? NaN : Steps.ProductInformation,
-    StudentInformation: registerSingleStudent ? 0 : Steps.StudentInformation,
-    RegistrationInformation: registerSingleStudent ? NaN : Steps.RegistrationInformation,
-    AdditionalRegistrationInformation: registerSingleStudent ? 1 : Steps.AdditionalRegistrationInformation,
-    Invoice: registerSingleStudent ? 2 : Steps.Invoice,
-    PaymentInformation: registerSingleStudent ? 3 : Steps.PaymentInformation,
+    StoreInformation: isTokenRegistration ? NaN : Steps.StoreInformation,
+    PurchaserInformation: isTokenRegistration ? NaN : Steps.PurchaserInformation,
+    ProductInformation: isTokenRegistration ? NaN : Steps.ProductInformation,
+    StudentInformation: isTokenRegistration ? 0 : Steps.StudentInformation,
+    RegistrationInformation: isTokenRegistration ? NaN : Steps.RegistrationInformation,
+    AdditionalRegistrationInformation: isTokenRegistration ? 1 : Steps.AdditionalRegistrationInformation,
+    Invoice: isTokenRegistration ? 2 : Steps.Invoice,
+    PaymentInformation: isTokenRegistration ? 3 : Steps.PaymentInformation,
   }
 
   return {
