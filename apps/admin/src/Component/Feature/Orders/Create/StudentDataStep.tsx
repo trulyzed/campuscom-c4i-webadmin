@@ -7,7 +7,7 @@ import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Students"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { useCallback, useState } from "react"
 
 interface IStudentDataStepProps {
@@ -15,8 +15,11 @@ interface IStudentDataStepProps {
   studentData: Record<string, any>[]
   profileQuestions: IField[]
   setStudentData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
   isValid: boolean
+  singleOnly: boolean
 }
 
 export const StudentDataStep = ({
@@ -24,8 +27,10 @@ export const StudentDataStep = ({
   studentData,
   profileQuestions,
   setStudentData,
+  currentStep,
   setCurrentStep,
   isValid,
+  singleOnly,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
@@ -64,6 +69,7 @@ export const StudentDataStep = ({
             onApplyChanges={handleStudentDataChange}
             isWizard
             applyButtonLabel={"Add Student"}
+            disableApplyButton={singleOnly ? studentData.length > 0 : undefined}
             showFullForm
             showClearbutton={false}
             loading={isProcessing}
@@ -103,7 +109,7 @@ export const StudentDataStep = ({
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Space>
-            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.RegistrationInformation)} />
+            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(currentStep + 1)} />
           </Space>
         </Col>
       </Row>

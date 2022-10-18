@@ -1,4 +1,4 @@
-export enum StepNames {
+export enum Steps {
   StoreInformation,
   PurchaserInformation,
   ProductInformation,

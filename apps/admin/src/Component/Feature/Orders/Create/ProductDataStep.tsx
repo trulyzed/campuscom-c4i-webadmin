@@ -2,7 +2,7 @@ import { Button, Card, Col, Row } from "antd"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { CUSTOM_FIELD, DROPDOWN, IField, MULTI_RADIO, NUMBER } from "@packages/components/lib/Form/common"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -16,7 +16,9 @@ interface IProductDataStepProps {
   storeData: Record<string, any>
   productData: Record<string, any>[]
   setProductData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
   hasRegistrationProduct: boolean
 }
 
@@ -24,6 +26,8 @@ export const ProductDataStep = ({
   storeData,
   productData,
   setProductData,
+  steps,
+  currentStep,
   setCurrentStep,
   hasRegistrationProduct,
 }: IProductDataStepProps) => {
@@ -131,7 +135,7 @@ export const ProductDataStep = ({
           />
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-          <Button style={{ marginTop: "20px", }} disabled={!productData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(hasRegistrationProduct ? StepNames.StudentInformation : StepNames.Invoice)} />
+          <Button style={{ marginTop: "20px", }} disabled={!productData.length} type="primary" children={"Continue"} onClick={() => setCurrentStep(hasRegistrationProduct ? (currentStep + 1) : steps.Invoice)} />
         </Col>
       </Row>
     </Card>

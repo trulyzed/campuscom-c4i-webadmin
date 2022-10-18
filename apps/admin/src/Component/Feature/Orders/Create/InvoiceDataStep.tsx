@@ -1,6 +1,6 @@
 import { Button, Card, Col, Divider, Popover, Row } from "antd"
 import Text from "antd/lib/typography/Text"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { renderAmount } from "@packages/components/lib/ResponsiveTable"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { IField, TEXT } from "@packages/components/lib/Form/common"
@@ -13,7 +13,9 @@ interface IInvoiceDataStepProps {
   couponCode?: string
   setInvoiceData: (...args: any[]) => void
   setCouponCode: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
   generateCartDetailsPayload: () => any[]
 }
 
@@ -23,6 +25,7 @@ export const InvoiceDataStep = ({
   setInvoiceData,
   couponCode,
   setCouponCode,
+  currentStep,
   setCurrentStep,
   generateCartDetailsPayload,
 }: IInvoiceDataStepProps) => {
@@ -100,7 +103,7 @@ export const InvoiceDataStep = ({
             </Row>
           </Col>
           <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-            <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.PaymentInformation)} />
+            <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(currentStep + 1)} />
           </Col>
         </Row>
         : null

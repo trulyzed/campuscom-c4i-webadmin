@@ -11,14 +11,18 @@ import { RegistrationDataStep } from "~/Component/Feature/Orders/Create/Registra
 import { AdditionalRegistrationDataStep } from "~/Component/Feature/Orders/Create/AdditionalRegistrationDataStep"
 import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataStep"
 import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
-import { StepNames } from "~/Component/Feature/Orders/Create/common"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
-import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Hooks/usePayloadGenerator"
+import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/usePayloadGenerator"
+import { useLocation } from "react-router-dom"
+import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
 
 export const Create = () => {
-  const [currentStep, setCurrentStep] = useState(StepNames.StoreInformation)
+  const { search } = useLocation()
+  const registerSingleStudent = search.includes("reservation_id")
+  const { steps } = useSteps(registerSingleStudent)
+  const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
   const [storeData, setStoreData] = useState<Record<string, any>>()
@@ -46,6 +50,35 @@ export const Create = () => {
   })
 
   useEffect(() => {
+    if (registerSingleStudent) {
+      setStoreData({ store: dummyData.store.id })
+      setPurchaserData({
+        first_name: dummyData.purchaser.first_name,
+        last_name: dummyData.purchaser.last_name,
+        email: dummyData.purchaser.primary_email,
+        purchaser: dummyData.purchaser.id,
+        purchasing_for: dummyData.purchaser.purchasing_for?.type,
+        company: dummyData.purchaser.purchasing_for?.ref,
+        ...Object.keys(dummyData.purchaser.extra_info).reduce((a, c) => {
+          a[`profile_question__${c}`] = (dummyData.purchaser.extra_info as Record<string, any>)[c]
+          return a
+        }, {} as Record<string, any>)
+      })
+      setProductData([
+        {
+          id: dummyData.product.id,
+          title: dummyData.product.name,
+          quantity: 1,
+          order_type: "registration",
+          product_type: "section",
+          unit: "registration",
+          related_products: []
+        }
+      ])
+    }
+  }, [registerSingleStudent])
+
+  useEffect(() => {
     setRegistrationData(registrationData => {
       return registrationData.reduce((a, c) => {
         if (registrationProductData.some(p => p.id === c.product)) {
@@ -56,10 +89,6 @@ export const Create = () => {
       }, []) as Record<string, any>[]
     })
   }, [registrationProductData, studentData])
-
-  const handleStepChange = useCallback((current) => {
-    setCurrentStep(current)
-  }, [])
 
   const getOrderDetails = useCallback(async () => {
     if (!storeData?.store) {
@@ -79,7 +108,7 @@ export const Create = () => {
   }, [getOrderDetails])
 
   const reset = useCallback(() => {
-    setCurrentStep(StepNames.StoreInformation)
+    setCurrentStep(0)
     setStoreData(undefined)
     setPurchaserData(undefined)
     setProductData([])
@@ -110,6 +139,16 @@ export const Create = () => {
     }
   }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, storeData, reset])
 
+  const handleStudentDataChange = useCallback((value) => {
+    setStudentData(value)
+    if (registerSingleStudent) {
+      setRegistrationData([{
+        product: dummyData.product.id,
+        students: (value as any[]).map(i => i.id)
+      }])
+    }
+  }, [registerSingleStudent])
+
   return (
     <>
       {orderRef ?
@@ -139,8 +178,9 @@ export const Create = () => {
       <Row>
         <Col md={6} lg={4} xs={24}>
           <Steppers
+            steps={steps}
             currentStep={currentStep}
-            onChange={handleStepChange}
+            onChange={setCurrentStep}
             hasValidStoreData={hasValidStoreData}
             hasValidProductData={hasValidProductData}
             hasValidPurchaserData={hasValidPurchaserData}
@@ -151,48 +191,60 @@ export const Create = () => {
           />
         </Col>
         <Col md={18} lg={20} xs={24}>
-          {currentStep === StepNames.StoreInformation ?
+          {currentStep === steps.StoreInformation ?
             <StoreDataStep
+              steps={steps}
               storeData={storeData}
               setStoreData={setStoreData}
+              currentStep={currentStep}
               setCurrentStep={setCurrentStep}
             />
-            : (currentStep === StepNames.ProductInformation && storeData) ?
+            : (currentStep === steps.ProductInformation && storeData) ?
               <ProductDataStep
+                steps={steps}
                 storeData={storeData}
                 productData={productData}
                 setProductData={setProductData}
+                currentStep={currentStep}
                 setCurrentStep={setCurrentStep}
                 hasRegistrationProduct={!!registrationProductData.length}
               />
-              : (currentStep === StepNames.PurchaserInformation && storeData) ?
+              : (currentStep === steps.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
+                  steps={steps}
                   storeData={storeData}
                   purchaserData={purchaserData}
                   profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "purchaser"), "profile_question__")}
                   setPurchaserData={setPurchaserData}
+                  currentStep={currentStep}
                   setCurrentStep={setCurrentStep}
                 />
-                : (currentStep === StepNames.StudentInformation && storeData) ?
+                : (currentStep === steps.StudentInformation && storeData) ?
                   <StudentDataStep
+                    steps={steps}
                     storeData={storeData}
                     studentData={studentData}
                     profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "student"), "profile_question__")}
-                    setStudentData={setStudentData}
+                    setStudentData={handleStudentDataChange}
+                    currentStep={currentStep}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
+                    singleOnly={registerSingleStudent}
                   />
-                  : currentStep === StepNames.RegistrationInformation ?
+                  : currentStep === steps.RegistrationInformation ?
                     <RegistrationDataStep
+                      steps={steps}
                       registrationProductData={registrationProductData}
                       studentData={studentData}
                       registrationData={registrationData}
                       setRegistrationData={setRegistrationData}
+                      currentStep={currentStep}
                       setCurrentStep={setCurrentStep}
                       isValid={hasValidRegistrationData}
                     />
-                    : currentStep === StepNames.AdditionalRegistrationInformation ?
+                    : currentStep === steps.AdditionalRegistrationInformation ?
                       <AdditionalRegistrationDataStep
+                        steps={steps}
                         registrationProductData={registrationProductData}
                         studentData={studentData}
                         registrationData={registrationData}
@@ -206,19 +258,22 @@ export const Create = () => {
                         }))}
                         additionalRegistrationData={additionalRegistrationData}
                         setAdditionalRegistrationData={setAdditionalRegistrationData}
+                        currentStep={currentStep}
                         setCurrentStep={setCurrentStep}
                       />
-                      : (currentStep === StepNames.Invoice && storeData) ?
+                      : (currentStep === steps.Invoice && storeData) ?
                         <InvoiceDataStep
+                          steps={steps}
                           storeData={storeData}
                           invoiceData={invoiceData}
                           couponCode={couponCode}
                           setInvoiceData={setInvoiceData}
                           setCouponCode={setCouponCode}
+                          currentStep={currentStep}
                           setCurrentStep={setCurrentStep}
                           generateCartDetailsPayload={generateCartDetailsPayload}
                         />
-                        : currentStep === StepNames.PaymentInformation ?
+                        : currentStep === steps.PaymentInformation ?
                           <PaymentDataStep
                             onSubmit={handleSubmit}
                             loading={isProcessing}
@@ -228,4 +283,31 @@ export const Create = () => {
       </Row>
     </>
   )
+}
+
+
+const dummyData = {
+  store: {
+    id: "e8f24524-155e-4030-bc4f-ac711cc25956",
+    url_slug: "diu",
+    name: "Dhaka International University"
+  },
+  purchaser: {
+    id: "23d35231-3877-4589-b09b-27692f32d9af",
+    name: "Iqbal Ahmed",
+    first_name: "Iqbal",
+    last_name: "Ahmed",
+    primary_email: "iq@mail.com",
+    purchasing_for: {
+      "type": "others",
+      "ref": null
+    },
+    extra_info: {
+      "f49d9bd8-191c-45f2-8c9d-57598abaaeb4": "Not specific"
+    }
+  },
+  product: {
+    id: "196c8ae0-6200-4710-9131-3df576958920",
+    name: "Fundamental Chemistry ( 889 )"
+  }
 }

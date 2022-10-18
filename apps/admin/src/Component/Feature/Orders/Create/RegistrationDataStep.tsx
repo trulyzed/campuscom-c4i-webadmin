@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Col, Divider, Row } from "antd"
 import Title from "antd/lib/typography/Title"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { CheckboxValueType } from "antd/lib/checkbox/Group"
 import { useCallback } from "react"
 import pluralize from "pluralize"
@@ -10,7 +10,9 @@ interface IRegistrationDataStepProps {
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
   setRegistrationData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
   isValid: boolean
 }
 
@@ -19,6 +21,7 @@ export const RegistrationDataStep = ({
   studentData,
   registrationData,
   setRegistrationData,
+  currentStep,
   setCurrentStep,
   isValid,
 }: IRegistrationDataStepProps) => {
@@ -48,7 +51,7 @@ export const RegistrationDataStep = ({
           ))}
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-          <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(StepNames.AdditionalRegistrationInformation)} />
+          <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(currentStep + 1)} />
         </Col>
       </Row>
     </Card>

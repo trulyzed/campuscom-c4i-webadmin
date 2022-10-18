@@ -1,18 +1,21 @@
 import { Card } from "antd"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
 interface IStoreDataStepProps {
   storeData?: Record<string, any>
   setStoreData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
 }
 
 export const StoreDataStep = ({
   storeData,
   setStoreData,
+  currentStep,
   setCurrentStep,
 }: IStoreDataStepProps) => {
   return (
@@ -21,7 +24,7 @@ export const StoreDataStep = ({
         meta={meta}
         onApplyChanges={(values) => {
           setStoreData(values)
-          setCurrentStep(StepNames.PurchaserInformation)
+          setCurrentStep(currentStep + 1)
         }}
         isWizard
         applyButtonLabel="Continue"

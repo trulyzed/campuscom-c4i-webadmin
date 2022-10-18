@@ -3,7 +3,7 @@ import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
 import { Button, Card, Col, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
 import { useCallback, useMemo } from "react"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { RelatedProductInput } from "./RelatedProductInput"
 
 interface IAdditionalRegistrationDataStepProps {
@@ -14,7 +14,9 @@ interface IAdditionalRegistrationDataStepProps {
   registrationProducts: { parent: string; products: any[] }[]
   additionalRegistrationData: Record<string, any>[]
   setAdditionalRegistrationData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
 }
 
 export const AdditionalRegistrationDataStep = ({
@@ -25,6 +27,7 @@ export const AdditionalRegistrationDataStep = ({
   registrationProducts,
   additionalRegistrationData,
   setAdditionalRegistrationData,
+  currentStep,
   setCurrentStep,
 }: IAdditionalRegistrationDataStepProps) => {
   const [formInstance] = Form.useForm()
@@ -73,9 +76,9 @@ export const AdditionalRegistrationDataStep = ({
           product: i.product,
           students: i.students.map((s: any) => getRegistrationQuestionValues(i.product, s))
         })))
-        setCurrentStep(StepNames.Invoice)
+        setCurrentStep(currentStep + 1)
       })
-  }, [formInstance, registrationData, setCurrentStep, setAdditionalRegistrationData])
+  }, [formInstance, registrationData, currentStep, setCurrentStep, setAdditionalRegistrationData])
 
   const getRegistrationQuestionsMeta = useCallback((productID: string, studentID: string) => {
     const meta = registrationQuestions.find(i => i.product === productID)?.meta || []

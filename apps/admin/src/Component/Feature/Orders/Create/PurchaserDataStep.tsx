@@ -3,7 +3,7 @@ import { Card } from "antd"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
-import { StepNames } from "./common"
+import { Steps } from "./Utils/types"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 
@@ -12,7 +12,9 @@ interface IPurchaserDataStepProps {
   purchaserData?: Record<string, any>
   profileQuestions: IField[]
   setPurchaserData: (...args: any[]) => void
-  setCurrentStep: (step: StepNames) => void
+  steps: Record<keyof typeof Steps, number>
+  currentStep: number
+  setCurrentStep: (step: Steps) => void
 }
 
 export const PurchaserDataStep = ({
@@ -20,6 +22,7 @@ export const PurchaserDataStep = ({
   purchaserData,
   profileQuestions,
   setPurchaserData,
+  currentStep,
   setCurrentStep,
 }: IPurchaserDataStepProps) => {
   const [selectedPurchaser, setSelectedPurchaser] = useState<Record<string, any>>({ ...purchaserData })
@@ -95,7 +98,7 @@ export const PurchaserDataStep = ({
         meta={meta}
         onApplyChanges={(values) => {
           setPurchaserData(values)
-          setCurrentStep(StepNames.ProductInformation)
+          setCurrentStep(currentStep + 1)
         }}
         isWizard
         applyButtonLabel="Continue"
