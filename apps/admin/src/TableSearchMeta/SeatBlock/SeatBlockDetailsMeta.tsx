@@ -10,6 +10,7 @@ import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
+  console.log(seatBlock)
   const summaryInfo: CardContainer = {
     title: `Seat Block: ${seatBlock.reservation_ref}`,
     cardActions: [
