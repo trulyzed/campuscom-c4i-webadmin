@@ -3,8 +3,10 @@ import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { Button, ButtonProps } from "antd"
+import { Button, ButtonProps, } from "antd"
 import { useHistory } from "react-router-dom"
+import { Modal } from "~/Modal/Modal"
+import { zIndexLevel } from "~/zIndexLevel"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'start' | 'swap' | 'transfer'
@@ -22,6 +24,7 @@ interface IContextActionProps {
   iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
   buttonType?: ButtonProps["type"]
+  modalContent?: JSX.Element
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -68,9 +71,11 @@ export const ContextAction = ({
   redirectTo,
   downloadAs = 'EXCEL',
   iconColor,
-  buttonType
+  buttonType,
+  modalContent
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
 
@@ -93,11 +98,29 @@ export const ContextAction = ({
       queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
         refreshEvents()
       }).finally(() => setIsProcessing(false))
-    } else if (onClick) { onClick() }
-  }, [confirmationType, queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs])
+    } else if (onClick) {
+      onClick()
+    } else if (modalContent) {
+      setShowModal(true)
+    }
+  }, [confirmationType, queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs, modalContent])
 
   return (
-    (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-      : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
+    <>
+      {
+        (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
+          : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
+      }
+      {(showModal && modalContent) ?
+        <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.defaultModal}>
+          <div style={{ backgroundColor: "white", position: "relative" }}>
+            {modalContent}
+            <div style={{ position: "absolute", right: 0, top: 0 }}>
+              <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={() => setShowModal(false)} />
+            </div>
+          </div>
+        </Modal>
+        : null}
+    </>
   )
 }

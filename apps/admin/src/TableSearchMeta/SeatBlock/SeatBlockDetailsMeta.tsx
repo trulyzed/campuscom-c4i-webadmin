@@ -7,7 +7,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
-import { NavigateTo } from "@packages/components/lib/Actions/NavigateTo"
+import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
   console.log(seatBlock)
@@ -81,20 +81,27 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
               render: (_, record: any) => (
                 <>
                   {!record.profile ?
-                    <NavigateTo
-                      name="Add"
+                    <ContextAction
                       type="add"
-                      path={`/store/create-order/?reservation_id=${record.id}&register_student=true`}
-                      apiPermission={SeatBlockQueries.addStudent}
-                      iconOnly
+                      tooltip="Add"
+                      refreshEventName="REFRESH_TOKEN_LIST"
+                      modalContent={<CreateOrder title={"Add student"} tokenRegistrationDetails={{
+                        store: seatBlock.store,
+                        purchaser: seatBlock.purchaser,
+                        product: seatBlock.product
+                      }} />}
                     />
                     : null}
                   {record.profile ?
                     <ContextAction
                       type="swap"
                       tooltip="Swap"
-                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
                       refreshEventName="REFRESH_TOKEN_LIST"
+                      modalContent={<CreateOrder title={"Swap student"} tokenRegistrationDetails={{
+                        store: seatBlock.store,
+                        purchaser: seatBlock.purchaser,
+                        product: seatBlock.product
+                      }} />}
                     />
                     : null}
                   {record.profile ?

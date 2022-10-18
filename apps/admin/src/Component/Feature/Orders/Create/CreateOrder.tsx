@@ -1,7 +1,7 @@
 import { Card, Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { HelpButton } from "@packages/components/lib/Help/HelpButton"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
 import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
@@ -18,10 +18,12 @@ import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/use
 import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
 
 interface ICreateOrderProps {
+  title?: ReactNode
   tokenRegistrationDetails?: Record<string, any>
 }
 
 export const CreateOrder = ({
+  title = "Create an Order",
   tokenRegistrationDetails,
 }: ICreateOrderProps) => {
   const { steps } = useSteps(!!tokenRegistrationDetails)
@@ -62,7 +64,7 @@ export const CreateOrder = ({
         purchaser: tokenRegistrationDetails.purchaser.id,
         purchasing_for: tokenRegistrationDetails.purchaser.purchasing_for?.type,
         company: tokenRegistrationDetails.purchaser.purchasing_for?.ref,
-        ...Object.keys(tokenRegistrationDetails.purchaser.extra_info).reduce((a, c) => {
+        ...Object.keys(tokenRegistrationDetails.purchaser.extra_info || {}).reduce((a, c) => {
           a[`profile_question__${c}`] = (tokenRegistrationDetails.purchaser.extra_info as Record<string, any>)[c]
           return a
         }, {} as Record<string, any>)
@@ -168,7 +170,7 @@ export const CreateOrder = ({
           <Row>
             <Col flex="auto">
               <SidebarMenuTargetHeading level={1} targetID="navigation">
-                Create an Order
+                {title}
               </SidebarMenuTargetHeading>
             </Col>
             <Col flex="none">
