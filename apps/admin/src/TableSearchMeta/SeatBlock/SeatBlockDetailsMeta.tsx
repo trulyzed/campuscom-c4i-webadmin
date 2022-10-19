@@ -78,7 +78,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
             {
               title: "Actions",
               dataIndex: 'actions',
-              render: (_, record: any) => (
+              render: (_, record: any, index) => (
                 <>
                   {!record.profile ?
                     <ContextAction
@@ -93,8 +93,9 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                             purchaser: seatBlock.purchaser,
                             product: seatBlock.product
                           }}
-                          refreshEventName={["REFRESH_TOKEN_LIST", CLOSE_MODAL]}
+                          refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />}
+                      modalCloseEventName={`${CLOSE_MODAL}__${index}`}
                     />
                     : null}
                   {record.profile ?
@@ -110,8 +111,9 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                             purchaser: seatBlock.purchaser,
                             product: seatBlock.product
                           }}
-                          refreshEventName={["REFRESH_TOKEN_LIST", CLOSE_MODAL]}
+                          refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />}
+                      modalCloseEventName={`${CLOSE_MODAL}__${index}`}
                     />
                     : null}
                   {record.profile ?

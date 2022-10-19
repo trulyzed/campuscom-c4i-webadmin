@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from "react"
 import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { eventBus } from "@packages/utilities/lib/EventBus"
+import { eventBus, triggerEvents } from "@packages/utilities/lib/EventBus"
 import { Button, ButtonProps, } from "antd"
 import { useHistory } from "react-router-dom"
 import { Modal } from "~/Modal/Modal"
 import { zIndexLevel } from "~/zIndexLevel"
-import { CLOSE_MODAL } from "~/Constants"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'start' | 'swap' | 'transfer'
@@ -26,6 +25,7 @@ interface IContextActionProps {
   confirmationType?: string
   buttonType?: ButtonProps["type"]
   modalContent?: JSX.Element
+  modalCloseEventName?: string | symbol
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -73,7 +73,8 @@ export const ContextAction = ({
   downloadAs = 'EXCEL',
   iconColor,
   buttonType,
-  modalContent
+  modalContent,
+  modalCloseEventName,
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -81,37 +82,29 @@ export const ContextAction = ({
   const icon = getIcon(type, iconColor)
 
   useEffect(() => {
-    if (modalContent) {
-      eventBus.subscribe(CLOSE_MODAL, () => setShowModal(false))
-      return () => eventBus.unsubscribe(CLOSE_MODAL)
+    if (modalContent && modalCloseEventName) {
+      eventBus.subscribe(modalCloseEventName, () => setShowModal(false))
+      return () => eventBus.unsubscribe(modalCloseEventName)
     }
-  }, [modalContent])
-
-  const publishEvents = useCallback(() => {
-    if (Array.isArray(refreshEventName)) {
-      refreshEventName.forEach(i => {
-        eventBus.publish(i)
-      })
-    } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
-  }, [refreshEventName])
+  }, [modalContent, modalCloseEventName])
 
   const handleClick = useCallback(async () => {
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
       promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
-        publishEvents()
+        if (refreshEventName) triggerEvents(refreshEventName)
         redirectTo && push(redirectTo)
       })
     } else if (queryService) {
       setIsProcessing(true)
       queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
-        publishEvents()
+        if (refreshEventName) triggerEvents(refreshEventName)
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
       onClick()
     } else if (modalContent) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, publishEvents, onClick, push, redirectTo, downloadAs, modalContent])
+  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalContent])
 
   return (
     <>

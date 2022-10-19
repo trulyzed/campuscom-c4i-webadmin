@@ -16,8 +16,8 @@ import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/usePayloadGenerator"
 import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
-import { eventBus } from "@packages/utilities/lib/EventBus"
 import { useWatchDataChange } from "./Utils/useWatchDataChange"
+import { triggerEvents } from "@packages/utilities/lib/EventBus"
 
 interface ICreateOrderProps {
   title?: ReactNode
@@ -137,26 +137,18 @@ export const CreateOrder = ({
     setCouponCode(undefined)
   }, [])
 
-  const publishEvents = useCallback(() => {
-    if (Array.isArray(refreshEventName)) {
-      refreshEventName.forEach(i => {
-        eventBus.publish(i)
-      })
-    } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
-  }, [refreshEventName])
-
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
     const resp = await OrderQueries.create({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
-      publishEvents()
+      if (refreshEventName) triggerEvents(refreshEventName)
       reset()
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generatePayload, publishEvents, reset])
+  }, [generatePayload, refreshEventName, reset])
 
   // Submit payload when payment data changes
   useEffect(() => {
