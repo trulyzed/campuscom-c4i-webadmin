@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
@@ -7,6 +7,7 @@ import { Button, ButtonProps, } from "antd"
 import { useHistory } from "react-router-dom"
 import { Modal } from "~/Modal/Modal"
 import { zIndexLevel } from "~/zIndexLevel"
+import { CLOSE_MODAL } from "~/Constants"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'start' | 'swap' | 'transfer'
@@ -79,7 +80,14 @@ export const ContextAction = ({
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
 
-  const refreshEvents = useCallback(() => {
+  useEffect(() => {
+    if (modalContent) {
+      eventBus.subscribe(CLOSE_MODAL, () => setShowModal(false))
+      return () => eventBus.unsubscribe(CLOSE_MODAL)
+    }
+  }, [modalContent])
+
+  const publishEvents = useCallback(() => {
     if (Array.isArray(refreshEventName)) {
       refreshEventName.forEach(i => {
         eventBus.publish(i)
@@ -90,20 +98,20 @@ export const ContextAction = ({
   const handleClick = useCallback(async () => {
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
       promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
-        refreshEvents()
+        publishEvents()
         redirectTo && push(redirectTo)
       })
     } else if (queryService) {
       setIsProcessing(true)
       queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
-        refreshEvents()
+        publishEvents()
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
       onClick()
     } else if (modalContent) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, refreshEvents, onClick, push, redirectTo, downloadAs, modalContent])
+  }, [confirmationType, queryService, type, publishEvents, onClick, push, redirectTo, downloadAs, modalContent])
 
   return (
     <>

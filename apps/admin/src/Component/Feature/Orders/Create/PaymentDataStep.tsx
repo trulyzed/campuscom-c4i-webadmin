@@ -3,20 +3,23 @@ import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { IField, TEXT } from "@packages/components/lib/Form/common"
 
 interface IPaymentDataStepProps {
-  onSubmit: (values: { [key: string]: any }) => void
+  paymentData?: Record<string, any>
+  setPaymentData: (...args: any[]) => void
   loading: boolean
 }
 
 export const PaymentDataStep = ({
-  onSubmit,
+  paymentData,
+  setPaymentData,
   loading,
 }: IPaymentDataStepProps) => {
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Payment Details"}>
       <MetaDrivenForm
         meta={meta}
-        onApplyChanges={onSubmit}
+        onApplyChanges={setPaymentData}
         loading={loading}
+        initialFormValue={paymentData}
         isWizard
         applyButtonLabel="Submit"
         showFullForm

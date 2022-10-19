@@ -1,19 +1,27 @@
 import { useCallback } from "react"
 
 interface IUsePayloadGeneratorParams {
+  storeData?: Record<string, any>
   purchaserData?: Record<string, any>
   productData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
   additionalRegistrationData: Record<string, any>[]
+  paymentData?: Record<string, any>
+  options?: {
+    reservationToken: string
+  }
 }
 
 export const usePayloadGenerator = ({
+  storeData,
   purchaserData,
   productData,
   studentData,
   registrationData,
   additionalRegistrationData,
+  paymentData,
+  options
 }: IUsePayloadGeneratorParams) => {
   const generatePurchaserDetailsPayload = useCallback(() => {
     const profileQuestions = Object.keys(purchaserData || {}).reduce((a, c) => {
@@ -132,7 +140,21 @@ export const usePayloadGenerator = ({
     }, [])
   }, [registrationData, additionalRegistrationData, studentData])
 
+  const generatePayload = useCallback(() => {
+    return {
+      store: storeData?.store,
+      purchaser_info: generatePurchaserDetailsPayload(),
+      cart_details: generateCartDetailsPayload(),
+      student_details: generateStudentDetailsPayload(),
+      registration_details: generateRegistrationDetailsPayload(),
+      payment_ref: paymentData?.payment_ref,
+      payment_note: paymentData?.payment_note,
+      ...options?.reservationToken && { reservation_token: options.reservationToken }
+    }
+  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, options])
+
   return {
+    generatePayload,
     generatePurchaserDetailsPayload,
     generateCartDetailsPayload,
     generateStudentDetailsPayload,

@@ -8,9 +8,9 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
 import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
+import { CLOSE_MODAL } from "~/Constants"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
-  console.log(seatBlock)
   const summaryInfo: CardContainer = {
     title: `Seat Block: ${seatBlock.reservation_ref}`,
     cardActions: [
@@ -84,24 +84,34 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                     <ContextAction
                       type="add"
                       tooltip="Add"
-                      refreshEventName="REFRESH_TOKEN_LIST"
-                      modalContent={<CreateOrder title={"Add student"} tokenRegistrationDetails={{
-                        store: seatBlock.store,
-                        purchaser: seatBlock.purchaser,
-                        product: seatBlock.product
-                      }} />}
+                      modalContent={
+                        <CreateOrder
+                          title={"Add Student"}
+                          registrationDetails={{
+                            token: record.token,
+                            store: seatBlock.store,
+                            purchaser: seatBlock.purchaser,
+                            product: seatBlock.product
+                          }}
+                          refreshEventName={["REFRESH_TOKEN_LIST", CLOSE_MODAL]}
+                        />}
                     />
                     : null}
                   {record.profile ?
                     <ContextAction
                       type="swap"
                       tooltip="Swap"
-                      refreshEventName="REFRESH_TOKEN_LIST"
-                      modalContent={<CreateOrder title={"Swap student"} tokenRegistrationDetails={{
-                        store: seatBlock.store,
-                        purchaser: seatBlock.purchaser,
-                        product: seatBlock.product
-                      }} />}
+                      modalContent={
+                        <CreateOrder
+                          title={"Swap Student"}
+                          registrationDetails={{
+                            token: record.token,
+                            store: seatBlock.store,
+                            purchaser: seatBlock.purchaser,
+                            product: seatBlock.product
+                          }}
+                          refreshEventName={["REFRESH_TOKEN_LIST", CLOSE_MODAL]}
+                        />}
                     />
                     : null}
                   {record.profile ?

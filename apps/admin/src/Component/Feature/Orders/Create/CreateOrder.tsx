@@ -16,28 +16,33 @@ import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/usePayloadGenerator"
 import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
+import { eventBus } from "@packages/utilities/lib/EventBus"
+import { useWatchDataChange } from "./Utils/useWatchDataChange"
 
 interface ICreateOrderProps {
   title?: ReactNode
-  tokenRegistrationDetails?: Record<string, any>
+  registrationDetails?: Record<string, any>
+  refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
 export const CreateOrder = ({
   title = "Create an Order",
-  tokenRegistrationDetails,
+  registrationDetails,
+  refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps(!!tokenRegistrationDetails)
+  const { steps } = useSteps(!!registrationDetails)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
   const [storeData, setStoreData] = useState<Record<string, any>>()
+  const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
   const [productData, setProductData] = useState<Record<string, any>[]>([])
   const registrationProductData = useMemo(() => productData.filter(i => i.unit === "registration"), [productData])
-  const [purchaserData, setPurchaserData] = useState<Record<string, any>>()
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
   const [additionalRegistrationData, setAdditionalRegistrationData] = useState<Record<string, any>[]>([])
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
+  const [paymentData, setPaymentData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState()
   const [orderRef, setOrderRef] = useState<string | undefined>()
   const hasValidStoreData = !!storeData
@@ -46,54 +51,21 @@ export const CreateOrder = ({
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-  const { generatePurchaserDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, generateCartDetailsPayload } = usePayloadGenerator({
+  useWatchDataChange({ storeData, registrationProductData, studentData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, isRegistration: !!registrationDetails })
+  const { generateCartDetailsPayload, generatePayload } = usePayloadGenerator({
+    storeData,
     purchaserData,
     productData,
     studentData,
     registrationData,
-    additionalRegistrationData
-  })
-
-  useEffect(() => {
-    if (tokenRegistrationDetails) {
-      setStoreData({ store: tokenRegistrationDetails.store.id })
-      setPurchaserData({
-        first_name: tokenRegistrationDetails.purchaser.first_name,
-        last_name: tokenRegistrationDetails.purchaser.last_name,
-        email: tokenRegistrationDetails.purchaser.primary_email,
-        purchaser: tokenRegistrationDetails.purchaser.id,
-        purchasing_for: tokenRegistrationDetails.purchaser.purchasing_for?.type,
-        company: tokenRegistrationDetails.purchaser.purchasing_for?.ref,
-        ...Object.keys(tokenRegistrationDetails.purchaser.extra_info || {}).reduce((a, c) => {
-          a[`profile_question__${c}`] = (tokenRegistrationDetails.purchaser.extra_info as Record<string, any>)[c]
-          return a
-        }, {} as Record<string, any>)
-      })
-      setProductData([
-        {
-          id: tokenRegistrationDetails.product.id,
-          title: tokenRegistrationDetails.product.name,
-          quantity: 1,
-          order_type: "registration",
-          product_type: "section",
-          unit: "registration",
-          related_products: []
-        }
-      ])
+    additionalRegistrationData,
+    paymentData,
+    ...registrationDetails?.token && {
+      options: {
+        reservationToken: registrationDetails.token
+      }
     }
-  }, [tokenRegistrationDetails])
-
-  useEffect(() => {
-    setRegistrationData(registrationData => {
-      return registrationData.reduce((a, c) => {
-        if (registrationProductData.some(p => p.id === c.product)) {
-          c.students = c.students.filter((id: any) => studentData.some(student => student.id === id))
-          a.push(c)
-        }
-        return a
-      }, []) as Record<string, any>[]
-    })
-  }, [registrationProductData, studentData])
+  })
 
   const getOrderDetails = useCallback(async () => {
     if (!storeData?.store) {
@@ -112,47 +84,86 @@ export const CreateOrder = ({
     getOrderDetails()
   }, [getOrderDetails])
 
+  // Initialize data for seat registration
+  useEffect(() => {
+    if (registrationDetails) {
+      setStoreData({ store: registrationDetails.store.id })
+      setPurchaserData({
+        first_name: registrationDetails.purchaser.first_name,
+        last_name: registrationDetails.purchaser.last_name,
+        email: registrationDetails.purchaser.primary_email,
+        purchaser: registrationDetails.purchaser.id,
+        purchasing_for: registrationDetails.purchaser.purchasing_for?.type,
+        company: registrationDetails.purchaser.purchasing_for?.ref,
+        ...Object.keys(registrationDetails.purchaser.extra_info || {}).reduce((a, c) => {
+          a[`profile_question__${c}`] = (registrationDetails.purchaser.extra_info as Record<string, any>)[c]
+          return a
+        }, {} as Record<string, any>)
+      })
+      setProductData([
+        {
+          id: registrationDetails.product.id,
+          title: registrationDetails.product.name,
+          quantity: 1,
+          order_type: "registration",
+          product_type: "section",
+          unit: "registration",
+          related_products: []
+        }
+      ])
+    }
+  }, [registrationDetails])
+
+  const handleStudentDataChange = useCallback((value) => {
+    setStudentData(value)
+    if (registrationDetails) {
+      setRegistrationData([{
+        product: registrationDetails.product.id,
+        students: (value as any[]).map(i => i.id)
+      }])
+    }
+  }, [registrationDetails])
+
   const reset = useCallback(() => {
     setCurrentStep(0)
     setStoreData(undefined)
-    setPurchaserData(undefined)
     setProductData([])
+    setPurchaserData(undefined)
     setStudentData([])
     setRegistrationData([])
+    setAdditionalRegistrationData([])
     setInvoiceData(undefined)
+    setPaymentData(undefined)
     setCouponCode(undefined)
   }, [])
 
-  const handleSubmit = useCallback(async (values) => {
-    const payload = {
-      store: storeData?.store,
-      purchaser_info: generatePurchaserDetailsPayload(),
-      cart_details: generateCartDetailsPayload(),
-      student_details: generateStudentDetailsPayload(),
-      registration_details: generateRegistrationDetailsPayload(),
-      payment_ref: values.payment_ref,
-      payment_note: values.payment_note,
-    }
+  const publishEvents = useCallback(() => {
+    if (Array.isArray(refreshEventName)) {
+      refreshEventName.forEach(i => {
+        eventBus.publish(i)
+      })
+    } else if (typeof refreshEventName === "string") eventBus.publish(refreshEventName, {})
+  }, [refreshEventName])
+
+  const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await OrderQueries.create({ data: payload })
+    const resp = await OrderQueries.create({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
+      publishEvents()
       reset()
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, storeData, reset])
+  }, [generatePayload, publishEvents, reset])
 
-  const handleStudentDataChange = useCallback((value) => {
-    setStudentData(value)
-    if (tokenRegistrationDetails) {
-      setRegistrationData([{
-        product: tokenRegistrationDetails.product.id,
-        students: (value as any[]).map(i => i.id)
-      }])
-    }
-  }, [tokenRegistrationDetails])
+  // Submit payload when payment data changes
+  useEffect(() => {
+    if (!paymentData) return
+    handleSubmit()
+    // eslint-disable-next-line
+  }, [paymentData])
 
   return (
     <>
@@ -234,7 +245,7 @@ export const CreateOrder = ({
                     currentStep={currentStep}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
-                    singleOnly={!!tokenRegistrationDetails}
+                    singleOnly={!!registrationDetails}
                   />
                   : currentStep === steps.RegistrationInformation ?
                     <RegistrationDataStep
@@ -280,7 +291,8 @@ export const CreateOrder = ({
                         />
                         : currentStep === steps.PaymentInformation ?
                           <PaymentDataStep
-                            onSubmit={handleSubmit}
+                            paymentData={paymentData}
+                            setPaymentData={setPaymentData}
                             loading={isProcessing}
                           />
                           : null}
