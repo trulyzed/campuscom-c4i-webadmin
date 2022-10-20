@@ -4,26 +4,28 @@ interface IUseWatchDataChangeParams {
   storeData?: Record<string, any>
   registrationProductData: Record<string, any>[]
   studentData: Record<string, any>[]
+  setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   setStudentData: (...args: any[]) => void
   setRegistrationData: (...args: any[]) => void
   setAdditionalRegistrationData: (...args: any[]) => void
   setInvoiceData: (...args: any[]) => void
   setPaymentData: (...args: any[]) => void
-  isRegistration: boolean
+  reservationDetails?: Record<string, any>
 }
 
 export const useWatchDataChange = ({
   storeData,
   registrationProductData,
   studentData,
+  setPurchaserData,
   setProductData,
   setStudentData,
   setRegistrationData,
   setAdditionalRegistrationData,
   setInvoiceData,
   setPaymentData,
-  isRegistration
+  reservationDetails
 }: IUseWatchDataChangeParams) => {
   useEffect(() => {
     setRegistrationData((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
@@ -36,13 +38,25 @@ export const useWatchDataChange = ({
   }, [studentData, setRegistrationData, setAdditionalRegistrationData])
 
   useEffect(() => {
-    if (!isRegistration) setProductData([])
+    if (!reservationDetails) {
+      setPurchaserData(undefined)
+      setProductData([])
+    }
     setStudentData([])
     setRegistrationData([])
     setAdditionalRegistrationData([])
     setInvoiceData(undefined)
     setPaymentData(undefined)
-  }, [storeData, isRegistration, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
+  }, [storeData, reservationDetails, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
+
+  // Set default registration data for seat registration
+  useEffect(() => {
+    if (!reservationDetails) return
+    setRegistrationData([{
+      product: reservationDetails.product.id,
+      students: studentData.map(i => i.id)
+    }])
+  }, [reservationDetails, studentData, setRegistrationData])
 
   return null
 }

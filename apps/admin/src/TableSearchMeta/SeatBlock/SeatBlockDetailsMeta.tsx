@@ -11,6 +11,17 @@ import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 import { CLOSE_MODAL } from "~/Constants"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
+  const getReservationDetails = (record: Record<string, any>) => {
+    return {
+      id: record.id,
+      token: record.token,
+      store: seatBlock.store,
+      purchaser: seatBlock.purchaser,
+      product: seatBlock.product,
+      profile: record.profile
+    }
+  }
+
   const summaryInfo: CardContainer = {
     title: `Seat Block: ${seatBlock.reservation_ref}`,
     cardActions: [
@@ -87,12 +98,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                       modalContent={
                         <CreateOrder
                           title={"Add Student"}
-                          registrationDetails={{
-                            token: record.token,
-                            store: seatBlock.store,
-                            purchaser: seatBlock.purchaser,
-                            product: seatBlock.product
-                          }}
+                          reservationDetails={getReservationDetails(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />}
                       modalCloseEventName={`${CLOSE_MODAL}__${index}`}
@@ -105,22 +111,19 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                       modalContent={
                         <CreateOrder
                           title={"Swap Student"}
-                          registrationDetails={{
-                            token: record.token,
-                            store: seatBlock.store,
-                            purchaser: seatBlock.purchaser,
-                            product: seatBlock.product
-                          }}
+                          reservationDetails={getReservationDetails(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
+                          swapRegistration
                         />}
                       modalCloseEventName={`${CLOSE_MODAL}__${index}`}
                     />
                     : null}
                   {record.profile ?
                     <ContextAction
+                      confirmationType="remove"
                       type="remove"
                       tooltip="Remove"
-                      queryService={QueryConstructor(() => SeatBlockQueries.removeStudent({ data: { ids: [record.id] } }), [SeatBlockQueries.removeStudent])}
+                      queryService={QueryConstructor(() => SeatBlockQueries.removeRegistration({ data: { seat_reservation: record.id } }), [SeatBlockQueries.removeRegistration])}
                       refreshEventName="REFRESH_TOKEN_LIST"
                     />
                     : null}

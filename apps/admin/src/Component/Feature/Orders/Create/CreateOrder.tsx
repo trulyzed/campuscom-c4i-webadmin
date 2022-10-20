@@ -18,19 +18,23 @@ import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/use
 import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
 import { useWatchDataChange } from "./Utils/useWatchDataChange"
 import { triggerEvents } from "@packages/utilities/lib/EventBus"
+import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
+import { useInitialize } from "./Utils/useInitialize"
 
 interface ICreateOrderProps {
   title?: ReactNode
-  registrationDetails?: Record<string, any>
+  reservationDetails?: Record<string, any>
+  swapRegistration?: boolean
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
 export const CreateOrder = ({
   title = "Create an Order",
-  registrationDetails,
+  reservationDetails,
+  swapRegistration,
   refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps(!!registrationDetails)
+  const { steps } = useSteps(!!reservationDetails)
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -51,78 +55,18 @@ export const CreateOrder = ({
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-  useWatchDataChange({ storeData, registrationProductData, studentData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, isRegistration: !!registrationDetails })
+
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
   const { generateCartDetailsPayload, generatePayload } = usePayloadGenerator({
-    storeData,
-    purchaserData,
-    productData,
-    studentData,
-    registrationData,
-    additionalRegistrationData,
-    paymentData,
-    ...registrationDetails?.token && {
+    storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData,
+    ...reservationDetails && {
       options: {
-        reservationToken: registrationDetails.token
+        reservationToken: reservationDetails.token,
+        reservationID: reservationDetails.id,
       }
     }
   })
-
-  const getOrderDetails = useCallback(async () => {
-    if (!storeData?.store) {
-      setOrderDetails(undefined)
-      return
-    }
-    const productIds = productData.map(i => i.id)
-    setIsProcessing(true)
-    const resp = await OrderQueries.getCreatableOrderDetails({ data: { product_ids: productIds, store: storeData.store } })
-    setIsProcessing(false)
-    if (resp.success) setOrderDetails(resp.data)
-    else setOrderDetails(undefined)
-  }, [storeData, productData])
-
-  useEffect(() => {
-    getOrderDetails()
-  }, [getOrderDetails])
-
-  // Initialize data for seat registration
-  useEffect(() => {
-    if (registrationDetails) {
-      setStoreData({ store: registrationDetails.store.id })
-      setPurchaserData({
-        first_name: registrationDetails.purchaser.first_name,
-        last_name: registrationDetails.purchaser.last_name,
-        email: registrationDetails.purchaser.primary_email,
-        purchaser: registrationDetails.purchaser.id,
-        purchasing_for: registrationDetails.purchaser.purchasing_for?.type,
-        company: registrationDetails.purchaser.purchasing_for?.ref,
-        ...Object.keys(registrationDetails.purchaser.extra_info || {}).reduce((a, c) => {
-          a[`profile_question__${c}`] = (registrationDetails.purchaser.extra_info as Record<string, any>)[c]
-          return a
-        }, {} as Record<string, any>)
-      })
-      setProductData([
-        {
-          id: registrationDetails.product.id,
-          title: registrationDetails.product.name,
-          quantity: 1,
-          order_type: "registration",
-          product_type: "section",
-          unit: "registration",
-          related_products: []
-        }
-      ])
-    }
-  }, [registrationDetails])
-
-  const handleStudentDataChange = useCallback((value) => {
-    setStudentData(value)
-    if (registrationDetails) {
-      setRegistrationData([{
-        product: registrationDetails.product.id,
-        students: (value as any[]).map(i => i.id)
-      }])
-    }
-  }, [registrationDetails])
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -139,16 +83,23 @@ export const CreateOrder = ({
 
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await OrderQueries.create({ data: generatePayload() })
+    const resp = await (swapRegistration ? SeatBlockQueries.swapRegistration : OrderQueries.create)({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       if (refreshEventName) triggerEvents(refreshEventName)
+      if (reservationDetails) {
+        notification.success({
+          message: swapRegistration ? "Successfully swapped" : "Successfully added",
+          description: `Order creation was successful (Order ID: ${resp.data.order_ref}).`,
+          duration: 0
+        })
+      }
       reset()
     } else {
       notification.error({ message: "Something went wrong!" })
     }
-  }, [generatePayload, refreshEventName, reset])
+  }, [generatePayload, swapRegistration, reservationDetails, refreshEventName, reset])
 
   // Submit payload when payment data changes
   useEffect(() => {
@@ -159,16 +110,8 @@ export const CreateOrder = ({
 
   return (
     <>
-      {orderRef ?
-        <Alert
-          className="mb-20"
-          type="success"
-          message={"Success"}
-          description={`Order creation was successful (Order ID: ${orderRef}).`}
-          onClose={() => setOrderRef(undefined)}
-        />
-        : null}
       <Card
+        className="mt-20"
         title={
           <Row>
             <Col flex="auto">
@@ -183,6 +126,22 @@ export const CreateOrder = ({
         }
         bodyStyle={{ padding: "0" }}
       />
+      {orderRef ?
+        <Alert
+          className="mt-10"
+          type="success"
+          message={"Success"}
+          description={`Order creation was successful (Order ID: ${orderRef}).`}
+          onClose={() => setOrderRef(undefined)}
+        />
+        : null}
+      {(swapRegistration && reservationDetails?.profile) ?
+        <Alert
+          message={"Following student will be removed"}
+          description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
+          type={"warning"}
+        />
+        : null}
       <Row>
         <Col md={6} lg={4} xs={24}>
           <Steppers
@@ -233,11 +192,11 @@ export const CreateOrder = ({
                     storeData={storeData}
                     studentData={studentData}
                     profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "student"), "profile_question__")}
-                    setStudentData={handleStudentDataChange}
+                    setStudentData={setStudentData}
                     currentStep={currentStep}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
-                    singleOnly={!!registrationDetails}
+                    singleOnly={!!reservationDetails}
                   />
                   : currentStep === steps.RegistrationInformation ?
                     <RegistrationDataStep

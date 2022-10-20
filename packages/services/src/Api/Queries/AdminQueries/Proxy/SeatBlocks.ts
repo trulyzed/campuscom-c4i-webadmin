@@ -6,9 +6,6 @@ export interface ISeatBlockQueries {
   getList: IQuery
   generateIndividualTokens: IQuery
   getSeatList: IQuery
-  registerStudent: IQuery
-  removeStudent: IQuery
-  addStudent: IQuery
-  swapStudent: IQuery
-  transferStudent: IQuery
+  removeRegistration: IQuery
+  swapRegistration: IQuery
 }

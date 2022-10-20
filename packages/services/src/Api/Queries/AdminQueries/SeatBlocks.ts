@@ -3,6 +3,7 @@ import { adminApi } from "~/Api/ApiClient"
 import { ISeatBlockQueries } from "./Proxy/SeatBlocks"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
+import { convertToFormData } from "~/Api/utils/ConvertToFormData"
 
 export const SeatBlockQueries: ISeatBlockQueries = {
   getSingle: PermissionWrapper(
@@ -69,68 +70,28 @@ export const SeatBlockQueries: ISeatBlockQueries = {
     [{ operation: ApiPermissionClass.Seat, action: ApiPermissionAction.Read }]
   ),
 
-  registerStudent: PermissionWrapper(
+  removeRegistration: PermissionWrapper(
     (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
       return adminApi({
-        endpoint: endpoints.SEAT_REGISTRATION,
+        endpoint: endpoints.REMOVE_SEAT_REGISTRATION,
         ...data,
-        params: { ...nonPaginationParams },
         method: "POST"
       })
     },
-    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+    [{ operation: ApiPermissionClass.RemoveSeatRegistration, action: ApiPermissionAction.Write }]
   ),
 
-  removeStudent: PermissionWrapper(
+  swapRegistration: PermissionWrapper(
     (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
+      const payload = convertToFormData(data?.data)
       return adminApi({
-        endpoint: endpoints.SEAT_REGISTRATION,
+        endpoint: endpoints.SWAP_SEAT_REGISTRATION,
         ...data,
-        params: { ...nonPaginationParams },
-        method: "POST"
+        method: "POST",
+        ...data,
+        data: payload
       })
     },
-    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
-  ),
-
-  addStudent: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.SEAT_REGISTRATION,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "POST"
-      })
-    },
-    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
-  ),
-
-  swapStudent: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.SEAT_REGISTRATION,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "POST"
-      })
-    },
-    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
-  ),
-
-  transferStudent: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.SEAT_REGISTRATION,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "POST"
-      })
-    },
-    [{ operation: ApiPermissionClass.SeatRegistration, action: ApiPermissionAction.Write }]
+    [{ operation: ApiPermissionClass.SwapSeatRegistration, action: ApiPermissionAction.Write }]
   )
 }

@@ -10,6 +10,7 @@ interface IUsePayloadGeneratorParams {
   paymentData?: Record<string, any>
   options?: {
     reservationToken: string
+    reservationID: string
   }
 }
 
@@ -149,7 +150,8 @@ export const usePayloadGenerator = ({
       registration_details: generateRegistrationDetailsPayload(),
       payment_ref: paymentData?.payment_ref,
       payment_note: paymentData?.payment_note,
-      ...options?.reservationToken && { reservation_token: options.reservationToken }
+      ...options?.reservationToken && { reservation_token: options.reservationToken },
+      ...options?.reservationID && { seat_reservation: options.reservationID },
     }
   }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, options])
 
