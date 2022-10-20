@@ -57,19 +57,6 @@ export const SeatBlockQueries: ISeatBlockQueries = {
     [{ operation: ApiPermissionClass.SeatToken, action: ApiPermissionAction.Write }]
   ),
 
-  getSeatList: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.ALL_SEAT,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "GET"
-      })
-    },
-    [{ operation: ApiPermissionClass.Seat, action: ApiPermissionAction.Read }]
-  ),
-
   removeRegistration: PermissionWrapper(
     (data) => {
       return adminApi({

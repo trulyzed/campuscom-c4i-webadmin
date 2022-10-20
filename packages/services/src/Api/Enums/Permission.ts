@@ -116,6 +116,7 @@ export enum ApiPermissionClass {
   Schedule = "SectionSchedules",
   Seat = "SeatReservationViewSet",
   SeatBlock = "SeatBlockReservationViewSet",
+  SeatHistory = "SeatReservationHistoryView",
   SeatRegistration = "SeatRegistrationViewSet",
   SeatToken = "SeatReservationTokenGenerationView",
   Section = "SectionViewSet",

@@ -5,7 +5,6 @@ export interface ISeatBlockQueries {
   getPaginatedList: IQuery
   getList: IQuery
   generateIndividualTokens: IQuery
-  getSeatList: IQuery
   removeRegistration: IQuery
   swapRegistration: IQuery
 }
