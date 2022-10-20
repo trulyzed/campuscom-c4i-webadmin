@@ -114,9 +114,9 @@ export const ContextAction = ({
       }
       {(showModal && modalContent) ?
         <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.defaultModal}>
-          <div style={{ backgroundColor: "white", position: "relative" }}>
+          <div style={{ backgroundColor: "white", position: "relative", padding: "0 24px" }}>
             {modalContent}
-            <div style={{ position: "absolute", right: 0, top: 0 }}>
+            <div style={{ position: "absolute", right: "24px", top: "12px", }}>
               <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={() => setShowModal(false)} />
             </div>
           </div>

@@ -1,6 +1,5 @@
-import { Card, Col, notification, Row } from "antd"
+import { Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
-import { HelpButton } from "@packages/components/lib/Help/HelpButton"
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
@@ -102,22 +101,13 @@ export const CreateOrder = ({
 
   return (
     <>
-      <Card
-        className="mt-20"
-        title={
-          <Row>
-            <Col flex="auto">
-              <SidebarMenuTargetHeading level={1} targetID="navigation">
-                {title}
-              </SidebarMenuTargetHeading>
-            </Col>
-            <Col flex="none">
-              <HelpButton helpKey={'CreateOrder'} />
-            </Col>
-          </Row>
-        }
-        bodyStyle={{ padding: "0" }}
-      />
+      <Row>
+        <Col md={24} xs={24} className={'mt-15'}>
+          <SidebarMenuTargetHeading level={2}>
+            {title}
+          </SidebarMenuTargetHeading>
+        </Col>
+      </Row>
       {orderRef ?
         <Alert
           className="mt-10"
@@ -132,6 +122,7 @@ export const CreateOrder = ({
           message={"Following student will be removed"}
           description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
           type={"warning"}
+          className={"mt-20"}
         />
         : null}
       <Row>
