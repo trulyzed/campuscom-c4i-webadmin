@@ -47,7 +47,7 @@ export const CreateOrder = ({
   const [additionalRegistrationData, setAdditionalRegistrationData] = useState<Record<string, any>[]>([])
   const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
   const [paymentData, setPaymentData] = useState<Record<string, any>>()
-  const [couponCode, setCouponCode] = useState()
+  const [couponCode, setCouponCode] = useState<string>()
   const [orderRef, setOrderRef] = useState<string | undefined>()
   const hasValidStoreData = !!storeData
   const hasValidProductData = !!productData.length
@@ -58,15 +58,7 @@ export const CreateOrder = ({
 
   useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
   useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
-  const { generateCartDetailsPayload, generatePayload } = usePayloadGenerator({
-    storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData,
-    ...reservationDetails && {
-      options: {
-        reservationToken: reservationDetails.token,
-        reservationID: reservationDetails.id,
-      }
-    }
-  })
+  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -238,7 +230,7 @@ export const CreateOrder = ({
                           setCouponCode={setCouponCode}
                           currentStep={currentStep}
                           setCurrentStep={setCurrentStep}
-                          generateCartDetailsPayload={generateCartDetailsPayload}
+                          generatePaymentSummaryPayload={generatePaymentSummaryPayload}
                         />
                         : currentStep === steps.PaymentInformation ?
                           <PaymentDataStep

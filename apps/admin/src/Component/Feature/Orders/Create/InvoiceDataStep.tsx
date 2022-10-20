@@ -16,7 +16,7 @@ interface IInvoiceDataStepProps {
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   setCurrentStep: (step: Steps) => void
-  generateCartDetailsPayload: () => any[]
+  generatePaymentSummaryPayload: () => Record<string, any>
 }
 
 export const InvoiceDataStep = ({
@@ -27,21 +27,16 @@ export const InvoiceDataStep = ({
   setCouponCode,
   currentStep,
   setCurrentStep,
-  generateCartDetailsPayload,
+  generatePaymentSummaryPayload,
 }: IInvoiceDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
   const getCreatableOrderPaymentSummary = useCallback(async () => {
-    const payload = {
-      cart_details: generateCartDetailsPayload(),
-      store: storeData.store,
-      coupon_codes: couponCode ? [couponCode] : [],
-    }
     setIsProcessing(true)
-    const resp = await OrderQueries.getCreatableOrderPaymentSummary({ data: payload })
+    const resp = await OrderQueries.getCreatableOrderPaymentSummary({ data: generatePaymentSummaryPayload() })
     setIsProcessing(false)
     setInvoiceData(!resp.data?.message ? resp.data : undefined)
-  }, [couponCode, storeData, setInvoiceData, generateCartDetailsPayload])
+  }, [setInvoiceData, generatePaymentSummaryPayload])
 
   useEffect(() => {
     getCreatableOrderPaymentSummary()
@@ -53,8 +48,8 @@ export const InvoiceDataStep = ({
         <Row>
           <Col xs={24}>
             <Row>
-              {invoiceData.products.map((product: any) => (
-                <Col xs={24} key={product.id}>
+              {invoiceData.products.map((product: any, idx: number) => (
+                <Col xs={24} key={`${product.id}__${idx}`}>
                   <Row gutter={10}>
                     <Col xs={24} md={8}><Text strong>{product.title}</Text></Col>
                     <Col xs={24} md={8} style={{ textAlign: "right" }}>{renderAmount(product.item_price)} x {product.quantity}</Col>
@@ -70,8 +65,8 @@ export const InvoiceDataStep = ({
                       <div>{product.total_discount ? <Text type="danger" delete>{renderAmount(product.price)}</Text> : null}</div>
                     </Col>
                   </Row>
-                  {product.related_products.map((relatedProduct: any, idx: number) => (
-                    <Row gutter={10} key={`${relatedProduct.id}__${idx}`}>
+                  {product.related_products.map((relatedProduct: any, idx2: number) => (
+                    <Row gutter={10} key={`${relatedProduct.id}__${idx2}`}>
                       <Col md={8}><Text>+ {relatedProduct.title}</Text></Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
                       <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.price)}</Col>

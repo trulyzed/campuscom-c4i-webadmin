@@ -8,10 +8,8 @@ interface IUsePayloadGeneratorParams {
   registrationData: Record<string, any>[]
   additionalRegistrationData: Record<string, any>[]
   paymentData?: Record<string, any>
-  options?: {
-    reservationToken: string
-    reservationID: string
-  }
+  couponCode?: string
+  reservationDetails?: Record<string, any>
 }
 
 export const usePayloadGenerator = ({
@@ -22,7 +20,8 @@ export const usePayloadGenerator = ({
   registrationData,
   additionalRegistrationData,
   paymentData,
-  options
+  couponCode,
+  reservationDetails
 }: IUsePayloadGeneratorParams) => {
   const generatePurchaserDetailsPayload = useCallback(() => {
     const profileQuestions = Object.keys(purchaserData || {}).reduce((a, c) => {
@@ -150,16 +149,22 @@ export const usePayloadGenerator = ({
       registration_details: generateRegistrationDetailsPayload(),
       payment_ref: paymentData?.payment_ref,
       payment_note: paymentData?.payment_note,
-      ...options?.reservationToken && { reservation_token: options.reservationToken },
-      ...options?.reservationID && { seat_reservation: options.reservationID },
+      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
+      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
     }
-  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, options])
+  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, reservationDetails])
+
+  const generatePaymentSummaryPayload = useCallback(() => {
+    return {
+      cart_details: generateCartDetailsPayload(),
+      store: storeData?.store,
+      coupon_codes: couponCode ? [couponCode] : [],
+      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
+    }
+  }, [storeData, couponCode, generateCartDetailsPayload, reservationDetails])
 
   return {
     generatePayload,
-    generatePurchaserDetailsPayload,
-    generateCartDetailsPayload,
-    generateStudentDetailsPayload,
-    generateRegistrationDetailsPayload,
+    generatePaymentSummaryPayload,
   }
 }
