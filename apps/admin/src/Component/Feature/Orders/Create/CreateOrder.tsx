@@ -81,7 +81,7 @@ export const CreateOrder = ({
       if (refreshEventName) triggerEvents(refreshEventName)
       if (reservationDetails) {
         notification.success({
-          message: swapRegistration ? "Successfully swapped" : "Successfully added",
+          message: swapRegistration ? "Successfully swapped" : "Successfully enrolled",
           description: `Order creation was successful (Order ID: ${resp.data.order_ref}).`,
           duration: 0
         })

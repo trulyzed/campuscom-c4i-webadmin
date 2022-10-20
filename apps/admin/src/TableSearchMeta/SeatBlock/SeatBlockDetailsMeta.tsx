@@ -9,6 +9,7 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
 import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 import { CLOSE_MODAL } from "~/Constants"
+import { SeatQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Seats"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
   const getReservationDetails = (record: Record<string, any>) => {
@@ -94,10 +95,10 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                   {!record.profile ?
                     <ContextAction
                       type="add"
-                      tooltip="Add"
+                      tooltip="Enroll"
                       modalContent={
                         <CreateOrder
-                          title={"Add Student"}
+                          title={"Enroll Student"}
                           reservationDetails={getReservationDetails(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />}
@@ -120,18 +121,19 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                     : null}
                   {record.profile ?
                     <ContextAction
-                      confirmationType="remove"
-                      type="remove"
-                      tooltip="Remove"
+                      confirmationType="drop/withdraw"
+                      type="drop"
+                      tooltip="Drop/Withdraw"
                       queryService={QueryConstructor(() => SeatBlockQueries.removeRegistration({ data: { seat_reservation: record.id } }), [SeatBlockQueries.removeRegistration])}
                       refreshEventName="REFRESH_TOKEN_LIST"
+                      iconColor="warning"
                     />
                     : null}
                 </>
               )
             }
           ],
-          searchFunc: SeatBlockQueries.getSeatList,
+          searchFunc: SeatQueries.getPaginatedList,
           searchParams: { reservation_id: seatBlock.id },
           refreshEventName: "REFRESH_TOKEN_LIST"
         }
