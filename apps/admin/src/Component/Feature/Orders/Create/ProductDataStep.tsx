@@ -10,6 +10,7 @@ import { INPUT_OPTIONS } from "~/Configs/input"
 import { RelatedProductInput } from "./RelatedProductInput"
 import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { mapToPayloadDateTime } from "@packages/utilities/lib/mapper"
 
 
 interface IProductDataStepProps {
@@ -153,7 +154,10 @@ const getMeta = (storeId: string): IField[] => [
     fieldName: "product",
     label: "Product",
     inputType: DROPDOWN,
-    refLookupService: QueryConstructor((params) => ProductQueries.getList({ ...params, params: { ...params?.params, store: storeId, active_status: "True" } }), [ProductQueries.getList]),
+    refLookupService: QueryConstructor((params) => ProductQueries.getList({
+      ...params,
+      params: { ...params?.params, store: storeId, active_status: "True", available_quantity__gt: 0, store_course_section__section__registration_deadline__gte: mapToPayloadDateTime(new Date()) }
+    }), [ProductQueries.getList]),
     displayKey: "title",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
