@@ -5,7 +5,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { CompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
+import { getCompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
@@ -25,7 +25,7 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Organization`}
-        formMeta={CompanyFormMeta}
+        formMeta={getCompanyFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...company, store: company.store.id }}
         buttonLabel={`Update Organization`}

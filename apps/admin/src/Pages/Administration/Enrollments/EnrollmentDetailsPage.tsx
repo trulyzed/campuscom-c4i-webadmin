@@ -6,5 +6,5 @@ import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueri
 export function EnrollmentDetailsPage(props: RouteComponentProps<{ enrollmentID?: string }>) {
   const EnrollmentID = props?.match?.params?.enrollmentID
 
-  return <DetailsPage getMeta={getEnrollmentDetailsMeta} getDetailsPageContent={EnrollmentQueries.getSingleCourseEnrollment} entityType="enrollment" entityID={EnrollmentID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="course.title" getMeta={getEnrollmentDetailsMeta} getDetailsPageContent={EnrollmentQueries.getSingleCourseEnrollment} entityType="enrollment" entityID={EnrollmentID} titleKey="transaction_request_id" />
 }

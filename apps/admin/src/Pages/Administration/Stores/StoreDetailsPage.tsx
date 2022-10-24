@@ -6,5 +6,5 @@ import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/St
 export function StoreDetailsPage(props: RouteComponentProps<{ storeID?: string }>) {
   const StoreID = props?.match?.params?.storeID
 
-  return <DetailsPage getMeta={getStoreDetailsMeta} getDetailsPageContent={StoreQueries.getSingle} entityType="store" entityID={StoreID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getStoreDetailsMeta} getDetailsPageContent={StoreQueries.getSingle} entityType="store" entityID={StoreID} titleKey="transaction_request_id" />
 }

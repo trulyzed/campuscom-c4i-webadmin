@@ -4,7 +4,7 @@ import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Rol
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const UserFormMeta: IField[] = [
+export const getUserFormMeta = (): IField[] => [
   {
     label: "First name",
     inputType: TEXT,
@@ -53,11 +53,6 @@ export const UserFormMeta: IField[] = [
     label: "Is Scope Disabled",
     inputType: BOOLEAN,
     fieldName: "is_scope_disabled"
-  },
-  {
-    label: "Two-factor authentication enabled",
-    inputType: BOOLEAN,
-    fieldName: "mfa_enabled"
   },
   {
     label: "Is active",

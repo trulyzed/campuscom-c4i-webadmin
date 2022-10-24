@@ -14,6 +14,7 @@ export function FormDropDown(
 ) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
@@ -34,6 +35,7 @@ export function FormDropDown(
       const x = await refLookupService(params)
       setLoading(false)
       if (x.success && displayKey && valueKey) {
+        setLookupData(x.data)
         x.data = x.data.map((y: any) => ({
           label: renderLabel ? renderLabel(y) : y[displayKey || "label"],
           value: y[valueKey || "value"]
@@ -41,6 +43,7 @@ export function FormDropDown(
         setOptions(x.data)
         return x.data
       } else if (x.success && Array.isArray(x.data)) {
+        setLookupData(x.data)
         x.data = x.data.map((y: any) => ({
           label: renderLabel ? renderLabel(y) : y,
           value: y
@@ -114,7 +117,7 @@ export function FormDropDown(
           )
         }}
         disabled={props.disabled}
-        onChange={props.onSelectedItems}
+        onChange={(value, option) => props.onSelectedItems?.(value, option, lookupData)}
         dropdownMatchSelectWidth={props.dropdownMatchSelectWidth !== undefined ? props.dropdownMatchSelectWidth : true}
       >
         {options &&

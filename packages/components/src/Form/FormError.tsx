@@ -14,6 +14,17 @@ export function FormError(props: IFormError) {
       inline: "start"
     })
   }, [props.errorMessages])
+  const errors = (
+    <ul style={{ paddingLeft: "15px" }}>
+      {props.errorMessages?.map((error, index) => {
+        return (
+          <li key={index + 1000}>
+            <Typography.Text type="danger">{error.message}</Typography.Text>
+          </li>
+        )
+      })}
+    </ul>
+  )
   return (
     <>
       {props.genericInstructions}
@@ -26,15 +37,7 @@ export function FormError(props: IFormError) {
           closeIcon={<span className="glyphicon glyphicon--primary glyphicon-remove" />}
           icon={<span className="glyphicon glyphicon--primary glyphicon-exclamation-sign" />}
           message={<Typography.Title type="danger" level={3}>Error</Typography.Title>}
-          description={<ul>
-            {props.errorMessages?.map((error, index) => {
-              return (
-                <li key={index + 1000}>
-                  <Typography.Text type="danger">{error.message}</Typography.Text>
-                </li>
-              )
-            })}
-          </ul>} />
+          description={errors} />
       )}
     </>
   )

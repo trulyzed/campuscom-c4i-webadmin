@@ -4,14 +4,14 @@ import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/Det
 import { renderHtml, renderThumb, renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
+import { getCourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/ProfileQuestionTaggingFormMeta"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
@@ -55,7 +55,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Course Provider`}
-        formMeta={CourseProviderFormMeta}
+        formMeta={getCourseProviderFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...courseProvider, configuration: JSON.stringify(courseProvider.configuration) }}
         defaultFormValue={{ courseProviderId: courseProvider.id }}
@@ -75,7 +75,7 @@ export const getCourseProviderDetailsMeta = (courseProvider: { [key: string]: an
       { label: 'Refund Email', value: courseProvider.refund_email, },
       {
         label: 'Configuration', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Configuration',
             contents: [
               {

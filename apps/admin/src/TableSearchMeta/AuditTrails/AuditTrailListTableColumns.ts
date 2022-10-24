@@ -5,7 +5,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const auditTrailListTableColumns: TableColumnType = [
   {
-    title: "Ref Id",
+    title: "Audit Trail ID",
     dataIndex: "ref_id",
     render: (text: any, record: any) => renderLink(`/administration/audit-trail/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id

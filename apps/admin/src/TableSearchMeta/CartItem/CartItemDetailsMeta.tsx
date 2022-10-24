@@ -107,7 +107,7 @@ export const getCartItemDetailsMeta = (cartItem: { [key: string]: any }): IDetai
   ]
 
   return {
-    pageTitle: `Cart Item Title - ${cartItem.product.title}`,
+    pageTitle: `Order Item Title - ${cartItem.product.title}`,
     tabs: tabMetas
   }
 }

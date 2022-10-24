@@ -21,12 +21,7 @@ export const ProductSearchMeta: IField[] = [
     label: "Type",
     fieldName: "product_type",
     inputType: DROPDOWN,
-    options: [
-      { value: 'section',label: 'Section', },
-      { value: 'certificate',label: 'Certificate', },
-      { value: 'membership',label: 'Membership', },
-      { value: 'miscellaneous',label: 'Miscellaneous', },
-    ]
+    options: INPUT_OPTIONS.PRODUCT_TYPE
   },
   {
     label: "Active Status",

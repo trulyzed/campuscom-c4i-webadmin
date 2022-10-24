@@ -1,6 +1,6 @@
 export enum PermissionContext {
   Store = "Store",
-  CourseProvider = "Course Provider"
+  CourseProvider = "CourseProvider"
 }
 
 export enum ApiPermissionAction {
@@ -40,10 +40,9 @@ export enum ApiPermissionClass {
   CourseProvider = "CourseProviderViewSet",
   CoursePublishingStore = "SharedCoursesView",
   CourseSharingContract = "CourseSharingContractViewSet",
-  CreateEnrollment = "CreateEnrollmentView",
-  CreateEnrollmentWithPurchserInfo = "CreateEnrollmentWithPurchaserView",
-  CreateEnrollmentPaymentSummary = "PaymentSummaryView",
-  CreateEnrollmentProductDetails = "EnrollmentProductDetailsView",
+  CreatableOrderDetails = "EnrollmentProductDetailsView",
+  CreatableOrderPaymentSummary = "PaymentSummaryView",
+  CreateOrder = "CreateEnrollmentView",
   CustomRole = "CustomRoleViewSet",
   CustomUser = "CustomUserViewSet",
   DeleteCertificateCourse = "DeleteCertificateCoursesView",
@@ -109,10 +108,17 @@ export enum ApiPermissionClass {
   Refund = "RefundViewSet",
   RegistrationQuestion = "RegistrationQuestionViewSet",
   RelatedProduct = "RelatedProductViewSet",
+  RemoveSeatRegistration = "SeatReservationSerializer",
+  ResetPassword = "ResetPasswordView",
   RetrieveStoreCourse = "GetStoreCourseView",
   RetrieveStoreCertificate = "GetStoreCertificateView",
   Role = "RoleViewSet",
   Schedule = "SectionSchedules",
+  Seat = "SeatReservationViewSet",
+  SeatBlock = "SeatBlockReservationViewSet",
+  SeatHistory = "SeatReservationHistoryView",
+  SeatRegistration = "SeatRegistrationViewSet",
+  SeatToken = "SeatReservationTokenGenerationView",
   Section = "SectionViewSet",
   Skill = "OccupationSkillModelViewSet",
   Store = "StoreViewSet",
@@ -130,6 +136,7 @@ export enum ApiPermissionClass {
   StoreUser = "StoreUsers",
   Student = "StudentViewSet",
   Subject = "CatalogViewSet",
+  SwapSeatRegistration = "SwapSeatRegistrationView",
   TaggedCertificateCareer = "TaggedCertificateCareersView",
   TaggedCertificateCareerAndSkill = "TaggedCertificateCareersSkillsViewSet",
   TaggedCertificateSkill = "TaggedCertificateSkillsView",

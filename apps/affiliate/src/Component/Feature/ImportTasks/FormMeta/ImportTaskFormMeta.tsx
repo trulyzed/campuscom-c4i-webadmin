@@ -3,7 +3,7 @@ import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const ImportTaskFormMeta: IField[] = [
+export const getImportTaskFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,

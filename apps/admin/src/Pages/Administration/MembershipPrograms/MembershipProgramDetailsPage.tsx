@@ -6,5 +6,5 @@ import { MembershipProgramQueries } from "@packages/services/lib/Api/Queries/Adm
 export function MembershipProgramDetailsPage(props: RouteComponentProps<{ membershipProgramID?: string }>) {
   const MembershipProgramID = props?.match?.params?.membershipProgramID
 
-  return <DetailsPage getMeta={getMembershipProgramDetailsMeta} getDetailsPageContent={MembershipProgramQueries.getSingle} entityType="membershipProgram" entityID={MembershipProgramID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getMembershipProgramDetailsMeta} getDetailsPageContent={MembershipProgramQueries.getSingle} entityType="membershipProgram" entityID={MembershipProgramID} titleKey="transaction_request_id" />
 }

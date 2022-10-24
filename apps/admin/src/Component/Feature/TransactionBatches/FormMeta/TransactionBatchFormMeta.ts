@@ -1,7 +1,7 @@
 import { DATE_PICKER, IField, TEXT } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const TransactionBatchFormMeta: IField[] = [
+export const getTransactionBatchFormMeta = (): IField[] => [
   {
     label: "Batch Name",
     inputType: TEXT,

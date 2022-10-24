@@ -6,5 +6,5 @@ import { SubjectQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 export function SubjectDetailsPage(props: RouteComponentProps<{ subjectID?: string }>) {
   const SubjectID = props?.match?.params?.subjectID
 
-  return <DetailsPage getMeta={getSubjectDetailsMeta} getDetailsPageContent={SubjectQueries.getSingle} entityType="subject" entityID={SubjectID} titleKey="name" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getSubjectDetailsMeta} getDetailsPageContent={SubjectQueries.getSingle} entityType="subject" entityID={SubjectID} titleKey="name" />
 }

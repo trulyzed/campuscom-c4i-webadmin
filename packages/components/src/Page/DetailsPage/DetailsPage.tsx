@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
@@ -16,8 +16,10 @@ import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 import { useHistory } from "react-router-dom"
+import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
+import { extractObjectValue } from "@packages/utilities/lib/util"
 
-export function DetailsPage(props: IDetailsPage) {
+export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
@@ -26,6 +28,21 @@ export function DetailsPage(props: IDetailsPage) {
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
+
+  const setBreadcrumb = useCallback((isLoading: boolean, data?: any) => {
+    if (!props.breadcrumbDataIndex) return
+    eventBus.publish(SET_LAST_BREADCRUMB, {
+      data,
+      isLoading
+    })
+  }, [props.breadcrumbDataIndex])
+
+  useEffect(() => {
+    setBreadcrumb(true)
+    return () => {
+      setBreadcrumb(false)
+    }
+  }, [setBreadcrumb])
 
   const updateHelpKey = (tabKey: string) => {
     const tabIndexes: number[] = tabKey.split("-").map((x) => {
@@ -99,6 +116,7 @@ export function DetailsPage(props: IDetailsPage) {
     setLoading(true)
     setError(undefined)
     eventBus.publish(UPDATE_HISTORY)
+    setBreadcrumb(true)
     props
       .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
@@ -109,8 +127,13 @@ export function DetailsPage(props: IDetailsPage) {
           setMeta(tabs)
           setTitle(pageTitle)
 
+          if (props.breadcrumbDataIndex) setBreadcrumb(false, extractObjectValue(x.data, props.breadcrumbDataIndex))
+
           props.onDataLoad && props.onDataLoad(x.data)
         } else setError(x.error)
+      })
+      .catch(() => {
+        setBreadcrumb(false)
       })
       .finally(() => setLoading(false))
   }

@@ -6,5 +6,5 @@ import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Rol
 export function RoleDetailsPage(props: RouteComponentProps<{ roleID?: string }>) {
   const RoleID = props?.match?.params?.roleID
 
-  return <DetailsPage getMeta={getRoleDetailsMeta} getDetailsPageContent={RoleQueries.getSingle} entityType="role" entityID={RoleID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getRoleDetailsMeta} getDetailsPageContent={RoleQueries.getSingle} entityType="role" entityID={RoleID} titleKey="transaction_request_id" />
 }

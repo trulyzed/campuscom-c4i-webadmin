@@ -2,7 +2,7 @@ import { BOOLEAN, DROPDOWN, IField } from "@packages/components/lib/Form/common"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const CourseSharingContractFormMeta: IField[] = [
+export const getCourseSharingContractFormMeta = (): IField[] => [
   {
     label: "Course Provider",
     inputType: DROPDOWN,
@@ -14,9 +14,13 @@ export const CourseSharingContractFormMeta: IField[] = [
     autoSelectDefault: true
   },
   {
+    label: 'Is Primary',
+    inputType: BOOLEAN,
+    fieldName: "is_primary",
+  },
+  {
     label: 'Is Active',
     inputType: BOOLEAN,
     fieldName: "is_active",
-    maxLength: 50,
   },
 ]

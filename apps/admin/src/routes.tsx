@@ -20,14 +20,17 @@ export const AppRoutes: RouteProps[] = [
   { path: "/store/product/:productID", component: React.lazy(() => import("~/Pages/Store/Products/ProductDetailsPage").then((x) => ({ default: x.ProductDetailsPage }))) },
   { path: "/store/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Store/PaymentGateways/StorePaymentGatewayDetailsPage").then((x) => ({ default: x.StorePaymentGatewayDetailsPage }))) },
   { path: "/store/configuration/:storeConfigurationID", component: React.lazy(() => import("~/Pages/Store/StoreConfigurations/StoreConfigurationDetailsPage").then((x) => ({ default: x.StoreConfigurationDetailsPage }))) },
+  { path: "/store/create-order", component: React.lazy(() => import("~/Pages/Store/Orders/Create").then((x) => ({ default: x.Create }))) },
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },
+  { path: "/storefront-data/seat-block/:seatBlockID", component: React.lazy(() => import("~/Pages/StorefrontData/SeatBlocks/SeatBlockDetailsPage").then((x) => ({ default: x.SeatBlockDetailsPage }))) },
+  { path: "/storefront-data/seat-block/token/:seatID", component: React.lazy(() => import("~/Pages/StorefrontData/Seats/SeatDetailsPage").then((x) => ({ default: x.SeatDetailsPage }))) },
   { path: "/storefront-data/payment", component: React.lazy(() => import("~/Pages/StorefrontData/Payments").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/payment/:paymentID", component: React.lazy(() => import("~/Pages/StorefrontData/Payments/PaymentDetailsPage").then((x) => ({ default: x.PaymentDetailsPage }))) },
   { path: "/storefront-data/student", component: React.lazy(() => import("~/Pages/StorefrontData/Students").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/student/:studentID", component: React.lazy(() => import("~/Pages/StorefrontData/Students/StudentDetailsPage").then((x) => ({ default: x.StudentDetailsPage }))) },
-  { path: "/storefront-data/cart-item/:cartItemID", component: React.lazy(() => import("~/Pages/StorefrontData/CartItems/CartItemDetailsPage").then((x) => ({ default: x.CartItemDetailsPage }))) },
+  { path: "/storefront-data/order-item/:cartItemID", component: React.lazy(() => import("~/Pages/StorefrontData/CartItems/CartItemDetailsPage").then((x) => ({ default: x.CartItemDetailsPage }))) },
   { path: "/storefront-data/course-enrollment/:courseEnrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/CourseEnrollmentDetailsPage").then((x) => ({ default: x.CourseEnrollmentDetailsPage }))) },
 
   { path: "/transaction/settled-transaction", component: React.lazy(() => import("~/Pages/Transaction/SettledTransactions").then((x) => ({ default: x.List }))) },
@@ -71,7 +74,6 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
-  { path: "/administration/create-enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/create").then((x) => ({ default: x.Create }))) },
 
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
   { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Administration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },

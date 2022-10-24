@@ -29,7 +29,7 @@ import {
   KeyOutlined
 } from "@ant-design/icons"
 import { Button, Tooltip } from "antd"
-import { showDeleteConfirm } from "~/Modal/Confirmation"
+import { promptConfirmation } from "~/Modal/Confirmation"
 import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 import { Redirect } from "react-router"
 import { ButtonType } from "antd/lib/button"
@@ -105,7 +105,7 @@ export const IconButton = (props: {
         type="primary"
         onClick={() =>
           props.onClickRemove &&
-          showDeleteConfirm(() => {
+          promptConfirmation(() => {
             if (props.onClickRemove) {
               setLocalLoading(true)
               return props.onClickRemove().then((x) => {

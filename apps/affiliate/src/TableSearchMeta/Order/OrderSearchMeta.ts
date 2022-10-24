@@ -22,7 +22,7 @@ export const OrderSearchMeta: IField[] = [
   //   inputType: DATE_PICKER,
   // },
   {
-    label: "Order Tracking ID",
+    label: "Order ID",
     inputType: TEXT,
     fieldName: "order_ref"
   },
