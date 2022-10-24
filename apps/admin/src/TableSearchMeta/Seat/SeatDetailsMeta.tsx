@@ -35,7 +35,7 @@ export const getSeatDetailsMeta = (seat: { [key: string]: any }): IDetailsMeta =
               title: "Profile",
               dataIndex: "profile",
               render: (text: any) => text ? renderLink(`/storefront-data/student/${text.id}`, text.name) : undefined,
-              sorter: (a: any, b: any) => a.reservation_ref - b.reservation_ref
+              sorter: (a: any, b: any) => a.profile.name - b.profile.name
             },
             {
               title: "Action",
@@ -50,7 +50,7 @@ export const getSeatDetailsMeta = (seat: { [key: string]: any }): IDetailsMeta =
             },
           ],
           searchFunc: SeatQueries.getHistoryList,
-          searchParams: { reservation_id: seat.id },
+          searchParams: { seat_id: seat.id },
           refreshEventName: "REFRESH_HISTORY_LIST"
         }
       },

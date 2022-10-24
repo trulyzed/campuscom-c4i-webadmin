@@ -3,6 +3,7 @@ import { adminApi } from "~/Api/ApiClient"
 import { ISeatQueries } from "./Proxy/Seats"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
+import { processProfiles } from "./Proxy/Students"
 
 export const SeatQueries: ISeatQueries = {
   getSingle: PermissionWrapper(
@@ -52,7 +53,7 @@ export const SeatQueries: ISeatQueries = {
         ...data,
         params: { ...nonPaginationParams },
         method: "GET"
-      })
+      }).then((resp) => (resp.success ? { ...resp, data: processProfiles(resp.data) } : resp))
     },
     [{ operation: ApiPermissionClass.SeatHistory, action: ApiPermissionAction.Read }]
   )
