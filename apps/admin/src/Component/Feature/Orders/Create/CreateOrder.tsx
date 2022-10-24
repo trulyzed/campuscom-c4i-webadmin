@@ -19,6 +19,8 @@ import { useWatchDataChange } from "./Utils/useWatchDataChange"
 import { triggerEvents } from "@packages/utilities/lib/EventBus"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
 import { useInitialize } from "./Utils/useInitialize"
+import { FormError } from "@packages/components/lib/Form/FormError"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
 interface ICreateOrderProps {
   title?: ReactNode
@@ -48,6 +50,7 @@ export const CreateOrder = ({
   const [paymentData, setPaymentData] = useState<Record<string, any>>()
   const [couponCode, setCouponCode] = useState<string>()
   const [orderRef, setOrderRef] = useState<string | undefined>()
+  const [formErrors, setFormErrors] = useState<ISimplifiedApiErrorMessage[]>()
   const hasValidStoreData = !!storeData
   const hasValidProductData = !!productData.length
   const hasValidPurchaserData = !!purchaserData
@@ -88,7 +91,7 @@ export const CreateOrder = ({
       }
       reset()
     } else {
-      notification.error({ message: "Something went wrong!" })
+      setFormErrors(resp.error)
     }
   }, [generatePayload, swapRegistration, reservationDetails, refreshEventName, reset])
 
@@ -125,6 +128,7 @@ export const CreateOrder = ({
           className={"mt-20"}
         />
         : null}
+      {!isProcessing && formErrors?.length ? <FormError errorMessages={formErrors} /> : null}
       <Row>
         <Col md={6} lg={4} xs={24}>
           <Steppers
@@ -225,6 +229,7 @@ export const CreateOrder = ({
                         />
                         : currentStep === steps.PaymentInformation ?
                           <PaymentDataStep
+                            invoiceData={invoiceData}
                             paymentData={paymentData}
                             setPaymentData={setPaymentData}
                             loading={isProcessing}
