@@ -12,7 +12,14 @@ export type IApiPermission =
 
 export interface IPermissionContext {
   type: `${PermissionContext}`
-  values: string[]
+  values: {
+    id: string
+    name: string
+    primary_course_provider: {
+      id: string
+      name: string
+    } | null
+  }[]
 }
 
 export interface IUser {
@@ -23,7 +30,7 @@ export interface IUser {
   is_superuser: boolean
   mfa_enabled: boolean
   permissions: IApiPermission[]
-  context: IPermissionContext
+  context: IPermissionContext[]
   menu_permissions: string[]
 }
 

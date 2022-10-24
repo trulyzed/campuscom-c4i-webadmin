@@ -1,6 +1,6 @@
 export enum PermissionContext {
   Store = "Store",
-  CourseProvider = "Course Provider"
+  CourseProvider = "CourseProvider"
 }
 
 export enum ApiPermissionAction {

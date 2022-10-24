@@ -38,6 +38,8 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             return moment(dateString, DATE_DISPLAY_FORMAT).toDate();
           }}
           formattedValue = {getFormattedValue(props.defaultValue)}
+          relativeYearFrom = {-25}
+          relativeYearTo = {25}
         />
       </SearchFieldWrapper>
     </>
