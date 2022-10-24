@@ -160,6 +160,7 @@ export const usePayloadGenerator = ({
       store: storeData?.store,
       coupon_codes: couponCode ? [couponCode] : [],
       ...reservationDetails?.token && { reservation_token: reservationDetails.token },
+      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
     }
   }, [storeData, couponCode, generateCartDetailsPayload, reservationDetails])
 
