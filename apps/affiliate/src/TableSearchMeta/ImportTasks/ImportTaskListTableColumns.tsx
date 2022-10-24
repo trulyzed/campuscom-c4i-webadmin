@@ -5,7 +5,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const importTaskListTableColumns: TableColumnType = [
   {
-    title: "Ref Id",
+    title: "Import Task ID",
     dataIndex: 'ref_id',
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },

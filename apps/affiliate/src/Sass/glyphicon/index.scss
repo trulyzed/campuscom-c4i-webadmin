@@ -10,6 +10,9 @@
     position: relative;
   }
 
+  &--success {
+    color: $success;
+  }
   &--primary {
     color: $interactive;
   }
@@ -26,6 +29,9 @@
 }
 .glyphicon-plus-sign:before {
   content: "\E081";
+}
+.glyphicon-remove-sign:before {
+  content: "\E083";
 }
 .glyphicon-info-sign:before {
   content: "\E086";
@@ -102,6 +108,12 @@
 .glyphicon-random:before {
   content: "\E110";
 }
+.glyphicon-swap:before {
+  content: "\E604";
+}
+.glyphicon-transfer:before {
+  content: "\E605";
+}
 .glyphicon-payment:before {
   content: "\E626";
 }
@@ -123,3 +135,7 @@
 .glyphicon-eye:before {
   content: "\E105";
 }
+.glyphicon-copy:before {
+  content: "\E205";
+}
+

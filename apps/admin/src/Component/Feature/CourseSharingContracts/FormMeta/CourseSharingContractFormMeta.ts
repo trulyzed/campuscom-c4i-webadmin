@@ -14,9 +14,13 @@ export const getCourseSharingContractFormMeta = (): IField[] => [
     autoSelectDefault: true
   },
   {
+    label: 'Is Primary',
+    inputType: BOOLEAN,
+    fieldName: "is_primary",
+  },
+  {
     label: 'Is Active',
     inputType: BOOLEAN,
     fieldName: "is_active",
-    maxLength: 50,
   },
 ]

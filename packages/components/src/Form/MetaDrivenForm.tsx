@@ -62,11 +62,13 @@ export function MetaDrivenForm({
   applyButtonLabel = "Apply",
   actionContainerStyle,
   clearButtonLabel = "Clear All",
+  className,
   ...props
 }: {
   meta: IField[]
   metaName?: string
   title?: React.ReactNode
+  className?: string
   loading?: boolean
   isModal?: boolean
   blocks?: React.ReactNode[]
@@ -330,7 +332,7 @@ export function MetaDrivenForm({
   return (
     <Card
       bordered={props.bordered}
-      className={props.isAside ? 'is-aside' : ''}
+      className={`${props.isAside ? 'is-aside' : ''}${className ? ` ${className}` : ""}`}
       title={
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>
@@ -444,7 +446,7 @@ export function MetaDrivenForm({
         onValuesChange={handleValuesChange}
       >
         <FormError errorMessages={props.errorMessages} />
-        <SearchFormFields
+        <FormFields
           meta={meta}
           isVertical={props.isVertical}
           formInstance={formInstance}
@@ -511,11 +513,11 @@ export function MetaDrivenForm({
   )
 }
 
-const SearchFormFields = (props: {
+export const FormFields = (props: {
   meta: IField[]
   formInstance: FormInstance
   clearTrigger?: boolean
-  showLess: boolean
+  showLess?: boolean
   isVertical?: boolean
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
@@ -768,7 +770,12 @@ const SearchFormFields = (props: {
                           ...field,
                           key: i,
                           formInstance: props.formInstance,
-                          clearTrigger: props.clearTrigger
+                          clearTrigger: props.clearTrigger,
+                          labelColSpan: field.labelColSpan || 8,
+                          wrapperColSpan: field.wrapperColSpan || 24,
+                          dependencyValue: props.dependencyValue[field.fieldName],
+                          updateMeta: props.updateMeta,
+                          loading: props.isFetchingQueryData
                         }}
                       />
                     </Form.Item>
@@ -816,7 +823,7 @@ const SearchFormFields = (props: {
                   </div>
                 ) : formField}
                 {field.helperText ?
-                  <div style={{ marginBottom: "10px" }}>
+                  <div style={{ marginBottom: "10px", ...props.isVertical ? undefined : { textAlign: "right", marginTop: "-10px" } }}>
                     {typeof field.helperText === "string" ? <span>{field.helperText}</span> : field.helperText}
                   </div>
                   : null

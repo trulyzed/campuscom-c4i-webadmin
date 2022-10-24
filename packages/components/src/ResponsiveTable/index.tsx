@@ -11,9 +11,15 @@ export {
   renderDate,
   renderDateTime,
   renderTime,
-  renderAmount,
   renderBoolean,
+  renderActiveStatus,
+  renderAmount,
   renderWeek,
+  renderThumb,
+  renderHtml,
+  renderJson,
+  renderAnswer,
+  renderCopyToClipboard,
   sortByBoolean,
   sortByString,
   sortByTime,
@@ -37,7 +43,6 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   breakpoints?: Breakpoint[]
   isModal?: boolean
   refreshEventName?: string
-  rowKey?: string
   hidePagination?: boolean
   hideSettings?: boolean
   showDownload?: boolean
@@ -45,4 +50,6 @@ export interface IDataTableProps extends TableProps<{ [key: string]: any }> {
   currentPagination?: number
   setCurrentPagination?: (page: number) => void
   actions?: React.ReactNode[]
+  expandedRowColumns?: TableColumnType
+  expandedRowDataIndex?: string
 }

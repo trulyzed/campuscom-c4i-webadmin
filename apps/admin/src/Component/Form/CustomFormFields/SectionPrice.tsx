@@ -17,10 +17,24 @@ export const SectionPrice = (props: IGeneratedField) => {
       dataIndex: 'provider_fee',
     },
     {
-      title: 'Section Fee',
+      title: 'Section Fee *',
       dataIndex: 'fee',
       render: (_, record) => (
-        <SearchFieldWrapper {...props} label={undefined} fieldName={`section__${record.id}`} rules={[{ required: true, message: "This field is required!" }]}>
+        <SearchFieldWrapper {...props} label={undefined} fieldName={`fee__${record.id}`} rules={[{ required: true, message: "This field is required!" }]}>
+          <Input
+            type={"number"}
+            disabled={props.disabled}
+            placeholder={props.placeholder}
+            autoComplete={props.autoComplete}
+          />
+        </SearchFieldWrapper>
+      )
+    },
+    {
+      title: 'Token Fee',
+      dataIndex: 'token_fee',
+      render: (_, record) => (
+        <SearchFieldWrapper {...props} label={undefined} fieldName={`token_fee__${record.id}`}>
           <Input
             type={"number"}
             disabled={props.disabled}

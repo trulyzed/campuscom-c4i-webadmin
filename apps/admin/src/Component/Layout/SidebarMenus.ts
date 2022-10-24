@@ -1,5 +1,4 @@
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
@@ -35,6 +34,8 @@ import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/Enro
 import { getCompanyUserListTableColumns } from "~/TableSearchMeta/CompanyUser/CompanyUserListTableColumns"
 import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/TransactionBatch/TransactionBatchListTableColumns"
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
+import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -86,12 +87,19 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/store/product",
         submenu: [],
         permission: checkAdminApiPermission(getProductListTableColumns().searchFunc)
-      }
+      },
+      {
+        title: "Create Order",
+        url: "/store/create-order",
+        submenu: [],
+        permission: checkAdminApiPermission(OrderQueries.create)
+      },
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getProductListTableColumns().searchFunc)
+      checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
+      checkAdminApiPermission(OrderQueries.create)
   },
   {
     title: "Storefront Data",
@@ -118,6 +126,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     ],
     permission:
       checkAdminApiPermission(getOrderListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getSeatBlockListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPaymentListTableColumns().searchFunc) ||
       checkAdminApiPermission(getStudentListTableColumns().searchFunc)
   },
@@ -254,12 +263,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
       },
-      {
-        title: "Create Enrollment",
-        url: "/administration/create-enrollment",
-        submenu: [],
-        permission: checkAdminApiPermission(EnrollmentQueries.create)
-      }
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -277,8 +280,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc) ||
-      checkAdminApiPermission(EnrollmentQueries.create)
+      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
   },
   {
     title: "Configuration",

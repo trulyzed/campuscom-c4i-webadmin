@@ -13,13 +13,13 @@ import { ContactQueries as AffiliateContactQueries } from "@packages/services/li
 import { CheckboxValueType } from "antd/lib/checkbox/Group"
 import Text from "antd/lib/typography/Text"
 // import { FormInput } from "@packages/components/Form/FormInput"
-import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { ApiPermissionAction, ApiPermissionClass } from "@packages/services/lib/Api/Enums/Permission"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
 //import { getEnrollmentFormMeta } from "~/Component/Feature/Enrollments/FormMeta/EnrollmentFormMeta"
 
@@ -108,7 +108,7 @@ export const Create = () => {
   const [couponCode, setCouponCode] = useState()
   const [formInstance] = Form.useForm()
   const [orderRef, setOrderRef] = useState<string | undefined>()
-  const createWithPurchaserInfo = checkAdminApiPermission([{ operation: ApiPermissionClass.CreateEnrollmentWithPurchserInfo, action: ApiPermissionAction.Write }])
+  const createWithPurchaserInfo = checkAdminApiPermission([{ operation: ApiPermissionClass.CreateOrder, action: ApiPermissionAction.Write }])
 
   const meta2: IField[] = [
     {
@@ -176,13 +176,13 @@ export const Create = () => {
     }, [])
   }, [registrationData])
 
-  const getPaymentSummary = useCallback(async () => {
+  const getCreatableOrderPaymentSummary = useCallback(async () => {
     const payload = {
       cart_details: generateCartDetailsPayload(),
       store,
       coupon_codes: couponCode ? [couponCode] : [],
     }
-    const resp = await EnrollmentQueries.getPaymentSummary({ data: payload })
+    const resp = await OrderQueries.getCreatableOrderPaymentSummary({ data: payload })
     setInvoiceData(!resp.data?.message ? resp.data : undefined)
   }, [couponCode, store, generateCartDetailsPayload])
 
@@ -207,7 +207,7 @@ export const Create = () => {
       payment_ref: values.payment_ref,
       payment_note: values.payment_note,
     }
-    const resp = await (createWithPurchaserInfo ? EnrollmentQueries.createWithPurchaserInfo : EnrollmentQueries.create)({ data: payload })
+    const resp = await (createWithPurchaserInfo ? OrderQueries.create : OrderQueries.create)({ data: payload })
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       reset()
@@ -215,8 +215,8 @@ export const Create = () => {
   }, [generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, productData, createWithPurchaserInfo, store, reset])
 
   useEffect(() => {
-    getPaymentSummary()
-  }, [registrationData, couponCode, getPaymentSummary])
+    getCreatableOrderPaymentSummary()
+  }, [registrationData, couponCode, getCreatableOrderPaymentSummary])
 
   useEffect(() => {
     setRegistrationData(registrationData => {
@@ -237,7 +237,7 @@ export const Create = () => {
           className="mb-20"
           type="success"
           message={"Success"}
-          description={`Order creation was successful (Order reference: ${orderRef}).`}
+          description={`Order creation was successful (Order ID: ${orderRef}).`}
           onClose={() => setOrderRef(undefined)}
         />
         : null}

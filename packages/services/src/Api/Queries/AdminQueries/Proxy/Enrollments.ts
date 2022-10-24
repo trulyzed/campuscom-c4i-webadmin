@@ -6,7 +6,4 @@ export interface IEnrollmentQueries {
   getPaginatedList: IQuery
   getCourseEnrollmentList: IQuery
   getSingleCourseEnrollment: IQuery
-  create: IQuery
-  createWithPurchaserInfo: IQuery
-  getPaymentSummary: IQuery
 }

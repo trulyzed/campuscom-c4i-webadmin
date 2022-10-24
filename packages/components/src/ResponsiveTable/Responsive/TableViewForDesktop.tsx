@@ -19,14 +19,26 @@ export function TableViewForDesktop(
     showTableSettings: () => void
   }
 ) {
+  const expandedRowRender = (record) => {
+    return (
+      <Table
+        columns={props.expandedRowColumns}
+        dataSource={props.expandedRowDataIndex ? record[props.expandedRowDataIndex] : undefined}
+        pagination={false}
+        size='small'
+        rowKey={"id"}
+        bordered
+      />
+    )
+  }
 
-  const getTableColumnWithAriaLabel = useCallback((columns: IDataTableProps["columns"]|undefined):IDataTableProps["columns"] => {
-    if(columns){
-      return (columns || []).map(column=>({ ...column, onHeaderCell: () => ({"aria-label": column.ariaLabel || column.title as string })}))
+  const getTableColumnWithAriaLabel = useCallback((columns: IDataTableProps["columns"] | undefined): IDataTableProps["columns"] => {
+    if (columns) {
+      return (columns || []).map(column => ({ ...column, onHeaderCell: () => ({ "aria-label": column.ariaLabel || column.title as string }) }))
     }
     return []
     // eslint-disable-next-line
-  },[props.conditionalProps.columns])
+  }, [props.conditionalProps.columns])
 
   return (
     <Row style={{ backgroundColor: "#ffffff", ...props.style }}>
@@ -108,6 +120,9 @@ export function TableViewForDesktop(
           loading={props.loading}
           rowKey={props.rowKey || ((record: any) => record.rowKey)}
           locale={{ emptyText: <EmptyState /> }}
+          expandable={props.expandedRowColumns?.length ? {
+            expandedRowRender,
+          } : undefined}
         />
       </Col>
       {props.conditionalProps && props.conditionalProps.dataSource && !props.hidePagination && (

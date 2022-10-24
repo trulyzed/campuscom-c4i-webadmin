@@ -5,7 +5,7 @@ import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Or
 export const getOrderListTableColumns = (isModal = false, OrderID?: number): ITableMeta => {
   const columns: TableColumnType = [
     {
-      title: "Order Ref",
+      title: "Order ID",
       dataIndex: "ref_id",
       render: (text: any, record: any) => renderLink(`/storefront-data/order/${record.id}`, text, isModal),
       sorter: (a: any, b: any) => a.ref_id - b.ref_id

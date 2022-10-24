@@ -17,6 +17,12 @@ export const courseSharingContractListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.course_provider - b.course_provider
   },
   {
+    title: "Is Primary",
+    dataIndex: 'is_primary',
+    sorter: (a: any, b: any) => a.is_primary - b.is_primary,
+    render: renderBoolean
+  },
+  {
     title: "Is Active",
     dataIndex: 'is_active',
     sorter: (a: any, b: any) => a.is_active - b.is_active,

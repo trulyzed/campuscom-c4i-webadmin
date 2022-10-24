@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import moment from "moment"
 import { Link } from "react-router-dom"
 import { Tag, TagProps } from "antd"
@@ -11,6 +11,7 @@ import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "@packages/utilities/lib/parser"
 import DownloadableLink from "./DownloadableLink"
 import Text from "antd/lib/typography/Text"
+import { CopyToClipboard } from "~/Actions/CopyToClipboard"
 
 export const DATE_FORMAT = "MM/DD/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -44,6 +45,7 @@ const renderTime = (text: any) => (!!text ? moment(text).format(TIME_FORMAT) : "
 const renderAmount = (text: any) => text !== undefined ? `$ ${getLocaleDecimalValue(text)}` : ""
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
+const renderCopyToClipboard = (content: any, options: { successMessage?: string; title?: ReactNode; } | undefined) => <CopyToClipboard content={content} title={options?.title} successMessage={options?.successMessage} />
 
 const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, uncolorize?: boolean, tagColor?: TagProps['color'] }) => {
   const formattedText = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
@@ -110,8 +112,9 @@ export {
   renderHtml,
   renderJson,
   renderAnswer,
+  renderCopyToClipboard,
   sortByBoolean,
   sortByString,
   sortByTime,
-  sortByNumber
+  sortByNumber,
 }

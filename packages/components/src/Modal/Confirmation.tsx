@@ -8,8 +8,8 @@ export const promptConfirmation = async (
   { actionType, success, error, title, warningText, setIsProcessing }: { actionType?: string; success?: string; error?: string; title?: string; warningText?: string; setIsProcessing?: (status: boolean) => void } = {}
 ) => {
   actionType = actionType || 'Delete'
-  success = success || `${actionType} Successfull`
-  error = error || `${actionType} Unsuccessfull`
+  success = success || `${actionType} Successful`
+  error = error || `${actionType} Unsuccessful`
   title = title || `Are you sure to ${actionType.toLowerCase()} this?`
   warningText = warningText || ""
 
