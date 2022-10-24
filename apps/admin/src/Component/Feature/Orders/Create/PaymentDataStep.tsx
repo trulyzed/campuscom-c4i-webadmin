@@ -3,12 +3,14 @@ import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { IField, TEXT } from "@packages/components/lib/Form/common"
 
 interface IPaymentDataStepProps {
+  invoiceData?: Record<string, any>
   paymentData?: Record<string, any>
   setPaymentData: (...args: any[]) => void
   loading: boolean
 }
 
 export const PaymentDataStep = ({
+  invoiceData,
   paymentData,
   setPaymentData,
   loading,
@@ -16,7 +18,7 @@ export const PaymentDataStep = ({
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Payment Details"}>
       <MetaDrivenForm
-        meta={meta}
+        meta={invoiceData?.total_payable ? meta : meta.map(i => ({ ...i, rules: [] }))}
         onApplyChanges={setPaymentData}
         loading={loading}
         initialFormValue={paymentData}
