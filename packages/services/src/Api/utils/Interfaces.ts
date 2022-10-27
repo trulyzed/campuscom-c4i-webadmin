@@ -32,6 +32,7 @@ export interface IUser {
   permissions: IApiPermission[]
   context: IPermissionContext[]
   menu_permissions: string[]
+  preferences: Record<string, any>
 }
 
 export interface ApiConfig {

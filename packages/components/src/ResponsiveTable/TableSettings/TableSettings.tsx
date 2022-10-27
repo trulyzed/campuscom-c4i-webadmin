@@ -5,7 +5,7 @@ import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
 import { VisibleColumns } from "~/ResponsiveTable/TableSettings/VisibleColumns"
 import { HiddenColumns } from "~/ResponsiveTable/TableSettings/HiddenColumns"
 import { IUserTableMetaConfig } from "~/ResponsiveTable/TableMetaShadowingProcessor"
-import { PreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Preferences";
+import { UserTableConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserTableConfigurations";
 import { ContextAction } from "~/Actions/ContextAction"
 
 export const TableSettings = (props: {
@@ -70,7 +70,7 @@ export const TableSettings = (props: {
   }
 
   const reload = () => {
-    PreferenceQueries.deletePreferences({ params: { table_name: props.tableName } }).finally(() => props.reload())
+    UserTableConfigurationQueries.delete({ params: { table_name: props.tableName } }).finally(() => props.reload())
   }
 
   const apply = () => {
@@ -99,7 +99,7 @@ export const TableSettings = (props: {
     })
     if (props.tableName) {
       setLoading(true)
-      PreferenceQueries.saveOrUpdatePreferences({
+      UserTableConfigurationQueries.save({
         data: {
           table_name: props.tableName,
           value: tableMetaConfig

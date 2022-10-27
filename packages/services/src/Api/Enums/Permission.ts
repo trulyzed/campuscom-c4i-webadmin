@@ -88,7 +88,6 @@ export enum ApiPermissionClass {
   PaymentLog = "PaymentLogViewSet",
   Permission = "PermissionViewSet",
   Persona = "PersonaView",
-  Preference = "UserTableConfigurationViewSet",
   Product = "ProductViewSet",
   Profile = "ProfileViewSet",
   ProfileActivity = "GetUserActivities",
@@ -149,5 +148,7 @@ export enum ApiPermissionClass {
   UnlinkProfile = "UnlinkProfile",
   UpdatePaymentQuestion = "UpdatePaymentQuestionView",
   UpdateProfileQuestion = "UpdateProfileQuestionView",
-  UpdateRegistrationQuestion = "UpdateRegistrationQuestionView"
+  UpdateRegistrationQuestion = "UpdateRegistrationQuestionView",
+  UserPreference = "UserPreferenceView",
+  UserTableConfiguration = "UserTableConfigurationViewSet"
 }
