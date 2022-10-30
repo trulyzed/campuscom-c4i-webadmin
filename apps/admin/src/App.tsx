@@ -6,18 +6,16 @@ import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom"
 import { AppRoutes } from "~/routes"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LoginModal } from "~/Component/Login/LoginModal"
-import { getToken, getUser, setUser } from "@packages/services/lib/Api/utils/TokenStore"
+import { getToken, getUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { useGlobalErrorHandler } from "@packages/services/lib/Api/Hooks/useGlobalErrorHandler"
 import { EmptyState } from "@packages/components/lib/Layout/EmptyState"
 import { ConfigProvider, notification } from "antd"
 import { getSidebarMenus } from "./Component/Layout/SidebarMenus"
 import { logout } from "./Services/AuthService"
-import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { DROPDOWN } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
-import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { ContextPreferenceSwitcher } from "@packages/components/lib/Layout/HeaderFunctionalities/ContextPreferenceSwitcher"
 
 notification.config({
   closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
@@ -66,8 +64,31 @@ export function App(): JSX.Element {
         </Switch>
       ) : (
         <ConfigProvider renderEmpty={() => <EmptyState />}>
-          <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={primaryCourseProvider?.name || "Campus Marketplace Webadmin"} onLogout={logout}>
-            <DefaultContextSwitcher />
+          <DefaultLayout
+            routes={AppRoutes}
+            menus={getSidebarMenus()}
+            title={primaryCourseProvider?.name || "Campus Marketplace Webadmin"}
+            onLogout={logout}
+            headerActions={[{
+              ariaLabel: "Switch Store",
+              action: (
+                <ContextPreferenceSwitcher
+                  label="Switch Store"
+                  formMeta={[{
+                    fieldName: "default_store",
+                    label: "Store",
+                    inputType: DROPDOWN,
+                    refLookupService: StoreQueries.getLookupData,
+                    displayKey: "name",
+                    valueKey: "id",
+                    rules: [{ required: true, message: "This field is required!" }],
+                  }]}
+                  formTitle="Switch Store"
+                  preferenceIndex="default_store"
+                  contextDetailsQuery={StoreQueries.getSingle}
+                />
+              )
+            }]}>
             <Switch>
               {AppRoutes.map((route, i) => {
                 return <Route key={i} {...route} exact />
@@ -79,60 +100,5 @@ export function App(): JSX.Element {
         </ConfigProvider>
       )}
     </BrowserRouter>
-  )
-}
-
-// interface IDefaultContextSwitcherProps {
-//   title: string
-
-// }
-
-export const DefaultContextSwitcher = () => {
-  const user = getUser()
-  if (!user) return null
-  const defaultStore = user?.preferences.default_store
-
-  const handleSubmit = QueryConstructor(async (params) => {
-    const resp = await StoreQueries.getSingle({ params: { id: params?.data.store } })
-    const payload = {
-      default_store: {
-        id: resp.data.id,
-        name: resp.data.name,
-      }
-    }
-    if (resp.success) {
-      return UserPreferenceQueries.save({
-        ...params,
-        data: payload
-      }).then(resp => {
-        if (resp.success) {
-          setUser({
-            ...user,
-            preferences: payload
-          })
-          eventBus.publishSimilarEvents(/REFRESH.*/i)
-        }
-        return resp
-      })
-    } else return resp
-  }, [StoreQueries.getSingle, UserPreferenceQueries.save])
-
-  return (
-    <MetaDrivenFormModalOpenButton
-      buttonLabel="Switch Store"
-      formTitle={"Switch Store"}
-      formMeta={[{
-        fieldName: 'store',
-        label: "Store",
-        inputType: DROPDOWN,
-        refLookupService: StoreQueries.getLookupData,
-        displayKey: "name",
-        valueKey: "id",
-        rules: [{ required: true, message: "This field is required!" }],
-        ...defaultStore && { defaultValue: defaultStore.id }
-      }]}
-      iconType={"shuffle"}
-      formSubmitApi={handleSubmit}
-    />
   )
 }

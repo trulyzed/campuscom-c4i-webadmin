@@ -66,7 +66,7 @@ export const getUserFormMeta = (): IField[] => [
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Stores",
@@ -75,6 +75,6 @@ export const getUserFormMeta = (): IField[] => [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   }
 ]

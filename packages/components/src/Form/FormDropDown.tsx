@@ -4,6 +4,9 @@ import { Select } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
+import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { REFRESH_USER_PREFERENCE } from "~/Constants"
+import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 
 export function FormDropDown(
   props: IGeneratedField & {
@@ -17,6 +20,7 @@ export function FormDropDown(
   const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
+  const [userPreferences, setUserPreferences] = useState<IUser['preferences']>(getUser()?.preferences || {})
 
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
     setOptions([])
@@ -94,11 +98,28 @@ export function FormDropDown(
   }, [props.defaultValue])
 
   useEffect(() => {
-    if (!props.autoSelectDefault || options.length !== 1) return
+    const name = `${REFRESH_USER_PREFERENCE}__${fieldName}`
+    eventBus.subscribe(name, (data) => {
+      setUserPreferences(data)
+    })
+    return () => eventBus.unsubscribe(name)
+  }, [fieldName])
+
+  useEffect(() => {
+    if (!props.autoSelectSingle || options.length !== 1) return
     formInstance.setFieldValue(fieldName, options[0].value)
     props.onAutoSelectDefault?.(options[0].value)
     // eslint-disable-next-line
-  }, [options, props.autoSelectDefault, formInstance.setFieldValue, fieldName])
+  }, [options, props.autoSelectSingle, formInstance.setFieldValue, fieldName])
+
+  useEffect(() => {
+    if (props.defaultValue !== undefined) return
+    const value = options.find(o => o.value === userPreferences[props.defaultPreferenceIndex || '']?.id)?.value
+    if (!value) return
+    formInstance.setFieldValue(fieldName, value)
+    props.onAutoSelectDefault?.(value)
+    // eslint-disable-next-line
+  }, [options, userPreferences, props.defaultValue, props.defaultPreferenceIndex, formInstance.setFieldValue, fieldName])
 
   return (
     <SearchFieldWrapper {...props}>

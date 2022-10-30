@@ -9,7 +9,7 @@ export const StudentSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "First Name",

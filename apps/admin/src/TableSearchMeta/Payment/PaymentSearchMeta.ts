@@ -9,7 +9,7 @@ export const PaymentSearchMeta: IField[] = [
     fieldName: "store_payment_gateway__store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Status",

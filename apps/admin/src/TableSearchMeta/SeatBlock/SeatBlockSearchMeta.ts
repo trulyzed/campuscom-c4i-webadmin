@@ -9,6 +9,6 @@ export const SeatBlockSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
 ]

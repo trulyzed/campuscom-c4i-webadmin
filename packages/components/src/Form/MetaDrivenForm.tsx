@@ -673,7 +673,7 @@ export const FormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
-                    autoSelectDefault={field.autoSelectDefault}
+                    autoSelectSingle={field.autoSelectSingle}
                     onAutoSelectDefault={(value) => props.handleValuesChange?.({ [field.fieldName]: value })}
                   />
                 )

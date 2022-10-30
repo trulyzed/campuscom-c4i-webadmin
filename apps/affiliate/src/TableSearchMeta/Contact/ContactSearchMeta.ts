@@ -9,7 +9,7 @@ export const ContactSearchMeta: IField[] = [
     fieldName: "profile_stores__store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "First Name",

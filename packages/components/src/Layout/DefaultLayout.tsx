@@ -1,4 +1,4 @@
-import React, { Suspense, useState, useEffect } from "react"
+import React, { Suspense, useState, useEffect, ReactNode } from "react"
 import { Card, Col, Layout, Row, Spin, Grid, Button } from "antd"
 import { Link, RouteProps, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "~/SidebarNavigation/Sidebar"
@@ -16,6 +16,7 @@ interface ILayoutProps {
   menus: ISidebarMenu[]
   routes: RouteProps[]
   onLogout: () => void
+  headerActions?: { ariaLabel: string; action: ReactNode }[]
 }
 
 export function DefaultLayout(props: ILayoutProps) {
@@ -62,7 +63,7 @@ export function DefaultLayout(props: ILayoutProps) {
                 </h2>
               </Link>
             </Col>
-            <HeaderFunctionalities routes={props.routes} />
+            <HeaderFunctionalities routes={props.routes} actions={props.headerActions} />
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
