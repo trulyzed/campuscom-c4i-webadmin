@@ -20,10 +20,17 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/store/product",
         submenu: [],
         permission: checkAdminApiPermission(getProductListTableColumns().searchFunc)
-      }
+      },
+      {
+        title: "Create Order",
+        url: "/store/create-order",
+        submenu: [],
+        permission: checkAdminApiPermission(OrderQueries.create)
+      },
     ],
     permission:
-      checkAdminApiPermission(getProductListTableColumns().searchFunc)
+      checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
+      checkAdminApiPermission(OrderQueries.create)
   },
   {
     title: "Storefront Data",
@@ -68,17 +75,10 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
       },
-      {
-        title: "Create Enrollment",
-        url: "/administration/create-enrollment",
-        submenu: [],
-        permission: checkAdminApiPermission(OrderQueries.create) || checkAdminApiPermission(OrderQueries.create)
-      }
     ],
     permission: checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc) ||
-      (checkAdminApiPermission(OrderQueries.create) || checkAdminApiPermission(OrderQueries.create))
+      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
   },
 ]
 
