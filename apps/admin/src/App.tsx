@@ -13,6 +13,10 @@ import { EmptyState } from "@packages/components/lib/Layout/EmptyState"
 import { ConfigProvider, notification } from "antd"
 import { getSidebarMenus } from "./Component/Layout/SidebarMenus"
 import { logout } from "./Services/AuthService"
+import { DROPDOWN } from "@packages/components/lib/Form/common"
+import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+import { ContextPreferenceSwitcher } from "@packages/components/lib/Layout/HeaderFunctionalities/ContextPreferenceSwitcher"
+import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 
 notification.config({
   closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
@@ -61,7 +65,32 @@ export function App(): JSX.Element {
         </Switch>
       ) : (
         <ConfigProvider renderEmpty={() => <EmptyState />}>
-          <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={primaryCourseProvider?.name || "Campus Marketplace Webadmin"} onLogout={logout}>
+          <DefaultLayout
+            routes={AppRoutes}
+            menus={getSidebarMenus()}
+            title={primaryCourseProvider?.name || "Campus Marketplace Webadmin"}
+            onLogout={logout}
+            headerActions={[{
+              ariaLabel: "Switch Store",
+              component: (
+                <ContextPreferenceSwitcher
+                  label="Switch Store"
+                  formMeta={[{
+                    fieldName: "default_store",
+                    label: "Store",
+                    inputType: DROPDOWN,
+                    refLookupService: StoreQueries.getLookupData,
+                    displayKey: "name",
+                    valueKey: "id",
+                    rules: [{ required: true, message: "This field is required!" }],
+                  }]}
+                  formTitle="Switch Store"
+                  preferenceIndex="default_store"
+                  contextDetailsQuery={StoreQueries.getSingle}
+                />
+              ),
+              permission: UserPreferenceQueries.save,
+            }]}>
             <Switch>
               {AppRoutes.map((route, i) => {
                 return <Route key={i} {...route} exact />

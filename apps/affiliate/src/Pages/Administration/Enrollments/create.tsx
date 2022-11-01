@@ -44,7 +44,7 @@ const meta1: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     fieldName: "product",

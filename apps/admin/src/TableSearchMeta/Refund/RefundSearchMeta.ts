@@ -9,7 +9,7 @@ export const RefundSearchMeta: IField[] = [
     fieldName: "payment__store_payment_gateway__store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "From Date",

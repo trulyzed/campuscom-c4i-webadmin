@@ -23,11 +23,11 @@ class PageEventBus {
     }
   }
 
-  publishSimilarEvents(listenerNamePattern: RegExp) {
+  publishSimilarEvents(listenerNamePattern: RegExp, data?: any) {
     const keys = Object.keys(this.eventListeners)
     keys.forEach((key) => {
       if (listenerNamePattern.test(key) && typeof this.eventListeners[key] === "function") {
-        this.eventListeners[key]()
+        this.eventListeners[key](data)
       }
     })
   }

@@ -11,7 +11,7 @@ export const getPublishingSearchMeta = (): IField[] => [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Title",
@@ -25,7 +25,7 @@ export const getPublishingSearchMeta = (): IField[] => [
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Status",

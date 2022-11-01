@@ -9,7 +9,7 @@ export const TransactionReportSearchMeta: IField[] = [
     fieldName: "store__id",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Transaction Ref.",

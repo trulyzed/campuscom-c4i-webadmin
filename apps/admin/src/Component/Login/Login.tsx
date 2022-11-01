@@ -44,6 +44,7 @@ export function Login(props: {
       eventBus.publish(LOGGED_IN_SUCCESSFULLY, response.data.userData)
       eventBus.publish(SHOW_LOGIN_MODAL, false)
       eventBus.publishSimilarEvents(/REFRESH.*/i)
+      eventBus.publishSimilarEvents(/UPDATE_USER_PREFERENCE.*/i, (response.data.userData as IUser).preferences)
       eventBus.publish(REDIRECT_TO_LOGIN, false)
       if (props.redirect) history.push("/")
     } else if (Array.isArray(response.error) && response.error.length > 0) {

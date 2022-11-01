@@ -11,7 +11,7 @@ export const TransactionSearchMeta: IField[] = [
     fieldName: "cart__cart_items__product__store_course_section__section__course__course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true,
+    autoSelectSingle: true,
   },
   {
     label: "Store",
@@ -20,7 +20,7 @@ export const TransactionSearchMeta: IField[] = [
     fieldName: "cart__store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "End Date",

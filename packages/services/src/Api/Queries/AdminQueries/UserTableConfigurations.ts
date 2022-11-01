@@ -2,13 +2,13 @@ import { endpoints } from "~/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/Api/ApiClient"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
-import { IPreferenceQueries } from "./Proxy/Preferences"
+import { IUserTableConfigurationQueries } from "./Proxy/UserTableConfigurations"
 
-export const PreferenceQueries: IPreferenceQueries = {
-  getPreferences: PermissionWrapper(
+export const UserTableConfigurationQueries: IUserTableConfigurationQueries = {
+  getList: PermissionWrapper(
     (data) => {
       return adminApi({
-        endpoint: `${endpoints.PREFERENCE}`,
+        endpoint: `${endpoints.USER_TABLE_CONFIGURATION}`,
         ...data,
         method: "GET"
       }).then((resp) =>
@@ -20,22 +20,22 @@ export const PreferenceQueries: IPreferenceQueries = {
           : resp
       )
     },
-    [{ operation: ApiPermissionClass.Preference, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.UserTableConfiguration, action: ApiPermissionAction.Read }]
   ),
-  saveOrUpdatePreferences: PermissionWrapper(
+  save: PermissionWrapper(
     (data) => {
       return adminApi({
-        endpoint: `${endpoints.PREFERENCE}`,
+        endpoint: `${endpoints.USER_TABLE_CONFIGURATION}`,
         ...data,
         method: "POST"
       })
     },
-    [{ operation: ApiPermissionClass.Preference, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.UserTableConfiguration, action: ApiPermissionAction.Read }]
   ),
-  deletePreferences: PermissionWrapper(
+  delete: PermissionWrapper(
     (data) => {
       return adminApi({
-        endpoint: `${endpoints.PREFERENCE}`,
+        endpoint: `${endpoints.USER_TABLE_CONFIGURATION}`,
         ...data,
         params: undefined,
         data: {
@@ -45,6 +45,6 @@ export const PreferenceQueries: IPreferenceQueries = {
         method: "POST"
       })
     },
-    [{ operation: ApiPermissionClass.Preference, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.UserTableConfiguration, action: ApiPermissionAction.Read }]
   )
 }

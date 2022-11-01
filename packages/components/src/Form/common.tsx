@@ -95,7 +95,8 @@ export interface IField {
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
   }) => void | boolean
   excludeFromSubmission?: boolean
-  autoSelectDefault?: boolean
+  autoSelectSingle?: boolean
+  defaultPreferenceIndex?: string
   onAutoSelectDefault?: (...args: any) => void
   withApply?: boolean
   onApply?: (args: { value: any, setDisplayFieldValue?: (args: any) => void }) => void

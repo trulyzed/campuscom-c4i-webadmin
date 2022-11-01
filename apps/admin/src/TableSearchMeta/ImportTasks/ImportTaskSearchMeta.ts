@@ -15,7 +15,7 @@ export const ImportTaskSearchMeta: IField[] = [
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Store",
@@ -24,7 +24,7 @@ export const ImportTaskSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'Status',

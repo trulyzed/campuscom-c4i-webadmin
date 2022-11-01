@@ -9,7 +9,7 @@ import { Modal } from "~/Modal/Modal"
 import { zIndexLevel } from "~/zIndexLevel"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
-  'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'start' | 'swap' | 'transfer'
+  'next' | 'previous' | 'reload' | 'remove' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
 interface IContextActionProps {
   text?: string
@@ -53,6 +53,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     reload: <span className={getIconClassName("glyphicon-repeat", iconColor)} />,
     remove: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
     showHistory: <span className={getIconClassName("glyphicon-time", iconColor)} />,
+    shuffle: <span className={getIconClassName("glyphicon-random", iconColor)} />,
     start: <span className={getIconClassName("glyphicon-play-circle", iconColor)} />,
     swap: <span className={getIconClassName("glyphicon-swap", iconColor)} />,
     transfer: <span className={getIconClassName("glyphicon-transfer", iconColor)} />,
