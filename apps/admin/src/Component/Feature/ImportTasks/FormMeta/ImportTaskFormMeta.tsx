@@ -41,7 +41,7 @@ export const getImportTaskFormMeta = (): IField[] => [
     onDependencyChange: (value, { toggleField }) => {
       toggleField?.(value?.import_type === 'contact')
     },
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'Upload File',

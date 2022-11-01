@@ -10,7 +10,7 @@ import { MenuOutlined } from "@ant-design/icons"
 import { SortableHandle as sortableHandle } from "react-sortable-hoc"
 import { debounce } from "@packages/utilities/lib/debounce"
 import { CheckboxChangeEvent } from "antd/lib/checkbox"
-import { PreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Preferences";
+import { UserTableConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserTableConfigurations";
 import { FormDropDown } from "~/Form/FormDropDown"
 import { FormDatePicker } from "~/Form/FormDatePicker"
 
@@ -81,7 +81,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
     })
 
     setLoading(true)
-    PreferenceQueries.saveOrUpdatePreferences({
+    UserTableConfigurationQueries.save({
       params: {
         table_name: props.metaName,
         value: metaConfig
@@ -98,7 +98,7 @@ export const FormSettings = (props: { metaName: string; meta: IField[]; reload: 
 
   const setDefault = () => {
     setLoading(true)
-    PreferenceQueries.deletePreferences({ params: { table_name: props.metaName } }).then((response) => {
+    UserTableConfigurationQueries.delete({ params: { table_name: props.metaName } }).then((response) => {
       if (response && response.success) {
         formInstance.resetFields()
         props.reload()

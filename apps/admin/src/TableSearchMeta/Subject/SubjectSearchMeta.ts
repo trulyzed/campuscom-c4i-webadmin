@@ -9,7 +9,7 @@ export const SubjectSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Title",

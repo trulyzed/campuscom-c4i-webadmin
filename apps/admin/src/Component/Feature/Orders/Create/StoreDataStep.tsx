@@ -46,6 +46,7 @@ const meta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    rules: [{ required: true, message: "This field is required!" }]
+    rules: [{ required: true, message: "This field is required!" }],
+    defaultPreferenceIndex: 'default_store'
   },
 ]

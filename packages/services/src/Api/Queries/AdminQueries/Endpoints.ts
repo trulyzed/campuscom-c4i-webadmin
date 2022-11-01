@@ -79,7 +79,6 @@ export const endpoints = {
   PAYMENT_GATEWAY: "payment-gateways",
   PAYMENT_GATEWAY_CONFIG: "payment-gateway-configs",
   PAYMENT_QUESTION: "payment-questions",
-  PREFERENCE: "user-table-configurations",
   PRODUCT: "products",
   PROFILE_LINK: "profile-links",
   PROFILE_QUESTION: "profile-questions",
@@ -135,10 +134,12 @@ export const endpoints = {
   TRANSACTION: "transactions",
   TRANSACTION_BATCH: "transaction-batches",
   TRANSACTION_REPORT: "transaction-report",
-  USER: "users",
   UPDATE_PAYMENT_QUESTION: "update-payment-questions",
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
   UPDATE_REGISTRATION_QUESTION: "update-registration-questions",
+  USER: "users",
+  USER_PREFERENCE: "user-preferences",
+  USER_TABLE_CONFIGURATION: "user-table-configurations",
 
   // for miscellaneous, non-paginated
   ALL_AUDIT_TRAIL: "user-audit-trails?limit=1000",

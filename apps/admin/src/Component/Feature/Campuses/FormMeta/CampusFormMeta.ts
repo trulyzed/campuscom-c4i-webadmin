@@ -11,7 +11,7 @@ export const getCampusFormMeta = ():IField[] => [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Name",

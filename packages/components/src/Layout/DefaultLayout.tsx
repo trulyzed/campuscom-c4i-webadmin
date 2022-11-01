@@ -3,7 +3,7 @@ import { Card, Col, Layout, Row, Spin, Grid, Button } from "antd"
 import { Link, RouteProps, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "~/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
-import { HeaderFunctionalities } from "~/Layout/HeaderFunctionalities/HeaderFunctionalities"
+import { HeaderFunctionalities, IHeaderAction } from "~/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
@@ -16,6 +16,7 @@ interface ILayoutProps {
   menus: ISidebarMenu[]
   routes: RouteProps[]
   onLogout: () => void
+  headerActions?: IHeaderAction[]
 }
 
 export function DefaultLayout(props: ILayoutProps) {
@@ -62,7 +63,7 @@ export function DefaultLayout(props: ILayoutProps) {
                 </h2>
               </Link>
             </Col>
-            <HeaderFunctionalities routes={props.routes} />
+            <HeaderFunctionalities routes={props.routes} actions={props.headerActions} />
           </Row>
         </Header>
         <Content role="main" style={{ padding: "0 20px", width: breakpoint.sm ? undefined : "100vw" }}>
