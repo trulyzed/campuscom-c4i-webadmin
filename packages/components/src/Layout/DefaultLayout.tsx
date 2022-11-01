@@ -1,9 +1,9 @@
-import React, { Suspense, useState, useEffect, ReactNode } from "react"
+import React, { Suspense, useState, useEffect } from "react"
 import { Card, Col, Layout, Row, Spin, Grid, Button } from "antd"
 import { Link, RouteProps, useLocation } from "react-router-dom"
 import { Sidebar, ISidebarMenu } from "~/SidebarNavigation/Sidebar"
 import { useSidebarCollapsed } from "~/Hooks/useSidebarCollapsed"
-import { HeaderFunctionalities } from "~/Layout/HeaderFunctionalities/HeaderFunctionalities"
+import { HeaderFunctionalities, IHeaderAction } from "~/Layout/HeaderFunctionalities/HeaderFunctionalities"
 import { Breadcrumb } from "~/Layout/Breadcrumb"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { LOGGED_IN_SUCCESSFULLY } from "~/Constants"
@@ -16,7 +16,7 @@ interface ILayoutProps {
   menus: ISidebarMenu[]
   routes: RouteProps[]
   onLogout: () => void
-  headerActions?: { ariaLabel: string; action: ReactNode }[]
+  headerActions?: IHeaderAction[]
 }
 
 export function DefaultLayout(props: ILayoutProps) {

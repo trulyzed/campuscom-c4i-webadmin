@@ -5,7 +5,7 @@ import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
-import { REFRESH_USER_PREFERENCE } from "~/Constants"
+import { UPDATE_USER_PREFERENCE } from "~/Constants"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
 
 export function FormDropDown(
@@ -98,7 +98,7 @@ export function FormDropDown(
   }, [props.defaultValue])
 
   useEffect(() => {
-    const name = `${REFRESH_USER_PREFERENCE}__${fieldName}`
+    const name = `${UPDATE_USER_PREFERENCE}__${fieldName}`
     eventBus.subscribe(name, (data) => {
       setUserPreferences(data)
     })

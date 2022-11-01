@@ -2,7 +2,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getUser, setUser } from "@packages/services/lib/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { useEffect, useMemo, useState } from "react"
-import { REFRESH_USER_PREFERENCE } from "~/Constants"
+import { UPDATE_USER_PREFERENCE } from "~/Constants"
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { MetaDrivenFormModalOpenButton } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
@@ -30,7 +30,7 @@ export const ContextPreferenceSwitcher = ({
   }, {} as Record<string, any>), [userPreferences])
 
   useEffect(() => {
-    const name = `${REFRESH_USER_PREFERENCE}_SWITCHER`
+    const name = `${UPDATE_USER_PREFERENCE}_SWITCHER`
     eventBus.subscribe(name, setUserPreferences)
     return () => eventBus.unsubscribe(name)
   }, [])
@@ -53,7 +53,7 @@ export const ContextPreferenceSwitcher = ({
             ...getUser()!,
             preferences: payload
           })
-          eventBus.publishSimilarEvents(/REFRESH_USER_PREFERENCE.*/i, payload)
+          eventBus.publishSimilarEvents(/UPDATE_USER_PREFERENCE.*/i, payload)
         }
         return resp
       })

@@ -16,6 +16,7 @@ import { logout } from "./Services/AuthService"
 import { DROPDOWN } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { ContextPreferenceSwitcher } from "@packages/components/lib/Layout/HeaderFunctionalities/ContextPreferenceSwitcher"
+import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 
 notification.config({
   closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
@@ -71,7 +72,7 @@ export function App(): JSX.Element {
             onLogout={logout}
             headerActions={[{
               ariaLabel: "Switch Store",
-              action: (
+              component: (
                 <ContextPreferenceSwitcher
                   label="Switch Store"
                   formMeta={[{
@@ -87,7 +88,8 @@ export function App(): JSX.Element {
                   preferenceIndex="default_store"
                   contextDetailsQuery={StoreQueries.getSingle}
                 />
-              )
+              ),
+              permission: UserPreferenceQueries.save,
             }]}>
             <Switch>
               {AppRoutes.map((route, i) => {
