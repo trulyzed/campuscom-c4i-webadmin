@@ -14,7 +14,7 @@ export const getEnrollmentFormMeta = (course?: any): IField[] => [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectSingle: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Order Type",

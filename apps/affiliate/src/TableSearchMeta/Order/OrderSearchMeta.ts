@@ -9,7 +9,7 @@ export const OrderSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectSingle: true
+    defaultPreferenceIndex: 'default_store'
   },
   // {
   //   label: 'From Date',

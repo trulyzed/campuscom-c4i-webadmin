@@ -9,7 +9,7 @@ export const EnrollmentSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectSingle: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Enrollment ID",
