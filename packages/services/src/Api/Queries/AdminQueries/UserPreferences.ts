@@ -30,6 +30,6 @@ export const UserPreferenceQueries: IUserPreferenceQueries = {
         method: "POST"
       })
     },
-    [{ operation: ApiPermissionClass.UserPreference, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.UserPreference, action: ApiPermissionAction.Write }]
   )
 }
