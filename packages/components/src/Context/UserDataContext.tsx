@@ -33,14 +33,14 @@ export const UserDataProvider = ({
       const adjustedData = {
         ...userData,
         preferences: {
-          ...userPreferences,
+          ...userData?.preferences,
           ...value,
         }
       } as IUser
       setUser(adjustedData)
       return userData ? adjustedData : null
     })
-  }, [userPreferences])
+  }, [])
 
   return (
     <UserDataContext.Provider value={{

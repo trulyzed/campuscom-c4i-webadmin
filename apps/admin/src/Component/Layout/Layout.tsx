@@ -8,6 +8,7 @@ import { getSidebarMenus } from "./SidebarMenus"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { useBrandingTitle } from "~/Hook/useBrandingTitle"
+import { useSetDefaultPreference } from "~/Hook/useSetDefaultPreference"
 
 interface ILayoutProps {
   children: ReactNode
@@ -15,6 +16,10 @@ interface ILayoutProps {
 
 export const Layout = ({ children }: ILayoutProps) => {
   const title = useBrandingTitle()
+  useSetDefaultPreference({
+    contextType: 'Store',
+    preferenceIndex: 'default_store'
+  })
   return (
     <DefaultLayout
       routes={AppRoutes}
