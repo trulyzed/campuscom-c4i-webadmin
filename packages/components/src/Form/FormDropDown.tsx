@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { Select } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
-import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
-import { UPDATE_USER_PREFERENCE } from "~/Constants"
-import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
+import { UserDataContext } from "~/Context/UserDataContext"
 
 export function FormDropDown(
   props: IGeneratedField & {
@@ -15,12 +13,12 @@ export function FormDropDown(
     dropdownMatchSelectWidth?: boolean | number
   }
 ) {
+  const { userPreferences } = useContext(UserDataContext)
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
-  const [userPreferences, setUserPreferences] = useState<IUser['preferences']>(getUser()?.preferences || {})
 
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
     setOptions([])
@@ -96,14 +94,6 @@ export function FormDropDown(
 
     // eslint-disable-next-line
   }, [props.defaultValue])
-
-  useEffect(() => {
-    const name = `${UPDATE_USER_PREFERENCE}__${fieldName}`
-    eventBus.subscribe(name, (data) => {
-      setUserPreferences(data)
-    })
-    return () => eventBus.unsubscribe(name)
-  }, [fieldName])
 
   useEffect(() => {
     if (!props.autoSelectSingle || options.length !== 1) return

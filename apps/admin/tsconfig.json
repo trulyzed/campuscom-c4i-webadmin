@@ -24,7 +24,8 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "./src/"
+    "./src/",
+    "../../packages/components/src/Context"
   ],
   "extends": "./tsconfig.paths.json"
 }
