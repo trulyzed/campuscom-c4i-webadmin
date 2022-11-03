@@ -24,7 +24,7 @@ export const useSetDefaultPreference = ({
         name: defaultContext.name,
       }
     }
-    UserPreferenceQueries.save({ data: { data } }).then(resp => {
+    UserPreferenceQueries.save({ data }).then(resp => {
       if (resp.success) {
         setUserPreferences(data)
       }
