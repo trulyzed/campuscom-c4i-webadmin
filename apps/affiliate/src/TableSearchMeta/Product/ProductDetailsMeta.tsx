@@ -8,9 +8,10 @@ import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSum
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
-  const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/checkout/${product?.store?.url_slug}?product=${product?.id}&guest=true`
+  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.store_slug, product.store.domain)
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
@@ -40,7 +41,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           }} />
         ),
       },
-      { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkout_url, checkout_url, false, true) : undefined },
+      { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkoutURL, checkoutURL, false, true) : undefined },
     ]
   }
 

@@ -51,3 +51,15 @@ export const parseQuestionsMeta = (questions: IQuestion[], fieldNamePrefix=""): 
     }
   })
 }
+
+export const parseEnrollmentUrl = (type: "checkout" | "registration", id: string, storeSlug?: string, customDomain?: string) => {
+  const urlParams = `?guest=true&${type === "checkout" ? "product" : "token"}=${id}`
+  let path = ''
+  if (customDomain) {
+    path = `https://${customDomain}/${type}${urlParams}`
+  } else if (storeSlug) {
+    path = `${process.env.REACT_APP_STOREFRONT_URL}/${storeSlug}/${type}${urlParams}`
+  }
+
+  return path
+}
