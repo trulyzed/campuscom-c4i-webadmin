@@ -25,6 +25,7 @@ import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTabl
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -215,7 +216,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
             {
               title: "Checkout URL",
               dataIndex: 'product_id',
-              render: (text: any, record: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/checkout/${record.store_slug}/?guest=true&product=${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/checkout/${record.store_slug}/?guest=true&product=${text}`, false, true),
+              render: (text: any, record: any) => {
+                const url = parseEnrollmentUrl('checkout', text, record.store_slug, record.store_domain)
+                return renderLink(url, url, false, true)
+              },
             },
           ],
           searchFunc: StoreQueries.getListByCoursePublishing,
