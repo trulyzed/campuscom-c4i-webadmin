@@ -11,7 +11,7 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
-  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.store_slug, product.store.domain)
+  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.url_slug, product.store.domain)
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,

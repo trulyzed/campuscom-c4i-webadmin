@@ -17,7 +17,7 @@ import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
-  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.store_slug, product.store.domain)
+  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.url_slug, product.store.domain)
   const updateEntity = QueryConstructor(((data) => ProductQueries.update({ ...data, params: { id: product.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: UPDATE_SUCCESSFULLY })

@@ -16,7 +16,7 @@ export const useSetDefaultPreference = ({
 
   useEffect(() => {
     if (userData?.preferences[preferenceIndex]) return
-    const defaultContext = userData?.context?.find(i => i.type === contextType)?.values[0]
+    const defaultContext = Array.isArray(userData?.context) ? userData?.context?.find(i => i.type === contextType)?.values[0] : undefined
     if (!defaultContext) return
     const data = {
       [preferenceIndex]: {
