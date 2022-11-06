@@ -10,6 +10,7 @@ import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 import { CLOSE_MODAL } from "~/Constants"
 import { SeatQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Seats"
+import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
   const getReservationDetails = (record: Record<string, any>) => {
@@ -44,7 +45,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
       { label: 'Number of Seats', value: seatBlock.number_of_seats },
       { label: 'Registered Students', value: seatBlock.registered_students },
       { label: 'Available Seats', value: seatBlock.available_seats },
-      { label: 'Group Token', value: seatBlock.token, render: (text) => seatBlock.token_type === "group" ? renderCopyToClipboard(`${process.env.REACT_APP_ENROLLMENT_URL}/registration/${seatBlock.store.url_slug}?token=${text}&guest=true`, { successMessage: "Token URL copied", title: text }) : "N/A" },
+      { label: 'Group Token', value: seatBlock.token, render: (text) => seatBlock.token_type === "group" ? renderCopyToClipboard(parseEnrollmentUrl('registration', text, seatBlock.store.url_slug, seatBlock.store.domain), { successMessage: "Token URL copied", title: text }) : "N/A" },
     ]
   }
 
@@ -69,7 +70,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
             {
               title: "Token",
               dataIndex: "token",
-              render: (text, record) => renderCopyToClipboard(`${process.env.REACT_APP_ENROLLMENT_URL}/registration/${seatBlock.store.url_slug}?token=${text}&guest=true`, {
+              render: (text, record) => renderCopyToClipboard(parseEnrollmentUrl('registration', text, seatBlock.store.url_slug, seatBlock.store.domain), {
                 successMessage: "Token URL copied",
                 title: renderLink(`/storefront-data/seat-block/token/${record.id}`, text)
               }),

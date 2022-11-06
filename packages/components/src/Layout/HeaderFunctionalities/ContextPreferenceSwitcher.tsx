@@ -1,12 +1,9 @@
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { getUser, setUser } from "@packages/services/lib/Api/utils/TokenStore"
-import { eventBus } from "@packages/utilities/lib/EventBus"
-import { useEffect, useMemo, useState } from "react"
-import { UPDATE_USER_PREFERENCE } from "~/Constants"
+import { useContext, useMemo } from "react"
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { MetaDrivenFormModalOpenButton } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
+import { UserDataContext } from "~/Context/UserDataContext"
 
 interface IContextPreferenceSwitcherProps {
   label: string
@@ -23,17 +20,11 @@ export const ContextPreferenceSwitcher = ({
   preferenceIndex,
   contextDetailsQuery,
 }: IContextPreferenceSwitcherProps) => {
-  const [userPreferences, setUserPreferences] = useState<IUser["preferences"]>(getUser()?.preferences || {})
+  const { userPreferences, setUserPreferences } = useContext(UserDataContext)
   const initialFormValue = useMemo(() => Object.keys(userPreferences).reduce((a, c) => {
     if (typeof userPreferences[c] === "object") a[c] = userPreferences[c]["id"]
     return a
   }, {} as Record<string, any>), [userPreferences])
-
-  useEffect(() => {
-    const name = `${UPDATE_USER_PREFERENCE}_SWITCHER`
-    eventBus.subscribe(name, setUserPreferences)
-    return () => eventBus.unsubscribe(name)
-  }, [])
 
   const handleSubmit = QueryConstructor(async (params) => {
     const resp = await contextDetailsQuery({ params: { id: params?.data[preferenceIndex] } })
@@ -48,13 +39,7 @@ export const ContextPreferenceSwitcher = ({
         ...params,
         data: payload
       }).then(resp => {
-        if (resp.success) {
-          setUser({
-            ...getUser()!,
-            preferences: payload
-          })
-          eventBus.publishSimilarEvents(/UPDATE_USER_PREFERENCE.*/i, payload)
-        }
+        if (resp.success) setUserPreferences(payload)
         return resp
       })
     } else return resp

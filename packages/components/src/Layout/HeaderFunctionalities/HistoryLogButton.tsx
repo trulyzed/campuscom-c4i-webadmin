@@ -22,6 +22,7 @@ const History = (props: {
         {...(!props.nonDesktop && {
           style: {
             position: "absolute",
+            top: "55px",
             right: "0px",
             zIndex: 100,
             backgroundColor: "white",
@@ -91,7 +92,7 @@ export const HistoryLogButton = () => {
 
   return (
     !nonDesktop ? (
-      <div onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
+      <div style={{ display: "flex", alignItems: "center", height: "100%", cursor: "pointer" }} onMouseEnter={() => setShowModal(true)} onMouseLeave={() => setShowModal(false)}>
         <ContextAction
           type="showHistory"
           tooltip="Last Visited Pages"

@@ -1,20 +1,22 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Card, Typography } from "antd"
 import { useHistory } from "react-router"
 import { setLoginInfo } from "@packages/services/lib/Api/utils/TokenStore"
 import { eventBus } from "@packages/utilities/lib/EventBus"
-import { LOGGED_IN_SUCCESSFULLY, REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
+import { REDIRECT_TO_LOGIN, SHOW_LOGIN_MODAL } from "~/Constants"
 import { IApiResponse, IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { login } from "~/Services/AuthService"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { OTP, PASSWORD, TEXT } from "@packages/components/lib/Form/common"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 
 export function Login(props: {
   modal?: boolean
   redirect?: (url: string) => void
 }) {
   const history = useHistory()
+  const { setUserData } = useContext(UserDataContext)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
   const [mfaDetails, setMfaDetails] = useState<{ username: string; password: string; mfaEnabled: boolean }>()
@@ -41,10 +43,10 @@ export function Login(props: {
       return
     } else if (response.success) {
       setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
-      eventBus.publish(LOGGED_IN_SUCCESSFULLY, response.data.userData)
+      setUserData(response.data.userData)
+      eventBus.publishSimilarEvents(/LOGGED_IN_SUCCESSFULLY.*/i, response.data.userData)
       eventBus.publish(SHOW_LOGIN_MODAL, false)
       eventBus.publishSimilarEvents(/REFRESH.*/i)
-      eventBus.publishSimilarEvents(/UPDATE_USER_PREFERENCE.*/i, (response.data.userData as IUser).preferences)
       eventBus.publish(REDIRECT_TO_LOGIN, false)
       if (props.redirect) history.push("/")
     } else if (Array.isArray(response.error) && response.error.length > 0) {
