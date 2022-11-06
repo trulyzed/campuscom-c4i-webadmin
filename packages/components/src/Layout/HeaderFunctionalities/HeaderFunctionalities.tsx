@@ -2,13 +2,13 @@ import React, { ReactNode, useState } from "react"
 import { RouteProps } from "react-router-dom"
 import { Button, Col, Dropdown, Menu } from "antd"
 import { HistoryLogButton } from "~/Layout/HeaderFunctionalities/HistoryLogButton"
-import { MasterLookupComponent } from "~/Layout/HeaderFunctionalities/MasterLookupComponent"
 import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 import { DownOutlined } from "@ant-design/icons"
 import { GoToUserProfileButton } from "~/Layout/HeaderFunctionalities/GoToUserProfileButton"
 import { IApiPermission } from "@packages/services/lib/Api/utils/Interfaces"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
+import { PageNavigator } from "./PageNavigator"
 
 export interface IHeaderAction {
   ariaLabel: string
@@ -25,7 +25,7 @@ export const HeaderFunctionalities = (props: { actions?: IHeaderAction[], routes
   const menu = (
     <Menu>
       <Menu.Item key="0">
-        <MasterLookupComponent routes={props.routes} />
+        <PageNavigator formTitle="Quick Navigation" routes={props.routes} iconType={"search"} />
       </Menu.Item>
       <Menu.Item key="1" role="navigation" aria-label="history log">
         <HistoryLogButton />
@@ -46,7 +46,7 @@ export const HeaderFunctionalities = (props: { actions?: IHeaderAction[], routes
       {desktopView && (
         <>
           <Col className="site-header__item" style={{ height: "100%" }}>
-            <MasterLookupComponent routes={props.routes} />
+            <PageNavigator formTitle="Quick Navigation" routes={props.routes} />
           </Col>
           <Col className="site-header__item" style={{ height: "100%" }} flex="40px" role="navigation" aria-label="History Log">
             <HistoryLogButton />
