@@ -14,7 +14,7 @@ export function FormInput(props: IGeneratedField & { readOnly?: boolean; type?: 
         readOnly={props.readOnly}
         placeholder={props.placeholder}
         onChange={props.onSelectedItems}
-        autoComplete="off"
+        autoComplete={props.autoComplete}
       />
     </SearchFieldWrapper>
   )

@@ -2,7 +2,7 @@ import { BOOLEAN, DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/c
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const ContactGroupFormMeta: IField[] = [
+export const getContactGroupFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,
@@ -11,7 +11,7 @@ export const ContactGroupFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Title",

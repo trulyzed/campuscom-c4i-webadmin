@@ -58,11 +58,6 @@ export const getCompanyUserFormMeta = ():IField[] => [
     valueKey: "id"
   },
   {
-    label: "Two-factor authentication enabled",
-    inputType: BOOLEAN,
-    fieldName: "mfa_enabled"
-  },
-  {
     label: "Is active",
     inputType: BOOLEAN,
     fieldName: "is_active"

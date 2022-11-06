@@ -4,13 +4,14 @@ import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ProductQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Products"
 import { renderThumb, renderActiveStatus } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getProductDetailsMeta = (product: { [key: string]: any }): IDetailsMeta => {
-  const checkout_url = `${process.env.REACT_APP_ENROLLMENT_URL}/${product?.store?.url_slug}?product=${product?.id}&guest=true`
+  const checkoutURL = parseEnrollmentUrl('checkout', product.id, product.store.url_slug, product.store.domain)
 
   const summaryInfo: CardContainer = {
     title: `Product: ${product.title}`,
@@ -25,7 +26,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
       { label: 'Image', value: renderThumb(product.image, "Product's image") },
       {
         label: 'Content', render: () => (
-          <SummaryTablePopover card={{
+          <PopoverSummaryTable card={{
             title: 'Content',
             contents: [
               {
@@ -40,7 +41,7 @@ export const getProductDetailsMeta = (product: { [key: string]: any }): IDetails
           }} />
         ),
       },
-      { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkout_url, checkout_url, false, true) : undefined },
+      { label: 'Checkout URL', value: product.product_type !== 'miscellaneous' ? renderLink(checkoutURL, checkoutURL, false, true) : undefined },
     ]
   }
 

@@ -18,6 +18,7 @@ interface IMetaDrivenFormModalOpenButton {
   formMetaName?: string
   isVertical?: boolean
   formSubmitApi: IQuery
+  dataQueryApi?: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
   initialFormValueApi?: IQuery
@@ -39,7 +40,13 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           {(props.iconType === "create" || props.iconType === "filter") ?
             <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
             : props.iconType ?
-              <ContextAction textOnly={props.textOnly} text={props.textOnly ? props.buttonLabel : undefined} tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} refreshEventName={props.refreshEventName} />
+              <ContextAction
+                textOnly={props.textOnly}
+                text={props.textOnly ? props.buttonLabel : undefined}
+                tooltip={props.buttonLabel}
+                type={props.iconType}
+                onClick={() => setShowModal(true)}
+                refreshEventName={props.refreshEventName} />
               : (
                 <Button
                   type={props.buttonType || "primary"}
@@ -61,6 +68,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           meta={props.formMeta}
           metaName={props.formMetaName}
           formSubmitApi={props.formSubmitApi}
+          dataQueryApi={props.dataQueryApi}
           onFormSubmit={props.onFormSubmit}
           initialFormValue={props.initialFormValue}
           initialFormValueApi={props.initialFormValueApi}

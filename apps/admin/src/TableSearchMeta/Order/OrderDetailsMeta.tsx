@@ -1,29 +1,33 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { cartItemListTableColumns } from "~/TableSearchMeta/CartItem/CartItemListTableColumns"
-import { renderDate, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { renderDate, renderDateTime } from "@packages/components/lib/ResponsiveTable"
 import { questionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTableColumns"
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
-import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { renderJson, renderAnswer, renderLink } from "@packages/components/lib/ResponsiveTable/tableUtils"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
     title: `Order: ${order.order_ref}`,
-    contents: [...[
-      { label: 'Store', value: order.store, render: (text: any) => text.name },
-      { label: 'Student', value: renderLink(`/storefront-data/student/${order.profile.id}`, `${order.profile.first_name} ${order.profile.last_name}`), },
-      { label: 'Enrollment Date', value: order.datetime, render: renderDate },
-      { label: 'Status', value: order.cart_status },
-      { label: 'Extended amount', value: order.gross_amount },
-      { label: 'Discount amount', value: order.total_discount },
-      { label: 'Tax amount', value: order.tax_amount },
-    ], ...order.purchaser_info.purchasing_for?.type ? [{ label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type }] : []]
+    contents: [
+      ...[
+        { label: 'Store', value: renderLink(`/administration/store/${order.store?.id}`, order.store?.name) },
+        { label: 'Enrollment Date', value: order.datetime, render: renderDate },
+        { label: 'Status', value: order.cart_status },
+        { label: 'Extended amount', value: order.gross_amount },
+        { label: 'Discount amount', value: order.total_discount },
+        { label: 'Tax amount', value: order.tax_amount },
+      ],
+      ...order.purchaser_info.purchasing_for?.type ? [{ label: 'Purchasing for', value: order.purchaser_info.purchasing_for?.type }] : [],
+      ...order.parent_order?.id ? [{ label: 'Parent Order', value: renderLink(`/storefront-data/order/${order.parent_order.id}`, order.parent_order.order_ref) }] : []
+    ]
   }
 
   const purchaserInfo: CardContainer = {
@@ -85,7 +89,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
       helpKey: "orderSummaryTab"
     },
     {
-      tabTitle: "Invoice",
+      tabTitle: "Order Items",
       tabType: "table",
       tabMeta: {
         tableProps: {
@@ -93,10 +97,10 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           columns: cartItemListTableColumns,
           dataSource: order.cart_details,
           rowKey: 'id',
-          refreshEventName: "REFRESH_INVOICE_TAB",
+          refreshEventName: "REFRESH_ORDER_ITEM_TAB",
         }
       },
-      helpKey: "invoiceTab"
+      helpKey: "orderItemTab"
     },
     {
       tabTitle: "Payment",
@@ -145,10 +149,10 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               sorter: (a: any, b: any) => a.email - b.email
             },
             {
-              title: "",
+              title: "Action",
               dataIndex: "extra_info",
               render: (value) => (
-                <SummaryTablePopover card={{
+                <PopoverSummaryTable card={{
                   title: 'Profile Questions',
                   contents: (processQuestions((value || []) as any[])).map((i: any) => ({
                     label: i.question,
@@ -179,6 +183,20 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "studentTab"
+    },
+    {
+      tabTitle: "Seat Blocks",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          ...getSeatBlockListTableColumns(),
+          pagination: false,
+          searchParams: { cart_item__cart: order.id },
+          rowKey: 'id',
+          refreshEventName: "REFRESH_SEAT_BLOCK_TAB",
+        }
+      },
+      helpKey: "seatBlockTab"
     },
     {
       tabTitle: "Log",

@@ -5,7 +5,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const productListTableColumns: TableColumnType = [
   {
-    title: 'ID',
+    title: 'Product ID',
     dataIndex: 'ref_id',
     render: (text: any, record: any) => renderLink(`/store/product/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id

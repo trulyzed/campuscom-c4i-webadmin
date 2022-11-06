@@ -8,7 +8,7 @@ import { StudentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { ContactGroupQueries } from "@packages/services/lib/Api/Queries/AdminQueries/ContactGroups"
-import { ContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
+import { getContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
@@ -32,7 +32,7 @@ export const getContactGroupDetailsMeta = (contactGroup: { [key: string]: any })
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Contact Group`}
-        formMeta={ContactGroupFormMeta}
+        formMeta={getContactGroupFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...contactGroup, store: contactGroup.store.id }}
         buttonLabel={`Update Contact Group`}

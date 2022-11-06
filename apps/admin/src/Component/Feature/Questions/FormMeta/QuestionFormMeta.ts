@@ -5,7 +5,7 @@ import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/A
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const QuestionFormMeta: IField[] = [
+export const getQuestionFormMeta = (): IField[] => [
   {
     label: 'Provider Type',
     fieldName: 'provider_type',
@@ -33,7 +33,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'course_provider')
     },
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: 'Store',
@@ -47,7 +47,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'store')
     },
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'External ID',

@@ -70,8 +70,7 @@ export const TransactionBatchQueries: ITransactionBatchQueries = {
             ref: data.data.payment_ref,
             note: data.data.payment_note,
             revenue_percentage: data.data.revenue_percentage
-          },
-          payment_date: data?.data.payment_date ? `${data.data.payment_date} 00:00:00.000000+00` : undefined
+          }
         }),
         status: "paid"
       }

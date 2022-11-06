@@ -9,10 +9,10 @@ export const EnrollmentSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
-    label: "Ref ID",
+    label: "Enrollment ID",
     inputType: TEXT,
     fieldName: "ref_id",
   },

@@ -7,7 +7,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getInstructorListTableColumns } from "~/TableSearchMeta/Instructor/InstructorListTableColumns"
 import { InstructorSearchMeta } from "~/TableSearchMeta/Instructor/InstructorSearchMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { InstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
+import { getInstructorFormMeta } from "~/Component/Feature/Instructors/FormMeta/InstructorFormMeta"
 import { InstructorQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Instructors"
 
 export const List = () => {
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Instructor`}
-              formMeta={InstructorFormMeta}
+              formMeta={getInstructorFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Instructor`}
               iconType="create"

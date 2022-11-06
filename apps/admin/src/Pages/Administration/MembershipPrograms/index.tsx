@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { notification } from "antd"
-import { MembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
+import { getMembershipProgramFormMeta } from "~/Component/Feature/MembershipPrograms/FormMeta/MembershipProgramFormMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Membership Program`}
-              formMeta={MembershipProgramFormMeta}
+              formMeta={getMembershipProgramFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create`}
               iconType={'create'}

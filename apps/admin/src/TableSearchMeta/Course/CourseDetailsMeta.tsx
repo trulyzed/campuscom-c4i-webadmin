@@ -10,7 +10,7 @@ import { renderBoolean, renderLink } from "@packages/components/lib/ResponsiveTa
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { getSectionListTableColumns } from "~/TableSearchMeta/Section/SectionListTableColumns"
 import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
-import { SectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
+import { getSectionFormMeta } from "~/Component/Feature/Sections/FormMeta/SectionFormMeta"
 import { SectionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Sections"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { getStoreListTableColumns } from "~/TableSearchMeta/Store/StoreListTableColumns"
@@ -25,6 +25,7 @@ import { getSkillListTableColumns } from "~/TableSearchMeta/Career/SkillListTabl
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
+import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
 
 export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseQueries.update({ ...data, params: { id: course.id } }).then(resp => {
@@ -126,7 +127,7 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Section`}
-              formMeta={SectionFormMeta}
+              formMeta={getSectionFormMeta()}
               formSubmitApi={createSection}
               buttonLabel={`Create Section`}
               iconType="create"
@@ -215,7 +216,10 @@ export const getCourseDetailsMeta = (course: { [key: string]: any }): IDetailsMe
             {
               title: "Checkout URL",
               dataIndex: 'product_id',
-              render: (text: any, record: any) => renderLink(`${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, `${process.env.REACT_APP_ENROLLMENT_URL}/${record.store_slug}/?guest=true&product=${text}`, false, true),
+              render: (text: any, record: any) => {
+                const url = parseEnrollmentUrl('checkout', text, record.store_slug, record.store_domain)
+                return renderLink(url, url, false, true)
+              },
             },
           ],
           searchFunc: StoreQueries.getListByCoursePublishing,

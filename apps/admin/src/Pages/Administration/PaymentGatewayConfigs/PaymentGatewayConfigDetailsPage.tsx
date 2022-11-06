@@ -6,5 +6,5 @@ import { PaymentGatewayConfigQueries } from "@packages/services/lib/Api/Queries/
 export function PaymentGatewayConfigDetailsPage(props: RouteComponentProps<{ paymentGatewayConfigID?: string }>) {
   const PaymentGatewayConfigID = props?.match?.params?.paymentGatewayConfigID
 
-  return <DetailsPage getMeta={getPaymentGatewayConfigDetailsMeta} getDetailsPageContent={PaymentGatewayConfigQueries.getSingle} entityType="paymentGatewayConfig" entityID={PaymentGatewayConfigID} />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getPaymentGatewayConfigDetailsMeta} getDetailsPageContent={PaymentGatewayConfigQueries.getSingle} entityType="paymentGatewayConfig" entityID={PaymentGatewayConfigID} />
 }

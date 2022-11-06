@@ -2,7 +2,7 @@ import { IField, DROPDOWN } from "@packages/components/lib/Form/common"
 import { IdentityProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/IdentityProviders"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const IdentityProviderTaggingFormMeta: IField[] = [
+export const getIdentityProviderTaggingFormMeta = (): IField[] => [
   {
     label: 'Identity Provider',
     fieldName: 'identity_provider',

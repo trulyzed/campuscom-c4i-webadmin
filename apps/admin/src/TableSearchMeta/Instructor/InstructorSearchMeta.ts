@@ -9,7 +9,7 @@ export const InstructorSearchMeta: IField[] = [
     fieldName: "provider__id",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Name",

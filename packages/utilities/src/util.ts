@@ -50,3 +50,7 @@ export const getLocaleDecimalValue = (val?: number, digit = 2, locale?: Intl.Loc
     maximumFractionDigits: digit
   })
 }
+
+export const extractObjectValue = (obj: Record<string, any>, key: string) => {
+  return key.split(".").reduce((a, c) => a[c], obj)
+}

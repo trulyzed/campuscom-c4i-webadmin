@@ -35,10 +35,26 @@
 @alert-success-bg-color: #F6F9F1;
 @alert-info-bg-color: #ECF8FE;
 @alert-warning-bg-color: #FDF6EC;
+@alert-error-bg-color: #FCECEF;
+@alert-success-border-color: #DCDCDC;
+@alert-info-border-color: #DCDCDC;
+@alert-warning-border-color: #DCDCDC;
+@alert-error-border-color: #DCDCDC;
 @breadcrumb-link-color: @interactive;
 @breadcrumb-separator-color: black;
 @breadcrumb-last-item-color: black;
 @breadcrumb-separator-margin: 5px;
+@input-placeholder-color: #696969;
+
+h2, h3, h5 {
+  font-family: AvertaLight;
+}
+
+:focus:not(:focus-visible) {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
 
 // Site layout
 .site-layout-background {
@@ -54,6 +70,8 @@
 }
 .site-header__item {
   background-color: @text-light;
+  display: flex;
+  align-items: center;
 }
 
 // Sidebar
@@ -104,10 +122,6 @@
   align-items: center;
   background-color: @accent-light;
   color: @text;
-}
-
-h2, h3, h5 {
-  font-family: AvertaLight;
 }
 
 // antd wizard
@@ -194,11 +208,15 @@ h2, h3, h5 {
 
 // antd input
 .ant-input:focus,
+.ant-input-affix-wrapper-focused,
 .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector {
   border: 2px solid !important;
   border-color: @interactive-active !important;
   outline: 0;
   box-shadow: none !important;
+}
+.ant-input-affix-wrapper .ant-input:focus {
+  border: 0 !important;
 }
 
 // antd button, antd dropdown item title
@@ -311,6 +329,17 @@ h2, h3, h5 {
 }
 
 // antd breadcrumb
+.ant-breadcrumb {
+  ol {
+    li {
+      &:last-child {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
 .ant-breadcrumb-separator {
   .glyphicon {
     font-size: 10px;

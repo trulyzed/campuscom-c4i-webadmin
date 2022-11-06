@@ -57,7 +57,7 @@ export const getTransactionListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: transactionListTableColumns,
     searchFunc: TransactionQueries.getList,
-    tableName: "TransactionBatchCreate",
+    tableName: "Transaction",
     showDownload: false,
     hideSettings: true
   }

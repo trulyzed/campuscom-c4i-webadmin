@@ -15,9 +15,9 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { getStoreConfigurationListTableColumns } from "~/TableSearchMeta/StoreConfiguration/StoreConfigurationListTableColumns"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 import { convertToString } from "@packages/utilities/lib/mapper"
-import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { getCourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
-import { UserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
+import { getUserFormMeta } from "~/Component/Feature/Users/FormMeta/UserFormMeta"
 import { getConfigurationTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ConfigurationTaggingFormMeta"
 import { getProfileQuestionTaggingFormMeta } from "~/Component/Feature/Stores/FormMeta/ProfileQuestionTaggingFormMeta"
 import { getPaymentQuestionTaggingFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/PaymentQuestionTaggingFormMeta"
@@ -103,6 +103,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
       { label: 'GTM ID', value: store.gtm_id },
       { label: 'Logo', value: renderThumb(store.store_logo_uri, "Store's logo") },
       { label: 'Template', value: renderLink(store.template, store.template, false, true) },
+      { label: 'Primary Course Provider', value: store.primary_course_provider ? renderLink(`/administration/course-provider/${store.primary_course_provider.id}`, store.primary_course_provider.name) : undefined },
     ]
   }
 
@@ -129,7 +130,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Add Course Sharing Contract`}
-              formMeta={CourseSharingContractFormMeta}
+              formMeta={getCourseSharingContractFormMeta()}
               formSubmitApi={addCourseSharingContract}
               buttonLabel={`Add Course Sharing Contract`}
               refreshEventName={'REFRESH_COURSE_SHARING_CONTRACT_TAB'}
@@ -152,7 +153,7 @@ export const getStoreDetailsMeta = (store: { [key: string]: any }): IDetailsMeta
               render: (text, record) => (
                 <MetaDrivenFormModalOpenButton
                   formTitle={`Update User`}
-                  formMeta={UserFormMeta.filter(i => i.fieldName !== "password")}
+                  formMeta={getUserFormMeta().filter(i => i.fieldName !== "password")}
                   formSubmitApi={updateUser(record)}
                   initialFormValue={{ ...record, custom_roles: record.custom_roles.map((i: any) => i.id || i), }}
                   defaultFormValue={{ userId: record.id }}

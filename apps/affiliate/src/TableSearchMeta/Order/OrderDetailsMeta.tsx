@@ -7,9 +7,10 @@ import { studentListTableColumns } from "~/TableSearchMeta/Student/StudentListTa
 import { enrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { renderJson, renderAnswer } from "@packages/components/lib/ResponsiveTable/tableUtils"
-import { SummaryTablePopover } from "@packages/components/lib/Popover/SummaryTablePopover"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
   const basicInfo: CardContainer = {
@@ -90,7 +91,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
               title: "",
               dataIndex: "extra_info",
               render: (value) => (
-                <SummaryTablePopover card={{
+                <PopoverSummaryTable card={{
                   title: 'Profile Questions',
                   contents: (processQuestions((value || []) as any[])).map((i: any) => ({
                     label: i.question,
@@ -121,6 +122,20 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         }
       },
       helpKey: "studentTab"
+    },
+    {
+      tabTitle: "Seat Blocks",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          ...getSeatBlockListTableColumns(),
+          pagination: false,
+          searchParams: { cart_item__cart: order.id },
+          rowKey: 'id',
+          refreshEventName: "REFRESH_SEAT_BLOCK_TAB",
+        }
+      },
+      helpKey: "seatBlockTab"
     },
     {
       tabTitle: "Log",

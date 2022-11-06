@@ -3,7 +3,7 @@ import { BOOLEAN, CUSTOM_FIELD, DROPDOWN, IField } from "@packages/components/li
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const PublishingFormMeta: IField[] = [
+export const getPublishingFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,
@@ -12,7 +12,7 @@ export const PublishingFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'Enrollment Ready',

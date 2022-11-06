@@ -6,10 +6,11 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { CourseSharingContractQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseSharingContracts"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { CourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
+import { getCourseSharingContractFormMeta } from "~/Component/Feature/CourseSharingContracts/FormMeta/CourseSharingContractFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
+import { IField } from "@packages/components/lib/Form/common"
 
 export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
@@ -24,13 +25,10 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Course Sharing Contract`}
-        formMeta={[
-          {
-            ...CourseSharingContractFormMeta[0],
-            disabled: true
-          },
-          CourseSharingContractFormMeta[1],
-        ]}
+        formMeta={getCourseSharingContractFormMeta().map((i: IField, idx) => ({
+          ...i,
+          ...idx === 0 && { disabled: true }
+        }))}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
         defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
@@ -44,6 +42,7 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
       { label: 'Store', value: renderLink(`/administration/store/${courseSharingContract.store.id}`, courseSharingContract.store.name), },
       { label: 'Course Provider', value: renderLink(`/administration/course-provider/${courseSharingContract.course_provider.id}`, courseSharingContract.course_provider.name), },
       { label: 'Contract Date', value: courseSharingContract.contract_datetime, render: renderDateTime },
+      { label: 'Is Primary', value: courseSharingContract.is_primary, render: renderBoolean },
       { label: 'Is Active', value: courseSharingContract.is_active, render: renderBoolean },
     ]
   }

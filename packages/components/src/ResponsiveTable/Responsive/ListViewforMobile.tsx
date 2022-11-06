@@ -1,10 +1,11 @@
 import React from "react"
-import { Card, Col, Empty, Row, Spin, SpinProps } from "antd"
+import { Card, Col, Row, Spin, SpinProps } from "antd"
 import { TableProps } from "antd/lib/table"
 import { IDataTableProps } from "~/ResponsiveTable"
 import { DownloadButton } from "~/ResponsiveTable/DownloadButton"
 import { Pagination } from "~/ResponsiveTable/Pagination"
 import { DropdownActions } from "~/Actions/DropdownActions"
+import { EmptyState } from "~/Layout/EmptyState"
 
 export const ListViewforMobile = (
   props: IDataTableProps & {
@@ -95,40 +96,38 @@ export const ListViewforMobile = (
             </Row>
           </Col>
           <Col span={24}>
-            <div>
-              <ul style={{ padding: "0px", listStyle: "none" }}>
-                {props.paginatedData && props.paginatedData.length > 0 ? (
-                  props.paginatedData.map((x: { [key: string]: any }, i: number) => {
-                    return (
-                      <li key={i}>
-                        <Card>
-                          {props.columns.map((column: { [key: string]: any }, j) => {
-                            let toRender
-                            if (column.render && column.dataIndex) {
-                              toRender = column.render(x[column.dataIndex], x, i)
-                            } else if (column.dataIndex) {
-                              toRender = x[column.dataIndex]
-                            } else if (column.render) {
-                              toRender = column.render(x, x)
-                            }
-                            return (
-                              (toRender && !column.hidden) ? (
-                                <div key={j + 1000}>
-                                  {column.title && <span>{column.title}: </span>}
-                                  <span>{toRender}</span>
-                                </div>
-                              ) : null
-                            )
-                          })}
-                        </Card>
-                      </li>
-                    )
-                  })
-                ) : (
-                  <Empty />
-                )}
-              </ul>
-            </div>
+            <ul style={{ padding: "0px", listStyle: "none" }}>
+              {props.paginatedData && props.paginatedData.length > 0 ? (
+                props.paginatedData.map((x: { [key: string]: any }, i: number) => {
+                  return (
+                    <li key={i}>
+                      <Card>
+                        {props.columns.map((column: { [key: string]: any }, j) => {
+                          let toRender
+                          if (column.render && column.dataIndex) {
+                            toRender = column.render(x[column.dataIndex], x, i)
+                          } else if (column.dataIndex) {
+                            toRender = x[column.dataIndex]
+                          } else if (column.render) {
+                            toRender = column.render(x, x)
+                          }
+                          return (
+                            (toRender && !column.hidden) ? (
+                              <div key={j + 1000}>
+                                {column.title && <span>{column.title}: </span>}
+                                <span>{toRender}</span>
+                              </div>
+                            ) : null
+                          )
+                        })}
+                      </Card>
+                    </li>
+                  )
+                })
+              ) : (
+                <EmptyState wrapInCard />
+              )}
+            </ul>
           </Col>
         </Row>
       )}

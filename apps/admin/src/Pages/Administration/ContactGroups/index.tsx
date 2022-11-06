@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { notification } from "antd"
-import { ContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
+import { getContactGroupFormMeta } from "~/Component/Feature/ContactGroups/FormMeta/ContactGroupFormMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Contact Group`}
-              formMeta={ContactGroupFormMeta}
+              formMeta={getContactGroupFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Contact Group`}
               iconType="create"

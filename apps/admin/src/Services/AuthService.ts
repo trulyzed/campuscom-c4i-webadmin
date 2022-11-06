@@ -9,9 +9,9 @@ export const logout = () => {
   eventBus.publish(REDIRECT_TO_LOGIN, true)
 }
 
-export const login = async ({ username, password }: { username: string; password: string }): Promise<IApiResponse> => {
-  return AuthQueries.login({ data: { username, password } }).then((resp) => {
-    if (resp && resp.success) {
+export const login = async ({ username, password, otp }: { username: string; password: string; otp?: string }): Promise<IApiResponse> => {
+  return AuthQueries.login({ data: { username, password, otp } }).then((resp) => {
+    if (resp && resp.success && !resp.data?.userData?.mfa_enabled) {
       setTimeout(() => {
         eventBus.publishSimilarEvents(/REFRESH.*/i)
         eventBus.publish(SHOW_LOGIN_MODAL, false)

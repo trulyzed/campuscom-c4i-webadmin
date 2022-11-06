@@ -8,7 +8,7 @@ import { getCampusListTableColumns } from "~/TableSearchMeta/Campus/CampusListTa
 import { CampusSearchMeta } from "~/TableSearchMeta/Campus/CampusSearchMeta"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { CampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
+import { getCampusFormMeta } from "~/Component/Feature/Campuses/FormMeta/CampusFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Campus`}
-              formMeta={CampusFormMeta}
+              formMeta={getCampusFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Campus`}
               iconType="create"

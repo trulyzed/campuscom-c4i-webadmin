@@ -4,7 +4,7 @@ import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/St
 
 export const ImportTaskSearchMeta: IField[] = [
   {
-    label: "Ref Id",
+    label: "Import Task ID",
     inputType: TEXT,
     fieldName: "ref_id",
   },
@@ -15,7 +15,7 @@ export const ImportTaskSearchMeta: IField[] = [
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Store",
@@ -24,7 +24,7 @@ export const ImportTaskSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'Status',
