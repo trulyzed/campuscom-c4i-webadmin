@@ -6,8 +6,9 @@ import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { Steps } from "./Utils/types"
-import { useCallback, useState } from "react"
+import { IOrderType, Steps } from "./Utils/types"
+import { useCallback, useMemo, useState } from "react"
+import { UploadBulkStudentData } from "./UploadBulkStudentData"
 
 interface IStudentDataStepProps {
   storeData: Record<string, any>
@@ -19,6 +20,7 @@ interface IStudentDataStepProps {
   setCurrentStep: (step: Steps) => void
   isValid: boolean
   singleOnly: boolean
+  type?: IOrderType
 }
 
 export const StudentDataStep = ({
@@ -30,8 +32,15 @@ export const StudentDataStep = ({
   setCurrentStep,
   isValid,
   singleOnly,
+  type,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
+
+  const tableActions = useMemo(() => {
+    return [
+      ...type === 'CREATE_BULK_ENROLLMENT' ? [<UploadBulkStudentData />] : []
+    ]
+  }, [type])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
@@ -104,6 +113,7 @@ export const StudentDataStep = ({
             rowKey={"id"}
             hidePagination
             hideSettings
+            actions={tableActions}
           />
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>

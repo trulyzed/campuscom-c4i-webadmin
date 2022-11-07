@@ -1,5 +1,7 @@
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
+import { IOrderType } from "./types"
 
 interface IUseInitialize {
   storeData?: Record<string, any>
@@ -9,6 +11,7 @@ interface IUseInitialize {
   setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   reservationDetails?: Record<string, any>
+  type?: IOrderType
 }
 
 export const useInitialize = ({
@@ -19,7 +22,9 @@ export const useInitialize = ({
   setPurchaserData,
   setProductData,
   reservationDetails,
+  type,
 }: IUseInitialize) => {
+  const { userData } = useContext(UserDataContext)
   const [isFetchingOrderDetails, setIsFetchingOrderDetails] = useState(false)
 
   const getOrderDetails = useCallback(async () => {
@@ -69,6 +74,13 @@ export const useInitialize = ({
       ])
     }
   }, [reservationDetails, setStoreData, setPurchaserData, setProductData])
+
+  // Initialize data for bulk enrollment
+  useEffect(() => {
+    if (type !== 'CREATE_BULK_ENROLLMENT' || !userData) return
+    const companyStore = userData.context.find(i => i.type === 'Company')?.values[0]?.store
+    if (companyStore) setStoreData({ store: companyStore })
+  }, [setStoreData, userData, type])
 
   return {
     getOrderDetails,

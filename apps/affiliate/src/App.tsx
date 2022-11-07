@@ -13,6 +13,7 @@ import { EmptyState } from "@packages/components/lib/Layout/EmptyState"
 import { ConfigProvider, notification } from "antd"
 import { getSidebarMenus } from "./Component/Layout/SidebarMenus"
 import { logout } from "./Services/AuthService"
+import { UserDataProvider } from "@packages/components/lib/Context/UserDataContext"
 
 notification.config({
   closeIcon: <span className="glyphicon glyphicon--primary glyphicon-remove" />,
@@ -54,15 +55,17 @@ export function App(): JSX.Element {
         </Switch>
       ) : (
         <ConfigProvider renderEmpty={() => <EmptyState />}>
-          <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={"Campus Marketplace Affiliate"} onLogout={logout}>
-            <Switch>
-              {AppRoutes.map((route, i) => {
-                return <Route key={i} {...route} exact />
-              })}
-              <Route path="*" component={NotFoundPage} />
-            </Switch>
-            {window.location.pathname.includes(`/login`) && <Redirect to="/" />}
-          </DefaultLayout>
+          <UserDataProvider>
+            <DefaultLayout routes={AppRoutes} menus={getSidebarMenus()} title={"Campus Marketplace Affiliate"} onLogout={logout}>
+              <Switch>
+                {AppRoutes.map((route, i) => {
+                  return <Route key={i} {...route} exact />
+                })}
+                <Route path="*" component={NotFoundPage} />
+              </Switch>
+              {window.location.pathname.includes(`/login`) && <Redirect to="/" />}
+            </DefaultLayout>
+          </UserDataProvider>
         </ConfigProvider>
       )}
     </BrowserRouter>

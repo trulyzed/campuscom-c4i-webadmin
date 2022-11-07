@@ -22,20 +22,20 @@ import { useInitialize } from "./Utils/useInitialize"
 import { FormError } from "@packages/components/lib/Form/FormError"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
-interface ICreateOrderProps {
+interface ICreateBulkEnrollmentProps {
   title?: ReactNode
   reservationDetails?: Record<string, any>
   swapRegistration?: boolean
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
-export const CreateOrder = ({
-  title = "Create an Order",
+export const CreateBulkEnrollment = ({
+  title = "Create Bulk Enrollment",
   reservationDetails,
   swapRegistration,
   refreshEventName,
-}: ICreateOrderProps) => {
-  const { steps } = useSteps('CREATE_ORDER')
+}: ICreateBulkEnrollmentProps) => {
+  const { steps } = useSteps('CREATE_BULK_ENROLLMENT')
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -59,7 +59,7 @@ export const CreateOrder = ({
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
   const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
 
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, type: 'CREATE_BULK_ENROLLMENT' })
   useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
 
   const reset = useCallback(() => {
@@ -184,6 +184,7 @@ export const CreateOrder = ({
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
                     singleOnly={!!reservationDetails}
+                    type={"CREATE_BULK_ENROLLMENT"}
                   />
                   : currentStep === steps.RegistrationInformation ?
                     <RegistrationDataStep

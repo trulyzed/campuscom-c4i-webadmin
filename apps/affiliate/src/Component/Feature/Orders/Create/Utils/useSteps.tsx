@@ -1,15 +1,39 @@
-import { Steps } from "./types"
+import { IOrderType, Steps } from "./types"
 
-export const useSteps = (isTokenRegistration?: boolean) => {
-  const steps: Record<keyof typeof Steps, number> = {
-    StoreInformation: isTokenRegistration ? NaN : Steps.StoreInformation,
-    PurchaserInformation: isTokenRegistration ? NaN : Steps.PurchaserInformation,
-    ProductInformation: isTokenRegistration ? NaN : Steps.ProductInformation,
-    StudentInformation: isTokenRegistration ? 0 : Steps.StudentInformation,
-    RegistrationInformation: isTokenRegistration ? NaN : Steps.RegistrationInformation,
-    AdditionalRegistrationInformation: isTokenRegistration ? 1 : Steps.AdditionalRegistrationInformation,
-    Invoice: isTokenRegistration ? 2 : Steps.Invoice,
-    PaymentInformation: isTokenRegistration ? 3 : Steps.PaymentInformation,
+export const useSteps = (type: IOrderType) => {
+  let steps: Record<keyof typeof Steps, number> = {
+    StoreInformation: Steps.StoreInformation,
+    PurchaserInformation: Steps.PurchaserInformation,
+    ProductInformation: Steps.ProductInformation,
+    StudentInformation: Steps.StudentInformation,
+    RegistrationInformation: Steps.RegistrationInformation,
+    AdditionalRegistrationInformation: Steps.AdditionalRegistrationInformation,
+    Invoice: Steps.Invoice,
+    PaymentInformation: Steps.PaymentInformation,
+  }
+
+  if (type === 'REGISTRATION') {
+    steps = {
+      StoreInformation: NaN,
+      PurchaserInformation: NaN,
+      ProductInformation: NaN,
+      StudentInformation: 0,
+      RegistrationInformation: NaN,
+      AdditionalRegistrationInformation: 1,
+      Invoice: 2,
+      PaymentInformation: 3,
+    }
+  } else if (type === 'CREATE_BULK_ENROLLMENT') {
+    steps = {
+      StoreInformation: NaN,
+      PurchaserInformation: 0,
+      StudentInformation: 1,
+      ProductInformation: 2,
+      RegistrationInformation: NaN,
+      AdditionalRegistrationInformation: 3,
+      Invoice: 4,
+      PaymentInformation: 5,
+    }
   }
 
   return {
