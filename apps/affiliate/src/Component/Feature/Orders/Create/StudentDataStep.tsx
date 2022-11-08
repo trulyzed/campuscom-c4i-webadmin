@@ -38,26 +38,27 @@ export const StudentDataStep = ({
 
   const tableActions = useMemo(() => {
     return [
-      ...type === 'CREATE_BULK_ENROLLMENT' ? [<UploadBulkStudentData />] : []
+      ...type === 'CREATE_BULK_ENROLLMENT' ? [<UploadBulkStudentData setStudentData={setStudentData} />] : []
     ]
-  }, [type])
+  }, [type, setStudentData])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
-    if (studentData.some(i => i.id === profile)) {
+    if (studentData.some(i => i.primary_email === profile)) {
       notification.warning({ message: "Student already chosen" })
       return
     }
     setIsProcessing(true)
-    const resp = await ContactQueries.getSingle({ params: { id: profile } })
+    const resp = await ContactQueries.getList({ params: { primary_email: profile } })
+    const contact = resp.data?.[0]
+    if (!contact) return
     setIsProcessing(false)
     if (resp.success) setStudentData([
       {
-        id: resp.data.id,
-        first_name: resp.data.first_name,
-        last_name: resp.data.last_name,
-        name: resp.data.name,
-        primary_email: resp.data.primary_email,
+        first_name: contact.first_name,
+        last_name: contact.last_name,
+        name: contact.name,
+        primary_email: contact.primary_email,
         ...formValues
       },
       ...studentData,
@@ -104,13 +105,13 @@ export const StudentDataStep = ({
                   <ContextAction
                     type="delete"
                     tooltip="Delete Profile"
-                    onClick={() => setStudentData(studentData.filter(i => i.id !== record.id))}
+                    onClick={() => setStudentData(studentData.filter(i => i.primary_email !== record.primary_email))}
                   />
                 )
               },
             ]}
             dataSource={studentData}
-            rowKey={"id"}
+            rowKey={"primary_email"}
             hidePagination
             hideSettings
             actions={tableActions}
@@ -134,7 +135,7 @@ const getMeta = (store: string): IField[] => [
     inputType: DROPDOWN,
     refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
     displayKey: "name",
-    valueKey: "id",
+    valueKey: "primary_email",
     rules: [{ required: true, message: "This field is required!" }],
   },
 ]
