@@ -44,6 +44,7 @@ export enum ApiPermissionClass {
   CreatableOrderDetails = "EnrollmentProductDetailsView",
   CreatableOrderPaymentSummary = "PaymentSummaryView",
   CreateOrder = "CreateEnrollmentView",
+  CreateOrderBulk = "CreateBulkEnrollmentView",
   CreateOrderForAffiliateAdmin = "CreateEnrollmentWithPurchaserView",
   CustomRole = "CustomRoleViewSet",
   CustomUser = "CustomUserViewSet",

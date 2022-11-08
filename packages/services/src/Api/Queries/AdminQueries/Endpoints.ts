@@ -35,6 +35,7 @@ export const endpoints = {
   CREATABLE_ORDER_PAYMENT_SUMMARY: "payment-summary",
   CREATABLE_ORDER_DETAILS: "enrollment-product-details",
   CREATE_ORDER: "create-enrollment",
+  CREATE_ORDER_BULK: "create-bulk-enrollment",
   CUSTOM_ROLE: "custom-roles",
   DEACTIVATE_MFA: "mfa/deactivate",
   DELETE_CERTIFICATE_COURSE: "delete-certificate-courses",

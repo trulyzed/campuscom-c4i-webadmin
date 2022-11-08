@@ -52,6 +52,19 @@ export const OrderQueries: IOrderQueries = {
     [{ operation: ApiPermissionClass.CreateOrder, action: ApiPermissionAction.Write }]
   ),
 
+  createBulk: PermissionWrapper(
+    (data) => {
+      const payload = convertToFormData(data?.data)
+      return adminApi({
+        endpoint: endpoints.CREATE_ORDER_BULK,
+        method: "POST",
+        ...data,
+        data: payload
+      })
+    },
+    [{ operation: ApiPermissionClass.CreateOrderBulk, action: ApiPermissionAction.Write }]
+  ),
+
   getCreatableOrderDetails: PermissionWrapper(
     (data) => {
       return adminApi({

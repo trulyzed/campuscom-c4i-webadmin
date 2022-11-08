@@ -71,7 +71,7 @@ export const CreateBulkEnrollment = ({
 
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await OrderQueries.create({ data: generatePayload() })
+    const resp = await OrderQueries.createBulk({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)

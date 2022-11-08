@@ -94,12 +94,19 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(OrderQueries.create)
       },
+      {
+        title: "Create Bulk Enrollment",
+        url: "/store/create-bulk-enrollment",
+        submenu: [],
+        permission: checkAdminApiPermission(OrderQueries.createBulk)
+      },
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
       checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
       checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
-      checkAdminApiPermission(OrderQueries.create)
+      checkAdminApiPermission(OrderQueries.create) ||
+      checkAdminApiPermission(OrderQueries.createBulk)
   },
   {
     title: "Storefront Data",

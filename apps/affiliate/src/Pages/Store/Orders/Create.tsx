@@ -1,5 +1,5 @@
-import { CreateBulkEnrollment } from "~/Component/Feature/Orders/Create/CreateBulkEnrollment"
+import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 
 export const Create = () => {
-  return <CreateBulkEnrollment />
+  return <CreateOrder />
 }

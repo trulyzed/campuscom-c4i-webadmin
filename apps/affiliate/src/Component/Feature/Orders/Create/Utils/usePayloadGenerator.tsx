@@ -108,7 +108,7 @@ export const usePayloadGenerator = ({
           product_id: c.product,
           first_name: student.first_name,
           last_name: student.last_name,
-          primary_email: student.primary_email,
+          email: student.primary_email,
           extra_info: profileQuestions,
         })
       }
