@@ -118,7 +118,7 @@ export const AdditionalRegistrationDataStep = ({
                   ]
                   return (
                     <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }} bodyStyle={{ ...!meta.length && { paddingTop: "10px", paddingBottom: "10px" } }}>
-                      <Title level={5} style={{ ...!meta.length && { marginBottom: "0" } }}>{studentData.find(s => s.id === student)?.name}</Title>
+                      <Title level={5} style={{ ...!meta.length && { marginBottom: "0" } }}>{studentData.find(s => s.primary_email === student)?.name}</Title>
                       {meta.length ?
                         <div style={{ marginTop: "30px" }}>
                           <FormFields

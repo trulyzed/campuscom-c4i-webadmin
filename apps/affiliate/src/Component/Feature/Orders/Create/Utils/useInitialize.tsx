@@ -11,7 +11,7 @@ interface IUseInitialize {
   setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   reservationDetails?: Record<string, any>
-  type?: IOrderType
+  orderType?: IOrderType
 }
 
 export const useInitialize = ({
@@ -22,7 +22,7 @@ export const useInitialize = ({
   setPurchaserData,
   setProductData,
   reservationDetails,
-  type,
+  orderType,
 }: IUseInitialize) => {
   const { userData } = useContext(UserDataContext)
   const [isFetchingOrderDetails, setIsFetchingOrderDetails] = useState(false)
@@ -77,10 +77,10 @@ export const useInitialize = ({
 
   // Initialize data for bulk enrollment
   useEffect(() => {
-    if (type !== 'CREATE_BULK_ENROLLMENT' || !userData) return
+    if (orderType !== 'CREATE_BULK_ENROLLMENT' || !userData) return
     const companyStore = userData.context.find(i => i.type === 'Company')?.values[0]?.store
     if (companyStore) setStoreData({ store: companyStore })
-  }, [setStoreData, userData, type])
+  }, [setStoreData, userData, orderType])
 
   return {
     getOrderDetails,

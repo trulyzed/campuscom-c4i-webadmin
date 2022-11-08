@@ -27,8 +27,8 @@ export const useSteps = (type: IOrderType) => {
     steps = {
       StoreInformation: NaN,
       PurchaserInformation: 0,
-      StudentInformation: 1,
-      ProductInformation: 2,
+      ProductInformation: 1,
+      StudentInformation: 2,
       RegistrationInformation: NaN,
       AdditionalRegistrationInformation: 3,
       Invoice: 4,

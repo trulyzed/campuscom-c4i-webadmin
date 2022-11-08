@@ -33,9 +33,11 @@ export const usePayloadGenerator = ({
       first_name: purchaserData?.first_name,
       last_name: purchaserData?.last_name,
       primary_email: purchaserData?.email,
-      purchasing_for: {
-        type: purchaserData?.purchasing_for,
-        ref: purchaserData?.company
+      ...purchaserData?.purchasing_for && {
+        purchasing_for: {
+          type: purchaserData?.purchasing_for,
+          ref: purchaserData?.company
+        }
       },
       extra_info: profileQuestions
     }
@@ -95,8 +97,8 @@ export const usePayloadGenerator = ({
 
   const generateStudentDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
+      for (const studentEmail of c.students) {
+        const student = studentData.find(i => i.primary_email === studentEmail)
         if (!student) continue
         const profileQuestions = Object.keys(student || {}).reduce((a, c) => {
           if (c.includes("profile_question__")) a[c.split("profile_question__")[1]] = student?.[c]
@@ -104,8 +106,10 @@ export const usePayloadGenerator = ({
         }, {} as Record<string, any>)
         a.push({
           product_id: c.product,
-          profile_id: studentID,
-          extra_info: profileQuestions
+          first_name: student.first_name,
+          last_name: student.last_name,
+          primary_email: student.primary_email,
+          extra_info: profileQuestions,
         })
       }
       return a
@@ -114,12 +118,12 @@ export const usePayloadGenerator = ({
 
   const generateRegistrationDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
+      for (const studentEmail of c.students) {
+        const student = studentData.find(i => i.primary_email === studentEmail)
         if (!student) continue
         const registrationData = additionalRegistrationData.reduce((a, c2) => {
           if (c2.product === c.product) {
-            const matchedStudent = c2.students.find((i: any) => i.id === studentID)
+            const matchedStudent = c2.students.find((i: any) => i.primary_email === studentEmail)
             if (matchedStudent) {
               a = {
                 ...a,

@@ -6,41 +6,47 @@ import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { IOrderType, Steps } from "./Utils/types"
+import { Steps } from "./Utils/types"
 import { useCallback, useMemo, useState } from "react"
 import { UploadBulkStudentData } from "./UploadBulkStudentData"
 
 interface IStudentDataStepProps {
   storeData: Record<string, any>
+  registrationProductData?: Record<string, any>[]
   studentData: Record<string, any>[]
   profileQuestions: IField[]
   setStudentData: (...args: any[]) => void
+  setRegistrationData?: (...args: any[]) => void
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   setCurrentStep: (step: Steps) => void
   isValid: boolean
-  singleOnly: boolean
-  type?: IOrderType
+  singleOnly?: boolean
+  canUploadBulk?: boolean
+  autoSetRegistrationData?: boolean
 }
 
 export const StudentDataStep = ({
   storeData,
+  registrationProductData,
   studentData,
   profileQuestions,
   setStudentData,
+  setRegistrationData,
   currentStep,
   setCurrentStep,
   isValid,
   singleOnly,
-  type,
+  canUploadBulk,
+  autoSetRegistrationData,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
   const tableActions = useMemo(() => {
     return [
-      ...type === 'CREATE_BULK_ENROLLMENT' ? [<UploadBulkStudentData setStudentData={setStudentData} />] : []
+      ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : []
     ]
-  }, [type, setStudentData])
+  }, [canUploadBulk, setStudentData])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
@@ -64,6 +70,16 @@ export const StudentDataStep = ({
       ...studentData,
     ])
   }, [studentData, setStudentData])
+
+  const handleContinue = useCallback(() => {
+    if (autoSetRegistrationData && setRegistrationData && registrationProductData) {
+      setRegistrationData(registrationProductData.map(i => ({
+        product: i.id,
+        students: studentData.map(i => i.primary_email)
+      })))
+    }
+    setCurrentStep(currentStep + 1)
+  }, [setCurrentStep, currentStep, registrationProductData, studentData, autoSetRegistrationData, setRegistrationData])
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
@@ -119,7 +135,7 @@ export const StudentDataStep = ({
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Space>
-            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={() => setCurrentStep(currentStep + 1)} />
+            <Button style={{ marginTop: "20px", }} disabled={!isValid} type="primary" children={"Continue"} onClick={handleContinue} />
           </Space>
         </Col>
       </Row>
