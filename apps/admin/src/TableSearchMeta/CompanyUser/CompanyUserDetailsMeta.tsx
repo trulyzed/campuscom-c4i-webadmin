@@ -13,7 +13,7 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { List } from "@packages/components/lib/DisplayFormatter/List"
 
 export const getCompanyUserDetailsMeta = (companyUser: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => CompanyUserQueries.update({ ...data, params: { id: companyUser.id } }).then(resp => {
+  const updateEntity = QueryConstructor(((data) => CompanyUserQueries.update({ ...data, params: { id: companyUser.id }, data: { ...data?.data, companies: [data?.data.companies] } }).then(resp => {
     if (resp.success) {
       notification.success({ message: UPDATE_SUCCESSFULLY })
     }

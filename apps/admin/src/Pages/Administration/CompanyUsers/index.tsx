@@ -13,7 +13,7 @@ import { CREATE_SUCCESSFULLY } from "~/Constants"
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
 
-  const createEntity = QueryConstructor(((data) => CompanyUserQueries.create({ ...data }).then(resp => {
+  const createEntity = QueryConstructor(((data) => CompanyUserQueries.create({ ...data, data: { ...data?.data, companies: [data?.data.companies] } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
       setRedirectAfterCreate(`/administration/affiliate-user/${resp.data.id}`)
