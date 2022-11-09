@@ -3,7 +3,7 @@ import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNaviga
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { Stepper } from "~/Component/Feature/Orders/Create/Stepper"
-import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
+import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep/StudentDataStep"
 import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
 import { RegistrationDataStep } from "~/Component/Feature/Orders/Create/RegistrationDataStep"

@@ -47,7 +47,6 @@ export const UploadBulkStudentData = ({
         success: true,
         error: false
       }), [{ is_public: true }])}
-      buttonType={"ghost"}
       onFormSubmit={handleFormSubmit}
     />
   )
@@ -65,7 +64,7 @@ const formMeta: IField[] = [
     label: 'Contact file format',
     inputType: CUSTOM_FIELD,
     fieldName: 'contact_file_format',
-    customFilterComponent: () => renderLink(`${process.env.REACT_APP_CDN_URL}samples/sample-contact.xlsx`, 'Download Sample', false, true),
+    customFilterComponent: () => renderLink(`${process.env.REACT_APP_CDN_URL}samples/sample-contact.csv`, 'Download Sample', false, true),
     formItemStyle: { marginBottom: '5px' },
   },
 ]

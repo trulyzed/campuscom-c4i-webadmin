@@ -1,14 +1,14 @@
+import { Fragment, useCallback, useMemo, useState } from "react"
 import { Button, Card, Col, notification, Row, Space } from "antd"
 import Title from "antd/lib/typography/Title"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
-import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
-import { DROPDOWN, IField } from "@packages/components/lib/Form/common"
+import { IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
-import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { Steps } from "./Utils/types"
-import { useCallback, useMemo, useState } from "react"
+import { Steps } from "~/Component/Feature/Orders/Create/Utils/types"
 import { UploadBulkStudentData } from "./UploadBulkStudentData"
+import { SearchStudents } from "./SearchStudents"
+import { StudentForm } from "./StudentForm"
 
 interface IStudentDataStepProps {
   storeData: Record<string, any>
@@ -23,6 +23,7 @@ interface IStudentDataStepProps {
   isValid: boolean
   singleOnly?: boolean
   canUploadBulk?: boolean
+  canSearchStudents?: boolean
   autoSetRegistrationData?: boolean
 }
 
@@ -38,15 +39,17 @@ export const StudentDataStep = ({
   isValid,
   singleOnly,
   canUploadBulk,
+  canSearchStudents,
   autoSetRegistrationData,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const tableActions = useMemo(() => {
+  const actions = useMemo(() => {
     return [
-      ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : []
+      ...canSearchStudents ? [<SearchStudents storeData={storeData} />] : [],
+      ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : [],
     ]
-  }, [canUploadBulk, setStudentData])
+  }, [canSearchStudents, canUploadBulk, storeData, setStudentData])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
@@ -83,27 +86,29 @@ export const StudentDataStep = ({
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
-      <Row>
-        <Col xs={24}>
-          <MetaDrivenForm
-            className="form--with-html-label"
-            meta={[
-              ...getMeta(storeData?.store),
-              ...profileQuestions
-            ]}
-            onApplyChanges={handleStudentDataChange}
-            isWizard
-            applyButtonLabel={"Add Student"}
-            disableApplyButton={singleOnly ? studentData.length > 0 : undefined}
-            showFullForm
-            showClearbutton={false}
-            loading={isProcessing}
-            stopProducingQueryParams
-            disableContainerLoader
-            resetOnSubmit
-          />
-        </Col>
-      </Row>
+      {canSearchStudents ? null :
+        <Row>
+          <Col xs={24}>
+            <StudentForm
+              storeData={storeData}
+              profileQuestions={profileQuestions}
+              loading={isProcessing}
+              singleOnly={singleOnly}
+              hasStudent={!!studentData.length}
+              onChange={handleStudentDataChange}
+            />
+          </Col>
+        </Row>
+      }
+      {actions.length ?
+        <Space>
+          {actions.map((i, idx) => (
+            <Fragment key={idx}>
+              {i}
+            </Fragment>
+          ))}
+        </Space>
+        : null}
       <Row>
         <Col xs={24}>
           <ResponsiveTable
@@ -130,7 +135,6 @@ export const StudentDataStep = ({
             rowKey={"primary_email"}
             hidePagination
             hideSettings
-            actions={tableActions}
           />
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
@@ -142,16 +146,3 @@ export const StudentDataStep = ({
     </Card>
   )
 }
-
-
-const getMeta = (store: string): IField[] => [
-  {
-    fieldName: "profile",
-    label: "Student",
-    inputType: DROPDOWN,
-    refLookupService: QueryConstructor(() => ContactQueries.getLookupData({ params: { profile_stores__store: store } }), [ContactQueries.getLookupData]),
-    displayKey: "name",
-    valueKey: "primary_email",
-    rules: [{ required: true, message: "This field is required!" }],
-  },
-]
