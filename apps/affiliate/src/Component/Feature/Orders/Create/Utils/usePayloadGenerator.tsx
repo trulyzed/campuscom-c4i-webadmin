@@ -85,7 +85,7 @@ export const usePayloadGenerator = ({
               quantity: i.related_products[key],
               is_related: true,
               related_to: c.product,
-              student_email: studentData.find(s => s.id === i.id)?.primary_email,
+              student_email: i,
               is_reservation: false
             })
           }
@@ -93,7 +93,7 @@ export const usePayloadGenerator = ({
         return a
       }, []) as Record<string, any>[],
     ]
-  }, [productData, registrationData, additionalRegistrationData, studentData])
+  }, [productData, registrationData, additionalRegistrationData])
 
   const generateStudentDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {

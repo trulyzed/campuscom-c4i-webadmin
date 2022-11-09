@@ -35,7 +35,7 @@ export const CreateOrder = ({
   swapRegistration,
   refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps('CREATE_ORDER')
+  const { steps } = useSteps(reservationDetails ? "REGISTRATION" : "CREATE_ORDER")
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -59,7 +59,7 @@ export const CreateOrder = ({
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
   const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
 
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, orderType: reservationDetails ? "REGISTRATION" : "CREATE_ORDER" })
   useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
 
   const reset = useCallback(() => {

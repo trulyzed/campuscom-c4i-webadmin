@@ -35,8 +35,8 @@ export const useWatchDataChange = ({
   }, [registrationProductData, setRegistrationData, setAdditionalRegistrationData])
 
   useEffect(() => {
-    setRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((sID: string) => studentData.some(sd => sd.id === sID)) })))
-    setAdditionalRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.id === s?.id)) })))
+    setRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((studentEmail: string) => studentData.some(sd => sd.primary_email === studentEmail)) })))
+    setAdditionalRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.primary_email === s?.primary_email)) })))
   }, [studentData, setRegistrationData, setAdditionalRegistrationData])
 
   // Watch store data changes
@@ -67,7 +67,7 @@ export const useWatchDataChange = ({
     if (!reservationDetails) return
     setRegistrationData([{
       product: reservationDetails.product.id,
-      students: studentData.map(i => i.id)
+      students: studentData.map(i => i.primary_email)
     }])
   }, [reservationDetails, studentData, setRegistrationData])
 
