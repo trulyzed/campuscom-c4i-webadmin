@@ -1,5 +1,6 @@
-import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { useCallback, useEffect, useState } from "react"
+import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { IOrderType } from "./types"
 
 interface IUseInitialize {
   storeData?: Record<string, any>
@@ -9,6 +10,7 @@ interface IUseInitialize {
   setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   reservationDetails?: Record<string, any>
+  orderType?: IOrderType
 }
 
 export const useInitialize = ({

@@ -1,15 +1,60 @@
-import { Steps } from "./types"
+import { IOrderType, Steps } from "./types"
 
-export const useSteps = (isTokenRegistration?: boolean) => {
-  const steps: Record<keyof typeof Steps, number> = {
-    StoreInformation: isTokenRegistration ? NaN : Steps.StoreInformation,
-    PurchaserInformation: isTokenRegistration ? NaN : Steps.PurchaserInformation,
-    ProductInformation: isTokenRegistration ? NaN : Steps.ProductInformation,
-    StudentInformation: isTokenRegistration ? 0 : Steps.StudentInformation,
-    RegistrationInformation: isTokenRegistration ? NaN : Steps.RegistrationInformation,
-    AdditionalRegistrationInformation: isTokenRegistration ? 1 : Steps.AdditionalRegistrationInformation,
-    Invoice: isTokenRegistration ? 2 : Steps.Invoice,
-    PaymentInformation: isTokenRegistration ? 3 : Steps.PaymentInformation,
+interface IUseStepsOptions {
+  noStoreStep?: boolean
+}
+
+export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
+  let steps: Record<keyof typeof Steps, number> = {
+    StoreInformation: Steps.StoreInformation,
+    PurchaserInformation: Steps.PurchaserInformation,
+    ProductInformation: Steps.ProductInformation,
+    StudentInformation: Steps.StudentInformation,
+    RegistrationInformation: Steps.RegistrationInformation,
+    AdditionalRegistrationInformation: Steps.AdditionalRegistrationInformation,
+    Invoice: Steps.Invoice,
+    PaymentInformation: Steps.PaymentInformation,
+    Summary: NaN
+  }
+
+  if (type === 'REGISTRATION') {
+    steps = {
+      StoreInformation: NaN,
+      PurchaserInformation: NaN,
+      ProductInformation: NaN,
+      StudentInformation: 0,
+      RegistrationInformation: NaN,
+      AdditionalRegistrationInformation: 1,
+      Invoice: 2,
+      PaymentInformation: 3,
+      Summary: NaN
+    }
+  } else if (type === 'CREATE_BULK_ENROLLMENT') {
+    if (options?.noStoreStep) {
+      steps = {
+        StoreInformation: NaN,
+        PurchaserInformation: 0,
+        ProductInformation: 1,
+        StudentInformation: 2,
+        RegistrationInformation: NaN,
+        AdditionalRegistrationInformation: 3,
+        Invoice: 4,
+        PaymentInformation: 5,
+        Summary: NaN
+      }
+    } else {
+      steps = {
+        StoreInformation: 0,
+        PurchaserInformation: 1,
+        ProductInformation: 2,
+        StudentInformation: 3,
+        RegistrationInformation: NaN,
+        AdditionalRegistrationInformation: 4,
+        Summary: 5,
+        Invoice: NaN,
+        PaymentInformation: NaN,
+      }
+    }
   }
 
   return {
