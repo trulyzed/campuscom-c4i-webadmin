@@ -1,6 +1,7 @@
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { TEXT } from "@packages/components/lib/Form/common"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
+import { Button } from "antd"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
 
 interface ISearchStudentsProps {
@@ -15,9 +16,9 @@ export const SearchStudents = ({
       tooltip="Search Students"
       buttonType="primary"
       text="Search Students"
-      modalContent={
-        <SearchPage
-          title="Contacts"
+      modalProps={{
+        title: "Search Students",
+        content: <SearchPage
           meta={[
             {
               label: "First Name",
@@ -41,20 +42,22 @@ export const SearchStudents = ({
               profile_stores__store: storeData.store
             },
             hideSettings: true,
+            rowSelection: {
+              type: "checkbox",
+              onChange: (selectedRowKeys: React.Key[], selectedRows) => {
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+              },
+            },
           }}
           hideHeading
-          // tableFooter={
-          //   currentStep === StepNames.FilterTransactions ? (
-          //     <Card bodyStyle={{ textAlign: "right" }} bordered={false}>
-          //       <Button type="primary" disabled={!searchData || !searchData.data.length} children={"Next"} onClick={() => setCurrentStep(StepNames.CreateBatch)} />
-          //     </Card>
-          //   ) : null
-          // }
           stopProducingQueryParams
           initSearchAtMount
-        />
-      }
-      modalCloseEventName={`CREATE_BULK_ENROLLMENT`}
+        />,
+        closeEventName: `CREATE_BULK_ENROLLMENT`,
+        actions: [
+          <Button>Select</Button>
+        ]
+      }}
     />
   )
 }

@@ -91,23 +91,27 @@ export const CreateBulkEnrollment = ({
 
   return (
     <>
-      <Row>
-        <Col md={24} xs={24} className={'mt-15'}>
-          <SidebarMenuTargetHeading level={2}>
-            {title}
-          </SidebarMenuTargetHeading>
-        </Col>
+      <Row gutter={[0, 15]}>
+        {title ?
+          <Col md={24} xs={24} className={"mt-15"}>
+            <SidebarMenuTargetHeading level={2}>
+              {title}
+            </SidebarMenuTargetHeading>
+          </Col>
+          : null}
+        {orderRef ?
+          <Col md={24} xs={24}>
+            <Alert
+              type="success"
+              message={"Success"}
+              description={`Order creation was successful (Order ID: ${orderRef}).`}
+              onClose={() => setOrderRef(undefined)}
+            />
+          </Col>
+          : !isProcessing && formErrors?.length ?
+            <Col md={24} xs={24}><FormError errorMessages={formErrors} /></Col>
+            : null}
       </Row>
-      {orderRef ?
-        <Alert
-          className="mt-10"
-          type="success"
-          message={"Success"}
-          description={`Order creation was successful (Order ID: ${orderRef}).`}
-          onClose={() => setOrderRef(undefined)}
-        />
-        : null}
-      {!isProcessing && formErrors?.length ? <FormError errorMessages={formErrors} /> : null}
       <Row>
         <Col md={6} lg={4} xs={24}>
           <Stepper

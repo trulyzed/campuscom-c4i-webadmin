@@ -46,6 +46,7 @@ interface IModalProp {
   loadingTip?: string
   apiCallInProgress?: boolean
   closeModal?: () => void
+  style?: CSSProperties
 }
 export function Modal({
   children,
@@ -54,7 +55,8 @@ export function Modal({
   loading = false,
   loadingTip = "Loading...",
   apiCallInProgress = false,
-  closeModal
+  closeModal,
+  style
 }: IModalProp) {
   const breakpoint = Grid.useBreakpoint()
   const modalID = generateUUID("modalContainer")
@@ -114,7 +116,7 @@ export function Modal({
               <Col flex="auto"></Col>
               {loading && <ModalLoading {...{ width, loadingTip }} />}
               {!loading && (
-                <Col flex={width} style={breakpoint.md ? { top: "3rem" } : undefined}>
+                <Col flex={width} style={{ ...breakpoint.md && { top: "3rem" }, ...style }}>
                   {children}
                   {apiCallInProgress && (
                     <div style={apiInProgressStyle}>

@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
+import { useHistory } from "react-router-dom"
+import { Button, ButtonProps, } from "antd"
 import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { eventBus, triggerEvents } from "@packages/utilities/lib/EventBus"
-import { Button, ButtonProps, } from "antd"
-import { useHistory } from "react-router-dom"
-import { Modal } from "~/Modal/Modal"
-import { zIndexLevel } from "~/zIndexLevel"
+import { triggerEvents } from "@packages/utilities/lib/EventBus"
+import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
@@ -24,8 +23,7 @@ interface IContextActionProps {
   iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
   buttonType?: ButtonProps["type"]
-  modalContent?: JSX.Element
-  modalCloseEventName?: string | symbol
+  modalProps?: IModalWrapperProps
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -75,20 +73,12 @@ export const ContextAction = ({
   downloadAs = 'EXCEL',
   iconColor,
   buttonType,
-  modalContent,
-  modalCloseEventName,
+  modalProps,
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
-
-  useEffect(() => {
-    if (modalContent && modalCloseEventName) {
-      eventBus.subscribe(modalCloseEventName, () => setShowModal(false))
-      return () => eventBus.unsubscribe(modalCloseEventName)
-    }
-  }, [modalContent, modalCloseEventName])
 
   const handleClick = useCallback(async () => {
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
@@ -103,10 +93,16 @@ export const ContextAction = ({
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
       onClick()
-    } else if (modalContent) {
+    } else if (modalProps) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalContent])
+  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps])
+
+  const handleModalClose = useCallback(() => {
+    setShowModal(false)
+    modalProps?.onClose?.()
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>
@@ -114,15 +110,8 @@ export const ContextAction = ({
         (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
           : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
       }
-      {(showModal && modalContent) ?
-        <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.defaultModal}>
-          <div style={{ backgroundColor: "white", position: "relative", padding: "0 24px" }}>
-            {modalContent}
-            <div style={{ position: "absolute", right: "24px", top: "12px", }}>
-              <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={() => setShowModal(false)} />
-            </div>
-          </div>
-        </Modal>
+      {(showModal && modalProps) ?
+        <ModalWrapper {...modalProps} onClose={handleModalClose} />
         : null}
     </>
   )
