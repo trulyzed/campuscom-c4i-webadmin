@@ -38,9 +38,9 @@ export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
         StudentInformation: 2,
         RegistrationInformation: NaN,
         AdditionalRegistrationInformation: 3,
-        Invoice: 4,
-        PaymentInformation: 5,
-        Summary: NaN
+        Summary: 4,
+        Invoice: NaN,
+        PaymentInformation: NaN,
       }
     } else {
       steps = {

@@ -8,6 +8,7 @@ import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDa
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
 import { AdditionalRegistrationDataStep } from "~/Component/Feature/Orders/Create/AdditionalRegistrationDataStep"
 import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataStep"
+import { SummaryDataStep } from "./SummaryDataStep"
 import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
@@ -208,14 +209,24 @@ export const CreateBulkEnrollment = ({
                         setCurrentStep={setCurrentStep}
                         generatePaymentSummaryPayload={generatePaymentSummaryPayload}
                       />
-                      : currentStep === steps.PaymentInformation ?
-                        <PaymentDataStep
+                      : (currentStep === steps.Summary && storeData) ?
+                        <SummaryDataStep
+                          steps={steps}
                           invoiceData={invoiceData}
-                          paymentData={paymentData}
-                          setPaymentData={setPaymentData}
-                          loading={isProcessing}
+                          couponCode={couponCode}
+                          setInvoiceData={setInvoiceData}
+                          currentStep={currentStep}
+                          setCurrentStep={setCurrentStep}
+                          generatePaymentSummaryPayload={generatePaymentSummaryPayload}
                         />
-                        : null}
+                        : currentStep === steps.PaymentInformation ?
+                          <PaymentDataStep
+                            invoiceData={invoiceData}
+                            paymentData={paymentData}
+                            setPaymentData={setPaymentData}
+                            loading={isProcessing}
+                          />
+                          : null}
         </Col>
       </Row>
     </>

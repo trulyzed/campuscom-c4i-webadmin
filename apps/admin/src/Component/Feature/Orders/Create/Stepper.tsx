@@ -69,6 +69,10 @@ export const Stepper = ({
         title = "Invoice"
         disabled = disableInvoiceDataStep
         break
+      case "Summary":
+        title = "Summary"
+        disabled = disableInvoiceDataStep
+        break
       case "PaymentInformation":
         title = "Payment"
         disabled = disablePaymentDataStep

@@ -19,6 +19,7 @@ export const SearchStudents = ({
       modalProps={{
         title: "Search Students",
         content: <SearchPage
+          searchTitle="Filter Students"
           meta={[
             {
               label: "First Name",

@@ -1,25 +1,28 @@
 import React, { useState } from "react"
 import { IField } from "~/Form/common"
-import { Button, Card, Col, Row } from "antd"
-import { HelpButton } from "~/Help/HelpButton"
+import { Button, Card } from "antd"
 import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
 import { ResponsiveTable, TableColumnType } from "~/ResponsiveTable"
 import { zIndexLevel } from "~/zIndexLevel"
 import { Modal } from "~/Modal/Modal"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
+import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
-interface ILookupModal {
+export interface ILookupModal {
   title: string
-  closeModal: (items?: any[]) => void
   searchFunc: IQuery
-  isArray?: boolean
   columns: TableColumnType
   meta: IField[]
-  metaName: string
+  isArray?: boolean
+  metaName?: string
   defaultFormValue?: { [key: string]: any }
   initialFormValue?: { [key: string]: any }
   zIndex?: number
   helpKey?: string
+  errorMessages?: Array<ISimplifiedApiErrorMessage>
+  apiCallInProgress?: boolean
+  onClose: () => void
+  onSubmit: (items?: any[]) => void
 }
 
 export function LookupModal(props: ILookupModal) {
@@ -35,51 +38,54 @@ export function LookupModal(props: ILookupModal) {
   }
   return (
     <>
-      <Modal width="1000px" zIndex={(props.zIndex || zIndexLevel.defaultModal) + 1} closeModal={props.closeModal}>
+      <Modal
+        width="1000px"
+        zIndex={(props.zIndex || zIndexLevel.defaultModal) + 1}
+        closeModal={props.onClose}
+        apiCallInProgress={props.apiCallInProgress}
+      >
         <Card
-          title={
-            <Row justify="space-between">
-              <Col>{props.title}</Col>
-              <Col>
-                <HelpButton helpKey={props.helpKey} />
-              </Col>
-            </Row>
-          }
           actions={[
-            <Button type="ghost" onClick={() => props.closeModal()}>
+            <Button type="ghost" onClick={() => props.onClose()}>
               Cancel
             </Button>,
             <Button
               type="primary"
               disabled={selectedItems.length === 0}
-              onClick={() => props.closeModal(selectedItems)}
+              onClick={() => props.onSubmit(selectedItems)}
             >
               Select
             </Button>
           ]}
         >
-          <div className="modal-card">
-            <MetaDrivenForm
-              meta={props.meta}
-              metaName={props.metaName}
-              initialFormValue={searchParams}
-              onApplyChanges={(newSearchParams) => {
-                console.log(props.defaultFormValue, newSearchParams)
-                setSearchParams({
-                  ...props.defaultFormValue,
-                  ...newSearchParams
-                })
-              }}
-              stopProducingQueryParams={true}
-            />
-            <ResponsiveTable
-              columns={props.columns}
-              searchFunc={props.searchFunc}
-              searchParams={searchParams}
-              isModal={true}
-              rowSelection={rowSelection}
-            />
-          </div>
+          <MetaDrivenForm
+            title={props.title}
+            helpKey={props.helpKey}
+            meta={props.meta}
+            metaName={props.metaName}
+            initialFormValue={searchParams}
+            onApplyChanges={(newSearchParams) => {
+              console.log(props.defaultFormValue, newSearchParams)
+              setSearchParams({
+                ...props.defaultFormValue,
+                ...newSearchParams
+              })
+            }}
+            isModal
+            stopProducingQueryParams={true}
+            errorMessages={props.errorMessages && props.errorMessages}
+          />
+          <ResponsiveTable
+            style={{
+              maxHeight: "33vh",
+              overflowY: "scroll"
+            }}
+            columns={props.columns}
+            searchFunc={props.searchFunc}
+            searchParams={searchParams}
+            isModal={true}
+            rowSelection={rowSelection}
+          />
         </Card>
       </Modal>
     </>

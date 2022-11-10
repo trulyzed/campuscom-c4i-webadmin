@@ -7,8 +7,11 @@ import { IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { Steps } from "~/Component/Feature/Orders/Create/Utils/types"
 import { UploadBulkStudentData } from "./UploadBulkStudentData"
-import { SearchStudents } from "./SearchStudents"
 import { StudentForm } from "./StudentForm"
+import { LookupOpenButton } from "@packages/components/lib/Modal/LookupModal/LookupOpenButton"
+import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
+import { ContactSearchMeta } from "~/TableSearchMeta/Contact/ContactSearchMeta"
+
 
 interface IStudentDataStepProps {
   storeData: Record<string, any>
@@ -46,10 +49,20 @@ export const StudentDataStep = ({
 
   const actions = useMemo(() => {
     return [
-      ...canSearchStudents ? [<SearchStudents storeData={storeData} />] : [],
+      ...canSearchStudents ? [
+        <LookupOpenButton
+          title={"Search Students"}
+          formTitle={"Search Students"}
+          tooltip={"Search Students"}
+          onSubmit={(values) => console.log(values)}
+          meta={ContactSearchMeta}
+          columns={getContactListTableColumns().columns}
+          searchFunc={getContactListTableColumns().searchFunc}
+        />
+      ] : [],
       ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : [],
     ]
-  }, [canSearchStudents, canUploadBulk, storeData, setStudentData])
+  }, [canSearchStudents, canUploadBulk, setStudentData])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
