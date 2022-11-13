@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ContextAction } from "~/Actions/ContextAction";
 import { ILookupModal, LookupModal } from "./LookupModal";
 
@@ -25,6 +25,12 @@ export const LookupOpenButton = ({
   onSubmit,
 }: ILookupOpenButtonProps) => {
   const [show, setShow] = useState(false)
+
+  const handleSubmit = useCallback((items?: any[] | undefined) => {
+    onSubmit(items)
+    setShow(false)
+  }, [onSubmit])
+
   return (
     <>
       <ContextAction
@@ -48,7 +54,7 @@ export const LookupOpenButton = ({
           errorMessages={errorMessages}
           apiCallInProgress={apiCallInProgress}
           onClose={() => setShow(false)}
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
         /> : null}
     </>
 

@@ -1,8 +1,7 @@
 import { Fragment, useCallback, useMemo, useState } from "react"
 import { Button, Card, Col, notification, Row, Space } from "antd"
-import Title from "antd/lib/typography/Title"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
-import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
+import { renderBoolean, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
 import { IField } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { Steps } from "~/Component/Feature/Orders/Create/Utils/types"
@@ -47,6 +46,20 @@ export const StudentDataStep = ({
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
 
+  const handleSelectStudents = useCallback((data?: any[]) => {
+    if (!data) return
+    setStudentData((prevVal: any[]) => ([
+      ...data.filter(i => prevVal.findIndex(j => j.primary_email === i.primary_email) < 0).map(i => ({
+        id: i.id,
+        first_name: i.first_name,
+        last_name: i.last_name,
+        name: i.name,
+        primary_email: i.primary_email,
+      })),
+      ...prevVal
+    ]))
+  }, [setStudentData])
+
   const actions = useMemo(() => {
     return [
       ...canSearchStudents ? [
@@ -54,15 +67,16 @@ export const StudentDataStep = ({
           title={"Search Students"}
           formTitle={"Search Students"}
           tooltip={"Search Students"}
-          onSubmit={(values) => console.log(values)}
+          onSubmit={handleSelectStudents}
           meta={ContactSearchMeta}
           columns={getContactListTableColumns().columns}
           searchFunc={getContactListTableColumns().searchFunc}
+          isArray
         />
       ] : [],
       ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : [],
     ]
-  }, [canSearchStudents, canUploadBulk, setStudentData])
+  }, [canSearchStudents, canUploadBulk, setStudentData, handleSelectStudents])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
@@ -125,12 +139,18 @@ export const StudentDataStep = ({
       <Row>
         <Col xs={24}>
           <ResponsiveTable
-            title={() => <Title level={5}>Selected Students</Title>}
+            tableTitle="Selected Students"
             columns={[
               {
                 title: 'Student',
                 dataIndex: 'name',
                 sorter: (a: any, b: any) => a.name - b.name
+              },
+              {
+                title: 'Upload',
+                dataIndex: 'id',
+                render: (text) => renderBoolean(!text),
+                sorter: (a: any, b: any) => a.id - b.id
               },
               {
                 title: 'Action',
@@ -146,7 +166,6 @@ export const StudentDataStep = ({
             ]}
             dataSource={studentData}
             rowKey={"primary_email"}
-            hidePagination
             hideSettings
           />
         </Col>

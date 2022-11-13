@@ -6,21 +6,25 @@ import { zIndexLevel } from "~/zIndexLevel"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 
 export interface IModalWrapperProps {
+  children?: ReactNode
   title?: ReactNode
-  content: JSX.Element
+  content?: JSX.Element
   contentStyle?: CSSProperties
   closeEventName?: string | symbol
   actions?: ReactNode[]
   onClose?: () => void
+  loading?: boolean
 }
 
 export const ModalWrapper = ({
+  children,
   title,
   content,
   contentStyle,
   closeEventName,
   actions,
   onClose,
+  loading
 }: IModalWrapperProps) => {
   // Listen for modal close event
   useEffect(() => {
@@ -32,7 +36,7 @@ export const ModalWrapper = ({
   }, [closeEventName, onClose])
 
   return (
-    <Modal closeModal={onClose} width="1000px" zIndex={zIndexLevel.defaultModal} style={contentStyle}>
+    <Modal closeModal={onClose} width="1000px" zIndex={zIndexLevel.defaultModal} style={contentStyle} apiCallInProgress={loading}>
       <Card
         title={
           <Row>
@@ -56,7 +60,7 @@ export const ModalWrapper = ({
             ))}
           </Row>
         ] : undefined}
-      >{content}</Card>
+      >{content || children}</Card>
     </Modal>
   )
 }

@@ -21,12 +21,12 @@ export const UploadBulkStudentData = ({
             return (results.data as string[][]).reduce((a, c, idx) => {
               const [firstName, lastName, primaryEmail] = c as string[]
               if (idx > 0 && primaryEmail && !a.find(i => i.primary_email === primaryEmail)) {
-                a.push({
+                a = [{
                   name: `${lastName}, ${firstName} (${primaryEmail})`,
                   first_name: firstName,
                   last_name: lastName,
                   primary_email: primaryEmail,
-                })
+                }, ...a]
               }
               return a
             }, [...prevData] as Record<string, any>[])
