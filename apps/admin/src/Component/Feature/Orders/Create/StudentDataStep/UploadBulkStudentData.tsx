@@ -1,9 +1,8 @@
 import { useCallback } from "react"
 import Papa from "papaparse"
-import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { PermissionWrapper } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { CUSTOM_FIELD, IField } from "@packages/components/lib/Form/common"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
+import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 
 
 interface IUploadBulkStudentDataProps {
@@ -14,6 +13,7 @@ export const UploadBulkStudentData = ({
   setStudentData
 }: IUploadBulkStudentDataProps) => {
   const handleFormSubmit = useCallback((value) => {
+    console.log(value)
     if (value?.file?.[0]) {
       Papa.parse(value.file[0], {
         complete: (results) => {
@@ -26,6 +26,7 @@ export const UploadBulkStudentData = ({
                   first_name: firstName,
                   last_name: lastName,
                   primary_email: primaryEmail,
+                  source: "From file",
                 }, ...a]
               }
               return a
@@ -37,17 +38,12 @@ export const UploadBulkStudentData = ({
   }, [setStudentData])
 
   return (
-    <MetaDrivenFormModalOpenButton
-      buttonLabel="Upload Bulk"
-      formMeta={formMeta}
-      formTitle={"Upload bulk student data"}
-      formSubmitApi={PermissionWrapper((data) => Promise.resolve({
-        code: 200,
-        data: data?.data,
-        success: true,
-        error: false
-      }), [{ is_public: true }])}
-      onFormSubmit={handleFormSubmit}
+    <MetaDrivenForm
+      meta={formMeta}
+      onApplyChanges={handleFormSubmit}
+      applyButtonLabel={"Upload"}
+      stopProducingQueryParams
+      isVertical
     />
   )
 }
@@ -66,5 +62,6 @@ const formMeta: IField[] = [
     fieldName: 'contact_file_format',
     customFilterComponent: () => renderLink(`${process.env.REACT_APP_CDN_URL}samples/sample-contact.csv`, 'Download Sample', false, true),
     formItemStyle: { marginBottom: '5px' },
+    labelColSpan: 24
   },
 ]

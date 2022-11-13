@@ -10,6 +10,9 @@ import { TableRowSelection } from "antd/lib/table/interface"
 
 export interface ILookupModal {
   title: string
+  modalTitle: string
+  formTitle?: string
+  tableTitle?: string
   searchFunc: IQuery
   columns: TableColumnType
   meta: IField[]
@@ -46,6 +49,7 @@ export function LookupModal(props: ILookupModal) {
 
   return (
     <ModalWrapper
+      title={props.modalTitle}
       loading={props.apiCallInProgress}
       onClose={props.onClose}
       actions={[
@@ -58,7 +62,7 @@ export function LookupModal(props: ILookupModal) {
         </Button>
       ]}>
       <MetaDrivenForm
-        title={props.title}
+        title={props.formTitle || `${props.title} Filters`}
         helpKey={props.helpKey}
         meta={props.meta}
         metaName={props.metaName}
@@ -74,6 +78,7 @@ export function LookupModal(props: ILookupModal) {
         errorMessages={props.errorMessages && props.errorMessages}
       />
       <ResponsiveTable
+        tableTitle={props.tableTitle || props.title}
         columns={props.columns}
         searchFunc={props.searchFunc}
         searchParams={searchParams}

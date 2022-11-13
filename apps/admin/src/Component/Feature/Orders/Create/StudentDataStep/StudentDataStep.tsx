@@ -1,15 +1,15 @@
-import { Fragment, useCallback, useMemo, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { Button, Card, Col, notification, Row, Space } from "antd"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
-import { renderBoolean, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
-import { IField } from "@packages/components/lib/Form/common"
+import { ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
+import { IField, TEXT } from "@packages/components/lib/Form/common"
 import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 import { Steps } from "~/Component/Feature/Orders/Create/Utils/types"
 import { UploadBulkStudentData } from "./UploadBulkStudentData"
 import { StudentForm } from "./StudentForm"
 import { LookupOpenButton } from "@packages/components/lib/Modal/LookupModal/LookupOpenButton"
 import { getContactListTableColumns } from "~/TableSearchMeta/Contact/ContactListTableColumns"
-import { ContactSearchMeta } from "~/TableSearchMeta/Contact/ContactSearchMeta"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 
 interface IStudentDataStepProps {
@@ -25,7 +25,7 @@ interface IStudentDataStepProps {
   isValid: boolean
   singleOnly?: boolean
   canUploadBulk?: boolean
-  canSearchStudents?: boolean
+  canSearch?: boolean
   autoSetRegistrationData?: boolean
 }
 
@@ -41,7 +41,7 @@ export const StudentDataStep = ({
   isValid,
   singleOnly,
   canUploadBulk,
-  canSearchStudents,
+  canSearch,
   autoSetRegistrationData,
 }: IStudentDataStepProps) => {
   const [isProcessing, setIsProcessing] = useState(false)
@@ -50,11 +50,11 @@ export const StudentDataStep = ({
     if (!data) return
     setStudentData((prevVal: any[]) => ([
       ...data.filter(i => prevVal.findIndex(j => j.primary_email === i.primary_email) < 0).map(i => ({
-        id: i.id,
         first_name: i.first_name,
         last_name: i.last_name,
         name: i.name,
         primary_email: i.primary_email,
+        source: "From contact",
       })),
       ...prevVal
     ]))
@@ -62,21 +62,53 @@ export const StudentDataStep = ({
 
   const actions = useMemo(() => {
     return [
-      ...canSearchStudents ? [
-        <LookupOpenButton
-          title={"Search Students"}
-          formTitle={"Search Students"}
-          tooltip={"Search Students"}
-          onSubmit={handleSelectStudents}
-          meta={ContactSearchMeta}
-          columns={getContactListTableColumns().columns}
-          searchFunc={getContactListTableColumns().searchFunc}
-          isArray
-        />
+      ...canSearch ? [
+        <Space direction="vertical">
+          <h2 style={{ margin: 0 }}>Search and select from existing contacts</h2>
+          <LookupOpenButton
+            modalTitle={"Search Contacts"}
+            title={"Search Contacts"}
+            formTitle={"Contact Filters"}
+            tableTitle={"Contacts"}
+            tooltip={"Search Contacts"}
+            onSubmit={handleSelectStudents}
+            meta={[
+              {
+                label: "First Name",
+                inputType: TEXT,
+                fieldName: "first_name__icontains",
+              },
+              {
+                label: "Last Name",
+                inputType: TEXT,
+                fieldName: "last_name__icontains",
+              },
+              {
+                label: "Email",
+                inputType: TEXT,
+                fieldName: "primary_email__icontains",
+              },
+            ]}
+            columns={getContactListTableColumns().columns}
+            searchFunc={QueryConstructor((params) => ContactQueries.getList({
+              ...params,
+              params: {
+                ...params?.params,
+                profile_stores__store: storeData.store
+              }
+            }), [ContactQueries.getList])}
+            isArray
+          />
+        </Space>
       ] : [],
-      ...canUploadBulk ? [<UploadBulkStudentData setStudentData={setStudentData} />] : [],
+      ...canUploadBulk ? [
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <h2 style={{ margin: 0 }}>Or, upload from a file</h2>
+          <UploadBulkStudentData setStudentData={setStudentData} />
+        </Space>
+      ] : [],
     ]
-  }, [canSearchStudents, canUploadBulk, setStudentData, handleSelectStudents])
+  }, [canSearch, canUploadBulk, setStudentData, handleSelectStudents, storeData.store])
 
   const handleStudentDataChange = useCallback(async (value) => {
     const { profile, ...formValues } = value
@@ -113,7 +145,7 @@ export const StudentDataStep = ({
 
   return (
     <Card style={{ margin: "10px 0 0 10px" }} title={"Who will Attend the Class"}>
-      {canSearchStudents ? null :
+      {canSearch ? null :
         <Row>
           <Col xs={24}>
             <StudentForm
@@ -128,46 +160,45 @@ export const StudentDataStep = ({
         </Row>
       }
       {actions.length ?
-        <Space>
-          {actions.map((i, idx) => (
-            <Fragment key={idx}>
-              {i}
-            </Fragment>
-          ))}
-        </Space>
+        <Row>
+          <Space direction="vertical" size={"large"}>
+            {actions.map((i, idx) => (<Col xs={24} key={idx}>{i}</Col>))}
+          </Space>
+        </Row>
         : null}
-      <Row>
+      <Row style={{ marginTop: "25px" }}>
         <Col xs={24}>
-          <ResponsiveTable
-            tableTitle="Selected Students"
-            columns={[
-              {
-                title: 'Student',
-                dataIndex: 'name',
-                sorter: (a: any, b: any) => a.name - b.name
-              },
-              {
-                title: 'Upload',
-                dataIndex: 'id',
-                render: (text) => renderBoolean(!text),
-                sorter: (a: any, b: any) => a.id - b.id
-              },
-              {
-                title: 'Action',
-                dataIndex: "action",
-                render: (_, record: any) => (
-                  <ContextAction
-                    type="delete"
-                    tooltip="Delete Profile"
-                    onClick={() => setStudentData(studentData.filter(i => i.primary_email !== record.primary_email))}
-                  />
-                )
-              },
-            ]}
-            dataSource={studentData}
-            rowKey={"primary_email"}
-            hideSettings
-          />
+          <Card bodyStyle={{ padding: "5px 15px" }}>
+            <ResponsiveTable
+              tableTitle="Selected Students"
+              columns={[
+                {
+                  title: 'Student',
+                  dataIndex: 'name',
+                  sorter: (a: any, b: any) => a.name - b.name
+                },
+                ...canUploadBulk ? [{
+                  title: 'Source',
+                  dataIndex: 'source',
+                  sorter: (a: any, b: any) => a.source - b.source
+                }] : [],
+                {
+                  title: 'Action',
+                  dataIndex: "action",
+                  render: (_, record: any) => (
+                    <ContextAction
+                      type="delete"
+                      tooltip="Delete Profile"
+                      onClick={() => setStudentData(studentData.filter(i => i.primary_email !== record.primary_email))}
+                    />
+                  )
+                },
+              ]}
+              dataSource={studentData}
+              rowKey={"primary_email"}
+              hideSettings
+            />
+          </Card>
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
           <Space>

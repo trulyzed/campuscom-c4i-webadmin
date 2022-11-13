@@ -1,15 +1,19 @@
+import { ButtonProps } from "antd";
 import { useCallback, useState } from "react";
 import { ContextAction } from "~/Actions/ContextAction";
 import { ILookupModal, LookupModal } from "./LookupModal";
 
 interface ILookupOpenButtonProps extends Omit<ILookupModal, "onClose"> {
   tooltip: string
-  formTitle: string
+  formTitle?: string
+  buttonType?: ButtonProps["type"]
 }
 
 export const LookupOpenButton = ({
   tooltip,
   title,
+  modalTitle,
+  tableTitle,
   formTitle,
   searchFunc,
   isArray,
@@ -23,6 +27,7 @@ export const LookupOpenButton = ({
   errorMessages,
   apiCallInProgress,
   onSubmit,
+  buttonType,
 }: ILookupOpenButtonProps) => {
   const [show, setShow] = useState(false)
 
@@ -35,13 +40,16 @@ export const LookupOpenButton = ({
     <>
       <ContextAction
         tooltip={tooltip}
-        buttonType="primary"
+        buttonType={buttonType}
         text={title}
         onClick={() => setShow(true)}
       />
       {show ?
         <LookupModal
-          title={formTitle}
+          title={title}
+          modalTitle={modalTitle}
+          formTitle={formTitle}
+          tableTitle={tableTitle}
           searchFunc={searchFunc}
           isArray={isArray}
           columns={columns}

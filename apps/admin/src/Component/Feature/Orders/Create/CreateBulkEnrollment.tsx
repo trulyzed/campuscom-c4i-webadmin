@@ -150,6 +150,7 @@ export const CreateBulkEnrollment = ({
                 onlyRegistrationProducts
                 noQuantityInput
                 noRelatedProducts
+                canSearch
               />
               : (currentStep === steps.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
@@ -175,7 +176,7 @@ export const CreateBulkEnrollment = ({
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
                     canUploadBulk
-                    canSearchStudents
+                    canSearch
                     autoSetRegistrationData
                   />
                   : currentStep === steps.AdditionalRegistrationInformation ?
