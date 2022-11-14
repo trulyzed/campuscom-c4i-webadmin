@@ -101,10 +101,10 @@ export const AdditionalRegistrationDataStep = ({
             }}
             initialValues={initialValues}
           >
-            {registrationData.map((registration, idx: number) => registration.students.length ? (
+            {registrationData.map(registration => registration.students.length ? (
               <Card key={registration.product} style={{ marginBottom: "30px" }}>
                 <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} italic level={4}>"{registrationProductData.find(product => product.id === registration.product)?.title}" registration information</Title>
-                {registration.students.map((student: any, idx2: number) => {
+                {registration.students.map((student: any) => {
                   const products = registrationProducts.find(i => i.parent === registration.product)?.products
                   const meta = [
                     ...getRegistrationQuestionsMeta(registration.product, student),

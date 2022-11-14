@@ -54,7 +54,6 @@ export const StudentDataStep = ({
         last_name: i.last_name,
         name: i.name,
         primary_email: i.primary_email,
-        source: "From contact",
       })),
       ...prevVal
     ]))
@@ -177,11 +176,6 @@ export const StudentDataStep = ({
                   dataIndex: 'name',
                   sorter: (a: any, b: any) => a.name - b.name
                 },
-                ...canUploadBulk ? [{
-                  title: 'Source',
-                  dataIndex: 'source',
-                  sorter: (a: any, b: any) => a.source - b.source
-                }] : [],
                 {
                   title: 'Action',
                   dataIndex: "action",

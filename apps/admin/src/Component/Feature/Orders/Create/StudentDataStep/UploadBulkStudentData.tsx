@@ -13,7 +13,6 @@ export const UploadBulkStudentData = ({
   setStudentData
 }: IUploadBulkStudentDataProps) => {
   const handleFormSubmit = useCallback((value) => {
-    console.log(value)
     if (value?.file?.[0]) {
       Papa.parse(value.file[0], {
         complete: (results) => {
@@ -26,7 +25,6 @@ export const UploadBulkStudentData = ({
                   first_name: firstName,
                   last_name: lastName,
                   primary_email: primaryEmail,
-                  source: "From file",
                 }, ...a]
               }
               return a

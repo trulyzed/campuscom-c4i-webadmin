@@ -212,13 +212,12 @@ export const CreateBulkEnrollment = ({
                       />
                       : (currentStep === steps.Summary && storeData) ?
                         <SummaryDataStep
+                          storeData={storeData}
+                          productData={productData}
+                          studentData={studentData}
                           steps={steps}
-                          invoiceData={invoiceData}
-                          couponCode={couponCode}
-                          setInvoiceData={setInvoiceData}
                           currentStep={currentStep}
                           setCurrentStep={setCurrentStep}
-                          generatePaymentSummaryPayload={generatePaymentSummaryPayload}
                         />
                         : currentStep === steps.PaymentInformation ?
                           <PaymentDataStep

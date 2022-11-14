@@ -1,82 +1,105 @@
-import { Button, Card, Col, Divider, Popover, Row } from "antd"
-import Text from "antd/lib/typography/Text"
+import { useEffect, useState } from "react"
+import { Button, Card, Col, Row, Typography } from "antd"
 import { Steps } from "./Utils/types"
-import { renderAmount } from "@packages/components/lib/ResponsiveTable"
-import { useCallback, useEffect, useState } from "react"
-import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { renderBoolean, ResponsiveTable } from "@packages/components/lib/ResponsiveTable"
+import { ContactQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Contacts"
 
 interface ISummaryDataStepProps {
-  invoiceData?: Record<string, any>
-  couponCode?: string
-  setInvoiceData: (...args: any[]) => void
+  storeData: Record<string, any>
+  productData: Record<string, any>[]
+  studentData: Record<string, any>[]
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   setCurrentStep: (step: Steps) => void
-  generatePaymentSummaryPayload: () => Record<string, any>
 }
 
 export const SummaryDataStep = ({
-  invoiceData,
-  setInvoiceData,
-  couponCode,
+  storeData,
+  productData,
+  studentData,
   currentStep,
   setCurrentStep,
-  generatePaymentSummaryPayload,
 }: ISummaryDataStepProps) => {
+  const [contactList, setContactList] = useState<Record<string, any>[]>([])
+  const [studentDataWith, setStudentDataWith] = useState<Record<string, any>[]>([])
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const getCreatableOrderPaymentSummary = useCallback(async () => {
-    setIsProcessing(true)
-    const resp = await OrderQueries.getCreatableOrderPaymentSummary({ data: generatePaymentSummaryPayload() })
-    setIsProcessing(false)
-    setInvoiceData(!resp.data?.message ? resp.data : undefined)
-  }, [setInvoiceData, generatePaymentSummaryPayload])
+  useEffect(() => {
+    const getContactList = async () => {
+      setIsProcessing(true)
+      const resp = await ContactQueries.getList({ params: { profile_stores__store: storeData.store } })
+      if (resp.success) setContactList(resp.data)
+      setIsProcessing(false)
+    }
+    getContactList()
+  }, [storeData, studentData])
 
   useEffect(() => {
-    getCreatableOrderPaymentSummary()
-  }, [couponCode, getCreatableOrderPaymentSummary])
+    setStudentDataWith(studentData.map(i => ({
+      ...i,
+      is_new: !contactList.find(j => j.primary_email === i.primary_email)
+    })))
+  }, [contactList, studentData])
 
   return (
-    <Card style={{ margin: "10px 0 0 10px" }} title={"Summary"} loading={isProcessing}>
-      {invoiceData ?
-        <Row>
-          <Col xs={24}>
-            <Row>
-              {invoiceData.products.map((product: any, idx: number) => (
-                <Col xs={24} key={`${product.id}__${idx}`}>
-                  <Row gutter={10}>
-                    <Col xs={24} md={8}><Text strong>{product.title}</Text></Col>
-                    <Col xs={24} md={8} style={{ textAlign: "right" }}>{renderAmount(product.item_price)} x {product.quantity}</Col>
-                    <Col xs={24} md={8} style={{ textAlign: "right" }}>
-                      <div>
-                        {renderAmount(product.total_amount)}
-                        {product.total_discount ?
-                          <Popover title={<Text strong>Total Discount {renderAmount(product.total_discount)}</Text>} trigger={"hover"} content={product.discounts.map((d: any) => <p key={d.code}><Text code>{d.code}</Text> {renderAmount(d.amount)}</p>)}>
-                            <span className="glyphicon glyphicon-info-sign ml-2 cursor-pointer" />
-                          </Popover> : null
-                        }
-                      </div>
-                      <div>{product.total_discount ? <Text type="danger" delete>{renderAmount(product.price)}</Text> : null}</div>
-                    </Col>
-                  </Row>
-                  {product.related_products.map((relatedProduct: any, idx2: number) => (
-                    <Row gutter={10} key={`${relatedProduct.id}__${idx2}`}>
-                      <Col md={8}><Text>+ {relatedProduct.title}</Text></Col>
-                      <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.item_price)} x {relatedProduct.quantity}</Col>
-                      <Col md={8} style={{ textAlign: "right" }}>{renderAmount(relatedProduct.price)}</Col>
-                    </Row>
-                  ))}
-                  <Divider />
-                </Col>
-              ))}
-            </Row>
-          </Col>
-          <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-            <Button style={{ marginTop: "20px", }} type="primary" children={"Continue"} onClick={() => setCurrentStep(currentStep + 1)} />
-          </Col>
-        </Row>
-        : null
-      }
+    <Card style={{ margin: "10px 0 0 10px" }} title={"Summary"}>
+      <Row>
+        <Col xs={24}>
+          <ResponsiveTable
+            tableTitle="Products"
+            columns={[
+              {
+                title: 'Title',
+                dataIndex: 'title',
+                sorter: (a: any, b: any) => a.title - b.title
+              },
+              {
+                title: 'Product Type',
+                dataIndex: 'product_type',
+                sorter: (a: any, b: any) => a.product_type - b.product_type
+              },
+            ]}
+            dataSource={productData}
+            rowKey={"id"}
+            hideSettings
+            hidePagination
+          />
+        </Col>
+        <Col xs={24} className={"mt-20"}>
+          <ResponsiveTable
+            tableTitle="Students"
+            columns={[
+              {
+                title: 'Name',
+                dataIndex: 'name',
+                sorter: (a: any, b: any) => a.name - b.name
+              },
+              {
+                title: 'Email',
+                dataIndex: 'primary_email',
+                sorter: (a: any, b: any) => a.primary_email - b.primary_email
+              },
+              {
+                title: 'New Contact',
+                dataIndex: 'is_new',
+                render: renderBoolean,
+                sorter: (a: any, b: any) => a.is_new - b.is_new
+              },
+            ]}
+            loading={isProcessing}
+            dataSource={studentDataWith}
+            rowKey={"primary_email"}
+            hideSettings
+            hidePagination
+          />
+        </Col>
+        <Col xs={24} className={"mt-20"}>
+          <Typography.Text type="warning" italic>*All students will be enrolled to all the products</Typography.Text>
+        </Col>
+        <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
+          <Button style={{ marginTop: "20px", }} type="primary" children={"Submit"} onClick={() => setCurrentStep(currentStep + 1)} />
+        </Col>
+      </Row>
     </Card>
   )
 }

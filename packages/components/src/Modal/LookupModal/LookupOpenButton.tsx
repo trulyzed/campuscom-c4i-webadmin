@@ -27,7 +27,7 @@ export const LookupOpenButton = ({
   errorMessages,
   apiCallInProgress,
   onSubmit,
-  buttonType,
+  buttonType = "primary",
 }: ILookupOpenButtonProps) => {
   const [show, setShow] = useState(false)
 
