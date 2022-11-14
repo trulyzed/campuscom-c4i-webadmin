@@ -77,7 +77,7 @@ export const PurchaserDataStep = ({
       ],
       rules: [{ required: true, message: "This field is required!" }]
     }] as IField[],
-    {
+    ...hidePurchaseFor ? [] : [{
       fieldName: "company",
       label: "Company",
       inputType: DROPDOWN,
@@ -89,7 +89,7 @@ export const PurchaserDataStep = ({
         toggleField?.(value?.purchasing_for === "company")
       },
       rules: [{ required: true, message: "This field is required!" }]
-    },
+    }] as IField[],
     ...profileQuestions
   ]
 

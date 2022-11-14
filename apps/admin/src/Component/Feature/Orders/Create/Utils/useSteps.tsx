@@ -1,10 +1,23 @@
+import { useContext, useMemo } from "react"
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 import { IOrderType, Steps } from "./types"
 
-interface IUseStepsOptions {
-  noStoreStep?: boolean
+const stepReducer = <T extends Record<keyof typeof Steps, number>,>(steps: T, reduceAmount: number): T => {
+  return Object.keys(steps).reduce((a, c) => {
+    const newVal = a[c as keyof typeof Steps] - reduceAmount
+    a = {
+      ...a,
+      [c]: newVal < 0 ? NaN : newVal
+    }
+    return a
+  }, { ...steps })
 }
 
-export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
+export const useSteps = (type: IOrderType) => {
+  const { userData } = useContext(UserDataContext)
+  const contextStores = useMemo(() => userData?.context.find(i => i.type === 'Store')?.values || [], [userData])
+  const noStoreStep = contextStores.length === 1
+
   let steps: Record<keyof typeof Steps, number> = {
     StoreInformation: Steps.StoreInformation,
     PurchaserInformation: Steps.PurchaserInformation,
@@ -30,34 +43,20 @@ export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
       Summary: NaN
     }
   } else if (type === 'CREATE_BULK_ENROLLMENT') {
-    if (options?.noStoreStep) {
-      steps = {
-        StoreInformation: NaN,
-        PurchaserInformation: 0,
-        ProductInformation: 1,
-        StudentInformation: 2,
-        RegistrationInformation: NaN,
-        AdditionalRegistrationInformation: NaN,
-        Summary: 3,
-        Invoice: NaN,
-        PaymentInformation: NaN,
-      }
-    } else {
-      steps = {
-        StoreInformation: 0,
-        PurchaserInformation: 1,
-        ProductInformation: 2,
-        StudentInformation: 3,
-        RegistrationInformation: NaN,
-        AdditionalRegistrationInformation: NaN,
-        Summary: 4,
-        Invoice: NaN,
-        PaymentInformation: NaN,
-      }
+    steps = {
+      StoreInformation: 0,
+      PurchaserInformation: 1,
+      ProductInformation: 2,
+      StudentInformation: 3,
+      RegistrationInformation: NaN,
+      AdditionalRegistrationInformation: NaN,
+      Summary: 4,
+      Invoice: NaN,
+      PaymentInformation: NaN,
     }
   }
 
   return {
-    steps
+    steps: (noStoreStep && !isNaN(steps.StoreInformation)) ? stepReducer(steps, 1) : steps
   }
 }

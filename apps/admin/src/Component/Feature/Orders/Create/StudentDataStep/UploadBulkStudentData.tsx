@@ -53,6 +53,7 @@ const formMeta: IField[] = [
     inputType: 'FILE',
     accept: '.csv',
     rules: [{ required: true, message: "This field is required!" }],
+    colSpan: 10
   },
   {
     label: 'Contact file format',
@@ -60,6 +61,7 @@ const formMeta: IField[] = [
     fieldName: 'contact_file_format',
     customFilterComponent: () => renderLink(`${process.env.REACT_APP_CDN_URL}samples/sample-contact.csv`, 'Download Sample', false, true),
     formItemStyle: { marginBottom: '5px' },
+    colSpan: 14,
     labelColSpan: 24
   },
 ]

@@ -51,12 +51,12 @@ export const CreateBulkEnrollment = ({
 
   const reset = useCallback(() => {
     setCurrentStep(0)
-    setStoreData(undefined)
+    if (!isNaN(steps.StoreInformation)) setStoreData(undefined)
     setProductData([])
     setPurchaserData(undefined)
     setStudentData([])
     setRegistrationData([])
-  }, [])
+  }, [steps])
 
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
