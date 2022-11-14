@@ -13,7 +13,7 @@ interface IStepperProps {
   hasValidStudentData: boolean
   hasRegistrationProduct: boolean
   hasValidRegistrationData: boolean
-  hasValidAdditionalRegistrationData: boolean
+  hasValidAdditionalRegistrationData?: boolean
 }
 
 export const Stepper = ({
@@ -34,6 +34,7 @@ export const Stepper = ({
   const disableRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData
   const disableAdditionalRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData || !hasValidRegistrationData
   const disableInvoiceDataStep = !hasValidProductData || (hasRegistrationProduct && (disableAdditionalRegistrationDataStep || !hasValidAdditionalRegistrationData))
+  const disableSummaryDataStep = disableRegistrationDataStep
   const disablePaymentDataStep = disableInvoiceDataStep
   const stepsList: { key: keyof typeof steps; title: string; disabled: boolean; }[] = Object.keys(steps).reduce((a, c) => {
     const key = c as keyof typeof steps
@@ -71,7 +72,7 @@ export const Stepper = ({
         break
       case "Summary":
         title = "Summary"
-        disabled = disableInvoiceDataStep
+        disabled = disableSummaryDataStep
         break
       case "PaymentInformation":
         title = "Payment"

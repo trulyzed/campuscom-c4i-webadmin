@@ -8,9 +8,9 @@ interface IUseWatchDataChangeParams {
   setProductData: (...args: any[]) => void
   setStudentData: (...args: any[]) => void
   setRegistrationData: (...args: any[]) => void
-  setAdditionalRegistrationData: (...args: any[]) => void
-  setInvoiceData: (...args: any[]) => void
-  setPaymentData: (...args: any[]) => void
+  setAdditionalRegistrationData?: (...args: any[]) => void
+  setInvoiceData?: (...args: any[]) => void
+  setPaymentData?: (...args: any[]) => void
   reservationDetails?: Record<string, any>
   singleProduct?: boolean
 }
@@ -31,12 +31,12 @@ export const useWatchDataChange = ({
 }: IUseWatchDataChangeParams) => {
   useEffect(() => {
     setRegistrationData((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
-    setAdditionalRegistrationData((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
+    setAdditionalRegistrationData?.((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
   }, [registrationProductData, setRegistrationData, setAdditionalRegistrationData])
 
   useEffect(() => {
     setRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((studentEmail: string) => studentData.some(sd => sd.primary_email === studentEmail)) })))
-    setAdditionalRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.primary_email === s?.primary_email)) })))
+    setAdditionalRegistrationData?.((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.primary_email === s?.primary_email)) })))
   }, [studentData, setRegistrationData, setAdditionalRegistrationData])
 
   // Watch store data changes
@@ -47,9 +47,9 @@ export const useWatchDataChange = ({
     }
     setStudentData([])
     setRegistrationData([])
-    setAdditionalRegistrationData([])
-    setInvoiceData(undefined)
-    setPaymentData(undefined)
+    setAdditionalRegistrationData?.([])
+    setInvoiceData?.(undefined)
+    setPaymentData?.(undefined)
   }, [storeData, reservationDetails, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
 
   // Watch product data changes in case of single product
@@ -57,9 +57,9 @@ export const useWatchDataChange = ({
     if (!singleProduct) return
     setStudentData([])
     setRegistrationData([])
-    setAdditionalRegistrationData([])
-    setInvoiceData(undefined)
-    setPaymentData(undefined)
+    setAdditionalRegistrationData?.([])
+    setInvoiceData?.(undefined)
+    setPaymentData?.(undefined)
   }, [singleProduct, registrationProductData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
 
   // Set default registration data for seat registration

@@ -37,8 +37,8 @@ export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
         ProductInformation: 1,
         StudentInformation: 2,
         RegistrationInformation: NaN,
-        AdditionalRegistrationInformation: 3,
-        Summary: 4,
+        AdditionalRegistrationInformation: NaN,
+        Summary: 3,
         Invoice: NaN,
         PaymentInformation: NaN,
       }
@@ -49,8 +49,8 @@ export const useSteps = (type: IOrderType, options?: IUseStepsOptions) => {
         ProductInformation: 2,
         StudentInformation: 3,
         RegistrationInformation: NaN,
-        AdditionalRegistrationInformation: 4,
-        Summary: 5,
+        AdditionalRegistrationInformation: NaN,
+        Summary: 4,
         Invoice: NaN,
         PaymentInformation: NaN,
       }

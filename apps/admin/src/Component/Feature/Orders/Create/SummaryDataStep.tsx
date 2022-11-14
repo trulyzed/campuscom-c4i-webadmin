@@ -9,16 +9,16 @@ interface ISummaryDataStepProps {
   productData: Record<string, any>[]
   studentData: Record<string, any>[]
   steps: Record<keyof typeof Steps, number>
-  currentStep: number
-  setCurrentStep: (step: Steps) => void
+  onSubmit: () => void
+  loading: boolean
 }
 
 export const SummaryDataStep = ({
   storeData,
   productData,
   studentData,
-  currentStep,
-  setCurrentStep,
+  onSubmit,
+  loading,
 }: ISummaryDataStepProps) => {
   const [contactList, setContactList] = useState<Record<string, any>[]>([])
   const [studentDataWith, setStudentDataWith] = useState<Record<string, any>[]>([])
@@ -37,7 +37,7 @@ export const SummaryDataStep = ({
   useEffect(() => {
     setStudentDataWith(studentData.map(i => ({
       ...i,
-      is_new: !contactList.find(j => j.primary_email === i.primary_email)
+      is_new: contactList.length ? !contactList.find(j => j.primary_email === i.primary_email) : undefined
     })))
   }, [contactList, studentData])
 
@@ -97,7 +97,7 @@ export const SummaryDataStep = ({
           <Typography.Text type="warning" italic>*All students will be enrolled to all the products</Typography.Text>
         </Col>
         <Col xs={24} md={{ span: 6, offset: 18 }} style={{ textAlign: "right" }}>
-          <Button style={{ marginTop: "20px", }} type="primary" children={"Submit"} onClick={() => setCurrentStep(currentStep + 1)} />
+          <Button loading={loading} style={{ marginTop: "20px", }} type="primary" children={"Submit"} onClick={onSubmit} />
         </Col>
       </Row>
     </Card>

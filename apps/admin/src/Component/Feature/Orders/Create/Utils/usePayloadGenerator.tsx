@@ -6,7 +6,7 @@ interface IUsePayloadGeneratorParams {
   productData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
-  additionalRegistrationData: Record<string, any>[]
+  additionalRegistrationData?: Record<string, any>[]
   paymentData?: Record<string, any>
   couponCode?: string
   reservationDetails?: Record<string, any>
@@ -18,7 +18,7 @@ export const usePayloadGenerator = ({
   productData,
   studentData,
   registrationData,
-  additionalRegistrationData,
+  additionalRegistrationData = [],
   paymentData,
   couponCode,
   reservationDetails

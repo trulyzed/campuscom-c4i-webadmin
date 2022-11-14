@@ -1,15 +1,12 @@
+import { ReactNode, useCallback, useMemo, useState } from "react"
 import { Col, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
-import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
 import { Stepper } from "~/Component/Feature/Orders/Create/Stepper"
 import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep/StudentDataStep"
 import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
-import { AdditionalRegistrationDataStep } from "~/Component/Feature/Orders/Create/AdditionalRegistrationDataStep"
-import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataStep"
 import { SummaryDataStep } from "./SummaryDataStep"
-import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
 import { StoreDataStep } from "~/Component/Feature/Orders/Create/StoreDataStep"
 import { parseQuestionsMeta } from "@packages/components/lib/Utils/parser"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
@@ -40,10 +37,6 @@ export const CreateBulkEnrollment = ({
   const registrationProductData = useMemo(() => productData.filter(i => i.unit === "registration"), [productData])
   const [studentData, setStudentData] = useState<Record<string, any>[]>([])
   const [registrationData, setRegistrationData] = useState<Record<string, any>[]>([])
-  const [additionalRegistrationData, setAdditionalRegistrationData] = useState<Record<string, any>[]>([])
-  const [invoiceData, setInvoiceData] = useState<Record<string, any>>()
-  const [paymentData, setPaymentData] = useState<Record<string, any>>()
-  const [couponCode, setCouponCode] = useState<string>()
   const [orderRef, setOrderRef] = useState<string | undefined>()
   const [formErrors, setFormErrors] = useState<ISimplifiedApiErrorMessage[]>()
   const hasValidStoreData = !!storeData
@@ -51,11 +44,10 @@ export const CreateBulkEnrollment = ({
   const hasValidStudentData = !!studentData.length
   const hasValidProductData = !!productData.length
   const hasValidRegistrationData = hasValidProductData
-  const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode })
+  const { generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData })
 
   useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, orderType: 'CREATE_BULK_ENROLLMENT' })
-  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, singleProduct: true })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, singleProduct: true })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -64,10 +56,6 @@ export const CreateBulkEnrollment = ({
     setPurchaserData(undefined)
     setStudentData([])
     setRegistrationData([])
-    setAdditionalRegistrationData([])
-    setInvoiceData(undefined)
-    setPaymentData(undefined)
-    setCouponCode(undefined)
   }, [])
 
   const handleSubmit = useCallback(async () => {
@@ -82,13 +70,6 @@ export const CreateBulkEnrollment = ({
       setFormErrors(resp.error)
     }
   }, [generatePayload, refreshEventName, reset])
-
-  // Submit payload when payment data changes
-  useEffect(() => {
-    if (!paymentData) return
-    handleSubmit()
-    // eslint-disable-next-line
-  }, [paymentData])
 
   return (
     <>
@@ -125,7 +106,6 @@ export const CreateBulkEnrollment = ({
             hasValidStudentData={hasValidStudentData}
             hasRegistrationProduct={!!registrationProductData.length}
             hasValidRegistrationData={hasValidRegistrationData}
-            hasValidAdditionalRegistrationData={hasValidAdditionalRegistrationData}
           />
         </Col>
         <Col md={18} lg={20} xs={24}>
@@ -179,54 +159,16 @@ export const CreateBulkEnrollment = ({
                     canSearch
                     autoSetRegistrationData
                   />
-                  : currentStep === steps.AdditionalRegistrationInformation ?
-                    <AdditionalRegistrationDataStep
-                      steps={steps}
-                      registrationProductData={registrationProductData}
+                  : (currentStep === steps.Summary && storeData) ?
+                    <SummaryDataStep
+                      storeData={storeData}
+                      productData={productData}
                       studentData={studentData}
-                      registrationData={registrationData}
-                      registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
-                        product: i.id,
-                        meta: parseQuestionsMeta((i.registration_questions || []))
-                      }))}
-                      registrationProducts={((orderDetails?.products || []) as any[]).map(i => ({
-                        parent: i.id,
-                        products: (i.related_products as any[]).filter(i => i.relation_type === "registration")
-                      }))}
-                      additionalRegistrationData={additionalRegistrationData}
-                      setAdditionalRegistrationData={setAdditionalRegistrationData}
-                      currentStep={currentStep}
-                      setCurrentStep={setCurrentStep}
+                      steps={steps}
+                      onSubmit={handleSubmit}
+                      loading={isProcessing}
                     />
-                    : (currentStep === steps.Invoice && storeData) ?
-                      <InvoiceDataStep
-                        steps={steps}
-                        storeData={storeData}
-                        invoiceData={invoiceData}
-                        couponCode={couponCode}
-                        setInvoiceData={setInvoiceData}
-                        setCouponCode={setCouponCode}
-                        currentStep={currentStep}
-                        setCurrentStep={setCurrentStep}
-                        generatePaymentSummaryPayload={generatePaymentSummaryPayload}
-                      />
-                      : (currentStep === steps.Summary && storeData) ?
-                        <SummaryDataStep
-                          storeData={storeData}
-                          productData={productData}
-                          studentData={studentData}
-                          steps={steps}
-                          currentStep={currentStep}
-                          setCurrentStep={setCurrentStep}
-                        />
-                        : currentStep === steps.PaymentInformation ?
-                          <PaymentDataStep
-                            invoiceData={invoiceData}
-                            paymentData={paymentData}
-                            setPaymentData={setPaymentData}
-                            loading={isProcessing}
-                          />
-                          : null}
+                    : null}
         </Col>
       </Row>
     </>
