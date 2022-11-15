@@ -6,4 +6,7 @@ export interface ICourseSharingContractQueries {
   getList: IQuery
   create: IQuery
   update: IQuery
+  deactivate: IQuery
+  getAvailableCourseList: IQuery
+  deactivateStoreCourse: IQuery
 }

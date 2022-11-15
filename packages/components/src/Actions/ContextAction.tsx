@@ -1,13 +1,13 @@
 import { useCallback, useState } from "react"
 import { useHistory } from "react-router-dom"
-import { Button, ButtonProps, } from "antd"
+import { Button, ButtonProps, notification, } from "antd"
 import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { triggerEvents } from "@packages/utilities/lib/EventBus"
 import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
 
-export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
 interface IContextActionProps {
@@ -24,6 +24,7 @@ interface IContextActionProps {
   confirmationType?: string
   buttonType?: ButtonProps["type"]
   modalProps?: IModalWrapperProps
+  successText?: string,
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -37,6 +38,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
     copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
     create: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
+    deactivate: <span className={getIconClassName("glyphicon--warning glyphicon-ban-circle", iconColor)} />,
     delete: <span className={getIconClassName("glyphicon--danger glyphicon-trash", iconColor)} />,
     download: <span className={getIconClassName("glyphicon-floppy-save", iconColor)} />,
     drop: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
@@ -74,6 +76,7 @@ export const ContextAction = ({
   iconColor,
   buttonType,
   modalProps,
+  successText,
 }: IContextActionProps) => {
   const [processing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -82,13 +85,18 @@ export const ContextAction = ({
 
   const handleClick = useCallback(async () => {
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
-      promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
+      promptConfirmation(queryService, {
+        actionType: confirmationType,
+        setIsProcessing: (status) => setIsProcessing(status),
+        success: successText
+      }).then(() => {
         if (refreshEventName) triggerEvents(refreshEventName)
         redirectTo && push(redirectTo)
       })
     } else if (queryService) {
       setIsProcessing(true)
-      queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
+      queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then((resp) => {
+        if (resp.success && successText) notification.success({ message: successText })
         if (refreshEventName) triggerEvents(refreshEventName)
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
@@ -96,7 +104,7 @@ export const ContextAction = ({
     } else if (modalProps) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps])
+  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps, successText])
 
   const handleModalClose = useCallback(() => {
     setShowModal(false)
@@ -106,10 +114,16 @@ export const ContextAction = ({
 
   return (
     <>
-      {
-        (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-          : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
-      }
+      {(textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
+        : <Button
+          className="p-0 m-0"
+          title={tooltip}
+          type={buttonType || 'link'}
+          icon={icon}
+          onClick={handleClick}
+          loading={processing}
+          children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
+        />}
       {(showModal && modalProps) ?
         <ModalWrapper {...modalProps} onClose={handleModalClose} />
         : null}

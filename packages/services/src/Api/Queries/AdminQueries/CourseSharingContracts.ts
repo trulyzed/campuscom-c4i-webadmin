@@ -72,5 +72,40 @@ export const CourseSharingContractQueries: ICourseSharingContractQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CourseSharingContract, action: ApiPermissionAction.Write }]
+  ),
+
+  deactivate: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.DEACTIVATE_COURSE_SHARING_CONTRACT,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.DeactivateCourseSharingContract, action: ApiPermissionAction.Write }]
+  ),
+
+  getAvailableCourseList: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.ALL_COURSE_SHARING_CONTRACT_COURSE,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.CourseSharingContractCourse, action: ApiPermissionAction.Read }]
+  ),
+
+  deactivateStoreCourse: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.DEACTIVATE_STORE_COURSE}`,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.DeactivateStoreCourse, action: ApiPermissionAction.Write }]
   )
 }

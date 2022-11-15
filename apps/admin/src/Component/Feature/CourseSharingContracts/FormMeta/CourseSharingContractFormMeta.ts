@@ -18,9 +18,4 @@ export const getCourseSharingContractFormMeta = (): IField[] => [
     inputType: BOOLEAN,
     fieldName: "is_primary",
   },
-  {
-    label: 'Is Active',
-    inputType: BOOLEAN,
-    fieldName: "is_active",
-  },
 ]
