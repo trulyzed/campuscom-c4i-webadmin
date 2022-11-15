@@ -6,5 +6,8 @@ export enum Steps {
   RegistrationInformation,
   AdditionalRegistrationInformation,
   Invoice,
-  PaymentInformation
+  PaymentInformation,
+  Summary
 }
+
+export type IOrderType = 'REGISTRATION' | 'CREATE_BULK_ENROLLMENT' | 'CREATE_ORDER'

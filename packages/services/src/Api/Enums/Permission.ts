@@ -1,6 +1,7 @@
 export enum PermissionContext {
   Store = "Store",
-  CourseProvider = "CourseProvider"
+  CourseProvider = "CourseProvider",
+  Company = "Company"
 }
 
 export enum ApiPermissionAction {
@@ -40,12 +41,16 @@ export enum ApiPermissionClass {
   CourseProvider = "CourseProviderViewSet",
   CoursePublishingStore = "SharedCoursesView",
   CourseSharingContract = "CourseSharingContractViewSet",
+  CourseSharingContractCourse = "CourseSharingContractCourseView",
   CreatableOrderDetails = "EnrollmentProductDetailsView",
   CreatableOrderPaymentSummary = "PaymentSummaryView",
   CreateOrder = "CreateEnrollmentView",
+  CreateOrderBulk = "CreateBulkEnrollmentView",
   CreateOrderForAffiliateAdmin = "CreateEnrollmentWithPurchaserView",
   CustomRole = "CustomRoleViewSet",
   CustomUser = "CustomUserViewSet",
+  DeactivateCourseSharingContract = "DeactivateCourseSharingContractView",
+  DeactivateStoreCourse = "DeactivateStoreCourseView",
   DeleteCertificateCourse = "DeleteCertificateCoursesView",
   DeleteCompany = "DeleteCompanyViewSet",
   DeleteContactGroupProfile = "DeleteContactGroupProfileView",

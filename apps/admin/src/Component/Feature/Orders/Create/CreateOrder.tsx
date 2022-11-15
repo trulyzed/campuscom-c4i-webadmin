@@ -2,8 +2,8 @@ import { Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
-import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
-import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
+import { Stepper } from "~/Component/Feature/Orders/Create/Stepper"
+import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep/StudentDataStep"
 import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
 import { RegistrationDataStep } from "~/Component/Feature/Orders/Create/RegistrationDataStep"
@@ -30,12 +30,12 @@ interface ICreateOrderProps {
 }
 
 export const CreateOrder = ({
-  title = "Create an Order",
+  title,
   reservationDetails,
   swapRegistration,
   refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps(!!reservationDetails)
+  const { steps } = useSteps(reservationDetails ? "REGISTRATION" : "CREATE_ORDER")
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -57,10 +57,10 @@ export const CreateOrder = ({
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
-  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
   const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
+
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, orderType: reservationDetails ? "REGISTRATION" : "CREATE_ORDER" })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -104,34 +104,39 @@ export const CreateOrder = ({
 
   return (
     <>
-      <Row>
-        <Col md={24} xs={24} className={'mt-15'}>
-          <SidebarMenuTargetHeading level={2}>
-            {title}
-          </SidebarMenuTargetHeading>
-        </Col>
+      <Row gutter={[0, 15]}>
+        {title ?
+          <Col md={24} xs={24} className={"mt-15"}>
+            <SidebarMenuTargetHeading level={2}>
+              {title}
+            </SidebarMenuTargetHeading>
+          </Col>
+          : null}
+        {(swapRegistration && reservationDetails?.profile) ?
+          <Col md={24} xs={24}>
+            <Alert
+              message={"Following student will be removed"}
+              description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
+              type={"warning"}
+            />
+          </Col>
+          : null}
+        {orderRef ?
+          <Col md={24} xs={24}>
+            <Alert
+              type="success"
+              message={"Success"}
+              description={`Order creation was successful (Order ID: ${orderRef}).`}
+              onClose={() => setOrderRef(undefined)}
+            />
+          </Col>
+          : !isProcessing && formErrors?.length ?
+            <Col md={24} xs={24}><FormError errorMessages={formErrors} /></Col>
+            : null}
       </Row>
-      {orderRef ?
-        <Alert
-          className="mt-10"
-          type="success"
-          message={"Success"}
-          description={`Order creation was successful (Order ID: ${orderRef}).`}
-          onClose={() => setOrderRef(undefined)}
-        />
-        : null}
-      {(swapRegistration && reservationDetails?.profile) ?
-        <Alert
-          message={"Following student will be removed"}
-          description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
-          type={"warning"}
-          className={"mt-20"}
-        />
-        : null}
-      {!isProcessing && formErrors?.length ? <FormError errorMessages={formErrors} /> : null}
       <Row>
         <Col md={6} lg={4} xs={24}>
-          <Steppers
+          <Stepper
             steps={steps}
             currentStep={currentStep}
             onChange={setCurrentStep}

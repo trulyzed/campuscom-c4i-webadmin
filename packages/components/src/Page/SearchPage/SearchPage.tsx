@@ -12,6 +12,7 @@ import { DEFAULT_PAGE_SIZE } from "~/ResponsiveTable/Responsive"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title?: string
+  searchTitle?: string
   blocks?: JSX.Element[]
   meta?: IField[]
   metaName?: string
@@ -86,7 +87,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
             {props.meta &&
               <Col lg={6} xl={5} xs={24}>
                 <MetaDrivenForm
-                  title={props.title ? `${props.title} Filter` : undefined}
+                  title={props.searchTitle || (props.title ? `${props.title} Filter` : undefined)}
                   blocks={props.blocks}
                   helpKey={props.helpKey}
                   meta={props.meta}

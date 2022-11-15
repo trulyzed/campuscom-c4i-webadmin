@@ -1,5 +1,7 @@
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
-import { useCallback, useEffect, useState } from "react"
+import { IOrderType } from "./types"
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 
 interface IUseInitialize {
   storeData?: Record<string, any>
@@ -9,6 +11,7 @@ interface IUseInitialize {
   setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
   reservationDetails?: Record<string, any>
+  orderType?: IOrderType
 }
 
 export const useInitialize = ({
@@ -20,6 +23,8 @@ export const useInitialize = ({
   setProductData,
   reservationDetails,
 }: IUseInitialize) => {
+  const { userData } = useContext(UserDataContext)
+  const contextStores = useMemo(() => userData?.context.find(i => i.type === 'Store')?.values || [], [userData])
   const [isFetchingOrderDetails, setIsFetchingOrderDetails] = useState(false)
 
   const getOrderDetails = useCallback(async () => {
@@ -40,7 +45,7 @@ export const useInitialize = ({
     getOrderDetails()
   }, [getOrderDetails])
 
-  // Initialize data for seat registration
+  // Initialize data
   useEffect(() => {
     if (reservationDetails) {
       setStoreData({ store: reservationDetails.store.id })
@@ -67,8 +72,10 @@ export const useInitialize = ({
           related_products: []
         }
       ])
+    } else if (contextStores.length === 1) {
+      setStoreData({ store: contextStores[0].id })
     }
-  }, [reservationDetails, setStoreData, setPurchaserData, setProductData])
+  }, [contextStores, reservationDetails, setStoreData, setPurchaserData, setProductData])
 
   return {
     getOrderDetails,

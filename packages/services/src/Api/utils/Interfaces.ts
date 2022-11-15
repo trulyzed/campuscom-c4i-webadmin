@@ -15,10 +15,11 @@ export interface IPermissionContext {
   values: {
     id: string
     name: string
-    primary_course_provider: {
+    primary_course_provider?: {
       id: string
       name: string
     } | null
+    store?: string
   }[]
 }
 

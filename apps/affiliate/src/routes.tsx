@@ -7,6 +7,7 @@ export const AppRoutes: RouteProps[] = [
   { path: "/store/product", component: React.lazy(() => import("~/Pages/Store/Products").then((x) => ({ default: x.List }))) },
   { path: "/store/product/:productID", component: React.lazy(() => import("~/Pages/Store/Products/ProductDetailsPage").then((x) => ({ default: x.ProductDetailsPage }))) },
   { path: "/store/create-order", component: React.lazy(() => import("~/Pages/Store/Orders/Create").then((x) => ({ default: x.Create }))) },
+  { path: "/store/create-bulk-enrollment", component: React.lazy(() => import("~/Pages/Store/Orders/CreateBulk").then((x) => ({ default: x.Create }))) },
 
   { path: "/storefront-data/order", component: React.lazy(() => import("~/Pages/StorefrontData/Orders").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/order/:orderID", component: React.lazy(() => import("~/Pages/StorefrontData/Orders/OrderDetailsPage").then((x) => ({ default: x.OrderDetailsPage }))) },

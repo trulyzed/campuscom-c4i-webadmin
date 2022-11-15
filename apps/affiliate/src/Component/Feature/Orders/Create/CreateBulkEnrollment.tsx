@@ -1,4 +1,4 @@
-import { Col, notification, Row } from "antd"
+import { Col, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
@@ -6,7 +6,6 @@ import { Stepper } from "~/Component/Feature/Orders/Create/Stepper"
 import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
 import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
-import { RegistrationDataStep } from "~/Component/Feature/Orders/Create/RegistrationDataStep"
 import { AdditionalRegistrationDataStep } from "~/Component/Feature/Orders/Create/AdditionalRegistrationDataStep"
 import { InvoiceDataStep } from "~/Component/Feature/Orders/Create/InvoiceDataStep"
 import { PaymentDataStep } from "~/Component/Feature/Orders/Create/PaymentDataStep"
@@ -17,25 +16,20 @@ import { usePayloadGenerator } from "~/Component/Feature/Orders/Create/Utils/use
 import { useSteps } from "~/Component/Feature/Orders/Create/Utils/useSteps"
 import { useWatchDataChange } from "./Utils/useWatchDataChange"
 import { triggerEvents } from "@packages/utilities/lib/EventBus"
-import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
 import { useInitialize } from "./Utils/useInitialize"
 import { FormError } from "@packages/components/lib/Form/FormError"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 
-interface ICreateOrderProps {
+interface ICreateBulkEnrollmentProps {
   title?: ReactNode
-  reservationDetails?: Record<string, any>
-  swapRegistration?: boolean
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
-export const CreateOrder = ({
-  title = "Create an Order",
-  reservationDetails,
-  swapRegistration,
+export const CreateBulkEnrollment = ({
+  title = "Create Bulk Enrollment",
   refreshEventName,
-}: ICreateOrderProps) => {
-  const { steps } = useSteps(reservationDetails ? "REGISTRATION" : "CREATE_ORDER")
+}: ICreateBulkEnrollmentProps) => {
+  const { steps } = useSteps('CREATE_BULK_ENROLLMENT')
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -52,15 +46,15 @@ export const CreateOrder = ({
   const [orderRef, setOrderRef] = useState<string | undefined>()
   const [formErrors, setFormErrors] = useState<ISimplifiedApiErrorMessage[]>()
   const hasValidStoreData = !!storeData
-  const hasValidProductData = !!productData.length
   const hasValidPurchaserData = !!purchaserData
-  const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
-  const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
+  const hasValidStudentData = !!studentData.length
+  const hasValidProductData = !!productData.length
+  const hasValidRegistrationData = hasValidProductData
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
+  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode })
 
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, orderType: reservationDetails ? "REGISTRATION" : "CREATE_ORDER" })
-  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, orderType: 'CREATE_BULK_ENROLLMENT' })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, singleProduct: true })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -77,23 +71,16 @@ export const CreateOrder = ({
 
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await (swapRegistration ? SeatBlockQueries.swapRegistration : OrderQueries.create)({ data: generatePayload() })
+    const resp = await OrderQueries.createBulk({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       if (refreshEventName) triggerEvents(refreshEventName)
-      if (reservationDetails) {
-        notification.success({
-          message: swapRegistration ? "Successfully swapped" : "Successfully enrolled",
-          description: `Order creation was successful (Order ID: ${resp.data.order_ref}).`,
-          duration: 0
-        })
-      }
       reset()
     } else {
       setFormErrors(resp.error)
     }
-  }, [generatePayload, swapRegistration, reservationDetails, refreshEventName, reset])
+  }, [generatePayload, refreshEventName, reset])
 
   // Submit payload when payment data changes
   useEffect(() => {
@@ -118,14 +105,6 @@ export const CreateOrder = ({
           message={"Success"}
           description={`Order creation was successful (Order ID: ${orderRef}).`}
           onClose={() => setOrderRef(undefined)}
-        />
-        : null}
-      {(swapRegistration && reservationDetails?.profile) ?
-        <Alert
-          message={"Following student will be removed"}
-          description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
-          type={"warning"}
-          className={"mt-20"}
         />
         : null}
       {!isProcessing && formErrors?.length ? <FormError errorMessages={formErrors} /> : null}
@@ -162,6 +141,11 @@ export const CreateOrder = ({
                 currentStep={currentStep}
                 setCurrentStep={setCurrentStep}
                 hasRegistrationProduct={!!registrationProductData.length}
+                singleProduct
+                onlySectionProducts
+                onlyRegistrationProducts
+                noQuantityInput
+                noRelatedProducts
               />
               : (currentStep === steps.PurchaserInformation && storeData) ?
                 <PurchaserDataStep
@@ -172,69 +156,62 @@ export const CreateOrder = ({
                   setPurchaserData={setPurchaserData}
                   currentStep={currentStep}
                   setCurrentStep={setCurrentStep}
+                  hidePurchaseFor
                 />
                 : (currentStep === steps.StudentInformation && storeData) ?
                   <StudentDataStep
                     steps={steps}
+                    registrationProductData={registrationProductData}
                     storeData={storeData}
                     studentData={studentData}
                     profileQuestions={parseQuestionsMeta((orderDetails?.profile_questions || []).filter((i: any) => i.respondent_type === "student"), "profile_question__")}
                     setStudentData={setStudentData}
+                    setRegistrationData={setRegistrationData}
                     currentStep={currentStep}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
-                    singleOnly={!!reservationDetails}
+                    canUploadBulk
+                    autoSetRegistrationData
                   />
-                  : currentStep === steps.RegistrationInformation ?
-                    <RegistrationDataStep
+                  : currentStep === steps.AdditionalRegistrationInformation ?
+                    <AdditionalRegistrationDataStep
                       steps={steps}
                       registrationProductData={registrationProductData}
                       studentData={studentData}
                       registrationData={registrationData}
-                      setRegistrationData={setRegistrationData}
+                      registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
+                        product: i.id,
+                        meta: parseQuestionsMeta((i.registration_questions || []))
+                      }))}
+                      registrationProducts={((orderDetails?.products || []) as any[]).map(i => ({
+                        parent: i.id,
+                        products: (i.related_products as any[]).filter(i => i.relation_type === "registration")
+                      }))}
+                      additionalRegistrationData={additionalRegistrationData}
+                      setAdditionalRegistrationData={setAdditionalRegistrationData}
                       currentStep={currentStep}
                       setCurrentStep={setCurrentStep}
-                      isValid={hasValidRegistrationData}
                     />
-                    : currentStep === steps.AdditionalRegistrationInformation ?
-                      <AdditionalRegistrationDataStep
+                    : (currentStep === steps.Invoice && storeData) ?
+                      <InvoiceDataStep
                         steps={steps}
-                        registrationProductData={registrationProductData}
-                        studentData={studentData}
-                        registrationData={registrationData}
-                        registrationQuestions={((orderDetails?.products || []) as any[]).map(i => ({
-                          product: i.id,
-                          meta: parseQuestionsMeta((i.registration_questions || []))
-                        }))}
-                        registrationProducts={((orderDetails?.products || []) as any[]).map(i => ({
-                          parent: i.id,
-                          products: (i.related_products as any[]).filter(i => i.relation_type === "registration")
-                        }))}
-                        additionalRegistrationData={additionalRegistrationData}
-                        setAdditionalRegistrationData={setAdditionalRegistrationData}
+                        storeData={storeData}
+                        invoiceData={invoiceData}
+                        couponCode={couponCode}
+                        setInvoiceData={setInvoiceData}
+                        setCouponCode={setCouponCode}
                         currentStep={currentStep}
                         setCurrentStep={setCurrentStep}
+                        generatePaymentSummaryPayload={generatePaymentSummaryPayload}
                       />
-                      : (currentStep === steps.Invoice && storeData) ?
-                        <InvoiceDataStep
-                          steps={steps}
-                          storeData={storeData}
+                      : currentStep === steps.PaymentInformation ?
+                        <PaymentDataStep
                           invoiceData={invoiceData}
-                          couponCode={couponCode}
-                          setInvoiceData={setInvoiceData}
-                          setCouponCode={setCouponCode}
-                          currentStep={currentStep}
-                          setCurrentStep={setCurrentStep}
-                          generatePaymentSummaryPayload={generatePaymentSummaryPayload}
+                          paymentData={paymentData}
+                          setPaymentData={setPaymentData}
+                          loading={isProcessing}
                         />
-                        : currentStep === steps.PaymentInformation ?
-                          <PaymentDataStep
-                            invoiceData={invoiceData}
-                            paymentData={paymentData}
-                            setPaymentData={setPaymentData}
-                            loading={isProcessing}
-                          />
-                          : null}
+                        : null}
         </Col>
       </Row>
     </>

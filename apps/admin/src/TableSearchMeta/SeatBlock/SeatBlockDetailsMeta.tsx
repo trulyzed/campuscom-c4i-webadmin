@@ -97,27 +97,29 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                     <ContextAction
                       type="add"
                       tooltip="Enroll"
-                      modalContent={
-                        <CreateOrder
-                          title={"Enroll Student"}
+                      modalProps={{
+                        title: "Enroll Student",
+                        content: <CreateOrder
                           reservationDetails={getReservationDetails(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
-                        />}
-                      modalCloseEventName={`${CLOSE_MODAL}__${index}`}
+                        />,
+                        closeEventName: `${CLOSE_MODAL}__${index}`
+                      }}
                     />
                     : null}
                   {record.profile ?
                     <ContextAction
                       type="swap"
                       tooltip="Swap"
-                      modalContent={
-                        <CreateOrder
-                          title={"Swap Student"}
+                      modalProps={{
+                        title: "Swap Student",
+                        content: <CreateOrder
                           reservationDetails={getReservationDetails(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                           swapRegistration
-                        />}
-                      modalCloseEventName={`${CLOSE_MODAL}__${index}`}
+                        />,
+                        closeEventName: `${CLOSE_MODAL}__${index}`
+                      }}
                     />
                     : null}
                   {record.profile ?
