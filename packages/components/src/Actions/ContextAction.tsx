@@ -6,6 +6,7 @@ import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { triggerEvents } from "@packages/utilities/lib/EventBus"
 import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
 export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
@@ -106,9 +107,19 @@ export const ContextAction = ({
 
   return (
     <>
-      {
-        (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-          : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
+      {(!queryService || checkAdminApiPermission(queryService)) &&
+        <>
+          {(textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
+            : <Button
+              className="p-0 m-0"
+              title={tooltip}
+              type={buttonType || 'link'}
+              icon={icon}
+              onClick={handleClick}
+              loading={processing}
+              children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
+            />}
+        </>
       }
       {(showModal && modalProps) ?
         <ModalWrapper {...modalProps} onClose={handleModalClose} />
