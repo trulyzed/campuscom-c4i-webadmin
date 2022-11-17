@@ -10,4 +10,4 @@ export enum Steps {
   Summary
 }
 
-export type IOrderType = 'REGISTRATION' | 'CREATE_BULK_ENROLLMENT' | 'CREATE_ORDER'
+export type IActionType = 'CREATE_ORDER' | 'CREATE_BULK_ENROLLMENT' | 'UPDATE_ORDER'

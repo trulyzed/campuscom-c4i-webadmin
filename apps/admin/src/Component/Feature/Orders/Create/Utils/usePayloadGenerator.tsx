@@ -9,7 +9,8 @@ interface IUsePayloadGeneratorParams {
   additionalRegistrationData?: Record<string, any>[]
   paymentData?: Record<string, any>
   couponCode?: string
-  reservationDetails?: Record<string, any>
+  reservationId?: string
+  enrollmentId?: string
 }
 
 export const usePayloadGenerator = ({
@@ -21,7 +22,8 @@ export const usePayloadGenerator = ({
   additionalRegistrationData = [],
   paymentData,
   couponCode,
-  reservationDetails
+  reservationId,
+  enrollmentId
 }: IUsePayloadGeneratorParams) => {
   const generatePurchaserDetailsPayload = useCallback(() => {
     const profileQuestions = Object.keys(purchaserData || {}).reduce((a, c) => {
@@ -153,20 +155,20 @@ export const usePayloadGenerator = ({
       registration_details: generateRegistrationDetailsPayload(),
       payment_ref: paymentData?.payment_ref,
       payment_note: paymentData?.payment_note,
-      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
-      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
+      ...reservationId && { seat_reservation: reservationId },
+      ...enrollmentId && { course_enrollment: enrollmentId },
     }
-  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, reservationDetails])
+  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, reservationId, enrollmentId])
 
   const generatePaymentSummaryPayload = useCallback(() => {
     return {
       cart_details: generateCartDetailsPayload(),
       store: storeData?.store,
       coupon_codes: couponCode ? [couponCode] : [],
-      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
-      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
+      ...reservationId && { seat_reservation: reservationId },
+      ...enrollmentId && { course_enrollment: enrollmentId },
     }
-  }, [storeData, couponCode, generateCartDetailsPayload, reservationDetails])
+  }, [storeData, couponCode, generateCartDetailsPayload, reservationId, enrollmentId])
 
   return {
     generatePayload,

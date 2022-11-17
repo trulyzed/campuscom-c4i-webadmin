@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { ICreateOrderInitialValue } from "~/Component/Feature/Orders/Create/CreateOrder"
 
 interface IUseWatchDataChangeParams {
   storeData?: Record<string, any>
@@ -11,7 +12,8 @@ interface IUseWatchDataChangeParams {
   setAdditionalRegistrationData?: (...args: any[]) => void
   setInvoiceData?: (...args: any[]) => void
   setPaymentData?: (...args: any[]) => void
-  reservationDetails?: Record<string, any>
+  initialValue?: ICreateOrderInitialValue
+  isUpdate?: boolean
   singleProduct?: boolean
 }
 
@@ -26,7 +28,8 @@ export const useWatchDataChange = ({
   setAdditionalRegistrationData,
   setInvoiceData,
   setPaymentData,
-  reservationDetails,
+  initialValue,
+  isUpdate,
   singleProduct
 }: IUseWatchDataChangeParams) => {
   useEffect(() => {
@@ -41,7 +44,7 @@ export const useWatchDataChange = ({
 
   // Watch store data changes
   useEffect(() => {
-    if (!reservationDetails) {
+    if (!isUpdate) {
       setPurchaserData(undefined)
       setProductData([])
     }
@@ -50,7 +53,7 @@ export const useWatchDataChange = ({
     setAdditionalRegistrationData?.([])
     setInvoiceData?.(undefined)
     setPaymentData?.(undefined)
-  }, [storeData, reservationDetails, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
+  }, [storeData, isUpdate, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
 
   // Watch product data changes in case of single product
   useEffect(() => {
@@ -62,14 +65,14 @@ export const useWatchDataChange = ({
     setPaymentData?.(undefined)
   }, [singleProduct, registrationProductData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
 
-  // Set default registration data for seat registration
+  // Update registration data based on registration or enrollment data
   useEffect(() => {
-    if (!reservationDetails) return
+    if (!isUpdate || !initialValue) return
     setRegistrationData([{
-      product: reservationDetails.product.id,
+      product: initialValue.product.id,
       students: studentData.map(i => i.primary_email)
     }])
-  }, [reservationDetails, studentData, setRegistrationData])
+  }, [isUpdate, initialValue, studentData, setRegistrationData])
 
   return null
 }
