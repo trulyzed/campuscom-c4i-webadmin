@@ -70,10 +70,10 @@ export const enrollmentListTableColumns: TableColumnType = [
                 product: record.product,
                 profile: processContacts([record.profile]).pop() as Record<string, any>,
               }}
-              refreshEventName={`${CLOSE_MODAL}_ENROLLMENT__${index}`}
+              refreshEventName={[`${CLOSE_MODAL}_ENROLLMENT__${index}`, "REFRESH_ENROLLMENT_LIST"]}
               isSwap
             />,
-            closeEventName: `${CLOSE_MODAL}_ENROLLMENT__${index}`
+            closeHandlerEventName: `${CLOSE_MODAL}_ENROLLMENT__${index}`
           }}
         />
         <ContextAction

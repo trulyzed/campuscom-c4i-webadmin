@@ -118,7 +118,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                           initialValue={getInitialValue(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />,
-                        closeEventName: `${CLOSE_MODAL}__${index}`
+                        closeHandlerEventName: `${CLOSE_MODAL}__${index}`
                       }}
                     />
                     : null}
@@ -133,7 +133,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                           isSwap
                         />,
-                        closeEventName: `${CLOSE_MODAL}__${index}`
+                        closeHandlerEventName: `${CLOSE_MODAL}__${index}`
                       }}
                     />
                     : null}

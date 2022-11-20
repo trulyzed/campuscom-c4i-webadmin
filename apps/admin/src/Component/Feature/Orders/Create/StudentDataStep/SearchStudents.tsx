@@ -54,7 +54,7 @@ export const SearchStudents = ({
           stopProducingQueryParams
           initSearchAtMount
         />,
-        closeEventName: `CREATE_BULK_ENROLLMENT`,
+        closeHandlerEventName: `CREATE_BULK_ENROLLMENT`,
         actions: [
           <Button>Select</Button>
         ]
