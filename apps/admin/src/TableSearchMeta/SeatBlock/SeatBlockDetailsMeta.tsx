@@ -7,20 +7,35 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
-import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
+import { CreateOrder, ICreateOrderInitialValue } from "~/Component/Feature/Orders/Create/CreateOrder"
 import { CLOSE_MODAL } from "~/Constants"
 import { SeatQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Seats"
-import { parseEnrollmentUrl } from "@packages/components/lib/Utils/parser"
+import { parseEnrollmentUrl, parseQuestionAnswer } from "@packages/components/lib/Utils/parser"
 
 export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDetailsMeta => {
-  const getReservationDetails = (record: Record<string, any>) => {
+  const getInitialValue = (record: Record<string, any>): ICreateOrderInitialValue => {
     return {
-      id: record.id,
-      token: record.token,
+      reservationId: record.id,
       store: seatBlock.store,
-      purchaser: seatBlock.purchaser,
-      product: seatBlock.product,
-      profile: record.profile
+      purchaser: {
+        ...seatBlock.purchaser,
+        purchasing_for: seatBlock.purchaser.purchasing_for ? {
+          ...seatBlock.purchaser.purchasing_for,
+          ref: seatBlock.purchaser.purchasing_for.ref?.id
+        } : undefined,
+        extra_info: {
+          ...parseQuestionAnswer(seatBlock.purchaser.extra_info),
+        }
+      },
+      product: {
+        ...seatBlock.product,
+        title: seatBlock.product.name
+      },
+      profile: record.profile ? {
+        ...record.profile,
+        name: `${record.profile.name} (${record.profile.email})`,
+        primary_email: record.profile.email,
+      } : undefined
     }
   }
 
@@ -100,10 +115,10 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                       modalProps={{
                         title: "Enroll Student",
                         content: <CreateOrder
-                          reservationDetails={getReservationDetails(record)}
+                          initialValue={getInitialValue(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
                         />,
-                        closeEventName: `${CLOSE_MODAL}__${index}`
+                        closeHandlerEventName: `${CLOSE_MODAL}__${index}`
                       }}
                     />
                     : null}
@@ -114,17 +129,17 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
                       modalProps={{
                         title: "Swap Student",
                         content: <CreateOrder
-                          reservationDetails={getReservationDetails(record)}
+                          initialValue={getInitialValue(record)}
                           refreshEventName={["REFRESH_TOKEN_LIST", `${CLOSE_MODAL}__${index}`]}
-                          swapRegistration
+                          isSwap
                         />,
-                        closeEventName: `${CLOSE_MODAL}__${index}`
+                        closeHandlerEventName: `${CLOSE_MODAL}__${index}`
                       }}
                     />
                     : null}
                   {record.profile ?
                     <ContextAction
-                      confirmationType="drop/withdraw"
+                      confirmationType="Drop/withdraw"
                       type="drop"
                       tooltip="Drop/Withdraw"
                       queryService={QueryConstructor(() => SeatBlockQueries.removeRegistration({ data: { seat_reservation: record.id } }), [SeatBlockQueries.removeRegistration])}

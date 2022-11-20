@@ -1,7 +1,13 @@
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
+import { processContacts } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Contacts"
+import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
+import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
+import { CLOSE_MODAL } from "~/Constants"
+
 
 export const enrollmentListTableColumns: TableColumnType = [
   {
@@ -45,12 +51,48 @@ export const enrollmentListTableColumns: TableColumnType = [
     dataIndex: 'status',
     sorter: (a: any, b: any) => a.status - b.status
   },
+  {
+    title: "Actions",
+    dataIndex: 'actions',
+    render: (_, record: any, index) => record.status === "canceled" ? null : (
+      <>
+        <ContextAction
+          type="swap"
+          tooltip="Swap"
+          modalProps={{
+            title: "Swap Student",
+            content: <CreateOrder
+              initialValue={{
+                enrollmentId: record.id,
+                reservationId: record.seat_reservation,
+                store: record.store,
+                purchaser: record.purchaser_info,
+                product: record.product,
+                profile: processContacts([record.profile]).pop() as Record<string, any>,
+              }}
+              refreshEventName={[`${CLOSE_MODAL}_ENROLLMENT__${index}`, "REFRESH_ENROLLMENT_LIST"]}
+              isSwap
+            />,
+            closeHandlerEventName: `${CLOSE_MODAL}_ENROLLMENT__${index}`
+          }}
+        />
+        <ContextAction
+          confirmationType="Drop/withdraw"
+          type="drop"
+          tooltip="Drop/Withdraw"
+          queryService={QueryConstructor(() => EnrollmentQueries.remove({ data: { course_enrollment: record.id } }), [SeatBlockQueries.removeRegistration])}
+          refreshEventName={"REFRESH_ENROLLMENT_LIST"}
+          iconColor="warning"
+        />
+      </>
+    )
+  }
 ]
 
 export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
     columns: enrollmentListTableColumns,
-    searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params), [EnrollmentQueries.getCourseEnrollmentList]),
+    searchFunc: EnrollmentQueries.getCourseEnrollmentList,
     tableName: 'Enrollment',
     refreshEventName: "REFRESH_ENROLLMENT_LIST"
   }

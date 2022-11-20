@@ -21,21 +21,32 @@ import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { useInitialize } from "./Utils/useInitialize"
 import { FormError } from "@packages/components/lib/Form/FormError"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
+
+export interface ICreateOrderInitialValue {
+  enrollmentId?: string
+  reservationId?: string
+  store: Record<string, any>
+  purchaser: Record<string, any>
+  product: Record<string, any>
+  profile?: Record<string, any>
+}
 
 interface ICreateOrderProps {
   title?: ReactNode
-  reservationDetails?: Record<string, any>
-  swapRegistration?: boolean
+  initialValue?: ICreateOrderInitialValue
+  isSwap?: boolean
   refreshEventName?: string | symbol | symbol[] | string[] | Array<string | symbol>
 }
 
 export const CreateOrder = ({
   title,
-  reservationDetails,
-  swapRegistration,
+  initialValue,
+  isSwap,
   refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps(reservationDetails ? "REGISTRATION" : "CREATE_ORDER")
+  const isUpdate = useMemo(() => !!(initialValue?.reservationId || initialValue?.enrollmentId), [initialValue])
+  const { steps } = useSteps(isUpdate ? "UPDATE_ORDER" : "CREATE_ORDER")
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -57,10 +68,11 @@ export const CreateOrder = ({
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
 
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, orderType: reservationDetails ? "REGISTRATION" : "CREATE_ORDER" })
-  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
+  const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationId: initialValue?.reservationId, enrollmentId: initialValue?.enrollmentId })
+
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, initialValue })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, initialValue, isUpdate })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -77,14 +89,16 @@ export const CreateOrder = ({
 
   const handleSubmit = useCallback(async () => {
     setIsProcessing(true)
-    const resp = await (swapRegistration ? SeatBlockQueries.swapRegistration : OrderQueries.create)({ data: generatePayload() })
+    const resp = await (
+      isSwap ? (initialValue?.enrollmentId ? EnrollmentQueries.swap : SeatBlockQueries.swapRegistration) : OrderQueries.create
+    )({ data: generatePayload() })
     setIsProcessing(false)
     if (resp.success && resp.data.order_ref) {
       setOrderRef(resp.data.order_ref)
       if (refreshEventName) triggerEvents(refreshEventName)
-      if (reservationDetails) {
+      if (initialValue) {
         notification.success({
-          message: swapRegistration ? "Successfully swapped" : "Successfully enrolled",
+          message: isSwap ? "Successfully swapped" : "Successfully enrolled",
           description: `Order creation was successful (Order ID: ${resp.data.order_ref}).`,
           duration: 0
         })
@@ -93,7 +107,7 @@ export const CreateOrder = ({
     } else {
       setFormErrors(resp.error)
     }
-  }, [generatePayload, swapRegistration, reservationDetails, refreshEventName, reset])
+  }, [generatePayload, isSwap, initialValue, refreshEventName, reset])
 
   // Submit payload when payment data changes
   useEffect(() => {
@@ -112,11 +126,11 @@ export const CreateOrder = ({
             </SidebarMenuTargetHeading>
           </Col>
           : null}
-        {(swapRegistration && reservationDetails?.profile) ?
+        {(isSwap && initialValue?.profile) ?
           <Col md={24} xs={24}>
             <Alert
               message={"Following student will be removed"}
-              description={`${reservationDetails.profile.name} (${reservationDetails.profile.email})`}
+              description={initialValue.profile.name}
               type={"warning"}
             />
           </Col>
@@ -188,7 +202,7 @@ export const CreateOrder = ({
                     currentStep={currentStep}
                     setCurrentStep={setCurrentStep}
                     isValid={hasValidStudentData}
-                    singleOnly={!!reservationDetails}
+                    singleOnly={!!initialValue}
                   />
                   : currentStep === steps.RegistrationInformation ?
                     <RegistrationDataStep

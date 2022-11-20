@@ -46,7 +46,7 @@ export const CreateBulkEnrollment = ({
   const hasValidRegistrationData = hasValidProductData
   const { generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData })
 
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, orderType: 'CREATE_BULK_ENROLLMENT' })
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData })
   useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, singleProduct: true })
 
   const reset = useCallback(() => {

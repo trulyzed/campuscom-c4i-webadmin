@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react"
 import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
-import { IOrderType, Steps } from "./types"
+import { IActionType, Steps } from "./types"
 
 const stepReducer = <T extends Record<keyof typeof Steps, number>,>(steps: T, reduceAmount: number): T => {
   return Object.keys(steps).reduce((a, c) => {
@@ -13,7 +13,7 @@ const stepReducer = <T extends Record<keyof typeof Steps, number>,>(steps: T, re
   }, { ...steps })
 }
 
-export const useSteps = (type: IOrderType) => {
+export const useSteps = (actionType: IActionType) => {
   const { userData } = useContext(UserDataContext)
   const contextStores = useMemo(() => userData?.context.find(i => i.type === 'Store')?.values || [], [userData])
   const noStoreStep = contextStores.length === 1
@@ -30,7 +30,7 @@ export const useSteps = (type: IOrderType) => {
     Summary: NaN
   }
 
-  if (type === 'REGISTRATION') {
+  if (actionType === 'UPDATE_ORDER') {
     steps = {
       StoreInformation: NaN,
       PurchaserInformation: NaN,
@@ -42,7 +42,7 @@ export const useSteps = (type: IOrderType) => {
       PaymentInformation: 3,
       Summary: NaN
     }
-  } else if (type === 'CREATE_BULK_ENROLLMENT') {
+  } else if (actionType === 'CREATE_BULK_ENROLLMENT') {
     steps = {
       StoreInformation: 0,
       PurchaserInformation: 1,

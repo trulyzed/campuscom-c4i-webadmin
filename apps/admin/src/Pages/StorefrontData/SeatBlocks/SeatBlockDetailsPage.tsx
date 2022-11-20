@@ -15,9 +15,9 @@ export function SeatBlockDetailsPage(props: RouteComponentProps<{ seatBlockID?: 
           ...resp,
           data: {
             ...resp.data,
-            purchser: {
+            purchaser: {
               ...resp.data.purchaser,
-              ...resp2.data.purchaser_info
+              ...resp2.data.purchaser_info,
             }
           }
         }
