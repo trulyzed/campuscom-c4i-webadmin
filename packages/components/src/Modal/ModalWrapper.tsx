@@ -10,7 +10,7 @@ export interface IModalWrapperProps {
   title?: ReactNode
   content?: JSX.Element
   contentStyle?: CSSProperties
-  closeEventName?: string | symbol
+  closeHandlerEventName?: string | symbol
   actions?: ReactNode[]
   onClose?: () => void
   loading?: boolean
@@ -21,19 +21,19 @@ export const ModalWrapper = ({
   title,
   content,
   contentStyle,
-  closeEventName,
+  closeHandlerEventName,
   actions,
   onClose,
   loading
 }: IModalWrapperProps) => {
   // Listen for modal close event
   useEffect(() => {
-    if (!closeEventName || !onClose) return
-    eventBus.subscribe(closeEventName, onClose)
+    if (!closeHandlerEventName || !onClose) return
+    eventBus.subscribe(closeHandlerEventName, onClose)
     return () => {
-      if (closeEventName) eventBus.unsubscribe(closeEventName)
+      if (closeHandlerEventName) eventBus.unsubscribe(closeHandlerEventName)
     }
-  }, [closeEventName, onClose])
+  }, [closeHandlerEventName, onClose])
 
   return (
     <Modal closeModal={onClose} width="1000px" zIndex={zIndexLevel.defaultModal} style={contentStyle} apiCallInProgress={loading}>

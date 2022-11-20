@@ -86,7 +86,7 @@ export const ResponsiveTable = (props: IDataTableProps & {
     }
 
     // eslint-disable-next-line
-  }, [])
+  }, [props.searchParams])
 
   const [conditionalProps, setConditionalProps] = useState<TableProps<{ [key: string]: string }> & { currentPagination?: number }>({})
   const setTableProps = (columnsConfigByUser: TableColumnType, data: any = []) => {
