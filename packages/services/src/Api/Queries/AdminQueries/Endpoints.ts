@@ -140,6 +140,7 @@ export const endpoints = {
   TRANSACTION: "transactions",
   TRANSACTION_BATCH: "transaction-batches",
   TRANSACTION_REPORT: "transaction-report",
+  UPDATE_ENROLLMENT_APPROVAL_STATUS: "update-enrollment-approval-status",
   UPDATE_PAYMENT_QUESTION: "update-payment-questions",
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
   UPDATE_REGISTRATION_QUESTION: "update-registration-questions",

@@ -56,6 +56,17 @@ export const EnrollmentQueries: IEnrollmentQueries = {
     [{ operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read }]
   ),
 
+  updateApprovalStatus: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.UPDATE_ENROLLMENT_APPROVAL_STATUS,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.UpdateEnrollmentApprovalStatus, action: ApiPermissionAction.Write }]
+  ),
+
   getSingleCourseEnrollment: PermissionWrapper(
     (data) => {
       const { id, ...params } = data?.params

@@ -154,6 +154,7 @@ export enum ApiPermissionClass {
   TransactionBatch = "TransactionBatchViewSet",
   TransactionReport = "TransactionReportView",
   UnlinkProfile = "UnlinkProfile",
+  UpdateEnrollmentApprovalStatus = "UpdateEnrollmentApprovalStatusView",
   UpdatePaymentQuestion = "UpdatePaymentQuestionView",
   UpdateProfileQuestion = "UpdateProfileQuestionView",
   UpdateRegistrationQuestion = "UpdateRegistrationQuestionView",

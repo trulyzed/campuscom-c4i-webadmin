@@ -8,4 +8,5 @@ export interface IEnrollmentQueries {
   getSingleCourseEnrollment: IQuery
   remove: IQuery
   swap: IQuery
+  updateApprovalStatus: IQuery
 }

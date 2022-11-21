@@ -19,8 +19,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/contact", component: React.lazy(() => import("~/Pages/Administration/Contacts/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/contact/:contactID", component: React.lazy(() => import("~/Pages/Administration/Contacts/ContactDetailsPage").then((x) => ({ default: x.ContactDetailsPage }))) },
   { path: "/administration/import-contacts", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
-  { path: "/administration/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
-  { path: "/administration/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
+  { path: "/storefront-data/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]

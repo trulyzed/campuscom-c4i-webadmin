@@ -100,7 +100,7 @@ export const getSeatBlockDetailsMeta = (seatBlock: { [key: string]: any }): IDet
             {
               title: "Enrollment",
               dataIndex: "enrollment",
-              render: (text: any) => text ? renderLink(`/administration/enrollment/${text.id}`, text.ref_id) : undefined,
+              render: (text: any) => text ? renderLink(`/storefront-data/enrollment/${text.id}`, text.ref_id) : undefined,
               sorter: (a: any, b: any) => a.enrollment?.ref_id - b.enrollment?.ref_id
             },
             {

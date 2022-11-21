@@ -8,7 +8,7 @@ import { triggerEvents } from "@packages/utilities/lib/EventBus"
 import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
-export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+export type ActionType = 'add' | 'approve' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
 interface IContextActionProps {
@@ -35,6 +35,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
   }
   const iconTypes = {
     add: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
+    approve: <span className={getIconClassName("glyphicon-approve-circle", iconColor)} />,
     changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
     copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
