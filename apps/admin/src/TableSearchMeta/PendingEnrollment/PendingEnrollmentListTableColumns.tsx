@@ -3,17 +3,12 @@ import { renderDateTime, renderLink, TableColumnType } from "@packages/component
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { processContacts } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Contacts"
-import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
-import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
-import { CLOSE_MODAL } from "~/Constants"
 
-
-export const enrollmentListTableColumns: TableColumnType = [
+export const pendingEnrollmentListTableColumns: TableColumnType = [
   {
     title: "Enrollment ID",
     dataIndex: "ref_id",
-    render: (text: any, record: any) => renderLink(`/storefront-data/enrollment/${record.id}`, text),
+    render: (text: any, record: any) => renderLink(`/storefront-data/pending-approval/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },
   {
@@ -52,48 +47,51 @@ export const enrollmentListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.status - b.status
   },
   {
+    title: 'Approval Status',
+    dataIndex: 'approval_status',
+    sorter: (a: any, b: any) => a.status - b.status
+  },
+  {
     title: "Actions",
     dataIndex: 'actions',
-    render: (_, record: any, index) => record.status === "canceled" ? null : (
+    fixed: 'right',
+    render: (_, record: any,) => record.approval_status === "pending" ? (
       <>
         <ContextAction
-          type="swap"
-          tooltip="Swap"
-          modalProps={{
-            title: "Swap Student",
-            content: <CreateOrder
-              initialValue={{
-                enrollmentId: record.id,
-                reservationId: record.seat_reservation,
-                store: record.store,
-                purchaser: record.purchaser_info,
-                product: record.product,
-                profile: processContacts([record.profile]).pop() as Record<string, any>,
-              }}
-              refreshEventName={[`${CLOSE_MODAL}_ENROLLMENT__${index}`, "REFRESH_ENROLLMENT_LIST"]}
-              isSwap
-            />,
-            closeHandlerEventName: `${CLOSE_MODAL}_ENROLLMENT__${index}`
-          }}
+          confirmationType="Approve"
+          type="approve"
+          tooltip="Approve"
+          queryService={QueryConstructor(() => EnrollmentQueries.updateApprovalStatus({
+            data: { course_enrollment: record.id, approval_status: "approved" },
+          }), [EnrollmentQueries.updateApprovalStatus])}
+          refreshEventName={"REFRESH_PENDING_ENROLLMENT_LIST"}
         />
         <ContextAction
-          confirmationType="Drop/withdraw"
+          confirmationType="Cancel"
           type="drop"
-          tooltip="Drop/Withdraw"
-          queryService={QueryConstructor(() => EnrollmentQueries.remove({ data: { course_enrollment: record.id } }), [SeatBlockQueries.removeRegistration])}
-          refreshEventName={"REFRESH_ENROLLMENT_LIST"}
+          tooltip="Cancel"
+          queryService={QueryConstructor(() => EnrollmentQueries.updateApprovalStatus({
+            data: { course_enrollment: record.id, approval_status: "canceled" },
+          }), [EnrollmentQueries.updateApprovalStatus])}
+          refreshEventName={"REFRESH_PENDING_ENROLLMENT_LIST"}
           iconColor="warning"
         />
       </>
-    )
+    ) : null
   }
 ]
 
-export const getEnrollmentListTableColumns = (isModal = false): ITableMeta => {
+export const getPendingEnrollmentListTableColumns = (isModal = false): ITableMeta => {
   return {
-    columns: enrollmentListTableColumns,
-    searchFunc: EnrollmentQueries.getCourseEnrollmentList,
-    tableName: 'Enrollment',
-    refreshEventName: "REFRESH_ENROLLMENT_LIST"
+    columns: pendingEnrollmentListTableColumns,
+    searchFunc: QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList({
+      ...params,
+      params: {
+        ...params?.params,
+        pending_approval: 'True'
+      }
+    }), [EnrollmentQueries.getCourseEnrollmentList]),
+    tableName: 'PendingEnrollment',
+    refreshEventName: "REFRESH_PENDING_ENROLLMENT_LIST"
   }
 }

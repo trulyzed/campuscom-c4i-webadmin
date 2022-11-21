@@ -22,6 +22,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
       id: i.id,
       fee: data?.data[`fee__${i.id}`],
       token_fee: data?.data[`token_fee__${i.id}`],
+      is_approval_required: data?.data[`is_approval_required__${i.id}`],
     })))
 
     return PublishingQueries.update({
@@ -105,9 +106,20 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
               sorter: (a: any, b: any) => a.fee - b.fee
             },
             {
+              title: "Token Fee",
+              dataIndex: "token_fee",
+              sorter: (a: any, b: any) => a.token_fee - b.token_fee
+            },
+            {
               title: "Seat Capacity",
               dataIndex: "seat_capacity",
               sorter: (a: any, b: any) => a.seat_capacity - b.seat_capacity
+            },
+            {
+              title: "Is Approval Required",
+              dataIndex: "is_approval_required",
+              render: renderBoolean,
+              sorter: (a: any, b: any) => a.is_approval_required - b.is_approval_required
             },
           ],
           dataSource: publishing.sections,

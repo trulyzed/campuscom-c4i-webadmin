@@ -78,7 +78,7 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       },
       {
         title: "Enrollments",
-        url: "/administration/enrollment",
+        url: "/storefront-data/enrollment",
         submenu: [],
         permission: checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
       },
