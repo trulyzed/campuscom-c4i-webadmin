@@ -12,8 +12,14 @@ import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSum
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
+import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 
 export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta => {
+  const getEnrollmentList = QueryConstructor((params) => EnrollmentQueries.getCourseEnrollmentList(params).then(resp => resp.success ? ({
+    ...resp,
+    data: resp.data.map((i: any) => ({ ...i, registration_details: order.registration_details?.find((j: any) => (j.student === i.profile?.primary_email) && (j.product_id === i.product_id))?.data }))
+  }) : resp), [EnrollmentQueries.getCourseEnrollmentList])
+
   const basicInfo: CardContainer = {
     title: `Order: ${order.order_ref}`,
     contents: [
@@ -176,7 +182,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
         tableProps: {
           pagination: false,
           columns: enrollmentListTableColumns,
-          searchFunc: EnrollmentQueries.getCourseEnrollmentList,
+          searchFunc: getEnrollmentList,
           searchParams: { cart_item__cart: order.id },
           rowKey: 'id',
           refreshEventName: "REFRESH_STUDENT_TAB",
