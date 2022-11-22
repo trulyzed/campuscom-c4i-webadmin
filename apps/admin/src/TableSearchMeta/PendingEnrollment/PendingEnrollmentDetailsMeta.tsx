@@ -1,17 +1,27 @@
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
-import { renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
+import { renderAnswer, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
+import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
+import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 
 export const getPendingEnrollmentDetailsMeta = (enrollment: { [key: string]: any }): IDetailsMeta => {
+  const registrationQuestions = enrollment.registration_details?.find((i: any) => (i.product_id === enrollment.product_id) && (i.student === enrollment.profile.primary_email))?.data
   const summaryInfo: CardContainer = {
     title: `Pending Approval: ${enrollment.course.title}`,
     cardActions: enrollment.approval_status === "pending" ? [
+      ...registrationQuestions ? [<PopoverSummaryTable card={{
+        title: 'Registration Questions',
+        contents: (processQuestions((registrationQuestions || []) as any[])).map((i: any) => ({
+          label: i.question,
+          value: renderAnswer(i.answer, i)
+        }))
+      }} iconOnly />] : [],
       <ContextAction
         confirmationType="Approve"
         type="approve"
