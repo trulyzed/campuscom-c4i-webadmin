@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { useHistory } from "react-router-dom"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
+import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
 import { DetailsTableTab, IDetailsTableTabProp } from "~/Page/DetailsPage/DetailsTableTab"
 import { DetailsCustomTab, IDetailsCustomTabProp } from "~/Page/DetailsPage/DetailsCustomTab"
@@ -15,9 +16,9 @@ import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/A
 import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
-import { useHistory } from "react-router-dom"
 import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
 import { extractObjectValue } from "@packages/utilities/lib/util"
+import { BackNavigator } from "./BackNavigator"
 
 export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
@@ -191,6 +192,9 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
           <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
+            <Col>
+              <BackNavigator />
+            </Col>
             {title && (
               <Col>
                 <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>
