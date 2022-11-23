@@ -7,7 +7,6 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
 import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 
 export const getPendingEnrollmentDetailsMeta = (enrollment: { [key: string]: any }): IDetailsMeta => {
@@ -15,13 +14,6 @@ export const getPendingEnrollmentDetailsMeta = (enrollment: { [key: string]: any
   const summaryInfo: CardContainer = {
     title: `Pending Approval: ${enrollment.course.title}`,
     cardActions: enrollment.approval_status === "pending" ? [
-      ...registrationQuestions ? [<PopoverSummaryTable card={{
-        title: 'Registration Questions',
-        contents: (processQuestions((registrationQuestions || []) as any[])).map((i: any) => ({
-          label: i.question,
-          value: renderAnswer(i.answer, i)
-        }))
-      }} iconOnly />] : [],
       <ContextAction
         confirmationType="Approve"
         type="approve"
@@ -55,8 +47,16 @@ export const getPendingEnrollmentDetailsMeta = (enrollment: { [key: string]: any
     ]
   }
 
+  const registrationInformation: CardContainer = {
+    title: "Registration Information",
+    contents: processQuestions((registrationQuestions || []) as any[]).map(i => ({
+      label: i.question,
+      value: renderAnswer(i.answer, i)
+    })),
+  }
+
   const summaryMeta: IDetailsSummary = {
-    summary: [summaryInfo]
+    summary: [summaryInfo, registrationInformation]
   }
 
   const tabMetas: IDetailsTabMeta[] = [

@@ -1,11 +1,9 @@
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
-import { PopoverSummaryTable } from "@packages/components/lib/Popover/PopoverSummaryTable"
-import { renderAnswer, renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { renderDateTime, renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { processContacts } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Contacts"
-import { processQuestions } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/Questions"
 import { SeatBlockQueries } from "@packages/services/lib/Api/Queries/AdminQueries/SeatBlocks"
 import { CreateOrder } from "~/Component/Feature/Orders/Create/CreateOrder"
 import { CLOSE_MODAL } from "~/Constants"
@@ -59,13 +57,6 @@ export const enrollmentListTableColumns: TableColumnType = [
     fixed: 'right',
     render: (_, record: any, index) => record.status === "canceled" ? null : (
       <>
-        <PopoverSummaryTable card={{
-          title: 'Registration Questions',
-          contents: (processQuestions((record.registration_details || []) as any[])).map((i: any) => ({
-            label: i.question,
-            value: renderAnswer(i.answer, i)
-          }))
-        }} iconOnly />
         <ContextAction
           type="swap"
           tooltip="Swap"

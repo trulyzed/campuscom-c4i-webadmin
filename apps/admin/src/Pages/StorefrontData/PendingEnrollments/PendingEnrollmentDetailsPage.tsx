@@ -17,7 +17,7 @@ export function PendingEnrollmentDetailsPage(props: RouteComponentProps<{ pendin
         ...resp2?.success && { registration_details: resp2?.data.registration_details }
       }
     }
-  }, [EnrollmentQueries.getSingleCourseEnrollment])
+  }, [EnrollmentQueries.getSingleCourseEnrollment, OrderQueries.getSingle])
 
   return <DetailsPage breadcrumbDataIndex="course.title" getMeta={getPendingEnrollmentDetailsMeta} getDetailsPageContent={query} entityType="enrollment" entityID={PendingEnrollmentID} titleKey="transaction_request_id" />
 }
