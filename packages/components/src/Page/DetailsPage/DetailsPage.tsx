@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { useHistory, useLocation } from "react-router-dom"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
@@ -22,6 +22,7 @@ import { BackNavigator } from "./BackNavigator"
 
 export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
+  const location = useLocation()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
   const [error, setError] = useState<IApiErrorProcessor>()
@@ -29,6 +30,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
+  const forceRefresh = useMemo(() => !!(location.state as { forceRefresh: boolean })?.forceRefresh, [location.state])
 
   const setBreadcrumb = useCallback((isLoading: boolean, data?: any) => {
     if (!props.breadcrumbDataIndex) return
@@ -45,6 +47,11 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
     }
   }, [setBreadcrumb])
 
+  useEffect(() => {
+    if (forceRefresh) changeActiveTabkey("1", false, true)
+    // eslint-disable-next-line
+  }, [forceRefresh])
+
   const updateHelpKey = (tabKey: string) => {
     const tabIndexes: number[] = tabKey.split("-").map((x) => {
       return Number(x) - 1
@@ -60,7 +67,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string, canBackTrack = true) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true, clearState?: boolean) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -69,7 +76,8 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
     })
     updateHelpKey(`${key}-1`)
     history[canBackTrack ? "push" : "replace"]({
-      search: _queryString
+      search: _queryString,
+      ...clearState && { state: {} }
     })
   }
 
