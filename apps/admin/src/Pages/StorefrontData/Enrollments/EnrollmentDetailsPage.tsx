@@ -1,12 +1,13 @@
 import { RouteComponentProps } from "react-router-dom"
 import { DetailsPage } from "@packages/components/lib/Page/DetailsPage/DetailsPage"
-import { getPendingEnrollmentDetailsMeta } from "~/TableSearchMeta/PendingEnrollment/PendingEnrollmentDetailsMeta"
+import { getEnrollmentDetailsMeta } from "~/TableSearchMeta/Enrollment/EnrollmentDetailsMeta"
 import { EnrollmentQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Enrollments"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 
-export function PendingEnrollmentDetailsPage(props: RouteComponentProps<{ pendingEnrollmentID?: string }>) {
-  const PendingEnrollmentID = props?.match?.params?.pendingEnrollmentID
+export function EnrollmentDetailsPage(props: RouteComponentProps<{ enrollmentID?: string }>) {
+  const EnrollmentID = props?.match?.params?.enrollmentID
+
   const query = QueryConstructor(async (params) => {
     const resp = await EnrollmentQueries.getSingleCourseEnrollment(params)
     const resp2 = (resp.success && resp.data.cart) ? await OrderQueries.getSingle({ params: { id: resp.data.cart?.id } }) : undefined
@@ -19,5 +20,5 @@ export function PendingEnrollmentDetailsPage(props: RouteComponentProps<{ pendin
     }
   }, [EnrollmentQueries.getSingleCourseEnrollment, OrderQueries.getSingle])
 
-  return <DetailsPage breadcrumbDataIndex="course.title" getMeta={getPendingEnrollmentDetailsMeta} getDetailsPageContent={query} entityType="enrollment" entityID={PendingEnrollmentID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getEnrollmentDetailsMeta} getDetailsPageContent={query} entityType="enrollment" entityID={EnrollmentID} titleKey="transaction_request_id" />
 }
