@@ -48,7 +48,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
   }, [setBreadcrumb])
 
   useEffect(() => {
-    if (forceRefresh) changeActiveTabkey("1")
+    if (forceRefresh) changeActiveTabkey("1", false, true)
     // eslint-disable-next-line
   }, [forceRefresh])
 
@@ -67,7 +67,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string, canBackTrack = true) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true, clearState?: boolean) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -76,7 +76,8 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
     })
     updateHelpKey(`${key}-1`)
     history[canBackTrack ? "push" : "replace"]({
-      search: _queryString
+      search: _queryString,
+      ...clearState && { state: {} }
     })
   }
 
