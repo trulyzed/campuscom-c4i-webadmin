@@ -32,7 +32,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/storefront-data/student", component: React.lazy(() => import("~/Pages/StorefrontData/Students").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/student/:studentID", component: React.lazy(() => import("~/Pages/StorefrontData/Students/StudentDetailsPage").then((x) => ({ default: x.StudentDetailsPage }))) },
   { path: "/storefront-data/order-item/:cartItemID", component: React.lazy(() => import("~/Pages/StorefrontData/CartItems/CartItemDetailsPage").then((x) => ({ default: x.CartItemDetailsPage }))) },
-  { path: "/storefront-data/course-enrollment/:courseEnrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/CourseEnrollmentDetailsPage").then((x) => ({ default: x.CourseEnrollmentDetailsPage }))) },
+  { path: "/storefront-data/enrollment", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/index").then((x) => ({ default: x.List }))) },
+  { path: "/storefront-data/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
   { path: "/storefront-data/pending-approval", component: React.lazy(() => import("~/Pages/StorefrontData/PendingEnrollments/index").then((x) => ({ default: x.List }))) },
   { path: "/storefront-data/pending-approval/:pendingEnrollmentID", component: React.lazy(() => import("~/Pages/StorefrontData/PendingEnrollments/PendingEnrollmentDetailsPage").then((x) => ({ default: x.PendingEnrollmentDetailsPage }))) },
 
@@ -75,8 +76,6 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/contact-group", component: React.lazy(() => import("~/Pages/Administration/ContactGroups").then((x) => ({ default: x.List }))) },
   { path: "/administration/contact-group/:contactGroupID", component: React.lazy(() => import("~/Pages/Administration/ContactGroups/ContactGroupDetailsPage").then((x) => ({ default: x.ContactGroupDetailsPage }))) },
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
-  { path: "/storefront-data/enrollment", component: React.lazy(() => import("~/Pages/Administration/Enrollments/index").then((x) => ({ default: x.List }))) },
-  { path: "/storefront-data/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Administration/Enrollments/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
 
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
   { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Administration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },
