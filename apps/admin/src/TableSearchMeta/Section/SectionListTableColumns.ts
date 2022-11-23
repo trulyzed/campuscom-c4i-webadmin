@@ -14,7 +14,9 @@ export const sectionListTableColumns: TableColumnType = [
     title: 'Course',
     dataIndex: 'course',
     sorter: (a: any, b: any) => a.course - b.course,
-    render: (text: any, record: any) => renderLink(`/course-provider/course/${text.id}`, text.title),
+    render: (text: any, record: any) => renderLink(`/course-provider/course/${text.id}`, text.title, false, false, {
+      forceRefresh: true
+    }),
   },
   {
     title: 'Final Enrollment Date',

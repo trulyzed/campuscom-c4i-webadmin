@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { useHistory, useLocation } from "react-router-dom"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
@@ -22,6 +22,7 @@ import { BackNavigator } from "./BackNavigator"
 
 export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
+  const location = useLocation()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
   const [error, setError] = useState<IApiErrorProcessor>()
@@ -29,6 +30,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
+  const forceRefresh = useMemo(() => !!(location.state as { forceRefresh: boolean })?.forceRefresh, [location.state])
 
   const setBreadcrumb = useCallback((isLoading: boolean, data?: any) => {
     if (!props.breadcrumbDataIndex) return
@@ -44,6 +46,11 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
       setBreadcrumb(false)
     }
   }, [setBreadcrumb])
+
+  useEffect(() => {
+    if (forceRefresh) changeActiveTabkey("1")
+    // eslint-disable-next-line
+  }, [forceRefresh])
 
   const updateHelpKey = (tabKey: string) => {
     const tabIndexes: number[] = tabKey.split("-").map((x) => {
