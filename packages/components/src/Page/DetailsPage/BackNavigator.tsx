@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom"
-import { IconButton } from "~/Form/Buttons/IconButton"
+import { ContextAction } from "~/Actions/ContextAction"
 
 export const BackNavigator = () => {
   const history = useHistory()
-  return <IconButton buttonType="default" iconType="back" toolTip="Go Back" onClick={history.goBack} />
+  return <ContextAction tooltip="Go Back" type="previous" buttonType="ghost" iconColor="primary" onClick={history.goBack} />
 }
