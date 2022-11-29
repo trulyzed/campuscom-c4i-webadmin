@@ -17,7 +17,7 @@ export const getEnrollmentDetailsMeta = (enrollment: { [key: string]: any }): ID
   const registrationQuestions = enrollment.registration_details?.find((i: any) => (i.product_id === enrollment.product_id) && (i.student === enrollment.profile.primary_email))?.data
   const summaryInfo: CardContainer = {
     title: `Enrollment: ${enrollment.course.title}`,
-    cardActions: enrollment.status === "canceled" ? [] : [
+    cardActions: enrollment.status === "pending" ? [
       <ContextAction
         type="swap"
         tooltip="Swap"
@@ -47,7 +47,7 @@ export const getEnrollmentDetailsMeta = (enrollment: { [key: string]: any }): ID
         iconColor="warning"
       />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
-    ],
+    ] : [],
     contents: [
       { label: 'Store', value: renderLink(`/administration/store/${enrollment.store.id}`, enrollment.store.name) },
       { label: 'Course', value: renderLink(`/course-provider/course/${enrollment.course.id}`, enrollment.course.title) },

@@ -55,7 +55,7 @@ export const enrollmentListTableColumns: TableColumnType = [
     title: "Actions",
     dataIndex: 'actions',
     fixed: 'right',
-    render: (_, record: any, index) => record.status === "canceled" ? null : (
+    render: (_, record: any, index) => record.status === "pending" ? (
       <>
         <ContextAction
           type="swap"
@@ -86,7 +86,7 @@ export const enrollmentListTableColumns: TableColumnType = [
           iconColor="warning"
         />
       </>
-    )
+    ) : null
   }
 ]
 
