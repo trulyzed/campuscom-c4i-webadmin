@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { forwardRef, useCallback, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Button, ButtonProps, notification, } from "antd"
 import Text from "antd/lib/typography/Text"
@@ -25,7 +25,7 @@ interface IContextActionProps {
   confirmationType?: string
   buttonType?: ButtonProps["type"]
   modalProps?: IModalWrapperProps
-  successText?: string,
+  successText?: string
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -64,7 +64,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
   return iconTypes[type]
 }
 
-export const ContextAction = ({
+export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   text,
   tooltip,
   queryService,
@@ -79,7 +79,7 @@ export const ContextAction = ({
   buttonType,
   modalProps,
   successText,
-}: IContextActionProps) => {
+}: IContextActionProps, ref) => {
   const [processing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
@@ -118,8 +118,9 @@ export const ContextAction = ({
     <>
       {(!queryService || checkAdminApiPermission(queryService)) &&
         <>
-          {(textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
+          {(textOnly && text) ? <Text ref={ref} className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
             : <Button
+              ref={ref}
               className="p-0 m-0"
               title={tooltip}
               type={buttonType || 'link'}
@@ -135,4 +136,4 @@ export const ContextAction = ({
         : null}
     </>
   )
-}
+})

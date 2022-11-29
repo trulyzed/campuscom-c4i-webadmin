@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
+import React, { useEffect, useRef, useState } from "react"
+import { MetaDrivenForm, MetaDrivenFormHandle } from "~/Form/MetaDrivenForm"
 import { IField } from "~/Form/common"
 import { ResponsiveTable, IDataTableProps } from "~/ResponsiveTable"
 import { Button, Col, Result, Row } from "antd"
@@ -36,6 +36,11 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     total: 0,
     currentPageSize: DEFAULT_PAGE_SIZE
   })
+  const metadrivenFormRef = useRef<MetaDrivenFormHandle>(null)
+
+  useEffect(() => {
+    metadrivenFormRef.current?.submitRef?.focus()
+  }, [])
 
   useEffect(() => {
     if (props.initSearchAtMount) setSearchParams({ ...props.initialFormValue, ...props.defaultFormValue })
@@ -87,6 +92,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
             {props.meta &&
               <Col lg={6} xl={5} xs={24}>
                 <MetaDrivenForm
+                  ref={metadrivenFormRef}
                   title={props.searchTitle || (props.title ? `${props.title} Filter` : undefined)}
                   blocks={props.blocks}
                   helpKey={props.helpKey}
