@@ -17,7 +17,7 @@ export const getEnrollmentDetailsMeta = (enrollment: { [key: string]: any }): ID
   const registrationQuestions = enrollment.registration_details?.find((i: any) => (i.product_id === enrollment.product_id) && (i.student === enrollment.profile.primary_email))?.data
   const summaryInfo: CardContainer = {
     title: `Enrollment: ${enrollment.course.title}`,
-    cardActions: enrollment.status === "pending" ? [
+    cardActions: ((enrollment.status === "pending") || (enrollment.status === "success")) ? [
       <ContextAction
         type="swap"
         tooltip="Swap"
