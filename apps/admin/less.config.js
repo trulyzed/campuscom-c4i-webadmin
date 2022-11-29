@@ -53,7 +53,7 @@ module.exports = {
                   tr:focus,
                   td:focus {
                     border: 2px solid !important;
-                    border-color: #1890ff !important;
+                    border-color: #4a21d3 !important;
                     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
                     outline: 0;
                   }
@@ -67,7 +67,7 @@ module.exports = {
                   .ant-checkbox-input:focus,
                   .ant-radio-input:focus {
                     border: 2px solid !important;
-                    border-color: #1890ff !important;
+                    border-color: #4a21d3 !important;
                     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
                     outline: 0;
                   }

@@ -31,13 +31,14 @@ const RenderMenu = (props: {
   defaultExpanded?: boolean
   padding: number
   showLastItemBorder?: boolean
+  collapsed?: boolean
 }) => {
   const [expanded, setExpanded] = useState(props.defaultExpanded)
 
   return (
     <>
       {props.title && (
-        <button onClick={() => setExpanded(!expanded)} style={buttonStyle}>
+        <button onClick={() => setExpanded(!expanded)} style={buttonStyle} tabIndex={props.collapsed ? -1 : undefined}>
           <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }} className={"no-white-space-wrap"}>{props.title}</Typography.Title>
           <span>
             {expanded ? (
@@ -54,7 +55,7 @@ const RenderMenu = (props: {
             if (x.submenu && x.submenu.length > 0)
               return (
                 <li key={x.key} style={props.showLastItemBorder || arr.length !== (idx + 1) ? { borderBottomWidth: "1px" } : undefined} className={"border-styles"}>
-                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 10} />
+                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 10} collapsed={props.collapsed} />
                 </li>
               )
             else
@@ -65,6 +66,7 @@ const RenderMenu = (props: {
                     to={`${x.url}#main${x.url.split("/").join("-")}`}
                     className={'submenu'}
                     style={{ textDecoration: "none", display: "block" }}
+                    tabIndex={props.collapsed ? -1 : undefined}
                   >
                     <div style={{ display: "flex", justifyContent: "space-between", whiteSpace: "nowrap" }}>
                       {x.title}
@@ -118,12 +120,12 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
         alignItems: "center",
       }} className={"border-styles"}>
         <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
-        <Button type="link" onClick={props.onClose} title={"Close Menu"} icon={<span className="glyphicon glyphicon--primary glyphicon-remove" />} />
+        <Button tabIndex={props.collapsed ? -1 : undefined} type="link" onClick={props.onClose} title={"Close Menu"} icon={<span className="glyphicon glyphicon--primary glyphicon-remove" />} />
       </div>
       <div style={{ marginTop: "-5px" }}>
-        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder />
+        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder collapsed={props.collapsed} />
       </div>
-      <button style={{ ...buttonStyle, width: "auto" }} onClick={props.logout}>
+      <button style={{ ...buttonStyle, width: "auto" }} onClick={props.logout} tabIndex={props.collapsed ? -1 : undefined}>
         <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
       </button>
     </Layout.Sider>

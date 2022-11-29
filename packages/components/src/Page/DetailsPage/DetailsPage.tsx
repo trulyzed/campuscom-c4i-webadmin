@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
 import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
@@ -31,6 +31,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
   const forceRefresh = useMemo(() => !!(location.state as { forceRefresh: boolean })?.forceRefresh, [location.state])
+  const backNavigatorRef = useRef<HTMLElement>(null)
 
   const setBreadcrumb = useCallback((isLoading: boolean, data?: any) => {
     if (!props.breadcrumbDataIndex) return
@@ -39,6 +40,11 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
       isLoading
     })
   }, [props.breadcrumbDataIndex])
+
+  useEffect(() => {
+    backNavigatorRef.current?.focus()
+    // eslint-disable-next-line
+  }, [backNavigatorRef.current])
 
   useEffect(() => {
     setBreadcrumb(true)
@@ -201,7 +207,7 @@ export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string
         <div className="site-layout-content">
           <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
             <Col>
-              <BackNavigator />
+              <BackNavigator ref={backNavigatorRef} />
             </Col>
             {title && (
               <Col>
