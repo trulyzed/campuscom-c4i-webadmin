@@ -42,7 +42,6 @@ export const getPendingEnrollmentDetailsMeta = (enrollment: { [key: string]: any
       { label: 'Profile', value: renderLink(`/storefront-data/student/${enrollment.profile.id}`, `${enrollment.profile.first_name} ${enrollment.profile.last_name}`), },
       { label: 'Enrollment Time', value: enrollment.enrollment_time, render: renderDateTime },
       { label: 'Application Time', value: enrollment.application_time, render: renderDateTime },
-      { label: 'Enrollment Status', value: enrollment.status },
       { label: 'Approval Status', value: enrollment.approval_status },
     ]
   }
