@@ -87,7 +87,7 @@ export const usePayloadGenerator = ({
               quantity: i.related_products[key],
               is_related: true,
               related_to: c.product,
-              student_email: i,
+              student_email: i.primary_email,
               is_reservation: false
             })
           }
