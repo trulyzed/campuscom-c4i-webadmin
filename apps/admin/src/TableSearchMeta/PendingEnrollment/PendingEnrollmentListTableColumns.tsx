@@ -42,11 +42,6 @@ export const pendingEnrollmentListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.application_time - b.application_time
   },
   {
-    title: 'Enrollment Status',
-    dataIndex: 'status',
-    sorter: (a: any, b: any) => a.status - b.status
-  },
-  {
     title: 'Approval Status',
     dataIndex: 'approval_status',
     sorter: (a: any, b: any) => a.status - b.status
@@ -88,7 +83,8 @@ export const getPendingEnrollmentListTableColumns = (isModal = false): ITableMet
       ...params,
       params: {
         ...params?.params,
-        pending_approval: 'True'
+        pending_approval: 'True',
+        status: 'initiated'
       }
     }), [EnrollmentQueries.getCourseEnrollmentList]),
     tableName: 'PendingEnrollment',
