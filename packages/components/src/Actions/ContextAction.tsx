@@ -1,14 +1,14 @@
-import { useCallback, useEffect, useState } from "react"
+import { forwardRef, useCallback, useState } from "react"
+import { useHistory } from "react-router-dom"
+import { Button, ButtonProps, notification, } from "antd"
 import Text from "antd/lib/typography/Text"
 import { promptConfirmation } from "~/Modal/Confirmation"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { eventBus, triggerEvents } from "@packages/utilities/lib/EventBus"
-import { Button, ButtonProps, } from "antd"
-import { useHistory } from "react-router-dom"
-import { Modal } from "~/Modal/Modal"
-import { zIndexLevel } from "~/zIndexLevel"
+import { triggerEvents } from "@packages/utilities/lib/EventBus"
+import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
+import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
-export type ActionType = 'add' | 'changePassword' | 'close' | 'copy' | 'create' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
+export type ActionType = 'add' | 'approve' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
   'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
 interface IContextActionProps {
@@ -24,8 +24,8 @@ interface IContextActionProps {
   iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
   buttonType?: ButtonProps["type"]
-  modalContent?: JSX.Element
-  modalCloseEventName?: string | symbol
+  modalProps?: IModalWrapperProps
+  successText?: string
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -35,10 +35,12 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
   }
   const iconTypes = {
     add: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
+    approve: <span className={getIconClassName("glyphicon-approve-circle", iconColor)} />,
     changePassword: <span className={getIconClassName("glyphicon-key", iconColor)} />,
     close: <span className={getIconClassName("glyphicon-remove", iconColor)} />,
     copy: <span className={getIconClassName("glyphicon-copy", iconColor)} />,
     create: <span className={getIconClassName("glyphicon-plus-sign", iconColor)} />,
+    deactivate: <span className={getIconClassName("glyphicon--warning glyphicon-ban-circle", iconColor)} />,
     delete: <span className={getIconClassName("glyphicon--danger glyphicon-trash", iconColor)} />,
     download: <span className={getIconClassName("glyphicon-floppy-save", iconColor)} />,
     drop: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
@@ -62,7 +64,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
   return iconTypes[type]
 }
 
-export const ContextAction = ({
+export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   text,
   tooltip,
   queryService,
@@ -75,55 +77,63 @@ export const ContextAction = ({
   downloadAs = 'EXCEL',
   iconColor,
   buttonType,
-  modalContent,
-  modalCloseEventName,
-}: IContextActionProps) => {
+  modalProps,
+  successText,
+}: IContextActionProps, ref) => {
   const [processing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
 
-  useEffect(() => {
-    if (modalContent && modalCloseEventName) {
-      eventBus.subscribe(modalCloseEventName, () => setShowModal(false))
-      return () => eventBus.unsubscribe(modalCloseEventName)
-    }
-  }, [modalContent, modalCloseEventName])
-
   const handleClick = useCallback(async () => {
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
-      promptConfirmation(queryService, { actionType: confirmationType, setIsProcessing: (status) => setIsProcessing(status) }).then(() => {
+      promptConfirmation(queryService, {
+        actionType: confirmationType,
+        setIsProcessing: (status) => setIsProcessing(status),
+        success: successText
+      }).then(() => {
         if (refreshEventName) triggerEvents(refreshEventName)
         redirectTo && push(redirectTo)
       })
     } else if (queryService) {
       setIsProcessing(true)
-      queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then(() => {
+      queryService(type === 'download' ? { headers: { ResponseType: downloadAs === "CSV" ? "text/csv" : "application/vnd.ms-excel" } } : undefined).then((resp) => {
+        if (resp.success && successText) notification.success({ message: successText })
         if (refreshEventName) triggerEvents(refreshEventName)
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
       onClick()
-    } else if (modalContent) {
+    } else if (modalProps) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalContent])
+  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps, successText])
+
+  const handleModalClose = useCallback(() => {
+    setShowModal(false)
+    modalProps?.onClose?.()
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <>
-      {
-        (textOnly && text) ? <Text className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
-          : <Button loading={processing} className="p-0 m-0" onClick={handleClick} type={buttonType || 'link'} icon={icon} title={tooltip} children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined} />
+      {(!queryService || checkAdminApiPermission(queryService)) &&
+        <>
+          {(textOnly && text) ? <Text ref={ref} className="cursor-pointer" strong type={type === "delete" ? "danger" : undefined} onClick={handleClick}>{text}</Text>
+            : <Button
+              ref={ref}
+              className="p-0 m-0"
+              title={tooltip}
+              type={buttonType || 'link'}
+              icon={icon}
+              onClick={handleClick}
+              loading={processing}
+              children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
+            />}
+        </>
       }
-      {(showModal && modalContent) ?
-        <Modal closeModal={() => setShowModal(false)} width="1000px" zIndex={zIndexLevel.defaultModal}>
-          <div style={{ backgroundColor: "white", position: "relative", padding: "0 24px" }}>
-            {modalContent}
-            <div style={{ position: "absolute", right: "24px", top: "12px", }}>
-              <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={() => setShowModal(false)} />
-            </div>
-          </div>
-        </Modal>
+      {(showModal && modalProps) ?
+        <ModalWrapper {...modalProps} onClose={handleModalClose} />
         : null}
     </>
   )
-}
+})

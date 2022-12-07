@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Form } from "antd"
 import { History } from "history"
@@ -7,7 +7,7 @@ import { zIndexLevel } from "~/zIndexLevel"
 import { IField } from "~/Form/common"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
-import { MetaDrivenForm } from "~/Form/MetaDrivenForm"
+import { MetaDrivenForm, MetaDrivenFormHandle } from "~/Form/MetaDrivenForm"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export const MetaDrivenFormModal = (props: {
@@ -37,6 +37,11 @@ export const MetaDrivenFormModal = (props: {
     Object.keys(formInstance.getFieldsValue()).forEach((key) => formInstance.setFieldsValue({ [key]: undefined }))
     setClearTrigger(!clearTrigger)
   }
+  const metadrivenFormRef = useRef<MetaDrivenFormHandle>(null)
+
+  useEffect(() => {
+    metadrivenFormRef.current?.closeRef?.focus()
+  }, [])
 
   const submit = (newValues: { [key: string]: any }) => {
     setError([])
@@ -80,6 +85,7 @@ export const MetaDrivenFormModal = (props: {
   return (
     <Modal closeModal={props.closeModal} width="1000px" zIndex={zIndexLevel.defaultModal}>
       <MetaDrivenForm
+        ref={metadrivenFormRef}
         meta={props.meta}
         metaName={props.metaName}
         title={props.title}

@@ -1,6 +1,7 @@
 export enum PermissionContext {
   Store = "Store",
-  CourseProvider = "CourseProvider"
+  CourseProvider = "CourseProvider",
+  Company = "Company"
 }
 
 export enum ApiPermissionAction {
@@ -40,12 +41,16 @@ export enum ApiPermissionClass {
   CourseProvider = "CourseProviderViewSet",
   CoursePublishingStore = "SharedCoursesView",
   CourseSharingContract = "CourseSharingContractViewSet",
+  CourseSharingContractCourse = "CourseSharingContractCourseView",
   CreatableOrderDetails = "EnrollmentProductDetailsView",
   CreatableOrderPaymentSummary = "PaymentSummaryView",
   CreateOrder = "CreateEnrollmentView",
+  CreateOrderBulk = "CreateBulkEnrollmentView",
   CreateOrderForAffiliateAdmin = "CreateEnrollmentWithPurchaserView",
   CustomRole = "CustomRoleViewSet",
   CustomUser = "CustomUserViewSet",
+  DeactivateCourseSharingContract = "DeactivateCourseSharingContractView",
+  DeactivateStoreCourse = "DeactivateStoreCourseView",
   DeleteCertificateCourse = "DeleteCertificateCoursesView",
   DeleteCompany = "DeleteCompanyViewSet",
   DeleteContactGroupProfile = "DeleteContactGroupProfileView",
@@ -108,7 +113,8 @@ export enum ApiPermissionClass {
   Refund = "RefundViewSet",
   RegistrationQuestion = "RegistrationQuestionViewSet",
   RelatedProduct = "RelatedProductViewSet",
-  RemoveSeatRegistration = "SeatReservationSerializer",
+  RemoveEnrollment = "RemoveEnrollmentView",
+  RemoveSeatRegistration = "RemoveSeatRegistrationView",
   ResetPassword = "ResetPasswordView",
   RetrieveStoreCourse = "GetStoreCourseView",
   RetrieveStoreCertificate = "GetStoreCertificateView",
@@ -136,6 +142,7 @@ export enum ApiPermissionClass {
   StoreUser = "StoreUsers",
   Student = "StudentViewSet",
   Subject = "CatalogViewSet",
+  SwapEnrollment = "SwapEnrollmentView",
   SwapSeatRegistration = "SwapSeatRegistrationView",
   TaggedCertificateCareer = "TaggedCertificateCareersView",
   TaggedCertificateCareerAndSkill = "TaggedCertificateCareersSkillsViewSet",
@@ -147,6 +154,7 @@ export enum ApiPermissionClass {
   TransactionBatch = "TransactionBatchViewSet",
   TransactionReport = "TransactionReportView",
   UnlinkProfile = "UnlinkProfile",
+  UpdateEnrollmentApprovalStatus = "UpdateEnrollmentApprovalStatusView",
   UpdatePaymentQuestion = "UpdatePaymentQuestionView",
   UpdateProfileQuestion = "UpdateProfileQuestionView",
   UpdateRegistrationQuestion = "UpdateRegistrationQuestionView",

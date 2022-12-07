@@ -44,7 +44,7 @@ export const RegistrationDataStep = ({
               <Title level={4} style={{ fontFamily: "AvertaLight", marginBottom: "10px" }}>"{product.title}" registration information</Title>
               <div style={{ marginTop: 0, marginLeft: "5px" }}>
                 <Title level={5} style={{ marginBottom: "20px" }}>Choose {product.quantity} {pluralize("student", product.quantity)}</Title>
-                <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.name, value: student.id }))} />
+                <Checkbox.Group defaultValue={registrationData.find(registration => registration.product === product.id)?.students} onChange={(values) => handleStudentSelect(values, product.id)} options={studentData.map(student => ({ label: student.name, value: student.primary_email }))} />
               </div>
               <Divider />
             </div>

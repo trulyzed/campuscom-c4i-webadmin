@@ -3,7 +3,7 @@ import { Steps } from "./Utils/types"
 
 const Step = AntdSteps.Step
 
-interface ISteppersProps {
+interface IStepperProps {
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   onChange: (step: any) => void
@@ -16,7 +16,7 @@ interface ISteppersProps {
   hasValidAdditionalRegistrationData: boolean
 }
 
-export const Steppers = ({
+export const Stepper = ({
   steps,
   currentStep,
   onChange,
@@ -27,7 +27,7 @@ export const Steppers = ({
   hasRegistrationProduct,
   hasValidRegistrationData,
   hasValidAdditionalRegistrationData,
-}: ISteppersProps) => {
+}: IStepperProps) => {
   const disablePurchaserDataStep = !hasValidStoreData
   const disableProductDataStep = !hasValidPurchaserData || disablePurchaserDataStep
   const disableStudentDataStep = disableProductDataStep || !hasRegistrationProduct

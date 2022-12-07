@@ -52,6 +52,16 @@ export const parseQuestionsMeta = (questions: IQuestion[], fieldNamePrefix=""): 
   })
 }
 
+export const parseQuestionAnswer = (data: {
+  id: string
+  answer: any
+}[]=[]): {id: string} => {
+  return data.reduce((a, c) => {
+    a[c.id] = c.answer
+    return a
+  }, {} as {id: string})
+}
+
 export const parseEnrollmentUrl = (type: "checkout" | "registration", id: string, storeSlug?: string, customDomain?: string) => {
   const urlParams = `?guest=true&${type === "checkout" ? "product" : "token"}=${id}`
   let path = ''

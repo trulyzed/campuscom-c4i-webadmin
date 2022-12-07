@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import { ICreateOrderInitialValue } from "~/Component/Feature/Orders/Create/CreateOrder"
 
 interface IUseWatchDataChangeParams {
   storeData?: Record<string, any>
@@ -8,10 +9,12 @@ interface IUseWatchDataChangeParams {
   setProductData: (...args: any[]) => void
   setStudentData: (...args: any[]) => void
   setRegistrationData: (...args: any[]) => void
-  setAdditionalRegistrationData: (...args: any[]) => void
-  setInvoiceData: (...args: any[]) => void
-  setPaymentData: (...args: any[]) => void
-  reservationDetails?: Record<string, any>
+  setAdditionalRegistrationData?: (...args: any[]) => void
+  setInvoiceData?: (...args: any[]) => void
+  setPaymentData?: (...args: any[]) => void
+  initialValue?: ICreateOrderInitialValue
+  isUpdate?: boolean
+  singleProduct?: boolean
 }
 
 export const useWatchDataChange = ({
@@ -25,38 +28,51 @@ export const useWatchDataChange = ({
   setAdditionalRegistrationData,
   setInvoiceData,
   setPaymentData,
-  reservationDetails
+  initialValue,
+  isUpdate,
+  singleProduct
 }: IUseWatchDataChangeParams) => {
   useEffect(() => {
     setRegistrationData((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
-    setAdditionalRegistrationData((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
+    setAdditionalRegistrationData?.((prevValue: any[]) => prevValue.filter(i => registrationProductData.some(p => p.id === i.product)))
   }, [registrationProductData, setRegistrationData, setAdditionalRegistrationData])
 
   useEffect(() => {
-    setRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((sID: string) => studentData.some(sd => sd.id === sID)) })))
-    setAdditionalRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.id === s?.id)) })))
+    setRegistrationData((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((studentEmail: string) => studentData.some(sd => sd.primary_email === studentEmail)) })))
+    setAdditionalRegistrationData?.((prevValue: any[]) => prevValue.map(i => ({ ...i, students: i.students.filter((s: any) => studentData.some(sd => sd.primary_email === s?.primary_email)) })))
   }, [studentData, setRegistrationData, setAdditionalRegistrationData])
 
+  // Watch store data changes
   useEffect(() => {
-    if (!reservationDetails) {
+    if (!isUpdate) {
       setPurchaserData(undefined)
       setProductData([])
     }
     setStudentData([])
     setRegistrationData([])
-    setAdditionalRegistrationData([])
-    setInvoiceData(undefined)
-    setPaymentData(undefined)
-  }, [storeData, reservationDetails, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
+    setAdditionalRegistrationData?.([])
+    setInvoiceData?.(undefined)
+    setPaymentData?.(undefined)
+  }, [storeData, isUpdate, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
 
-  // Set default registration data for seat registration
+  // Watch product data changes in case of single product
   useEffect(() => {
-    if (!reservationDetails) return
+    if (!singleProduct) return
+    setStudentData([])
+    setRegistrationData([])
+    setAdditionalRegistrationData?.([])
+    setInvoiceData?.(undefined)
+    setPaymentData?.(undefined)
+  }, [singleProduct, registrationProductData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData])
+
+  // Update registration data based on registration or enrollment data
+  useEffect(() => {
+    if (!isUpdate || !initialValue) return
     setRegistrationData([{
-      product: reservationDetails.product.id,
-      students: studentData.map(i => i.id)
+      product: initialValue.product.id,
+      students: studentData.map(i => i.primary_email)
     }])
-  }, [reservationDetails, studentData, setRegistrationData])
+  }, [isUpdate, initialValue, studentData, setRegistrationData])
 
   return null
 }

@@ -15,6 +15,7 @@ interface IPurchaserDataStepProps {
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   setCurrentStep: (step: Steps) => void
+  hidePurchaseFor?: boolean
 }
 
 export const PurchaserDataStep = ({
@@ -24,6 +25,7 @@ export const PurchaserDataStep = ({
   setPurchaserData,
   currentStep,
   setCurrentStep,
+  hidePurchaseFor,
 }: IPurchaserDataStepProps) => {
   const [selectedPurchaser, setSelectedPurchaser] = useState<Record<string, any>>({ ...purchaserData })
 
@@ -38,9 +40,9 @@ export const PurchaserDataStep = ({
         setSelectedPurchaser({
           ...selectedPurchaser,
           purchaser: value,
-          first_name: matchedData.first_name,
-          last_name: matchedData.last_name,
-          email: matchedData.primary_email,
+          first_name: matchedData?.first_name,
+          last_name: matchedData?.last_name,
+          email: matchedData?.primary_email,
         })
       },
       displayKey: "name",
@@ -65,7 +67,7 @@ export const PurchaserDataStep = ({
       inputType: TEXT,
       disabled: true,
     },
-    {
+    ...hidePurchaseFor ? [] : [{
       fieldName: "purchasing_for",
       label: "Purchashing For",
       inputType: DROPDOWN,
@@ -74,8 +76,8 @@ export const PurchaserDataStep = ({
         { label: "Company", value: "company" },
       ],
       rules: [{ required: true, message: "This field is required!" }]
-    },
-    {
+    }] as IField[],
+    ...hidePurchaseFor ? [] : [{
       fieldName: "company",
       label: "Company",
       inputType: DROPDOWN,
@@ -87,7 +89,7 @@ export const PurchaserDataStep = ({
         toggleField?.(value?.purchasing_for === "company")
       },
       rules: [{ required: true, message: "This field is required!" }]
-    },
+    }] as IField[],
     ...profileQuestions
   ]
 

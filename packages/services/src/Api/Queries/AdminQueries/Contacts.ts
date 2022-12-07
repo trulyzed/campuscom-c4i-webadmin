@@ -24,7 +24,7 @@ export const ContactQueries: IContactQueries = {
         endpoint: endpoints.ALL_CONTACT,
         ...data,
         method: "GET"
-      })
+      }).then((resp) => (resp.success ? { ...resp, data: processContacts(resp.data) } : resp))
     },
     [{ operation: ApiPermissionClass.Contact, action: ApiPermissionAction.Read }]
   ),
