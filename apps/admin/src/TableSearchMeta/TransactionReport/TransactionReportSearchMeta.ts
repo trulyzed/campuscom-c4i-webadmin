@@ -14,7 +14,7 @@ export const TransactionReportSearchMeta: IField[] = [
   {
     label: "Transaction Ref.",
     inputType: TEXT,
-    fieldName: "transaction_ref"
+    fieldName: "payment__payment_transactions__transaction_reference"
   },
   {
     label: "Order ID",
@@ -24,12 +24,12 @@ export const TransactionReportSearchMeta: IField[] = [
   {
     label: "Transaction Date From",
     inputType: DATE_PICKER,
-    fieldName: "transaction_date__gte"
+    fieldName: "payment__payment_transactions__transaction_time__gte"
   },
   {
     label: "Transaction Date To",
     inputType: DATE_PICKER,
-    fieldName: "transaction_date__lte"
+    fieldName: "payment__payment_transactions__transaction_time__lte"
   },
   {
     label: "Purchaser Name",
