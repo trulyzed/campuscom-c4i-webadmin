@@ -2,7 +2,7 @@ import { Col, notification, Row } from "antd"
 import { SidebarMenuTargetHeading } from "@packages/components/lib/SidebarNavigation/SidebarMenuTargetHeading"
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react"
 import { Alert } from "@packages/components/lib/Alert/Alert"
-import { Steppers } from "~/Component/Feature/Orders/Create/Steppers"
+import { Stepper } from "~/Component/Feature/Orders/Create/Stepper"
 import { StudentDataStep } from "~/Component/Feature/Orders/Create/StudentDataStep"
 import { PurchaserDataStep } from "~/Component/Feature/Orders/Create/PurchaserDataStep"
 import { ProductDataStep } from "~/Component/Feature/Orders/Create/ProductDataStep"
@@ -35,7 +35,7 @@ export const CreateOrder = ({
   swapRegistration,
   refreshEventName,
 }: ICreateOrderProps) => {
-  const { steps } = useSteps(!!reservationDetails)
+  const { steps } = useSteps(reservationDetails ? "REGISTRATION" : "CREATE_ORDER")
   const [currentStep, setCurrentStep] = useState<number>(0)
   const [isProcessing, setIsProcessing] = useState(false)
   const [orderDetails, setOrderDetails] = useState<Record<string, any>>()
@@ -57,10 +57,10 @@ export const CreateOrder = ({
   const hasValidStudentData = studentData.length >= Math.max(...registrationProductData.map(i => i.quantity))
   const hasValidRegistrationData = registrationProductData.every(i => i.quantity === registrationData.find(j => j.product === i.id)?.students.length)
   const hasValidAdditionalRegistrationData = !!additionalRegistrationData.length
-
-  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails })
-  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
   const { generatePaymentSummaryPayload, generatePayload } = usePayloadGenerator({ storeData, purchaserData, productData, studentData, registrationData, additionalRegistrationData, paymentData, couponCode, reservationDetails })
+
+  useInitialize({ storeData, productData, setOrderDetails, setStoreData, setPurchaserData, setProductData, reservationDetails, orderType: reservationDetails ? "REGISTRATION" : "CREATE_ORDER" })
+  useWatchDataChange({ storeData, registrationProductData, studentData, setPurchaserData, setProductData, setStudentData, setRegistrationData, setAdditionalRegistrationData, setInvoiceData, setPaymentData, reservationDetails })
 
   const reset = useCallback(() => {
     setCurrentStep(0)
@@ -131,7 +131,7 @@ export const CreateOrder = ({
       {!isProcessing && formErrors?.length ? <FormError errorMessages={formErrors} /> : null}
       <Row>
         <Col md={6} lg={4} xs={24}>
-          <Steppers
+          <Stepper
             steps={steps}
             currentStep={currentStep}
             onChange={setCurrentStep}

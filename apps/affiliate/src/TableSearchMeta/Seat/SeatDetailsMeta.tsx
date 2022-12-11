@@ -9,7 +9,7 @@ export const getSeatDetailsMeta = (seat: { [key: string]: any }): IDetailsMeta =
     contents: [
       { label: 'Seat Block', value: renderLink(`/storefront-data/seat-block/${seat.reservation.id}`, seat.reservation.reservation_ref) },
       { label: 'Student', value: seat.profile ? renderLink(`/storefront-data/student/${seat.profile.id}`, seat.profile.name) : undefined },
-      { label: 'Enrollment', value: seat.enrollment ? renderLink(`/administration/enrollment/${seat.enrollment.id}`, seat.enrollment.ref_id) : undefined, },
+      { label: 'Enrollment', value: seat.enrollment ? renderLink(`/storefront-data/enrollment/${seat.enrollment.id}`, seat.enrollment.ref_id) : undefined, },
     ]
   }
 

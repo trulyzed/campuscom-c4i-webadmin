@@ -11,6 +11,8 @@ import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSearchMeta"
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 import { IField } from "@packages/components/lib/Form/common"
+import { getCourseSharingContractCourseListTableColumns } from "./CourseSharingContractCourseListTableColumns"
+import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
 export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [key: string]: any }): IDetailsMeta => {
   const updateEntity = QueryConstructor(((data) => CourseSharingContractQueries.update({ ...data, params: { id: courseSharingContract.id } }).then(resp => {
@@ -23,19 +25,43 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
   const summaryInfo: CardContainer = {
     title: `Course Sharing Contract: ${courseSharingContract.course_provider.name} for (${courseSharingContract.store.name})`,
     cardActions: [
-      <MetaDrivenFormModalOpenButton
-        formTitle={`Update Course Sharing Contract`}
-        formMeta={getCourseSharingContractFormMeta().map((i: IField, idx) => ({
-          ...i,
-          ...idx === 0 && { disabled: true }
-        }))}
-        formSubmitApi={updateEntity}
-        initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
-        defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
-        buttonLabel={`Update Course Sharing Contract`}
-        iconType="edit"
-        refreshEventName={REFRESH_PAGE}
-      />,
+      ...courseSharingContract.is_active ? [
+        <MetaDrivenFormModalOpenButton
+          formTitle={`Update Course Sharing Contract`}
+          formMeta={getCourseSharingContractFormMeta().map((i: IField, idx) => ({
+            ...i,
+            ...idx === 0 && { disabled: true }
+          }))}
+          formSubmitApi={updateEntity}
+          initialFormValue={{ ...courseSharingContract, store: courseSharingContract.store.id, course_provider: courseSharingContract.course_provider.id, }}
+          defaultFormValue={{ courseSharingContractId: courseSharingContract.id }}
+          buttonLabel={`Update Course Sharing Contract`}
+          iconType="edit"
+          refreshEventName={REFRESH_PAGE}
+        />,
+        <ContextAction
+          tooltip="Deactivate"
+          type="deactivate"
+          confirmationType="Deactivate"
+          queryService={QueryConstructor(() => CourseSharingContractQueries.deactivate({
+            data: { course_sharing_contract: courseSharingContract.id }
+          }), [CourseSharingContractQueries.deactivate])}
+          successText={"Successfully deactivated"}
+          refreshEventName={REFRESH_PAGE}
+        />
+      ] : [
+        <ContextAction
+          tooltip="Activate"
+          type="start"
+          iconColor="success"
+          queryService={QueryConstructor(() => CourseSharingContractQueries.update({
+            params: { id: courseSharingContract.id },
+            data: { is_active: true }
+          }), [CourseSharingContractQueries.update])}
+          successText={"Successfully activated"}
+          refreshEventName={REFRESH_PAGE}
+        />
+      ],
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
@@ -72,6 +98,17 @@ export const getCourseSharingContractDetailsMeta = (courseSharingContract: { [ke
         }
       },
       helpKey: "activitiesTab"
+    },
+    {
+      tabTitle: "Shared Courses",
+      tabType: "table",
+      tabMeta: {
+        tableProps: {
+          ...getCourseSharingContractCourseListTableColumns(),
+          searchParams: { course_sharing_contract: courseSharingContract.id },
+        }
+      },
+      helpKey: "sharedCoursesTab"
     },
   ]
 

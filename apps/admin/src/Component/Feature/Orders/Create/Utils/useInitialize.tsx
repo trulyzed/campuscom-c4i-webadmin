@@ -1,5 +1,7 @@
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
-import { useCallback, useEffect, useState } from "react"
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
+import { ICreateOrderInitialValue } from "~/Component/Feature/Orders/Create/CreateOrder"
 
 interface IUseInitialize {
   storeData?: Record<string, any>
@@ -8,7 +10,7 @@ interface IUseInitialize {
   setStoreData: (...args: any[]) => void
   setPurchaserData: (...args: any[]) => void
   setProductData: (...args: any[]) => void
-  reservationDetails?: Record<string, any>
+  initialValue?: ICreateOrderInitialValue
 }
 
 export const useInitialize = ({
@@ -18,8 +20,10 @@ export const useInitialize = ({
   setStoreData,
   setPurchaserData,
   setProductData,
-  reservationDetails,
+  initialValue,
 }: IUseInitialize) => {
+  const { userData } = useContext(UserDataContext)
+  const contextStores = useMemo(() => userData?.context.find(i => i.type === 'Store')?.values || [], [userData])
   const [isFetchingOrderDetails, setIsFetchingOrderDetails] = useState(false)
 
   const getOrderDetails = useCallback(async () => {
@@ -40,26 +44,26 @@ export const useInitialize = ({
     getOrderDetails()
   }, [getOrderDetails])
 
-  // Initialize data for seat registration
+  // Initialize data
   useEffect(() => {
-    if (reservationDetails) {
-      setStoreData({ store: reservationDetails.store.id })
+    if (initialValue) {
+      setStoreData({ store: initialValue.store.id })
       setPurchaserData({
-        first_name: reservationDetails.purchaser.first_name,
-        last_name: reservationDetails.purchaser.last_name,
-        email: reservationDetails.purchaser.primary_email,
-        purchaser: reservationDetails.purchaser.id,
-        purchasing_for: reservationDetails.purchaser.purchasing_for?.type,
-        company: reservationDetails.purchaser.purchasing_for?.ref,
-        ...Object.keys(reservationDetails.purchaser.extra_info || {}).reduce((a, c) => {
-          a[`profile_question__${c}`] = (reservationDetails.purchaser.extra_info as Record<string, any>)[c]
+        first_name: initialValue.purchaser.first_name,
+        last_name: initialValue.purchaser.last_name,
+        email: initialValue.purchaser.primary_email,
+        purchaser: initialValue.purchaser.id,
+        purchasing_for: initialValue.purchaser.purchasing_for?.type,
+        company: initialValue.purchaser.purchasing_for?.ref,
+        ...Object.keys(initialValue.purchaser.extra_info || {}).reduce((a, c) => {
+          a[`profile_question__${c}`] = (initialValue.purchaser.extra_info as Record<string, any>)[c]
           return a
         }, {} as Record<string, any>)
       })
       setProductData([
         {
-          id: reservationDetails.product.id,
-          title: reservationDetails.product.name,
+          id: initialValue.product.id,
+          title: initialValue.product.title,
           quantity: 1,
           order_type: "registration",
           product_type: "section",
@@ -67,8 +71,10 @@ export const useInitialize = ({
           related_products: []
         }
       ])
+    } else if (contextStores.length === 1) {
+      setStoreData({ store: contextStores[0].id })
     }
-  }, [reservationDetails, setStoreData, setPurchaserData, setProductData])
+  }, [contextStores, initialValue, setStoreData, setPurchaserData, setProductData])
 
   return {
     getOrderDetails,

@@ -6,10 +6,11 @@ interface IUsePayloadGeneratorParams {
   productData: Record<string, any>[]
   studentData: Record<string, any>[]
   registrationData: Record<string, any>[]
-  additionalRegistrationData: Record<string, any>[]
+  additionalRegistrationData?: Record<string, any>[]
   paymentData?: Record<string, any>
   couponCode?: string
-  reservationDetails?: Record<string, any>
+  reservationId?: string
+  enrollmentId?: string
 }
 
 export const usePayloadGenerator = ({
@@ -18,10 +19,11 @@ export const usePayloadGenerator = ({
   productData,
   studentData,
   registrationData,
-  additionalRegistrationData,
+  additionalRegistrationData = [],
   paymentData,
   couponCode,
-  reservationDetails
+  reservationId,
+  enrollmentId
 }: IUsePayloadGeneratorParams) => {
   const generatePurchaserDetailsPayload = useCallback(() => {
     const profileQuestions = Object.keys(purchaserData || {}).reduce((a, c) => {
@@ -33,9 +35,11 @@ export const usePayloadGenerator = ({
       first_name: purchaserData?.first_name,
       last_name: purchaserData?.last_name,
       primary_email: purchaserData?.email,
-      purchasing_for: {
-        type: purchaserData?.purchasing_for,
-        ref: purchaserData?.company
+      ...purchaserData?.purchasing_for && {
+        purchasing_for: {
+          type: purchaserData?.purchasing_for,
+          ref: purchaserData?.company
+        }
       },
       extra_info: profileQuestions
     }
@@ -83,7 +87,7 @@ export const usePayloadGenerator = ({
               quantity: i.related_products[key],
               is_related: true,
               related_to: c.product,
-              student_email: studentData.find(s => s.id === i.id)?.primary_email,
+              student_email: i.primary_email,
               is_reservation: false
             })
           }
@@ -91,12 +95,12 @@ export const usePayloadGenerator = ({
         return a
       }, []) as Record<string, any>[],
     ]
-  }, [productData, registrationData, additionalRegistrationData, studentData])
+  }, [productData, registrationData, additionalRegistrationData])
 
   const generateStudentDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
+      for (const studentEmail of c.students) {
+        const student = studentData.find(i => i.primary_email === studentEmail)
         if (!student) continue
         const profileQuestions = Object.keys(student || {}).reduce((a, c) => {
           if (c.includes("profile_question__")) a[c.split("profile_question__")[1]] = student?.[c]
@@ -104,8 +108,10 @@ export const usePayloadGenerator = ({
         }, {} as Record<string, any>)
         a.push({
           product_id: c.product,
-          profile_id: studentID,
-          extra_info: profileQuestions
+          first_name: student.first_name,
+          last_name: student.last_name,
+          email: student.primary_email,
+          extra_info: profileQuestions,
         })
       }
       return a
@@ -114,12 +120,12 @@ export const usePayloadGenerator = ({
 
   const generateRegistrationDetailsPayload = useCallback(() => {
     return registrationData.reduce((a, c) => {
-      for (const studentID of c.students) {
-        const student = studentData.find(i => i.id === studentID)
+      for (const studentEmail of c.students) {
+        const student = studentData.find(i => i.primary_email === studentEmail)
         if (!student) continue
         const registrationData = additionalRegistrationData.reduce((a, c2) => {
           if (c2.product === c.product) {
-            const matchedStudent = c2.students.find((i: any) => i.id === studentID)
+            const matchedStudent = c2.students.find((i: any) => i.primary_email === studentEmail)
             if (matchedStudent) {
               a = {
                 ...a,
@@ -149,20 +155,20 @@ export const usePayloadGenerator = ({
       registration_details: generateRegistrationDetailsPayload(),
       payment_ref: paymentData?.payment_ref,
       payment_note: paymentData?.payment_note,
-      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
-      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
+      ...reservationId && { seat_reservation: reservationId },
+      ...enrollmentId && { course_enrollment: enrollmentId },
     }
-  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, reservationDetails])
+  }, [storeData, generatePurchaserDetailsPayload, generateCartDetailsPayload, generateStudentDetailsPayload, generateRegistrationDetailsPayload, paymentData, reservationId, enrollmentId])
 
   const generatePaymentSummaryPayload = useCallback(() => {
     return {
       cart_details: generateCartDetailsPayload(),
       store: storeData?.store,
       coupon_codes: couponCode ? [couponCode] : [],
-      ...reservationDetails?.token && { reservation_token: reservationDetails.token },
-      ...reservationDetails?.id && { seat_reservation: reservationDetails.id },
+      ...reservationId && { seat_reservation: reservationId },
+      ...enrollmentId && { course_enrollment: enrollmentId },
     }
-  }, [storeData, couponCode, generateCartDetailsPayload, reservationDetails])
+  }, [storeData, couponCode, generateCartDetailsPayload, reservationId, enrollmentId])
 
   return {
     generatePayload,

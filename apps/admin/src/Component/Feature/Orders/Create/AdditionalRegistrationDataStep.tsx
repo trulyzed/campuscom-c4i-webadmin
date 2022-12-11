@@ -54,11 +54,10 @@ export const AdditionalRegistrationDataStep = ({
     formInstance
       .validateFields()
       .then((values) => {
-        const getRegistrationQuestionValues = (productID: string, studentID: string) => Object.keys(values).reduce((a, c) => {
-          if (c.includes(productID) && c.includes(studentID)) {
+        const getRegistrationQuestionValues = (productID: string, studentEmail: string) => Object.keys(values).reduce((a, c) => {
+          if (c.includes(productID) && c.includes(studentEmail)) {
             a = {
               ...a,
-              id: studentID,
               registration_question_values: {
                 ...a.registration_question_values,
                 ...c.includes("registration_question__") && { [c.split("__")[1]]: values[c] }
@@ -70,22 +69,22 @@ export const AdditionalRegistrationDataStep = ({
             }
           }
           return a
-        }, {} as Record<string, any>)
+        }, { primary_email: studentEmail } as Record<string, any>)
 
         setAdditionalRegistrationData(registrationData.map(i => ({
           product: i.product,
-          students: i.students.map((s: any) => getRegistrationQuestionValues(i.product, s))
+          students: i.students.map((studentEmail: string) => getRegistrationQuestionValues(i.product, studentEmail))
         })))
         setCurrentStep(currentStep + 1)
       })
   }, [formInstance, registrationData, currentStep, setCurrentStep, setAdditionalRegistrationData])
 
-  const getRegistrationQuestionsMeta = useCallback((productID: string, studentID: string) => {
+  const getRegistrationQuestionsMeta = useCallback((productID: string, studentEmail: string) => {
     const meta = registrationQuestions.find(i => i.product === productID)?.meta || []
     return meta.map(i => ({
       ...i,
-      fieldName: `registration_question__${i.fieldName}__${productID}__${studentID}`,
-      defaultValue: initialValues?.[`registration_question__${i.fieldName}__${productID}__${studentID}`]
+      fieldName: `registration_question__${i.fieldName}__${productID}__${studentEmail}`,
+      defaultValue: initialValues?.[`registration_question__${i.fieldName}__${productID}__${studentEmail}`]
     }))
   }, [registrationQuestions, initialValues])
 
@@ -102,10 +101,10 @@ export const AdditionalRegistrationDataStep = ({
             }}
             initialValues={initialValues}
           >
-            {registrationData.map((registration, idx: number) => registration.students.length ? (
+            {registrationData.map(registration => registration.students.length ? (
               <Card key={registration.product} style={{ marginBottom: "30px" }}>
                 <Title style={{ fontFamily: "AvertaLight", marginBottom: "20px" }} italic level={4}>"{registrationProductData.find(product => product.id === registration.product)?.title}" registration information</Title>
-                {registration.students.map((student: any, idx2: number) => {
+                {registration.students.map((student: any) => {
                   const products = registrationProducts.find(i => i.parent === registration.product)?.products
                   const meta = [
                     ...getRegistrationQuestionsMeta(registration.product, student),
@@ -118,7 +117,7 @@ export const AdditionalRegistrationDataStep = ({
                   ]
                   return (
                     <Card key={student} style={{ margin: "0 5px", marginBottom: "15px" }} bodyStyle={{ ...!meta.length && { paddingTop: "10px", paddingBottom: "10px" } }}>
-                      <Title level={5} style={{ ...!meta.length && { marginBottom: "0" } }}>{studentData.find(s => s.id === student)?.name}</Title>
+                      <Title level={5} style={{ ...!meta.length && { marginBottom: "0" } }}>{studentData.find(s => s.primary_email === student)?.name}</Title>
                       {meta.length ?
                         <div style={{ marginTop: "30px" }}>
                           <FormFields

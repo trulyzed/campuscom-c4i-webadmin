@@ -3,7 +3,7 @@ import { Steps } from "./Utils/types"
 
 const Step = AntdSteps.Step
 
-interface ISteppersProps {
+interface IStepperProps {
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   onChange: (step: any) => void
@@ -13,10 +13,10 @@ interface ISteppersProps {
   hasValidStudentData: boolean
   hasRegistrationProduct: boolean
   hasValidRegistrationData: boolean
-  hasValidAdditionalRegistrationData: boolean
+  hasValidAdditionalRegistrationData?: boolean
 }
 
-export const Steppers = ({
+export const Stepper = ({
   steps,
   currentStep,
   onChange,
@@ -27,13 +27,14 @@ export const Steppers = ({
   hasRegistrationProduct,
   hasValidRegistrationData,
   hasValidAdditionalRegistrationData,
-}: ISteppersProps) => {
+}: IStepperProps) => {
   const disablePurchaserDataStep = !hasValidStoreData
   const disableProductDataStep = !hasValidPurchaserData || disablePurchaserDataStep
   const disableStudentDataStep = disableProductDataStep || !hasRegistrationProduct
   const disableRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData
   const disableAdditionalRegistrationDataStep = !hasRegistrationProduct || !hasValidStudentData || !hasValidRegistrationData
   const disableInvoiceDataStep = !hasValidProductData || (hasRegistrationProduct && (disableAdditionalRegistrationDataStep || !hasValidAdditionalRegistrationData))
+  const disableSummaryDataStep = disableRegistrationDataStep
   const disablePaymentDataStep = disableInvoiceDataStep
   const stepsList: { key: keyof typeof steps; title: string; disabled: boolean; }[] = Object.keys(steps).reduce((a, c) => {
     const key = c as keyof typeof steps
@@ -68,6 +69,10 @@ export const Steppers = ({
       case "Invoice":
         title = "Invoice"
         disabled = disableInvoiceDataStep
+        break
+      case "Summary":
+        title = "Summary"
+        disabled = disableSummaryDataStep
         break
       case "PaymentInformation":
         title = "Payment"

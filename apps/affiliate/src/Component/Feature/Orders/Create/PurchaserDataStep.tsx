@@ -18,6 +18,7 @@ interface IPurchaserDataStepProps {
   steps: Record<keyof typeof Steps, number>
   currentStep: number
   setCurrentStep: (step: Steps) => void
+  hidePurchaseFor?: boolean
 }
 
 export const PurchaserDataStep = ({
@@ -27,6 +28,7 @@ export const PurchaserDataStep = ({
   setPurchaserData,
   currentStep,
   setCurrentStep,
+  hidePurchaseFor,
 }: IPurchaserDataStepProps) => {
   const [selectedPurchaser, setSelectedPurchaser] = useState<Record<string, any>>({ ...purchaserData })
   const createForAffiliateAdmin = useMemo(() => checkAdminApiPermission([{ operation: ApiPermissionClass.CreateOrderForAffiliateAdmin, action: ApiPermissionAction.Write }]), [])
@@ -80,7 +82,7 @@ export const PurchaserDataStep = ({
       inputType: TEXT,
       disabled: true,
     },
-    {
+    ...hidePurchaseFor ? [] : [{
       fieldName: "purchasing_for",
       label: "Purchashing For",
       inputType: DROPDOWN,
@@ -89,7 +91,7 @@ export const PurchaserDataStep = ({
         { label: "Company", value: "company" },
       ],
       rules: [{ required: true, message: "This field is required!" }]
-    },
+    }] as IField[],
     {
       fieldName: "company",
       label: "Company",

@@ -12,22 +12,29 @@ export const getPublishingFormMeta = (): IField[] => [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    defaultPreferenceIndex: 'default_store'
+    defaultPreferenceIndex: 'default_store',
+    colSpan: 10
   },
   {
     label: 'Enrollment Ready',
     fieldName: 'enrollment_ready',
     inputType: BOOLEAN,
+    labelColSpan: 20,
+    colSpan: 6,
   },
   {
     label: 'Is Published',
     fieldName: 'is_published',
     inputType: BOOLEAN,
+    labelColSpan: 20,
+    colSpan: 4,
   },
   {
     label: 'Is Featured',
     fieldName: 'is_featured',
     inputType: BOOLEAN,
+    labelColSpan: 20,
+    colSpan: 4,
   },
   {
     label: "Sections",

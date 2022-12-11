@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Grid, Row } from "antd"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -56,15 +56,12 @@ import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/ty
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
-export function MetaDrivenForm({
-  showCloseButton,
-  showClearbutton = true,
-  applyButtonLabel = "Apply",
-  actionContainerStyle,
-  clearButtonLabel = "Clear All",
-  className,
-  ...props
-}: {
+export type MetaDrivenFormHandle = {
+  submitRef: HTMLButtonElement | null
+  closeRef: HTMLElement | null
+}
+
+interface IMetaDrivenFormProps {
   meta: IField[]
   metaName?: string
   title?: React.ReactNode
@@ -100,7 +97,17 @@ export function MetaDrivenForm({
   displayFieldValue?: Record<string, any>
   disableContainerLoader?: boolean
   noPadding?: boolean
-}) {
+}
+
+export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormProps>(({
+  showCloseButton,
+  showClearbutton = true,
+  applyButtonLabel = "Apply",
+  actionContainerStyle,
+  clearButtonLabel = "Clear All",
+  className,
+  ...props
+}: IMetaDrivenFormProps, ref) => {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
   const [clearTrigger, setClearTrigger] = useState(false)
@@ -111,6 +118,15 @@ export function MetaDrivenForm({
   const [initialFormValue, setInitialFormValue] = useState()
   const [queryData, setQueryData] = useState()
   const [isFetchingQueryData, setIsFetchingQueryData] = useState(false)
+  const submitRef = useRef<HTMLButtonElement>(null)
+  const closeRef = useRef<HTMLElement>(null)
+
+  useImperativeHandle(ref, () => (
+    {
+      submitRef: submitRef.current,
+      closeRef: closeRef.current
+    }
+  ))
 
   useEffect(() => {
     if (!props.dataQueryApi) return
@@ -368,7 +384,7 @@ export function MetaDrivenForm({
             </Col>
             {showCloseButton && (
               <Col xs={{ span: 2, offset: 22, }} md={{ offset: 0 }} className={"text-right"}>
-                <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={props.closeModal} />
+                <ContextAction ref={closeRef} tooltip="Close" type="close" iconColor="primary" onClick={props.closeModal} />
               </Col>
             )}
           </Row>
@@ -415,6 +431,7 @@ export function MetaDrivenForm({
             )}
             <Col>
               <Button
+                ref={submitRef}
                 aria-controls={props.applyButtonAriaControl}
                 type="primary"
                 form={formId}
@@ -495,6 +512,7 @@ export function MetaDrivenForm({
             )}
             <Col>
               <Button
+                ref={submitRef}
                 aria-controls={props.applyButtonAriaControl}
                 type="primary"
                 form={formId}
@@ -511,7 +529,7 @@ export function MetaDrivenForm({
       </Form>
     </Card>
   )
-}
+})
 
 export const FormFields = (props: {
   meta: IField[]

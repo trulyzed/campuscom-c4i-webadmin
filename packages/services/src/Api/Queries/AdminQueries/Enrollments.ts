@@ -56,6 +56,17 @@ export const EnrollmentQueries: IEnrollmentQueries = {
     [{ operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read }]
   ),
 
+  updateApprovalStatus: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.UPDATE_ENROLLMENT_APPROVAL_STATUS,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.UpdateEnrollmentApprovalStatus, action: ApiPermissionAction.Write }]
+  ),
+
   getSingleCourseEnrollment: PermissionWrapper(
     (data) => {
       const { id, ...params } = data?.params
@@ -67,5 +78,30 @@ export const EnrollmentQueries: IEnrollmentQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CourseEnrollment, action: ApiPermissionAction.Read }]
+  ),
+
+  remove: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.REMOVE_ENROLLMENT,
+        ...data,
+        method: "POST"
+      })
+    },
+    [{ operation: ApiPermissionClass.RemoveEnrollment, action: ApiPermissionAction.Write }]
+  ),
+
+  swap: PermissionWrapper(
+    (data) => {
+      const payload = convertToFormData(data?.data)
+      return adminApi({
+        endpoint: endpoints.SWAP_ENROLLMENT,
+        ...data,
+        method: "POST",
+        ...data,
+        data: payload
+      })
+    },
+    [{ operation: ApiPermissionClass.SwapEnrollment, action: ApiPermissionAction.Write }]
   )
 }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Card, Typography } from "antd"
 import { useHistory } from "react-router"
 import { setLoginInfo } from "@packages/services/lib/Api/utils/TokenStore"
@@ -9,12 +9,14 @@ import { login } from "~/Services/AuthService"
 import { MetaDrivenForm } from "@packages/components/lib/Form/MetaDrivenForm"
 import { OTP, PASSWORD, TEXT } from "@packages/components/lib/Form/common"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 
 export function Login(props: {
   modal?: boolean
   redirect?: (url: string) => void
 }) {
   const history = useHistory()
+  const { setUserData } = useContext(UserDataContext)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<Array<ISimplifiedApiErrorMessage>>()
   const [mfaDetails, setMfaDetails] = useState<{ username: string; password: string; mfaEnabled: boolean }>()
@@ -41,6 +43,7 @@ export function Login(props: {
       return
     } else if (response.success) {
       setLoginInfo({ token: response.data.access, user: response.data.userData as IUser })
+      setUserData(response.data.userData)
       eventBus.publish(LOGGED_IN_SUCCESSFULLY, response.data.userData)
       eventBus.publish(SHOW_LOGIN_MODAL, false)
       eventBus.publishSimilarEvents(/REFRESH.*/i)
