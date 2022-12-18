@@ -7,7 +7,7 @@ export const refundListTableColumns: TableColumnType = [
   {
     title: 'Refund ID',
     dataIndex: "id",
-    render: (text: any, record: any) => renderLink(`/administration/refund/${text}`, text),
+    render: (text: any, record: any) => renderLink(`/storefront-data/refund/${text}`, text),
     sorter: (a: any, b: any) => a.title - b.title
   },
   {

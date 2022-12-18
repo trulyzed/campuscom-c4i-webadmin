@@ -125,6 +125,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
       },
       {
+        title: "Refunds",
+        url: "/storefront-data/refund",
+        submenu: [],
+        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
+      },
+      {
         title: "Students",
         url: "/storefront-data/student",
         submenu: [],
