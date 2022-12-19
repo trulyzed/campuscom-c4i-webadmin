@@ -26,6 +26,7 @@ interface IContextActionProps {
   buttonType?: ButtonProps["type"]
   modalProps?: IModalWrapperProps
   successText?: string
+  disableLoading?: boolean
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -79,8 +80,9 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   buttonType,
   modalProps,
   successText,
+  disableLoading,
 }: IContextActionProps, ref) => {
-  const [processing, setIsProcessing] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
@@ -102,7 +104,9 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
         if (refreshEventName) triggerEvents(refreshEventName)
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
-      onClick()
+      setIsProcessing(true)
+      await onClick()
+      setIsProcessing(false)
     } else if (modalProps) {
       setShowModal(true)
     }
@@ -122,11 +126,12 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
             : <Button
               ref={ref}
               className="p-0 m-0"
+              style={{ display: 'inline-flex', justifyContent: 'center' }}
               title={tooltip}
               type={buttonType || 'link'}
               icon={icon}
               onClick={handleClick}
-              loading={processing}
+              loading={disableLoading ? undefined : isProcessing}
               children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
             />}
         </>
