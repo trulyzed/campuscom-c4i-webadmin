@@ -31,6 +31,36 @@ export const RefundQueries: IRefundQueries = {
     [{ operation: ApiPermissionClass.Refund, action: ApiPermissionAction.Read }]
   ),
 
+  create: PermissionWrapper(
+    (data) => {
+      const payload = {
+        ...data?.data,
+        task_crm_update: data?.data.task_crm_update ? "pending" : "not_required",
+        task_tax_refund: data?.data.task_tax_refund ? "pending" : "not_required",
+        task_cancel_enrollment: data?.data.task_cancel_enrollment ? "pending" : "not_required"
+      }
+
+      return adminApi({
+        endpoint: endpoints.REFUND,
+        method: "POST",
+        ...data,
+        data: payload
+      })
+    },
+    [{ operation: ApiPermissionClass.Refund, action: ApiPermissionAction.Write }]
+  ),
+
+  update: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.REFUND}/${data?.data.id}`,
+        method: "PATCH",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.Refund, action: ApiPermissionAction.Write }]
+  ),
+
   cancelEnrollment: PermissionWrapper(
     (data) => {
       const { pagination, ...nonPaginationParams } = data?.params || {}
