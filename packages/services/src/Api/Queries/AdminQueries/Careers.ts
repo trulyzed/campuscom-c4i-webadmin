@@ -53,6 +53,17 @@ export const CareerQueries: ICareerQueries = {
     [{ operation: ApiPermissionClass.TaggedCourseCareer, action: ApiPermissionAction.Read }]
   ),
 
+  getListByCertificate: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.TAGGED_CERTIFICATE_CAREER}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.TaggedCertificateCareer, action: ApiPermissionAction.Read }]
+  ),
+
   getSkillsByCourse: PermissionWrapper(
     (data) => {
       return adminApi({
@@ -62,6 +73,17 @@ export const CareerQueries: ICareerQueries = {
       })
     },
     [{ operation: ApiPermissionClass.TaggedCourseSkill, action: ApiPermissionAction.Read }]
+  ),
+
+  getSkillsByCertificate: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.TAGGED_CERTIFICATE_SKILL}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.TaggedCertificateSkill, action: ApiPermissionAction.Read }]
   ),
 
   getSkillsByCareer: PermissionWrapper(
@@ -94,5 +116,16 @@ export const CareerQueries: ICareerQueries = {
       })
     },
     [{ operation: ApiPermissionClass.TaggedCourseCareerAndSkill, action: ApiPermissionAction.Read }]
+  ),
+
+  getCareersAndSkillsByCertificate: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.TAGGED_CERTIFICATE_CAREER_AND_SKILL}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.TaggedCertificateCareerAndSkill, action: ApiPermissionAction.Read }]
   )
 }

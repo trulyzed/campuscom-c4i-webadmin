@@ -36,6 +36,7 @@ import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/Transacti
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/CertificateListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -47,6 +48,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         url: "/course-provider/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
+      },
+      {
+        title: "Certificates",
+        submenu: [],
+        url: "/course-provider/certificate",
+        permission: checkAdminApiPermission(getCertificateListTableColumns().searchFunc)
       },
       {
         title: "Instructors",

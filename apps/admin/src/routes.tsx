@@ -5,6 +5,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/", component: React.lazy(() => import("~/Pages/HomePage").then((x) => ({ default: x.HomePage }))) },
   { path: "/course-provider/course", component: React.lazy(() => import("~/Pages/Institute/Courses").then((x) => ({ default: x.List }))) },
   { path: "/course-provider/course/:courseID", component: React.lazy(() => import("~/Pages/Institute/Courses/CourseDetailsPage").then((x) => ({ default: x.CourseDetailsPage }))) },
+  { path: "/course-provider/certificate", component: React.lazy(() => import("~/Pages/Institute/Certificates").then((x) => ({ default: x.List }))) },
+  { path: "/course-provider/certificate/:certificateID", component: React.lazy(() => import("~/Pages/Institute/Certificates/CertificateDetailsPage").then((x) => ({ default: x.CertificateDetailsPage }))) },
   { path: "/course-provider/section/:sectionID", component: React.lazy(() => import("~/Pages/Institute/Sections/SectionDetailsPage").then((x) => ({ default: x.SectionDetailsPage }))) },
   { path: "/course-provider/instructor", component: React.lazy(() => import("~/Pages/Institute/Instructors").then((x) => ({ default: x.List }))) },
   { path: "/course-provider/instructor/:instructorID", component: React.lazy(() => import("~/Pages/Institute/Instructors/InstructorDetailsPage").then((x) => ({ default: x.InstructorDetailsPage }))) },
