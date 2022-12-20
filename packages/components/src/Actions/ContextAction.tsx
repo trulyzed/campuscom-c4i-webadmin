@@ -9,9 +9,9 @@ import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
 export type ActionType = 'add' | 'approve' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
-  'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
+  'next' | 'pay' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
-interface IContextActionProps {
+export interface IContextActionProps {
   text?: string
   tooltip: string
   type?: ActionType
@@ -52,6 +52,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     makePayment: <span className={getIconClassName("glyphicon-payment", iconColor)} />,
     mfa: < span className={getIconClassName("glyphicon-lock", iconColor)} />,
     next: <span className={getIconClassName("glyphicon-chevron-right", iconColor)} />,
+    pay: <span className={getIconClassName("glyphicon-dollar", iconColor)} />,
     previous: <span className={getIconClassName("glyphicon-chevron-left", iconColor)} />,
     reload: <span className={getIconClassName("glyphicon-repeat", iconColor)} />,
     remove: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
