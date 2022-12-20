@@ -14,16 +14,6 @@ export const getRefundFormMeta = (): IField[] => [
     inputType: TEXTAREA,
   },
   {
-    label: 'Submit refund information to CRM',
-    fieldName: 'task_crm_update',
-    inputType: BOOLEAN,
-  },
-  {
-    label: 'Update tax records for refund',
-    fieldName: 'task_tax_refund',
-    inputType: BOOLEAN,
-  },
-  {
     label: 'Cancel the enrollment',
     fieldName: 'task_cancel_enrollment',
     inputType: BOOLEAN,

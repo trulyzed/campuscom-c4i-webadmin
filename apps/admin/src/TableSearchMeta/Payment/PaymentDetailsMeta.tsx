@@ -39,7 +39,8 @@ export const getPaymentDetailsMeta = (payment: { [key: string]: any }): IDetails
           formSubmitApi={createEntity}
           buttonLabel={`Create Refund Request`}
           refreshEventName={REFRESH_PAGE}
-          iconType={'reload'}
+          iconType={'pay'}
+          iconColor={'warning'}
         />,
       ],
     }]
