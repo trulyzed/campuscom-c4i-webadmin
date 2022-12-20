@@ -48,16 +48,16 @@ export const refundListTableColumns: TableColumnType = [
     dataIndex: "task_cancel_enrollment",
     sorter: (a: any, b: any) => a.task_cancel_enrollment - b.task_cancel_enrollment
   },
-  {
-    title: 'Tax Refund',
-    dataIndex: "task_tax_refund",
-    sorter: (a: any, b: any) => a.task_tax_refund - b.task_tax_refund
-  },
-  {
-    title: 'CRM Update',
-    dataIndex: "task_crm_update",
-    sorter: (a: any, b: any) => a.task_crm_update - b.task_crm_update
-  },
+  // {
+  //   title: 'Tax Refund',
+  //   dataIndex: "task_tax_refund",
+  //   sorter: (a: any, b: any) => a.task_tax_refund - b.task_tax_refund
+  // },
+  // {
+  //   title: 'CRM Update',
+  //   dataIndex: "task_crm_update",
+  //   sorter: (a: any, b: any) => a.task_crm_update - b.task_crm_update
+  // },
 ]
 
 export const getRefundListTableColumns = (isModal = false): ITableMeta => {
