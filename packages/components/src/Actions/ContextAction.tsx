@@ -9,9 +9,9 @@ import { IModalWrapperProps, ModalWrapper } from "~/Modal/ModalWrapper"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 
 export type ActionType = 'add' | 'approve' | 'changePassword' | 'close' | 'copy' | 'create' | 'deactivate' | 'delete' | 'download' | 'drop' | 'edit' | 'filter' | 'generateKey' | 'goToProfile' | 'makePayment' | 'mfa' |
-  'next' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
+  'next' | 'pay' | 'previous' | 'reload' | 'remove' | 'search' | 'showHistory' | 'shuffle' | 'start' | 'swap' | 'transfer'
 
-interface IContextActionProps {
+export interface IContextActionProps {
   text?: string
   tooltip: string
   type?: ActionType
@@ -26,6 +26,7 @@ interface IContextActionProps {
   buttonType?: ButtonProps["type"]
   modalProps?: IModalWrapperProps
   successText?: string
+  disableLoading?: boolean
 }
 
 const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionProps["iconColor"]): React.ReactNode => {
@@ -51,6 +52,7 @@ const getIcon = (type: IContextActionProps["type"], iconColor?: IContextActionPr
     makePayment: <span className={getIconClassName("glyphicon-payment", iconColor)} />,
     mfa: < span className={getIconClassName("glyphicon-lock", iconColor)} />,
     next: <span className={getIconClassName("glyphicon-chevron-right", iconColor)} />,
+    pay: <span className={getIconClassName("glyphicon-dollar", iconColor)} />,
     previous: <span className={getIconClassName("glyphicon-chevron-left", iconColor)} />,
     reload: <span className={getIconClassName("glyphicon-repeat", iconColor)} />,
     remove: <span className={getIconClassName("glyphicon-remove-sign", iconColor)} />,
@@ -79,8 +81,9 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   buttonType,
   modalProps,
   successText,
+  disableLoading,
 }: IContextActionProps, ref) => {
-  const [processing, setIsProcessing] = useState(false)
+  const [isProcessing, setIsProcessing] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const { push } = useHistory()
   const icon = getIcon(type, iconColor)
@@ -102,7 +105,9 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
         if (refreshEventName) triggerEvents(refreshEventName)
       }).finally(() => setIsProcessing(false))
     } else if (onClick) {
-      onClick()
+      setIsProcessing(true)
+      await onClick()
+      setIsProcessing(false)
     } else if (modalProps) {
       setShowModal(true)
     }
@@ -122,11 +127,12 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
             : <Button
               ref={ref}
               className="p-0 m-0"
+              style={{ display: 'inline-flex', justifyContent: 'center' }}
               title={tooltip}
               type={buttonType || 'link'}
               icon={icon}
               onClick={handleClick}
-              loading={processing}
+              loading={disableLoading ? undefined : isProcessing}
               children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
             />}
         </>
