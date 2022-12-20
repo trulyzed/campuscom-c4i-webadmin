@@ -13,7 +13,7 @@ export const refundListTableColumns: TableColumnType = [
   {
     title: 'Payment ID',
     dataIndex: "payment",
-    render: (text: any, record: any) => renderLink(`/storefront-data/payment/${text.id}`, text.id),
+    render: (text: any, record: any) => renderLink(`/storefront-data/payment/${text.id}`, text.transaction_request_id),
     sorter: (a: any, b: any) => a.payment - b.payment
   },
   {
