@@ -4,6 +4,7 @@ import { IQuestionQueries, processQuestions } from "./Proxy/Questions"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
 import { parseJSON } from "@packages/utilities/lib/parser"
+import { convertToFormData } from "~/Api/utils/ConvertToFormData"
 
 export const QuestionQueries: IQuestionQueries = {
   getSingle: PermissionWrapper(
@@ -133,7 +134,7 @@ export const QuestionQueries: IQuestionQueries = {
         endpoint: endpoints.QUESTION,
         method: "POST",
         ...data,
-        data: payload
+        data: convertToFormData(payload)
       })
     },
     [{ operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write }]
@@ -162,7 +163,7 @@ export const QuestionQueries: IQuestionQueries = {
         method: "PATCH",
         ...data,
         params,
-        data: payload
+        data: convertToFormData(payload)
       })
     },
     [{ operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write }]
