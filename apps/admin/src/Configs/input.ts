@@ -41,5 +41,6 @@ export const INPUT_OPTIONS: Record<InputOption, IField['options']> = {
     { value: 'select', label: 'Select' },
     { value: 'attachment', label: 'Attachment' },
     { value: 'signature', label: 'Signature' },
+    { value: 'composite', label: 'Composite' },
   ]
 }

@@ -91,10 +91,10 @@ export const getQuestionFormMeta = (): IField[] => [
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
-    accept: BATCH_FILE_INPUT_FORMAT,
-    dependencies: ['autocomplete'],
+    accept: `${BATCH_FILE_INPUT_FORMAT},.json`,
+    dependencies: ['autocomplete', 'question_type'],
     onDependencyChange: (value, {toggleField}) => {
-      toggleField?.(value?.autocomplete)
+      toggleField?.(value?.autocomplete || (value?.question_type === "composite"))
     },
   },
   {
@@ -131,16 +131,28 @@ export const getQuestionFormMeta = (): IField[] => [
     label: 'Is Required',
     fieldName: 'required',
     inputType: BOOLEAN,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Default Value',
     fieldName: 'default_value',
     inputType: TEXT,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Placeholder',
     fieldName: 'placeholder',
     inputType: TEXT,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Help Text',
