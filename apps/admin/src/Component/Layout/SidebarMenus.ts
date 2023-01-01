@@ -224,12 +224,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getUserListTableColumns().searchFunc)
       },
       {
-        title: "Refunds",
-        url: "/administration/refund",
-        submenu: [],
-        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
-      },
-      {
         title: "Discount Programs",
         url: "/administration/discount-program",
         submenu: [],
