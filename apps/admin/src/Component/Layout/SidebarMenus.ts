@@ -37,6 +37,7 @@ import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/Tr
 import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/CertificateListTableColumns"
+import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/CertificatePublishing/PublishingListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -88,6 +89,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/store/publishing",
         submenu: [],
         permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+      },
+      {
+        title: "Certificate Publishing",
+        url: "/store/certificate-publishing",
+        submenu: [],
+        permission: checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
       },
       {
         title: "Products",
