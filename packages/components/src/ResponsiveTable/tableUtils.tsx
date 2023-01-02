@@ -85,7 +85,7 @@ const renderAnswer = (value: any, record: any) => {
     case 'signature':
       return <DownloadableLink link={value} />
     case 'composite':
-      return Object.values(value || {}).join(', ')
+      return Object.values(value || {}).map((i: any) => i.answer).join(', ')
     default:
       return value
   }
