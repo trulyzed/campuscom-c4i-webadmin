@@ -38,7 +38,7 @@ export const getCertificatePublishingDetailsMeta = (certificatePublishing: { [ke
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
         onFormSubmit={(data, navigator) => {
-          if (!certificatePublishing.store && navigator) navigator(`/store/certificate-publishing/${data.id}`)
+          if (!certificatePublishing.store && navigator) navigator(`/store/publishing/certificate/${data.id}`)
         }}
       />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />

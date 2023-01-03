@@ -28,7 +28,7 @@ export const courseSharingContractCourseListTableColumns: TableColumnType = [
           apiPermission={PublishingQueries.update}
           name={"Manage Publishing"}
           icon={<span className={"glyphicon glyphicon-edit mr-2"} />}
-          path={`/store/publishing/${record.id}`}
+          path={`/store/publishing/course/${record.id}`}
           buttonType="ghost"
         />
         : <ContextAction

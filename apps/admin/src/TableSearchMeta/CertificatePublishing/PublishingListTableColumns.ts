@@ -7,7 +7,7 @@ export const certificatePublishingListTableColumns: TableColumnType = [
   {
     title: 'Certificate Title',
     dataIndex: 'title',
-    render: (text: any, record: any) => renderLink(record.store ? `/store/certificate-publishing/${record.id}` : `/store/ready-certificate-publishing/${record.certificate_id}`, text),
+    render: (text: any, record: any) => renderLink(record.store ? `/store/publishing/certificate/${record.id}` : `/store/ready-certificate-publishing/${record.certificate_id}`, text),
     sorter: (a: any, b: any) => a.title - b.title
   },
   {
