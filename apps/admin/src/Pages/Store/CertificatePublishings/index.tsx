@@ -5,7 +5,7 @@ import { getCertificatePublishingSearchMeta } from "~/TableSearchMeta/Certificat
 export const List = () => {
   return (
     <SearchPage
-      title={"Store Items"}
+      title={"Store Items - Certificate"}
       meta={getCertificatePublishingSearchMeta()}
       tableProps={getCertificatePublishingListTableColumns()}
     />
