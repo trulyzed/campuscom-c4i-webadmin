@@ -137,7 +137,7 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
       helpKey: "questionSummaryTab"
     },
     ...question.question_type === 'composite' ? [{
-      tabTitle: "Questions",
+      tabTitle: "Child Questions",
       tabType: "table",
       tabMeta: {
         tableProps: {
