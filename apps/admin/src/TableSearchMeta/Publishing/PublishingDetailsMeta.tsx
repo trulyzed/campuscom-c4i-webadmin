@@ -173,7 +173,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
   ]
 
   return {
-    pageTitle: `Publishing Title - ${publishing.course.title}`,
+    pageTitle: `Course Publishing Title - ${publishing.course.title}`,
     tabs: tabMetas
   }
 }
