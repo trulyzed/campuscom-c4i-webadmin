@@ -86,15 +86,23 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       },
       {
         title: "Publishing",
-        url: "/store/publishing",
-        submenu: [],
-        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
-      },
-      {
-        title: "Certificate Publishing",
-        url: "/store/certificate-publishing",
-        submenu: [],
-        permission: checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
+        url: "/store/publishing/course",
+        submenu: [
+          {
+            title: "Course",
+            url: "/store/publishing/course",
+            submenu: [],
+            permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+          },
+          {
+            title: "Certificate",
+            url: "/store/publishing/certificate",
+            submenu: [],
+            permission: checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
+          },
+        ],
+        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+          checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
       },
       {
         title: "Products",
