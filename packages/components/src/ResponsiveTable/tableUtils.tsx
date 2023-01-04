@@ -86,6 +86,8 @@ const renderAnswer = (value: any, record: any) => {
       return <DownloadableLink link={value} />
     case 'composite':
       return Object.values(value || {}).sort((a: any, b: any) => b.order - a.order).map((i: any) => typeof i.answer === 'object' ? i.answer.label : i.answer).join(', ')
+    case 'select':
+      return typeof value === "object" ? value.label : value
     default:
       return value
   }
