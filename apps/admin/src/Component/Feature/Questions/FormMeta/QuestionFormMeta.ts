@@ -3,6 +3,7 @@ import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/GlobalConfigurations"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
 export const getQuestionFormMeta = (): IField[] => [
@@ -158,5 +159,13 @@ export const getQuestionFormMeta = (): IField[] => [
     label: 'Help Text',
     fieldName: 'help_text',
     inputType: TEXT,
+  },
+  {
+    label: 'Parent Question',
+    fieldName: 'parent_question',
+    inputType: DROPDOWN,
+    refLookupService: QuestionQueries.getLookupData,
+    displayKey: "name",
+    valueKey: "id",
   },
 ]

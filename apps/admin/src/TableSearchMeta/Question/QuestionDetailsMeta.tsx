@@ -122,6 +122,7 @@ export const getQuestionDetailsMeta = (question: { [key: string]: any }): IDetai
       { label: 'Default Value', value: question.configuration?.default_value },
       { label: 'Placeholder', value: question.configuration?.placeholder },
       { label: 'Help Text', value: question.configuration?.help_text },
+      { label: 'Parent Question', value: question.parent_question ? renderLink(`/administration/question/${question.parent_question.id}`, convertToString(question.parent_question.title, true)) : undefined },
     ]
   }
 
