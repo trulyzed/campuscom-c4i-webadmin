@@ -75,6 +75,7 @@ export enum ApiPermissionClass {
   DiscountProgramUsageHistory = "DiscountProgramUsageView",
   DiscountRule = "DiscountRuleViewSet",
   DownloadTransactionBatch = "DownloadTransactionBatchView",
+  ERPLog = "ERPLogViewSet",
   ExternalEntity = "ExternalEntityViewSet",
   FailedMQ = "failed_messages_list",
   GlobalConfiguration = "GlobalConfigurationViewSet",
