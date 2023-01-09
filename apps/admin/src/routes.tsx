@@ -81,6 +81,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/contact-group", component: React.lazy(() => import("~/Pages/Administration/ContactGroups").then((x) => ({ default: x.List }))) },
   { path: "/administration/contact-group/:contactGroupID", component: React.lazy(() => import("~/Pages/Administration/ContactGroups/ContactGroupDetailsPage").then((x) => ({ default: x.ContactGroupDetailsPage }))) },
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
+  { path: "/administration/log/payment", component: React.lazy(() => import("~/Pages/Administration/PaymentLogs/index").then((x) => ({ default: x.List }))) },
+  { path: "/administration/log/payment/:paymentLogID", component: React.lazy(() => import("~/Pages/Administration/PaymentLogs/PaymentLogDetailsPage").then((x) => ({ default: x.PaymentLogDetailsPage }))) },
 
   { path: "/configuration/identity-provider/:identityProviderID", component: React.lazy(() => import("~/Pages/Configuration/IdentityProviders/IdentityProviderDetailsPage").then((x) => ({ default: x.IdentityProviderDetailsPage }))) },
   { path: "/configuration/payment-gateway/:paymentGatewayID", component: React.lazy(() => import("~/Pages/Administration/PaymentGateways/PaymentGatewayDetailsPage").then((x) => ({ default: x.PaymentGatewayDetailsPage }))) },

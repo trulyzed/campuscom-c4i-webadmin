@@ -38,6 +38,7 @@ import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBl
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/CertificateListTableColumns"
 import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/CertificatePublishing/PublishingListTableColumns"
+import { getPaymentLogListTableColumns } from "~/TableSearchMeta/PaymentLog/PaymentLogListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -299,6 +300,19 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },
+      {
+        title: "Log",
+        url: "/administration/log",
+        submenu: [
+          {
+            title: "Payment",
+            url: "/administration/log/payment",
+            submenu: [],
+            permission: checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc)
+          },
+        ],
+        permission: checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc)
+      },
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -315,7 +329,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
