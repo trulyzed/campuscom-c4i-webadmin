@@ -38,6 +38,7 @@ import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBl
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
 import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/CertificateListTableColumns"
 import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/CertificatePublishing/PublishingListTableColumns"
+import { getERPLogListTableColumns } from "~/TableSearchMeta/ERPLog/ERPLogListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -300,6 +301,19 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },
+      {
+        title: "Log",
+        url: "/administration/log",
+        submenu: [
+          {
+            title: "ERP",
+            url: "/administration/log/erp",
+            submenu: [],
+            permission: checkAdminApiPermission(getERPLogListTableColumns().searchFunc)
+          },
+        ],
+        permission: checkAdminApiPermission(getERPLogListTableColumns().searchFunc)
+      },
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -316,7 +330,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getERPLogListTableColumns().searchFunc)
   },
   {
     title: "Configuration",
