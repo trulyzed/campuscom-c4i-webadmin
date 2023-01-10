@@ -9,6 +9,7 @@ import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/St
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { useBrandingTitle } from "~/Hook/useBrandingTitle"
 import { useSetDefaultPreference } from "~/Hook/useSetDefaultPreference"
+import { RecordSession } from "~/Component/RecordSession"
 
 interface ILayoutProps {
   children: ReactNode
@@ -26,27 +27,36 @@ export const Layout = ({ children }: ILayoutProps) => {
       menus={getSidebarMenus()}
       title={title}
       onLogout={logout}
-      headerActions={[{
-        ariaLabel: "Switch Store",
-        component: (
-          <ContextPreferenceSwitcher
-            label="Switch Store"
-            formMeta={[{
-              fieldName: "default_store",
-              label: "Store",
-              inputType: DROPDOWN,
-              refLookupService: StoreQueries.getLookupData,
-              displayKey: "name",
-              valueKey: "id",
-              rules: [{ required: true, message: "This field is required!" }],
-            }]}
-            formTitle="Switch Store"
-            preferenceIndex="default_store"
-            contextDetailsQuery={StoreQueries.getSingle}
-          />
-        ),
-        permission: UserPreferenceQueries.save,
-      }]}>
+      headerActions={[
+        {
+          ariaLabel: "Switch Store",
+          component: (
+            <ContextPreferenceSwitcher
+              label="Switch Store"
+              formMeta={[{
+                fieldName: "default_store",
+                label: "Store",
+                inputType: DROPDOWN,
+                refLookupService: StoreQueries.getLookupData,
+                displayKey: "name",
+                valueKey: "id",
+                rules: [{ required: true, message: "This field is required!" }],
+              }]}
+              formTitle="Switch Store"
+              preferenceIndex="default_store"
+              contextDetailsQuery={StoreQueries.getSingle}
+            />
+          ),
+          permission: UserPreferenceQueries.save,
+        },
+        {
+          ariaLabel: "Record Session",
+          component: (
+            <RecordSession />
+          ),
+          permission: UserPreferenceQueries.save,
+        }
+      ]}>
       {children}
     </DefaultLayout>
   )
