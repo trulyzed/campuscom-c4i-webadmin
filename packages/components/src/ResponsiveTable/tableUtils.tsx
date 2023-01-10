@@ -87,7 +87,7 @@ const renderAnswer = (value: any, record: any) => {
     case 'composite':
       return Object.values(value || {}).sort((a: any, b: any) => b.order - a.order).map((i: any) => isObject(i.answer) ? i.answer.label : i.answer).join(', ')
     case 'select':
-      return typeof value === "object" ? value.label : value
+      return isObject(value) ? value.label : value
     default:
       return value
   }
