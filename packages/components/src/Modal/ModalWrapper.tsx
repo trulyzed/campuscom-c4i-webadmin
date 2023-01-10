@@ -1,4 +1,4 @@
-import { CSSProperties, ReactNode, useEffect } from "react"
+import { CSSProperties, ReactNode, useEffect, useRef } from "react"
 import { Card, Col, Row } from "antd"
 import { ContextAction } from "~/Actions/ContextAction"
 import { Modal } from "./Modal"
@@ -14,6 +14,7 @@ export interface IModalWrapperProps {
   actions?: ReactNode[]
   onClose?: () => void
   loading?: boolean
+  focusOnClose?: boolean
 }
 
 export const ModalWrapper = ({
@@ -24,8 +25,10 @@ export const ModalWrapper = ({
   closeHandlerEventName,
   actions,
   onClose,
-  loading
+  loading,
+  focusOnClose,
 }: IModalWrapperProps) => {
+  const closeRef = useRef<HTMLElement>(null)
   // Listen for modal close event
   useEffect(() => {
     if (!closeHandlerEventName || !onClose) return
@@ -34,6 +37,11 @@ export const ModalWrapper = ({
       if (closeHandlerEventName) eventBus.unsubscribe(closeHandlerEventName)
     }
   }, [closeHandlerEventName, onClose])
+
+  useEffect(() => {
+    if (focusOnClose) closeRef.current?.focus()
+    // eslint-disable-next-line
+  }, [])
 
   return (
     <Modal closeModal={onClose} width="1000px" zIndex={zIndexLevel.defaultModal} style={contentStyle} apiCallInProgress={loading}>
@@ -46,7 +54,7 @@ export const ModalWrapper = ({
                 : title}
             </Col>
             <Col xs={{ span: 2, offset: 22, }} md={{ offset: 0 }} className={"text-right"}>
-              <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={onClose} />
+              <ContextAction ref={closeRef} tooltip="Close" type="close" iconColor="primary" onClick={onClose} />
             </Col>
           </Row>
         }
