@@ -192,6 +192,7 @@ export const endpoints = {
   ALL_QUESTION: "question-bank?limit=1000",
   ALL_REGISTRATION_QUESTION: "registration-questions?limit=1000",
   ALL_RELATED_PRODUCT: "related-products?limit=1000",
+  ALL_PAYMENT_LOG: "payment-logs?limit=1000",
   ALL_PERMISSION: "permissions?limit=1000",
   ALL_PRODUCT: "products?limit=1000",
   ALL_REFUND: "refunds?limit=1000",

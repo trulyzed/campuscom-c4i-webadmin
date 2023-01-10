@@ -81,6 +81,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/contact-group", component: React.lazy(() => import("~/Pages/Administration/ContactGroups").then((x) => ({ default: x.List }))) },
   { path: "/administration/contact-group/:contactGroupID", component: React.lazy(() => import("~/Pages/Administration/ContactGroups/ContactGroupDetailsPage").then((x) => ({ default: x.ContactGroupDetailsPage }))) },
   { path: "/administration/import-task", component: React.lazy(() => import("~/Pages/Administration/ImportTasks").then((x) => ({ default: x.List }))) },
+  { path: "/administration/log/payment", component: React.lazy(() => import("~/Pages/Administration/PaymentLogs/index").then((x) => ({ default: x.List }))) },
+  { path: "/administration/log/payment/:paymentLogID", component: React.lazy(() => import("~/Pages/Administration/PaymentLogs/PaymentLogDetailsPage").then((x) => ({ default: x.PaymentLogDetailsPage }))) },
   { path: "/administration/log/erp", component: React.lazy(() => import("~/Pages/Administration/ERPLogs/index").then((x) => ({ default: x.List }))) },
   { path: "/administration/log/erp/:ERPLogID", component: React.lazy(() => import("~/Pages/Administration/ERPLogs/ERPLogDetailsPage").then((x) => ({ default: x.ERPLogDetailsPage }))) },
 
