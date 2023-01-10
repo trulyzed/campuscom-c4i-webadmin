@@ -54,3 +54,7 @@ export const getLocaleDecimalValue = (val?: number, digit = 2, locale?: Intl.Loc
 export const extractObjectValue = (obj: Record<string, any>, key: string) => {
   return key.split(".").reduce((a, c) => a[c], obj)
 }
+
+export const isObject = (data: any) => {
+  return !Array.isArray(data) && data !== null && typeof data === "object"
+}
