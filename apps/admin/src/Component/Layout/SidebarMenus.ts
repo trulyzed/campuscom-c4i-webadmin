@@ -125,7 +125,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+      (checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+        || checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
       checkAdminApiPermission(OrderQueries.create) ||
       checkAdminApiPermission(OrderQueries.createBulk)
