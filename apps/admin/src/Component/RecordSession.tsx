@@ -1,11 +1,12 @@
 import { useCallback, useContext, useEffect, useState } from "react"
-import { Button, Divider } from "antd"
+import { Button, Divider, Form, notification } from "antd"
 import Tracker from '@openreplay/tracker'
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ModalWrapper } from "@packages/components/lib/Modal/ModalWrapper"
 import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
 import { renderCopyToClipboard } from "@packages/components/lib/ResponsiveTable"
-import { generateUUID } from "@packages/utilities/lib/UUID"
+import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
+import { TEXTAREA } from "@packages/components/lib/Form/common"
 
 const tracker = new Tracker({
   projectKey: process.env.REACT_APP_OPEN_REPLAY_PRIVATE_KEY!,
@@ -17,31 +18,40 @@ export const RecordSession = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [recordingID, setRecordingID] = useState<string>()
   const { userData } = useContext(UserDataContext)
+  const [formInstance] = Form.useForm()
+  const { resetFields, getFieldsValue } = formInstance
 
   const handleStart = useCallback(async () => {
-    if (isProcessing) return
+    if (isProcessing || !userData) return
     setRecordingID(undefined)
-    const id = generateUUID()
+
+    const { remarks } = getFieldsValue()
+    const id = `${Date.now()}`
 
     try {
       setIsProcessing(true)
       await tracker.start({
         metadata: {
-          recording_id: id
-        }
+          recording_id: id,
+          ...remarks && { remarks }
+        },
+        forceNew: true,
+        userID: userData.email,
       })
       setIsRecording(true)
       setRecordingID(id)
+      notification.success({ message: 'Recording started.' })
     } catch (error) {
       setIsRecording(false)
     } finally {
       setIsProcessing(false)
     }
-  }, [isProcessing])
+  }, [isProcessing, userData, getFieldsValue])
 
   const handleStop = useCallback(() => {
     tracker.stop()
     setIsRecording(false)
+    notification.success({ message: 'Recording stopped.' })
   }, [])
 
   useEffect(() => {
@@ -54,6 +64,10 @@ export const RecordSession = () => {
   useEffect(() => {
     if (isRecording) setShowModal(false)
   }, [isRecording])
+
+  useEffect(() => {
+    resetFields()
+  }, [showModal, resetFields])
 
   return (
     <>
@@ -94,6 +108,23 @@ export const RecordSession = () => {
               </span>
             }
           </div>
+          {!isRecording ?
+            <Form form={formInstance}>
+              <FormFields
+                formInstance={formInstance}
+                meta={[
+                  {
+                    label: 'Remarks',
+                    inputType: TEXTAREA,
+                    fieldName: 'remarks',
+                    colSpan: 12
+                  }
+                ]}
+                dependencyValue={{}}
+                isVertical
+              />
+            </Form>
+            : null}
         </ModalWrapper>
       ) : null}
     </>
