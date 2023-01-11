@@ -50,7 +50,6 @@ export const getCertificatePublishingDetailsMeta = (certificatePublishing: { [ke
       { label: 'Enrollment Ready', value: certificatePublishing.enrollment_ready, render: renderBoolean },
       { label: 'Is Published', value: certificatePublishing.is_published, render: renderBoolean },
       { label: 'Is Featured', value: certificatePublishing.is_featured, render: renderBoolean },
-      { label: 'Is Featured', value: certificatePublishing.is_featured, render: renderBoolean },
       { label: 'Price', value: certificatePublishing.price },
     ]
   }
