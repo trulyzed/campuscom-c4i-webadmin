@@ -1,12 +1,13 @@
 import { useCallback, useContext, useEffect, useState } from "react"
-import { Button, Divider, Form, notification } from "antd"
+import { Button, Form, notification } from "antd"
 import Tracker from '@openreplay/tracker'
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ModalWrapper } from "@packages/components/lib/Modal/ModalWrapper"
 import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
-import { renderCopyToClipboard } from "@packages/components/lib/ResponsiveTable"
-import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
-import { TEXTAREA } from "@packages/components/lib/Form/common"
+import { FloatingAction } from "./FloatingAction"
+import { SessionDescription } from "./SessionDescription"
+import { SessionResult } from "./SessionResult"
+import { SessionForm } from "./SessionForm"
 
 const tracker = new Tracker({
   projectKey: process.env.REACT_APP_OPEN_REPLAY_PRIVATE_KEY!,
@@ -88,45 +89,12 @@ export const RecordSession = () => {
           ]}
           onClose={() => setShowModal(false)}
           focusOnClose>
-          {(!isRecording && recordingID) ?
-            <div className="mb-10">
-              <strong>Recording ID: </strong>
-              <div>
-                {renderCopyToClipboard(recordingID, { successMessage: 'Copied to clipboard', title: recordingID })}
-              </div>
-              <Divider />
-            </div>
-            : null
-          }
-          <div>
-            {isRecording ?
-              <span>
-                <p>A record is in progress. Click <strong>Stop</strong> button to end the recording.</p>
-              </span>
-              : <span>
-                <p>Begin a new recording session by clicking the <strong>Start</strong> button.</p>
-              </span>
-            }
-          </div>
-          {!isRecording ?
-            <Form form={formInstance}>
-              <FormFields
-                formInstance={formInstance}
-                meta={[
-                  {
-                    label: 'Remarks',
-                    inputType: TEXTAREA,
-                    fieldName: 'remarks',
-                    colSpan: 12
-                  }
-                ]}
-                dependencyValue={{}}
-                isVertical
-              />
-            </Form>
-            : null}
+          <SessionResult isRecording={isRecording} recordingID={recordingID} />
+          <SessionDescription isRecording={isRecording} />
+          <SessionForm show={!isRecording} formInstance={formInstance} />
         </ModalWrapper>
       ) : null}
+      <FloatingAction show={isRecording} onClick={() => setShowModal(true)} />
     </>
   )
 }
