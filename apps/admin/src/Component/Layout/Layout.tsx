@@ -9,7 +9,7 @@ import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/St
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
 import { useBrandingTitle } from "~/Hook/useBrandingTitle"
 import { useSetDefaultPreference } from "~/Hook/useSetDefaultPreference"
-import { RecordSession } from "~/Component/RecordSession"
+import { RecordSession } from "~/Component/RecordSession/index"
 
 interface ILayoutProps {
   children: ReactNode
