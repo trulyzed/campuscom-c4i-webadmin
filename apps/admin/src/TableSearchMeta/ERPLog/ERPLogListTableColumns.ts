@@ -5,21 +5,22 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const ERPLogListTableColumns: TableColumnType = [
   {
-    title: "ID",
-    dataIndex: "id",
+    title: "Summary",
+    dataIndex: "summary",
     render: (text: any, record: any) => renderLink(`/administration/log/erp/${record.id}`, text),
-    sorter: (a: any, b: any) => a.id - b.id
+    sorter: (a: any, b: any) => a.summary - b.summary
+  },
+  {
+    title: "Date",
+    dataIndex: "created_at",
+    render: (text: any) => renderDateTime(text),
+    sorter: (a: any, b: any) => a.created_at - b.created_at
   },
   {
     title: "Course Provider",
     dataIndex: "course_provider",
     render: (text: any) => renderLink(`/administration/course-provider/${text.id}`, text.name),
     sorter: (a: any, b: any) => a.course_provider.name - b.course_provider.name
-  },
-  {
-    title: "Type",
-    dataIndex: "type",
-    sorter: (a: any, b: any) => a.type - b.type
   },
   {
     title: "ERP",
@@ -30,17 +31,6 @@ export const ERPLogListTableColumns: TableColumnType = [
     title: "Status Code",
     dataIndex: "status_code",
     sorter: (a: any, b: any) => a.status_code - b.status_code
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    sorter: (a: any, b: any) => a.action - b.action
-  },
-  {
-    title: "Date",
-    dataIndex: "created_at",
-    render: (text: any) => renderDateTime(text),
-    sorter: (a: any, b: any) => a.created_at - b.created_at
   },
 ]
 

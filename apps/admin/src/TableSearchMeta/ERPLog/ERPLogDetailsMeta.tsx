@@ -6,14 +6,13 @@ import { renderJson, renderLink } from "@packages/components/lib/ResponsiveTable
 
 export const getERPLogDetailsMeta = (ERPLog: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
-    title: `ERP Log: ${ERPLog.id}`,
+    title: `ERP Log: ${ERPLog.summary}`,
     contents: [
       { label: 'Course Provider', value: renderLink(`/administration/course-provider/${ERPLog.course_provider.id}`, ERPLog.course_provider.name) },
-      { label: 'Type', value: ERPLog.type },
       { label: 'ERP', value: ERPLog.ERP },
       { label: 'Status Code', value: ERPLog.status_code },
-      { label: 'Action', value: ERPLog.action },
       { label: 'Date', value: ERPLog.created_at },
+      { label: 'Summary', value: ERPLog.summary },
       { label: 'Data', value: ERPLog.data, render: renderJson },
     ]
   }
@@ -47,7 +46,7 @@ export const getERPLogDetailsMeta = (ERPLog: { [key: string]: any }): IDetailsMe
   ]
 
   return {
-    pageTitle: `ERP Log Title - ${ERPLog.id}`,
+    pageTitle: `ERP Log Title - ${ERPLog.summary}`,
     tabs: tabMetas
   }
 }
