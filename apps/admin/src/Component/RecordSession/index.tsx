@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useState } from "react"
 import { Button, Form, notification } from "antd"
-import Tracker from '@openreplay/tracker'
+import Tracker, { SanitizeLevel } from '@openreplay/tracker'
 import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 import { ModalWrapper } from "@packages/components/lib/Modal/ModalWrapper"
 import { UserDataContext } from "@packages/components/lib/Context/UserDataContext"
@@ -11,6 +11,17 @@ import { SessionForm } from "./SessionForm"
 
 const tracker = new Tracker({
   projectKey: process.env.REACT_APP_OPEN_REPLAY_PRIVATE_KEY!,
+  obscureTextEmails: false,
+  obscureTextNumbers: false,
+  obscureInputDates: false,
+  obscureInputEmails: false,
+  obscureInputNumbers: false,
+  defaultInputMode: 0,
+
+  domSanitizer: (node) => {
+    if (node.getAttribute('type') === 'password') return SanitizeLevel.Obscured
+    else return SanitizeLevel.Plain
+  }
 })
 
 export const RecordSession = () => {
