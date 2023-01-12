@@ -6,7 +6,7 @@ import { renderDate, renderJson, renderLink } from "@packages/components/lib/Res
 
 export const getPaymentLogDetailsMeta = (paymentLog: { [key: string]: any }): IDetailsMeta => {
   const summaryInfo: CardContainer = {
-    title: `Payment Log: ${paymentLog.name}`,
+    title: `Payment Log: ${paymentLog.summary}`,
     contents: [
       { label: 'Order', value: renderLink(`/storefront-data/order/${paymentLog.cart.id}`, paymentLog.cart.order_ref) },
       { label: 'Summary', value: paymentLog.summary },
@@ -44,7 +44,7 @@ export const getPaymentLogDetailsMeta = (paymentLog: { [key: string]: any }): ID
   ]
 
   return {
-    pageTitle: `Payment Log Title - ${paymentLog.name}`,
+    pageTitle: `Payment Log Title - ${paymentLog.summary}`,
     tabs: tabMetas
   }
 }
