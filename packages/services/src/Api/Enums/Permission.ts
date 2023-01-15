@@ -94,6 +94,7 @@ export enum ApiPermissionClass {
   PaymentQuestion = "PaymentQuestionViewSet",
   PaymentLog = "PaymentLogViewSet",
   Permission = "PermissionViewSet",
+  PermissionRecordSession = "RecordSessionPermissionView",
   Persona = "PersonaView",
   Product = "ProductViewSet",
   Profile = "ProfileViewSet",

@@ -7,6 +7,7 @@ import { logout } from "~/Services/AuthService"
 import { getSidebarMenus } from "./SidebarMenus"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 import { UserPreferenceQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserPreferences"
+import { OtherPermissionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/OtherPermissions"
 import { useBrandingTitle } from "~/Hook/useBrandingTitle"
 import { useSetDefaultPreference } from "~/Hook/useSetDefaultPreference"
 import { RecordSession } from "~/Component/RecordSession/index"
@@ -54,7 +55,7 @@ export const Layout = ({ children }: ILayoutProps) => {
           component: (
             <RecordSession />
           ),
-          permission: UserPreferenceQueries.save,
+          permission: OtherPermissionQueries.checkRecordSessionPermission,
         }
       ]}>
       {children}
