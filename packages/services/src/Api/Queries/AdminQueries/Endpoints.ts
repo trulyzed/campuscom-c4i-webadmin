@@ -16,6 +16,7 @@ export const endpoints = {
   CERTIFICATE_COURSE: "certificate-courses",
   CERTIFICATE_ENROLLMENT: "certificate-enrollments",
   CHANGE_PASSWORD: "password/change",
+  CHECK_RECORD_SESSION_PERMISSION: "record-session-permission",
   COMPANY: "store-companies",
   COMPANY_CUSTOM_ROLE: "company-custom-roles",
   COMPANY_USER: "company-users",
