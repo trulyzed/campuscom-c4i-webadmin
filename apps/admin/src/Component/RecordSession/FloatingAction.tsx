@@ -11,7 +11,7 @@ export const FloatingAction = ({
   onClick
 }: IFloatingActionProps) => {
   return show ? createPortal((
-    <div style={{ position: "fixed", bottom: 40, right: 40, zIndex: 999 }}>
+    <div style={{ position: "fixed", bottom: 'calc(50% - 20px)', right: 40, zIndex: 999 }}>
       <Button
         icon={<span
           style={{ fontSize: 35, display: 'block' }}
