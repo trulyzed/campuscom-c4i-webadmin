@@ -8,6 +8,7 @@ import { FloatingAction } from "./FloatingAction"
 import { SessionDescription } from "./SessionDescription"
 import { SessionResult } from "./SessionResult"
 import { SessionForm } from "./SessionForm"
+import { OtherPermissionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/OtherPermissions"
 
 const tracker = new Tracker({
   projectKey: process.env.REACT_APP_OPEN_REPLAY_PRIVATE_KEY!,
@@ -42,6 +43,11 @@ export const RecordSession = () => {
 
     try {
       setIsProcessing(true)
+      const resp = await OtherPermissionQueries.checkRecordSessionPermission()
+      if (resp.error) {
+        notification.error({ message: resp.error[0]?.message || 'Something went wrong!' })
+        throw resp.error
+      }
       await tracker.start({
         metadata: {
           recording_id: id,
@@ -95,7 +101,7 @@ export const RecordSession = () => {
           actions={[
             isRecording ?
               <Button type="primary" onClick={handleStop}>Stop</Button>
-              : <Button type="primary" onClick={handleStart}>Start</Button>,
+              : <Button type="primary" onClick={handleStart} loading={isProcessing}>Start</Button>,
             <Button onClick={() => setShowModal(false)}>Close</Button>,
           ]}
           onClose={() => setShowModal(false)}
