@@ -5,7 +5,7 @@ import { getPublishingSearchMeta } from "~/TableSearchMeta/Publishing/Publishing
 export const List = () => {
   return (
     <SearchPage
-      title={"Store Items"}
+      title={"Store Items - Course"}
       meta={getPublishingSearchMeta()}
       tableProps={getPublishingListTableColumns()}
     />

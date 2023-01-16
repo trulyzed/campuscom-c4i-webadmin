@@ -11,8 +11,8 @@ export interface ISidebarMenu {
   submenu: ISidebarMenu[]
 }
 
-const ulStyle = { listStyle: "none", paddingLeft: "0", paddingBottom: "25px", paddingTop: "10px" }
-const liStyle = { color: "white", padding: "5px", paddingRight: "15px" }
+const ulStyle = { listStyle: "none", paddingLeft: "15px", paddingBottom: "25px", paddingTop: "10px" }
+const liStyle = { color: "white", padding: "5px", paddingLeft: "15px", paddingRight: "15px" }
 const buttonStyle: React.CSSProperties = {
   width: "100%",
   padding: "12px 15px",
@@ -29,9 +29,9 @@ const RenderMenu = (props: {
   title?: string
   _sidebarMenus: ISidebarMenu[]
   defaultExpanded?: boolean
-  padding: number
   showLastItemBorder?: boolean
   collapsed?: boolean
+  isSubmenuRender?: boolean
 }) => {
   const [expanded, setExpanded] = useState(props.defaultExpanded)
 
@@ -50,12 +50,12 @@ const RenderMenu = (props: {
         </button>
       )}
       {expanded && (
-        <ul style={{ ...ulStyle, paddingLeft: `${props.padding}px`, }}>
+        <ul style={{ ...ulStyle, ...props.isSubmenuRender && { paddingBottom: "20px", paddingTop: "5px" } }}>
           {props._sidebarMenus.filter(i => i.permission).map((x, idx, arr) => {
             if (x.submenu && x.submenu.length > 0)
               return (
-                <li key={x.key} style={props.showLastItemBorder || arr.length !== (idx + 1) ? { borderBottomWidth: "1px" } : undefined} className={"border-styles"}>
-                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} padding={props.padding + 10} collapsed={props.collapsed} />
+                <li key={x.key} style={props.showLastItemBorder || arr.length !== (idx + 1) ? { borderBottomWidth: "1px", ...props.isSubmenuRender && { marginBottom: "10px" } } : undefined} className={"border-styles"}>
+                  <RenderMenu title={x.title} _sidebarMenus={x.submenu} collapsed={props.collapsed} isSubmenuRender />
                 </li>
               )
             else
@@ -122,8 +122,8 @@ export function Sidebar(props: { collapsed: boolean; sidebarMenus: ISidebarMenu[
         <Typography.Title level={3} style={{ margin: 0 }} className={"no-white-space-wrap "}>Navigation</Typography.Title>
         <Button tabIndex={props.collapsed ? -1 : undefined} type="link" onClick={props.onClose} title={"Close Menu"} icon={<span className="glyphicon glyphicon--primary glyphicon-remove" />} />
       </div>
-      <div style={{ marginTop: "-5px" }}>
-        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded padding={0} showLastItemBorder collapsed={props.collapsed} />
+      <div style={{ marginTop: "-5px", marginLeft: "-15px" }}>
+        <RenderMenu _sidebarMenus={sidebarMenus} defaultExpanded showLastItemBorder collapsed={props.collapsed} />
       </div>
       <button style={{ ...buttonStyle, width: "auto" }} onClick={props.logout} tabIndex={props.collapsed ? -1 : undefined}>
         <Typography.Title level={4} style={{ fontSize: "18px", margin: 0 }}>Logout</Typography.Title>
