@@ -6,5 +6,5 @@ import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQ
 export function CourseProviderDetailsPage(props: RouteComponentProps<{ courseProviderID?: string }>) {
   const CourseProviderID = props?.match?.params?.courseProviderID
 
-  return <DetailsPage getMeta={getCourseProviderDetailsMeta} getDetailsPageContent={CourseProviderQueries.getSingle} entityType="courseProvider" entityID={CourseProviderID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getCourseProviderDetailsMeta} getDetailsPageContent={CourseProviderQueries.getSingle} entityType="courseProvider" entityID={CourseProviderID} titleKey="transaction_request_id" />
 }

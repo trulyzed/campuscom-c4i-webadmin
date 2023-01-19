@@ -8,7 +8,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
 import { ProductSearchMeta } from "~/TableSearchMeta/Product/ProductSearchMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { ProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
+import { getProductFormMeta } from "~/Component/Feature/Products/FormMeta/ProductFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Product`}
-              formMeta={ProductFormMeta}
+              formMeta={getProductFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Product`}
               iconType="create"

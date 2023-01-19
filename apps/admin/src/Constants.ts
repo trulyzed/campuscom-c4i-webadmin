@@ -1,6 +1,8 @@
 export const SHOW_LOGIN_MODAL = "SHOW_LOGIN_MODAL"
 export const REDIRECT_TO_LOGIN = "REDIRECT_TO_LOGIN"
 export const LOGGED_IN_SUCCESSFULLY = "LOGGED_IN_SUCCESSFULLY"
+export const CLOSE_MODAL = "CLOSE_MODAL"
+export const UPDATE_USER_PREFERENCE = "UPDATE_USER_PREFERENCE"
 
 export const REFRESH_FILTER_DATA_OF_PAGE = "REFRESH_FILTER_DATA_OF_PAGE"
 
@@ -10,7 +12,6 @@ export const DATE_TIME_FORMAT = "MM/DD/YYYY hh:mm A"
 export const DATE_TIME_FORMAT_NEW = "MM/DD/YYYY HH:mm"
 export const REQUEST_DATE_TIME_FORMAT = "YYYY-MM-DD hh:mm A"
 export const DATE_TIME = ""
-
 
 export const MERGE_SUCCESSFULLY = "Successfully merged!"
 export const SAVE_SUCCESSFULLY = "Successfully saved!"

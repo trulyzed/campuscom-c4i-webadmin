@@ -7,7 +7,7 @@ import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { notification } from "antd"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
-import { PublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
+import { getPublishingFormMeta } from "~/Component/Feature/Publishings/FormMeta/PublishingFormMeta"
 import { getSubjectListTableColumns } from "~/TableSearchMeta/Subject/SubjectListTableColumns"
 import { CourseQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Courses"
 import { getSubjectTaggingFormMeta } from "~/Component/Feature/Courses/FormMeta/SubjectTaggingFormMeta"
@@ -17,12 +17,24 @@ import { AuditTrailSearchMeta } from "~/TableSearchMeta/AuditTrails/AuditTrailSe
 import { getAuditTrailListTableColumns } from "~/TableSearchMeta/AuditTrails/AuditTrailListTableColumns"
 
 export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => PublishingQueries.update({ ...data, data: { ...data?.data, course: publishing.course.id } }).then(resp => {
-    if (resp.success) {
-      notification.success({ message: UPDATE_SUCCESSFULLY })
-    }
-    return resp
-  })), [PublishingQueries.update])
+  const updateEntity = QueryConstructor((data) => {
+    const sections = (publishing.sections as any[]).map((i => ({
+      id: i.id,
+      fee: data?.data[`fee__${i.id}`],
+      token_fee: data?.data[`token_fee__${i.id}`],
+      is_approval_required: data?.data[`is_approval_required__${i.id}`],
+    })))
+
+    return PublishingQueries.update({
+      ...data,
+      data: { ...data?.data, course: publishing.course.id, sections },
+    }).then(resp => {
+      if (resp.success) {
+        notification.success({ message: UPDATE_SUCCESSFULLY })
+      }
+      return resp
+    })
+  }, [PublishingQueries.update])
 
   const tagSubjects = QueryConstructor(((data) => CourseQueries.tagToSubjects({ ...data, data: { ...data?.data, publishingId: publishing.id } }).then(resp => {
     if (resp.success) {
@@ -36,7 +48,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Publishing`}
-        formMeta={PublishingFormMeta}
+        formMeta={getPublishingFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...publishing, store: publishing.store?.id }}
         defaultFormValue={{ publishingId: publishing.id }}
@@ -44,7 +56,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
         onFormSubmit={(data, navigator) => {
-          if (!publishing.store && navigator) navigator(`/store/publishing/${data.id}`)
+          if (!publishing.store && navigator) navigator(`/store/publishing/course/${data.id}`)
         }}
       />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
@@ -94,9 +106,20 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
               sorter: (a: any, b: any) => a.fee - b.fee
             },
             {
+              title: "Token Fee",
+              dataIndex: "token_fee",
+              sorter: (a: any, b: any) => a.token_fee - b.token_fee
+            },
+            {
               title: "Seat Capacity",
               dataIndex: "seat_capacity",
               sorter: (a: any, b: any) => a.seat_capacity - b.seat_capacity
+            },
+            {
+              title: "Is Approval Required",
+              dataIndex: "is_approval_required",
+              render: renderBoolean,
+              sorter: (a: any, b: any) => a.is_approval_required - b.is_approval_required
             },
           ],
           dataSource: publishing.sections,
@@ -150,7 +173,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
   ]
 
   return {
-    pageTitle: `Publishing Title - ${publishing.course.title}`,
+    pageTitle: `Course Publishing Title - ${publishing.course.title}`,
     tabs: tabMetas
   }
 }

@@ -4,7 +4,7 @@ export const IMAGE_INPUT_FORMAT = '.jpg, .jpeg, .png'
 export const BATCH_FILE_INPUT_FORMAT = '.csv'
 export const FILE_INPUT_FORMAT = '.js'
 
-type InputOption = 'ACTIVE_STATUS' | 'DISCOUNT_RULE_CONTEXT_TYPE' | 'DISCOUNT_RULE_OPERATOR_TYPE' | 'EXECUTION_MODE' | 'MEMBERSHIP_TYPE' | 'QUESTION_TYPE'
+type InputOption = 'ACTIVE_STATUS' | 'DISCOUNT_RULE_CONTEXT_TYPE' | 'DISCOUNT_RULE_OPERATOR_TYPE' | 'EXECUTION_MODE' | 'MEMBERSHIP_TYPE' | 'PRODUCT_TYPE' | 'QUESTION_TYPE'
 
 export const INPUT_OPTIONS: Record<InputOption, IField['options']> = {
   ACTIVE_STATUS: [
@@ -48,6 +48,12 @@ export const INPUT_OPTIONS: Record<InputOption, IField['options']> = {
       value: 'date_based',
       label: 'Date Based',
     },
+  ],
+  PRODUCT_TYPE: [
+    { value: 'section',label: 'Section', },
+    { value: 'certificate',label: 'Certificate', },
+    { value: 'membership',label: 'Membership', },
+    { value: 'miscellaneous',label: 'Miscellaneous', },
   ],
   QUESTION_TYPE: [
     {

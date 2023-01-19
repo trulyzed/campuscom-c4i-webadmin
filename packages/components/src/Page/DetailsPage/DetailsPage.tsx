@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useHistory, useLocation } from "react-router-dom"
 import { Button, Col, Empty, Result, Row, Spin, Tabs } from "antd"
+import { IApiErrorProcessor } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { DetailsSearchTab, IDetailsSearchTabProp } from "~/Page/DetailsPage/DetailsSearchTab"
 import { DetailsTableTab, IDetailsTableTabProp } from "~/Page/DetailsPage/DetailsTableTab"
 import { DetailsCustomTab, IDetailsCustomTabProp } from "~/Page/DetailsPage/DetailsCustomTab"
@@ -15,10 +16,13 @@ import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/A
 import { lastVisitedProcessor, UPDATE_HISTORY } from "~/HistoryProcessor"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
-import { useHistory } from "react-router-dom"
+import { SET_LAST_BREADCRUMB } from "@packages/utilities/lib/Constants"
+import { extractObjectValue } from "@packages/utilities/lib/util"
+import { BackNavigator } from "./BackNavigator"
 
-export function DetailsPage(props: IDetailsPage) {
+export function DetailsPage(props: IDetailsPage & { breadcrumbDataIndex?: string }) {
   const history = useHistory()
+  const location = useLocation()
   const [loading, setLoading] = useState(false)
   const [title, setTitle] = useState<string>()
   const [error, setError] = useState<IApiErrorProcessor>()
@@ -26,6 +30,33 @@ export function DetailsPage(props: IDetailsPage) {
   const [activeTabKey, setActiveTabKey] = useState<string>()
   const [currentTabKeysInURL, setCurrentTabKeysInURL] = useState<string>()
   const [helpKey, setHelpKey] = useState<string | undefined>()
+  const forceRefresh = useMemo(() => !!(location.state as { forceRefresh: boolean })?.forceRefresh, [location.state])
+  const backNavigatorRef = useRef<HTMLElement>(null)
+
+  const setBreadcrumb = useCallback((isLoading: boolean, data?: any) => {
+    if (!props.breadcrumbDataIndex) return
+    eventBus.publish(SET_LAST_BREADCRUMB, {
+      data,
+      isLoading
+    })
+  }, [props.breadcrumbDataIndex])
+
+  useEffect(() => {
+    backNavigatorRef.current?.focus()
+    // eslint-disable-next-line
+  }, [backNavigatorRef.current])
+
+  useEffect(() => {
+    setBreadcrumb(true)
+    return () => {
+      setBreadcrumb(false)
+    }
+  }, [setBreadcrumb])
+
+  useEffect(() => {
+    if (forceRefresh) changeActiveTabkey("1", false, true)
+    // eslint-disable-next-line
+  }, [forceRefresh])
 
   const updateHelpKey = (tabKey: string) => {
     const tabIndexes: number[] = tabKey.split("-").map((x) => {
@@ -42,7 +73,7 @@ export function DetailsPage(props: IDetailsPage) {
     if (tabMeta) setHelpKey((tabMeta as IDetailsTabMeta).helpKey)
   }
 
-  const changeActiveTabkey = (key: string, canBackTrack = true) => {
+  const changeActiveTabkey = (key: string, canBackTrack = true, clearState?: boolean) => {
     setActiveTabKey(key)
     const previousQueryString = querystringToObject()
     const _queryString = objectToQueryString({
@@ -51,7 +82,8 @@ export function DetailsPage(props: IDetailsPage) {
     })
     updateHelpKey(`${key}-1`)
     history[canBackTrack ? "push" : "replace"]({
-      search: _queryString
+      search: _queryString,
+      ...clearState && { state: {} }
     })
   }
 
@@ -99,6 +131,7 @@ export function DetailsPage(props: IDetailsPage) {
     setLoading(true)
     setError(undefined)
     eventBus.publish(UPDATE_HISTORY)
+    setBreadcrumb(true)
     props
       .getDetailsPageContent({ params: { id: props.entityID } })
       .then((x) => {
@@ -109,8 +142,13 @@ export function DetailsPage(props: IDetailsPage) {
           setMeta(tabs)
           setTitle(pageTitle)
 
+          if (props.breadcrumbDataIndex) setBreadcrumb(false, extractObjectValue(x.data, props.breadcrumbDataIndex))
+
           props.onDataLoad && props.onDataLoad(x.data)
         } else setError(x.error)
+      })
+      .catch(() => {
+        setBreadcrumb(false)
       })
       .finally(() => setLoading(false))
   }
@@ -168,6 +206,9 @@ export function DetailsPage(props: IDetailsPage) {
       {!loading && !error && meta.length > 0 && (
         <div className="site-layout-content">
           <Row align="middle" gutter={10} style={{ padding: "10px 0" }}>
+            <Col>
+              <BackNavigator ref={backNavigatorRef} />
+            </Col>
             {title && (
               <Col>
                 <SidebarMenuTargetHeading level={2}>{title}</SidebarMenuTargetHeading>

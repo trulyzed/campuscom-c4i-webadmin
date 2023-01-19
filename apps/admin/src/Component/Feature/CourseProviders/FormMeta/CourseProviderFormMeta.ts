@@ -2,7 +2,7 @@ import { IMAGE_INPUT_FORMAT } from "~/Configs/input"
 import { IField, TEXT, FILE, EDITOR, DROPDOWN } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const CourseProviderFormMeta: IField[] = [
+export const getCourseProviderFormMeta = ():IField[] => [
   {
     label: 'Name',
     fieldName: 'name',
@@ -61,11 +61,21 @@ export const CourseProviderFormMeta: IField[] = [
     label: 'Username',
     fieldName: 'configuration__username',
     inputType: TEXT,
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['configuration__auth_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.configuration__auth_type === 'basic')
+    },
   },
   {
     label: 'Password',
     fieldName: 'configuration__password',
     inputType: TEXT,
+    rules: [{ required: true, message: "This field is required!" }],
+    dependencies: ['configuration__auth_type'],
+    onDependencyChange: (value, { toggleField }) => {
+      toggleField?.(value?.configuration__auth_type === 'basic')
+    },
   },
   {
     label: 'Enrollment URL',

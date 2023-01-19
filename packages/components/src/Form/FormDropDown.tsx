@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useState } from "react"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { Select } from "antd"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
+import { UserDataContext } from "~/Context/UserDataContext"
 
 export function FormDropDown(
   props: IGeneratedField & {
@@ -12,8 +13,10 @@ export function FormDropDown(
     dropdownMatchSelectWidth?: boolean | number
   }
 ) {
+  const { userPreferences } = useContext(UserDataContext)
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
 
@@ -34,6 +37,7 @@ export function FormDropDown(
       const x = await refLookupService(params)
       setLoading(false)
       if (x.success && displayKey && valueKey) {
+        setLookupData(x.data)
         x.data = x.data.map((y: any) => ({
           label: renderLabel ? renderLabel(y) : y[displayKey || "label"],
           value: y[valueKey || "value"]
@@ -41,6 +45,7 @@ export function FormDropDown(
         setOptions(x.data)
         return x.data
       } else if (x.success && Array.isArray(x.data)) {
+        setLookupData(x.data)
         x.data = x.data.map((y: any) => ({
           label: renderLabel ? renderLabel(y) : y,
           value: y
@@ -91,11 +96,20 @@ export function FormDropDown(
   }, [props.defaultValue])
 
   useEffect(() => {
-    if (!props.autoSelectDefault || options.length !== 1) return
+    if (!props.autoSelectSingle || options.length !== 1) return
     formInstance.setFieldValue(fieldName, options[0].value)
     props.onAutoSelectDefault?.(options[0].value)
     // eslint-disable-next-line
-  }, [options, props.autoSelectDefault, formInstance.setFieldValue, fieldName])
+  }, [options, props.autoSelectSingle, formInstance.setFieldValue, fieldName])
+
+  useEffect(() => {
+    if (props.defaultValue !== undefined) return
+    const value = options.find(o => o.value === userPreferences[props.defaultPreferenceIndex || '']?.id)?.value
+    if (!value) return
+    formInstance.setFieldValue(fieldName, value)
+    props.onAutoSelectDefault?.(value)
+    // eslint-disable-next-line
+  }, [options, userPreferences, props.defaultValue, props.defaultPreferenceIndex, formInstance.setFieldValue, fieldName])
 
   return (
     <SearchFieldWrapper {...props}>
@@ -114,7 +128,7 @@ export function FormDropDown(
           )
         }}
         disabled={props.disabled}
-        onChange={props.onSelectedItems}
+        onChange={(value, option) => props.onSelectedItems?.(value, option, lookupData)}
         dropdownMatchSelectWidth={props.dropdownMatchSelectWidth !== undefined ? props.dropdownMatchSelectWidth : true}
       >
         {options &&

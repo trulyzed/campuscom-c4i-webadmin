@@ -8,7 +8,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getCourseProviderListTableColumns } from "~/TableSearchMeta/CourseProvider/CourseProviderListTableColumns"
 import { CourseProviderSearchMeta } from "~/TableSearchMeta/CourseProvider/CourseProviderSearchMeta"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
-import { CourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
+import { getCourseProviderFormMeta } from "~/Component/Feature/CourseProviders/FormMeta/CourseProviderFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Course Provider`}
-              formMeta={CourseProviderFormMeta}
+              formMeta={getCourseProviderFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Course Provider`}
               iconType="create"

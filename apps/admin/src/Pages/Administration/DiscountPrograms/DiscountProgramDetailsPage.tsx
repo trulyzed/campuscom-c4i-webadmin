@@ -6,5 +6,5 @@ import { DiscountProgramQueries } from "@packages/services/lib/Api/Queries/Admin
 export function DiscountProgramDetailsPage(props: RouteComponentProps<{ discountProgramID?: string }>) {
   const DiscountProgramID = props?.match?.params?.discountProgramID
 
-  return <DetailsPage getMeta={getDiscountProgramDetailsMeta} getDetailsPageContent={DiscountProgramQueries.getSingle} entityType="discountProgram" entityID={DiscountProgramID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="title" getMeta={getDiscountProgramDetailsMeta} getDetailsPageContent={DiscountProgramQueries.getSingle} entityType="discountProgram" entityID={DiscountProgramID} titleKey="transaction_request_id" />
 }

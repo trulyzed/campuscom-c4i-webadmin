@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import moment from "moment"
 import { Link } from "react-router-dom"
 import { Tag, TagProps } from "antd"
@@ -6,11 +6,12 @@ import { ReadOutlined } from "@ant-design/icons"
 import rehypeRaw from 'rehype-raw'
 import ReactJsonView from 'react-json-view'
 import { setScrollPosition } from "~/ResponsiveTable//ManageScroll"
-import { getLocaleDecimalValue } from "@packages/utilities/lib/util"
+import { getLocaleDecimalValue, isObject } from "@packages/utilities/lib/util"
 import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "@packages/utilities/lib/parser"
 import DownloadableLink from "./DownloadableLink"
 import Text from "antd/lib/typography/Text"
+import { CopyToClipboard } from "~/Actions/CopyToClipboard"
 
 export const DATE_FORMAT = "MM/DD/YYYY"
 export const TIME_FORMAT = "hh:mm A"
@@ -22,14 +23,19 @@ const renderDetailsLink = (url: string): JSX.Element => {
     </Link>
   )
 }
-const renderLink = (url: string, text: string, isModal?: boolean, isExternal?: boolean) =>
+const renderLink = (url: string, text: string, isModal?: boolean, isExternal?: boolean, options?: {
+  forceRefresh: boolean
+}) =>
   text ? (
     isExternal ?
       <a href={url} target={"_blank"} rel={"noreferrer noopener"}>
         {text} <span style={{ verticalAlign: "baseline" }} className="glyphicon glyphicon-new-window" />
       </a>
       : !isModal ? (
-        <Link id={url} onClick={() => setScrollPosition(url)} to={url}>
+        <Link id={url} onClick={() => setScrollPosition(url)} to={{
+          pathname: url,
+          state: { forceRefresh: options?.forceRefresh }
+        }}>
           {text}
         </Link>
       ) : (
@@ -44,6 +50,7 @@ const renderTime = (text: any) => (!!text ? moment(text).format(TIME_FORMAT) : "
 const renderAmount = (text: any) => text !== undefined ? `$ ${getLocaleDecimalValue(text)}` : ""
 const renderHtml = (data = '') => <ReactMarkdown children={data} rehypePlugins={[rehypeRaw]} />
 const renderJson = (data: any, expandLevel = 0) => <ReactJsonView style={{ wordBreak: 'break-word' }} src={parseJSON(data)} name={false} displayObjectSize={false} displayDataTypes={false} collapsed={expandLevel} />
+const renderCopyToClipboard = (content: any, options: { successMessage?: string; title?: ReactNode; } | undefined) => <CopyToClipboard content={content} title={options?.title} successMessage={options?.successMessage} />
 
 const renderBoolean = (text: any, options?: { truthyText?: string, falsyText?: string, uncolorize?: boolean, tagColor?: TagProps['color'] }) => {
   const formattedText = text ? (options?.truthyText || "Yes") : (options?.falsyText || "No")
@@ -77,6 +84,10 @@ const renderAnswer = (value: any, record: any) => {
       return <DownloadableLink link={value} />
     case 'signature':
       return <DownloadableLink link={value} />
+    case 'composite':
+      return Object.values(value || {}).sort((a: any, b: any) => b.order - a.order).map((i: any) => isObject(i.answer) ? i.answer.label : i.answer).join(', ')
+    case 'select':
+      return isObject(value) ? value.label : value
     default:
       return value
   }
@@ -110,8 +121,9 @@ export {
   renderHtml,
   renderJson,
   renderAnswer,
+  renderCopyToClipboard,
   sortByBoolean,
   sortByString,
   sortByTime,
-  sortByNumber
+  sortByNumber,
 }

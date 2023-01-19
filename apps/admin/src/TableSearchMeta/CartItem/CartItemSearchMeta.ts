@@ -14,7 +14,7 @@ export const CourseSearchMeta: IField[] = [
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Slug",

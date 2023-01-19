@@ -23,14 +23,22 @@ class PageEventBus {
     }
   }
 
-  publishSimilarEvents(listenerNamePattern: RegExp) {
+  publishSimilarEvents(listenerNamePattern: RegExp, data?: any) {
     const keys = Object.keys(this.eventListeners)
     keys.forEach((key) => {
       if (listenerNamePattern.test(key) && typeof this.eventListeners[key] === "function") {
-        this.eventListeners[key]()
+        this.eventListeners[key](data)
       }
     })
   }
 }
 
 export const eventBus = new PageEventBus()
+
+export const triggerEvents = (eventNames: string | symbol | symbol[] | string[] | Array<string | symbol>) => {
+  if (Array.isArray(eventNames)) {
+    eventNames.forEach((i) => {
+      eventBus.publish(i)
+    })
+  } else if (typeof eventNames === "string") eventBus.publish(eventNames, {})
+}

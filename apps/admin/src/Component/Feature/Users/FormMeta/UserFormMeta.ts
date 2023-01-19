@@ -4,7 +4,7 @@ import { RoleQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Rol
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const UserFormMeta: IField[] = [
+export const getUserFormMeta = (): IField[] => [
   {
     label: "First name",
     inputType: TEXT,
@@ -55,11 +55,6 @@ export const UserFormMeta: IField[] = [
     fieldName: "is_scope_disabled"
   },
   {
-    label: "Two-factor authentication enabled",
-    inputType: BOOLEAN,
-    fieldName: "mfa_enabled"
-  },
-  {
     label: "Is active",
     inputType: BOOLEAN,
     fieldName: "is_active"
@@ -71,7 +66,7 @@ export const UserFormMeta: IField[] = [
     refLookupService: CourseProviderQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Stores",
@@ -80,6 +75,6 @@ export const UserFormMeta: IField[] = [
     refLookupService: StoreQueries.getLookupData,
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   }
 ]

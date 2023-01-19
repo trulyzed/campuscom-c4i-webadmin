@@ -1,11 +1,11 @@
 import React from "react"
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 import { IGeneratedField } from "~/Form/common"
 import { useDependencyValue } from "~/Hooks/useDependencyValue";
+import { LoadingOutlined } from '@ant-design/icons';
 
-export function FormDisplayField(props: IGeneratedField) {
+export function FormDisplayField(props: IGeneratedField & { loading?: boolean }) {
   useDependencyValue({ ...props })
-  const value = props.render ? props.render(props.defaultValue) : props.defaultValue
   return (
     <div className="ant-form-item">
       <Row className="ant-form-item-row">
@@ -15,7 +15,12 @@ export function FormDisplayField(props: IGeneratedField) {
         <Col className="ant-form-item-control" span={props.wrapperColSpan}>
           <div className="ant-form-item-control-input">
             <div className="ant-form-item-control-input-content">
-              <span>{value}</span>
+              {props.loading ?
+                <Spin indicator={<LoadingOutlined />} />
+                : props.render ?
+                  props.render(props.defaultValue)
+                  : <span>{props.defaultValue}</span>
+              }
             </div>
           </div>
         </Col>

@@ -6,11 +6,12 @@ import { IField } from "~/Form/common"
 import { MetaDrivenFormModal } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { ActionType, ContextAction } from "~/Actions/ContextAction"
+import { ActionType, ContextAction, IContextActionProps } from "~/Actions/ContextAction"
 import { IconButton } from "~/Form/Buttons/IconButton"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
   iconType?: ActionType
+  iconColor?: IContextActionProps['iconColor']
   buttonProps?: BaseButtonProps
   style?: CSSProperties
   formTitle: React.ReactNode
@@ -18,6 +19,7 @@ interface IMetaDrivenFormModalOpenButton {
   formMetaName?: string
   isVertical?: boolean
   formSubmitApi: IQuery
+  dataQueryApi?: IQuery
   onFormSubmit?: (data?: any, navigator?: History['push']) => void
   initialFormValue?: { [key: string]: any }
   initialFormValueApi?: IQuery
@@ -39,7 +41,14 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           {(props.iconType === "create" || props.iconType === "filter") ?
             <IconButton iconType={props.iconType} onClick={() => setShowModal(true)} toolTip={props.buttonLabel} title={props.buttonLabel} />
             : props.iconType ?
-              <ContextAction textOnly={props.textOnly} text={props.textOnly ? props.buttonLabel : undefined} tooltip={props.buttonLabel} type={props.iconType} onClick={() => setShowModal(true)} refreshEventName={props.refreshEventName} />
+              <ContextAction
+                textOnly={props.textOnly}
+                text={props.textOnly ? props.buttonLabel : undefined}
+                tooltip={props.buttonLabel}
+                iconColor={props.iconColor}
+                type={props.iconType}
+                onClick={() => setShowModal(true)}
+                refreshEventName={props.refreshEventName} />
               : (
                 <Button
                   type={props.buttonType || "primary"}
@@ -61,6 +70,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
           meta={props.formMeta}
           metaName={props.formMetaName}
           formSubmitApi={props.formSubmitApi}
+          dataQueryApi={props.dataQueryApi}
           onFormSubmit={props.onFormSubmit}
           initialFormValue={props.initialFormValue}
           initialFormValueApi={props.initialFormValueApi}

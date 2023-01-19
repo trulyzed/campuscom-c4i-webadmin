@@ -12,7 +12,7 @@ export const getTransactionBatchRevenueSummary = (netPaymentReceived?: number, r
   }
 }
 
-export const PaymentFormMeta: IField[] = [
+export const getPaymentFormMeta = (): IField[] => [
   {
     label: "Batch ID",
     inputType: DISPLAY_FIELD,

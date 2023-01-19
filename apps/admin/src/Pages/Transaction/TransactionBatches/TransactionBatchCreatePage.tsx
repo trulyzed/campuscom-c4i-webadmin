@@ -13,7 +13,7 @@ import { TransactionQueries } from "@packages/services/lib/Api/Queries/AdminQuer
 import { DetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsSummaryTab"
 import { getTransactionBatchEmphasizedSummaryMeta, getTransactionBatchSummaryMeta } from "~/TableSearchMeta/TransactionBatchCreate/TransactionBatchSummaryMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { PaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
+import { getPaymentFormMeta } from "~/Component/Feature/TransactionBatches/FormMeta/PaymentFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { useHistory } from "react-router-dom"
 
@@ -133,7 +133,7 @@ export const TransactionBatchCreatePage = () => {
                 </span>
                 <MetaDrivenFormModalOpenButton
                   formTitle={`Make Payment`}
-                  formMeta={PaymentFormMeta}
+                  formMeta={getPaymentFormMeta()}
                   formSubmitApi={makePayment}
                   displayFieldValue={{
                     batch_id: batchData.batch_ref,

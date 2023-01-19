@@ -5,7 +5,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { DiscountProgramQueries } from "@packages/services/lib/Api/Queries/AdminQueries/DiscountPrograms"
 import { CREATE_SUCCESSFULLY, UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { DiscountProgramFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/DiscountProgramFormMeta"
+import { getDiscountProgramFormMeta } from "~/Component/Feature/DiscountPrograms/FormMeta/DiscountProgramFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderBoolean, renderDateTime, renderLink } from "@packages/components/lib/ResponsiveTable"
 import { getProductListTableColumns } from "~/TableSearchMeta/Product/ProductListTableColumns"
@@ -36,7 +36,7 @@ export const getDiscountProgramDetailsMeta = (discountProgram: { [key: string]: 
     cardActions: [
       <MetaDrivenFormModalOpenButton
         formTitle={`Update Discount Program`}
-        formMeta={DiscountProgramFormMeta}
+        formMeta={getDiscountProgramFormMeta()}
         formSubmitApi={updateEntity}
         initialFormValue={{ ...discountProgram, store: discountProgram.store.id }}
         defaultFormValue={{ discountProgramId: discountProgram.id }}

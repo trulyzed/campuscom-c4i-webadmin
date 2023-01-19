@@ -3,9 +3,10 @@ import { IField, TEXT, FILE, EDITOR, DROPDOWN, TEXTAREA, BOOLEAN, NUMBER, MULTI_
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { GlobalConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/GlobalConfigurations"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const QuestionFormMeta: IField[] = [
+export const getQuestionFormMeta = (): IField[] => [
   {
     label: 'Provider Type',
     fieldName: 'provider_type',
@@ -33,7 +34,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'course_provider')
     },
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: 'Store',
@@ -47,7 +48,7 @@ export const QuestionFormMeta: IField[] = [
     onDependencyChange: (value, {toggleField}) => {
       toggleField?.(value?.provider_type === 'store')
     },
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'External ID',
@@ -91,10 +92,10 @@ export const QuestionFormMeta: IField[] = [
     label: 'Option File',
     fieldName: 'option_file',
     inputType: FILE,
-    accept: BATCH_FILE_INPUT_FORMAT,
-    dependencies: ['autocomplete'],
+    accept: `${BATCH_FILE_INPUT_FORMAT},.json`,
+    dependencies: ['autocomplete', 'question_type'],
     onDependencyChange: (value, {toggleField}) => {
-      toggleField?.(value?.autocomplete)
+      toggleField?.(value?.autocomplete || (value?.question_type === "composite"))
     },
   },
   {
@@ -131,20 +132,40 @@ export const QuestionFormMeta: IField[] = [
     label: 'Is Required',
     fieldName: 'required',
     inputType: BOOLEAN,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Default Value',
     fieldName: 'default_value',
     inputType: TEXT,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Placeholder',
     fieldName: 'placeholder',
     inputType: TEXT,
+    dependencies: ['question_type'],
+    onDependencyChange: (value, {toggleField}) => {
+      toggleField?.(value?.question_type !== 'composite')
+    },
   },
   {
     label: 'Help Text',
     fieldName: 'help_text',
     inputType: TEXT,
+  },
+  {
+    label: 'Parent Question',
+    fieldName: 'parent_question',
+    inputType: DROPDOWN,
+    refLookupService: QuestionQueries.getLookupData,
+    displayKey: "name",
+    valueKey: "id",
   },
 ]

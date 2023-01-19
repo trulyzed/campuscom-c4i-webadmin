@@ -79,5 +79,16 @@ export const UserQueries: IUserQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CustomUser, action: ApiPermissionAction.Write }]
+  ),
+
+  resetPassword: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.RESET_PASSWORD}`,
+        method: "PATCH",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.ResetPassword, action: ApiPermissionAction.Write }]
   )
 }

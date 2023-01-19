@@ -37,5 +37,45 @@ export const AuthQueries: IAuthQueries = {
       }
     },
     [{ is_public: true }]
+  ),
+  changePassword: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.CHANGE_PASSWORD}`,
+        ...data,
+        method: "PATCH"
+      })
+    },
+    [{ is_public: true }]
+  ),
+  getMFA: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.ACTIVATE_MFA}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ is_public: true }]
+  ),
+  enableMFA: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.ACTIVATE_MFA}`,
+        ...data,
+        method: "POST"
+      })
+    },
+    [{ is_public: true }]
+  ),
+  disableMFA: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: `${endpoints.DEACTIVATE_MFA}`,
+        ...data,
+        method: "GET"
+      })
+    },
+    [{ is_public: true }]
   )
 }

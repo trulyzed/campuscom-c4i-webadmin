@@ -6,5 +6,5 @@ import { CareerQueries } from "@packages/services/lib/Api/Queries/AdminQueries/C
 export function CareerDetailsPage(props: RouteComponentProps<{ careerID?: string }>) {
   const CareerID = props?.match?.params?.careerID
 
-  return <DetailsPage getMeta={getCareerDetailsMeta} getDetailsPageContent={CareerQueries.getSingle} entityType="career" entityID={CareerID} titleKey="transaction_request_id" />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getCareerDetailsMeta} getDetailsPageContent={CareerQueries.getSingle} entityType="career" entityID={CareerID} titleKey="transaction_request_id" />
 }

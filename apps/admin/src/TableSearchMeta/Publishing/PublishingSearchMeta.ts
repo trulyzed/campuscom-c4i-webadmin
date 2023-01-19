@@ -3,7 +3,7 @@ import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { CourseProviderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/CourseProviders"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 
-export const PublishingSearchMeta: IField[] = [
+export const getPublishingSearchMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,
@@ -11,7 +11,7 @@ export const PublishingSearchMeta: IField[] = [
     fieldName: "store",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Title",
@@ -25,7 +25,7 @@ export const PublishingSearchMeta: IField[] = [
     fieldName: "course_provider",
     displayKey: "name",
     valueKey: "id",
-    autoSelectDefault: true
+    autoSelectSingle: true
   },
   {
     label: "Status",

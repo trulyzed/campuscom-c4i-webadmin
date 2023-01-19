@@ -1,7 +1,7 @@
 import { IField, TEXT, TEXTAREA } from "@packages/components/lib/Form/common"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const GlobalConfigurationFormMeta: IField[] = [
+export const getGlobalConfigurationFormMeta = (): IField[] => [
   {
     label: 'Label',
     inputType: TEXT,

@@ -3,7 +3,7 @@ import { renderLink } from "@packages/components/lib/ResponsiveTable"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const ImportTaskFormMeta: IField[] = [
+export const getImportTaskFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,
@@ -12,7 +12,7 @@ export const ImportTaskFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: 'Upload File',

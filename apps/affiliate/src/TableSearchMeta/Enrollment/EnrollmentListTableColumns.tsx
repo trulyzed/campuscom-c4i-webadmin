@@ -9,7 +9,7 @@ export const enrollmentListTableColumns: TableColumnType = [
   {
     title: "Enrollment ID",
     dataIndex: "ref_id",
-    render: (text: any, record: any) => renderLink(`/administration/enrollment/${record.id}`, text),
+    render: (text: any, record: any) => renderLink(`/storefront-data/enrollment/${record.id}`, text),
     sorter: (a: any, b: any) => a.ref_id - b.ref_id
   },
   {

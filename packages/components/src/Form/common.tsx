@@ -5,6 +5,7 @@ import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery, IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
+import { DefaultOptionType } from "antd/lib/select"
 
 export const TEXT = "TEXT"
 export const TEXTAREA = "TEXTAREA"
@@ -16,6 +17,8 @@ export const DATE_PICKERS = "DATE_PICKERS"
 export const HIERARCHICAL_MULTIPLE_CHECKBOX = "HIERARCHICAL_MULTIPLE_CHECKBOX"
 export const NUMBER = "NUMBER"
 export const BOOLEAN = "BOOLEAN"
+export const PASSWORD = "PASSWORD"
+export const OTP = "OTP"
 export const MULTI_SELECT_CHECKBOX = "MULTI_SELECT_CHECKBOX"
 export const MULTI_SELECT_GROUP_CHECKBOX = "MULTI_SELECT_GROUP_CHECKBOX"
 export const CUSTOM_FIELD = "CUSTOM_FIELD"
@@ -33,6 +36,8 @@ export type IFieldType =
   | typeof HIERARCHICAL_MULTIPLE_CHECKBOX
   | typeof NUMBER
   | typeof BOOLEAN
+  | typeof PASSWORD
+  | typeof OTP
   | typeof MULTI_SELECT_CHECKBOX
   | typeof MULTI_SELECT_GROUP_CHECKBOX
   | typeof CUSTOM_FIELD
@@ -49,7 +54,6 @@ export interface IField {
   placeholder?: string
   disabled?: boolean
   helpkey?: string
-
   fieldName: string
   initialValue?: any
   defaultValue?: any
@@ -62,6 +66,7 @@ export interface IField {
   ariaLabel2?: string
   displayKey2?: string
   valueKey2?: string
+  autoComplete?: string
   extraProps?: { [key: string]: any }
   options?: any[]
   refLookupService?: IQuery
@@ -70,16 +75,17 @@ export interface IField {
   required?: boolean
   validateStatus?: ValidateStatus
   help?: string | React.ReactNode
+  helperText?: string | React.ReactNode
   labelColSpan?: number
   wrapperColSpan?: number
   colSpan?: number
   maxLength?: number
-  onSelectedItems?: (items: any) => void
+  onSelectedItems?: (value: any, option?: DefaultOptionType | DefaultOptionType[], lookupData?: any[]) => void
   searchFieldName?: string
   formItemStyle?: React.CSSProperties
   maxValue?: number
   childrenKey?: string
-
+  otpLength?: number
   multiple?: boolean
   accept?: UploadProps['accept']
   dependencies?: React.ComponentProps<typeof Form.Item>['dependencies']
@@ -89,7 +95,8 @@ export interface IField {
     loadOptions?: (args?: IQueryParams, reset?: boolean) => Promise<any[]>
   }) => void | boolean
   excludeFromSubmission?: boolean
-  autoSelectDefault?: boolean
+  autoSelectSingle?: boolean
+  defaultPreferenceIndex?: string
   onAutoSelectDefault?: (...args: any) => void
   withApply?: boolean
   onApply?: (args: { value: any, setDisplayFieldValue?: (args: any) => void }) => void

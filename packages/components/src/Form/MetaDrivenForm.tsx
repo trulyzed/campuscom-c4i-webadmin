@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Grid, Row } from "antd"
-import React, { useCallback, useEffect, useState } from "react"
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from "react"
 import {
   IField,
   DATE_PICKER,
@@ -17,7 +17,9 @@ import {
   EDITOR,
   MULTI_SELECT_GROUP_CHECKBOX,
   HIERARCHICAL_MULTIPLE_CHECKBOX,
-  DISPLAY_FIELD
+  DISPLAY_FIELD,
+  PASSWORD,
+  OTP,
 } from "~/Form/common"
 import { FormInput } from "~/Form/FormInput"
 import { FormDropDown } from "~/Form/FormDropDown"
@@ -35,11 +37,12 @@ import { FormMultipleRadio } from "~/Form/FormMultipleRadio"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
 import { FormError } from "~/Form/FormError"
 import { FormTextArea } from "~/Form/FormTextArea"
+import { FormPasswordInput } from "~/Form/FormPasswordInput"
 import { FormInputNumber } from "~/Form/FormInputNumber"
 import { processFormMetaWithUserMetaConfig } from "~/Form/FormMetaShadowingProcessor"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { generateUUID } from "@packages/utilities/lib/UUID"
-// import { FormSettings } from "~/Form/FormSettings/FormSettings"
+import { FormSettings } from "~/Form/FormSettings/FormSettings"
 import { HelpButton } from "~/Help/HelpButton"
 import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetHeading"
 import { FormFileUpload } from "./FormFileUpload"
@@ -48,25 +51,28 @@ import { FormGroupedMultipleCheckbox } from "./FormGroupedMultipleCheckbox"
 import { FormHiddenInput } from "./FormHiddenInput"
 import { FormDisplayField } from "./FormDisplayField"
 import { ContextAction } from "~/Actions/ContextAction"
+import { FormOTPInput } from "./FormOTPInput"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
-export function MetaDrivenForm({
-  showCloseButton,
-  showClearbutton = true,
-  applyButtonLabel = "Apply",
-  actionContainerStyle,
-  clearButtonLabel = "Clear All",
-  ...props
-}: {
+export type MetaDrivenFormHandle = {
+  submitRef: HTMLButtonElement | null
+  closeRef: HTMLElement | null
+}
+
+interface IMetaDrivenFormProps {
   meta: IField[]
   metaName?: string
   title?: React.ReactNode
+  className?: string
   loading?: boolean
   isModal?: boolean
   blocks?: React.ReactNode[]
   helpKey?: string
+  showFormSettings?: boolean
   onApplyChanges: (newValues: { [key: string]: any }) => void
+  dataQueryApi?: IQuery
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   currentPagination?: number
@@ -89,7 +95,19 @@ export function MetaDrivenForm({
   resetOnSubmit?: boolean
   bordered?: boolean
   displayFieldValue?: Record<string, any>
-}) {
+  disableContainerLoader?: boolean
+  noPadding?: boolean
+}
+
+export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormProps>(({
+  showCloseButton,
+  showClearbutton = true,
+  applyButtonLabel = "Apply",
+  actionContainerStyle,
+  clearButtonLabel = "Clear All",
+  className,
+  ...props
+}: IMetaDrivenFormProps, ref) => {
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
   const [clearTrigger, setClearTrigger] = useState(false)
@@ -98,6 +116,27 @@ export function MetaDrivenForm({
   const formId = generateUUID(props.metaName)
   const [dependencyValue, _setDependencyValue] = useState<{ [key: string]: any }>({})
   const [initialFormValue, setInitialFormValue] = useState()
+  const [queryData, setQueryData] = useState()
+  const [isFetchingQueryData, setIsFetchingQueryData] = useState(false)
+  const submitRef = useRef<HTMLButtonElement>(null)
+  const closeRef = useRef<HTMLElement>(null)
+
+  useImperativeHandle(ref, () => (
+    {
+      submitRef: submitRef.current,
+      closeRef: closeRef.current
+    }
+  ))
+
+  useEffect(() => {
+    if (!props.dataQueryApi) return
+    setIsFetchingQueryData(true)
+    props.dataQueryApi().then(resp => {
+      if (resp.success) setQueryData(resp.data)
+      return resp
+    }).finally(() => setIsFetchingQueryData(false))
+    // eslint-disable-next-line
+  }, [props.dataQueryApi])
 
   const checkValidationOnCustomFormFields = (values: { [key: string]: any }): boolean => {
     let validationPassed = true
@@ -241,9 +280,9 @@ export function MetaDrivenForm({
       setShowLess(false)
     }
 
-    processFormMetaWithUserMetaConfig(_meta, props.metaName || "").then((response) => {
+    props.showFormSettings ? processFormMetaWithUserMetaConfig(_meta, props.metaName || "").then((response) => {
       setMeta(response)
-    })
+    }) : setMeta(_meta)
   }
 
   const setDependencyValue = useCallback((values = {}) => {
@@ -309,7 +348,7 @@ export function MetaDrivenForm({
   return (
     <Card
       bordered={props.bordered}
-      className={props.isAside ? 'is-aside' : ''}
+      className={`${props.isAside ? 'is-aside' : ''}${className ? ` ${className}` : ""}`}
       title={
         (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
           <Row>
@@ -336,23 +375,23 @@ export function MetaDrivenForm({
                 <Col flex="none">
                   <HelpButton helpKey={props.helpKey} />
                 </Col>
-                {/* {props.metaName && (
+                {props.metaName && props.showFormSettings && (
                   <Col flex="none">
                     <FormSettings metaName={props.metaName} meta={meta} reload={processMeta} />
                   </Col>
-                )} */}
+                )}
               </Row>
             </Col>
             {showCloseButton && (
               <Col xs={{ span: 2, offset: 22, }} md={{ offset: 0 }} className={"text-right"}>
-                <ContextAction tooltip="Close" type="close" iconColor="primary" onClick={props.closeModal} />
+                <ContextAction ref={closeRef} tooltip="Close" type="close" iconColor="primary" onClick={props.closeModal} />
               </Col>
             )}
           </Row>
           : null
       }
-      loading={props.loading}
-      bodyStyle={{ padding: "20px", paddingBottom: "0px", }}
+      loading={!props.disableContainerLoader && props.loading}
+      bodyStyle={{ padding: props.bordered ? "20px" : 0, paddingBottom: "0px", }}
       {...((props.isModal || props.closeModal) && {
         actions: [
           <Row justify="end" gutter={[8, 8]} style={{
@@ -392,12 +431,14 @@ export function MetaDrivenForm({
             )}
             <Col>
               <Button
+                ref={submitRef}
                 aria-controls={props.applyButtonAriaControl}
                 type="primary"
                 form={formId}
                 aria-label={applyButtonLabel}
                 onClick={() => applyChanges()}
                 disabled={!!props.disableApplyButton}
+                loading={props.loading}
               >
                 {applyButtonLabel}
               </Button>
@@ -417,12 +458,12 @@ export function MetaDrivenForm({
           ...(props.isModal && { maxHeight: "66vh", overflowY: "auto" }),
           background: "white",
           borderRadius: "4px",
-          padding: "10px"
+          padding: props.noPadding ? undefined : props.isVertical ? "10px 25px" : "10px"
         }}
         onValuesChange={handleValuesChange}
       >
         <FormError errorMessages={props.errorMessages} />
-        <SearchFormFields
+        <FormFields
           meta={meta}
           isVertical={props.isVertical}
           formInstance={formInstance}
@@ -432,6 +473,8 @@ export function MetaDrivenForm({
           updateMeta={setMeta}
           handleValuesChange={handleValuesChange}
           displayFieldValue={props.displayFieldValue}
+          isFetchingQueryData={isFetchingQueryData}
+          queryData={queryData}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -469,12 +512,14 @@ export function MetaDrivenForm({
             )}
             <Col>
               <Button
+                ref={submitRef}
                 aria-controls={props.applyButtonAriaControl}
                 type="primary"
                 form={formId}
                 aria-label={applyButtonLabel}
                 onClick={() => applyChanges()}
                 disabled={!!props.disableApplyButton}
+                loading={props.loading}
               >
                 {applyButtonLabel}
               </Button>
@@ -484,26 +529,28 @@ export function MetaDrivenForm({
       </Form>
     </Card>
   )
-}
+})
 
-const SearchFormFields = (props: {
+export const FormFields = (props: {
   meta: IField[]
   formInstance: FormInstance
   clearTrigger?: boolean
-  showLess: boolean
+  showLess?: boolean
   isVertical?: boolean
   dependencyValue?: any
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
   handleValuesChange?: (...args: any) => void
   displayFieldValue?: Record<string, any>
+  isFetchingQueryData?: boolean
+  queryData?: any
 }) => {
   const breakpoint = Grid.useBreakpoint()
   const [displayFieldValue, setDisplayFieldValue] = useState<Record<string, any>>()
   const labelColSpan = props.isVertical ? 24 : 8
 
   useEffect(() => {
-    setDisplayFieldValue(props.displayFieldValue)
-  }, [props.displayFieldValue])
+    setDisplayFieldValue((props.queryData || props.displayFieldValue) ? { ...props.queryData, ...props.displayFieldValue } : undefined)
+  }, [props.displayFieldValue, props.queryData])
 
   return (
     <Row gutter={16}>
@@ -568,6 +615,33 @@ const SearchFormFields = (props: {
                   />
                 )
                 break
+              case PASSWORD:
+                formField = (
+                  <FormPasswordInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                  />
+                )
+                break
+              case OTP:
+                formField = (
+                  <FormOTPInput
+                    {...field}
+                    key={i}
+                    formInstance={props.formInstance}
+                    labelColSpan={field.labelColSpan || labelColSpan}
+                    wrapperColSpan={field.wrapperColSpan || 24}
+                    dependencyValue={props.dependencyValue[field.fieldName]}
+                    updateMeta={props.updateMeta}
+                    otpLength={field.otpLength}
+                  />
+                )
+                break
               case MULTI_SELECT_CHECKBOX:
                 formField = (
                   <FormMultipleCheckbox
@@ -617,7 +691,7 @@ const SearchFormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
-                    autoSelectDefault={field.autoSelectDefault}
+                    autoSelectSingle={field.autoSelectSingle}
                     onAutoSelectDefault={(value) => props.handleValuesChange?.({ [field.fieldName]: value })}
                   />
                 )
@@ -714,7 +788,12 @@ const SearchFormFields = (props: {
                           ...field,
                           key: i,
                           formInstance: props.formInstance,
-                          clearTrigger: props.clearTrigger
+                          clearTrigger: props.clearTrigger,
+                          labelColSpan: field.labelColSpan || 8,
+                          wrapperColSpan: field.wrapperColSpan || 24,
+                          dependencyValue: props.dependencyValue[field.fieldName],
+                          updateMeta: props.updateMeta,
+                          loading: props.isFetchingQueryData
                         }}
                       />
                     </Form.Item>
@@ -732,6 +811,7 @@ const SearchFormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     defaultValue={displayFieldValue?.[field.fieldName]}
+                    loading={props.isFetchingQueryData}
                   />
                 )
                 break
@@ -760,6 +840,12 @@ const SearchFormFields = (props: {
                     {field.withApply ? <Button onClick={() => field.onApply?.({ value: props.formInstance.getFieldValue(field.fieldName), setDisplayFieldValue })} children={"Apply"} /> : null}
                   </div>
                 ) : formField}
+                {field.helperText ?
+                  <div style={{ marginBottom: "10px", ...props.isVertical ? undefined : { textAlign: "right", marginTop: "-10px" } }}>
+                    {typeof field.helperText === "string" ? <span>{field.helperText}</span> : field.helperText}
+                  </div>
+                  : null
+                }
               </Col>
             ) : undefined
         })}

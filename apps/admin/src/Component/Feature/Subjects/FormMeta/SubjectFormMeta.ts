@@ -3,7 +3,7 @@ import { BOOLEAN, DATE_PICKER, DROPDOWN, EDITOR, FILE, IField, TEXT } from "@pac
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
 // import { getResourceType } from "~/ApiServices/Service/RefLookupService"
 
-export const SubjectFormMeta: IField[] = [
+export const getSubjectFormMeta = (): IField[] => [
   {
     label: "Store",
     inputType: DROPDOWN,
@@ -12,7 +12,7 @@ export const SubjectFormMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     rules: [{ required: true, message: "This field is required!" }],
-    autoSelectDefault: true
+    defaultPreferenceIndex: 'default_store'
   },
   {
     label: "Title",

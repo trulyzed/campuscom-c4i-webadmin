@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Redirect } from "react-router"
 import { notification } from "antd"
-import { SubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
+import { getSubjectFormMeta } from "~/Component/Feature/Subjects/FormMeta/SubjectFormMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Subject`}
-              formMeta={SubjectFormMeta}
+              formMeta={getSubjectFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Subject`}
               iconType="create"

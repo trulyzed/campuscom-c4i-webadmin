@@ -1,4 +1,4 @@
-import React, { CSSProperties, useEffect, useRef } from "react"
+import React, { CSSProperties, useCallback, useEffect, useMemo, useRef } from "react"
 import ReactDOM from "react-dom"
 import { Row, Col, Spin, Card, Grid } from "antd"
 import { zIndexLevel } from "~/zIndexLevel"
@@ -46,6 +46,7 @@ interface IModalProp {
   loadingTip?: string
   apiCallInProgress?: boolean
   closeModal?: () => void
+  style?: CSSProperties
 }
 export function Modal({
   children,
@@ -54,7 +55,8 @@ export function Modal({
   loading = false,
   loadingTip = "Loading...",
   apiCallInProgress = false,
-  closeModal
+  style,
+  ...args
 }: IModalProp) {
   const breakpoint = Grid.useBreakpoint()
   const modalID = generateUUID("modalContainer")
@@ -65,6 +67,17 @@ export function Modal({
   } as FocusTrapOptions
   const modalRef = useRef(null)
 
+  //memoized props
+  const closeModal = useMemo(() => args.closeModal, [args.closeModal])
+
+  useEffect(() => {
+    const mainBody = document.getElementById("main-body")
+    if (mainBody) mainBody.ariaHidden = "true"
+    return () => {
+      if (mainBody) mainBody.ariaHidden = "false"
+    }
+  }, [])
+
   useEffect(() => {
     document.documentElement.style.height = "100vh"
     document.documentElement.style.overflow = "hidden"
@@ -74,31 +87,24 @@ export function Modal({
     }
   }, [])
 
+  const handleEscape = useCallback((e: any) => {
+    if (!modalRef.current) return
+    if (e.key === "Escape" || e.code === "Escape" || e.keyCode === 27) {
+      if (!e.target?.classList?.contains('ant-upload') && !(modalRef.current as HTMLElement).nextSibling) {
+        closeModal && closeModal()
+      }
+    }
+  }, [closeModal])
+
   useEffect(() => {
-    const handleEscape = (e: any) => {
-      if (e.key === "Escape" || e.code === "Escape" || e.keyCode === 27) {
-        if (modalRef && modalRef.current) {
-          const modalContainer = modalRef.current as HTMLElement
-          if (!modalContainer.nextSibling) {
-            closeModal && closeModal()
-          }
-        }
-      }
-    }
+    if (!modalRef.current) return
+    document.addEventListener("keyup", handleEscape)
 
-    setTimeout(() => {
-      if (modalRef && modalRef.current) {
-        const modalContainer = modalRef.current as HTMLElement
-        modalContainer.addEventListener("keyup", handleEscape)
-      }
-    }, 0)
-
-    if (modalRef && modalRef.current) {
-      const modalContainer = modalRef.current as HTMLElement
-      return modalContainer.removeEventListener("keyup", handleEscape)
+    return () => {
+      document.removeEventListener("keyup", handleEscape)
     }
-    // eslint-disable-next-line
-  }, [])
+  }, [handleEscape])
+
   return ReactDOM.createPortal(
     <>
       <FocusTrap
@@ -114,7 +120,7 @@ export function Modal({
               <Col flex="auto"></Col>
               {loading && <ModalLoading {...{ width, loadingTip }} />}
               {!loading && (
-                <Col flex={width} style={breakpoint.md ? { top: "3rem" } : undefined}>
+                <Col flex={width} style={{ ...breakpoint.md && { top: "3rem" }, ...style }}>
                   {children}
                   {apiCallInProgress && (
                     <div style={apiInProgressStyle}>

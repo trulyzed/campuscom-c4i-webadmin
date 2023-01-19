@@ -6,5 +6,5 @@ import { PaymentGatewayQueries } from "@packages/services/lib/Api/Queries/AdminQ
 export function PaymentGatewayDetailsPage(props: RouteComponentProps<{ paymentGatewayID?: string }>) {
   const PaymentGatewayID = props?.match?.params?.paymentGatewayID
 
-  return <DetailsPage getMeta={getPaymentGatewayDetailsMeta} getDetailsPageContent={PaymentGatewayQueries.getSingle} entityType="paymentGateway" entityID={PaymentGatewayID} />
+  return <DetailsPage breadcrumbDataIndex="name" getMeta={getPaymentGatewayDetailsMeta} getDetailsPageContent={PaymentGatewayQueries.getSingle} entityType="paymentGateway" entityID={PaymentGatewayID} />
 }

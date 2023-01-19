@@ -8,7 +8,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getQuestionListTableColumns } from "~/TableSearchMeta/Question/QuestionListTableColumns"
 import { QuestionSearchMeta } from "~/TableSearchMeta/Question/QuestionSearchMeta"
 import { QuestionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Questions"
-import { QuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
+import { getQuestionFormMeta } from "~/Component/Feature/Questions/FormMeta/QuestionFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Question`}
-              formMeta={QuestionFormMeta}
+              formMeta={getQuestionFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Question`}
               iconType="create"

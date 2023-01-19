@@ -8,7 +8,7 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 import { getIdentityProviderListTableColumns } from "~/TableSearchMeta/IdentityProvider/IdentityProviderListTableColumns"
 import { IdentityProviderSearchMeta } from "~/TableSearchMeta/IdentityProvider/IdentityProviderSearchMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { IdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
+import { getIdentityProviderFormMeta } from "~/Component/Feature/IdentityProviders/FormMeta/IdentityProviderFormMeta"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
@@ -32,7 +32,7 @@ export const List = () => {
           actions: [
             <MetaDrivenFormModalOpenButton
               formTitle={`Create Identity Provider`}
-              formMeta={IdentityProviderFormMeta}
+              formMeta={getIdentityProviderFormMeta()}
               formSubmitApi={createEntity}
               buttonLabel={`Create Identity Provider`}
               iconType="create"

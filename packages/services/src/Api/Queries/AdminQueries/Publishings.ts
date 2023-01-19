@@ -9,7 +9,8 @@ const processSections = (data: Record<string, string | number | any[]>): Record<
     ...data
   }
   for (const section of data.sections as any[]) {
-    newData[`section__${section.id}`] = section.fee
+    newData[`fee__${section.id}`] = section.fee
+    newData[`token_fee__${section.id}`] = section.token_fee
   }
   return newData
 }
@@ -100,26 +101,10 @@ export const PublishingQueries: IPublishingQueries = {
 
   update: PermissionWrapper(
     (data) => {
-      const sections = Object.keys(data?.data).reduce((a, c) => {
-        const [, sectionId] = c.split("__")
-        if (sectionId)
-          a.push({
-            id: sectionId,
-            fee: data?.data[c]
-          })
-        return a
-      }, [] as any[])
-
-      const payload = {
-        ...data?.data,
-        sections
-      }
-
       return adminApi({
         endpoint: `${endpoints.STORE_COURSE}`,
         method: "POST",
-        ...data,
-        data: payload
+        ...data
       })
     },
     [{ operation: ApiPermissionClass.StoreCourse, action: ApiPermissionAction.Write }]
