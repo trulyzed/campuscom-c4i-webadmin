@@ -56,7 +56,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
         onFormSubmit={(data, navigator) => {
-          if (!publishing.store && navigator) navigator(`/store/publishing/${data.id}`)
+          if (!publishing.store && navigator) navigator(`/store/publishing/course/${data.id}`)
         }}
       />,
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
@@ -173,7 +173,7 @@ export const getPublishingDetailsMeta = (publishing: { [key: string]: any }): ID
   ]
 
   return {
-    pageTitle: `Publishing Title - ${publishing.course.title}`,
+    pageTitle: `Course Publishing Title - ${publishing.course.title}`,
     tabs: tabMetas
   }
 }

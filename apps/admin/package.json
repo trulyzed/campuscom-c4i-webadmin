@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@openreplay/tracker": "^4.1.9",
     "@packages/components": "1.0.0",
     "@packages/services": "1.0.0",
     "@packages/utilities": "1.0.0",

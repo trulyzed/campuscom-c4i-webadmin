@@ -42,6 +42,24 @@ export const CourseQueries: ICourseQueries = {
     [{ operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read }]
   ),
 
+  getLookupData: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.ALL_COURSE,
+        ...data,
+        method: "GET"
+      }).then((resp) =>
+        resp.success
+          ? {
+              ...resp,
+              data: (resp.data as Array<any>).map((i) => ({ id: i.id, name: i.title }))
+            }
+          : resp
+      )
+    },
+    [{ operation: ApiPermissionClass.Course, action: ApiPermissionAction.Read }]
+  ),
+
   getListBySubject: PermissionWrapper(
     (data) => {
       const { pagination, ...nonPaginationParams } = data?.params || {}
@@ -53,6 +71,19 @@ export const CourseQueries: ICourseQueries = {
       })
     },
     [{ operation: ApiPermissionClass.CourseBySubject, action: ApiPermissionAction.Read }]
+  ),
+
+  getListByCertificate: PermissionWrapper(
+    (data) => {
+      const { pagination, ...nonPaginationParams } = data?.params || {}
+      return adminApi({
+        endpoint: endpoints.CERTIFICATE_COURSE,
+        ...data,
+        params: { ...nonPaginationParams },
+        method: "GET"
+      })
+    },
+    [{ operation: ApiPermissionClass.CertificateCourse, action: ApiPermissionAction.Read }]
   ),
 
   create: PermissionWrapper(

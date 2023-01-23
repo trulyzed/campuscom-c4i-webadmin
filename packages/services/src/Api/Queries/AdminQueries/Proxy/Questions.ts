@@ -5,6 +5,7 @@ export interface IQuestionQueries {
   getSingle: IQuery
   getList: IQuery
   getListByCourseProvider: IQuery
+  getLookupData: IQuery
   create: IQuery
   update: IQuery
   delete: IQuery

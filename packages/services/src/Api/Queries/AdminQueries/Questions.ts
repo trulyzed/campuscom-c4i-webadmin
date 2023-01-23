@@ -4,6 +4,8 @@ import { IQuestionQueries, processQuestions } from "./Proxy/Questions"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
 import { parseJSON } from "@packages/utilities/lib/parser"
+import { convertToString } from "@packages/utilities/lib/mapper"
+import { convertToFormData } from "~/Api/utils/ConvertToFormData"
 
 export const QuestionQueries: IQuestionQueries = {
   getSingle: PermissionWrapper(
@@ -50,6 +52,24 @@ export const QuestionQueries: IQuestionQueries = {
       )
     },
     [{ operation: ApiPermissionClass.ProfileQuestion, action: ApiPermissionAction.Read }]
+  ),
+
+  getLookupData: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.ALL_QUESTION,
+        ...data,
+        method: "GET"
+      }).then((resp) =>
+        resp.success
+          ? {
+              ...resp,
+              data: (resp.data as Array<any>).map((i) => ({ id: i.id, name: convertToString(i.title, true) }))
+            }
+          : resp
+      )
+    },
+    [{ operation: ApiPermissionClass.Question, action: ApiPermissionAction.Read }]
   ),
 
   getProfileQuestionListByStore: PermissionWrapper(
@@ -133,7 +153,7 @@ export const QuestionQueries: IQuestionQueries = {
         endpoint: endpoints.QUESTION,
         method: "POST",
         ...data,
-        data: payload
+        data: convertToFormData(payload)
       })
     },
     [{ operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write }]
@@ -147,6 +167,7 @@ export const QuestionQueries: IQuestionQueries = {
         configuration: {},
         provider_ref: data?.data.course_provider || data?.data.store
       }
+      if (data?.data.question_type === "composite") payload.configuration = data.data.configuration
       if (data?.data.autocomplete !== undefined) payload.configuration["autocomplete"] = data?.data?.autocomplete
       if (data?.data.options !== undefined) payload.configuration["options"] = parseJSON(data?.data?.options)
       if (data?.data.multiple !== undefined) payload.configuration["multiple"] = data?.data?.multiple
@@ -162,7 +183,7 @@ export const QuestionQueries: IQuestionQueries = {
         method: "PATCH",
         ...data,
         params,
-        data: payload
+        data: convertToFormData(payload)
       })
     },
     [{ operation: ApiPermissionClass.Question, action: ApiPermissionAction.Write }]

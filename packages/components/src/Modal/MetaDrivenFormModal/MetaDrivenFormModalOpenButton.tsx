@@ -6,11 +6,12 @@ import { IField } from "~/Form/common"
 import { MetaDrivenFormModal } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModal"
 import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/AdminApiPermission"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
-import { ActionType, ContextAction } from "~/Actions/ContextAction"
+import { ActionType, ContextAction, IContextActionProps } from "~/Actions/ContextAction"
 import { IconButton } from "~/Form/Buttons/IconButton"
 interface IMetaDrivenFormModalOpenButton {
   buttonLabel: string
   iconType?: ActionType
+  iconColor?: IContextActionProps['iconColor']
   buttonProps?: BaseButtonProps
   style?: CSSProperties
   formTitle: React.ReactNode
@@ -44,6 +45,7 @@ export const MetaDrivenFormModalOpenButton = (props: IMetaDrivenFormModalOpenBut
                 textOnly={props.textOnly}
                 text={props.textOnly ? props.buttonLabel : undefined}
                 tooltip={props.buttonLabel}
+                iconColor={props.iconColor}
                 type={props.iconType}
                 onClick={() => setShowModal(true)}
                 refreshEventName={props.refreshEventName} />

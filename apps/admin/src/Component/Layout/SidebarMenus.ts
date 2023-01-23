@@ -36,6 +36,10 @@ import { getTransactionBatchListTableColumns } from "~/TableSearchMeta/Transacti
 import { getTransactionListTableColumns } from "~/TableSearchMeta/Transaction/TransactionListTableColumns"
 import { getSeatBlockListTableColumns } from "~/TableSearchMeta/SeatBlock/SeatBlockListTableColumns"
 import { OrderQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Orders"
+import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/CertificateListTableColumns"
+import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/CertificatePublishing/PublishingListTableColumns"
+import { getPaymentLogListTableColumns } from "~/TableSearchMeta/PaymentLog/PaymentLogListTableColumns"
+import { getERPLogListTableColumns } from "~/TableSearchMeta/ERPLog/ERPLogListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -47,6 +51,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         url: "/course-provider/course",
         permission: checkAdminApiPermission(getCourseListTableColumns().searchFunc)
+      },
+      {
+        title: "Certificates",
+        submenu: [],
+        url: "/course-provider/certificate",
+        permission: checkAdminApiPermission(getCertificateListTableColumns().searchFunc)
       },
       {
         title: "Instructors",
@@ -78,9 +88,23 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       },
       {
         title: "Publishing",
-        url: "/store/publishing",
-        submenu: [],
-        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+        url: "/store/publishing/course",
+        submenu: [
+          {
+            title: "Course",
+            url: "/store/publishing/course",
+            submenu: [],
+            permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+          },
+          {
+            title: "Certificate",
+            url: "/store/publishing/certificate",
+            submenu: [],
+            permission: checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
+          },
+        ],
+        permission: checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+          checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)
       },
       {
         title: "Products",
@@ -103,7 +127,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
     ],
     permission:
       checkAdminApiPermission(getSubjectListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getPublishingListTableColumns().searchFunc) ||
+      (checkAdminApiPermission(getPublishingListTableColumns().searchFunc)
+        || checkAdminApiPermission(getCertificatePublishingListTableColumns().searchFunc)) ||
       checkAdminApiPermission(getProductListTableColumns().searchFunc) ||
       checkAdminApiPermission(OrderQueries.create) ||
       checkAdminApiPermission(OrderQueries.createBulk)
@@ -123,6 +148,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         url: "/storefront-data/payment",
         submenu: [],
         permission: checkAdminApiPermission(getPaymentListTableColumns().searchFunc)
+      },
+      {
+        title: "Refunds",
+        url: "/storefront-data/refund",
+        submenu: [],
+        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
       },
       {
         title: "Students",
@@ -218,12 +249,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getUserListTableColumns().searchFunc)
       },
       {
-        title: "Refunds",
-        url: "/administration/refund",
-        submenu: [],
-        permission: checkAdminApiPermission(getRefundListTableColumns().searchFunc)
-      },
-      {
         title: "Discount Programs",
         url: "/administration/discount-program",
         submenu: [],
@@ -277,6 +302,26 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
       },
+      {
+        title: "Log",
+        url: "/administration/log",
+        submenu: [
+          {
+            title: "Payment",
+            url: "/administration/log/payment",
+            submenu: [],
+            permission: checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc)
+          },
+          {
+            title: "ERP",
+            url: "/administration/log/erp",
+            submenu: [],
+            permission: checkAdminApiPermission(getERPLogListTableColumns().searchFunc)
+          },
+        ],
+        permission: checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc) ||
+          checkAdminApiPermission(getERPLogListTableColumns().searchFunc)
+      },
     ],
     permission:
       checkAdminApiPermission(getCareerListTableColumns().searchFunc) ||
@@ -293,7 +338,9 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactGroupListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc)
+      checkAdminApiPermission(getImportTaskListTableColumns().searchFunc) ||
+      (checkAdminApiPermission(getPaymentLogListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getERPLogListTableColumns().searchFunc))
   },
   {
     title: "Configuration",

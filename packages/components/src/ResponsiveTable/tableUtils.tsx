@@ -6,7 +6,7 @@ import { ReadOutlined } from "@ant-design/icons"
 import rehypeRaw from 'rehype-raw'
 import ReactJsonView from 'react-json-view'
 import { setScrollPosition } from "~/ResponsiveTable//ManageScroll"
-import { getLocaleDecimalValue } from "@packages/utilities/lib/util"
+import { getLocaleDecimalValue, isObject } from "@packages/utilities/lib/util"
 import ReactMarkdown from 'react-markdown'
 import { parseJSON } from "@packages/utilities/lib/parser"
 import DownloadableLink from "./DownloadableLink"
@@ -84,6 +84,10 @@ const renderAnswer = (value: any, record: any) => {
       return <DownloadableLink link={value} />
     case 'signature':
       return <DownloadableLink link={value} />
+    case 'composite':
+      return Object.values(value || {}).sort((a: any, b: any) => b.order - a.order).map((i: any) => isObject(i.answer) ? i.answer.label : i.answer).join(', ')
+    case 'select':
+      return isObject(value) ? value.label : value
     default:
       return value
   }
