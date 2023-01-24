@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { IDeviceView, useDeviceViews } from "~/Hooks/useDeviceViews"
 import { TableViewForDesktop } from "~/ResponsiveTable/Responsive/TableViewForDesktop"
 import { IDataTableProps, TableColumnType, sortByNumber } from "~/ResponsiveTable"
@@ -92,20 +92,7 @@ export const ResponsiveTable = (props: IDataTableProps & {
   const setTableProps = (columnsConfigByUser: TableColumnType, data: any = []) => {
     const _conditionalProps: TableProps<{ [key: string]: string }> = {
       ...props,
-      columns: columnsConfigByUser.map((x) => {
-        if (x.title === "" || !x.title || x.title === "Action" || x.title === "Published" || props.disableSorting) {
-          return x
-        }
-        const dataIndex: string = x.dataIndex as string
-        x.sorter = (a: any, b: any) => {
-          const aa =
-            a[dataIndex] === undefined || a[dataIndex] === null || a[dataIndex] === false ? "" : String(a[dataIndex])
-          const bb =
-            b[dataIndex] === undefined || b[dataIndex] === null || b[dataIndex] === false ? "" : String(b[dataIndex])
-          return aa.localeCompare(bb)
-        }
-        return x
-      })
+      columns: addDefaultSorterToColumn(columnsConfigByUser)
     }
 
     _conditionalProps.dataSource = props.dataSource ? props.dataSource : data
@@ -123,6 +110,23 @@ export const ResponsiveTable = (props: IDataTableProps & {
     // _conditionalProps.rowKey = props.rowKey ? props.rowKey : "rowKey"
     setConditionalProps(_conditionalProps)
   }
+
+  const addDefaultSorterToColumn = useCallback((columns: TableColumnType): TableColumnType => {
+    return columns.map((x) => {
+      if (x.title === "" || !x.title || x.title === "Action" || x.title === "Published" || props.disableSorting) {
+        return x
+      }
+      const dataIndex: string = x.dataIndex as string
+      x.sorter = (a: any, b: any) => {
+        const aa =
+          a[dataIndex] === undefined || a[dataIndex] === null || a[dataIndex] === false ? "" : String(a[dataIndex])
+        const bb =
+          b[dataIndex] === undefined || b[dataIndex] === null || b[dataIndex] === false ? "" : String(b[dataIndex])
+        return aa.localeCompare(bb)
+      }
+      return x
+    })
+  }, [props.disableSorting])
 
   const paginationChange = (page: number, pageSize = currentPageSize) => {
     if (props.setCurrentPagination) props.setCurrentPagination(page)
@@ -195,7 +199,7 @@ export const ResponsiveTable = (props: IDataTableProps & {
             processTableMetaWithUserMetaConfig(props.columns, props.tableName).then((response) => {
               setConditionalProps({
                 ...conditionalProps,
-                columns: response
+                columns: addDefaultSorterToColumn(response)
               })
             })
           }}
