@@ -1,5 +1,4 @@
 import { UserTableConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserTableConfigurations";
-import { putSpaceBetweenCapitalLetters } from "@packages/utilities/lib/util"
 import { TableColumnType } from "."
 
 export interface IUserTableMetaConfig {
@@ -43,7 +42,7 @@ function TableMetaShadowingProcessor(columns: TableColumnType, userMetaConfig: {
         x = {
           ...x,
           ...userMetaConfig[x.dataIndex],
-          title: typeof title === "string" ? putSpaceBetweenCapitalLetters(title) : title
+          title
         }
       }
       if ((x.title === "" || !x.title) && (!!x.dataIndex || !!x.render)) {
