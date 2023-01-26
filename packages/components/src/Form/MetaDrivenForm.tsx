@@ -475,6 +475,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
           displayFieldValue={props.displayFieldValue}
           isFetchingQueryData={isFetchingQueryData}
           queryData={queryData}
+          isModal={props.isModal}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -543,6 +544,7 @@ export const FormFields = (props: {
   displayFieldValue?: Record<string, any>
   isFetchingQueryData?: boolean
   queryData?: any
+  isModal?: boolean
 }) => {
   const breakpoint = Grid.useBreakpoint()
   const [displayFieldValue, setDisplayFieldValue] = useState<Record<string, any>>()
@@ -734,6 +736,7 @@ export const FormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
+                    hasStaticAlignment={props.isModal}
                   />
                 )
                 break
@@ -833,7 +836,7 @@ export const FormFields = (props: {
             />
           )
             : formField ? (
-              <Col key={1000 + i} lg={lg} xs={xs} style={field.withApply ? { display: "flex" } : undefined}>
+              <Col key={1000 + i} lg={lg} xs={xs} style={field.withApply ? { display: "flex" } : undefined} className={(props.isModal && field.inputType === DATE_PICKER) ? 'date_input--in-modal' : ''}>
                 {field.withApply ? (
                   <div style={{ display: "flex", flex: 1, ...breakpoint.md ? undefined : { alignItems: "flex-end" }, marginBottom: "24px" }}>
                     {formField}
