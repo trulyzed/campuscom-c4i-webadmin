@@ -87,6 +87,8 @@ export enum ApiPermissionClass {
   MembershipProgramParticipant = "MembershipProgramParticipantViewSet",
   MFAActivate = "MFAActivateView",
   MFADeactivate = "MFADeactivateView",
+  Organization = "OrganizationViewSet",
+  OrganizationType = "OrganizationTypeViewSet",
   ParticipantByMembershipProgram = "ParticipantByMembershipProgramViewSet",
   Payment = "PaymentViewSet",
   PaymentGateway = "PaymentGatewayViewSet",
