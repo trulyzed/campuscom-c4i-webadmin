@@ -1,0 +1,149 @@
+@import "~/Sass/variables.scss";
+
+.glyphicon {
+  font-family: 'Glyphicons Halflings', 'Jenzabar Halflings';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  vertical-align: middle;
+
+  &::before {
+    position: relative;
+  }
+
+  &--success {
+    color: $success;
+  }
+  &--primary {
+    color: $interactive;
+  }
+  &--warning {
+    color: $warning;
+  }
+  &--danger {
+    color: $danger;
+  }
+}
+
+.glyphicon-plus:before {
+  content: "\002b";
+}
+.glyphicon-plus-sign:before {
+  content: "\E081";
+}
+.glyphicon-remove-sign:before {
+  content: "\E083";
+}
+.glyphicon-info-sign:before {
+  content: "\E086";
+}
+.glyphicon-alert-sign:before {
+  content: "\E209";
+}
+.glyphicon-ok-sign:before {
+  content: "\E084";
+}
+.glyphicon-trash:before {
+  content: "\E020";
+}
+.glyphicon-edit:before {
+  content: "\270F";
+}
+.glyphicon-down:before {
+  content: "\E114";
+}
+.glyphicon-setting:before {
+  content: "\E019";
+}
+.glyphicon-th-large:before {
+  content: "\E011";
+}
+.glyphicon-filter:before {
+  content: "\E138";
+}
+.glyphicon-key:before {
+  content: "\01F511";
+}
+.glyphicon-permission:before {
+  content: "\E608";
+}
+.glyphicon-play-circle:before {
+  content: "\E029";
+}
+.glyphicon-search:before {
+  content: "\E003";
+}
+.glyphicon-time:before {
+  content: "\E023";
+}
+.glyphicon-user:before {
+  content: "\E008";
+}
+.glyphicon-remove:before {
+  content: "\E014";
+}
+.glyphicon-exclamation-sign:before {
+  content: "\E101";
+}
+.glyphicon-chevron-right:before {
+  content: "\E080";
+}
+.glyphicon-chevron-left:before {
+  content: "\E079";
+}
+.glyphicon-chevron-up:before {
+  content: "\E113";
+}
+.glyphicon-chevron-down:before {
+  content: "\E114";
+}
+.glyphicon-repeat:before {
+  content: "\E030";
+}
+.glyphicon-triangle-right:before {
+  content: "\E250";
+}
+.glyphicon-ban-circle:before {
+  content: "\E090";
+}
+.glyphicon-approve-circle:before {
+  content: "\E089";
+}
+.glyphicon-random:before {
+  content: "\E110";
+}
+.glyphicon-swap:before {
+  content: "\E604";
+}
+.glyphicon-transfer:before {
+  content: "\E605";
+}
+.glyphicon-payment:before {
+  content: "\E626";
+}
+.glyphicon-floppy-save:before {
+  content: "\E175";
+}
+.glyphicon-new-window:before {
+  content: "\E164";
+}
+.glyphicon-inbox:before {
+  content: "\E028";
+}
+.glyphicon-lock:before {
+  content: "\E033";
+}
+.glyphicon-qrcode:before {
+  content: "\E028";
+}
+.glyphicon-eye:before {
+  content: "\E105";
+}
+.glyphicon-copy:before {
+  content: "\E205";
+}
+.glyphicon-dollar:before {
+  content: "\E148";
+}
+.glyphicon-record:before {
+  content: "\E165";
+}
