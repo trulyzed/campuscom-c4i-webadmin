@@ -2,22 +2,37 @@ import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/A
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
-import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns"
+import { getDepartmentListTableColumns } from "~/TableSearchMeta/Department/DepartmentListTableColumns"
+import { getEmployeeListTableColumns } from "~/TableSearchMeta/Employee/EmployeeListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
+  {
+    title: "Employee Management",
+    url: "",
+    submenu: [
+      {
+        title: "Employees",
+        url: "/employee-management/employee",
+        submenu: [],
+        permission: checkAdminApiPermission(getEmployeeListTableColumns().searchFunc)
+      },
+    ],
+    permission:
+      checkAdminApiPermission(getEmployeeListTableColumns().searchFunc)
+  },
   {
     title: "Administration",
     url: "",
     submenu: [
       {
-        title: "Organizations",
-        url: "/administration/organization",
+        title: "Departments",
+        url: "/administration/department",
         submenu: [],
-        permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+        permission: checkAdminApiPermission(getDepartmentListTableColumns().searchFunc)
       },
     ],
     permission:
-      checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
+      checkAdminApiPermission(getDepartmentListTableColumns().searchFunc)
   },
 ]
 

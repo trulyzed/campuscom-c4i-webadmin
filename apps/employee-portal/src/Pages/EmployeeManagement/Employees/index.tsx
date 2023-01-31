@@ -1,40 +1,40 @@
 import { useState } from "react"
 import { Redirect } from "react-router-dom"
 import { notification } from "antd"
-import { getCompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
+import { getEmployeeFormMeta } from "~/Component/Feature/Employees/FormMeta/EmployeeFormMeta"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
-import { getCompanyListTableColumns } from "~/TableSearchMeta/Company/CompanyListTableColumns"
-import { CompanySearchMeta } from "~/TableSearchMeta/Company/CompanySearchMeta"
+import { EmployeeQueries } from "@packages/services/lib/Api/Queries/EmployeePortalQueries/Employees"
+import { getEmployeeListTableColumns } from "~/TableSearchMeta/Employee/EmployeeListTableColumns"
+import { EmployeeSearchMeta } from "~/TableSearchMeta/Employee/EmployeeSearchMeta"
 import { CREATE_SUCCESSFULLY } from "~/Constants"
 
 export const List = () => {
   const [redirectAfterCreate, setRedirectAfterCreate] = useState(String)
 
-  const createEntity = QueryConstructor(((data) => CompanyQueries.create({ ...data }).then(resp => {
+  const createEntity = QueryConstructor(((data) => EmployeeQueries.create({ ...data }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
-      setRedirectAfterCreate(`/administration/organization/${resp.data.id}`)
+      setRedirectAfterCreate(`/employee-management/employee/${resp.data.id}`)
     }
     return resp
-  })), [CompanyQueries.create])
+  })), [EmployeeQueries.create])
 
   return (
     <>
       {redirectAfterCreate && <Redirect to={redirectAfterCreate} />}
       <SearchPage
-        title={"Organizations"}
-        meta={CompanySearchMeta}
+        title={"Employees"}
+        meta={EmployeeSearchMeta}
         tableProps={{
-          ...getCompanyListTableColumns(),
+          ...getEmployeeListTableColumns(),
           actions: [
             <MetaDrivenFormModalOpenButton
-              formTitle={`Create Organization`}
-              formMeta={getCompanyFormMeta()}
+              formTitle={`Create Employee`}
+              formMeta={getEmployeeFormMeta()}
               formSubmitApi={createEntity}
-              buttonLabel={`Create Organization`}
+              buttonLabel={`Create Employee`}
               iconType="create"
             />
           ]

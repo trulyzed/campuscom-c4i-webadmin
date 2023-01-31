@@ -2,45 +2,38 @@ import { notification } from "antd"
 import { CardContainer, IDetailsSummary } from "@packages/components/lib/Page/DetailsPage/DetailsPageInterfaces"
 import { IDetailsMeta, IDetailsTabMeta } from "@packages/components/lib/Page/DetailsPage/Common"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
-import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
+import { EmployeeQueries } from "@packages/services/lib/Api/Queries/EmployeePortalQueries/Employees"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { MetaDrivenFormModalOpenButton } from "@packages/components/lib/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
-import { getCompanyFormMeta } from "~/Component/Feature/Companies/FormMeta/CompanyFormMeta"
+import { getEmployeeFormMeta } from "~/Component/Feature/Employees/FormMeta/EmployeeFormMeta"
 import { REFRESH_PAGE } from "@packages/utilities/lib/EventBus"
 import { renderLink } from "@packages/components/lib/ResponsiveTable"
-import { ContextAction } from "@packages/components/lib/Actions/ContextAction"
 
-export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetailsMeta => {
-  const updateEntity = QueryConstructor(((data) => CompanyQueries.update({ ...data, params: { id: company.id } }).then(resp => {
+export const getEmployeeDetailsMeta = (employee: { [key: string]: any }): IDetailsMeta => {
+  const updateEntity = QueryConstructor(((data) => EmployeeQueries.update({ ...data, params: { id: employee.id } }).then(resp => {
     if (resp.success) {
       notification.success({ message: UPDATE_SUCCESSFULLY })
     }
     return resp
-  })), [CompanyQueries.update])
+  })), [EmployeeQueries.update])
 
   const summaryInfo: CardContainer = {
-    title: `Organization: ${company.company_name}`,
+    title: `Employee: ${employee.name}`,
     cardActions: [
       <MetaDrivenFormModalOpenButton
-        formTitle={`Update Organization`}
-        formMeta={getCompanyFormMeta()}
+        formTitle={`Update Employee`}
+        formMeta={getEmployeeFormMeta()}
         formSubmitApi={updateEntity}
-        initialFormValue={{ ...company, store: company.store.id }}
-        buttonLabel={`Update Organization`}
+        initialFormValue={{ ...employee, organization: employee.organization.id }}
+        buttonLabel={`Update Employee`}
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <ContextAction
-        tooltip="Delete Organization"
-        type="delete"
-        redirectTo="/administration/organization"
-        queryService={QueryConstructor(() => CompanyQueries.delete({ data: { ids: [company.id] } }), [CompanyQueries.delete])}
-      />
       // <ResourceRemoveLink ResourceID={Resource.ResourceID} />
     ],
     contents: [
-      { label: 'Store', value: renderLink(`/administration/store/${company.store.id}`, company.store.name) },
-      { label: 'Organization', value: company.company_name },
+      { label: 'Name', value: employee.name },
+      { label: 'Department', value: renderLink(`/administration/course-provider/${employee.department.id}`, employee.department.name) },
     ]
   }
 
@@ -53,12 +46,12 @@ export const getCompanyDetailsMeta = (company: { [key: string]: any }): IDetails
       tabTitle: "Summary",
       tabType: "summary",
       tabMeta: summaryMeta,
-      helpKey: "companySummaryTab"
+      helpKey: "employeeSummaryTab"
     },
   ]
 
   return {
-    pageTitle: `Organization Title - ${company.company_name}`,
+    pageTitle: `Employee Title - ${employee.name}`,
     tabs: tabMetas
   }
 }
