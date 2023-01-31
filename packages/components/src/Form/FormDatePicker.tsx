@@ -69,7 +69,7 @@ const MyDatePicker = ({
   }, [getFieldValue, getFormatedValue, fieldName])
 
   useEffect(() => {
-    setFieldValue(fieldName, moment(defaultFormatedValue, DATE_DISPLAY_FORMAT).toDate())
+    setFieldValue(fieldName, defaultFormatedValue ? moment(defaultFormatedValue, DATE_DISPLAY_FORMAT).toDate() : undefined)
   }, [fieldName, defaultFormatedValue, setFieldValue])
 
   const handleChange = useCallback((date: Moment) => {
