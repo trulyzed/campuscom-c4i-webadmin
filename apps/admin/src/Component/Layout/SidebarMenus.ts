@@ -350,7 +350,6 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getOrganizationListTableColumns().searchFunc) ||
       checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc) ||
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
       checkAdminApiPermission(getContactListTableColumns().searchFunc) ||
