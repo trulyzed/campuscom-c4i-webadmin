@@ -41,6 +41,7 @@ import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/Cert
 import { getPaymentLogListTableColumns } from "~/TableSearchMeta/PaymentLog/PaymentLogListTableColumns"
 import { getERPLogListTableColumns } from "~/TableSearchMeta/ERPLog/ERPLogListTableColumns"
 import { getOrganizationTypeListTableColumns } from "~/TableSearchMeta/OrganizationType/OrganizationTypeListTableColumns"
+import { getOrganizationListTableColumns } from "~/TableSearchMeta/Organization/OrganizationListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -280,6 +281,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc)
       },
       {
+        title: "Companies",
+        url: "/administration/company",
+        submenu: [],
+        permission: checkAdminApiPermission(getOrganizationListTableColumns().searchFunc)
+      },
+      {
         title: "Affiliate Users",
         url: "/administration/affiliate-user",
         submenu: [],
@@ -340,6 +347,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getOrganizationListTableColumns().searchFunc) ||
+      checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
       checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc) ||

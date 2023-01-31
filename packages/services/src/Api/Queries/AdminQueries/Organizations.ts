@@ -48,14 +48,7 @@ export const OrganizationQueries: IOrganizationQueries = {
         endpoint: endpoints.ALL_ORGANIZATION,
         ...data,
         method: "GET"
-      }).then((resp) =>
-        resp.success
-          ? {
-              ...resp,
-              data: (resp.data as Array<any>).map((i) => ({ id: i.id, name: i.company_name }))
-            }
-          : resp
-      )
+      })
     },
     [{ operation: ApiPermissionClass.Organization, action: ApiPermissionAction.Read }]
   ),
