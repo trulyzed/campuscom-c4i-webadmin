@@ -736,7 +736,6 @@ export const FormFields = (props: {
                     wrapperColSpan={field.wrapperColSpan || 24}
                     dependencyValue={props.dependencyValue[field.fieldName]}
                     updateMeta={props.updateMeta}
-                    hasStaticAlignment={props.isModal}
                   />
                 )
                 break
