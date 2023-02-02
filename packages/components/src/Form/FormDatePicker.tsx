@@ -4,7 +4,7 @@ import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { DatePicker, Form, Input } from "antd"
 import { useFirstRender } from "~/Hooks/useFirstRender"
 import { HELPER_FIELD_PATTERN } from "./MetaDrivenForm"
-import { DATE_DISPLAY_FORMAT, DATE_PAYLOAD_FORMAT } from "~/Configs/format"
+import { DATE_DISPLAY_FORMAT, DATE_TIME_PAYLOAD_FORMAT } from "~/Configs/format"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
 
 export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }) {
@@ -17,7 +17,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
       const t1 = moment(date)
       setValue(t1)
       props.formInstance.setFieldsValue({
-        [props.fieldName]: t1.format(props.dateFormate || DATE_PAYLOAD_FORMAT)
+        [props.fieldName]: t1.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
       })
       props.formInstance.setFieldsValue({ [`${HELPER_FIELD_PATTERN}${props.fieldName}`]: t1 })
     }
@@ -42,7 +42,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
           placeholder={props.placeholder}
           value={value}
           onChange={(date) => {
-            const formattedDate = date?.format(props.dateFormate || DATE_PAYLOAD_FORMAT)
+            const formattedDate = date?.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
             props.formInstance.setFieldsValue({
               [props.fieldName]: formattedDate
             })
