@@ -70,7 +70,6 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
       { label: 'Primary contact number', value: user.primary_contact_number, },
       { label: 'Roles', value: user.custom_roles, render: (text: any) => ((text || []) as any[]).map(i => i.name).join(', ') },
       { label: 'DB context', value: user.db_context, render: renderJson },
-      { label: 'Is Scope Disabled', value: user.is_scope_disabled, render: renderBoolean },
       { label: 'Secret Key', value: user.secret_key },
       { label: 'Two-factor authentication enabled', value: user.mfa_enabled, render: renderBoolean },
       { label: 'Is active', value: user.is_active, render: renderBoolean },
