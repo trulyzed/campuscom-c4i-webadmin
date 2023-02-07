@@ -5,9 +5,9 @@ import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQuerie
 
 export const transactionReportListTableColumns: TableColumnType = [
   {
-    title: "Transaction Ref",
-    dataIndex: "transaction_ref",
-    sorter: (a: any, b: any) => a.transaction_ref - b.transaction_ref
+    title: "Order ID",
+    dataIndex: "order_id",
+    sorter: (a: any, b: any) => a.order_id - b.order_id
   },
   {
     title: "Store",
@@ -15,9 +15,14 @@ export const transactionReportListTableColumns: TableColumnType = [
     sorter: (a: any, b: any) => a.store - b.store
   },
   {
-    title: "Order ID",
-    dataIndex: "order_id",
-    sorter: (a: any, b: any) => a.order_id - b.order_id
+    title: "Payment Mode",
+    dataIndex: "payment_mode",
+    sorter: (a: any, b: any) => a.payment_mode - b.payment_mode
+  },
+  {
+    title: "Transaction Ref",
+    dataIndex: "transaction_ref",
+    sorter: (a: any, b: any) => a.transaction_ref - b.transaction_ref
   },
   {
     title: "Transaction Date",
