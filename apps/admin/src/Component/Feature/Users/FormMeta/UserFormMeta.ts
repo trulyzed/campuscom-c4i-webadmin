@@ -50,11 +50,6 @@ export const getUserFormMeta = (): IField[] => [
     valueKey: "id"
   },
   {
-    label: "Is Scope Disabled",
-    inputType: BOOLEAN,
-    fieldName: "is_scope_disabled"
-  },
-  {
     label: "Is active",
     inputType: BOOLEAN,
     fieldName: "is_active"
