@@ -11,6 +11,25 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
   const firstRender = useFirstRender()
   const [value, setValue] = useState<any>(undefined)
   useDependencyValue({ ...props })
+  const [isOpened, setIsOpened] = useState(false)
+  const [showHelpText, setShowHelpText] = useState(false)
+
+  useEffect(() => {
+    const handleF1Press = (event: KeyboardEvent) => {
+      if (event.key === "F1") {
+        event.preventDefault()
+        setShowHelpText(true)
+      }
+    }
+    const handleReset = () => {
+      document.removeEventListener('keydown', handleF1Press)
+      setShowHelpText(false)
+    }
+    if (isOpened) document.addEventListener('keydown', handleF1Press)
+    else handleReset()
+    return () => handleReset()
+  }, [isOpened])
+
   useEffect(() => {
     const date = props.defaultValue || props.formInstance.getFieldValue(props.fieldName)
     if (date) {
@@ -51,6 +70,20 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
           }}
           format={DATE_DISPLAY_FORMAT}
           style={{ width: "100%", }}
+          nextIcon={<span aria-label="next month">&gt;</span>}
+          superNextIcon={<span aria-label="next year">&gt;&gt;</span>}
+          prevIcon={<span aria-label="previous month">&lt;</span>}
+          superPrevIcon={<span aria-label="previous year">&lt;&lt;</span>}
+          onOpenChange={setIsOpened}
+          showToday={false}
+          renderExtraFooter={() => (
+            <div role={"alert"}>
+              <p style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
+                {showHelpText ? <span>Press the arrow keys to navigate by day, PageUp and PageDown to navigate by month, Ctrl+RightArrow and Ctrl+LeftArrow to navigate by year, or Escape to cancel.</span>
+                  : <span>Press F1 for help.</span>}
+              </p>
+            </div>
+          )}
         />
         {/* )}
         {!value && (
