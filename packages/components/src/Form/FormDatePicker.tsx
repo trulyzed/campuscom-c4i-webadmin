@@ -17,6 +17,8 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
   const [isOpened, setIsOpened] = useState(false)
   const [showHelpText, setShowHelpText] = useState(false)
   const ref = useRef(null)
+  const fieldName = `${HELPER_FIELD_PATTERN}${props.fieldName}`
+  const containerID = `${fieldName}$$action-container`
 
   const handleKeyDown = useCallback((e) => {
     const isValidInput = e.key === '/' || e.key === '0' || Number(e.key)
@@ -73,11 +75,12 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
       <Form.Item colon={false} style={{ display: "none" }} name={props.fieldName}>
         <Input />
       </Form.Item>
-      <SearchFieldWrapper {...props} fieldName={`${HELPER_FIELD_PATTERN}${props.fieldName}`}>
+      <SearchFieldWrapper {...props} fieldName={fieldName}>
         {/* {value && ( */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div id={containerID} style={{ display: 'flex', alignItems: 'center' }}>
           <DatePicker
             ref={ref}
+            id={fieldName}
             getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
             disabled={props.disabled}
             placeholder={props.placeholder || DATE_DISPLAY_FORMAT}
