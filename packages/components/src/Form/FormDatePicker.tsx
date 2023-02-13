@@ -20,7 +20,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
   const actionRef = useRef<HTMLButtonElement>(null)
   const helperFieldName = `${HELPER_FIELD_PATTERN}${props.fieldName}`
   const containerID = `${helperFieldName}$$action-container`
-  const helpIsRead = useRef(false)
+  const [readHelp, setReadHelp] = useState(true)
 
   const handleChange = useCallback((date) => {
     const formattedDate = date?.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
@@ -36,9 +36,16 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
   const handleKeyDown = useCallback((e) => {
     const isValidInput = e.key === '/' || e.key === '0' || Number(e.key)
     const newValue = isValidInput ? `${e.currentTarget.value}${e.key}` : ''
-    if ((!controlKeys.includes(e.key) && (!newValue || newValue.length > 10))) {
+
+    if (e.key === "F1") {
       e.preventDefault()
+      setShowHelpText(true)
+      setReadHelp(true)
+      return
     }
+
+    if (isValidInput) setReadHelp(false)
+    if ((!controlKeys.includes(e.key) && (!newValue || newValue.length > 10))) e.preventDefault()
     if (e.key === 'Escape' && !e.currentTarget.value) handleChange(value)
   }, [handleChange, value])
 
@@ -48,24 +55,8 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     setTimeout(() => {
       if (ref.current) (ref.current as InputRef).focus()
     }, 0)
+    props.formInstance.validateFields([helperFieldName])
   }, [props.formInstance, props.fieldName, helperFieldName])
-
-  useEffect(() => {
-    const handleKeyPress = (event: KeyboardEvent) => {
-      if (event.key === "F1") {
-        event.preventDefault()
-        setShowHelpText(true)
-      }
-    }
-    const handleReset = () => {
-      document.removeEventListener('keydown', handleKeyPress)
-      setShowHelpText(false)
-      helpIsRead.current = false
-    }
-    if (isOpened) document.addEventListener('keydown', handleKeyPress)
-    else handleReset()
-    return () => handleReset()
-  }, [isOpened])
 
   useEffect(() => {
     const date = props.defaultValue || props.formInstance.getFieldValue(props.fieldName)
@@ -80,25 +71,35 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     // eslint-disable-next-line
   }, [props.defaultValue])
 
+  const handleReset = useCallback(() => {
+    setShowHelpText(false)
+    setReadHelp(true)
+  }, [])
+
   useEffect(() => {
     !firstRender && setValue(undefined)
     // eslint-disable-next-line
   }, [props.clearTrigger])
 
   useEffect(() => {
-    if (isOpened) helpIsRead.current = true
+    if (!isOpened) actionRef.current?.focus()
   }, [isOpened])
 
   useEffect(() => {
-    if (value) actionRef.current?.focus()
-  }, [value])
+    return () => {
+      handleReset()
+    }
+  }, [isOpened, handleReset])
 
   return (
     <>
       <Form.Item colon={false} style={{ display: "none" }} name={props.fieldName}>
         <Input />
       </Form.Item>
-      <SearchFieldWrapper {...props} fieldName={helperFieldName}>
+      <SearchFieldWrapper {...props} fieldName={helperFieldName} rules={isOpened ? props.rules?.map(i => ({
+        ...i,
+        validator: async () => { console.log('validating') }
+      })) : props.rules}>
         {/* {value && ( */}
         <div id={containerID} style={{ display: 'flex', alignItems: 'center' }}>
           <DatePicker
@@ -119,7 +120,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             onOpenChange={setIsOpened}
             showToday={false}
             renderExtraFooter={() => (
-              <p role={(!helpIsRead.current && isOpened) ? "alert" : undefined} style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
+              <p aria-live={(readHelp && isOpened) ? "polite" : undefined} style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
                 {showHelpText ? <span>Press the arrow keys to navigate by day, PageUp and PageDown to navigate by month, Ctrl+RightArrow and Ctrl+LeftArrow to navigate by year, or Escape to cancel.</span>
                   : <span>Press F1 for help.</span>}
               </p>
