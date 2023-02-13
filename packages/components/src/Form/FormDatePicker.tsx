@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import moment from "moment"
+import moment, { Moment } from "moment"
 import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { DatePicker, Form, Input, InputRef } from "antd"
 import { useFirstRender } from "~/Hooks/useFirstRender"
@@ -12,25 +12,43 @@ const controlKeys = ['Enter', 'Backspace', 'Tab', 'Escape', 'ArrowLeft', 'ArrowR
 
 export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }) {
   const firstRender = useFirstRender()
-  const [value, setValue] = useState<any>(undefined)
+  const [value, setValue] = useState<Moment | undefined>(undefined)
   useDependencyValue({ ...props })
   const [isOpened, setIsOpened] = useState(false)
   const [showHelpText, setShowHelpText] = useState(false)
   const ref = useRef(null)
-  const fieldName = `${HELPER_FIELD_PATTERN}${props.fieldName}`
-  const containerID = `${fieldName}$$action-container`
+  const actionRef = useRef<HTMLButtonElement>(null)
+  const helperFieldName = `${HELPER_FIELD_PATTERN}${props.fieldName}`
+  const containerID = `${helperFieldName}$$action-container`
+  const helpIsRead = useRef(false)
+
+  const handleChange = useCallback((date) => {
+    const formattedDate = date?.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
+    props.formInstance.setFieldsValue({
+      [props.fieldName]: formattedDate,
+      [helperFieldName]: date
+    })
+    setValue(date || undefined)
+    props.onSelectedItems && props.onSelectedItems(formattedDate)
+    // eslint-disable-next-line
+  }, [helperFieldName, props.dateFormate, props.formInstance.setFieldsValue, props.fieldName, props.onSelectedItems])
 
   const handleKeyDown = useCallback((e) => {
     const isValidInput = e.key === '/' || e.key === '0' || Number(e.key)
-    const value = isValidInput ? `${e.currentTarget.value}${e.key}` : ''
-    if (!controlKeys.includes(e.key) && (value.length > 10 || !value)) e.preventDefault()
-  }, [])
+    const newValue = isValidInput ? `${e.currentTarget.value}${e.key}` : ''
+    if ((!controlKeys.includes(e.key) && (!newValue || newValue.length > 10))) {
+      e.preventDefault()
+    }
+    if (e.key === 'Escape' && !e.currentTarget.value) handleChange(value)
+  }, [handleChange, value])
 
   const handleClear = useCallback(() => {
-    props.formInstance.resetFields([props.fieldName])
+    props.formInstance.resetFields([props.fieldName, helperFieldName])
     setValue(undefined)
-    if (ref.current) (ref.current as InputRef).focus()
-  }, [props.formInstance, props.fieldName])
+    setTimeout(() => {
+      if (ref.current) (ref.current as InputRef).focus()
+    }, 0)
+  }, [props.formInstance, props.fieldName, helperFieldName])
 
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
@@ -42,6 +60,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     const handleReset = () => {
       document.removeEventListener('keydown', handleKeyPress)
       setShowHelpText(false)
+      helpIsRead.current = false
     }
     if (isOpened) document.addEventListener('keydown', handleKeyPress)
     else handleReset()
@@ -56,7 +75,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
       props.formInstance.setFieldsValue({
         [props.fieldName]: t1.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
       })
-      props.formInstance.setFieldsValue({ [`${HELPER_FIELD_PATTERN}${props.fieldName}`]: t1 })
+      props.formInstance.setFieldsValue({ [helperFieldName]: t1 })
     }
     // eslint-disable-next-line
   }, [props.defaultValue])
@@ -67,32 +86,29 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
   }, [props.clearTrigger])
 
   useEffect(() => {
-    !firstRender && setValue(undefined)
-    // eslint-disable-next-line
-  }, [props.clearTrigger])
+    if (isOpened) helpIsRead.current = true
+  }, [isOpened])
+
+  useEffect(() => {
+    if (value) actionRef.current?.focus()
+  }, [value])
+
   return (
     <>
       <Form.Item colon={false} style={{ display: "none" }} name={props.fieldName}>
         <Input />
       </Form.Item>
-      <SearchFieldWrapper {...props} fieldName={fieldName}>
+      <SearchFieldWrapper {...props} fieldName={helperFieldName}>
         {/* {value && ( */}
         <div id={containerID} style={{ display: 'flex', alignItems: 'center' }}>
           <DatePicker
             ref={ref}
-            id={fieldName}
+            id={helperFieldName}
             getPopupContainer={(triggerNode) => triggerNode.parentNode as HTMLElement}
             disabled={props.disabled}
             placeholder={props.placeholder || DATE_DISPLAY_FORMAT}
             value={value}
-            onChange={(date) => {
-              const formattedDate = date?.format(props.dateFormate || DATE_TIME_PAYLOAD_FORMAT)
-              props.formInstance.setFieldsValue({
-                [props.fieldName]: formattedDate
-              })
-              setValue(date)
-              props.onSelectedItems && props.onSelectedItems(formattedDate)
-            }}
+            onChange={handleChange}
             format={DATE_DISPLAY_FORMAT}
             style={{ width: "100%", }}
             onKeyDown={handleKeyDown}
@@ -103,14 +119,13 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             onOpenChange={setIsOpened}
             showToday={false}
             renderExtraFooter={() => (
-              <div role={"alert"}>
-                <p style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
-                  {showHelpText ? <span>Press the arrow keys to navigate by day, PageUp and PageDown to navigate by month, Ctrl+RightArrow and Ctrl+LeftArrow to navigate by year, or Escape to cancel.</span>
-                    : <span>Press F1 for help.</span>}
-                </p>
-              </div>
+              <p role={(!helpIsRead.current && isOpened) ? "alert" : undefined} style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
+                {showHelpText ? <span>Press the arrow keys to navigate by day, PageUp and PageDown to navigate by month, Ctrl+RightArrow and Ctrl+LeftArrow to navigate by year, or Escape to cancel.</span>
+                  : <span>Press F1 for help.</span>}
+              </p>
             )}
             allowClear={false}
+            onBlur={() => handleChange(value)}
           />
           {/* )}
           {!value && (
@@ -125,7 +140,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             />
           )} */}
           {value ?
-            <ContextAction tooltip={`Clear ${props.label}`} type="remove" buttonType="ghost" onClick={handleClear} />
+            <ContextAction ref={actionRef} tooltip={`Clear ${props.label}, ${value.format(DATE_DISPLAY_FORMAT)}`} type="remove" buttonType="ghost" onClick={handleClear} />
             : null}
         </div>
       </SearchFieldWrapper>
