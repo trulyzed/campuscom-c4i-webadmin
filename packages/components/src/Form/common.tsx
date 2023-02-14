@@ -1,6 +1,6 @@
 import React from "react"
 import { Form, UploadProps } from "antd"
-import { FormInstance, Rule } from "antd/lib/form"
+import { FormInstance, Rule, FormItemProps } from "antd/lib/form"
 import { ValidateStatus } from "antd/lib/form/FormItem"
 import { IQuery, IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { ValidateErrorEntity } from "rc-field-form/lib/interface"
@@ -111,7 +111,7 @@ export interface IGeneratedField extends Omit<IField, "inputType"> {
   updateMeta?: React.Dispatch<React.SetStateAction<IField[]>>
 }
 
-export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode }) {
+export function SearchFieldWrapper(props: IGeneratedField & { children?: React.ReactNode } & FormItemProps) {
   const _rules: Array<{ [key: string]: any }> = props.rules as Array<{ [key: string]: any }>
 
   if (props.required) _rules.push({ required: true, message: `Please enter ${props.label}` })
