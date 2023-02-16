@@ -2,37 +2,31 @@ import { checkAdminApiPermission } from "@packages/services/lib/Api/Permission/A
 import { IUser } from "@packages/services/lib/Api/utils/Interfaces"
 import { ISidebarMenu } from "@packages/components/lib/SidebarNavigation/Sidebar"
 import { getUser } from "@packages/services/lib/Api/utils/TokenStore"
-import { getDepartmentListTableColumns } from "~/TableSearchMeta/Department/DepartmentListTableColumns"
-import { getEmployeeListTableColumns } from "~/TableSearchMeta/Employee/EmployeeListTableColumns"
+import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns"
+import { getEnrollmentListTableColumns } from "~/TableSearchMeta/Enrollment/EnrollmentListTableColumns"
+import { getSkillListTableColumns } from "~/TableSearchMeta/Skill/SkillListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
-    title: "Employee Management",
-    url: "",
-    submenu: [
-      {
-        title: "Employees",
-        url: "/employee-management/employee",
-        submenu: [],
-        permission: checkAdminApiPermission(getEmployeeListTableColumns().searchFunc)
-      },
-    ],
+    title: "Courses",
+    url: "/course",
+    submenu: [],
     permission:
-      checkAdminApiPermission(getEmployeeListTableColumns().searchFunc)
+      checkAdminApiPermission(getCourseListTableColumns().searchFunc)
   },
   {
-    title: "Administration",
-    url: "",
-    submenu: [
-      {
-        title: "Departments",
-        url: "/administration/department",
-        submenu: [],
-        permission: checkAdminApiPermission(getDepartmentListTableColumns().searchFunc)
-      },
-    ],
+    title: "Skills",
+    url: "/skill",
+    submenu: [],
     permission:
-      checkAdminApiPermission(getDepartmentListTableColumns().searchFunc)
+      checkAdminApiPermission(getSkillListTableColumns().searchFunc)
+  },
+  {
+    title: "Enrollments",
+    url: "/enrollment",
+    submenu: [],
+    permission:
+      checkAdminApiPermission(getEnrollmentListTableColumns().searchFunc)
   },
 ]
 

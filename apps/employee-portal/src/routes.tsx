@@ -4,11 +4,13 @@ import { RouteProps } from "react-router-dom"
 export const AppRoutes: RouteProps[] = [
   { path: "/", component: React.lazy(() => import("~/Pages/HomePage").then((x) => ({ default: x.HomePage }))) },
 
-  { path: "/administration/department", component: React.lazy(() => import("~/Pages/Administration/Departments").then((x) => ({ default: x.List }))) },
-  { path: "/administration/department/:departmentID", component: React.lazy(() => import("~/Pages/Administration/Departments/DepartmentDetailsPage").then((x) => ({ default: x.DepartmentDetailsPage }))) },
+  { path: "/course", component: React.lazy(() => import("~/Pages/Course").then((x) => ({ default: x.List }))) },
+  { path: "/course/:courseID", component: React.lazy(() => import("~/Pages/Course/CourseDetailsPage").then((x) => ({ default: x.CourseDetailsPage }))) },
 
-  { path: "/employee-management/employee", component: React.lazy(() => import("~/Pages/EmployeeManagement/Employees").then((x) => ({ default: x.List }))) },
-  { path: "/employee-management/employee/:employeeID", component: React.lazy(() => import("~/Pages/EmployeeManagement/Employees/EmployeeDetailsPage").then((x) => ({ default: x.EmployeeDetailsPage }))) },
+  { path: "/skill", component: React.lazy(() => import("~/Pages/Skill").then((x) => ({ default: x.List }))) },
+
+  { path: "/enrollment", component: React.lazy(() => import("~/Pages/Enrollment").then((x) => ({ default: x.List }))) },
+  { path: "/enrollment/:enrollmentID", component: React.lazy(() => import("~/Pages/Enrollment/EnrollmentDetailsPage").then((x) => ({ default: x.EnrollmentDetailsPage }))) },
 
   { path: "/user-profile", component: React.lazy(() => import("~/Pages/UserProfile").then((x) => ({ default: x.UserProfile }))) },
 ]

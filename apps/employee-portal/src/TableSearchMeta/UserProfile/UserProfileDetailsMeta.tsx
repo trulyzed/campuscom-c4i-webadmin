@@ -9,6 +9,7 @@ import { getChangePasswordFormMeta } from "~/Component/Feature/AccountSettings/C
 import { notification } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { renderBoolean } from "@packages/components/lib/ResponsiveTable"
+import { BalanceInfo } from "./BalanceInfo"
 
 export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMeta => {
   const changePassword = QueryConstructor(((data) => AuthQueries.changePassword({ ...data }).then(resp => {
@@ -39,8 +40,14 @@ export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMe
     ]
   }
 
+  const balanceInfo: CardContainer = {
+    title: "Balance",
+    Component: BalanceInfo,
+    contents: []
+  }
+
   const demographySummaryMeta: IDetailsSummary = {
-    summary: [{ groupedContents: [personalInfo] }]
+    summary: [{ groupedContents: [personalInfo, balanceInfo] }]
   }
   tabMetas.push({
     tabTitle: "Summary",

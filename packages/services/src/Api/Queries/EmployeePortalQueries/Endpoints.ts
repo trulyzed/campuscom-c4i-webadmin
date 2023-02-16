@@ -1,8 +1,12 @@
 export const endpoints = {
-  DEPARTMENT: "departments",
-  EMPLOYEE: "employees",
+  COURSE: "courses",
+  ENROLLMENT: "enrollments",
+  PROFILE_DETAILS: "profile-details",
+  SKILL: "skills",
 
   // for miscellaneous, non-paginated
-  ALL_DEPARTMENT: "departments?limit=1000",
-  ALL_EMPLOYEE: "employees?limit=1000"
+  ALL_COURSE: "courses?limit=1000",
+  ALL_ENROLLMENT: "enrollments?limit=1000",
+  ALL_SKILL: "skills?limit=1000",
+  ALL_SKILL_BY_COURSE: "skills-by-course?limit=1000"
 }
