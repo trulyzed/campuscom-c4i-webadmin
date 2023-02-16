@@ -104,7 +104,7 @@ export const CareerQueries: ICareerQueries = {
           : resp
       )
     },
-    [{ operation: ApiPermissionClass.Skill, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.OccupationSkill, action: ApiPermissionAction.Read }]
   ),
 
   getCareersAndSkillsByCourse: PermissionWrapper(

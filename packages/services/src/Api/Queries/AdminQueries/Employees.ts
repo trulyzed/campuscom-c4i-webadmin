@@ -1,47 +1,45 @@
-import { endpoints } from "~/Api/Queries/EmployeePortalQueries/Endpoints"
+import { endpoints } from "~/Api/Queries/AdminQueries/Endpoints"
 import { adminApi } from "~/Api/ApiClient"
-import { IEmployeeQueries } from "./Proxy/Employees"
 import { PermissionWrapper } from "./Proxy"
 import { ApiPermissionAction, ApiPermissionClass } from "~/Api/Enums/Permission"
+import { IEmployeeQueries, processEmployees } from "./Proxy/Employees"
 
 export const EmployeeQueries: IEmployeeQueries = {
   getSingle: PermissionWrapper(
     (data) => {
       const { id, ...params } = data?.params
       return adminApi({
-        endpoint: `${endpoints.EMPLOYEE}/${data!.params!.id}`,
+        endpoint: `${endpoints.EMPLOYEE_PROFILE}/${data!.params!.id}`,
         ...data,
         params,
         method: "GET"
-      })
+      }).then((resp) => (resp.success ? { ...resp, data: processEmployees([resp.data])[0] } : resp))
     },
-    [{ operation: ApiPermissionClass.Employee, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.EmployeeProfile, action: ApiPermissionAction.Read }]
+  ),
+
+  getList: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.ALL_EMPLOYEE_PROFILE,
+        ...data,
+        method: "GET"
+      }).then((resp) => (resp.success ? { ...resp, data: processEmployees(resp.data) } : resp))
+    },
+    [{ operation: ApiPermissionClass.EmployeeProfile, action: ApiPermissionAction.Read }]
   ),
 
   getPaginatedList: PermissionWrapper(
     (data) => {
       const { pagination, ...nonPaginationParams } = data?.params || {}
       return adminApi({
-        endpoint: endpoints.ALL_EMPLOYEE,
+        endpoint: endpoints.ALL_EMPLOYEE_PROFILE,
         ...data,
         params: { ...nonPaginationParams },
         method: "GET"
-      })
+      }).then((resp) => (resp.success ? { ...resp, data: processEmployees(resp.data) } : resp))
     },
-    [{ operation: ApiPermissionClass.Employee, action: ApiPermissionAction.Read }]
-  ),
-
-  getList: PermissionWrapper(
-    (data) => {
-      const { pagination, ...nonPaginationParams } = data?.params || {}
-      return adminApi({
-        endpoint: endpoints.ALL_EMPLOYEE,
-        ...data,
-        params: { ...nonPaginationParams },
-        method: "GET"
-      })
-    },
-    [{ operation: ApiPermissionClass.Employee, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.EmployeeProfile, action: ApiPermissionAction.Read }]
   ),
 
   create: PermissionWrapper(
@@ -66,5 +64,16 @@ export const EmployeeQueries: IEmployeeQueries = {
       })
     },
     [{ operation: ApiPermissionClass.Employee, action: ApiPermissionAction.Write }]
+  ),
+
+  tagSkill: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.EMPLOYEE_PROFILE,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.EmployeeProfile, action: ApiPermissionAction.Write }]
   )
 }

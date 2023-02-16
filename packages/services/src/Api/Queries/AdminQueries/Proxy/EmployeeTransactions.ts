@@ -1,9 +1,8 @@
 import { IQuery } from "./types"
 
-export interface IEmployeeQueries {
+export interface IEmployeeTransactionQueries {
   getSingle: IQuery
-  getPaginatedList: IQuery
   getList: IQuery
+  getPaginatedList: IQuery
   create: IQuery
-  update: IQuery
 }
