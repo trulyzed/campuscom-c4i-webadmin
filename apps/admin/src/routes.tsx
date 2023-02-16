@@ -71,6 +71,8 @@ export const AppRoutes: RouteProps[] = [
   { path: "/administration/company/:organizationID", component: React.lazy(() => import("~/Pages/Administration/Organizations/OrganizationDetailsPage").then((x) => ({ default: x.OrganizationDetailsPage }))) },
   { path: "/administration/affiliate-user", component: React.lazy(() => import("~/Pages/Administration/CompanyUsers").then((x) => ({ default: x.List }))) },
   { path: "/administration/affiliate-user/:companyUserID", component: React.lazy(() => import("~/Pages/Administration/CompanyUsers/CompanyUserDetailsPage").then((x) => ({ default: x.CompanyUserDetailsPage }))) },
+  { path: "/administration/employee", component: React.lazy(() => import("~/Pages/Administration/Employees").then((x) => ({ default: x.List }))) },
+  { path: "/administration/employee/:employeeID", component: React.lazy(() => import("~/Pages/Administration/Employees/EmployeeDetailsPage").then((x) => ({ default: x.EmployeeDetailsPage }))) },
   { path: "/administration/discount-program", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms").then((x) => ({ default: x.List }))) },
   { path: "/administration/discount-program/:discountProgramID", component: React.lazy(() => import("~/Pages/Administration/DiscountPrograms/DiscountProgramDetailsPage").then((x) => ({ default: x.DiscountProgramDetailsPage }))) },
   { path: "/administration/membership-program", component: React.lazy(() => import("~/Pages/Administration/MembershipPrograms").then((x) => ({ default: x.List }))) },

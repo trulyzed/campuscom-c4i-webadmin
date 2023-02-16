@@ -293,6 +293,12 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         permission: checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc)
       },
       {
+        title: "Employees",
+        url: "/administration/employee",
+        submenu: [],
+        permission: checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc)
+      },
+      {
         title: "Audit Trails",
         url: "/administration/audit-trail",
         submenu: [],
