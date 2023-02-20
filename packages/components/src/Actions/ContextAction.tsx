@@ -24,6 +24,7 @@ export interface IContextActionProps {
   iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
   buttonType?: ButtonProps["type"]
+  buttonSize?: ButtonProps["size"]
   modalProps?: IModalWrapperProps
   successText?: string
   disableLoading?: boolean
@@ -80,6 +81,7 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   downloadAs = 'EXCEL',
   iconColor,
   buttonType,
+  buttonSize,
   modalProps,
   successText,
   disableLoading,
@@ -135,6 +137,7 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
               onClick={handleClick}
               loading={disableLoading ? undefined : isProcessing}
               children={(text && icon) ? <span className="ml-5">{text}</span> : text !== undefined ? text : undefined}
+              size={buttonSize}
             />}
         </>
       }
