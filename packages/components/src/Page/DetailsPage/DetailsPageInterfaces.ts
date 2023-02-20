@@ -1,3 +1,4 @@
+import { FC } from "react"
 import { IApiResponse } from "@packages/services/lib/Api/utils/Interfaces"
 
 export interface IDetailsSummary {
@@ -21,6 +22,7 @@ export type CardContainer = {
   groupedContents?: CardContainer[]
   style?: React.CSSProperties
   colSpan?: number
+  Component?: FC<{inheritedProps?: Omit<CardContainer, 'Component' | 'colSpan'>}>
 }
 // ================================================
 export interface IStandardDetailsPage {
