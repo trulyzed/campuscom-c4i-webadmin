@@ -16,7 +16,7 @@ export const List = () => {
   const createEntity = QueryConstructor(((data) => EmployeeQueries.create({ ...data, data: { ...data?.data, companies: [data?.data.companies] } }).then(resp => {
     if (resp.success) {
       notification.success({ message: CREATE_SUCCESSFULLY })
-      setRedirectAfterCreate(`/administration/employee/${resp.data.id}`)
+      setRedirectAfterCreate(`/administration/employee/${resp.data.employee_profile_id}`)
     }
     return resp
   })), [EmployeeQueries.create])
