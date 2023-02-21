@@ -40,7 +40,7 @@ export const getEmployeeDetailsMeta = (employee: { [key: string]: any }): IDetai
       { label: 'Username', value: employee.username, },
       { label: 'Email', value: employee.profile.primary_email, },
       { label: 'Primary contact number', value: employee.profile.primary_contact_number, },
-      { label: 'Organizations', value: renderLink(`/administration/organization/${employee.company.id}`, employee.company.name) },
+      { label: 'Organization', value: renderLink(`/administration/organization/${employee.company.id}`, employee.company.name) },
     ]
   }
 
