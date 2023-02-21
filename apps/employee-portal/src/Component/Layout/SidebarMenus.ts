@@ -43,9 +43,10 @@ const generateSidebarMenuPermission = (
     return {
       ...i,
       key,
-      permission: user?.is_superuser
-        ? true
-        : i.permission && !!(user?.menu_permissions?.includes(key) || submenu.some((i) => i.permission)),
+      // permission: user?.is_superuser
+      //   ? true
+      //   : i.permission && !!(user?.menu_permissions?.includes(key) || submenu.some((i) => i.permission)),
+      permission: true,
       submenu
     }
   })

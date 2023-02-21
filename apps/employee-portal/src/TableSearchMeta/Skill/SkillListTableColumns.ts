@@ -11,7 +11,7 @@ export const skillListTableColumns: TableColumnType = [
   {
     title: 'Skill Type',
     dataIndex: 'skill_type',
-    sorter: (a: any, b: any) => a.soc_code - b.soc_code,
+    sorter: (a: any, b: any) => a.skill_type - b.skill_type,
   },
 ]
 

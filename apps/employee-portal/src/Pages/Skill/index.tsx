@@ -15,8 +15,8 @@ export const List = () => {
         ...listMeta,
         columns: [...listMeta.columns, {
           title: 'Acquired',
-          dataIndex: 'acquired',
-          render: renderBoolean,
+          dataIndex: 'status',
+          render: (text: any) => renderBoolean(text === "acquired"),
           sorter: (a: any, b: any) => a.acquired - b.acquired,
         }],
         searchFunc: SkillQueries.getPaginatedList,
