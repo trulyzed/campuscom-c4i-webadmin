@@ -1,4 +1,4 @@
-import { renderLink, TableColumnType } from "@packages/components/lib/ResponsiveTable"
+import { TableColumnType } from "@packages/components/lib/ResponsiveTable"
 import { ITableMeta } from "@packages/components/lib/ResponsiveTable/ITableMeta"
 import { EmployeeTransactionQueries } from "@packages/services/lib/Api/Queries/AdminQueries/EmployeeTransactions"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
@@ -18,12 +18,6 @@ export const employeeTransactionTableColumns: TableColumnType = [
     title: "Note",
     dataIndex: "credit_note",
     sorter: (a: any, b: any) => a.credit_note - b.credit_note
-  },
-  {
-    title: 'Order',
-    dataIndex: 'order',
-    render: (text: any) => text ? renderLink(`/storefront-data/order/${text.id}`, text.order_ref) : undefined,
-    sorter: (a: any, b: any) => a.order?.order_ref - b.order?.order_ref
   },
 ]
 

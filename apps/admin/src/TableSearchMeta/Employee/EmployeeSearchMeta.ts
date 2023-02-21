@@ -1,5 +1,6 @@
 import { DROPDOWN, IField, TEXT } from "@packages/components/lib/Form/common"
 import { StoreQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Stores"
+import { CompanyQueries } from "@packages/services/lib/Api/Queries/AdminQueries/Companies"
 
 export const EmployeeSearchMeta: IField[] = [
   {
@@ -10,6 +11,14 @@ export const EmployeeSearchMeta: IField[] = [
     displayKey: "name",
     valueKey: "id",
     defaultPreferenceIndex: 'default_store'
+  },
+  {
+    label: "Organization",
+    inputType: DROPDOWN,
+    fieldName: "company",
+    refLookupService: CompanyQueries.getLookupData,
+    displayKey: "name",
+    valueKey: "id",
   },
   {
     label: "First Name",
@@ -25,5 +34,5 @@ export const EmployeeSearchMeta: IField[] = [
     label: "Email",
     inputType: TEXT,
     fieldName: "profile_store__profile__primary_email__icontains",
-  }
+  },
 ]

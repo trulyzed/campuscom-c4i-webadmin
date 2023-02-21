@@ -9,7 +9,7 @@ export const getEmployeeTransactionFormMeta = ():IField[] => [
     rules: [{ required: true, message: "This field is required!" }]
   },
   {
-    label: "Credit Note",
+    label: "Note",
     inputType: TEXTAREA,
     fieldName: "credit_note"
   },
