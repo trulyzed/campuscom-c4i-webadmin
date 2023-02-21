@@ -35,6 +35,7 @@ export enum ApiPermissionClass {
   Company = "StoreCompanyViewSet",
   CompanyCustomRole = "CompanyCustomRoleViewSet",
   CompanyUser = "CompanyUserViewSet",
+  CompleteSkill = "CompleteSkillView",
   Coupon = "CouponViewSet",
   CouponUsage = "CouponUsageView",
   CourseEnrollment = "CourseEnrollmentViewSet",

@@ -6,4 +6,5 @@ export interface ISkillQueries {
   getList: IQuery
   getLookupData: IQuery
   getListByCourse: IQuery
+  makeComplete: IQuery
 }

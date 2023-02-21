@@ -1,4 +1,5 @@
 export const endpoints = {
+  COMPLETE_SKILL: "complete-skills",
   COURSE: "courses",
   ENROLLMENT: "enrollments",
   PROFILE_DETAILS: "profile-details",

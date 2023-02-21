@@ -66,5 +66,16 @@ export const SkillQueries: ISkillQueries = {
       })
     },
     [{ operation: ApiPermissionClass.SkillByCourse, action: ApiPermissionAction.Read }]
+  ),
+
+  makeComplete: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.COMPLETE_SKILL,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.Skill, action: ApiPermissionAction.Read }]
   )
 }
