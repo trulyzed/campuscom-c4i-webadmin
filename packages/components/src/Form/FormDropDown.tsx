@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useState } from "react"
-import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { Select } from "antd"
+import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { IQueryParams } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
@@ -11,6 +11,7 @@ export function FormDropDown(
     renderLabel?: (Params: { [key: string]: any }) => string
     allowClear?: boolean
     dropdownMatchSelectWidth?: boolean | number
+    onOptionDataChange?: (options: any[]) => void
   }
 ) {
   const { userPreferences } = useContext(UserDataContext)
@@ -110,6 +111,11 @@ export function FormDropDown(
     props.onAutoSelectDefault?.(value)
     // eslint-disable-next-line
   }, [options, userPreferences, props.defaultValue, props.defaultPreferenceIndex, formInstance.setFieldValue, fieldName])
+
+  useEffect(() => {
+    props.onOptionDataChange?.(options)
+    // eslint-disable-next-line
+  }, [options])
 
   return (
     <SearchFieldWrapper {...props}>

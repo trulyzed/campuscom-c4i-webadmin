@@ -1,5 +1,5 @@
 import { CUSTOM_FIELD, IField } from "@packages/components/lib/Form/common"
-import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
+import { FormFields } from "@packages/components/lib/Form/FormFields"
 import { Button, Card, Col, Form, Row } from "antd"
 import Title from "antd/lib/typography/Title"
 import { useCallback, useMemo } from "react"

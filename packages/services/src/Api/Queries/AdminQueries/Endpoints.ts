@@ -151,6 +151,7 @@ export const endpoints = {
   USER: "users",
   USER_PREFERENCE: "user-preferences",
   USER_TABLE_CONFIGURATION: "user-table-configurations",
+  USER_TABLE_FILTER_CONFIGURATION: "user-table-filters",
 
   // for miscellaneous, non-paginated
   ALL_AUDIT_TRAIL: "user-audit-trails?limit=1000",

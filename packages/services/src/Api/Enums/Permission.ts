@@ -165,5 +165,6 @@ export enum ApiPermissionClass {
   UpdateProfileQuestion = "UpdateProfileQuestionView",
   UpdateRegistrationQuestion = "UpdateRegistrationQuestionView",
   UserPreference = "UserPreferenceView",
-  UserTableConfiguration = "UserTableConfigurationViewSet"
+  UserTableConfiguration = "UserTableConfigurationViewSet",
+  UserTableFilterConfiguration = "UserTableFilterViewSet"
 }

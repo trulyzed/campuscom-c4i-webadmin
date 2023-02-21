@@ -24,6 +24,7 @@
     "build:admin": "yarn build:utilities && yarn build:services && yarn build:components && yarn workspace admin build",
     "build:affiliate": "yarn build:utilities && yarn build:services && yarn build:components && yarn workspace affiliate build",
     "build:employee-portal": "yarn build:utilities && yarn build:services && yarn build:components && yarn workspace employee-portal build",
+    "refresh:admin/components": "yarn build:components && yarn workspace admin start",
     "lint": "yarn workspaces run lint",
     "lint:ts": "yarn workspaces run lint:ts",
     "prepare": "husky install",

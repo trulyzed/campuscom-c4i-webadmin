@@ -1,6 +1,6 @@
 import { Form, type FormInstance } from "antd"
 import { TEXTAREA } from "@packages/components/lib/Form/common"
-import { FormFields } from "@packages/components/lib/Form/MetaDrivenForm"
+import { FormFields } from "@packages/components/lib/Form/FormFields"
 
 interface ISessionFormProps {
   formInstance: FormInstance
