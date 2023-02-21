@@ -15,11 +15,12 @@ export const courseListTableColumns: TableColumnType = [
   {
     title: "Skills",
     dataIndex: "skills",
-    render: (text: any, record: any) => <List max={4} emphasize={['aws']} emphasizeTitle={"matched"} showInTags data={text.map((i: any) => i)} />,
+    render: (text: any) => <List max={10} emphasizeTitle={"matched"} showInTags data={text.map((i: any) => i.name)} />,
   },
   {
     title: "Action",
     dataIndex: 'action',
+    fixed: 'right',
     render: (_, record: any) => (
       <ContextAction
         buttonType="primary"

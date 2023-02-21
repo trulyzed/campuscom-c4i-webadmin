@@ -52,7 +52,7 @@ export const SkillQueries: ISkillQueries = {
         method: "GET"
       })
     },
-    [{ operation: ApiPermissionClass.Company, action: ApiPermissionAction.Read }]
+    [{ operation: ApiPermissionClass.Skill, action: ApiPermissionAction.Read }]
   ),
 
   getListByCourse: PermissionWrapper(
