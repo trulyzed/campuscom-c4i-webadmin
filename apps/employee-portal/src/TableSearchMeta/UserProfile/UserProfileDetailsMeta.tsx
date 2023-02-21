@@ -9,7 +9,7 @@ import { getChangePasswordFormMeta } from "~/Component/Feature/AccountSettings/C
 import { notification } from "antd"
 import { UPDATE_SUCCESSFULLY } from "~/Constants"
 import { renderBoolean } from "@packages/components/lib/ResponsiveTable"
-import { BalanceInfo } from "./BalanceInfo"
+import { BalanceInfo } from "~/Component/Feature/BalanceInfo/BalanceInfo"
 
 export const getUserProfileMeta = (userInfo: { [key: string]: any }): IDetailsMeta => {
   const changePassword = QueryConstructor(((data) => AuthQueries.changePassword({ ...data }).then(resp => {
