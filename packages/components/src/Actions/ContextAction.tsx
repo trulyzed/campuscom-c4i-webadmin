@@ -23,6 +23,7 @@ export interface IContextActionProps {
   downloadAs?: "EXCEL" | "CSV"
   iconColor?: "success" | "primary" | "danger" | "warning"
   confirmationType?: string
+  confirmationText?: string
   buttonType?: ButtonProps["type"]
   buttonSize?: ButtonProps["size"]
   modalProps?: IModalWrapperProps
@@ -75,6 +76,7 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
   onClick,
   type,
   confirmationType,
+  confirmationText,
   refreshEventName,
   textOnly,
   redirectTo,
@@ -95,6 +97,7 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
     if ((confirmationType || type === 'delete' || type === 'remove') && queryService) {
       promptConfirmation(queryService, {
         actionType: confirmationType,
+        title: confirmationText,
         setIsProcessing: (status) => setIsProcessing(status),
         success: successText
       }).then(() => {
@@ -114,7 +117,7 @@ export const ContextAction = forwardRef<HTMLElement, IContextActionProps>(({
     } else if (modalProps) {
       setShowModal(true)
     }
-  }, [confirmationType, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps, successText])
+  }, [confirmationType, confirmationText, queryService, type, refreshEventName, onClick, push, redirectTo, downloadAs, modalProps, successText])
 
   const handleModalClose = useCallback(() => {
     setShowModal(false)
