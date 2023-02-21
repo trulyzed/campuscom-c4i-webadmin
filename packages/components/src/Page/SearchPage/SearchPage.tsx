@@ -12,6 +12,8 @@ import { DEFAULT_PAGE_SIZE } from "~/ResponsiveTable/Responsive"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title?: string
+  mainTitle?: string
+  tableTitle?: string
   searchTitle?: string
   blocks?: JSX.Element[]
   meta?: IField[]
@@ -54,7 +56,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
             <Row>
               <Col md={24} xs={24} className={'mt-15'}>
                 <Title level={3}>
-                  Manage {props.title}
+                  {props.mainTitle || `Manage ${props.title}`}
                 </Title>
               </Col>
               <Col md={24} xs={24} className={'mb-10'}>
@@ -127,7 +129,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 setCurrentPagination={setCurrentPagination}
                 {...props.tableProps}
                 searchParams={searchParams}
-                tableTitle={props.title}
+                tableTitle={props.tableTitle || props.title}
                 onPaginationChange={setPagination}
                 dataLoaded={(data) => props.onChange?.({ data, searchParams })}
               />
