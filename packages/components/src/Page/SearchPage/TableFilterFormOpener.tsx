@@ -14,17 +14,21 @@ export const TableFilterFormOpener = (props: {
   formValueMeta?: IFormValueMeta
 }) => {
   const handleSubmit = QueryConstructor((data) => {
-    const filters = props.formInstance?.getFieldsValue()
+    const values = props.formInstance?.getFieldsValue()
+    const meta = Object.keys(props.formValueMeta || {}).reduce((a, c) => {
+      if (values[c] !== undefined && props.formValueMeta) a = { ...a, [c]: props.formValueMeta[c] }
+      return a
+    }, {} as IFormValueMeta | undefined)
     return UserTableFilterConfigurationQueries.create({
       data: {
         table_name: props.tableName,
         filter: {
           title: data?.data.title,
-          configurations: Object.keys(filters).reduce((a, c) => {
-            if (filters[c] !== undefined) a[c] = filters[c]
+          configurations: Object.keys(values).reduce((a, c) => {
+            a[c] = values[c] === undefined ? null : values[c]
             return a
           }, {} as Record<string, any>),
-          meta: props.formValueMeta
+          meta: Object.keys(meta || {}).length ? meta : null
         }
       }
     }).then(resp => {

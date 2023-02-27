@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback, useEffect, useState } from "react"
+import React, { CSSProperties, forwardRef, useCallback, useEffect, useImperativeHandle, useState } from "react"
 import { Button, Col, Form, Grid, Row } from "antd"
 import { DefaultOptionType } from "antd/lib/select"
 import {
@@ -23,7 +23,7 @@ import {
   OTP,
 } from "~/Form/common"
 import { FormInput } from "~/Form/FormInput"
-// import { FormDropDown } from "~/Form/FormDropDown"
+import { FormDropDown } from "~/Form/FormDropDown"
 import { FormMultiSelectDropDown } from "~/Form/FormMultiSelectDropDown"
 import { FormHierarchicalMultipleCheckbox } from "~/Form/FormHierarchicalMultipleCheckbox"
 import { FormDatePicker } from "~/Form/FormDatePicker"
@@ -41,11 +41,13 @@ import { FormGroupedMultipleCheckbox } from "~/Form/FormGroupedMultipleCheckbox"
 import { FormHiddenInput } from "~/Form/FormHiddenInput"
 import { FormDisplayField } from "~/Form/FormDisplayField"
 import { FormOTPInput } from "~/Form/FormOTPInput"
-// import { CustomCheckbox } from "~/Form/CustomCheckbox"
-import { CustomCheckbox } from "./CustomCheckbox"
-import { FormDropDown } from "./FormDropDown"
+import { CustomCheckbox } from "~/Form/CustomCheckbox"
 
-export const FormFields = (props: {
+export type FormFieldsHandle = {
+  toggleFields: (values: Record<IField['fieldName'], boolean>) => void
+}
+
+interface IFormFieldsProps {
   meta: IField[]
   formInstance: FormInstance
   clearTrigger?: boolean
@@ -61,16 +63,24 @@ export const FormFields = (props: {
   enableFormItemToggle?: boolean
   defaultFormItemToggleValue?: Record<IField['fieldName'], boolean>
   onSelectedItems?: (fieldName: IField['fieldName'], value: any, option?: DefaultOptionType | DefaultOptionType[]) => void
-  onOptionDataChange?: (fieldName: IField['fieldName'], options: any[]) => void
+  onOptionsChange?: (fieldName: IField['fieldName'], options: any[]) => void
   normalToggleLabel?: boolean
   onFormItemToggle?: (values: Record<string, boolean>) => void
   itemContainerStyle?: CSSProperties
-}) => {
+}
+
+export const FormFields = forwardRef<FormFieldsHandle, IFormFieldsProps>((props: IFormFieldsProps, ref) => {
   const { onFormItemToggle } = props
   const breakpoint = Grid.useBreakpoint()
   const [displayFieldValue, setDisplayFieldValue] = useState<Record<string, any>>()
   const labelColSpan = props.isVertical ? 24 : 8
   const [showFields, setShowFields] = useState<Record<IField['fieldName'], boolean> | undefined>(props.defaultFormItemToggleValue)
+
+  useImperativeHandle(ref, () => (
+    {
+      toggleFields: setShowFields
+    }
+  ))
 
   const handleShowField = useCallback((fieldName: IField['fieldName'], value: boolean) => {
     setShowFields(val => ({
@@ -229,7 +239,7 @@ export const FormFields = (props: {
                     autoSelectSingle={field.autoSelectSingle}
                     onAutoSelectDefault={(value) => props.handleValuesChange?.({ [field.fieldName]: value })}
                     onSelectedItems={(value, option) => props.onSelectedItems?.(field.fieldName, value, option)}
-                    onOptionDataChange={(options) => props.onOptionDataChange?.(field.fieldName, options)}
+                    onOptionsChange={(options) => props.onOptionsChange?.(field.fieldName, options)}
                   />
                 )
                 break
@@ -403,4 +413,4 @@ export const FormFields = (props: {
         })}
     </Row>
   )
-}
+})

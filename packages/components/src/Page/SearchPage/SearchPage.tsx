@@ -1,4 +1,4 @@
-import React, { ComponentProps, useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { ComponentProps, useCallback, useEffect, useRef, useState } from "react"
 import { Button, Col, Result, Row } from "antd"
 import Title from "antd/lib/typography/Title"
 import Text from "antd/lib/typography/Text"
@@ -11,9 +11,8 @@ import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetH
 import { DEFAULT_PAGE_SIZE } from "~/ResponsiveTable/Responsive"
 import { FilterSummary } from "./FilterSummary"
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
-import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
 import { TableFilterFormOpener } from "./TableFilterFormOpener"
-import { SavedFiltersForm, SAVED_FILTER_FIELDNAME } from "./SavedFiltersForm"
+import { ISavedFilter, SavedFiltersForm } from "./SavedFiltersForm"
 
 export interface ISearchListWithVisibleSearchFormProp {
   title?: string
@@ -45,30 +44,36 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     total: 0,
     currentPageSize: DEFAULT_PAGE_SIZE
   })
-  const metadrivenFormRef = useRef<MetaDrivenFormHandle>(null)
-  const isAppliedSavedFilter = !!querystringToObject()?.[SAVED_FILTER_FIELDNAME]
+  const [selectedSavedFilter, setSelectedSavedFilter] = useState<ISavedFilter | undefined>()
+  const applicableSearchParamsMeta = useRef<IFormValueMeta | null>()
+  const metaDrivenFormRef = useRef<MetaDrivenFormHandle>(null)
   const tableTitle = props.searchTitle || (props.title ? `${props.title} Filter` : undefined)
+  const [meta, setMeta] = useState<IField[]>([...props.meta || []])
+  const isNullApplicableSearchParamsMeta = applicableSearchParamsMeta.current === null
 
-  const tableSearchParams = useMemo(() => {
-    const adjustedParams = searchParams ? { ...searchParams } : undefined
-    delete adjustedParams?.[SAVED_FILTER_FIELDNAME]
-    return adjustedParams
-  }, [searchParams])
+  const handleSavedFilterChange: ComponentProps<typeof SavedFiltersForm>['onValuesChange'] = useCallback((_, filter) => {
+    metaDrivenFormRef.current?.resetFields()
+    setTimeout(() => {
+      metaDrivenFormRef.current?.toggleFields?.(Object.keys(filter?.configurations || {}).reduce((a, c) => {
+        a[c] = true
+        return a
+      }, {} as Record<string, any>))
+      metaDrivenFormRef.current?.setFieldsValue(filter?.configurations)
+    }, 0);
+    applicableSearchParamsMeta.current = filter?.meta
+    setSelectedSavedFilter(filter)
 
-  const handleApplyFilters: IMetaDrivenFormProps['onApplyChanges'] = useCallback((newFilterValues, meta) => {
-    setSearchParams({
-      ...defaultFormValue,
-      ...newFilterValues,
-    })
-    setSearchParamsMeta(meta)
-    updatedParams &&
-      updatedParams({
-        ...defaultFormValue,
-        ...newFilterValues
-      })
-    if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
-    else setCurrentPagination(1)
-  }, [defaultFormValue, updatedParams])
+    setMeta(props.meta?.reduce((a, c) => {
+      if (filter?.configurations.hasOwnProperty(c.fieldName)) {
+        a.push({
+          ...c,
+          defaultValue: filter.configurations[c.fieldName]
+        })
+      }
+      return a
+    }, [] as IField[]) || [])
+
+  }, [props.meta])
 
   const updateURL = useCallback((values) => {
     if (!stopProducingQueryParams) {
@@ -77,6 +82,22 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     }
   }, [stopProducingQueryParams])
 
+  const handleApplyFilters: IMetaDrivenFormProps['onApplyChanges'] = useCallback((newFilterValues, meta) => {
+    const newValues = {
+      ...defaultFormValue,
+      ...newFilterValues,
+    }
+    setSearchParams(newValues)
+    if (applicableSearchParamsMeta.current) {
+      setSearchParamsMeta(applicableSearchParamsMeta.current)
+      applicableSearchParamsMeta.current = undefined
+    } else setSearchParamsMeta(meta)
+    if (newFilterValues["pagination"]) setCurrentPagination(newFilterValues["pagination"])
+    else setCurrentPagination(1)
+    updatedParams?.(newValues)
+    updateURL({ ...newValues })
+  }, [defaultFormValue, updatedParams, updateURL])
+
   const handleRemoveFilter = useCallback((fieldName: IField['fieldName']) => {
     const newFilterValues = { ...searchParams }
     const meta = { ...searchParamsMeta }
@@ -84,21 +105,24 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
     delete meta[fieldName]
 
     updateURL(newFilterValues)
-    metadrivenFormRef.current?.resetFields([fieldName])
+    metaDrivenFormRef.current?.toggleFields?.(Object.keys(newFilterValues).reduce((a, c) => {
+      a[c] = true
+      return a
+    }, {} as { [key: string]: any }))
     handleApplyFilters(newFilterValues, meta)
   }, [handleApplyFilters, searchParams, searchParamsMeta, updateURL])
 
-  const handleApplySavedFilters: ComponentProps<typeof SavedFiltersForm>['onApply'] = useCallback((configurations, data, details) => {
-    handleApplyFilters(configurations)
-    updateURL({
-      ...configurations,
-      ...data
-    })
-    setSearchParamsMeta(details.meta)
-  }, [updateURL, handleApplyFilters])
+  const handleReset = useCallback(() => {
+    applicableSearchParamsMeta.current = { ...searchParamsMeta }
+    setSelectedSavedFilter(undefined)
+    setMeta((props.meta || []).map(i => ({ ...i, defaultValue: undefined })))
+    setTimeout(() => {
+      metaDrivenFormRef.current?.reset()
+    }, 0)
+  }, [props.meta, searchParamsMeta])
 
   useEffect(() => {
-    metadrivenFormRef.current?.submitRef?.focus()
+    metaDrivenFormRef.current?.submitRef?.focus()
   }, [])
 
   useEffect(() => {
@@ -155,34 +179,34 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                   <SavedFiltersForm
                     title={tableTitle}
                     tableName={props.tableProps.tableName}
-                    onApply={handleApplySavedFilters}
-                    onClear={metadrivenFormRef.current?.clear}
-                    onFormValueMetaChange={(meta) => setSearchParamsMeta(meta)}
+                    onClear={() => metaDrivenFormRef.current?.clear()}
+                    onReset={handleReset}
+                    onValuesChange={handleSavedFilterChange}
                   />
                   : null
                 }
                 <MetaDrivenForm
-                  ref={metadrivenFormRef}
+                  key={`form__${selectedSavedFilter?.id}`}
+                  ref={metaDrivenFormRef}
                   title={!props.tableProps.tableName ? tableTitle : undefined}
                   blocks={props.blocks}
                   helpKey={props.helpKey}
-                  meta={props.meta}
+                  meta={meta}
                   metaName={props.metaName}
                   stopProducingQueryParams={props.stopProducingQueryParams}
                   initialFormValue={props.initialFormValue}
                   setCurrentPagination={setCurrentPagination}
                   onApplyChanges={handleApplyFilters}
-                  onFormValueMetaChange={(meta) => setSearchParamsMeta((prevValue) => ({
+                  onFormValueMetaChange={(meta) => !isNullApplicableSearchParamsMeta && !applicableSearchParamsMeta.current && setSearchParamsMeta((prevValue) => ({
                     ...prevValue,
                     ...meta
                   }))}
                   extraActions={props.tableProps.tableName ? [<TableFilterFormOpener tableName={props.tableProps.tableName} />] : []}
-                  autoApplyChangeFromQueryParams
+                  autoApplyChangeFromQueryParams={!isNullApplicableSearchParamsMeta && !applicableSearchParamsMeta.current}
                   isVertical
                   isAside
                   showFullForm
                   enableFormItemToggle
-                  stopSettingDefaultFromQueryParams={isAppliedSavedFilter}
                   showClearbutton={!props.tableProps.tableName}
                 />
               </Col>
@@ -198,7 +222,7 @@ export function SearchPage(props: ISearchListWithVisibleSearchFormProp) {
                 setCurrentPagination={setCurrentPagination}
                 {...props.tableProps}
                 tableTitle={props.tableTitle || props.title}
-                searchParams={tableSearchParams}
+                searchParams={searchParams}
                 onPaginationChange={setPagination}
                 dataLoaded={(data) => props.onChange?.({ data, searchParams })}
               />

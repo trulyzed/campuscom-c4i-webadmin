@@ -1,5 +1,5 @@
 import React, { forwardRef, ReactElement, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react"
-import { Button, Card, Col, Form, FormInstance, Row } from "antd"
+import { Button, Card, Col, Form, FormInstance, FormProps, Row } from "antd"
 import { DefaultOptionType } from "antd/lib/select"
 import {
   IField,
@@ -11,8 +11,8 @@ import { querystringToObject } from "@packages/utilities/lib/QueryStringToObject
 import { objectToQueryString } from "@packages/utilities/lib/ObjectToQueryStringConverter"
 import { debounce } from "@packages/utilities/lib/debounce"
 import { ISimplifiedApiErrorMessage } from "@packages/services/lib/Api/utils/HandleResponse/ApiErrorProcessor"
-import { FormError } from "./FormError"
-import { processFormMetaWithUserMetaConfig } from "./FormMetaShadowingProcessor"
+import { FormError } from "~/Form/FormError"
+import { processFormMetaWithUserMetaConfig } from "~/Form/FormMetaShadowingProcessor"
 import { eventBus } from "@packages/utilities/lib/EventBus"
 import { generateUUID } from "@packages/utilities/lib/UUID"
 import { FormSettings } from "~/Form/FormSettings/FormSettings"
@@ -21,15 +21,18 @@ import { SidebarMenuTargetHeading } from "~/SidebarNavigation/SidebarMenuTargetH
 import { ContextAction } from "~/Actions/ContextAction"
 import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 import { FormExtraActions } from "./FormExtraActions"
-import { FormFields } from "./FormFields"
+import { FormFields, FormFieldsHandle } from "./FormFields"
 
 export const HELPER_FIELD_PATTERN = "__##__"
 
 export type MetaDrivenFormHandle = {
   submitRef: HTMLButtonElement | null
   closeRef: HTMLElement | null
+  setFieldsValue: FormInstance['setFieldsValue']
   resetFields: FormInstance['resetFields']
   clear: () => void
+  reset: () => void
+  toggleFields?: FormFieldsHandle['toggleFields']
 }
 
 export interface IMetaDrivenFormProps {
@@ -42,19 +45,23 @@ export interface IMetaDrivenFormProps {
   blocks?: React.ReactNode[]
   helpKey?: string
   showFormSettings?: boolean
-  onApplyChanges: (newValues: { [key: string]: any }, meta?: IFormValueMeta) => void
+  onApplyChanges?: (newValues: { [key: string]: any }, meta?: IFormValueMeta) => void
   onClear?: () => void
+  onReset?: () => void
   dataQueryApi?: IQuery
   initialFormValue?: { [key: string]: any }
   defaultFormValue?: { [key: string]: any }
   currentPagination?: number
+  showApplyButton?: boolean
   showCloseButton?: boolean
   showClearbutton?: boolean
+  showResetbutton?: boolean
   applyButtonLabel?: string
   disableApplyButton?: boolean
   actionContainerStyle?: React.CSSProperties
   applyButtonAriaControl?: string
   clearButtonLabel?: string
+  resetButtonLabel?: string
   isVertical?: boolean
   showFullForm?: boolean
   setCurrentPagination?: (page: number) => void
@@ -73,6 +80,7 @@ export interface IMetaDrivenFormProps {
   onFormValueMetaChange?: (meta: IFormValueMeta) => void
   extraActions?: ReactElement[]
   stopSettingDefaultFromQueryParams?: boolean
+  onValuesChange?: FormProps['onValuesChange']
 }
 
 export interface IFormValueMeta {
@@ -83,17 +91,22 @@ export interface IFormValueMeta {
 }
 
 export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormProps>(({
+  showApplyButton = true,
   showCloseButton,
   showClearbutton = true,
+  showResetbutton,
   applyButtonLabel = "Apply",
   actionContainerStyle,
   clearButtonLabel = "Clear All",
+  resetButtonLabel = "Reset All",
   className,
   enableFormItemToggle,
   onFormValueMetaChange,
   stopSettingDefaultFromQueryParams,
+  onValuesChange,
   ...props
 }: IMetaDrivenFormProps, ref) => {
+  const { onReset } = props
   const [formInstance] = Form.useForm()
   const [showLess, setShowLess] = useState(true)
   const [clearTrigger, setClearTrigger] = useState(false)
@@ -107,6 +120,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
   const [isFetchingQueryData, setIsFetchingQueryData] = useState(false)
   const submitRef = useRef<HTMLButtonElement>(null)
   const closeRef = useRef<HTMLElement>(null)
+  const formFieldsRef = useRef<FormFieldsHandle>(null)
   const queryStringAsObject = useMemo(() => {
     return querystringToObject()
     // eslint-disable-next-line
@@ -116,8 +130,11 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
     {
       submitRef: submitRef.current,
       closeRef: closeRef.current,
+      setFieldsValue: formInstance.setFieldsValue,
       resetFields: formInstance.resetFields,
-      clear: clearParams
+      clear: clearParams,
+      reset: resetAll,
+      toggleFields: formFieldsRef.current?.toggleFields
     }
   ))
 
@@ -197,7 +214,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
             delete mergedParams[key]
         }
         if (props.currentPagination) mergedParams["pagination"] = props.currentPagination
-        props.onApplyChanges(mergedParams, formValueMeta)
+        props.onApplyChanges?.(mergedParams, formValueMeta)
         if (props.resetOnSubmit) formInstance.resetFields()
 
         if (!props.stopProducingQueryParams) {
@@ -234,6 +251,12 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
     setMeta(_meta)
     if (!isInitial) props.onClear?.()
   }
+
+  const resetAll = useCallback(() => {
+    formInstance.resetFields()
+    formFieldsRef.current?.toggleFields({})
+    onReset?.()
+  }, [formInstance, onReset])
 
   const setPagination = (queryParams: { [key: string]: any }) => {
     props.setCurrentPagination && props.setCurrentPagination(Number(queryParams["pagination"]))
@@ -310,11 +333,12 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
 
   const setDependencyValueDebounced = debounce(setDependencyValue, 200)
 
-  const handleValuesChange = useCallback((changedValues: any) => {
+  const handleValuesChange: FormProps['onValuesChange'] = useCallback((changedValues: any, values: any) => {
     setDependencyValueDebounced(changedValues)
-  }, [setDependencyValueDebounced])
+    onValuesChange?.(changedValues, values)
+  }, [setDependencyValueDebounced, onValuesChange])
 
-  const handleOptionDataChange = useCallback((fieldName: IField['fieldName'], options: any[]) => {
+  const handleOptionsChange = useCallback((fieldName: IField['fieldName'], options: any[]) => {
     const meta = props.meta.find(i => i.fieldName === fieldName)
     const value = {
       [fieldName]: {
@@ -370,7 +394,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
       bordered={props.bordered}
       className={`${props.isAside ? 'is-aside' : ''}${className ? ` ${className}` : ""}`}
       title={
-        (props.title || props.blocks?.length || (showClearbutton && props.isAside)) ?
+        (props.title || props.blocks?.length || ((showClearbutton || showResetbutton) && props.isAside)) ?
           <Row>
             <Col md={{ span: 22, order: 0 }} xs={{ span: 24, order: 1 }}>
               <Row>
@@ -379,13 +403,22 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
                     {props.title}
                   </SidebarMenuTargetHeading>
                 </Col>
-                {showClearbutton && props.isAside && (
-                  <Col md={24} xs={24}>
-                    <Button size="small" onClick={() => clearParams()}>
-                      {clearButtonLabel}
-                    </Button>
-                  </Col>
-                )}
+                <Row style={{ gap: 2 }}>
+                  {showClearbutton && props.isAside && (
+                    <Col flex={"auto"}>
+                      <Button size="small" onClick={() => clearParams()}>
+                        {clearButtonLabel}
+                      </Button>
+                    </Col>
+                  )}
+                  {showResetbutton && props.isAside && (
+                    <Col flex={"auto"}>
+                      <Button size="small" onClick={() => resetAll()}>
+                        {resetButtonLabel}
+                      </Button>
+                    </Col>
+                  )}
+                </Row>
                 {props.blocks &&
                   props.blocks.map((x, i) => (
                     <Col flex="none" key={i}>
@@ -436,6 +469,13 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
                 </Button>
               </Col>
             )}
+            {showResetbutton && (
+              <Col>
+                <Button size={props.isAside ? "small" : undefined} onClick={() => resetAll()}>
+                  {resetButtonLabel}
+                </Button>
+              </Col>
+            )}
             <FormExtraActions actions={props.extraActions || []} formInstance={formInstance} formValueMeta={formValueMeta} />
             {props.closeModal && (
               <Col>
@@ -451,21 +491,23 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
                 </Button>
               </Col>
             )}
-            <Col>
-              <Button
-                ref={submitRef}
-                aria-controls={props.applyButtonAriaControl}
-                type="primary"
-                form={formId}
-                aria-label={applyButtonLabel}
-                onClick={() => applyChanges()}
-                disabled={!!props.disableApplyButton}
-                loading={props.loading}
-                size={props.isAside ? "small" : undefined}
-              >
-                {applyButtonLabel}
-              </Button>
-            </Col>
+            {showApplyButton ?
+              <Col>
+                <Button
+                  ref={submitRef}
+                  aria-controls={props.applyButtonAriaControl}
+                  type="primary"
+                  form={formId}
+                  aria-label={applyButtonLabel}
+                  onClick={() => applyChanges()}
+                  disabled={!!props.disableApplyButton}
+                  loading={props.loading}
+                  size={props.isAside ? "small" : undefined}
+                >
+                  {applyButtonLabel}
+                </Button>
+              </Col>
+              : null}
           </Row>
         ]
       })}
@@ -487,6 +529,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
       >
         <FormError errorMessages={props.errorMessages} />
         <FormFields
+          ref={formFieldsRef}
           meta={meta}
           isVertical={props.isVertical}
           formInstance={formInstance}
@@ -505,7 +548,7 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
             ...prevValue,
             [fieldName]: { value, option }
           }))}
-          onOptionDataChange={handleOptionDataChange}
+          onOptionsChange={handleOptionsChange}
         />
         {!(props.isModal || props.closeModal) && (
           <Row
@@ -544,21 +587,23 @@ export const MetaDrivenForm = forwardRef<MetaDrivenFormHandle, IMetaDrivenFormPr
                 </Button>
               </Col>
             )}
-            <Col>
-              <Button
-                ref={submitRef}
-                aria-controls={props.applyButtonAriaControl}
-                type="primary"
-                form={formId}
-                aria-label={applyButtonLabel}
-                onClick={() => applyChanges()}
-                disabled={!!props.disableApplyButton}
-                loading={props.loading}
-                size={props.isAside ? "small" : undefined}
-              >
-                {applyButtonLabel}
-              </Button>
-            </Col>
+            {showApplyButton ?
+              <Col>
+                <Button
+                  ref={submitRef}
+                  aria-controls={props.applyButtonAriaControl}
+                  type="primary"
+                  form={formId}
+                  aria-label={applyButtonLabel}
+                  onClick={() => applyChanges()}
+                  disabled={!!props.disableApplyButton}
+                  loading={props.loading}
+                  size={props.isAside ? "small" : undefined}
+                >
+                  {applyButtonLabel}
+                </Button>
+              </Col>
+              : null}
           </Row>
         )}
       </Form>

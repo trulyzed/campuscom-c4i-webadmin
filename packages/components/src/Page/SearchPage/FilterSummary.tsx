@@ -58,7 +58,7 @@ export const FilterSummary = ({
             <Typography.Title level={5}>Filter Summary: ({filters.length} {pluralize('filter', filters.length)} applied)</Typography.Title>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
               {filters.map((i) => (
-                <Tag key={i.key} style={{ margin: 0 }} onClose={() => onRemove?.(i.key)} closable>{i.name}: {i.value}</Tag>
+                <Tag key={i.key} style={{ margin: 0 }} onClose={() => onRemove?.(i.key)} closable>{i.name}: <strong>{i.value}</strong></Tag>
               ))}
             </div>
           </Col>

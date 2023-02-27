@@ -11,7 +11,7 @@ export function FormDropDown(
     renderLabel?: (Params: { [key: string]: any }) => string
     allowClear?: boolean
     dropdownMatchSelectWidth?: boolean | number
-    onOptionDataChange?: (options: any[]) => void
+    onOptionsChange?: (options: any[]) => void
   }
 ) {
   const { userPreferences } = useContext(UserDataContext)
@@ -20,6 +20,7 @@ export function FormDropDown(
   const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
+
 
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
     setOptions([])
@@ -113,7 +114,7 @@ export function FormDropDown(
   }, [options, userPreferences, props.defaultValue, props.defaultPreferenceIndex, formInstance.setFieldValue, fieldName])
 
   useEffect(() => {
-    props.onOptionDataChange?.(options)
+    props.onOptionsChange?.(options)
     // eslint-disable-next-line
   }, [options])
 

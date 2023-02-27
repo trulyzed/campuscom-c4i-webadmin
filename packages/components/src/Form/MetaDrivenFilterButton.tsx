@@ -1,7 +1,7 @@
 import React from "react";
-import { IField } from "~/Form/common";
-import { MetaDrivenFormModalOpenButton } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton";
-import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types";
+import { IField } from "~/Form/common"
+import { MetaDrivenFormModalOpenButton } from "~/Modal/MetaDrivenFormModal/MetaDrivenFormModalOpenButton"
+import { IQuery } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy/types"
 
 export const MetaDrivenFilterButton = (props: {
 	searchTitle?: string;

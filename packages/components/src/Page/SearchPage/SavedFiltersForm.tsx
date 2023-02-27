@@ -1,5 +1,6 @@
-import { memo, useCallback, useEffect, useRef, useState } from "react"
-import { DROPDOWN } from "~/Form/common"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { FormProps } from "antd"
+import { DROPDOWN, IField } from "~/Form/common"
 import { QueryConstructor } from "@packages/services/lib/Api/Queries/AdminQueries/Proxy"
 import { UserTableFilterConfigurationQueries } from "@packages/services/lib/Api/Queries/AdminQueries/UserTableFilterConfigurations"
 import { querystringToObject } from "@packages/utilities/lib/QueryStringToObjectConverter"
@@ -9,26 +10,48 @@ import { EVENT_SAVE_FILTER } from "./TableFilterFormOpener"
 
 export const SAVED_FILTER_FIELDNAME = `##filter`
 
-export const SavedFiltersForm = memo((props: {
+export interface ISavedFilter {
+  id: string
+  title: string
+  configurations: { [key: string]: any }
+  meta: IFormValueMeta
+}
+
+export const SavedFiltersForm = (props: {
   title?: IMetaDrivenFormProps['title']
   onClear?: IMetaDrivenFormProps['onClear']
-  tableName: string,
-  onApply: (configurations: Record<string, any>, data: Record<string, any>, details: Record<string, any> | { meta: IFormValueMeta }) => void
-  onFormValueMetaChange?: (meta: IFormValueMeta) => void
+  onReset?: IMetaDrivenFormProps['onReset']
+  tableName: string
+  onValuesChange: (
+    values: any,
+    filter: ISavedFilter | undefined
+  ) => void
 }) => {
-  const { onApply } = props
-  const [savedFiltersList, setSavedFiltersList] = useState<Record<string, any>[]>([])
-  const initialValue = querystringToObject()
+  const { onValuesChange } = props
+  const [savedFiltersList, setSavedFiltersList] = useState<ISavedFilter[]>([])
+  const [initialValue] = useState(querystringToObject())
   const metadrivenFormRef = useRef<MetaDrivenFormHandle>(null)
   const [refreshCounter, setRefreshCounter] = useState(0)
 
-  const handleApplyChanges = useCallback((data) => {
-    const matchedFilter = savedFiltersList.find(i => i.id === data[SAVED_FILTER_FIELDNAME])!
-    if (matchedFilter) {
-      onApply(matchedFilter.configurations, data, matchedFilter)
-      metadrivenFormRef.current?.clear()
-    }
-  }, [onApply, savedFiltersList])
+  const meta: IField[] = useMemo(() => ([{
+    label: "Saved Filters",
+    fieldName: SAVED_FILTER_FIELDNAME,
+    inputType: DROPDOWN,
+    refLookupService: QueryConstructor(() => UserTableFilterConfigurationQueries.getList({
+      params: { 'table_name': props.tableName }
+    }).then(resp => {
+      if (resp.success) setSavedFiltersList(resp.data)
+      return resp
+    }), [UserTableFilterConfigurationQueries.getList]),
+    displayKey: "title",
+    valueKey: "id",
+    defaultValue: initialValue?.[SAVED_FILTER_FIELDNAME],
+  }]), [props.tableName, initialValue])
+
+  const handleValuesChange: FormProps['onValuesChange'] = useCallback((values) => {
+    const matchedFilter = savedFiltersList.find(i => i.id === values[SAVED_FILTER_FIELDNAME])
+    if (matchedFilter) onValuesChange(values, matchedFilter)
+  }, [onValuesChange, savedFiltersList])
 
   useEffect(() => {
     if (metadrivenFormRef.current) eventBus.subscribe(EVENT_SAVE_FILTER, () => setRefreshCounter(prevVal => prevVal + 1))
@@ -41,30 +64,17 @@ export const SavedFiltersForm = memo((props: {
       ref={metadrivenFormRef}
       title={props.title}
       initialFormValue={initialValue}
-      meta={[{
-        label: "Saved Filters",
-        fieldName: SAVED_FILTER_FIELDNAME,
-        inputType: DROPDOWN,
-        refLookupService: QueryConstructor(() => UserTableFilterConfigurationQueries.getList({
-          params: { 'table_name': props.tableName }
-        }).then(resp => {
-          if (resp.success) setSavedFiltersList(resp.data)
-          return resp
-        }), [UserTableFilterConfigurationQueries.getList]),
-        displayKey: "title",
-        valueKey: "id",
-        defaultValue: initialValue?.[SAVED_FILTER_FIELDNAME]
-      }]}
-      onApplyChanges={handleApplyChanges}
+      meta={meta}
       onClear={props.onClear}
-      onFormValueMetaChange={(meta) => {
-        const matchedFilter = savedFiltersList.find(i => i.id === meta[SAVED_FILTER_FIELDNAME].value)!
-        if (matchedFilter) props.onFormValueMetaChange?.(matchedFilter.meta)
-      }}
+      onReset={props.onReset}
+      onValuesChange={handleValuesChange}
+      showApplyButton={false}
+      showResetbutton
       stopProducingQueryParams
+      autoApplyChangeFromQueryParams={false}
       isVertical
       isAside
       showFullForm
     />
   )
-})
+}
