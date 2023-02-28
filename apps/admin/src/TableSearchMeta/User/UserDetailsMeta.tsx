@@ -30,6 +30,7 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
   })), [UserQueries.resetPassword])
 
   const disableMFA = QueryConstructor((() => UserQueries.update({ data: { mfa_enabled: false }, params: { id: user.id } })), [UserQueries.update])
+  const toggleScope = QueryConstructor((() => UserQueries.updateScope({ data: { is_scope_disabled: !user.is_scope_disabled, username: user.username } })), [UserQueries.updateScope])
 
   const summaryInfo: CardContainer = {
     title: `User: ${user.first_name} ${user.last_name}`,
@@ -61,6 +62,13 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
+      <ContextAction
+        tooltip={user.is_scope_disabled ? "Enable Scope" : "Disable Scope"}
+        type="filter"
+        confirmationType={user.is_scope_disabled ? "Enable" : "Disable"}
+        successText={user.is_scope_disabled ? "Scope enabled" : "Scope disabled"}
+        queryService={toggleScope}
+        refreshEventName={REFRESH_PAGE} />
     ],
     contents: [
       { label: 'First name', value: user.first_name, },

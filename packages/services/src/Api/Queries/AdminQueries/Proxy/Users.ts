@@ -8,4 +8,5 @@ export interface IUserQueries {
   create: IQuery
   update: IQuery
   resetPassword: IQuery
+  updateScope: IQuery
 }

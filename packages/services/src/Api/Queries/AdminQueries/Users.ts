@@ -90,5 +90,16 @@ export const UserQueries: IUserQueries = {
       })
     },
     [{ operation: ApiPermissionClass.ResetPassword, action: ApiPermissionAction.Write }]
+  ),
+
+  updateScope: PermissionWrapper(
+    (data) => {
+      return adminApi({
+        endpoint: endpoints.UPDATE_USER_SCOPE,
+        method: "POST",
+        ...data
+      })
+    },
+    [{ operation: ApiPermissionClass.UpdateUserScope, action: ApiPermissionAction.Write }]
   )
 }

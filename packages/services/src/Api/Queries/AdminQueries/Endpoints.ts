@@ -148,6 +148,7 @@ export const endpoints = {
   UPDATE_PAYMENT_QUESTION: "update-payment-questions",
   UPDATE_PROFILE_QUESTION: "update-profile-questions",
   UPDATE_REGISTRATION_QUESTION: "update-registration-questions",
+  UPDATE_USER_SCOPE: "update-user-scope-disabled",
   USER: "users",
   USER_PREFERENCE: "user-preferences",
   USER_TABLE_CONFIGURATION: "user-table-configurations",
