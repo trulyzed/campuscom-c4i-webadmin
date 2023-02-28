@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react"
+import React, { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { Select } from "antd"
 import { SearchFieldWrapper, IGeneratedField } from "~/Form/common"
 import { eventBus } from "@packages/utilities/lib/EventBus"
@@ -20,6 +20,7 @@ export function FormDropDown(
   const [lookupData, setLookupData] = useState<any[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const { formInstance, fieldName, options: optionsProp, renderLabel, refLookupService, displayKey, valueKey, } = props
+  const sortedOptions = useMemo(() => options.sort((a, b) => (a?.label && b?.label) ? a.label.localeCompare(b.label) : 0), [options])
 
 
   const loadOptions = useCallback(async (params?: IQueryParams): Promise<any[]> => {
@@ -139,7 +140,7 @@ export function FormDropDown(
         dropdownMatchSelectWidth={props.dropdownMatchSelectWidth !== undefined ? props.dropdownMatchSelectWidth : true}
       >
         {options &&
-          options.map(({ label, value }, i) => <Select.Option value={value} key={`${value}_${i}`} children={label} />)}
+          sortedOptions.map(({ label, value }, i) => <Select.Option value={value} key={`${value}_${i}`} children={label} />)}
       </Select>
     </SearchFieldWrapper>
   )

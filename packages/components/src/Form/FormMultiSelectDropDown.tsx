@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { Select } from "antd"
 import { useDependencyValue } from "~/Hooks/useDependencyValue"
@@ -6,6 +6,7 @@ import { useDependencyValue } from "~/Hooks/useDependencyValue"
 export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedItems?: (params: any) => void }) {
   const [options, setOptions] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const sortedOptions = useMemo(() => options.sort((a, b) => (a?.label && b?.label) ? a.label.localeCompare(b.label) : 0), [options])
   useDependencyValue({ ...props })
 
   const { refLookupService, displayKey, valueKey } = props
@@ -42,7 +43,7 @@ export function FormMultiSelectDropDown(props: IGeneratedField & { onSelectedIte
         loading={loading}
         disabled={props.disabled}
         onChange={props.onSelectedItems}
-        options={options}
+        options={sortedOptions}
         optionFilterProp={"label"}
         optionLabelProp={"label"}
       />
