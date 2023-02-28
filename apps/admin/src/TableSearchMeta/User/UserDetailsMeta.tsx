@@ -52,6 +52,13 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
         iconType="changePassword"
         refreshEventName={REFRESH_PAGE}
       />,
+      <ContextAction
+        tooltip={user.is_scope_disabled ? "Enable Scope" : "Disable Scope"}
+        type="filter"
+        confirmationType={user.is_scope_disabled ? "Enable" : "Disable"}
+        successText={user.is_scope_disabled ? "Scope enabled" : "Scope disabled"}
+        queryService={toggleScope}
+        refreshEventName={REFRESH_PAGE} />,
       <MetaDrivenFormModalOpenButton
         formTitle={`Update User`}
         formMeta={getUserFormMeta().filter(i => i.fieldName !== "password")}
@@ -62,13 +69,6 @@ export const getUserDetailsMeta = (user: { [key: string]: any }): IDetailsMeta =
         iconType="edit"
         refreshEventName={REFRESH_PAGE}
       />,
-      <ContextAction
-        tooltip={user.is_scope_disabled ? "Enable Scope" : "Disable Scope"}
-        type="filter"
-        confirmationType={user.is_scope_disabled ? "Enable" : "Disable"}
-        successText={user.is_scope_disabled ? "Scope enabled" : "Scope disabled"}
-        queryService={toggleScope}
-        refreshEventName={REFRESH_PAGE} />
     ],
     contents: [
       { label: 'First name', value: user.first_name, },
