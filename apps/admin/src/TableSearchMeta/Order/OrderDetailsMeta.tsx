@@ -179,7 +179,7 @@ export const getOrderDetailsMeta = (order: { [key: string]: any }): IDetailsMeta
           searchFunc: EnrollmentQueries.getCourseEnrollmentList,
           searchParams: { cart_item__cart: order.id },
           rowKey: 'id',
-          refreshEventName: "REFRESH_STUDENT_TAB",
+          refreshEventName: "REFRESH_ENROLLMENT_LIST",
         }
       },
       helpKey: "studentTab"
