@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react"
 import moment, { Moment } from "moment"
 import { IGeneratedField, SearchFieldWrapper } from "~/Form/common"
 import { DatePicker, Form, Input, InputRef } from "antd"
@@ -33,7 +33,14 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     // eslint-disable-next-line
   }, [helperFieldName, props.dateFormate, props.formInstance.setFieldsValue, props.fieldName, props.onSelectedItems])
 
-  const handleKeyDown = useCallback((e) => {
+  const handleOpenChange = useCallback((status: boolean) => {
+    const value = (document.getElementById(helperFieldName) as HTMLInputElement)?.value
+    const momentDate = moment(value || '', DATE_DISPLAY_FORMAT, true)
+    setIsOpened(status)
+    handleChange(momentDate.isValid() ? momentDate : undefined)
+  }, [helperFieldName, handleChange])
+
+  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
     const isValidInput = e.key === '/' || e.key === '0' || Number(e.key)
     const newValue = isValidInput ? `${e.currentTarget.value}${e.key}` : ''
 
@@ -58,6 +65,11 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     props.formInstance.validateFields([helperFieldName])
   }, [props.formInstance, props.fieldName, helperFieldName])
 
+  const handleReset = useCallback(() => {
+    setShowHelpText(false)
+    setReadHelp(true)
+  }, [])
+
   useEffect(() => {
     const date = props.defaultValue || props.formInstance.getFieldValue(props.fieldName)
     if (date) {
@@ -70,11 +82,6 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
     }
     // eslint-disable-next-line
   }, [props.defaultValue])
-
-  const handleReset = useCallback(() => {
-    setShowHelpText(false)
-    setReadHelp(true)
-  }, [])
 
   useEffect(() => {
     !firstRender && setValue(undefined)
@@ -117,7 +124,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
             superNextIcon={<span aria-label="next year">&gt;&gt;</span>}
             prevIcon={<span aria-label="previous month">&lt;</span>}
             superPrevIcon={<span aria-label="previous year">&lt;&lt;</span>}
-            onOpenChange={setIsOpened}
+            onOpenChange={handleOpenChange}
             showToday={false}
             renderExtraFooter={() => (
               <p aria-live={(readHelp && isOpened) ? "polite" : undefined} style={{ marginTop: 10, lineHeight: "20px", color: "#333333" }}>
@@ -126,20 +133,7 @@ export function FormDatePicker(props: IGeneratedField & { dateFormate?: string }
               </p>
             )}
             allowClear={false}
-            onBlur={() => handleChange(value)}
           />
-          {/* )}
-          {!value && (
-            <DatePicker
-              allowClear
-              disabled={props.disabled}
-              onChange={(date, dateString) => {
-                dateString && props.formInstance.setFieldsValue({ [props.fieldName]: dateString })
-                setValue(date)
-              }}
-              format={dateFormat}
-            />
-          )} */}
           {value ?
             <ContextAction ref={actionRef} tooltip={`Clear ${props.label}, ${value.format(DATE_DISPLAY_FORMAT)}`} type="remove" buttonType="ghost" onClick={handleClear} />
             : null}
