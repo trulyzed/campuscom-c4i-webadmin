@@ -238,7 +238,10 @@ export const FormFields = forwardRef<FormFieldsHandle, IFormFieldsProps>((props:
                     updateMeta={props.updateMeta}
                     autoSelectSingle={field.autoSelectSingle}
                     onAutoSelectDefault={(value) => props.handleValuesChange?.({ [field.fieldName]: value })}
-                    onSelectedItems={(value, option) => props.onSelectedItems?.(field.fieldName, value, option)}
+                    onSelectedItems={(value, option, lookupData) => {
+                      props.onSelectedItems?.(field.fieldName, value, option)
+                      field.onSelectedItems?.(value, option, lookupData)
+                    }}
                     onOptionsChange={(options) => props.onOptionsChange?.(field.fieldName, options)}
                   />
                 )
