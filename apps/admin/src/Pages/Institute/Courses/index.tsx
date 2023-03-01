@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { Redirect } from "react-router"
 import { notification } from "antd"
-// import { SearchPage } from "./SearchPage/SearchPage"
 import { SearchPage } from "@packages/components/lib/Page/SearchPage/SearchPage"
 import { getCourseListTableColumns } from "~/TableSearchMeta/Course/CourseListTableColumns"
 import { CourseSearchMeta } from "~/TableSearchMeta/Course/CourseSearchMeta"
