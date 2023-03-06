@@ -40,8 +40,8 @@ import { getCertificateListTableColumns } from "~/TableSearchMeta/Certificate/Ce
 import { getCertificatePublishingListTableColumns } from "~/TableSearchMeta/CertificatePublishing/PublishingListTableColumns"
 import { getPaymentLogListTableColumns } from "~/TableSearchMeta/PaymentLog/PaymentLogListTableColumns"
 import { getERPLogListTableColumns } from "~/TableSearchMeta/ERPLog/ERPLogListTableColumns"
-import { getOrganizationTypeListTableColumns } from "~/TableSearchMeta/OrganizationType/OrganizationTypeListTableColumns"
-import { getOrganizationListTableColumns } from "~/TableSearchMeta/Organization/OrganizationListTableColumns"
+// import { getOrganizationTypeListTableColumns } from "~/TableSearchMeta/OrganizationType/OrganizationTypeListTableColumns"
+// import { getOrganizationListTableColumns } from "~/TableSearchMeta/Organization/OrganizationListTableColumns"
 
 const getSidebarMenuData = (): ISidebarMenu[] => [
   {
@@ -274,18 +274,18 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
         submenu: [],
         permission: checkAdminApiPermission(getCompanyListTableColumns().searchFunc)
       },
-      {
-        title: "Organization Types",
-        url: "/administration/organization-type",
-        submenu: [],
-        permission: checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc)
-      },
-      {
-        title: "Companies",
-        url: "/administration/company",
-        submenu: [],
-        permission: checkAdminApiPermission(getOrganizationListTableColumns().searchFunc)
-      },
+      // {
+      //   title: "Organization Types",
+      //   url: "/administration/organization-type",
+      //   submenu: [],
+      //   permission: checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc)
+      // },
+      // {
+      //   title: "Companies",
+      //   url: "/administration/company",
+      //   submenu: [],
+      //   permission: checkAdminApiPermission(getOrganizationListTableColumns().searchFunc)
+      // },
       {
         title: "Affiliate Users",
         url: "/administration/affiliate-user",
@@ -347,8 +347,8 @@ const getSidebarMenuData = (): ISidebarMenu[] => [
       checkAdminApiPermission(getDiscountProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getMembershipProgramListTableColumns().searchFunc) ||
       checkAdminApiPermission(getQuestionListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getOrganizationListTableColumns().searchFunc) ||
-      checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
+      // checkAdminApiPermission(getOrganizationListTableColumns().searchFunc) ||
+      // checkAdminApiPermission(getOrganizationTypeListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyListTableColumns().searchFunc) ||
       checkAdminApiPermission(getCompanyUserListTableColumns().searchFunc) ||
       checkAdminApiPermission(getAuditTrailListTableColumns().searchFunc) ||
